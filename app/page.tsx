@@ -209,7 +209,7 @@ export default function Home() {
             <div className="max-w-4xl mx-auto px-6">
               <div className="flex flex-col items-center mb-5">
                 <div className="flex items-center gap-3 mb-2">
-                  <Image src="/search.png" alt="Ara" width={40} height={40} className="w-10 h-10" />
+                  <Image src="/search1.png" alt="Ara" width={40} height={40} className="w-10 h-10" />
                   <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
                     Nikah Ara
                   </h2>
@@ -266,7 +266,7 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="p-6 text-center text-gray-500">
-                    <Image src="/search.png" alt="Ara" width={48} height={48} className="w-12 h-12 mx-auto mb-2 opacity-50" />
+                    <Image src="/search1.png" alt="Ara" width={48} height={48} className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>Sonuç bulunamadı</p>
                     <p className="text-sm mt-1">Farklı bir isim deneyin</p>
                   </div>
