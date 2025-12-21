@@ -23,7 +23,6 @@ export default function Home() {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [allEvents, setAllEvents] = useState<Event[]>([]);
 
-  // Sayfa yüklendiğinde etkinlikleri çek
   useEffect(() => {
     fetchEvents();
   }, []);
@@ -101,8 +100,8 @@ export default function Home() {
           <div className="flex items-center justify-between h-20">
 
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/logo.png" alt="Nikahim.com" width={45} height={45} className="rounded-full" />
-              <span className="text-xl font-bold" style={{ color: "#1565C0" }}>Nikahim.com</span>
+              <Image src="/logo.png" alt="Nikahım" width={45} height={45} className="rounded-full" />
+              <span className="text-xl font-bold" style={{ color: "#1565C0" }}>Nikahım</span>
             </div>
 
             <nav className="hidden lg:flex items-center gap-8">
@@ -206,33 +205,36 @@ export default function Home() {
       </section>
 
       {/* NİKAH ARA */}
-      <section id="nikah-ara" className="py-12 bg-white">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">🔍 Nikah Ara</h2>
-            <p className="text-lg text-gray-600">Gelin veya damat adı/soyadı ile arayın</p>
-          </div>
-
-          <div className="relative">
-            <div className="flex gap-3">
-              <div className="flex-1 relative">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="Örn: Ahmet, Ayşe, Yılmaz, Ahmet Ayşe..."
-                  className="w-full px-6 py-4 text-lg border-2 border-gray-200 rounded-2xl focus:border-blue-500 outline-none"
-                />
-                {searchQuery && (
-                  <button 
-                    onClick={() => { setSearchQuery(""); setShowSearchResults(false); }}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    ✕
-                  </button>
-                )}
+          <section id="nikah-ara" className="py-12 bg-gradient-to-b from-white to-blue-50">
+            <div className="max-w-4xl mx-auto px-6">
+              <div className="flex flex-col items-center mb-5">
+                <div className="flex items-center gap-3 mb-2">
+                  <Image src="/search.png" alt="Ara" width={40} height={40} className="w-10 h-10" />
+                  <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                    Nikah Ara
+                  </h2>
+                </div>
+                <p className="text-base text-gray-600">Gelin veya damat adı/soyadı ile arayın</p>
               </div>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 rounded-2xl font-semibold">
+
+          <div className="relative max-w-3xl mx-auto">
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Örn: Ahmet, Ayşe, Yılmaz, Ahmet Ayşe..."
+                className="w-full px-6 py-4 pr-24 text-lg border-2 border-gray-300 rounded-2xl focus:border-blue-500 outline-none bg-white shadow-sm placeholder:text-gray-500"
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => { setSearchQuery(""); setShowSearchResults(false); }}
+                  className="absolute right-20 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  ✕
+                </button>
+              )}
+              <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold transition-all">
                 Ara
               </button>
             </div>
@@ -264,7 +266,7 @@ export default function Home() {
                   </div>
                 ) : (
                   <div className="p-6 text-center text-gray-500">
-                    <div className="text-4xl mb-2">🔍</div>
+                    <Image src="/search.png" alt="Ara" width={48} height={48} className="w-12 h-12 mx-auto mb-2 opacity-50" />
                     <p>Sonuç bulunamadı</p>
                     <p className="text-sm mt-1">Farklı bir isim deneyin</p>
                   </div>
@@ -293,7 +295,7 @@ export default function Home() {
                 📱
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">1. Uygulamayı İndirin</h3>
-              <p className="text-gray-600">App Store veya Google Play&apos;den Nikahim.com uygulamasını indirin</p>
+              <p className="text-gray-600">App Store veya Google Play&apos;den Nikahım uygulamasını indirin</p>
             </div>
 
             <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
@@ -323,7 +325,7 @@ export default function Home() {
               <h3 className="text-2xl font-bold text-gray-900 mb-3">🎉 Altınlarınızı Toplayın!</h3>
               <p className="text-lg text-gray-700">
                 Nikahınıza online katılan davetlileriniz size altın taksın. 
-                QR kod veya IBAN ile kolayca ödeme yapsınlar, siz takılan altınları uygulama üzerinden takip edin.
+                QR kod veya IBAN ile kolayca hesabınıza ödeme yapsınlar, siz takılan altınları uygulama üzerinden takip edin.
               </p>
             </div>
           </div>
@@ -340,24 +342,24 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center hover:border-blue-500 transition-colors">
-              <div className="text-4xl mb-4">📦</div>
+              <div className="text-4xl mb-4">🎬</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Başlangıç</h3>
-              <div className="text-3xl font-bold text-blue-500 mb-4">₺299</div>
+              <div className="text-3xl font-bold text-blue-500 mb-4">₺399</div>
               <ul className="text-gray-600 space-y-2 mb-6 text-left">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> 2 saat canlı yayın
+                  <span className="text-green-500">✓</span> 15 Dakika Canlı Yayın
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> 100 izleyici limiti
+                  <span className="text-green-500">✓</span> Online Davetiye
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Temel istatistikler
+                  <span className="text-green-500">✓</span> HD Kalite Yayın
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> HD kalite kayıt
+                  <span className="text-red-500">✗</span> Yayını Kayıt Altına Alma
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> Özel davetiye tasarımı
+                  <span className="text-red-500">✗</span> Yayın Kaydını İndirebilme
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
                   <span className="text-red-500">✗</span> Öncelikli destek
@@ -377,22 +379,22 @@ export default function Home() {
               <div className="text-3xl font-bold text-blue-500 mb-4">₺599</div>
               <ul className="text-gray-600 space-y-2 mb-6 text-left">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> 5 saat canlı yayın
+                  <span className="text-green-500">✓</span> 30 Dakika Canlı Yayın
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> 500 izleyici limiti
+                  <span className="text-green-500">✓</span> Online Davetiye
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> HD kalite kayıt
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Detaylı istatistikler
+                  <span className="text-green-500">✓</span> Yayını Kayıt Altına Alma
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Yayın Kaydını İndirebilme
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> Özel davetiye tasarımı
-                </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> 4K kalite
+                  <span className="text-red-500">✗</span> Öncelikli Destek
                 </li>
               </ul>
               <button onClick={() => setShowAppPopup(true)} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold">
@@ -406,22 +408,22 @@ export default function Home() {
               <div className="text-3xl font-bold text-blue-500 mb-4">₺999</div>
               <ul className="text-gray-600 space-y-2 mb-6 text-left">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Sınırsız canlı yayın
+                  <span className="text-green-500">✓</span> 60 Dakika Canlı Yayın
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Sınırsız izleyici
+                  <span className="text-green-500">✓</span> Online Davetiye
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> 4K kalite kayıt
+                  <span className="text-green-500">✓</span> HD Kalite Kayıt
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Özel davetiye tasarımı
+                  <span className="text-green-500">✓</span> Yaayını Kayıt Altına Alma
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Profesyonel düzenleme
+                  <span className="text-green-500">✓</span> Yayın Kaydını İndirebilme
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> 7/24 özel destek hattı
+                  <span className="text-green-500">✓</span> Öncelikli Destek
                 </li>
               </ul>
               <button onClick={() => setShowAppPopup(true)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold">
@@ -494,7 +496,7 @@ export default function Home() {
               <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-500">
                 📧 destek@nikahim.com
               </a>
-              <a href="https://wa.me/905551234567" target="_blank" className="flex items-center gap-2 text-gray-600 hover:text-green-500">
+              <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-gray-600 hover:text-green-500">
                 <Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} className="w-6 h-6" />
                 WhatsApp
               </a>
@@ -525,8 +527,8 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <Image src="/logo.png" alt="Nikahim.com" width={32} height={32} className="rounded-full" />
-                <span className="font-bold">Nikahim.com</span>
+                <Image src="/logo.png" alt="Nikahım" width={32} height={32} className="rounded-full" />
+                <span className="font-bold">Nikahım</span>
               </div>
               <p className="text-gray-400 text-sm">Sevdikleriniz uzakta olsa bile özel gününüzde yanınızda olsun.</p>
             </div>
