@@ -694,18 +694,37 @@ export default function WatchPage() {
                       const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
                       const url = event.qr_codes?.[qrKey];
                       if (!url) return;
-                      const response = await fetch(url);
-                      const blob = await response.blob();
-                      const blobUrl = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = blobUrl;
-                      a.download = `qr-kod-${qrKey}.jpg`;
-                      a.click();
-                      URL.revokeObjectURL(blobUrl);
+                      
+                      try {
+                        const response = await fetch(url);
+                        const blob = await response.blob();
+                        const file = new File([blob], `qr-kod-${qrKey}.jpg`, { type: 'image/jpeg' });
+                        
+                        // Mobilde Share API kullan
+                        if (navigator.share && navigator.canShare({ files: [file] })) {
+                          await navigator.share({
+                            files: [file],
+                            title: 'QR Kod',
+                            text: 'QR kodu fotoğraflara kaydedin'
+                          });
+                        } else {
+                          // Desktop'ta normal indir
+                          const blobUrl = URL.createObjectURL(blob);
+                          const a = document.createElement('a');
+                          a.href = blobUrl;
+                          a.download = `qr-kod-${qrKey}.jpg`;
+                          a.click();
+                          URL.revokeObjectURL(blobUrl);
+                        }
+                      } catch (error) {
+                        console.log('Share error:', error);
+                        // Fallback - yeni sekmede aç
+                        window.open(url, '_blank');
+                      }
                     }}
                     className="inline-flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-xl font-medium mb-4 text-lg"
                   >
-                    <span className="text-2xl">📥</span> QR Kodu İndir
+                    <span className="text-2xl">📥</span> QR Kodu Kaydet
                   </button>
                 )}
                 <p className="text-gray-600 mb-4">
