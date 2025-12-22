@@ -380,8 +380,14 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[80px] h-[80px]" />
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
+          {/* Sol üst logo */}
+          <div className="absolute top-4 left-4 flex items-center gap-2">
+            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
+            <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
+          </div>
+          
+          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[160px] h-[160px] border-4 border-blue-100 shadow-lg mt-8" />
           
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {event.groom_full_name} & {event.bride_full_name}
