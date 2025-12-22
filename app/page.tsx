@@ -224,7 +224,7 @@ export default function Home() {
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
                 placeholder="Örn: Ahmet, Ayşe, Yılmaz, Ahmet Ayşe..."
-                className="w-full px-6 py-4 pr-24 text-lg border-2 border-gray-300 rounded-2xl focus:border-blue-500 outline-none bg-white shadow-sm placeholder:text-gray-500"
+                className="w-full px-6 py-4 pr-24 text-lg border-2 border-gray-300 rounded-2xl focus:border-blue-500 outline-none bg-white shadow-sm text-gray-900 placeholder:text-gray-500"
               />
               {searchQuery && (
                 <button 
@@ -478,15 +478,15 @@ export default function Home() {
           <div className="bg-gray-50 rounded-2xl p-8">
             <form className="space-y-5">
               <div className="grid md:grid-cols-2 gap-5">
-                <input type="text" placeholder="Adınız Soyadınız" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none" />
-                <input type="email" placeholder="E-posta adresiniz" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none" />
+                <input type="text" placeholder="Adınız Soyadınız" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" />
+                <input type="email" placeholder="E-posta adresiniz" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" />
               </div>
-              <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white">
+              <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white text-gray-900">
                 <option>Genel Soru</option>
                 <option>Teknik Destek</option>
                 <option>Ödeme Sorunu</option>
               </select>
-              <textarea rows={4} placeholder="Mesajınız" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none resize-none"></textarea>
+              <textarea rows={4} placeholder="Mesajınız" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none resize-none text-gray-900 placeholder:text-gray-500"></textarea>
               <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold">
                 Gönder
               </button>

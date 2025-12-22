@@ -397,7 +397,7 @@ export default function WatchPage() {
               value={viewerName}
               onChange={(e) => setViewerName(e.target.value)}
               placeholder="Örn: Fatma Yılmaz"
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-400"
               onKeyPress={(e) => e.key === "Enter" && handleNameSubmit()}
             />
           </div>
