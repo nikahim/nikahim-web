@@ -2,21 +2,32 @@
 
 import { supabase } from '@/lib/supabase';
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 
 interface Event {
   id: string;
   groom_full_name: string;
   bride_full_name: string;
-  groom_parent_names: string;
-  bride_parent_names: string;
+  groom_father_name: string;
+  groom_mother_name: string;
+  bride_father_name: string;
+  bride_mother_name: string;
   event_date: string;
   event_time: string;
   couple_photo_url: string;
   bank_iban: string;
   bank_holder_name: string;
   status: string;
+  qr_codes?: Record<string, string>;
+  event_type: string;
+  gold_prices_locked?: {
+    gram: number;
+    ceyrek: number;
+    yarim: number;
+    tam: number;
+    ata: number;
+  } | null;
 }
 
 interface Message {
@@ -43,16 +54,17 @@ export default function WatchPage() {
   const [isNameEntered, setIsNameEntered] = useState(false);
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { id: 1, name: "Fatma Yılmaz", text: "Tebrikler! Çok güzel olmuş 💕", time: "14:32" },
-    { id: 2, name: "Mehmet Kaya", text: "Allah mesut etsin 🎉", time: "14:33" },
-    { id: 3, name: "Ayşe Demir", text: "Ömür boyu mutluluklar!", time: "14:35" },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [selectedGold, setSelectedGold] = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"qr" | "iban" | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
+  const [customAmount, setCustomAmount] = useState("");
+  const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
+  
+  // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
+  const pendingPaymentIdRef = useRef<string | null>(null);
 
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -61,13 +73,37 @@ export default function WatchPage() {
     seconds: 0,
   });
 
+  // Kilitli fiyatları kullan, yoksa varsayılan fiyatlar
+  const getGoldPrice = (type: string): number => {
+    if (event?.gold_prices_locked) {
+      const prices = event.gold_prices_locked;
+      switch (type) {
+        case 'gram': return prices.gram || 0;
+        case 'ceyrek': return prices.ceyrek || 0;
+        case 'yarim': return prices.yarim || 0;
+        case 'tam': return prices.tam || 0;
+        case 'ata': return prices.ata || 0;
+        default: return 0;
+      }
+    }
+    // Varsayılan fiyatlar (kilitli fiyat yoksa)
+    const defaults: Record<string, number> = {
+      gram: 6240,
+      ceyrek: 9980,
+      yarim: 19950,
+      tam: 39780,
+      ata: 41240,
+    };
+    return defaults[type] || 0;
+  };
+
   const goldOptions: GoldOption[] = [
-    { id: "gram", name: "Gram Altın", price: 3562, image: "/altintakgram.png" },
-    { id: "ceyrek", name: "Çeyrek Altın", price: 5765, image: "/altintak.png" },
-    { id: "yarim", name: "Yarım Altın", price: 11388, image: "/altintak.png" },
-    { id: "tam", name: "Tam Altın", price: 22578, image: "/altintak.png" },
-    { id: "ata", name: "Ata Altın", price: 24850, image: "/altintak.png" },
-    { id: "ozel", name: "Özel Miktar", price: 0, image: "/altintaklira.png" },
+    { id: "gram_altin", name: "Gram Altın", price: getGoldPrice('gram'), image: "/altintakgram.png" },
+    { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/altintak.png" },
+    { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/altintak.png" },
+    { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/altintak.png" },
+    { id: "ata_altin", name: "Ata Altın", price: getGoldPrice('ata'), image: "/altintak.png" },
+    { id: "nakit", name: "Özel Miktar", price: 0, image: "/altintaklira.png" },
   ];
 
   const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺️", "😚", "😙", "🥲", "😋", "😛", "😒", "😏", "😑", "🤐", "🤔", "🤭", "🤗", "🤑", "😝", "🥳", "😎", "🤓", "🥺", "😳", "😲", "😯", "😮", "🙈", "🙉", "🙊", "💋", "💯", "💥", "💫", "✌️", "❣️", "💔", "❤️‍🔥", "❤️", "💕", "🎉", "👏", "💐", "💍", "🎊", "🙏", "💒", "✨", "🌹", "💝", "🤵", "👰"];
@@ -79,7 +115,7 @@ export default function WatchPage() {
         .from('events')
         .select('*')
         .eq('event_link', slug)
-        .single();
+        .maybeSingle();
       
       if (data) {
         setEvent(data);
@@ -108,6 +144,57 @@ export default function WatchPage() {
     fetchViewerCount();
   }, [event?.id]);
 
+  // Chat mesajlarını çek + Real-time subscription
+  useEffect(() => {
+    if (!event?.id) return;
+
+    // Önce mevcut mesajları çek
+    const fetchMessages = async () => {
+      const { data } = await supabase
+        .from('chat_messages')
+        .select('*')
+        .eq('event_id', event.id)
+        .order('created_at', { ascending: true });
+      
+      if (data) {
+        const formattedMessages = data.map((msg, index) => ({
+          id: msg.id || index,
+          name: msg.sender_name,
+          text: msg.message,
+          time: new Date(msg.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }),
+        }));
+        setMessages(formattedMessages);
+      }
+    };
+
+    fetchMessages();
+
+    // Real-time subscription
+    const channel = supabase
+      .channel(`chat-${event.id}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'chat_messages',
+        filter: `event_id=eq.${event.id}`
+      }, (payload) => {
+        const newMsg = payload.new as { id: string; sender_name: string; message: string; created_at: string };
+        const formattedMsg: Message = {
+          id: Date.now(),
+          name: newMsg.sender_name,
+          text: newMsg.message,
+          time: new Date(newMsg.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }),
+        };
+        setMessages(prev => [...prev, formattedMsg]);
+      })
+      .subscribe();
+
+    // Cleanup
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [event?.id]);
+
   // Geri sayım
   useEffect(() => {
     if (!event) return;
@@ -134,10 +221,9 @@ export default function WatchPage() {
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
-      // İzleyiciyi veritabanına kaydet
       await supabase.from('viewers').insert({
         event_id: event.id,
-        name: viewerName,
+        full_name: viewerName,
       });
       
       setIsNameEntered(true);
@@ -147,21 +233,13 @@ export default function WatchPage() {
 
   const sendMessage = async () => {
     if (message.trim() && event?.id) {
-      const newMessage: Message = {
-        id: messages.length + 1,
-        name: viewerName,
-        text: message,
-        time: new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }),
-      };
-      
-      // Mesajı veritabanına kaydet
+      // Sadece DB'ye kaydet - Real-time subscription otomatik ekleyecek
       await supabase.from('chat_messages').insert({
         event_id: event.id,
+        sender_name: viewerName,
         message: message,
-        has_emoji: message.includes('😀') || message.includes('❤') || message.includes('🎉'),
       });
 
-      setMessages([...messages, newMessage]);
       setMessage("");
       setShowEmojiPicker(false);
     }
@@ -171,43 +249,106 @@ export default function WatchPage() {
     setMessage(message + emoji);
   };
 
-  const handleGoldSelect = (goldId: string) => {
+  // ✅ FIX: Altın seçildiğinde - pending kayıt oluştur (ref ile senkron)
+  const handleGoldSelect = async (goldId: string) => {
     setSelectedGold(goldId);
+    setCustomAmount("");
     setShowPaymentModal(true);
-  };
-
-  const handlePaymentComplete = async () => {
-    if (event?.id && selectedGold) {
-      const selectedGoldOption = goldOptions.find(g => g.id === selectedGold);
-      
-      // Ödemeyi veritabanına kaydet
-      await supabase.from('gift_payments').insert({
+    
+    // Nakit değilse hemen pending kayıt oluştur
+    if (goldId !== "nakit" && event?.id) {
+      const selectedGoldOption = goldOptions.find(g => g.id === goldId);
+      const { data, error } = await supabase.from('gift_payments').insert({
         event_id: event.id,
         sender_name: viewerName,
-        gift_type: selectedGold,
+        gift_type: goldId,
         amount_tl: selectedGoldOption?.price || 0,
         status: 'pending',
-      });
+      }).select().single();
+      
+      console.log('Insert data:', data);
+      console.log('Insert error:', error);
+      
+      if (data) {
+        // ✅ FIX: Hem state hem ref güncelle
+        setPendingPaymentId(data.id);
+        pendingPaymentIdRef.current = data.id;
+        console.log('PendingPaymentId set:', data.id);
+      }
+    }
+  };
+
+  // ✅ FIX: Nakit için miktar girildikten sonra pending kayıt (ref ile senkron)
+  const handleCustomAmountSubmit = async () => {
+    if (!customAmount || !event?.id) return;
+    
+    const { data } = await supabase.from('gift_payments').insert({
+      event_id: event.id,
+      sender_name: viewerName,
+      gift_type: 'nakit',
+      amount_tl: parseFloat(customAmount),
+      status: 'pending',
+    }).select().single();
+    
+    if (data) {
+      // ✅ FIX: Hem state hem ref güncelle
+      setPendingPaymentId(data.id);
+      pendingPaymentIdRef.current = data.id;
+      console.log('Nakit PendingPaymentId set:', data.id);
+    }
+  };
+
+  // ✅ FIX: Ödeme tamamlandı - ref'ten ID al (senkron, güvenilir)
+  const handlePaymentComplete = async () => {
+    // ✅ FIX: ref kullan, state değil
+    const paymentId = pendingPaymentIdRef.current;
+    console.log('handlePaymentComplete called, paymentId from ref:', paymentId);
+    
+    if (paymentId) {
+      const { data, error } = await supabase
+        .from('gift_payments')
+        .update({ status: 'completed' })
+        .eq('id', paymentId)
+        .select();
+      
+      console.log('Update data:', data);
+      console.log('Update error:', error);
+    } else {
+      console.error('Payment ID bulunamadı!');
     }
 
     setShowPaymentModal(false);
     setShowSuccessModal(true);
+    
+    // ✅ FIX: Temizlerken ikisini de temizle
+    setPendingPaymentId(null);
+    pendingPaymentIdRef.current = null;
 
     setTimeout(() => {
       setShowSuccessModal(false);
       setSelectedGold(null);
       setPaymentMethod(null);
+      setCustomAmount("");
     }, 3000);
   };
 
-  const downloadQRCode = () => {
-    const link = document.createElement("a");
-    link.href = "/qr-sample.png";
-    link.download = `qr-${selectedGold}-${event?.groom_full_name}.png`;
-    link.click();
+  // ✅ FIX: Modal kapatıldığında - pending kalır, ref temizle
+  const handleCloseModal = () => {
+    setShowPaymentModal(false);
+    setPaymentMethod(null);
+    setSelectedGold(null);
+    setCustomAmount("");
+    setPendingPaymentId(null);
+    pendingPaymentIdRef.current = null;
   };
 
-  // Yükleniyor
+  const getSelectedPrice = () => {
+    if (selectedGold === "nakit") {
+      return customAmount ? parseFloat(customAmount) : 0;
+    }
+    return goldOptions.find(g => g.id === selectedGold)?.price || 0;
+  };
+
   if (loading) {
     return (
       <main className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -219,7 +360,6 @@ export default function WatchPage() {
     );
   }
 
-  // Etkinlik bulunamadı
   if (!event) {
     return (
       <main className="min-h-screen bg-gray-100 flex items-center justify-center">
@@ -237,17 +377,18 @@ export default function WatchPage() {
   const eventDate = new Date(event.event_date).toLocaleDateString('tr-TR');
   const eventTime = event.event_time?.slice(0, 5) || '14:00';
 
-  // İsim giriş ekranı
   if (!isNameEntered) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <Image src="/logo.png" alt="Nikahim.com" width={80} height={80} className="mx-auto rounded-full mb-6" />
+          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[80px] h-[80px]" />
           
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {event.groom_full_name} & {event.bride_full_name}
           </h1>
-          <p className="text-gray-500 mb-8">Nikah Töreni Canlı Yayını</p>
+          <p className="text-gray-500 mb-6">
+            {event.event_type === 'dugun' ? 'Düğün Canlı Yayını' : 'Nikah Töreni Canlı Yayını'}
+          </p>
 
           <div className="mb-6">
             <label className="block text-left text-gray-600 mb-2 font-medium">Adınız Soyadınız</label>
@@ -282,8 +423,8 @@ export default function WatchPage() {
       <header className="bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/logo.png" alt="Nikahim.com" width={40} height={40} className="rounded-full" />
-            <span className="font-bold text-blue-600 hidden sm:block">Nikahim.com</span>
+            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
+            <span className="font-bold text-[#1565C0] hidden sm:block">Nikahım</span>
           </div>
           <div className="flex items-center gap-2">
             {isLive && (
@@ -308,78 +449,51 @@ export default function WatchPage() {
                   <div className="text-center text-white">
                     <div className="text-6xl mb-4">📹</div>
                     <p className="text-xl">Canlı Yayın</p>
-                    <p className="text-gray-400 text-sm mt-2">Yayın aktif</p>
                   </div>
                 </div>
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900">
-                  {event.couple_photo_url ? (
-                    <Image 
-                      src={event.couple_photo_url} 
-                      alt="Çift" 
-                      width={150} 
-                      height={150} 
-                      className="mb-6 rounded-full"
-                    />
-                  ) : (
-                    <Image 
-                      src="/wedding.png" 
-                      alt="Çift" 
-                      width={150} 
-                      height={150} 
-                      className="mb-6"
-                    />
-                  )}
+                  {/* Çift fotoğrafı veya logo */}
+                  <img 
+                    src={event.couple_photo_url || "/logo.png"} 
+                    alt="Çift Fotoğrafı" 
+                    className="mb-6 rounded-full object-cover border-4 border-white/20 w-[160px] h-[160px]" 
+                  />
                   
                   <h2 className="text-white text-xl font-bold mb-2">
                     {event.groom_full_name} & {event.bride_full_name}
                   </h2>
                   
-                  <p className="text-gray-400 mb-6">Yayın başlamasına kalan süre</p>
+                  <p className="text-gray-400 mb-4 text-sm">Yayın başlamasına kalan süre</p>
                   
-                  <div className="flex gap-4">
-                    <div className="bg-white/10 backdrop-blur rounded-xl px-4 py-3 text-center min-w-[70px]">
-                      <div className="text-3xl font-bold text-white">{countdown.days}</div>
-                      <div className="text-xs text-gray-400">Gün</div>
+                  <div className="flex gap-3">
+                    <div className="bg-white/10 backdrop-blur rounded-lg px-3 py-2 text-center min-w-[55px]">
+                      <div className="text-xl font-bold text-white">{countdown.days}</div>
+                      <div className="text-[10px] text-gray-400">Gün</div>
                     </div>
-                    <div className="bg-white/10 backdrop-blur rounded-xl px-4 py-3 text-center min-w-[70px]">
-                      <div className="text-3xl font-bold text-white">{countdown.hours}</div>
-                      <div className="text-xs text-gray-400">Saat</div>
+                    <div className="bg-white/10 backdrop-blur rounded-lg px-3 py-2 text-center min-w-[55px]">
+                      <div className="text-xl font-bold text-white">{countdown.hours}</div>
+                      <div className="text-[10px] text-gray-400">Saat</div>
                     </div>
-                    <div className="bg-white/10 backdrop-blur rounded-xl px-4 py-3 text-center min-w-[70px]">
-                      <div className="text-3xl font-bold text-white">{countdown.minutes}</div>
-                      <div className="text-xs text-gray-400">Dakika</div>
+                    <div className="bg-white/10 backdrop-blur rounded-lg px-3 py-2 text-center min-w-[55px]">
+                      <div className="text-xl font-bold text-white">{countdown.minutes}</div>
+                      <div className="text-[10px] text-gray-400">Dakika</div>
                     </div>
-                    <div className="bg-white/10 backdrop-blur rounded-xl px-4 py-3 text-center min-w-[70px]">
-                      <div className="text-3xl font-bold text-white">{countdown.seconds}</div>
-                      <div className="text-xs text-gray-400">Saniye</div>
+                    <div className="bg-white/10 backdrop-blur rounded-lg px-3 py-2 text-center min-w-[55px]">
+                      <div className="text-xl font-bold text-white">{countdown.seconds}</div>
+                      <div className="text-[10px] text-gray-400">Saniye</div>
                     </div>
                   </div>
                   
-                  <p className="text-gray-500 text-sm mt-6">📅 {eventDate} - 🕐 {eventTime}</p>
+                  <p className="text-gray-500 text-sm mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
               )}
             </div>
 
             <div className="bg-white rounded-2xl p-6">
               <div className="flex items-center gap-4">
-                {event.couple_photo_url ? (
-                  <Image 
-                    src={event.couple_photo_url} 
-                    alt="Çift" 
-                    width={80} 
-                    height={80} 
-                    className="object-cover rounded-full"
-                  />
-                ) : (
-                  <Image 
-                    src="/wedding.png" 
-                    alt="Çift" 
-                    width={80} 
-                    height={80} 
-                    className="object-cover"
-                  />
-                )}
+                {/* Wedding icon */}
+                <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
                 <div>
                   <h1 className="text-2xl font-bold text-gray-900">
                     {event.groom_full_name} & {event.bride_full_name}
@@ -391,11 +505,19 @@ export default function WatchPage() {
               <div className="grid sm:grid-cols-2 gap-4 mt-6 pt-6 border-t">
                 <div className="bg-blue-50 rounded-xl p-4">
                   <p className="text-sm text-blue-600 font-medium mb-1">Gelin Ailesi</p>
-                  <p className="text-gray-900">{event.bride_parent_names || '-'}</p>
+                  <p className="text-gray-900">
+                    {event.bride_father_name && event.bride_mother_name 
+                      ? `${event.bride_father_name} & ${event.bride_mother_name}`
+                      : event.bride_father_name || event.bride_mother_name || '-'}
+                  </p>
                 </div>
                 <div className="bg-blue-50 rounded-xl p-4">
                   <p className="text-sm text-blue-600 font-medium mb-1">Damat Ailesi</p>
-                  <p className="text-gray-900">{event.groom_parent_names || '-'}</p>
+                  <p className="text-gray-900">
+                    {event.groom_father_name && event.groom_mother_name 
+                      ? `${event.groom_father_name} & ${event.groom_mother_name}`
+                      : event.groom_father_name || event.groom_mother_name || '-'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -412,16 +534,13 @@ export default function WatchPage() {
                     className="group bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300 rounded-xl p-3 text-center transition-all hover:scale-105 hover:shadow-lg"
                   >
                     <div className="relative w-12 h-12 mx-auto mb-2">
-                      <Image 
-                        src={gold.image} 
-                        alt={gold.name} 
-                        fill 
-                        className="object-contain group-hover:scale-110 transition-transform"
-                      />
+                      <Image src={gold.image} alt={gold.name} fill className="object-contain" />
                     </div>
                     <div className="text-xs font-medium text-gray-700">{gold.name}</div>
-                    {gold.price > 0 && (
+                    {gold.price > 0 ? (
                       <div className="text-xs text-gray-500 mt-1">₺{gold.price.toLocaleString()}</div>
+                    ) : (
+                      <div className="text-xs text-gray-400 mt-1">Serbest</div>
                     )}
                   </button>
                 ))}
@@ -436,26 +555,26 @@ export default function WatchPage() {
               </div>
 
               <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                {messages.map((msg) => (
-                  <div key={msg.id} className="bg-gray-50 rounded-xl p-3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-gray-900 text-sm">{msg.name}</span>
-                      <span className="text-gray-400 text-xs">{msg.time}</span>
+                {messages.length === 0 ? (
+                  <p className="text-gray-400 text-center text-sm">Henüz mesaj yok. İlk mesajı siz gönderin!</p>
+                ) : (
+                  messages.map((msg) => (
+                    <div key={msg.id} className="bg-gray-50 rounded-xl p-3">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="font-medium text-gray-900 text-sm">{msg.name}</span>
+                        <span className="text-gray-400 text-xs">{msg.time}</span>
+                      </div>
+                      <p className="text-gray-600 text-sm">{msg.text}</p>
                     </div>
-                    <p className="text-gray-600 text-sm">{msg.text}</p>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
 
               {showEmojiPicker && (
                 <div className="px-4 py-2 border-t bg-gray-50 max-h-32 overflow-y-auto">
                   <div className="flex flex-wrap gap-2">
                     {emojis.map((emoji, index) => (
-                      <button
-                        key={index}
-                        onClick={() => addEmoji(emoji)}
-                        className="text-2xl hover:scale-125 transition-transform"
-                      >
+                      <button key={index} onClick={() => addEmoji(emoji)} className="text-2xl hover:scale-125 transition-transform">
                         {emoji}
                       </button>
                     ))}
@@ -479,10 +598,7 @@ export default function WatchPage() {
                     className="flex-1 px-4 py-2 border border-gray-200 rounded-xl outline-none focus:border-blue-500"
                     onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                   />
-                  <button
-                    onClick={sendMessage}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl font-medium"
-                  >
+                  <button onClick={sendMessage} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl font-medium">
                     Gönder
                   </button>
                 </div>
@@ -494,20 +610,39 @@ export default function WatchPage() {
 
       {/* Ödeme Modal */}
       {showPaymentModal && selectedGold && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => { setShowPaymentModal(false); setPaymentMethod(null); }}>
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={handleCloseModal}>
           <div className="bg-white rounded-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-xl font-bold text-gray-900 mb-4">
               {goldOptions.find(g => g.id === selectedGold)?.name} Gönder
             </h3>
 
-            {!paymentMethod ? (
+            {/* Nakit için miktar girişi */}
+            {selectedGold === "nakit" && !pendingPaymentId && (
+              <div className="mb-4">
+                <label className="block text-gray-600 mb-2 font-medium">Göndermek istediğiniz miktar</label>
+                <input
+                  type="number"
+                  value={customAmount}
+                  onChange={(e) => setCustomAmount(e.target.value)}
+                  placeholder="Miktarı girin (₺)"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-lg"
+                />
+                <button
+                  onClick={handleCustomAmountSubmit}
+                  disabled={!customAmount || parseFloat(customAmount) <= 0}
+                  className="w-full mt-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold"
+                >
+                  Devam Et
+                </button>
+              </div>
+            )}
+
+            {/* Ödeme yöntemi seçimi */}
+            {(selectedGold !== "nakit" || pendingPaymentId) && !paymentMethod && (
               <div className="space-y-3">
                 <p className="text-gray-500 mb-4">Ödeme yöntemini seçin:</p>
                 
-                <button
-                  onClick={() => setPaymentMethod("qr")}
-                  className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors"
-                >
+                <button onClick={() => setPaymentMethod("qr")} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors">
                   <span className="text-3xl">📱</span>
                   <div className="text-left">
                     <div className="font-medium text-gray-900">QR Kod ile FAST</div>
@@ -515,10 +650,7 @@ export default function WatchPage() {
                   </div>
                 </button>
 
-                <button
-                  onClick={() => setPaymentMethod("iban")}
-                  className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors"
-                >
+                <button onClick={() => setPaymentMethod("iban")} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors">
                   <span className="text-3xl">🏦</span>
                   <div className="text-left">
                     <div className="font-medium text-gray-900">IBAN ile Havale/EFT</div>
@@ -526,52 +658,72 @@ export default function WatchPage() {
                   </div>
                 </button>
 
-                <button
-                  onClick={() => { setShowPaymentModal(false); setPaymentMethod(null); }}
-                  className="w-full py-3 text-gray-500 hover:text-gray-700 font-medium mt-4"
-                >
+                <button onClick={handleCloseModal} className="w-full py-3 text-gray-500 hover:text-gray-700 font-medium mt-4">
                   İptal
                 </button>
               </div>
-            ) : paymentMethod === "qr" ? (
+            )}
+
+            {/* QR Kod ile ödeme */}
+            {paymentMethod === "qr" && (
               <div className="text-center">
                 <div className="bg-gray-100 rounded-xl p-6 mb-4">
-                  <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                    <span className="text-gray-400">QR Kod</span>
-                  </div>
+                  {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
+                    <img 
+                      src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
+                      alt="QR Kod" 
+                      className="w-48 h-48 mx-auto rounded-lg object-contain"
+                    />
+                  ) : (
+                    <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
+                      <span className="text-gray-400">QR Kod Bulunamadı ! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
+                    </div>
+                  )}
                 </div>
-                <p className="text-gray-600 mb-4">
-                  Tutar: <strong>₺{goldOptions.find(g => g.id === selectedGold)?.price.toLocaleString()}</strong>
-                </p>
                 
-                <button
-                  onClick={downloadQRCode}
-                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold mb-3 flex items-center justify-center gap-2"
-                >
-                  <span>📥</span> QR Kodu Kaydet
-                </button>
+                {/* QR Kod İndir butonu */}
+                {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] && (
+                  <button 
+                    onClick={async () => {
+                      const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
+                      const url = event.qr_codes?.[qrKey];
+                      if (!url) return;
+                      const response = await fetch(url);
+                      const blob = await response.blob();
+                      const blobUrl = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = blobUrl;
+                      a.download = `qr-kod-${qrKey}.jpg`;
+                      a.click();
+                      URL.revokeObjectURL(blobUrl);
+                    }}
+                    className="inline-flex items-center gap-2 bg-blue-100 hover:bg-blue-200 text-blue-600 px-4 py-2 rounded-xl font-medium mb-4 text-lg"
+                  >
+                    <span className="text-2xl">📥</span> QR Kodu İndir
+                  </button>
+                )}
+                <p className="text-gray-600 mb-4">
+                  Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
+                </p>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 flex items-start gap-2">
                   <span className="text-yellow-600 text-lg">⚠️</span>
                   <p className="text-yellow-700 text-sm text-left">
-                    Lütfen para gönderim işleminizi tamamladıktan sonra aşağıda bulunan ödemeyi tamamladım tuşuna basın.
+                    Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.
                   </p>
                 </div>
                 
-                <button
-                  onClick={handlePaymentComplete}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold mb-3"
-                >
-                  Ödemeyi Tamamladım
+                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">
+                  ✓ Ödemeyi Tamamladım
                 </button>
-                <button
-                  onClick={() => setPaymentMethod(null)}
-                  className="w-full py-2 text-gray-500 hover:text-gray-700"
-                >
+                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">
                   ← Geri
                 </button>
               </div>
-            ) : (
+            )}
+
+            {/* IBAN ile ödeme */}
+            {paymentMethod === "iban" && (
               <div>
                 <div className="bg-gray-50 rounded-xl p-4 mb-4">
                   <p className="text-sm text-gray-500 mb-1">Hesap Sahibi</p>
@@ -580,34 +732,25 @@ export default function WatchPage() {
                 <div className="bg-gray-50 rounded-xl p-4 mb-4">
                   <p className="text-sm text-gray-500 mb-1">IBAN</p>
                   <p className="font-mono text-gray-900 text-sm">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
-                  <button 
-                    onClick={() => navigator.clipboard.writeText((event.bank_iban || '').replace(/\s/g, ''))}
-                    className="text-blue-500 text-sm mt-2 hover:underline"
-                  >
-                    📋 IBAN&apos;ı Kopyala
+                  <button onClick={() => navigator.clipboard.writeText((event.bank_iban || '').replace(/\s/g, ''))} className="text-blue-500 text-sm mt-2 hover:underline">
+                    📋 IBAN Kopyala
                   </button>
                 </div>
                 <p className="text-gray-600 mb-4">
-                  Tutar: <strong>₺{goldOptions.find(g => g.id === selectedGold)?.price.toLocaleString()}</strong>
+                  Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
                 </p>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 flex items-start gap-2">
                   <span className="text-yellow-600 text-lg">⚠️</span>
                   <p className="text-yellow-700 text-sm text-left">
-                    Lütfen para gönderim işleminizi tamamladıktan sonra aşağıda bulunan ödemeyi tamamladım tuşuna basın.
+                    Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.
                   </p>
                 </div>
 
-                <button
-                  onClick={handlePaymentComplete}
-                  className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold mb-3"
-                >
-                  Ödemeyi Tamamladım
+                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">
+                  ✓ Ödemeyi Tamamladım
                 </button>
-                <button
-                  onClick={() => setPaymentMethod(null)}
-                  className="w-full py-2 text-gray-500 hover:text-gray-700"
-                >
+                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">
                   ← Geri
                 </button>
               </div>
@@ -623,7 +766,7 @@ export default function WatchPage() {
             <div className="text-6xl mb-4">🎊</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-3">Tebrikler!</h3>
             <p className="text-gray-600 mb-2">
-              Çiftimize taktığınız altın miktarı iletildi.
+              Hediyeniz çiftimize iletildi.
             </p>
             <p className="text-gray-500">
               Katılımınız için teşekkür ederiz! 🎉

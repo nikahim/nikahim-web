@@ -229,7 +229,7 @@ export default function Home() {
               {searchQuery && (
                 <button 
                   onClick={() => { setSearchQuery(""); setShowSearchResults(false); }}
-                  className="absolute right-20 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-[100px] top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
                 >
                   ✕
                 </button>
