@@ -36,3 +36,23 @@ body {
     scrollbar-width: none;
   }
 }
+/* Mobile auto-fit */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .aspect-video {
+    aspect-ratio: 4/3;
+  }
+  
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+}
