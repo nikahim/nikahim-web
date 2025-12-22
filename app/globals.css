@@ -25,3 +25,14 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Hide scrollbar for mobile */
+@media (max-width: 1024px) {
+  .overflow-y-auto::-webkit-scrollbar {
+    display: none;
+  }
+  .overflow-y-auto {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}

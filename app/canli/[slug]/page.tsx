@@ -444,12 +444,12 @@ export default function WatchPage() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto p-4">
-        <div className="grid lg:grid-cols-3 gap-6">
+      <div className="max-w-7xl mx-auto p-4 overflow-x-hidden">
+        <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
           
           <div className="lg:col-span-2 space-y-4">
             
-            <div className="bg-black rounded-2xl overflow-hidden aspect-video relative">
+            <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
               {isLive ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white">
@@ -555,7 +555,7 @@ export default function WatchPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl h-[600px] flex flex-col">
+            <div className="bg-white rounded-2xl h-[400px] lg:h-[600px] flex flex-col">
               <div className="p-4 border-b">
                 <h2 className="font-bold text-gray-900">💬 Canlı Sohbet</h2>
               </div>
