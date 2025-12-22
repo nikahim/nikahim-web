@@ -589,7 +589,7 @@ export default function WatchPage() {
               )}
 
               <div className="p-3 border-t">
-                <div className="flex gap-1 lg:gap-2">
+                <div className="flex gap-1 lg:gap-2 pr-1">
                   <button
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                     className={`px-3 py-2 rounded-xl transition-colors ${showEmojiPicker ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 hover:bg-gray-200'}`}
@@ -601,7 +601,7 @@ export default function WatchPage() {
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     placeholder="Mesajınızı yazın..."
-                    className="flex-1 px-4 py-2 border border-gray-200 rounded-xl outline-none focus:border-blue-500"
+                    className="flex-1 min-w-0 px-3 py-2 border border-gray-200 rounded-xl outline-none focus:border-blue-500 text-gray-900 placeholder:text-gray-400"
                     onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                   />
                   <button onClick={sendMessage} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-xl font-medium text-sm lg:text-base flex-shrink-0">
