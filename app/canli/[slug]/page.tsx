@@ -65,6 +65,7 @@ export default function WatchPage() {
   
   // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
   const pendingPaymentIdRef = useRef<string | null>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -128,6 +129,12 @@ export default function WatchPage() {
     }
   }, [slug]);
 
+  // Chat otomatik scroll
+useEffect(() => {
+  if (chatContainerRef.current) {
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }
+}, [messages]);
   // İzleyici sayısını çek
   useEffect(() => {
     const fetchViewerCount = async () => {
@@ -560,7 +567,7 @@ export default function WatchPage() {
                 <h2 className="font-bold text-gray-900">💬 Canlı Sohbet</h2>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+              <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
                 {messages.length === 0 ? (
                   <p className="text-gray-400 text-center text-sm">Henüz mesaj yok. İlk mesajı siz gönderin!</p>
                 ) : (
