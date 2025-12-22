@@ -445,9 +445,9 @@ export default function WatchPage() {
       </header>
 
       <div className="max-w-7xl mx-auto p-4 overflow-x-hidden">
-        <div className="grid lg:grid-cols-3 gap-4 lg:gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 w-full">
           
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-4 w-full min-w-0">
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
               {isLive ? (
@@ -496,7 +496,7 @@ export default function WatchPage() {
               )}
             </div>
 
-            <div className="bg-white rounded-2xl p-6">
+            <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
               <div className="flex items-center gap-4">
                 {/* Wedding icon */}
                 <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
@@ -528,7 +528,7 @@ export default function WatchPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-6">
+            <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
               <h2 className="text-xl font-bold text-gray-900 mb-4">💰 Altın Tak</h2>
               <p className="text-gray-500 mb-6">Çifte altın takarak hediyenizi gönderin</p>
               
@@ -554,7 +554,7 @@ export default function WatchPage() {
             </div>
           </div>
 
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 w-full min-w-0">
             <div className="bg-white rounded-2xl h-[400px] lg:h-[600px] flex flex-col">
               <div className="p-4 border-b">
                 <h2 className="font-bold text-gray-900">💬 Canlı Sohbet</h2>
