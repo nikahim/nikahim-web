@@ -697,16 +697,58 @@ useEffect(() => {
                 {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] && (
                   <div className="space-y-2 mb-4">
                     <button 
-                      onClick={() => {
+                      onClick={async () => {
                         const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
                         const url = event.qr_codes?.[qrKey];
-                        if (url) window.open(url, '_blank');
+                        if (!url) return;
+
+                        try {
+                          const response = await fetch(url);
+                          const blob = await response.blob();
+                          
+                          // PNG olarak File oluştur (iOS PNG'yi daha iyi tanır)
+                          const file = new File([blob], `qr-kod-${qrKey}.png`, { type: 'image/png' });
+                          
+                          if (navigator.canShare?.({ files: [file] })) {
+                            await navigator.share({ files: [file] });
+                          } else {
+                            // Fallback - yeni sekmede göster
+                            const reader = new FileReader();
+                            reader.onload = () => {
+                              const dataUrl = reader.result as string;
+                              const newWindow = window.open('', '_blank');
+                              if (newWindow) {
+                                newWindow.document.write(`
+                                  <html>
+                                    <head>
+                                      <title>QR Kod - Uzun basarak kaydedin</title>
+                                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                                      <style>
+                                        body { margin: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; background: #000; }
+                                        img { max-width: 90%; height: auto; border-radius: 12px; }
+                                        p { color: #fff; margin-top: 20px; font-family: system-ui; }
+                                      </style>
+                                    </head>
+                                    <body>
+                                      <img src="${dataUrl}" alt="QR Kod" />
+                                      <p>👆 Resme uzun basarak kaydedin</p>
+                                    </body>
+                                  </html>
+                                `);
+                                newWindow.document.close();
+                              }
+                            };
+                            reader.readAsDataURL(blob);
+                          }
+                        } catch {
+                          window.open(url, '_blank');
+                        }
                       }}
                       className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-xl font-medium w-full justify-center"
                     >
-                      <span className="text-xl">📲</span> QR Kodu Aç ve Kaydet
+                      <span className="text-xl">📲</span> QR Kodu Kaydet
                     </button>
-                    <p className="text-gray-400 text-xs text-center">Açılan resme uzun basarak &quot;Fotoğraflara Kaydet&quot; seçin</p>
+                    <p className="text-gray-400 text-xs text-center">Fotoğraflara kaydedilecek</p>
                   </div>
                 )}
                 <p className="text-gray-600 mb-4">
