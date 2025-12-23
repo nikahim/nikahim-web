@@ -694,7 +694,7 @@ useEffect(() => {
                   )}
                 </div>
                 
-                {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] && (
+                {event.qr_codes?.[...] && (
                   <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-4">
                     <p className="text-blue-700 text-sm text-center font-medium">
                       📱 Kaydetmek için yukarıdaki QR koda uzun basın
