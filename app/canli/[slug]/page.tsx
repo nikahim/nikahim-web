@@ -695,46 +695,62 @@ useEffect(() => {
                 </div>
                 
                 {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] && (
-                  <button 
-                    onClick={async () => {
-                      const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
-                      const url = event.qr_codes?.[qrKey];
-                      if (!url) return;
+                  <div className="space-y-2 mb-4">
+                    <button 
+                      onClick={async () => {
+                        const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
+                        const url = event.qr_codes?.[qrKey];
+                        if (!url) return;
 
-                      try {
-                        // Resmi fetch et
-                        const response = await fetch(url);
-                        const blob = await response.blob();
+                        // Canvas ile resmi çiz (CORS bypass)
+                        const img = new window.Image();
+                        img.crossOrigin = "anonymous";
+                        img.onload = async () => {
+                          const canvas = document.createElement('canvas');
+                          canvas.width = img.width;
+                          canvas.height = img.height;
+                          const ctx = canvas.getContext('2d');
+                          ctx?.drawImage(img, 0, 0);
+                          
+                          canvas.toBlob(async (blob) => {
+                            if (!blob) {
+                              window.open(url, '_blank');
+                              return;
+                            }
+                            
+                            const file = new File([blob], `qr-kod-${qrKey}.jpg`, { type: 'image/jpeg' });
+                            
+                            if (navigator.share && navigator.canShare?.({ files: [file] })) {
+                              try {
+                                await navigator.share({ files: [file] });
+                                return;
+                              } catch {
+                                // Kullanıcı iptal etti veya hata
+                              }
+                            }
+                            
+                            // Fallback - indirme linki
+                            const blobUrl = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = blobUrl;
+                            a.download = `qr-kod-${qrKey}.jpg`;
+                            a.click();
+                            URL.revokeObjectURL(blobUrl);
+                          }, 'image/jpeg', 0.95);
+                        };
                         
-                        // iOS/Android için Share API
-                        if (navigator.share) {
-                          const file = new File([blob], `qr-kod-${qrKey}.jpg`, { type: 'image/jpeg' });
-                          if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                            await navigator.share({
-                              files: [file],
-                            });
-                            return;
-                          }
-                        }
+                        img.onerror = () => {
+                          window.open(url, '_blank');
+                        };
                         
-                        // Desktop fallback
-                        const blobUrl = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = blobUrl;
-                        a.download = `qr-kod-${qrKey}.jpg`;
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-                        URL.revokeObjectURL(blobUrl);
-                      } catch {
-                        // Son çare - yeni sekmede aç
-                        window.open(url, '_blank');
-                      }
-                    }}
-                    className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-xl font-medium mb-4"
-                  >
-                    <span className="text-xl">📲</span> QR Kodu Kaydet
-                  </button>
+                        img.src = url;
+                      }}
+                      className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-xl font-medium w-full justify-center"
+                    >
+                      <span className="text-xl">📲</span> QR Kodu Kaydet
+                    </button>
+                    <p className="text-gray-400 text-xs text-center">veya resme uzun basarak kaydedin</p>
+                  </div>
                 )}
                 <p className="text-gray-600 mb-4">
                   Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
