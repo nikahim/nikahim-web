@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
+import MuxPlayer from '@/components/MuxPlayer';
 
 interface Event {
   id: string;
@@ -60,6 +61,11 @@ export default function WatchPage() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"qr" | "iban" | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
+  const [streamData, setStreamData] = useState<{
+    status: string;
+    playbackId: string | null;
+    isTest: boolean;
+  } | null>(null);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
   
@@ -111,6 +117,33 @@ export default function WatchPage() {
   const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺️", "😚", "😙", "🥲", "😋", "😛", "😒", "😏", "😑", "🤐", "🤔", "🤭", "🤗", "🤑", "😝", "🥳", "😎", "🤓", "🥺", "😳", "😲", "😯", "😮", "🙈", "🙉", "🙊", "💋", "💯", "💥", "💫", "✌️", "❣️", "💔", "❤️‍🔥", "❤️", "💕", "🎉", "👏", "💐", "💍", "🎊", "🙏", "💒", "✨", "🌹", "💝", "🤵", "👰"];
 
   // Etkinlik verilerini çek
+
+  // Stream durumunu çek
+  useEffect(() => {
+    const fetchStream = async () => {
+      if (event?.id) {
+        try {
+          const response = await fetch(`/api/stream/status?eventId=${event.id}`);
+          const data = await response.json();
+          if (data.exists && data.playback) {
+            setStreamData({
+              status: data.muxStatus?.status || 'idle',
+              playbackId: data.playback.playbackId,
+              isTest: data.stream.isTest,
+            });
+          }
+        } catch (error) {
+          console.error('Stream fetch error:', error);
+        }
+      }
+    };
+
+    fetchStream();
+    // Her 5 saniyede bir kontrol et
+    const interval = setInterval(fetchStream, 5000);
+    return () => clearInterval(interval);
+  }, [event?.id]);
+
   useEffect(() => {
     const fetchEvent = async () => {
       const { data } = await supabase
@@ -481,7 +514,17 @@ useEffect(() => {
           <div className="lg:col-span-2 space-y-4 w-full min-w-0">
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
-              {isLive ? (
+              {streamData?.status === 'active' && streamData?.playbackId ? (
+                <MuxPlayer
+                  playbackId={streamData.playbackId}
+                  isLive={true}
+                  overlayInfo={{
+                    viewerCount: viewerCount,
+                    isTest: streamData.isTest,
+                  }}
+                  className="w-full h-full"
+                />
+              ) : isLive ? (
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-white">
                     <div className="text-6xl mb-4">📹</div>
