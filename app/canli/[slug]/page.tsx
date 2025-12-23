@@ -354,6 +354,25 @@ useEffect(() => {
     pendingPaymentIdRef.current = null;
   };
 
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      alert('IBAN kopyalandı!');
+    } catch {
+      // Fallback: eski yöntem
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      alert('IBAN kopyalandı!');
+    }
+  };
+
+
   const getSelectedPrice = () => {
     if (selectedGold === "nakit") {
       return customAmount ? parseFloat(customAmount) : 0;
@@ -730,9 +749,10 @@ useEffect(() => {
                 <div className="bg-gray-50 rounded-xl p-4 mb-4">
                   <p className="text-sm text-gray-500 mb-1">IBAN</p>
                   <p className="font-mono text-gray-900 text-sm">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
-                  <button onClick={() => navigator.clipboard.writeText((event.bank_iban || '').replace(/\s/g, ''))} className="text-blue-500 text-sm mt-2 hover:underline">
+                  <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="text-blue-500 text-sm mt-2 hover:underline">
                     📋 IBAN Kopyala
                   </button>
+                    
                 </div>
                 <p className="text-gray-600 mb-4">
                   Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
