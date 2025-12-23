@@ -62,7 +62,8 @@ export default function WatchPage() {
   const [viewerCount, setViewerCount] = useState(0);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
-  
+  const [qrBase64, setQrBase64] = useState<string | null>(null);
+
   // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
   const pendingPaymentIdRef = useRef<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -261,6 +262,24 @@ useEffect(() => {
     setSelectedGold(goldId);
     setCustomAmount("");
     setShowPaymentModal(true);
+    setQrBase64(null);
+    
+    // QR kodu base64'e çevir
+    const qrKey = goldId === "gram_altin" ? "gram" : goldId === "ceyrek_altin" ? "ceyrek" : goldId === "yarim_altin" ? "yarim" : goldId === "tam_altin" ? "tam" : goldId === "ata_altin" ? "ata" : "ozel";
+    const qrUrl = event?.qr_codes?.[qrKey];
+    if (qrUrl) {
+      try {
+        const response = await fetch(qrUrl);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setQrBase64(reader.result as string);
+        };
+        reader.readAsDataURL(blob);
+      } catch (e) {
+        console.log('QR fetch error:', e);
+      }
+    }
     
     // Nakit değilse hemen pending kayıt oluştur
     if (goldId !== "nakit" && event?.id) {
@@ -342,6 +361,7 @@ useEffect(() => {
   // ✅ FIX: Modal kapatıldığında - pending kalır, ref temizle
   const handleCloseModal = () => {
     setShowPaymentModal(false);
+    setQrBase64(null);
     setPaymentMethod(null);
     setSelectedGold(null);
     setCustomAmount("");
@@ -681,12 +701,16 @@ useEffect(() => {
             {paymentMethod === "qr" && (
               <div className="text-center">
                 <div className="bg-gray-100 rounded-xl p-6 mb-4">
-                  {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
+                  {qrBase64 ? (
                     <img 
-                      src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
-                      alt="QR Kod" 
+                      src={qrBase64} 
+                      alt="QR Kod - Kaydetmek için basılı tutun" 
                       className="w-48 h-48 mx-auto rounded-lg object-contain"
                     />
+                  ) : event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
+                    <div className="w-48 h-48 mx-auto flex items-center justify-center">
+                      <span className="text-gray-400">Yükleniyor...</span>
+                    </div>
                   ) : (
                     <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                       <span className="text-gray-400">QR Kod Bulunamadı ! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
