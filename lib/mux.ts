@@ -33,7 +33,7 @@ export interface CreateStreamOptions {
 export async function createLiveStream(options: CreateStreamOptions) {
   const mux = getMuxClient();
   
-  const streamConfig: any = {
+  const streamConfig: Record<string, unknown> = {
     playback_policy: ['public'],
     new_asset_settings: options.isTest 
       ? undefined  // Test için kayıt yok

@@ -145,7 +145,7 @@ export default function SpeedTest({ onComplete, className = '' }: SpeedTestProps
       setResult(testResult);
       onComplete?.(testResult);
 
-    } catch (err: any) {
+    } catch {
       setError('Hız testi yapılamadı. İnternet bağlantınızı kontrol edin.');
     } finally {
       setTesting(false);
