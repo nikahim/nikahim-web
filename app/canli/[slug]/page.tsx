@@ -59,6 +59,7 @@ export default function WatchPage() {
   const [selectedGold, setSelectedGold] = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<"qr" | "iban" | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
   const [streamData, setStreamData] = useState<{
@@ -262,6 +263,8 @@ useEffect(() => {
     return () => clearInterval(timer);
   }, [event]);
 
+  
+
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
       await supabase.from('viewers').insert({
@@ -269,8 +272,13 @@ useEffect(() => {
         full_name: viewerName,
       });
       
-      setIsNameEntered(true);
       setViewerCount(prev => prev + 1);
+      setShowWelcomeModal(true);
+      
+      setTimeout(() => {
+        setShowWelcomeModal(false);
+        setIsNameEntered(true);
+      }, 3000);
     }
   };
 
@@ -456,7 +464,7 @@ useEffect(() => {
           <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[160px] h-[160px] border-4 border-blue-100 shadow-lg mt-8" />
           
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            {event.groom_full_name} & {event.bride_full_name}
+            {event.bride_full_name} & {event.groom_full_name}
           </h1>
           <p className="text-gray-500 mb-6">
             {event.event_type === 'dugun' ? 'Düğün Canlı Yayını' : 'Nikah Töreni Canlı Yayını'}
@@ -499,12 +507,18 @@ useEffect(() => {
             <span className="font-bold text-[#1565C0] hidden sm:block">Nikahım</span>
           </div>
           <div className="flex items-center gap-2">
-            {isLive && (
+            {streamData?.status === 'active' && (
               <span className="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                 <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                 CANLI
               </span>
             )}
+            {streamData?.status === 'ended' && (
+              <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                ▶ KAYIT
+              </span>
+            )}
+            
             <span className="text-gray-500 text-sm">👥 {viewerCount} izleyici</span>
           </div>
         </div>
@@ -545,7 +559,7 @@ useEffect(() => {
                   />
                   
                   <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
-                    {event.groom_full_name} & {event.bride_full_name}
+                    {event.bride_full_name} & {event.groom_full_name}
                   </h2>
                   
                   <p className="text-gray-400 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
@@ -579,8 +593,8 @@ useEffect(() => {
                 {/* Wedding icon */}
                 <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">
-                    {event.groom_full_name} & {event.bride_full_name}
+                  <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                    {event.bride_full_name} & {event.groom_full_name}
                   </h1>
                   <p className="text-gray-500">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
@@ -823,6 +837,23 @@ useEffect(() => {
           </div>
         </div>
       )}
+
+
+      {/* Hoşgeldin Modal */}
+        {showWelcomeModal && (
+          <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
+              <div className="text-6xl mb-4">🎊</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
+              <p className="text-gray-600 mb-2">
+                Katılım bilginiz çiftimize iletildi.
+              </p>
+              <p className="text-gray-500">
+                Katıldığınız için teşekkür ederiz! 🎉
+              </p>
+            </div>
+          </div>
+        )} 
 
       {/* Başarı Modal */}
       {showSuccessModal && (
