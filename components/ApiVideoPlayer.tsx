@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from 'react';
-
 interface ApiVideoPlayerProps {
   liveStreamId?: string;
   videoId?: string;
@@ -22,40 +20,18 @@ export default function ApiVideoPlayer({
   className = "",
   overlayInfo 
 }: ApiVideoPlayerProps) {
-  const [videoReady, setVideoReady] = useState(false);
-  const [checking, setChecking] = useState(false);
-
-  // Kayıt modunda video hazır mı kontrol et
-  useEffect(() => {
-    if (isRecording && videoId && !videoReady) {
-      const checkVideo = async () => {
-        setChecking(true);
-        try {
-          const response = await fetch(`https://embed.api.video/vod/${videoId}`);
-          if (response.ok) {
-            setVideoReady(true);
-          }
-        } catch {
-          // Video henüz hazır değil
-        }
-        setChecking(false);
-      };
-
-      checkVideo();
-      const interval = setInterval(checkVideo, 2000);
-      return () => clearInterval(interval);
-    }
-  }, [isRecording, videoId, videoReady]);
-
   // Canlı yayın veya kayıt için URL
   const embedUrl = isRecording && videoId 
     ? `https://embed.api.video/vod/${videoId}`
     : `https://embed.api.video/live/${liveStreamId}`;
   
+  // Video ID yoksa ve kayıt modundaysa "hazırlanıyor" göster
+  const showLoading = isRecording && !videoId;
+  
   return (
     <div className={`relative w-full h-full ${className}`}>
       {/* Video işleniyorsa Türkçe mesaj göster */}
-      {isRecording && !videoReady && (
+      {showLoading && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-900 z-10">
           <div className="animate-spin rounded-full h-12 w-12 border-4 border-blue-500 border-t-transparent mb-4"></div>
           <p className="text-white text-lg font-medium">Video Hazırlanıyor</p>
@@ -63,16 +39,18 @@ export default function ApiVideoPlayer({
         </div>
       )}
 
-      <iframe
-        src={embedUrl}
-        width="100%"
-        height="100%"
-        frameBorder="0"
-        scrolling="no"
-        allowFullScreen
-        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
-        className="absolute inset-0 w-full h-full"
-      />
+      {!showLoading && (
+        <iframe
+          src={embedUrl}
+          width="100%"
+          height="100%"
+          frameBorder="0"
+          scrolling="no"
+          allowFullScreen
+          allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture"
+          className="absolute inset-0 w-full h-full"
+        />
+      )}
       
       {/* Overlay bilgileri */}
       <div className="absolute top-4 left-4 flex items-center gap-2 z-20">
@@ -82,7 +60,7 @@ export default function ApiVideoPlayer({
             CANLI
           </span>
         )}
-        {isRecording && videoReady && (
+        {isRecording && !showLoading && (
           <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
             ▶ KAYIT
           </span>
