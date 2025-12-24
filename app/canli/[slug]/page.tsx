@@ -494,6 +494,22 @@ useEffect(() => {
             📅 {eventDate} - 🕐 {eventTime}
           </p>
         </div>
+
+        {/* Hoşgeldin Modal */}
+        {showWelcomeModal && (
+          <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
+            <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
+              <div className="text-6xl mb-4">🎊</div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
+              <p className="text-gray-600 mb-2">
+                Katılım bilginiz çiftimize iletildi.
+              </p>
+              <p className="text-gray-500">
+                Katıldığınız için teşekkür ederiz! 🎉
+              </p>
+            </div>
+          </div>
+        )}
       </main>
     );
   }
