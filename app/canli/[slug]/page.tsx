@@ -127,7 +127,7 @@ export default function WatchPage() {
           const data = await response.json();
           if (data.exists && data.playback) {
             setStreamData({
-              status: data.apiVideoStatus?.status || 'idle',
+              status: data.stream?.status || 'idle',
               playbackId: data.playback.playbackId,
               isTest: data.stream.isTest,
             });
