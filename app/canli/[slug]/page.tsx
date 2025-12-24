@@ -514,10 +514,11 @@ useEffect(() => {
           <div className="lg:col-span-2 space-y-4 w-full min-w-0">
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
-              {streamData?.status === 'active' && streamData?.playbackId ? (
+              {(streamData?.status === 'active' || streamData?.status === 'ended') && streamData?.playbackId ? (
                 <ApiVideoPlayer
                   liveStreamId={streamData.playbackId}
-                  isLive={true}
+                  isLive={streamData.status === 'active'}
+                  isRecording={streamData.status === 'ended'}
                   overlayInfo={{
                     viewerCount: viewerCount,
                     isTest: streamData.isTest,
