@@ -51,7 +51,7 @@ export default function ApiVideoPlayer({
             ▶ KAYIT
           </span>
         )}
-        {overlayInfo?.isTest && (
+        {overlayInfo?.isTest && isLive && (
           <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
             TEST
           </span>
