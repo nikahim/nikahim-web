@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@mux/mux-node": "^12.8.1",
     "@supabase/supabase-js": "^2.89.0",
     "hls.js": "^1.6.15",
     "next": "14.2.35",

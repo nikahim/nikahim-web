@@ -33,8 +33,8 @@ export async function GET(request: NextRequest) {
         isTest: stream.is_test,
       },
       playback: {
-        liveStreamId: stream.mux_playback_id,
-        videoId: stream.mux_asset_playback_id,
+        liveStreamId: stream.live_stream_id,
+        videoId: stream.video_id,
       },
     });
   } catch (error) {
