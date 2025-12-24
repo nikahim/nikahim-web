@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
-import MuxPlayer from '@/components/MuxPlayer';
+import ApiVideoPlayer from '@/components/ApiVideoPlayer';
 
 interface Event {
   id: string;
@@ -515,8 +515,8 @@ useEffect(() => {
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
               {streamData?.status === 'active' && streamData?.playbackId ? (
-                <MuxPlayer
-                  playbackId={streamData.playbackId}
+                <ApiVideoPlayer
+                  liveStreamId={streamData.playbackId}
                   isLive={true}
                   overlayInfo={{
                     viewerCount: viewerCount,
