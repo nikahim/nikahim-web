@@ -50,6 +50,8 @@ export default function ApiVideoPlayer({
     // Her 2 saniyede bir kontrol et
     const interval = setInterval(checkVideoStatus, 2000);
 
+    console.log('Video Debug:', { videoId, isRecording, videoReady, showLoading: isRecording && (!videoId || !videoReady) });
+    
     return () => clearInterval(interval);
   }, [isRecording, videoId]);
 
