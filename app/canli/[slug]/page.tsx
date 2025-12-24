@@ -53,6 +53,7 @@ export default function WatchPage() {
   const [loading, setLoading] = useState(true);
   const [viewerName, setViewerName] = useState("");
   const [isNameEntered, setIsNameEntered] = useState(false);
+  const [isReturningViewer, setIsReturningViewer] = useState(false);
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -166,6 +167,18 @@ export default function WatchPage() {
     }
   }, [slug]);
 
+  // localStorage'dan isim kontrolü
+  useEffect(() => {
+    if (slug) {
+      const savedName = localStorage.getItem(`nikahim_viewer_${slug}`);
+      if (savedName) {
+        setViewerName(savedName);
+        setIsNameEntered(true);
+        setIsReturningViewer(true);
+      }
+    }
+  }, [slug]);
+
   // Chat otomatik scroll
 useEffect(() => {
   if (chatContainerRef.current) {
@@ -267,6 +280,9 @@ useEffect(() => {
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
+      // localStorage'a kaydet
+      localStorage.setItem(`nikahim_viewer_${slug}`, viewerName.trim());
+      
       await supabase.from('viewers').insert({
         event_id: event.id,
         full_name: viewerName,
@@ -675,7 +691,7 @@ useEffect(() => {
                   messages.map((msg) => (
                     <div key={msg.id} className="bg-gray-50 rounded-xl p-3">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-gray-900 text-sm">{msg.name}</span>
+                        <span className="font-bold text-gray-900 text-sm">{msg.name}</span>
                         <span className="text-gray-400 text-xs">{msg.time}</span>
                       </div>
                       <p className="text-gray-600 text-sm">{msg.text}</p>
