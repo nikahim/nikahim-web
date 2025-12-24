@@ -42,7 +42,7 @@ export default function ApiVideoPlayer({
       };
 
       checkVideo();
-      const interval = setInterval(checkVideo, 5000);
+      const interval = setInterval(checkVideo, 2000);
       return () => clearInterval(interval);
     }
   }, [isRecording, videoId, videoReady]);
