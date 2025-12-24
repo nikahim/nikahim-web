@@ -1,5 +1,7 @@
 "use client";
 
+import { useState, useEffect } from 'react';
+
 interface ApiVideoPlayerProps {
   liveStreamId?: string;
   videoId?: string;
@@ -20,13 +22,44 @@ export default function ApiVideoPlayer({
   className = "",
   overlayInfo 
 }: ApiVideoPlayerProps) {
+  const [videoReady, setVideoReady] = useState(false);
+
+  // Video hazır mı kontrol et
+  useEffect(() => {
+    if (!isRecording || !videoId) {
+      setVideoReady(false);
+      return;
+    }
+
+    const checkVideoStatus = async () => {
+      try {
+        const response = await fetch(`/api/video/status?videoId=${videoId}`);
+        const data = await response.json();
+        
+        if (data.ready) {
+          setVideoReady(true);
+        }
+      } catch (error) {
+        console.error('Video status check error:', error);
+      }
+    };
+
+    // Hemen kontrol et
+    checkVideoStatus();
+
+    // Her 2 saniyede bir kontrol et
+    const interval = setInterval(checkVideoStatus, 2000);
+
+    return () => clearInterval(interval);
+  }, [isRecording, videoId]);
+
   // Canlı yayın veya kayıt için URL
   const embedUrl = isRecording && videoId 
     ? `https://embed.api.video/vod/${videoId}`
     : `https://embed.api.video/live/${liveStreamId}`;
   
-  // Video ID yoksa ve kayıt modundaysa "hazırlanıyor" göster
-  const showLoading = isRecording && !videoId;
+  // Video ID yoksa veya video hazır değilse "hazırlanıyor" göster
+  const showLoading = isRecording && (!videoId || !videoReady);
   
   return (
     <div className={`relative w-full h-full ${className}`}>
