@@ -86,7 +86,7 @@ export default function ApiVideoPlayer({
       )}
       
       {/* Overlay bilgileri */}
-      <div className="absolute top-4 left-4 flex items-center gap-2 z-20">
+      <div className="absolute top-14 left-4 flex items-center gap-2 z-20">
         {isLive && (
           <span className="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
             <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
