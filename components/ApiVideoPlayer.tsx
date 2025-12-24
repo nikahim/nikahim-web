@@ -1,7 +1,8 @@
 "use client";
 
 interface ApiVideoPlayerProps {
-  liveStreamId: string;
+  liveStreamId?: string;
+  videoId?: string;
   isLive?: boolean;
   isRecording?: boolean;
   className?: string;
@@ -12,14 +13,17 @@ interface ApiVideoPlayerProps {
 }
 
 export default function ApiVideoPlayer({ 
-  liveStreamId, 
+  liveStreamId,
+  videoId,
   isLive = false,
   isRecording = false,
   className = "",
   overlayInfo 
 }: ApiVideoPlayerProps) {
   // Canlı yayın veya kayıt için farklı URL
-  const embedUrl = `https://embed.api.video/live/${liveStreamId}`;
+  const embedUrl = isRecording && videoId 
+    ? `https://embed.api.video/vod/${videoId}`
+    : `https://embed.api.video/live/${liveStreamId}`;
   
   return (
     <div className={`relative w-full h-full ${className}`}>
