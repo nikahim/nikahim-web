@@ -127,7 +127,7 @@ export default function WatchPage() {
           const data = await response.json();
           if (data.exists && data.playback) {
             setStreamData({
-              status: data.muxStatus?.status || 'idle',
+              status: data.apiVideoStatus?.status || 'idle',
               playbackId: data.playback.playbackId,
               isTest: data.stream.isTest,
             });
