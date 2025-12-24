@@ -23,12 +23,15 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json();
     
-    // encoding.playable true ise video hazır
-    const ready = data.encoding?.playable === true;
+    console.log('api.video response:', JSON.stringify(data));
+    
+    // Video varsa ve mp4 linki varsa hazır demektir
+    const ready = !!(data.assets?.mp4 || data.assets?.hls);
     
     return NextResponse.json({ 
       ready,
-      status: data.encoding?.status || 'unknown'
+      status: data.encoding?.status || 'unknown',
+      assets: data.assets
     });
   } catch (error) {
     console.error('Video status error:', error);
