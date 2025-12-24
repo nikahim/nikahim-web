@@ -121,31 +121,57 @@ export default function WatchPage() {
 
   // Etkinlik verilerini çek
 
-  // Stream durumunu çek
+  // Stream durumunu çek + Real-time subscription
   useEffect(() => {
+    if (!event?.id) return;
+
     const fetchStream = async () => {
-      if (event?.id) {
-        try {
-          const response = await fetch(`/api/stream/status?eventId=${event.id}`);
-          const data = await response.json();
-          if (data.exists && data.playback) {
-            setStreamData({
-              status: data.stream?.status || 'idle',
-              playbackId: data.playback?.liveStreamId,
-              videoId: data.playback?.videoId,
-              isTest: data.stream?.isTest,
-            });
-          }
-        } catch (error) {
-          console.error('Stream fetch error:', error);
+      try {
+        const response = await fetch(`/api/stream/status?eventId=${event.id}`);
+        const data = await response.json();
+        if (data.exists) {
+          setStreamData({
+            status: data.stream?.status || 'idle',
+            playbackId: data.playback?.liveStreamId || null,
+            videoId: data.playback?.videoId || null,
+            isTest: data.stream?.isTest,
+          });
         }
+      } catch (error) {
+        console.error('Stream fetch error:', error);
       }
     };
 
+    // İlk yükleme
     fetchStream();
-    // Her 5 saniyede bir kontrol et
-    const interval = setInterval(fetchStream, 5000);
-    return () => clearInterval(interval);
+
+    // Real-time subscription - stream değiştiğinde anında güncelle
+    const channel = supabase
+      .channel(`stream-${event.id}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'streams',
+        filter: `event_id=eq.${event.id}`
+      }, (payload) => {
+        console.log('Stream updated:', payload.new);
+        const newStream = payload.new as any;
+        setStreamData({
+          status: newStream.status || 'idle',
+          playbackId: newStream.live_stream_id || null,
+          videoId: newStream.video_id || null,
+          isTest: newStream.is_test,
+        });
+      })
+      .subscribe();
+
+    // Yedek: Her 10 saniyede bir kontrol (realtime çalışmazsa)
+    const interval = setInterval(fetchStream, 10000);
+
+    return () => {
+      supabase.removeChannel(channel);
+      clearInterval(interval);
+    };
   }, [event?.id]);
 
   useEffect(() => {
