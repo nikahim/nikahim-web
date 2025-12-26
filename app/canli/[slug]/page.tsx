@@ -61,6 +61,8 @@ export default function WatchPage() {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
+  const [showEndedScreen, setShowEndedScreen] = useState(false);
+  const [endedCountdown, setEndedCountdown] = useState(10);
   const [paymentMethod, setPaymentMethod] = useState<"qr" | "iban" | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
   const [streamData, setStreamData] = useState<{
@@ -69,6 +71,7 @@ export default function WatchPage() {
     videoId?: string | null;
     isTest: boolean;
   } | null>(null);
+  const [prevStreamStatus, setPrevStreamStatus] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
   
@@ -118,8 +121,6 @@ export default function WatchPage() {
   ];
 
   const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺️", "😚", "😙", "🥲", "😋", "😛", "😒", "😏", "😑", "🤐", "🤔", "🤭", "🤗", "🤑", "😝", "🥳", "😎", "🤓", "🥺", "😳", "😲", "😯", "😮", "🙈", "🙉", "🙊", "💋", "💯", "💥", "💫", "✌️", "❣️", "💔", "❤️‍🔥", "❤️", "💕", "🎉", "👏", "💐", "💍", "🎊", "🙏", "💒", "✨", "🌹", "💝", "🤵", "👰"];
-
-  // Etkinlik verilerini çek
 
   // Stream durumunu çek + Real-time subscription
   useEffect(() => {
@@ -174,6 +175,34 @@ export default function WatchPage() {
     };
   }, [event?.id]);
 
+  // Yayın bittiğinde geçiş ekranı göster
+  useEffect(() => {
+    // Status active'den ended'a geçtiğinde
+    if (prevStreamStatus === 'active' && streamData?.status === 'ended') {
+      setShowEndedScreen(true);
+      setEndedCountdown(10);
+    }
+    setPrevStreamStatus(streamData?.status || null);
+  }, [streamData?.status, prevStreamStatus]);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!showEndedScreen) return;
+
+    const interval = setInterval(() => {
+      setEndedCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          setShowEndedScreen(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [showEndedScreen]);
+
   useEffect(() => {
     const fetchEvent = async () => {
       const { data } = await supabase
@@ -206,11 +235,12 @@ export default function WatchPage() {
   }, [slug]);
 
   // Chat otomatik scroll
-useEffect(() => {
-  if (chatContainerRef.current) {
-    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-  }
-}, [messages]);
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   // İzleyici sayısını çek
   useEffect(() => {
     const fetchViewerCount = async () => {
@@ -347,9 +377,6 @@ useEffect(() => {
     setSelectedGold(goldId);
     setCustomAmount("");
     setShowPaymentModal(true);
-    
-    
-  
     
     // Nakit değilse hemen pending kayıt oluştur
     if (goldId !== "nakit" && event?.id) {
@@ -577,7 +604,13 @@ useEffect(() => {
                 {streamData?.isTest ? 'TEST BAŞLIYOR' : 'BAŞLIYOR'}
               </span>
             )}
-            {streamData?.status === 'ended' && (
+            {streamData?.status === 'ended' && showEndedScreen && (
+              <span className="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                İŞLENİYOR
+              </span>
+            )}
+            {streamData?.status === 'ended' && !showEndedScreen && (
               <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                 ▶ KAYIT
               </span>
@@ -610,13 +643,43 @@ useEffect(() => {
                 </div>
               )}
 
-              {/* Aktif yayın veya kayıt */}
-              {(streamData?.status === 'active' || streamData?.status === 'ended') && streamData?.playbackId && (
+              {/* Yayın sonlandı - geçiş ekranı */}
+              {streamData?.status === 'ended' && showEndedScreen && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-green-900 via-blue-900 to-purple-900 z-10">
+                  <div className="text-7xl mb-6">🎬</div>
+                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                    Canlı Yayın Sonlandı
+                  </h2>
+                  <p className="text-gray-300 text-lg mb-6">Video kaydı birazdan hazır olacak...</p>
+                  <div className="bg-white/20 backdrop-blur rounded-2xl px-8 py-4">
+                    <span className="text-4xl font-bold text-white">{endedCountdown}</span>
+                    <span className="text-white/70 ml-2">saniye</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Aktif yayın */}
+              {streamData?.status === 'active' && streamData?.playbackId && (
                 <ApiVideoPlayer
                   liveStreamId={streamData.playbackId || undefined}
                   videoId={streamData.videoId || undefined}
-                  isLive={streamData.status === 'active'}
-                  isRecording={streamData.status === 'ended'}
+                  isLive={true}
+                  isRecording={false}
+                  overlayInfo={{
+                    viewerCount: viewerCount,
+                    isTest: streamData.isTest,
+                  }}
+                  className="w-full h-full"
+                />
+              )}
+
+              {/* Kayıt izleme (geçiş ekranı bittikten sonra) */}
+              {streamData?.status === 'ended' && !showEndedScreen && streamData?.playbackId && (
+                <ApiVideoPlayer
+                  liveStreamId={streamData.playbackId || undefined}
+                  videoId={streamData.videoId || undefined}
+                  isLive={false}
+                  isRecording={true}
                   overlayInfo={{
                     viewerCount: viewerCount,
                     isTest: streamData.isTest,
@@ -626,7 +689,7 @@ useEffect(() => {
               )}
 
               {/* Yayın yok - geri sayım */}
-              {(!streamData?.status || streamData?.status === 'idle' || streamData?.status === 'ended' && !streamData?.playbackId) && !isLive && (
+              {(!streamData?.status || streamData?.status === 'idle') && !isLive && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 p-4">
                   <img 
                     src={event.couple_photo_url || "/logo.png"} 
