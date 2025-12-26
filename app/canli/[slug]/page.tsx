@@ -711,7 +711,7 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   {/* İçerik */}
-                  <div className="relative z-10 flex flex-col items-center">
+                  <div className="relative z-10 flex flex-col items-center pt-8 lg:pt-12">
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
@@ -725,19 +725,19 @@ export default function WatchPage() {
                     <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
                     
                     <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
                       </div>
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
                       </div>
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
                       </div>
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
                       </div>
@@ -761,7 +761,7 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   {/* İçerik */}
-                  <div className="relative z-10 flex flex-col items-center">
+                  <div className="relative z-10 flex flex-col items-center pt-8 lg:pt-12">
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
@@ -775,19 +775,19 @@ export default function WatchPage() {
                     <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
                     
                     <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
                       </div>
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
                       </div>
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
                       </div>
-                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
                         <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
                       </div>
