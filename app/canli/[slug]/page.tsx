@@ -180,7 +180,7 @@ export default function WatchPage() {
     // Status active'den ended'a geçtiğinde
     if (prevStreamStatus === 'active' && streamData?.status === 'ended') {
       setShowEndedScreen(true);
-      setEndedCountdown(10);
+      setEndedCountdown(420); // 7 dakika
     }
     setPrevStreamStatus(streamData?.status || null);
   }, [streamData?.status, prevStreamStatus]);
@@ -651,12 +651,13 @@ export default function WatchPage() {
                     {streamData?.isTest ? 'Test Yayını Sonlandı' : 'Canlı Yayın Sonlandı'}
                   </h2>
                   <p className="text-gray-300 text-lg mb-6">
-                    {streamData?.isTest ? 'Test yayını kaydedilmedi.' : 'Video kaydı birazdan hazır olacak...'}
+                    {streamData?.isTest ? 'Test yayını kaydedilmedi.' : 'Video kaydı hazırlanıyor...'}
                   </p>
                   {!streamData?.isTest && (
-                    <div className="bg-white/20 backdrop-blur rounded-2xl px-8 py-4">
-                      <span className="text-4xl font-bold text-white">{endedCountdown}</span>
-                      <span className="text-white/70 ml-2">saniye</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                     </div>
                   )}
                 </div>
