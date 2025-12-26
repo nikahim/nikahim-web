@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const API_VIDEO_KEY = process.env.API_VIDEO_KEY || 'NMThAQAWpVj5ltp4SYbGyFgJKVIrNQdVJ13WsID2JVh';
+const API_VIDEO_KEY = process.env.API_VIDEO_KEY || 'qQ8VlRltY7bJQX3PEIM5VgbFRNgoAsE8nKwb97LNldv';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
