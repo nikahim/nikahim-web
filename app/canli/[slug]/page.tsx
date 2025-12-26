@@ -175,15 +175,20 @@ export default function WatchPage() {
     };
   }, [event?.id]);
 
-  // Yayın bittiğinde geçiş ekranı göster
+  /// Yayın bittiğinde geçiş ekranı göster
   useEffect(() => {
     // Status active'den ended'a geçtiğinde
     if (prevStreamStatus === 'active' && streamData?.status === 'ended') {
-      setShowEndedScreen(true);
-      setEndedCountdown(420); // 7 dakika
+      // Test yayınında geçiş ekranı gösterme, direkt geri sayıma dön
+      if (streamData?.isTest) {
+        setShowEndedScreen(false);
+      } else {
+        setShowEndedScreen(true);
+        setEndedCountdown(420); // 7 dakika
+      }
     }
     setPrevStreamStatus(streamData?.status || null);
-  }, [streamData?.status, prevStreamStatus]);
+  }, [streamData?.status, prevStreamStatus, streamData?.isTest]);
 
   // Countdown timer
   useEffect(() => {
