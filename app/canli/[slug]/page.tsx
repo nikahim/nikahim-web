@@ -571,6 +571,12 @@ useEffect(() => {
                 CANLI
               </span>
             )}
+            {streamData?.status === 'starting' && (
+              <span className={`flex items-center gap-1 ${streamData?.isTest ? 'bg-orange-500' : 'bg-yellow-500'} text-white px-3 py-1 rounded-full text-sm font-medium`}>
+                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                {streamData?.isTest ? 'TEST BAŞLIYOR' : 'BAŞLIYOR'}
+              </span>
+            )}
             {streamData?.status === 'ended' && (
               <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                 ▶ KAYIT
@@ -588,7 +594,24 @@ useEffect(() => {
           <div className="lg:col-span-2 space-y-4 w-full min-w-0">
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
-              {(streamData?.status === 'active' || streamData?.status === 'ended') && streamData?.playbackId ? (
+              {/* Yayın başlıyor durumu */}
+              {streamData?.status === 'starting' && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900">
+                  <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '🧪' : '📺'}</div>
+                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                    {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
+                  </h2>
+                  <p className="text-gray-300 text-lg mb-6">Lütfen bekleyin...</p>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-3 h-3 ${streamData?.isTest ? 'bg-orange-400' : 'bg-yellow-400'} rounded-full animate-bounce`} style={{ animationDelay: '0ms' }}></div>
+                    <div className={`w-3 h-3 ${streamData?.isTest ? 'bg-orange-400' : 'bg-yellow-400'} rounded-full animate-bounce`} style={{ animationDelay: '150ms' }}></div>
+                    <div className={`w-3 h-3 ${streamData?.isTest ? 'bg-orange-400' : 'bg-yellow-400'} rounded-full animate-bounce`} style={{ animationDelay: '300ms' }}></div>
+                  </div>
+                </div>
+              )}
+
+              {/* Aktif yayın veya kayıt */}
+              {(streamData?.status === 'active' || streamData?.status === 'ended') && streamData?.playbackId && (
                 <ApiVideoPlayer
                   liveStreamId={streamData.playbackId || undefined}
                   videoId={streamData.videoId || undefined}
@@ -600,16 +623,11 @@ useEffect(() => {
                   }}
                   className="w-full h-full"
                 />
-              ) : isLive ? (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <div className="text-6xl mb-4">📹</div>
-                    <p className="text-xl">Canlı Yayın</p>
-                  </div>
-                </div>
-              ) : (
+              )}
+
+              {/* Yayın yok - geri sayım */}
+              {(!streamData?.status || streamData?.status === 'idle' || streamData?.status === 'ended' && !streamData?.playbackId) && !isLive && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 p-4">
-                  {/* Çift fotoğrafı veya logo */}
                   <img 
                     src={event.couple_photo_url || "/logo.png"} 
                     alt="Çift Fotoğrafı" 
