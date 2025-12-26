@@ -983,18 +983,60 @@ export default function WatchPage() {
               <div className="text-center">
                 <div className="bg-gray-100 rounded-xl p-6 mb-4">
                   {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
-                    <img 
-                      src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
-                      alt="QR Kod" 
-                      className="w-48 h-48 mx-auto rounded-lg object-contain"
-                    />
+                    <>
+                      <img 
+                        src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
+                        alt="QR Kod" 
+                        className="w-48 h-48 mx-auto rounded-lg object-contain"
+                      />
+                      {/* QR Kodu İndir Butonu */}
+                      <button
+                        onClick={async () => {
+                          const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
+                          const qrUrl = event.qr_codes?.[qrKey];
+                          if (!qrUrl) return;
+                          
+                          try {
+                            const response = await fetch(qrUrl);
+                            const blob = await response.blob();
+                            
+                            // Mobil: Web Share API ile paylaş (Fotoğraflara Kaydet seçeneği çıkar)
+                            if (navigator.share && navigator.canShare) {
+                              const file = new File([blob], `qr-kod-${qrKey}.jpg`, { type: 'image/jpeg' });
+                              if (navigator.canShare({ files: [file] })) {
+                                await navigator.share({
+                                  files: [file],
+                                  title: 'QR Kod',
+                                });
+                                return;
+                              }
+                            }
+                            
+                            // Desktop: Normal indirme
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `qr-kod-${qrKey}.jpg`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                          } catch (error) {
+                            // Fallback: Yeni sekmede aç
+                            window.open(qrUrl, '_blank');
+                          }
+                        }}
+                        className="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 mx-auto"
+                      >
+                        📥 Fotoğraflara Kaydet
+                      </button>
+                    </>
                   ) : (
                     <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                      <span className="text-gray-400">QR Kod Bulunamadı ! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
+                      <span className="text-gray-400 text-center text-sm p-4">QR Kod Bulunamadı! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
                     </div>
                   )}
                 </div>
-                
                 
                 <p className="text-gray-600 mb-4">
                   Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
