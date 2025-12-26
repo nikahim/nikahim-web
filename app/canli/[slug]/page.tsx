@@ -634,7 +634,7 @@ export default function WatchPage() {
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
               {/* Yayın başlıyor durumu */}
                 {streamData?.status === 'starting' && (
-                  <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-amber-400 via-orange-400 to-amber-500' : 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800'}`}>
+                  <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-gray-900 via-amber-950 to-gray-900' : 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800'}`}>
                     <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '⚙️' : '🎥'}</div>
                     <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
                       {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
