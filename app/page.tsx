@@ -11,6 +11,14 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showAppPopup, setShowAppPopup] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [contactName, setContactName] = useState("");
+  const [contactEmail, setContactEmail] = useState("");
+  const [contactSubject, setContactSubject] = useState("Genel Soru");
+  const [contactMessage, setContactMessage] = useState("");
+  const [contactSending, setContactSending] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState(false);
+
+
   interface Event {
     id: string;
     event_link: string;
@@ -61,6 +69,57 @@ export default function Home() {
 
   const goToWedding = (eventLink: string) => {
     router.push(`/canli/${eventLink}`);
+  };
+
+  const sendContactForm = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!contactName || !contactEmail || !contactMessage) {
+      alert('Lütfen tüm alanları doldurun.');
+      return;
+    }
+
+    setContactSending(true);
+
+    try {
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: 'service_ibwy6qp',
+          template_id: 'template_yqt3v0n',
+          user_id: 'gEM0kiWpFVk06tmCZ',
+          template_params: {
+            from_name: contactName,
+            from_email: contactEmail,
+            email: contactEmail,
+            name: contactName,
+            subject: contactSubject,
+            message: contactMessage,
+          },
+        }),
+      });
+
+      const responseText = await response.text();
+      
+      if (response.ok || responseText === 'OK') {
+        setContactSuccess(true);
+        setContactName('');
+        setContactEmail('');
+        setContactSubject('Genel Soru');
+        setContactMessage('');
+        setTimeout(() => setContactSuccess(false), 3000);
+      } else {
+        throw new Error('Gönderilemedi');
+      }
+    } catch (error) {
+      console.error('Email hatası:', error);
+      alert('Mesaj gönderilemedi. Lütfen tekrar deneyin.');
+    } finally {
+      setContactSending(false);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -468,42 +527,81 @@ export default function Home() {
       </section>
 
       {/* İLETİŞİM */}
-      <section id="iletisim" className="py-20 bg-white">
-        <div className="max-w-2xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Bize Ulaşın</h2>
-            <p className="text-lg text-gray-600">Sorularınız mı var? Size yardımcı olmaktan mutluluk duyarız!</p>
-          </div>
+        <section id="iletisim" className="py-20 bg-white">
+          <div className="max-w-2xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Bize Ulaşın</h2>
+              <p className="text-lg text-gray-600">Sorularınız mı var? Size yardımcı olmaktan mutluluk duyarız!</p>
+            </div>
 
-          <div className="bg-gray-50 rounded-2xl p-8">
-            <form className="space-y-5">
-              <div className="grid md:grid-cols-2 gap-5">
-                <input type="text" placeholder="Adınız Soyadınız" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" />
-                <input type="email" placeholder="E-posta adresiniz" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" />
+            <div className="bg-gray-50 rounded-2xl p-8">
+              {contactSuccess && (
+                <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl text-center">
+                  ✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.
+                </div>
+              )}
+
+              <form className="space-y-5" onSubmit={sendContactForm}>
+                <div className="grid md:grid-cols-2 gap-5">
+                  <input 
+                    type="text" 
+                    placeholder="Adınız Soyadınız" 
+                    value={contactName}
+                    onChange={(e) => setContactName(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" 
+                    required
+                  />
+                  <input 
+                    type="email" 
+                    placeholder="E-posta adresiniz" 
+                    value={contactEmail}
+                    onChange={(e) => setContactEmail(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" 
+                    required
+                  />
+                </div>
+                <select 
+                  value={contactSubject}
+                  onChange={(e) => setContactSubject(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white text-gray-900"
+                >
+                  <option>Genel Soru</option>
+                  <option>Teknik Destek</option>
+                  <option>Ödeme Sorunu</option>
+                </select>
+                <textarea 
+                  rows={4} 
+                  placeholder="Mesajınız" 
+                  value={contactMessage}
+                  onChange={(e) => setContactMessage(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none resize-none text-gray-900 placeholder:text-gray-500"
+                  required
+                ></textarea>
+                <button 
+                  type="submit" 
+                  disabled={contactSending}
+                  className={`w-full py-3 rounded-xl font-semibold transition-colors ${
+                    contactSending 
+                      ? 'bg-blue-300 cursor-not-allowed' 
+                      : 'bg-blue-500 hover:bg-blue-600'
+                  } text-white`}
+                >
+                  {contactSending ? 'Gönderiliyor...' : 'Gönder'}
+                </button>
+              </form>
+
+              <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap justify-center gap-6">
+                <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-500">
+                  📧 destek@nikahim.com
+                </a>
+                <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-gray-600 hover:text-green-500">
+                  <Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} className="w-6 h-6" />
+                  WhatsApp
+                </a>
               </div>
-              <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white text-gray-900">
-                <option>Genel Soru</option>
-                <option>Teknik Destek</option>
-                <option>Ödeme Sorunu</option>
-              </select>
-              <textarea rows={4} placeholder="Mesajınız" className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none resize-none text-gray-900 placeholder:text-gray-500"></textarea>
-              <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold">
-                Gönder
-              </button>
-            </form>
-
-            <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap justify-center gap-6">
-              <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-500">
-                📧 destek@nikahim.com
-              </a>
-              <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-gray-600 hover:text-green-500">
-                <Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} className="w-6 h-6" />
-                WhatsApp
-              </a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
       {/* CTA */}
       <section className="py-16 bg-blue-500">
