@@ -31,6 +31,25 @@ export default function Home() {
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [allEvents, setAllEvents] = useState<Event[]>([]);
 
+
+  // AUTH REDIRECT - Token varsa /onay'a yönlendir
+  useEffect(() => {
+    const hash = window.location.hash;
+    const search = window.location.search;
+    
+    // Eğer URL'de auth token varsa /onay'a yönlendir
+    if (hash.includes('access_token') || 
+        hash.includes('refresh_token') ||
+        search.includes('token_hash') ||
+        search.includes('code=')) {
+      
+      // Tüm parametreleri /onay'a taşı
+      window.location.href = '/onay' + search + hash;
+    }
+  }, []);
+
+
+
   useEffect(() => {
     fetchEvents();
   }, []);
