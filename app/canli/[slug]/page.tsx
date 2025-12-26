@@ -715,7 +715,7 @@ export default function WatchPage() {
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
-                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[200px] lg:h-[200px]"
+                      className="mb-4 lg:mb-8 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[150px] h-[150px] lg:w-[240px] lg:h-[240px]"
                     />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
@@ -743,7 +743,7 @@ export default function WatchPage() {
                       </div>
                     </div>
                     
-                    <p className="text-gray-300 text-xs lg:text-sm mt-4 lg:mt-6">📅 {eventDate} - 🕐 {eventTime}</p>
+                    
                   </div>
                 </div>
               )}
@@ -765,7 +765,7 @@ export default function WatchPage() {
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
-                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[200px] lg:h-[200px]"
+                      className="mb-4 lg:mb-8 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[150px] h-[150px] lg:w-[240px] lg:h-[240px]"
                     />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
@@ -793,7 +793,7 @@ export default function WatchPage() {
                       </div>
                     </div>
                     
-                    <p className="text-gray-300 text-xs lg:text-sm mt-4 lg:mt-6">📅 {eventDate} - 🕐 {eventTime}</p>
+                   
                   </div>
                 </div>
               )}
@@ -906,6 +906,11 @@ export default function WatchPage() {
                     placeholder="Mesajınızı yazın..."
                     className="flex-1 min-w-0 px-3 py-2 border border-gray-200 rounded-xl outline-none focus:border-blue-500 text-gray-900 placeholder:text-gray-400"
                     onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+                    onFocus={(e) => {
+                      setTimeout(() => {
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }, 300);
+                    }}
                   />
                   <button onClick={sendMessage} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-xl font-medium text-sm lg:text-base flex-shrink-0">
                     Gönder
