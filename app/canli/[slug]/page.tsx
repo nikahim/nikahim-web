@@ -705,7 +705,8 @@ export default function WatchPage() {
                   <img 
                     src="/wedding-bg.jpg" 
                     alt="" 
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    style={{ minHeight: '100%', minWidth: '100%' }}
                   />
                   {/* Koyu overlay */}
                   <div className="absolute inset-0 bg-black/60"></div>
@@ -715,7 +716,7 @@ export default function WatchPage() {
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
-                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[100px] h-[100px] lg:w-[180px] lg:h-[180px]"
+                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]"
                     />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
@@ -755,7 +756,8 @@ export default function WatchPage() {
                   <img 
                     src="/wedding-bg.jpg" 
                     alt="" 
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover object-center"
+                    style={{ minHeight: '100%', minWidth: '100%' }}
                   />
                   {/* Koyu overlay */}
                   <div className="absolute inset-0 bg-black/60"></div>
@@ -765,7 +767,7 @@ export default function WatchPage() {
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
-                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[100px] h-[100px] lg:w-[180px] lg:h-[180px]"
+                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]"
                     />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
