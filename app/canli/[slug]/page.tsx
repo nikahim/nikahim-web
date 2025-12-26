@@ -700,77 +700,101 @@ export default function WatchPage() {
 
               {/* Test bitti - normal bekleme ekranı */}
               {streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 p-4">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                  {/* Arka plan resmi */}
                   <img 
-                    src={event.couple_photo_url || "/logo.png"} 
-                    alt="Çift Fotoğrafı" 
-                    className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/20 w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" 
+                    src="/wedding-bg.jpg" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
+                  {/* Koyu overlay */}
+                  <div className="absolute inset-0 bg-black/60"></div>
                   
-                  <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
-                    {event.bride_full_name} & {event.groom_full_name}
-                  </h2>
-                  
-                  <p className="text-gray-400 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
-                  
-                  <div className="flex gap-2 lg:gap-3">
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Gün</div>
+                  {/* İçerik */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <img 
+                      src={event.couple_photo_url || "/logo.png"} 
+                      alt="Çift Fotoğrafı" 
+                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/20 w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" 
+                    />
+                    
+                    <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
+                      {event.bride_full_name} & {event.groom_full_name}
+                    </h2>
+                    
+                    <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
+                    
+                    <div className="flex gap-2 lg:gap-3">
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
+                      </div>
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
+                      </div>
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
+                      </div>
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
+                      </div>
                     </div>
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Saat</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Dakika</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Saniye</div>
-                    </div>
+                    
+                    <p className="text-gray-300 text-xs lg:text-sm mt-2 lg:mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
                   </div>
-                  
-                  <p className="text-gray-500 text-xs lg:text-sm mt-2 lg:mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
               )}
               
               {/* Yayın yok - geri sayım */}
               {(!streamData?.status || streamData?.status === 'idle') && !isLive && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-800 to-gray-900 p-4">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                  {/* Arka plan resmi */}
                   <img 
-                    src={event.couple_photo_url || "/logo.png"} 
-                    alt="Çift Fotoğrafı" 
-                    className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/20 w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" 
+                    src="/wedding-bg.jpg" 
+                    alt="" 
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
+                  {/* Koyu overlay */}
+                  <div className="absolute inset-0 bg-black/60"></div>
                   
-                  <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
-                    {event.bride_full_name} & {event.groom_full_name}
-                  </h2>
-                  
-                  <p className="text-gray-400 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
-                  
-                  <div className="flex gap-2 lg:gap-3">
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Gün</div>
+                  {/* İçerik */}
+                  <div className="relative z-10 flex flex-col items-center">
+                    <img 
+                      src={event.couple_photo_url || "/logo.png"} 
+                      alt="Çift Fotoğrafı" 
+                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/20 w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" 
+                    />
+                    
+                    <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
+                      {event.bride_full_name} & {event.groom_full_name}
+                    </h2>
+                    
+                    <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
+                    
+                    <div className="flex gap-2 lg:gap-3">
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
+                      </div>
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
+                      </div>
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
+                      </div>
+                      <div className="bg-white/20 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
+                        <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
+                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
+                      </div>
                     </div>
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Saat</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Dakika</div>
-                    </div>
-                    <div className="bg-white/10 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                      <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
-                      <div className="text-[8px] lg:text-[10px] text-gray-400">Saniye</div>
-                    </div>
+                    
+                    <p className="text-gray-300 text-xs lg:text-sm mt-2 lg:mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
                   </div>
-                  
-                  <p className="text-gray-500 text-xs lg:text-sm mt-2 lg:mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
               )}
             </div>
