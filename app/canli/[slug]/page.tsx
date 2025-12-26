@@ -184,7 +184,7 @@ export default function WatchPage() {
         setShowEndedScreen(false);
       } else {
         setShowEndedScreen(true);
-        setEndedCountdown(420); // 7 dakika
+        setEndedCountdown(120); // 2 dakika
       }
     }
     setPrevStreamStatus(streamData?.status || null);
@@ -633,25 +633,25 @@ export default function WatchPage() {
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
               {/* Yayın başlıyor durumu */}
-              {streamData?.status === 'starting' && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-blue-900 via-purple-900 to-blue-900">
-                  <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '🧪' : '📺'}</div>
-                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
-                    {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
-                  </h2>
-                  <p className="text-gray-300 text-lg mb-6">Lütfen bekleyin...</p>
-                  <div className="flex items-center gap-3">
-                    <div className={`w-3 h-3 ${streamData?.isTest ? 'bg-orange-400' : 'bg-yellow-400'} rounded-full animate-bounce`} style={{ animationDelay: '0ms' }}></div>
-                    <div className={`w-3 h-3 ${streamData?.isTest ? 'bg-orange-400' : 'bg-yellow-400'} rounded-full animate-bounce`} style={{ animationDelay: '150ms' }}></div>
-                    <div className={`w-3 h-3 ${streamData?.isTest ? 'bg-orange-400' : 'bg-yellow-400'} rounded-full animate-bounce`} style={{ animationDelay: '300ms' }}></div>
+                {streamData?.status === 'starting' && (
+                  <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-orange-500 via-amber-600 to-orange-700' : 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800'}`}>
+                    <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '⚙️' : '🎥'}</div>
+                    <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                      {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
+                    </h2>
+                    <p className="text-white/80 text-lg mb-6">Lütfen bekleyin...</p>
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {/* Yayın sonlandı - geçiş ekranı */}
               {streamData?.status === 'ended' && showEndedScreen && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-green-900 via-blue-900 to-purple-900 z-10">
-                  <div className="text-7xl mb-6">{streamData?.isTest ? '🧪' : '🎬'}</div>
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800 z-10">
+                  <div className="text-7xl mb-6">🎬</div>
                   <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
                     {streamData?.isTest ? 'Test Yayını Sonlandı' : 'Canlı Yayın Sonlandı'}
                   </h2>
