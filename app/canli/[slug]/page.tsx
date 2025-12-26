@@ -74,8 +74,7 @@ export default function WatchPage() {
   const [prevStreamStatus, setPrevStreamStatus] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
-  const [showQrFullscreen, setShowQrFullscreen] = useState(false);
-  const [fullscreenQrUrl, setFullscreenQrUrl] = useState<string | null>(null);
+  
 
   // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
   const pendingPaymentIdRef = useRef<string | null>(null);
@@ -712,11 +711,11 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   {/* İçerik */}
-                  <div className="relative z-10 flex flex-col items-center pt-2 lg:pt-8">
+                  <div className="relative z-10 flex flex-col items-center justify-center h-full">
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
-                      className="mb-4 lg:mb-8 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[150px] h-[150px] lg:w-[240px] lg:h-[240px]"
+                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[100px] h-[100px] lg:w-[180px] lg:h-[180px]"
                     />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
@@ -726,20 +725,20 @@ export default function WatchPage() {
                     <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
                     
                     <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.days}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.hours}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.minutes}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.seconds}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
                       </div>
                     </div>
@@ -762,11 +761,11 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   {/* İçerik */}
-                  <div className="relative z-10 flex flex-col items-center pt-2 lg:pt-8">
+                  <div className="relative z-10 flex flex-col items-center justify-center h-full">
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
-                      className="mb-4 lg:mb-8 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[150px] h-[150px] lg:w-[240px] lg:h-[240px]"
+                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[100px] h-[100px] lg:w-[180px] lg:h-[180px]"
                     />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
@@ -776,20 +775,20 @@ export default function WatchPage() {
                     <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
                     
                     <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.days}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.days}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.hours}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.hours}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.minutes}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.minutes}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[45px] lg:min-w-[55px]">
-                        <div className="text-base lg:text-xl font-bold text-white">{countdown.seconds}</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
+                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.seconds}</div>
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
                       </div>
                     </div>
@@ -984,27 +983,11 @@ export default function WatchPage() {
               <div className="text-center">
                 <div className="bg-gray-100 rounded-xl p-6 mb-4">
                   {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
-                    <>
-                      <img 
-                        src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
-                        alt="QR Kod" 
-                        className="w-48 h-48 mx-auto rounded-lg object-contain"
-                      />
-                      {/* QR Kodu İndir Butonu */}
-                      <button
-                        onClick={() => {
-                          const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
-                          const qrUrl = event.qr_codes?.[qrKey];
-                          if (qrUrl) {
-                            setFullscreenQrUrl(qrUrl);
-                            setShowQrFullscreen(true);
-                          }
-                        }}
-                        className="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 mx-auto"
-                      >
-                        📥 Fotoğraflara Kaydet
-                      </button>
-                    </>
+                    <img 
+                      src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
+                      alt="QR Kod" 
+                      className="w-48 h-48 mx-auto rounded-lg object-contain"
+                    />
                   ) : (
                     <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                       <span className="text-gray-400 text-center text-sm p-4">QR Kod Bulunamadı! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
@@ -1103,61 +1086,7 @@ export default function WatchPage() {
         </div>
       )}
 
-      {/* QR Tam Ekran Modal */}
-      {showQrFullscreen && fullscreenQrUrl && (
-        <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center p-4">
-          <button 
-            onClick={() => setShowQrFullscreen(false)}
-            className="absolute top-4 right-4 text-white text-3xl font-bold z-10"
-          >
-            ✕
-          </button>
-          
-          <img 
-            src={fullscreenQrUrl} 
-            alt="QR Kod" 
-            className="max-w-[90%] max-h-[50vh] rounded-xl"
-          />
-          
-          <div className="mt-4 text-center px-4">
-            <p className="text-white text-lg font-medium mb-3">📱 Fotoğraflara Kaydetmek İçin:</p>
-            <div className="bg-white/10 rounded-xl p-4 text-left text-sm">
-              <p className="text-gray-200 mb-2">🍎 <strong>iPhone:</strong> Resme uzun basın → Fotoğraflara Ekle</p>
-              <p className="text-gray-200">🤖 <strong>Android:</strong> Aşağıdaki butona tıklayın</p>
-            </div>
-          </div>
-
-          <button 
-            onClick={async () => {
-              try {
-                const response = await fetch(fullscreenQrUrl);
-                const blob = await response.blob();
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'qr-kod.jpg';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                alert('✅ QR kod indirildi!\n\nGaleri veya Dosyalar uygulamasında Downloads klasöründe bulabilirsiniz.');
-              } catch (error) {
-                window.open(fullscreenQrUrl, '_blank');
-              }
-            }}
-            className="mt-4 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2"
-          >
-            📥 QR Kodu İndir (Android)
-          </button>
-          
-          <button 
-            onClick={() => setShowQrFullscreen(false)}
-            className="mt-4 bg-white/20 text-white px-8 py-3 rounded-xl font-medium"
-          >
-            Kapat
-          </button>
-        </div>
-      )}
+      
 
     </main>
   );
