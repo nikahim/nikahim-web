@@ -332,7 +332,7 @@ export default function Home() {
                         </div>
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900">
-                            {event.groom_full_name} & {event.bride_full_name}
+                            {event.bride_full_name} & {event.groom_full_name}
                           </div>
                           <div className="text-sm text-gray-500">
                             📅 {new Date(event.event_date).toLocaleDateString('tr-TR')}

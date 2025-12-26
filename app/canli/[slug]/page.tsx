@@ -711,7 +711,7 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   {/* İçerik */}
-                  <div className="relative z-10 flex flex-col items-center pt-8 lg:pt-12">
+                  <div className="relative z-10 flex flex-col items-center pt-2 lg:pt-8">
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
@@ -761,7 +761,7 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   {/* İçerik */}
-                  <div className="relative z-10 flex flex-col items-center pt-8 lg:pt-12">
+                  <div className="relative z-10 flex flex-col items-center pt-2 lg:pt-8">
                     <img 
                       src={event.couple_photo_url || "/logo.png"} 
                       alt="Çift Fotoğrafı" 
