@@ -74,7 +74,8 @@ export default function WatchPage() {
   const [prevStreamStatus, setPrevStreamStatus] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
-  
+  const [showQrFullscreen, setShowQrFullscreen] = useState(false);
+  const [fullscreenQrUrl, setFullscreenQrUrl] = useState<string | null>(null);
 
   // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
   const pendingPaymentIdRef = useRef<string | null>(null);
@@ -991,39 +992,12 @@ export default function WatchPage() {
                       />
                       {/* QR Kodu İndir Butonu */}
                       <button
-                        onClick={async () => {
+                        onClick={() => {
                           const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
                           const qrUrl = event.qr_codes?.[qrKey];
-                          if (!qrUrl) return;
-                          
-                          try {
-                            const response = await fetch(qrUrl);
-                            const blob = await response.blob();
-                            
-                            // Mobil: Web Share API ile paylaş (Fotoğraflara Kaydet seçeneği çıkar)
-                            if (navigator.share && navigator.canShare) {
-                              const file = new File([blob], `qr-kod-${qrKey}.jpg`, { type: 'image/jpeg' });
-                              if (navigator.canShare({ files: [file] })) {
-                                await navigator.share({
-                                  files: [file],
-                                  title: 'QR Kod',
-                                });
-                                return;
-                              }
-                            }
-                            
-                            // Desktop: Normal indirme
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = `qr-kod-${qrKey}.jpg`;
-                            document.body.appendChild(a);
-                            a.click();
-                            document.body.removeChild(a);
-                            URL.revokeObjectURL(url);
-                          } catch (error) {
-                            // Fallback: Yeni sekmede aç
-                            window.open(qrUrl, '_blank');
+                          if (qrUrl) {
+                            setFullscreenQrUrl(qrUrl);
+                            setShowQrFullscreen(true);
                           }
                         }}
                         className="mt-3 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 mx-auto"
@@ -1128,6 +1102,63 @@ export default function WatchPage() {
           </div>
         </div>
       )}
+
+      {/* QR Tam Ekran Modal */}
+      {showQrFullscreen && fullscreenQrUrl && (
+        <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center p-4">
+          <button 
+            onClick={() => setShowQrFullscreen(false)}
+            className="absolute top-4 right-4 text-white text-3xl font-bold z-10"
+          >
+            ✕
+          </button>
+          
+          <img 
+            src={fullscreenQrUrl} 
+            alt="QR Kod" 
+            className="max-w-[90%] max-h-[50vh] rounded-xl"
+          />
+          
+          <div className="mt-4 text-center px-4">
+            <p className="text-white text-lg font-medium mb-3">📱 Fotoğraflara Kaydetmek İçin:</p>
+            <div className="bg-white/10 rounded-xl p-4 text-left text-sm">
+              <p className="text-gray-200 mb-2">🍎 <strong>iPhone:</strong> Resme uzun basın → Fotoğraflara Ekle</p>
+              <p className="text-gray-200">🤖 <strong>Android:</strong> Aşağıdaki butona tıklayın</p>
+            </div>
+          </div>
+
+          <button 
+            onClick={async () => {
+              try {
+                const response = await fetch(fullscreenQrUrl);
+                const blob = await response.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'qr-kod.jpg';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert('✅ QR kod indirildi!\n\nGaleri veya Dosyalar uygulamasında Downloads klasöründe bulabilirsiniz.');
+              } catch (error) {
+                window.open(fullscreenQrUrl, '_blank');
+              }
+            }}
+            className="mt-4 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2"
+          >
+            📥 QR Kodu İndir (Android)
+          </button>
+          
+          <button 
+            onClick={() => setShowQrFullscreen(false)}
+            className="mt-4 bg-white/20 text-white px-8 py-3 rounded-xl font-medium"
+          >
+            Kapat
+          </button>
+        </div>
+      )}
+
     </main>
   );
 }
