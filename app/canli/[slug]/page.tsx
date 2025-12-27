@@ -706,7 +706,7 @@ export default function WatchPage() {
             <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
           </div>
           
-          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-blue-100 shadow-lg mt-8" />
+          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[180px] h-[180px] lg:w-[260px] lg:h-[260px] landscape:w-[140px] landscape:h-[140px] landscape:mb-2" />
           
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             {event.bride_full_name} & {event.groom_full_name}
@@ -925,10 +925,10 @@ export default function WatchPage() {
                     
                     
                     
-                    <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.days}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Gün</div>
+                    <div className="flex gap-2 lg:gap-3 landscape:gap-4">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-5 landscape:py-3 landscape:min-w-[70px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-2xl">{countdown.days}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-sm">Gün</div>
                       </div>
                       <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
                         <div className="text-lg lg:text-2xl font-bold text-white">{countdown.hours}</div>
