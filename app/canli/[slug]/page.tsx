@@ -957,9 +957,9 @@ export default function WatchPage() {
             {(selectedGold !== "nakit" || pendingPaymentId) && !paymentMethod && (
               <div className="space-y-3">
                 <p className="text-gray-500 mb-2">Ödeme yöntemini seçin:</p>
-                <p className="text-gray-400 text-xs mb-4 flex items-center gap-1">
+                <div className="bg-amber-50/70 text-amber-700 text-sm mb-4 flex items-center gap-2 px-3 py-2 rounded-lg">
                   💡 Tüm ödemeler doğrudan çiftin banka hesabına yapılmaktadır.
-                </p>
+                </div>
                 
                 <button onClick={() => setPaymentMethod("qr")} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors">
                   <span className="text-3xl">📱</span>
