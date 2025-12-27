@@ -712,8 +712,8 @@ export default function WatchPage() {
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
           
-          <p className="text-gray-500 text-sm mb-1">
-            Tekrar Hoş Geldin
+          <p className="text-gray-700 text-xl mb-1">
+            🎉 Tekrar Hoş Geldin
           </p>
           <p className="text-gray-800 font-semibold text-lg mb-6">
             {viewerName}
@@ -721,13 +721,9 @@ export default function WatchPage() {
           
           <button
             onClick={handleReturningContinue}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors"
           >
-            {event.background_music && event.background_music !== 'none' ? (
-              <>
-                <span>🎵</span> Devam Et
-              </>
-            ) : 'Devam Et'}
+            Devam Et
           </button>
         </div>
       </main>
@@ -823,6 +819,25 @@ export default function WatchPage() {
               </span>
             )}
             
+            {/* Müzik kontrol butonu - bekleme ekranında göster */}
+            {hasMusicSelected && isNameEntered && (!streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest)) && (
+              isMusicPlaying ? (
+                <button
+                  onClick={toggleMusicMute}
+                  className="flex items-center gap-1 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                >
+                  {musicMuted ? '🔇' : '🔊'}
+                </button>
+              ) : (
+                <button
+                  onClick={startMusic}
+                  className="flex items-center gap-1 bg-blue-100 hover:bg-blue-200 text-blue-700 px-3 py-1 rounded-full text-sm font-medium transition-colors"
+                >
+                  🎵
+                </button>
+              )
+            )}
+            
             <span className="text-gray-500 text-sm">👥 {viewerCount}/{eventPackage?.max_viewers || 50}</span>
           </div>
         </div>
@@ -902,46 +917,30 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px]" />
                     
-                    <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
+                    <h2 className="text-white text-lg lg:text-2xl font-bold mb-4 lg:mb-6 text-center px-2">
                       {event.bride_full_name} & {event.groom_full_name}
                     </h2>
                     
-                    <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
-                    
                     <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.days}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.days}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Gün</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.hours}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.hours}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Saat</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.minutes}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.minutes}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Dakika</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.seconds}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.seconds}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Saniye</div>
                       </div>
                     </div>
-
-                    {hasMusicSelected && (
-                      <div className="mt-4 flex items-center gap-2">
-                        {!isMusicPlaying ? (
-                          <button onClick={startMusic} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
-                            🎵 Müziği Başlat
-                          </button>
-                        ) : (
-                          <button onClick={toggleMusicMute} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
-                            {musicMuted ? '🔇 Sesi Aç' : '🔊 Sesi Kapat'}
-                          </button>
-                        )}
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
@@ -952,46 +951,30 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px]" />
                     
-                    <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
+                    <h2 className="text-white text-lg lg:text-2xl font-bold mb-4 lg:mb-6 text-center px-2">
                       {event.bride_full_name} & {event.groom_full_name}
                     </h2>
                     
-                    <p className="text-gray-300 mb-2 lg:mb-4 text-xs lg:text-sm">Yayın başlamasına kalan süre</p>
-                    
                     <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.days}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Gün</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.days}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Gün</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.hours}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saat</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.hours}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Saat</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.minutes}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Dakika</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.minutes}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Dakika</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-3 py-1 lg:py-2 text-center min-w-[40px] lg:min-w-[50px]">
-                        <div className="text-sm lg:text-lg font-bold text-white">{countdown.seconds}</div>
-                        <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.seconds}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300">Saniye</div>
                       </div>
                     </div>
-
-                    {hasMusicSelected && (
-                      <div className="mt-4 flex items-center gap-2">
-                        {!isMusicPlaying ? (
-                          <button onClick={startMusic} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
-                            🎵 Müziği Başlat
-                          </button>
-                        ) : (
-                          <button onClick={toggleMusicMute} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
-                            {musicMuted ? '🔇 Sesi Aç' : '🔊 Sesi Kapat'}
-                          </button>
-                        )}
-                      </div>
-                    )}
                   </div>
                 </div>
               )}
