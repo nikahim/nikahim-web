@@ -104,7 +104,7 @@ export default function WatchPage() {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [musicMuted, setMusicMuted] = useState(false);
   const [showReturningModal, setShowReturningModal] = useState(false);
-
+  const [showCopiedToast, setShowCopiedToast] = useState(false);
   const pendingPaymentIdRef = useRef<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -616,7 +616,6 @@ export default function WatchPage() {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      alert('IBAN kopyalandı!');
     } catch {
       const textArea = document.createElement('textarea');
       textArea.value = text;
@@ -626,8 +625,9 @@ export default function WatchPage() {
       textArea.select();
       document.execCommand('copy');
       document.body.removeChild(textArea);
-      alert('IBAN kopyalandı!');
     }
+    setShowCopiedToast(true);
+    setTimeout(() => setShowCopiedToast(false), 2000);
   };
 
   const getSelectedPrice = () => {
@@ -1114,7 +1114,7 @@ export default function WatchPage() {
             {selectedGold === "nakit" && !pendingPaymentId && (
               <div className="mb-4">
                 <label className="block text-gray-600 mb-2 font-medium">Göndermek istediğiniz miktar</label>
-                <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktarı girin (₺)" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-lg" />
+                <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktarı girin (₺)" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-lg text-gray-900" />
                 <button onClick={handleCustomAmountSubmit} disabled={!customAmount || parseFloat(customAmount) <= 0} className="w-full mt-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold">Devam Et</button>
               </div>
             )}
@@ -1209,6 +1209,12 @@ export default function WatchPage() {
             <p className="text-gray-600 mb-2">Katılım bilginiz çiftimize iletildi.</p>
             <p className="text-gray-500">Katıldığınız için teşekkür ederiz! 🎉</p>
           </div>
+        </div>
+      )}
+
+      {showCopiedToast && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg z-[70]">
+          ✓ Kopyalandı!
         </div>
       )}
 
