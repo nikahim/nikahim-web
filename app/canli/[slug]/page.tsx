@@ -827,9 +827,9 @@ export default function WatchPage() {
                   className="flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
                 >
                   {musicMuted ? (
-                    <><span>🔇</span> <span className="hidden sm:inline">Sesi Aç</span></>
+                    <><span>🎵</span> Müzik Çal</>
                   ) : (
-                    <><span>🔊</span> <span className="hidden sm:inline">Sesi Kapat</span></>
+                    <><span>🔇</span> Sessiz</>
                   )}
                 </button>
               ) : (
@@ -837,7 +837,7 @@ export default function WatchPage() {
                   onClick={startMusic}
                   className="flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
                 >
-                  <span>🎵</span> <span className="hidden sm:inline">Müzik Çal</span>
+                  <span>🎵</span> Müzik Çal
                 </button>
               )
             )}
