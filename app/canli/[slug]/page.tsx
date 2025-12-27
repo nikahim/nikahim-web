@@ -126,7 +126,7 @@ export default function WatchPage() {
       if (musicFile && !audioRef.current) {
         const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
         audio.loop = true;
-        audio.volume = 0.5;
+        audio.volume = 0.3;
         audioRef.current = audio;
         
         audio.play().then(() => {
@@ -157,7 +157,7 @@ export default function WatchPage() {
   const toggleMusicMute = () => {
     if (audioRef.current) {
       if (musicMuted) {
-        audioRef.current.volume = 0.5;
+        audioRef.current.volume = 0.3;
         setMusicMuted(false);
       } else {
         audioRef.current.volume = 0;
@@ -176,7 +176,7 @@ export default function WatchPage() {
       if (musicFile) {
         const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
         audio.loop = true;
-        audio.volume = 0.5;
+        audio.volume = 0.3;
         audioRef.current = audio;
         audio.play().then(() => {
           setIsMusicPlaying(true);
