@@ -921,11 +921,9 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[180px] h-[180px] lg:w-[260px] lg:h-[260px]" />
                     
-                    <h2 className="text-white text-lg lg:text-2xl font-bold mb-4 lg:mb-6 text-center px-2">
-                      {event.bride_full_name} & {event.groom_full_name}
-                    </h2>
+                    
                     
                     <div className="flex gap-2 lg:gap-3">
                       <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
@@ -955,11 +953,9 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[180px] h-[180px] lg:w-[260px] lg:h-[260px]" />
                     
-                    <h2 className="text-white text-lg lg:text-2xl font-bold mb-4 lg:mb-6 text-center px-2">
-                      {event.bride_full_name} & {event.groom_full_name}
-                    </h2>
+                    
                     
                     <div className="flex gap-2 lg:gap-3">
                       <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
@@ -988,7 +984,7 @@ export default function WatchPage() {
               <div className="flex items-center gap-4">
                 <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">{event.bride_full_name} & {event.groom_full_name}</h1>
+                  <h1 className="text-lg lg:text-xl font-bold text-gray-900 mb-2">{event.bride_full_name} & {event.groom_full_name}</h1>
                   <p className="text-gray-500">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
               </div>
