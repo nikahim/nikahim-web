@@ -381,7 +381,7 @@ export default function Home() {
                 💒
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">2. Nikahınızı Oluşturun</h3>
-              <p className="text-gray-600">Nikah bilgilerinizi girin, davetiye şablonu seçin ve ödeme bilgilerinizi ekleyin</p>
+              <p className="text-gray-600">Nikah bilgilerinizi girin, davetiye şablonu seçin ve ödeme almak için IBAN bilgilerinizi ekleyin</p>
             </div>
 
             <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
