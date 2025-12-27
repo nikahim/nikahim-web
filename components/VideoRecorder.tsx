@@ -193,7 +193,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
         thumbnail_url: uploadResult.assets?.thumbnail || null,
         player_url: uploadResult.assets?.player || null,
         duration_seconds: 30 - countdown,
-        status: 'processing',
+        status: 'ready',
       });
 
       if (dbError) {
