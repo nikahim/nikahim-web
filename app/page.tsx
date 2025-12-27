@@ -415,7 +415,7 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Neden <span className="text-blue-500">Nikahım</span> ile Canlı Yayın?
+              Neden <span style={{ color: "#1565C0" }}>Nikahım</span> ile Canlı Yayın?
             </h2>
             <p className="text-lg text-gray-600">Özel gününüzü daha özel kılan özellikler</p>
           </div>
@@ -495,8 +495,8 @@ export default function Home() {
                   <h3 className="text-xl font-bold text-gray-900">Video Tebrik Mesajları</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
-                  <strong>Tüm paketlerimizde</strong> ücretsiz olarak bulunan Video Tebrik özelliği ile töreninizi 
-                  canlı izleyen davetliler size video tebrik mesajlarını gönderir. Siz de daha sonra bu videoları 
+                  <strong>Tüm paketlerimizde ücretsiz </strong> olarak bulunan Video Tebrik özelliği ile töreninizi 
+                  canlı izleyen davetliler size 30 saniyelik video tebrik mesajlarını gönderir. Siz de daha sonra bu videoları 
                   uygulamamız üzerinden izleyebilirsiniz.
                 </p>
               </div>
@@ -575,13 +575,13 @@ export default function Home() {
                   <span className="text-green-500">✓</span> Altın Takma Özelliği
                 </li>
                 <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Video Tebrik
+                </li>
+                <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> Canlı Sohbet
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-400">✗</span> Yayın Kaydı
-                </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-400">✗</span> Kaydı İndirme
+                  <span className="text-red-400">✗</span> Yayın Kaydı ve İndirme
                 </li>
               </ul>
               <button onClick={() => setShowAppPopup(true)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold transition-colors">
@@ -615,13 +615,13 @@ export default function Home() {
                   <span className="text-green-500">✓</span> Altın Takma Özelliği
                 </li>
                 <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Video Tebrik
+                </li>
+                <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> Canlı Sohbet
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Yayın Kaydı
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Kaydı İndirme
+                  <span className="text-green-500">✓</span> Yayın Kaydı ve İndirme
                 </li>
               </ul>
               <button onClick={() => setShowAppPopup(true)} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors">
@@ -652,13 +652,13 @@ export default function Home() {
                   <span className="text-green-500">✓</span> Altın Takma Özelliği
                 </li>
                 <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Video Tebrik
+                </li>
+                <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> Canlı Sohbet
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Yayın Kaydı
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Kaydı İndirme
+                  <span className="text-green-500">✓</span> Yayın Kaydı ve İndirme
                 </li>
               </ul>
               <button onClick={() => setShowAppPopup(true)} className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-gray-900 py-3 rounded-xl font-semibold transition-colors">
