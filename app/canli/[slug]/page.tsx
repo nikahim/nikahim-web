@@ -706,7 +706,7 @@ export default function WatchPage() {
             <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
           </div>
           
-          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[180px] h-[180px] lg:w-[260px] lg:h-[260px] landscape:w-[140px] landscape:h-[140px] landscape:mb-2" />
+          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-blue-100 shadow-lg mt-8" />
           
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             {event.bride_full_name} & {event.groom_full_name}
