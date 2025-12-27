@@ -706,14 +706,16 @@ export default function WatchPage() {
             <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
           </div>
           
-          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[160px] h-[160px] border-4 border-blue-100 shadow-lg mt-8" />
+          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-blue-100 shadow-lg mt-8" />
           
-          <div className="text-5xl mb-4">🎉</div>
-          
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Tekrar Hoş Geldin!
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            {event.bride_full_name} & {event.groom_full_name}
           </h1>
-          <p className="text-gray-600 mb-6 text-lg">
+          
+          <p className="text-gray-500 text-sm mb-1">
+            Tekrar Hoş Geldin
+          </p>
+          <p className="text-gray-800 font-semibold text-lg mb-6">
             {viewerName}
           </p>
           
@@ -721,12 +723,12 @@ export default function WatchPage() {
             onClick={handleReturningContinue}
             className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
           >
-            {event.background_music && event.background_music !== 'none' ? '🎵 Devam Et' : 'Devam Et'}
+            {event.background_music && event.background_music !== 'none' ? (
+              <>
+                <span>🎵</span> Devam Et
+              </>
+            ) : 'Devam Et'}
           </button>
-          
-          <p className="text-gray-400 text-sm mt-4">
-            {event.bride_full_name} & {event.groom_full_name}
-          </p>
         </div>
       </main>
     );
@@ -815,7 +817,7 @@ export default function WatchPage() {
                 İŞLENİYOR
               </span>
             )}
-            {streamData?.status === 'ended' && !showEndedScreen && (
+            {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && (
               <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                 ▶ KAYIT
               </span>
