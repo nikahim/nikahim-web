@@ -283,17 +283,17 @@ export default function Home() {
       </section>
 
       {/* NİKAH ARA */}
-          <section id="nikah-ara" className="py-12 bg-gradient-to-b from-white to-blue-50">
-            <div className="max-w-4xl mx-auto px-6">
-              <div className="flex flex-col items-center mb-5">
-                <div className="flex items-center gap-3 mb-2">
-                  <Image src="/search1.png" alt="Ara" width={40} height={40} className="w-10 h-10" />
-                  <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
-                    Nikah Ara
-                  </h2>
-                </div>
-                <p className="text-base text-gray-600">Gelin veya damat adı/soyadı ile arayın</p>
-              </div>
+      <section id="nikah-ara" className="py-12 bg-gradient-to-b from-white to-blue-50">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="flex flex-col items-center mb-5">
+            <div className="flex items-center gap-3 mb-2">
+              <Image src="/search1.png" alt="Ara" width={40} height={40} className="w-10 h-10" />
+              <h2 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 bg-clip-text text-transparent">
+                Nikah Ara
+              </h2>
+            </div>
+            <p className="text-base text-gray-600">Gelin veya damat adı/soyadı ile arayın</p>
+          </div>
 
           <div className="relative max-w-3xl mx-auto">
             <div className="relative">
@@ -410,8 +410,121 @@ export default function Home() {
         </div>
       </section>
 
+      {/* NEDEN NİKAHIM */}
+      <section id="neden-nikahim" className="py-20 bg-white">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Neden <span className="text-blue-500">Nikahım</span> ile Canlı Yayın?
+            </h2>
+            <p className="text-lg text-gray-600">Özel gününüzü daha özel kılan özellikler</p>
+          </div>
+
+          <div className="space-y-6">
+            {/* Özellik 1 */}
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  🔐
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-blue-500 text-white text-sm font-bold px-3 py-1 rounded-full">1</span>
+                  <h3 className="text-xl font-bold text-gray-900">Size Özel Canlı Yayın Sayfası</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Sadece sizin ve davetlilerinizin olduğu bir Canlı Yayın sayfası oluşturulur. 
+                  Dilerseniz nikahınızı <strong>&quot;Herkese Kapalı&quot;</strong> olarak seçerek sadece link paylaştığınız 
+                  davetlilerinizin katılmasını sağlayabilirsiniz.
+                </p>
+              </div>
+            </div>
+
+            {/* Özellik 2 */}
+            <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  ⚡
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-purple-500 text-white text-sm font-bold px-3 py-1 rounded-full">2</span>
+                  <h3 className="text-xl font-bold text-gray-900">Tek Tıkla Katılım - Üyelik Yok, Form Yok!</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Nikahınızı oluşturduktan sonra sizin için hazırlanan canlı yayın sayfanızın linkini 
+                  dijital davetiyeniz ile birlikte davetlilerinize gönderin. 
+                  <strong> Tek tıkla</strong> direkt canlı yayın sayfanızdan nikahınıza katılsınlar!
+                </p>
+              </div>
+            </div>
+
+            {/* Özellik 3 */}
+            <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-yellow-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  💰
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-yellow-500 text-white text-sm font-bold px-3 py-1 rounded-full">3</span>
+                  <h3 className="text-xl font-bold text-gray-900">Kolayca Altın Takma</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Canlı yayın sayfanızdaki <strong>&quot;Altın Tak&quot;</strong> seçeneği ile QR kod veya Havale/EFT ile 
+                  davetlileriniz direkt olarak sizin hesabınıza para gönderimi yapabilirler. 
+                  Böylece uzakta olup nikahınıza gelemeyen sevdikleriniz de altın miktarı kadar Türk Lirasını 
+                  size ulaştırmış olurlar.
+                </p>
+              </div>
+            </div>
+
+            {/* Özellik 4 */}
+            <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  💌
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full">4</span>
+                  <h3 className="text-xl font-bold text-gray-900">Size Özel Dijital Davetiye</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  <strong>Tüm paketlerimizde</strong> bulunan size özel dijital davetiye ile nikahınıza gelemeyenleri 
+                  canlı yayınıza davet edin! WhatsApp, Instagram ve diğer platformlardan kolayca paylaşın.
+                </p>
+              </div>
+            </div>
+
+            {/* Özellik 5 */}
+            <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-indigo-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  📊
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-indigo-500 text-white text-sm font-bold px-3 py-1 rounded-full">5</span>
+                  <h3 className="text-xl font-bold text-gray-900">Detaylı Takip ve İstatistik</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  Nikahınız tamamlandıktan sonra uygulamamız üzerinden canlı yayınınıza <strong>kimlerin katıldığını</strong>, 
+                  <strong> ne mesaj bıraktığını</strong>, hatta <strong>hangi altından size taktıklarını</strong> kolayca takip edin!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* PAKETLER */}
-      <section id="paketler" className="py-20 bg-white">
+      <section id="paketler" className="py-20 bg-gray-50">
         <div className="max-w-6xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Paketler</h2>
@@ -419,101 +532,129 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center hover:border-blue-500 transition-colors">
+            {/* TEMEL PAKET */}
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center hover:border-blue-300 transition-colors">
               <div className="text-4xl mb-4">🎬</div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Başlangıç</h3>
-              <div className="text-3xl font-bold text-blue-500 mb-4">₺399</div>
-              <ul className="text-gray-600 space-y-2 mb-6 text-left">
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Temel</h3>
+              <div className="text-3xl font-bold text-blue-500 mb-1">₺299</div>
+              <p className="text-sm text-gray-500 mb-6">Tek seferlik ödeme</p>
+              <ul className="text-gray-600 space-y-3 mb-6 text-left">
                 <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> 15 Dakika Canlı Yayın
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Online Davetiye
+                  <span className="text-green-500">✓</span> 20 İzleyici Kapasitesi
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> HD Kalite Yayın
+                  <span className="text-green-500">✓</span> 720p HD Kalite*
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Dijital Davetiye
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Altın Takma Özelliği
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Canlı Sohbet
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> Yayını Kayıt Altına Alma
+                  <span className="text-red-400">✗</span> Yayın Kaydı
                 </li>
                 <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> Yayın Kaydını İndirebilme
-                </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> Öncelikli destek
+                  <span className="text-red-400">✗</span> Kaydı İndirme
                 </li>
               </ul>
-              <button onClick={() => setShowAppPopup(true)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold">
+              <button onClick={() => setShowAppPopup(true)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold transition-colors">
                 Seç
               </button>
             </div>
 
-            <div className="bg-white border-2 border-blue-500 rounded-2xl p-8 text-center relative">
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-sm font-medium">
-                En Popüler
+            {/* PREMIUM PAKET */}
+            <div className="bg-white border-2 border-blue-500 rounded-2xl p-8 text-center relative shadow-xl scale-105">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-1 rounded-full text-sm font-medium shadow-lg">
+                ⭐ En Popüler
               </div>
               <div className="text-4xl mb-4">⭐</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Premium</h3>
-              <div className="text-3xl font-bold text-blue-500 mb-4">₺599</div>
-              <ul className="text-gray-600 space-y-2 mb-6 text-left">
+              <div className="text-3xl font-bold text-blue-500 mb-1">₺499</div>
+              <p className="text-sm text-gray-500 mb-6">Tek seferlik ödeme</p>
+              <ul className="text-gray-600 space-y-3 mb-6 text-left">
                 <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> 30 Dakika Canlı Yayın
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Online Davetiye
+                  <span className="text-green-500">✓</span> 50 İzleyici Kapasitesi
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> HD kalite kayıt
+                  <span className="text-green-500">✓</span> 1080p Full HD Kalite*
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Yayını Kayıt Altına Alma
+                  <span className="text-green-500">✓</span> Dijital Davetiye
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Yayın Kaydını İndirebilme
+                  <span className="text-green-500">✓</span> Altın Takma Özelliği
                 </li>
-                <li className="flex items-center gap-2 text-gray-400">
-                  <span className="text-red-500">✗</span> Öncelikli Destek
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Canlı Sohbet
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Yayın Kaydı
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Kaydı İndirme
                 </li>
               </ul>
-              <button onClick={() => setShowAppPopup(true)} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold">
+              <button onClick={() => setShowAppPopup(true)} className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors">
                 Seç
               </button>
             </div>
 
-            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center hover:border-blue-500 transition-colors">
-              <div className="text-4xl mb-4">💎</div>
+            {/* VIP PAKET */}
+            <div className="bg-white border-2 border-gray-200 rounded-2xl p-8 text-center hover:border-yellow-400 transition-colors">
+              <div className="text-4xl mb-4">👑</div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">VIP</h3>
-              <div className="text-3xl font-bold text-blue-500 mb-4">₺999</div>
-              <ul className="text-gray-600 space-y-2 mb-6 text-left">
+              <div className="text-3xl font-bold text-blue-500 mb-1">₺1.199</div>
+              <p className="text-sm text-gray-500 mb-6">Tek seferlik ödeme</p>
+              <ul className="text-gray-600 space-y-3 mb-6 text-left">
                 <li className="flex items-center gap-2">
                   <span className="text-green-500">✓</span> 60 Dakika Canlı Yayın
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Online Davetiye
+                  <span className="text-green-500">✓</span> 100 İzleyici Kapasitesi
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> HD Kalite Kayıt
+                  <span className="text-green-500">✓</span> 1080p Full HD Kalite*
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Yaayını Kayıt Altına Alma
+                  <span className="text-green-500">✓</span> Dijital Davetiye
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Yayın Kaydını İndirebilme
+                  <span className="text-green-500">✓</span> Altın Takma Özelliği
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-500">✓</span> Öncelikli Destek
+                  <span className="text-green-500">✓</span> Canlı Sohbet
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Yayın Kaydı
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="text-green-500">✓</span> Kaydı İndirme
                 </li>
               </ul>
-              <button onClick={() => setShowAppPopup(true)} className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 rounded-xl font-semibold">
+              <button onClick={() => setShowAppPopup(true)} className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-gray-900 py-3 rounded-xl font-semibold transition-colors">
                 Seç
               </button>
             </div>
           </div>
+
+          <p className="text-center text-gray-400 text-sm mt-8">
+            * Canlı yayın çözünürlük kalitesi internet bağlantınıza bağlıdır, değişiklik gösterebilir.
+          </p>
         </div>
       </section>
 
       {/* SSS */}
-      <section id="sss" className="py-20 bg-gray-50">
+      <section id="sss" className="py-20 bg-white">
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Sıkça Sorulan Sorular</h2>
@@ -523,10 +664,11 @@ export default function Home() {
             {[
               { q: "Canlı yayın nasıl başlatılır?", a: "Uygulamayı indirin, nikahınızı oluşturun ve 'Canlı Yayın Başlat' butonuna basın. İnternet bağlantınızın stabil olduğundan emin olun." },
               { q: "Altın takma nasıl çalışır?", a: "Davetlileriniz sizin paylaştığınız linke girer, altın seçer ve QR kod veya IBAN ile ödeme yapar. Siz 'Takılan Altınlar' sayfasından takip edersiniz." },
-              { q: "Yayın kaydediliyor mu?", a: "Premium ve VIP paketlerde yayın otomatik olarak kaydedilir. Daha sonra dilediğiniz zaman izleyebilirsiniz." },
-              { q: "Kaç kişi aynı anda izleyebilir?", a: "İzleyici limiti seçtiğiniz pakete göre değişir. Başlangıç 100, Premium 500, VIP sınırsız izleyici destekler." },
+              { q: "Yayın kaydediliyor mu?", a: "Premium ve VIP paketlerde yayın otomatik olarak kaydedilir. Daha sonra dilediğiniz zaman izleyebilir ve indirebilirsiniz." },
+              { q: "Kaç kişi aynı anda izleyebilir?", a: "İzleyici limiti seçtiğiniz pakete göre değişir. Temel pakette 20, Premium'da 50, VIP'de 100 kişi aynı anda izleyebilir." },
+              { q: "Para doğrudan bize mi geliyor?", a: "Evet! Tüm ödemeler doğrudan sizin belirlediğiniz banka hesabına yapılır. Nikahım herhangi bir komisyon almaz." },
             ].map((faq, index) => (
-              <div key={index} className="bg-white rounded-xl overflow-hidden">
+              <div key={index} className="bg-gray-50 rounded-xl overflow-hidden">
                 <button
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
                   className="w-full p-5 flex items-center justify-between text-left"
@@ -546,84 +688,84 @@ export default function Home() {
       </section>
 
       {/* İLETİŞİM */}
-        <section id="iletisim" className="py-20 bg-white">
-          <div className="max-w-2xl mx-auto px-6">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Bize Ulaşın</h2>
-              <p className="text-lg text-gray-600">Sorularınız mı var? Size yardımcı olmaktan mutluluk duyarız!</p>
-            </div>
+      <section id="iletisim" className="py-20 bg-gray-50">
+        <div className="max-w-2xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">Bize Ulaşın</h2>
+            <p className="text-lg text-gray-600">Sorularınız mı var? Size yardımcı olmaktan mutluluk duyarız!</p>
+          </div>
 
-            <div className="bg-gray-50 rounded-2xl p-8">
-              {contactSuccess && (
-                <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl text-center">
-                  ✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.
-                </div>
-              )}
-
-              <form className="space-y-5" onSubmit={sendContactForm}>
-                <div className="grid md:grid-cols-2 gap-5">
-                  <input 
-                    type="text" 
-                    placeholder="Adınız Soyadınız" 
-                    value={contactName}
-                    onChange={(e) => setContactName(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" 
-                    required
-                  />
-                  <input 
-                    type="email" 
-                    placeholder="E-posta adresiniz" 
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
-                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" 
-                    required
-                  />
-                </div>
-                <select 
-                  value={contactSubject}
-                  onChange={(e) => setContactSubject(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white text-gray-900"
-                >
-                  <option>Genel Soru</option>
-                  <option>Teknik Destek</option>
-                  <option>Ödeme Sorunu</option>
-                </select>
-                <textarea 
-                  rows={4} 
-                  placeholder="Mesajınız" 
-                  value={contactMessage}
-                  onChange={(e) => setContactMessage(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none resize-none text-gray-900 placeholder:text-gray-500"
-                  required
-                ></textarea>
-                <button 
-                  type="submit" 
-                  disabled={contactSending}
-                  className={`w-full py-3 rounded-xl font-semibold transition-colors ${
-                    contactSending 
-                      ? 'bg-blue-300 cursor-not-allowed' 
-                      : 'bg-blue-500 hover:bg-blue-600'
-                  } text-white`}
-                >
-                  {contactSending ? 'Gönderiliyor...' : 'Gönder'}
-                </button>
-              </form>
-
-              <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap justify-center gap-6">
-                <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-500">
-                  📧 destek@nikahim.com
-                </a>
-                <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-gray-600 hover:text-green-500">
-                  <Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} className="w-6 h-6" />
-                  WhatsApp
-                </a>
+          <div className="bg-white rounded-2xl p-8 shadow-sm">
+            {contactSuccess && (
+              <div className="mb-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl text-center">
+                ✅ Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.
               </div>
+            )}
+
+            <form className="space-y-5" onSubmit={sendContactForm}>
+              <div className="grid md:grid-cols-2 gap-5">
+                <input 
+                  type="text" 
+                  placeholder="Adınız Soyadınız" 
+                  value={contactName}
+                  onChange={(e) => setContactName(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" 
+                  required
+                />
+                <input 
+                  type="email" 
+                  placeholder="E-posta adresiniz" 
+                  value={contactEmail}
+                  onChange={(e) => setContactEmail(e.target.value)}
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-500" 
+                  required
+                />
+              </div>
+              <select 
+                value={contactSubject}
+                onChange={(e) => setContactSubject(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none bg-white text-gray-900"
+              >
+                <option>Genel Soru</option>
+                <option>Teknik Destek</option>
+                <option>Ödeme Sorunu</option>
+              </select>
+              <textarea 
+                rows={4} 
+                placeholder="Mesajınız" 
+                value={contactMessage}
+                onChange={(e) => setContactMessage(e.target.value)}
+                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-blue-500 outline-none resize-none text-gray-900 placeholder:text-gray-500"
+                required
+              ></textarea>
+              <button 
+                type="submit" 
+                disabled={contactSending}
+                className={`w-full py-3 rounded-xl font-semibold transition-colors ${
+                  contactSending 
+                    ? 'bg-blue-300 cursor-not-allowed' 
+                    : 'bg-blue-500 hover:bg-blue-600'
+                } text-white`}
+              >
+                {contactSending ? 'Gönderiliyor...' : 'Gönder'}
+              </button>
+            </form>
+
+            <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap justify-center gap-6">
+              <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-gray-600 hover:text-blue-500">
+                📧 destek@nikahim.com
+              </a>
+              <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-gray-600 hover:text-green-500">
+                <Image src="/whatsapp.png" alt="WhatsApp" width={24} height={24} className="w-6 h-6" />
+                WhatsApp
+              </a>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
       {/* CTA */}
-      <section className="py-16 bg-blue-500">
+      <section className="py-16 bg-gradient-to-r from-blue-500 to-blue-600">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-2xl lg:text-3xl font-bold text-white mb-4">
             Nikahınızı canlı yayınlamaya hazır mısınız?
@@ -663,6 +805,7 @@ export default function Home() {
               <div className="space-y-2 text-sm">
                 <button onClick={() => scrollToSection("nikah-ara")} className="block text-gray-400 hover:text-white">Nikah Ara</button>
                 <button onClick={() => scrollToSection("nasil-calisir")} className="block text-gray-400 hover:text-white">Nasıl Çalışır</button>
+                <button onClick={() => scrollToSection("neden-nikahim")} className="block text-gray-400 hover:text-white">Neden Nikahım</button>
                 <button onClick={() => scrollToSection("paketler")} className="block text-gray-400 hover:text-white">Paketler</button>
                 <button onClick={() => scrollToSection("sss")} className="block text-gray-400 hover:text-white">SSS</button>
               </div>
