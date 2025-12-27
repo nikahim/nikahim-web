@@ -956,13 +956,17 @@ export default function WatchPage() {
             {/* Ödeme yöntemi seçimi */}
             {(selectedGold !== "nakit" || pendingPaymentId) && !paymentMethod && (
               <div className="space-y-3">
-                <p className="text-gray-500 mb-4">Ödeme yöntemini seçin:</p>
+                <p className="text-gray-500 mb-2">Ödeme yöntemini seçin:</p>
+                <p className="text-gray-400 text-xs mb-4 flex items-center gap-1">
+                  💡 Tüm ödemeler doğrudan çiftin banka hesabına yapılmaktadır.
+                </p>
                 
                 <button onClick={() => setPaymentMethod("qr")} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors">
                   <span className="text-3xl">📱</span>
                   <div className="text-left">
                     <div className="font-medium text-gray-900">QR Kod ile FAST</div>
                     <div className="text-sm text-green-600">%0 Komisyon</div>
+                    <div className="text-xs text-gray-400">QR kodu taratarak tek tıkla</div>
                   </div>
                 </button>
 
@@ -971,6 +975,7 @@ export default function WatchPage() {
                   <div className="text-left">
                     <div className="font-medium text-gray-900">IBAN ile Havale/EFT</div>
                     <div className="text-sm text-green-600">%0 Komisyon</div>
+                    <div className="text-xs text-gray-400">IBAN bilgisi kopyalayarak para transferi</div>
                   </div>
                 </button>
 
@@ -985,11 +990,14 @@ export default function WatchPage() {
               <div className="text-center">
                 <div className="bg-gray-100 rounded-xl p-6 mb-4">
                   {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
-                    <img 
-                      src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
-                      alt="QR Kod" 
-                      className="w-48 h-48 mx-auto rounded-lg object-contain"
-                    />
+                    <>
+                      <img 
+                        src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
+                        alt="QR Kod" 
+                        className="w-48 h-48 mx-auto rounded-lg object-contain"
+                      />
+                      <p className="text-gray-400 text-xs mt-2">💡 Kod üzerine basılı tutarak indirebilirsiniz</p>
+                    </>
                   ) : (
                     <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
                       <span className="text-gray-400 text-center text-sm p-4">QR Kod Bulunamadı! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
