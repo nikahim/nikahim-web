@@ -328,7 +328,7 @@ export default function Home() {
                         className="w-full p-4 flex items-center gap-4 hover:bg-blue-50 transition-colors text-left"
                       >
                         <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-2xl">
-                          💒
+                          💍
                         </div>
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900">
@@ -378,7 +378,7 @@ export default function Home() {
 
             <div className="bg-white rounded-2xl p-8 text-center shadow-sm">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-3xl mx-auto mb-6">
-                💒
+                💍
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">2. Nikahınızı Oluşturun</h3>
               <p className="text-gray-600">Nikah bilgilerinizi girin, davetiye şablonu seçin ve ödeme almak için IBAN bilgilerinizi ekleyin</p>
