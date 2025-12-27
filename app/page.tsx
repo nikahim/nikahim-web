@@ -482,7 +482,27 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Özellik 4 */}
+            {/* Özellik 4 - Video Tebrik */}
+            <div className="bg-gradient-to-r from-rose-50 to-pink-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-rose-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  🎥
+                </div>
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="bg-rose-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">4</span>
+                  <h3 className="text-xl font-bold text-gray-900">Video Tebrik Mesajları</h3>
+                </div>
+                <p className="text-gray-600 leading-relaxed">
+                  <strong>Tüm paketlerimizde</strong> ücretsiz olarak bulunan Video Tebrik özelliği ile töreninizi 
+                  canlı izleyen davetliler size video tebrik mesajlarını gönderir. Siz de daha sonra bu videoları 
+                  uygulamamız üzerinden izleyebilirsiniz.
+                </p>
+              </div>
+            </div>
+
+            {/* Özellik 5 */}
             <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
                 <div className="w-16 h-16 bg-green-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
@@ -491,7 +511,7 @@ export default function Home() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-green-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">4</span>
+                  <span className="bg-green-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">5</span>
                   <h3 className="text-xl font-bold text-gray-900">Size Özel Dijital Davetiye</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
@@ -501,7 +521,7 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Özellik 5 */}
+            {/* Özellik 6 */}
             <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
                 <div className="w-16 h-16 bg-indigo-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
@@ -510,7 +530,7 @@ export default function Home() {
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-indigo-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">5</span>
+                  <span className="bg-indigo-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">6</span>
                   <h3 className="text-xl font-bold text-gray-900">Detaylı Takip ve İstatistik</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
