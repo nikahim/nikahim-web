@@ -7,6 +7,21 @@ import { useParams } from "next/navigation";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
 import VideoRecorder from '@/components/VideoRecorder';
 
+const SUPABASE_URL = 'https://haeifluvvazdealsofle.supabase.co';
+
+// Müzik dosyaları mapping
+const MUSIC_FILES: Record<string, string> = {
+  canon_in_d: 'canon_in_d.mp3',
+  wedding_march: 'wedding_march.mp3',
+  air_on_g_string: 'air_on_g_string.mp3',
+  clair_de_lune: 'clair_de_lune.mp3',
+  joy_of_travel: 'joy_of_travel.mp3',
+  vivaldi_spring: 'vivaldi_spring.mp3',
+  moonlight_sonata: 'moonlight_sonata.mp3',
+  fur_elise: 'fur_elise.mp3',
+  swan_lake: 'swan_lake.mp3',
+};
+
 interface Event {
   id: string;
   groom_full_name: string;
@@ -23,6 +38,7 @@ interface Event {
   status: string;
   qr_codes?: Record<string, string>;
   event_type: string;
+  background_music?: string;
   gold_prices_locked?: {
     gram: number;
     ceyrek: number;
@@ -85,11 +101,12 @@ export default function WatchPage() {
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
   const [showVideoRecorder, setShowVideoRecorder] = useState(false);
-  
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [musicMuted, setMusicMuted] = useState(false);
 
-  // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
   const pendingPaymentIdRef = useRef<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -98,7 +115,76 @@ export default function WatchPage() {
     seconds: 0,
   });
 
-  // Kilitli fiyatları kullan, yoksa varsayılan fiyatlar
+  // Müzik kontrolü - bekleme ekranında çal, yayın başlayınca durdur
+  useEffect(() => {
+    const musicId = event?.background_music;
+    const isWaiting = !streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest);
+    const shouldPlayMusic = isNameEntered && isWaiting && musicId && musicId !== 'none';
+
+    if (shouldPlayMusic) {
+      const musicFile = MUSIC_FILES[musicId];
+      if (musicFile && !audioRef.current) {
+        const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
+        audio.loop = true;
+        audio.volume = 0.5;
+        audioRef.current = audio;
+        
+        audio.play().then(() => {
+          setIsMusicPlaying(true);
+        }).catch((err) => {
+          console.log('Müzik otomatik başlatılamadı:', err);
+          setIsMusicPlaying(false);
+        });
+      } else if (audioRef.current && audioRef.current.paused) {
+        audioRef.current.play().catch(() => {});
+        setIsMusicPlaying(true);
+      }
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsMusicPlaying(false);
+      }
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, [event?.background_music, streamData?.status, isNameEntered, showEndedScreen, streamData?.isTest]);
+
+  const toggleMusicMute = () => {
+    if (audioRef.current) {
+      if (musicMuted) {
+        audioRef.current.volume = 0.5;
+        setMusicMuted(false);
+      } else {
+        audioRef.current.volume = 0;
+        setMusicMuted(true);
+      }
+    }
+  };
+
+  const startMusic = () => {
+    if (audioRef.current) {
+      audioRef.current.play().then(() => {
+        setIsMusicPlaying(true);
+      }).catch(() => {});
+    } else if (event?.background_music && event.background_music !== 'none') {
+      const musicFile = MUSIC_FILES[event.background_music];
+      if (musicFile) {
+        const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
+        audio.loop = true;
+        audio.volume = 0.5;
+        audioRef.current = audio;
+        audio.play().then(() => {
+          setIsMusicPlaying(true);
+        }).catch(() => {});
+      }
+    }
+  };
+
   const getGoldPrice = (type: string): number => {
     if (event?.gold_prices_locked) {
       const prices = event.gold_prices_locked;
@@ -111,7 +197,6 @@ export default function WatchPage() {
         default: return 0;
       }
     }
-    // Varsayılan fiyatlar (kilitli fiyat yoksa)
     const defaults: Record<string, number> = {
       gram: 6240,
       ceyrek: 9980,
@@ -133,7 +218,6 @@ export default function WatchPage() {
 
   const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺️", "😚", "😙", "🥲", "😋", "😛", "😒", "😏", "😑", "🤐", "🤔", "🤭", "🤗", "🤑", "😝", "🥳", "😎", "🤓", "🥺", "😳", "😲", "😯", "😮", "🙈", "🙉", "🙊", "💋", "💯", "💥", "💫", "✌️", "❣️", "💔", "❤️‍🔥", "❤️", "💕", "🎉", "👏", "💐", "💍", "🎊", "🙏", "💒", "✨", "🌹", "💝", "🤵", "👰"];
 
-  // Stream durumunu çek + Real-time subscription
   useEffect(() => {
     if (!event?.id) return;
 
@@ -154,10 +238,8 @@ export default function WatchPage() {
       }
     };
 
-    // İlk yükleme
     fetchStream();
 
-    // Real-time subscription - stream değiştiğinde anında güncelle
     const channel = supabase
       .channel(`stream-${event.id}`)
       .on('postgres_changes', {
@@ -166,7 +248,6 @@ export default function WatchPage() {
         table: 'streams',
         filter: `event_id=eq.${event.id}`
       }, (payload) => {
-        console.log('Stream updated:', payload.new);
         const newStream = payload.new as any;
         setStreamData({
           status: newStream.status || 'idle',
@@ -177,7 +258,6 @@ export default function WatchPage() {
       })
       .subscribe();
 
-    // Yedek: Her 10 saniyede bir kontrol (realtime çalışmazsa)
     const interval = setInterval(fetchStream, 10000);
 
     return () => {
@@ -186,22 +266,18 @@ export default function WatchPage() {
     };
   }, [event?.id]);
 
-  /// Yayın bittiğinde geçiş ekranı göster
   useEffect(() => {
-    // Status active'den ended'a geçtiğinde
     if (prevStreamStatus === 'active' && streamData?.status === 'ended') {
-      // Test yayınında geçiş ekranı gösterme, direkt geri sayıma dön
       if (streamData?.isTest) {
         setShowEndedScreen(false);
       } else {
         setShowEndedScreen(true);
-        setEndedCountdown(120); // 2 dakika
+        setEndedCountdown(120);
       }
     }
     setPrevStreamStatus(streamData?.status || null);
   }, [streamData?.status, prevStreamStatus, streamData?.isTest]);
 
-  // Countdown timer
   useEffect(() => {
     if (!showEndedScreen) return;
 
@@ -230,7 +306,6 @@ export default function WatchPage() {
       if (data) {
         setEvent(data);
         
-        // Paket bilgisini çek
         if (data.package_id) {
           const { data: pkgData } = await supabase
             .from('packages')
@@ -251,7 +326,6 @@ export default function WatchPage() {
     }
   }, [slug]);
 
-  // localStorage'dan isim kontrolü
   useEffect(() => {
     if (slug) {
       const savedName = localStorage.getItem(`nikahim_viewer_${slug}`);
@@ -263,14 +337,12 @@ export default function WatchPage() {
     }
   }, [slug]);
 
-  // Chat otomatik scroll
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
-  // İzleyici sayısını çek + limit kontrolü
   useEffect(() => {
     const fetchViewerCount = async () => {
       if (event?.id) {
@@ -282,8 +354,7 @@ export default function WatchPage() {
         const currentCount = count || 0;
         setViewerCount(currentCount);
         
-        // Limit kontrolü
-        const maxViewers = eventPackage?.max_viewers || 50; // Varsayılan 50
+        const maxViewers = eventPackage?.max_viewers || 50;
         if (currentCount >= maxViewers) {
           setViewerLimitReached(true);
         }
@@ -292,16 +363,13 @@ export default function WatchPage() {
 
     fetchViewerCount();
     
-    // Her 30 saniyede limit kontrolü
     const interval = setInterval(fetchViewerCount, 30000);
     return () => clearInterval(interval);
   }, [event?.id, eventPackage?.max_viewers]);
 
-  // Chat mesajlarını çek + Real-time subscription
   useEffect(() => {
     if (!event?.id) return;
 
-    // Önce mevcut mesajları çek
     const fetchMessages = async () => {
       const { data } = await supabase
         .from('chat_messages')
@@ -322,7 +390,6 @@ export default function WatchPage() {
 
     fetchMessages();
 
-    // Real-time subscription
     const channel = supabase
       .channel(`chat-${event.id}`)
       .on('postgres_changes', {
@@ -342,13 +409,11 @@ export default function WatchPage() {
       })
       .subscribe();
 
-    // Cleanup
     return () => {
       supabase.removeChannel(channel);
     };
   }, [event?.id]);
 
-  // Geri sayım
   useEffect(() => {
     if (!event) return;
 
@@ -372,14 +437,10 @@ export default function WatchPage() {
     return () => clearInterval(timer);
   }, [event]);
 
-  
-
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
-      // İzleyici limiti kontrolü
       const maxViewers = eventPackage?.max_viewers || 50;
       
-      // Güncel izleyici sayısını çek
       const { count } = await supabase
         .from('viewers')
         .select('*', { count: 'exact', head: true })
@@ -389,10 +450,9 @@ export default function WatchPage() {
       
       if (currentCount >= maxViewers) {
         setViewerLimitReached(true);
-        return; // Katılmaya izin verme
+        return;
       }
       
-      // localStorage'a kaydet
       localStorage.setItem(`nikahim_viewer_${slug}`, viewerName.trim());
       
       await supabase.from('viewers').insert({
@@ -412,7 +472,6 @@ export default function WatchPage() {
 
   const sendMessage = async () => {
     if (message.trim() && event?.id) {
-      // Sadece DB'ye kaydet - Real-time subscription otomatik ekleyecek
       await supabase.from('chat_messages').insert({
         event_id: event.id,
         sender_name: viewerName,
@@ -428,16 +487,14 @@ export default function WatchPage() {
     setMessage(message + emoji);
   };
 
-  // ✅ FIX: Altın seçildiğinde - pending kayıt oluştur (ref ile senkron)
   const handleGoldSelect = async (goldId: string) => {
     setSelectedGold(goldId);
     setCustomAmount("");
     setShowPaymentModal(true);
     
-    // Nakit değilse hemen pending kayıt oluştur
     if (goldId !== "nakit" && event?.id) {
       const selectedGoldOption = goldOptions.find(g => g.id === goldId);
-      const { data, error } = await supabase.from('gift_payments').insert({
+      const { data } = await supabase.from('gift_payments').insert({
         event_id: event.id,
         sender_name: viewerName,
         gift_type: goldId,
@@ -445,19 +502,13 @@ export default function WatchPage() {
         status: 'pending',
       }).select().single();
       
-      console.log('Insert data:', data);
-      console.log('Insert error:', error);
-      
       if (data) {
-        // ✅ FIX: Hem state hem ref güncelle
         setPendingPaymentId(data.id);
         pendingPaymentIdRef.current = data.id;
-        console.log('PendingPaymentId set:', data.id);
       }
     }
   };
 
-  // ✅ FIX: Nakit için miktar girildikten sonra pending kayıt (ref ile senkron)
   const handleCustomAmountSubmit = async () => {
     if (!customAmount || !event?.id) return;
     
@@ -470,36 +521,24 @@ export default function WatchPage() {
     }).select().single();
     
     if (data) {
-      // ✅ FIX: Hem state hem ref güncelle
       setPendingPaymentId(data.id);
       pendingPaymentIdRef.current = data.id;
-      console.log('Nakit PendingPaymentId set:', data.id);
     }
   };
 
-  // ✅ FIX: Ödeme tamamlandı - ref'ten ID al (senkron, güvenilir)
   const handlePaymentComplete = async () => {
-    // ✅ FIX: ref kullan, state değil
     const paymentId = pendingPaymentIdRef.current;
-    console.log('handlePaymentComplete called, paymentId from ref:', paymentId);
     
     if (paymentId) {
-      const { data, error } = await supabase
+      await supabase
         .from('gift_payments')
         .update({ status: 'completed' })
-        .eq('id', paymentId)
-        .select();
-      
-      console.log('Update data:', data);
-      console.log('Update error:', error);
-    } else {
-      console.error('Payment ID bulunamadı!');
+        .eq('id', paymentId);
     }
 
     setShowPaymentModal(false);
     setShowSuccessModal(true);
     
-    // ✅ FIX: Temizlerken ikisini de temizle
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
 
@@ -511,10 +550,8 @@ export default function WatchPage() {
     }, 3000);
   };
 
-  // ✅ FIX: Modal kapatıldığında - pending kalır, ref temizle
   const handleCloseModal = () => {
     setShowPaymentModal(false);
-    
     setPaymentMethod(null);
     setSelectedGold(null);
     setCustomAmount("");
@@ -527,7 +564,6 @@ export default function WatchPage() {
       await navigator.clipboard.writeText(text);
       alert('IBAN kopyalandı!');
     } catch {
-      // Fallback: eski yöntem
       const textArea = document.createElement('textarea');
       textArea.value = text;
       textArea.style.position = 'fixed';
@@ -539,7 +575,6 @@ export default function WatchPage() {
       alert('IBAN kopyalandı!');
     }
   };
-
 
   const getSelectedPrice = () => {
     if (selectedGold === "nakit") {
@@ -575,13 +610,12 @@ export default function WatchPage() {
   const isLive = event.status === 'live';
   const eventDate = new Date(event.event_date).toLocaleDateString('tr-TR');
   const eventTime = event.event_time?.slice(0, 5) || '14:00';
+  const hasMusicSelected = event.background_music && event.background_music !== 'none';
 
-  // İzleyici limiti doldu ekranı
   if (viewerLimitReached && !isNameEntered && !isReturningViewer) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
-          {/* Sol üst logo */}
           <div className="absolute top-4 left-4 flex items-center gap-2">
             <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
             <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
@@ -589,9 +623,7 @@ export default function WatchPage() {
           
           <div className="text-6xl mb-4 mt-8">😔</div>
           
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Yayın Kapasitesi Doldu
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Yayın Kapasitesi Doldu</h1>
           
           <p className="text-gray-500 mb-6">
             {event.bride_full_name} & {event.groom_full_name} nikah töreni için izleyici kapasitesi dolmuştur.
@@ -603,9 +635,7 @@ export default function WatchPage() {
             </p>
           </div>
           
-          <p className="text-gray-400 text-sm">
-            Daha sonra tekrar deneyebilirsiniz.
-          </p>
+          <p className="text-gray-400 text-sm">Daha sonra tekrar deneyebilirsiniz.</p>
         </div>
       </main>
     );
@@ -615,7 +645,6 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
-          {/* Sol üst logo */}
           <div className="absolute top-4 left-4 flex items-center gap-2">
             <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
             <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
@@ -650,28 +679,17 @@ export default function WatchPage() {
             Yayına Katıl
           </button>
 
-          <p className="text-gray-400 text-sm mt-4">
-            📅 {eventDate} - 🕐 {eventTime}
-          </p>
-          
-          {/* İzleyici bilgisi */}
-          <p className="text-gray-400 text-xs mt-2">
-            👥 {viewerCount}/{eventPackage?.max_viewers || 50} izleyici
-          </p>
+          <p className="text-gray-400 text-sm mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
+          <p className="text-gray-400 text-xs mt-2">👥 {viewerCount}/{eventPackage?.max_viewers || 50} izleyici</p>
         </div>
 
-        {/* Hoşgeldin Modal */}
         {showWelcomeModal && (
           <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
             <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
               <div className="text-6xl mb-4">🎊</div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
-              <p className="text-gray-600 mb-2">
-                Katılım bilginiz çiftimize iletildi.
-              </p>
-              <p className="text-gray-500">
-                Katıldığınız için teşekkür ederiz! 🎉
-              </p>
+              <p className="text-gray-600 mb-2">Katılım bilginiz çiftimize iletildi.</p>
+              <p className="text-gray-500">Katıldığınız için teşekkür ederiz! 🎉</p>
             </div>
           </div>
         )}
@@ -723,23 +741,21 @@ export default function WatchPage() {
           <div className="lg:col-span-2 space-y-4 w-full min-w-0">
             
             <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
-              {/* Yayın başlıyor durumu */}
-                {streamData?.status === 'starting' && (
-                  <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-gray-900 via-amber-950 to-gray-900' : 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800'}`}>
-                    <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '⚙️' : '🎥'}</div>
-                    <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
-                      {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
-                    </h2>
-                    <p className="text-white/80 text-lg mb-6">Lütfen bekleyin...</p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                    </div>
+              {streamData?.status === 'starting' && (
+                <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-gray-900 via-amber-950 to-gray-900' : 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800'}`}>
+                  <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '⚙️' : '🎥'}</div>
+                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
+                    {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
+                  </h2>
+                  <p className="text-white/80 text-lg mb-6">Lütfen bekleyin...</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                    <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
-                )}
+                </div>
+              )}
 
-              {/* Yayın sonlandı - geçiş ekranı */}
               {streamData?.status === 'ended' && showEndedScreen && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800 z-10">
                   <div className="text-7xl mb-6">🎬</div>
@@ -759,7 +775,6 @@ export default function WatchPage() {
                 </div>
               )}
 
-              {/* Aktif yayın */}
               {streamData?.status === 'active' && streamData?.playbackId && (
                 <ApiVideoPlayer
                   liveStreamId={streamData.playbackId || undefined}
@@ -774,7 +789,6 @@ export default function WatchPage() {
                 />
               )}
 
-              {/* Kayıt izleme (geçiş ekranı bittikten sonra, test değilse) */}
               {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && streamData?.playbackId && (
                 <ApiVideoPlayer
                   liveStreamId={streamData.playbackId || undefined}
@@ -789,26 +803,13 @@ export default function WatchPage() {
                 />
               )}
 
-              {/* Test bitti - normal bekleme ekranı */}
               {streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                  {/* Arka plan resmi */}
-                  <img 
-                    src="/wedding-bg.jpg" 
-                    alt="" 
-                    className="absolute inset-0 w-full h-full object-cover object-center"
-                    style={{ minHeight: '100%', minWidth: '100%' }}
-                  />
-                  {/* Koyu overlay */}
+                  <img src="/wedding-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" style={{ minHeight: '100%', minWidth: '100%' }} />
                   <div className="absolute inset-0 bg-black/60"></div>
                   
-                  {/* İçerik */}
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img 
-                      src={event.couple_photo_url || "/logo.png"} 
-                      alt="Çift Fotoğrafı" 
-                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]"
-                    />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]" />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
                       {event.bride_full_name} & {event.groom_full_name}
@@ -834,32 +835,31 @@ export default function WatchPage() {
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
                       </div>
                     </div>
-                    
-                    
+
+                    {hasMusicSelected && (
+                      <div className="mt-4 flex items-center gap-2">
+                        {!isMusicPlaying ? (
+                          <button onClick={startMusic} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
+                            🎵 Müziği Başlat
+                          </button>
+                        ) : (
+                          <button onClick={toggleMusicMute} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
+                            {musicMuted ? '🔇 Sesi Aç' : '🔊 Sesi Kapat'}
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
               
-              {/* Yayın yok - geri sayım */}
               {(!streamData?.status || streamData?.status === 'idle') && !isLive && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                  {/* Arka plan resmi */}
-                  <img 
-                    src="/wedding-bg.jpg" 
-                    alt="" 
-                    className="absolute inset-0 w-full h-full object-cover object-center"
-                    style={{ minHeight: '100%', minWidth: '100%' }}
-                  />
-                  {/* Koyu overlay */}
+                  <img src="/wedding-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" style={{ minHeight: '100%', minWidth: '100%' }} />
                   <div className="absolute inset-0 bg-black/60"></div>
                   
-                  {/* İçerik */}
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img 
-                      src={event.couple_photo_url || "/logo.png"} 
-                      alt="Çift Fotoğrafı" 
-                      className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]"
-                    />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-3 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[120px] h-[120px] lg:w-[180px] lg:h-[180px]" />
                     
                     <h2 className="text-white text-base lg:text-xl font-bold mb-1 lg:mb-2 text-center px-2">
                       {event.bride_full_name} & {event.groom_full_name}
@@ -885,8 +885,20 @@ export default function WatchPage() {
                         <div className="text-[8px] lg:text-[10px] text-gray-300">Saniye</div>
                       </div>
                     </div>
-                    
-                   
+
+                    {hasMusicSelected && (
+                      <div className="mt-4 flex items-center gap-2">
+                        {!isMusicPlaying ? (
+                          <button onClick={startMusic} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
+                            🎵 Müziği Başlat
+                          </button>
+                        ) : (
+                          <button onClick={toggleMusicMute} className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur px-4 py-2 rounded-full text-white text-sm transition-colors">
+                            {musicMuted ? '🔇 Sesi Aç' : '🔊 Sesi Kapat'}
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -894,12 +906,9 @@ export default function WatchPage() {
 
             <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
               <div className="flex items-center gap-4">
-                {/* Wedding icon */}
                 <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                    {event.bride_full_name} & {event.groom_full_name}
-                  </h1>
+                  <h1 className="text-2xl font-bold text-gray-900 mb-2">{event.bride_full_name} & {event.groom_full_name}</h1>
                   <p className="text-gray-500">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
               </div>
@@ -924,17 +933,13 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* Video Tebrik Gönder */}
             <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">🎥 Video Tebrik</h2>
                   <p className="text-gray-500 text-sm">30 saniyelik video mesaj gönderin</p>
                 </div>
-                <button
-                  onClick={() => setShowVideoRecorder(true)}
-                  className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all hover:scale-105 shadow-lg"
-                >
+                <button onClick={() => setShowVideoRecorder(true)} className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all hover:scale-105 shadow-lg">
                   <span>📹</span>
                   Video Çek
                 </button>
@@ -950,11 +955,7 @@ export default function WatchPage() {
               
               <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
                 {goldOptions.map((gold) => (
-                  <button
-                    key={gold.id}
-                    onClick={() => handleGoldSelect(gold.id)}
-                    className="group bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300 rounded-xl p-3 text-center transition-all hover:scale-105 hover:shadow-lg"
-                  >
+                  <button key={gold.id} onClick={() => handleGoldSelect(gold.id)} className="group bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300 rounded-xl p-3 text-center transition-all hover:scale-105 hover:shadow-lg">
                     <div className="relative w-12 h-12 mx-auto mb-2">
                       <Image src={gold.image} alt={gold.name} fill className="object-contain" />
                     </div>
@@ -1006,10 +1007,7 @@ export default function WatchPage() {
 
               <div className="p-3 border-t">
                 <div className="flex gap-1 lg:gap-2 pr-1">
-                  <button
-                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                    className={`px-3 py-2 rounded-xl transition-colors ${showEmojiPicker ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 hover:bg-gray-200'}`}
-                  >
+                  <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className={`px-3 py-2 rounded-xl transition-colors ${showEmojiPicker ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 hover:bg-gray-200'}`}>
                     😊
                   </button>
                   <input
@@ -1035,46 +1033,23 @@ export default function WatchPage() {
         </div>
       </div>
 
-      {/* Video Recorder Modal */}
       {showVideoRecorder && event && (
-        <VideoRecorder
-          eventId={event.id}
-          senderName={viewerName}
-          onSuccess={() => setShowVideoRecorder(false)}
-          onClose={() => setShowVideoRecorder(false)}
-        />
+        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => setShowVideoRecorder(false)} onClose={() => setShowVideoRecorder(false)} />
       )}
 
-      {/* Ödeme Modal */}
       {showPaymentModal && selectedGold && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={handleCloseModal}>
           <div className="bg-white rounded-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">
-              {goldOptions.find(g => g.id === selectedGold)?.name} Gönder
-            </h3>
+            <h3 className="text-xl font-bold text-gray-900 mb-4">{goldOptions.find(g => g.id === selectedGold)?.name} Gönder</h3>
 
-            {/* Nakit için miktar girişi */}
             {selectedGold === "nakit" && !pendingPaymentId && (
               <div className="mb-4">
                 <label className="block text-gray-600 mb-2 font-medium">Göndermek istediğiniz miktar</label>
-                <input
-                  type="number"
-                  value={customAmount}
-                  onChange={(e) => setCustomAmount(e.target.value)}
-                  placeholder="Miktarı girin (₺)"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-lg"
-                />
-                <button
-                  onClick={handleCustomAmountSubmit}
-                  disabled={!customAmount || parseFloat(customAmount) <= 0}
-                  className="w-full mt-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold"
-                >
-                  Devam Et
-                </button>
+                <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktarı girin (₺)" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-lg" />
+                <button onClick={handleCustomAmountSubmit} disabled={!customAmount || parseFloat(customAmount) <= 0} className="w-full mt-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold">Devam Et</button>
               </div>
             )}
 
-            {/* Ödeme yöntemi seçimi */}
             {(selectedGold !== "nakit" || pendingPaymentId) && !paymentMethod && (
               <div className="space-y-3">
                 <p className="text-gray-500 mb-2">Ödeme yöntemini seçin:</p>
@@ -1100,23 +1075,16 @@ export default function WatchPage() {
                   </div>
                 </button>
 
-                <button onClick={handleCloseModal} className="w-full py-3 text-gray-500 hover:text-gray-700 font-medium mt-4">
-                  İptal
-                </button>
+                <button onClick={handleCloseModal} className="w-full py-3 text-gray-500 hover:text-gray-700 font-medium mt-4">İptal</button>
               </div>
             )}
 
-            {/* QR Kod ile ödeme */}
             {paymentMethod === "qr" && (
               <div className="text-center">
                 <div className="bg-gray-100 rounded-xl p-6 mb-4">
                   {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
                     <>
-                      <img 
-                        src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} 
-                        alt="QR Kod" 
-                        className="w-48 h-48 mx-auto rounded-lg object-contain"
-                      />
+                      <img src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} alt="QR Kod" className="w-48 h-48 mx-auto rounded-lg object-contain" />
                       <p className="text-gray-400 text-xs mt-2">💡 Kod üzerine basılı tutarak indirebilirsiniz</p>
                     </>
                   ) : (
@@ -1126,27 +1094,18 @@ export default function WatchPage() {
                   )}
                 </div>
                 
-                <p className="text-gray-600 mb-4">
-                  Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
-                </p>
+                <p className="text-gray-600 mb-4">Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong></p>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 flex items-start gap-2">
                   <span className="text-yellow-600 text-lg">⚠️</span>
-                  <p className="text-yellow-700 text-sm text-left">
-                    Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.
-                  </p>
+                  <p className="text-yellow-700 text-sm text-left">Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.</p>
                 </div>
                 
-                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">
-                  ✓ Ödemeyi Tamamladım
-                </button>
-                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">
-                  ← Geri
-                </button>
+                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">✓ Ödemeyi Tamamladım</button>
+                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">← Geri</button>
               </div>
             )}
 
-            {/* IBAN ile ödeme */}
             {paymentMethod === "iban" && (
               <div>
                 <div className="bg-gray-50 rounded-xl p-4 mb-4">
@@ -1156,69 +1115,44 @@ export default function WatchPage() {
                 <div className="bg-gray-50 rounded-xl p-4 mb-4">
                   <p className="text-sm text-gray-500 mb-1">IBAN</p>
                   <p className="font-mono text-gray-900 text-sm">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
-                  <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="text-blue-500 text-sm mt-2 hover:underline">
-                    📋 IBAN Kopyala
-                  </button>
-                    
+                  <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="text-blue-500 text-sm mt-2 hover:underline">📋 IBAN Kopyala</button>
                 </div>
-                <p className="text-gray-600 mb-4">
-                  Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong>
-                </p>
+                <p className="text-gray-600 mb-4">Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong></p>
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 flex items-start gap-2">
                   <span className="text-yellow-600 text-lg">⚠️</span>
-                  <p className="text-yellow-700 text-sm text-left">
-                    Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.
-                  </p>
+                  <p className="text-yellow-700 text-sm text-left">Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.</p>
                 </div>
 
-                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">
-                  ✓ Ödemeyi Tamamladım
-                </button>
-                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">
-                  ← Geri
-                </button>
+                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">✓ Ödemeyi Tamamladım</button>
+                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">← Geri</button>
               </div>
             )}
           </div>
         </div>
       )}
 
-
-      {/* Hoşgeldin Modal */}
-        {showWelcomeModal && (
-          <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
-              <div className="text-6xl mb-4">🎊</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
-              <p className="text-gray-600 mb-2">
-                Katılım bilginiz çiftimize iletildi.
-              </p>
-              <p className="text-gray-500">
-                Katıldığınız için teşekkür ederiz! 🎉
-              </p>
-            </div>
+      {showWelcomeModal && (
+        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
+            <div className="text-6xl mb-4">🎊</div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
+            <p className="text-gray-600 mb-2">Katılım bilginiz çiftimize iletildi.</p>
+            <p className="text-gray-500">Katıldığınız için teşekkür ederiz! 🎉</p>
           </div>
-        )} 
+        </div>
+      )}
 
-      {/* Başarı Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
             <div className="text-6xl mb-4">🎊</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-3">Tebrikler!</h3>
-            <p className="text-gray-600 mb-2">
-              Hediyeniz çiftimize iletildi.
-            </p>
-            <p className="text-gray-500">
-              Katılımınız için teşekkür ederiz! 🎉
-            </p>
+            <p className="text-gray-600 mb-2">Hediyeniz çiftimize iletildi.</p>
+            <p className="text-gray-500">Katılımınız için teşekkür ederiz! 🎉</p>
           </div>
         </div>
       )}
-
-      
-
     </main>
   );
 }
