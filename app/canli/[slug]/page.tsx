@@ -24,7 +24,11 @@ const MUSIC_FILES: Record<string, string> = {
 
 interface Event {
   id: string;
+  groom_first_name: string;
+  groom_last_name: string;
   groom_full_name: string;
+  bride_first_name: string;
+  bride_last_name: string;
   bride_full_name: string;
   groom_father_name: string;
   groom_mother_name: string;
@@ -977,7 +981,7 @@ export default function WatchPage() {
               <div className="flex items-center gap-4">
                 <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
                 <div>
-                  <h1 className="text-lg lg:text-xl font-bold text-gray-900 mb-2">{event.bride_full_name} & {event.groom_full_name}</h1>
+                  <h1 className="text-lg lg:text-xl font-bold text-gray-900 mb-2">{event.bride_first_name} & {event.groom_first_name}</h1>
                   <p className="text-gray-500">📅 {eventDate} - 🕐 {eventTime}</p>
                 </div>
               </div>

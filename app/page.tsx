@@ -67,7 +67,7 @@ export default function Home() {
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
-    if (query.length >= 2) {
+    if (query.length >= 1) {
       const searchTerms = query.toLowerCase().split(" ").filter(t => t.length > 0);
       
       const results = allEvents.filter(event => {
