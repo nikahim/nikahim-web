@@ -940,7 +940,7 @@ export default function WatchPage() {
                 </button>
               </div>
               <div className="bg-pink-50 rounded-xl p-3 text-sm text-pink-700">
-                💡 Kameranızı açarak çifte özel bir video mesaj gönderin. Tüm video tebrikler çift tarafından görüntülenebilir.
+                💡 Kameranızı açarak çifte özel bir video mesaj gönderin. Tüm video tebrikler sadece çift tarafından görüntülenebilir.
               </div>
             </div>
 

@@ -27,6 +27,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
   const streamRef = useRef<MediaStream | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const countdownRef = useRef<NodeJS.Timeout | null>(null);
+  const mimeTypeRef = useRef<string>('video/webm');
 
   // Kamera başlat
   const startCamera = async () => {
@@ -37,10 +38,16 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
       });
       
       streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
       setState('preview');
+      
+      // State değiştikten sonra video element'e ata
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play().catch(console.error);
+        }
+      }, 100);
+      
     } catch (err) {
       console.error('Kamera hatası:', err);
       setErrorMessage('Kamera erişimi reddedildi. Lütfen izin verin.');
@@ -54,9 +61,20 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
 
     chunksRef.current = [];
     
-    const mediaRecorder = new MediaRecorder(streamRef.current, {
-      mimeType: 'video/webm;codecs=vp9,opus'
-    });
+    // Desteklenen mimeType bul
+    let mimeType = 'video/webm;codecs=vp9,opus';
+    if (!MediaRecorder.isTypeSupported(mimeType)) {
+      mimeType = 'video/webm;codecs=vp8,opus';
+      if (!MediaRecorder.isTypeSupported(mimeType)) {
+        mimeType = 'video/webm';
+        if (!MediaRecorder.isTypeSupported(mimeType)) {
+          mimeType = 'video/mp4';
+        }
+      }
+    }
+    
+    mimeTypeRef.current = mimeType;
+    const mediaRecorder = new MediaRecorder(streamRef.current, { mimeType });
 
     mediaRecorder.ondataavailable = (e) => {
       if (e.data.size > 0) {
@@ -65,7 +83,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
     };
 
     mediaRecorder.onstop = () => {
-      const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+      const blob = new Blob(chunksRef.current, { type: mimeTypeRef.current });
       setRecordedBlob(blob);
       
       // Preview için URL oluştur
@@ -147,8 +165,9 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
       setUploadProgress(20);
 
       // 2. Video dosyasını upload et
+      const fileExt = mimeTypeRef.current.includes('mp4') ? 'mp4' : 'webm';
       const formData = new FormData();
-      formData.append('file', recordedBlob, 'tebrik.webm');
+      formData.append('file', recordedBlob, `tebrik.${fileExt}`);
 
       const uploadResponse = await fetch(`https://ws.api.video/videos/${videoId}/source`, {
         method: 'POST',
@@ -221,6 +240,14 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
     return () => cleanup();
   }, []);
 
+  // Stream hazır olduğunda video element'e ata
+  useEffect(() => {
+    if (state === 'preview' && streamRef.current && videoRef.current) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(console.error);
+    }
+  }, [state]);
+
   // İlk açıldığında kamerayı başlat
   useEffect(() => {
     startCamera();
@@ -259,7 +286,11 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
                 autoPlay
                 muted
                 playsInline
-                className="w-full aspect-video bg-gray-900 rounded-xl object-cover mirror"
+                onLoadedMetadata={(e) => {
+                  const video = e.target as HTMLVideoElement;
+                  video.play().catch(console.error);
+                }}
+                className="w-full aspect-video bg-gray-900 rounded-xl object-cover"
                 style={{ transform: 'scaleX(-1)' }}
               />
               
@@ -290,7 +321,6 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
                 controls
                 playsInline
                 className="w-full aspect-video bg-gray-900 rounded-xl"
-                style={{ transform: 'scaleX(-1)' }}
               />
             </div>
           )}
