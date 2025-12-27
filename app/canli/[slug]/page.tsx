@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
+import VideoRecorder from '@/components/VideoRecorder';
 
 interface Event {
   id: string;
@@ -83,6 +84,7 @@ export default function WatchPage() {
   const [prevStreamStatus, setPrevStreamStatus] = useState<string | null>(null);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
+  const [showVideoRecorder, setShowVideoRecorder] = useState(false);
   
 
   // ✅ FIX: useRef ile payment ID'yi senkron tutuyoruz
@@ -922,6 +924,26 @@ export default function WatchPage() {
               </div>
             </div>
 
+            {/* Video Tebrik Gönder */}
+            <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">🎥 Video Tebrik</h2>
+                  <p className="text-gray-500 text-sm">30 saniyelik video mesaj gönderin</p>
+                </div>
+                <button
+                  onClick={() => setShowVideoRecorder(true)}
+                  className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all hover:scale-105 shadow-lg"
+                >
+                  <span>📹</span>
+                  Video Çek
+                </button>
+              </div>
+              <div className="bg-pink-50 rounded-xl p-3 text-sm text-pink-700">
+                💡 Kameranızı açarak çifte özel bir video mesaj gönderin. Tüm video tebrikler çift tarafından görüntülenebilir.
+              </div>
+            </div>
+
             <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
               <h2 className="text-xl font-bold text-gray-900 mb-4">💰 Altın Tak</h2>
               <p className="text-gray-500 mb-6">Çifte altın takarak hediyenizi gönderin</p>
@@ -1012,6 +1034,16 @@ export default function WatchPage() {
           </div>
         </div>
       </div>
+
+      {/* Video Recorder Modal */}
+      {showVideoRecorder && event && (
+        <VideoRecorder
+          eventId={event.id}
+          senderName={viewerName}
+          onSuccess={() => setShowVideoRecorder(false)}
+          onClose={() => setShowVideoRecorder(false)}
+        />
+      )}
 
       {/* Ödeme Modal */}
       {showPaymentModal && selectedGold && (
