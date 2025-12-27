@@ -918,7 +918,7 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-3 lg:mb-4 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px] landscape:w-[160px] landscape:h-[160px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-8 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[260px] lg:h-[260px] landscape:w-[200px] landscape:h-[200px]" />
                     
                     <div className="flex gap-2 lg:gap-3 landscape:gap-3">
                       <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
@@ -948,7 +948,7 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-3 lg:mb-4 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px] landscape:w-[160px] landscape:h-[160px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-8 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[260px] lg:h-[260px] landscape:w-[200px] landscape:h-[200px]" />
                     
                     <div className="flex gap-2 lg:gap-3 landscape:gap-3">
                       <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
