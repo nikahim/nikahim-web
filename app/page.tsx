@@ -301,6 +301,11 @@ export default function Home() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => handleSearch(e.target.value)}
+                onFocus={(e) => {
+                  setTimeout(() => {
+                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }, 300);
+                }}
                 placeholder="Örn: Ahmet, Ayşe, Yılmaz, Ahmet Ayşe..."
                 className="w-full px-6 py-4 pr-24 text-lg border-2 border-gray-300 rounded-2xl focus:border-blue-500 outline-none bg-white shadow-sm text-gray-900 placeholder:text-gray-500"
               />
