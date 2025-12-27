@@ -29,6 +29,13 @@ interface Event {
     tam: number;
     ata: number;
   } | null;
+  package_id?: string;
+}
+
+interface Package {
+  id: string;
+  name_tr: string;
+  max_viewers: number;
 }
 
 interface Message {
@@ -50,6 +57,7 @@ export default function WatchPage() {
   const slug = params.slug;
 
   const [event, setEvent] = useState<Event | null>(null);
+  const [eventPackage, setEventPackage] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [viewerName, setViewerName] = useState("");
   const [isNameEntered, setIsNameEntered] = useState(false);
@@ -65,6 +73,7 @@ export default function WatchPage() {
   const [endedCountdown, setEndedCountdown] = useState(10);
   const [paymentMethod, setPaymentMethod] = useState<"qr" | "iban" | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
+  const [viewerLimitReached, setViewerLimitReached] = useState(false);
   const [streamData, setStreamData] = useState<{
     status: string;
     playbackId: string | null;
@@ -218,6 +227,19 @@ export default function WatchPage() {
       
       if (data) {
         setEvent(data);
+        
+        // Paket bilgisini çek
+        if (data.package_id) {
+          const { data: pkgData } = await supabase
+            .from('packages')
+            .select('id, name_tr, max_viewers')
+            .eq('id', data.package_id)
+            .single();
+          
+          if (pkgData) {
+            setEventPackage(pkgData);
+          }
+        }
       }
       setLoading(false);
     };
@@ -246,7 +268,7 @@ export default function WatchPage() {
     }
   }, [messages]);
 
-  // İzleyici sayısını çek
+  // İzleyici sayısını çek + limit kontrolü
   useEffect(() => {
     const fetchViewerCount = async () => {
       if (event?.id) {
@@ -255,12 +277,23 @@ export default function WatchPage() {
           .select('*', { count: 'exact', head: true })
           .eq('event_id', event.id);
         
-        setViewerCount(count || 0);
+        const currentCount = count || 0;
+        setViewerCount(currentCount);
+        
+        // Limit kontrolü
+        const maxViewers = eventPackage?.max_viewers || 50; // Varsayılan 50
+        if (currentCount >= maxViewers) {
+          setViewerLimitReached(true);
+        }
       }
     };
 
     fetchViewerCount();
-  }, [event?.id]);
+    
+    // Her 30 saniyede limit kontrolü
+    const interval = setInterval(fetchViewerCount, 30000);
+    return () => clearInterval(interval);
+  }, [event?.id, eventPackage?.max_viewers]);
 
   // Chat mesajlarını çek + Real-time subscription
   useEffect(() => {
@@ -341,6 +374,22 @@ export default function WatchPage() {
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
+      // İzleyici limiti kontrolü
+      const maxViewers = eventPackage?.max_viewers || 50;
+      
+      // Güncel izleyici sayısını çek
+      const { count } = await supabase
+        .from('viewers')
+        .select('*', { count: 'exact', head: true })
+        .eq('event_id', event.id);
+      
+      const currentCount = count || 0;
+      
+      if (currentCount >= maxViewers) {
+        setViewerLimitReached(true);
+        return; // Katılmaya izin verme
+      }
+      
       // localStorage'a kaydet
       localStorage.setItem(`nikahim_viewer_${slug}`, viewerName.trim());
       
@@ -525,6 +574,41 @@ export default function WatchPage() {
   const eventDate = new Date(event.event_date).toLocaleDateString('tr-TR');
   const eventTime = event.event_time?.slice(0, 5) || '14:00';
 
+  // İzleyici limiti doldu ekranı
+  if (viewerLimitReached && !isNameEntered && !isReturningViewer) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
+          {/* Sol üst logo */}
+          <div className="absolute top-4 left-4 flex items-center gap-2">
+            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
+            <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
+          </div>
+          
+          <div className="text-6xl mb-4 mt-8">😔</div>
+          
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Yayın Kapasitesi Doldu
+          </h1>
+          
+          <p className="text-gray-500 mb-6">
+            {event.bride_full_name} & {event.groom_full_name} nikah töreni için izleyici kapasitesi dolmuştur.
+          </p>
+          
+          <div className="bg-blue-50 rounded-xl p-4 mb-6">
+            <p className="text-blue-600 text-sm">
+              👥 Maksimum {eventPackage?.max_viewers || 50} izleyici kapasitesine ulaşıldı.
+            </p>
+          </div>
+          
+          <p className="text-gray-400 text-sm">
+            Daha sonra tekrar deneyebilirsiniz.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   if (!isNameEntered) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
@@ -566,6 +650,11 @@ export default function WatchPage() {
 
           <p className="text-gray-400 text-sm mt-4">
             📅 {eventDate} - 🕐 {eventTime}
+          </p>
+          
+          {/* İzleyici bilgisi */}
+          <p className="text-gray-400 text-xs mt-2">
+            👥 {viewerCount}/{eventPackage?.max_viewers || 50} izleyici
           </p>
         </div>
 
@@ -621,7 +710,7 @@ export default function WatchPage() {
               </span>
             )}
             
-            <span className="text-gray-500 text-sm">👥 {viewerCount} izleyici</span>
+            <span className="text-gray-500 text-sm">👥 {viewerCount}/{eventPackage?.max_viewers || 50}</span>
           </div>
         </div>
       </header>
