@@ -373,7 +373,7 @@ export default function WatchPage() {
       if (savedName) {
         setViewerName(savedName);
         setIsReturningViewer(true);
-        setShowReturningModal(true); // Modal göster
+        setShowReturningModal(true);
       }
     }
   }, [slug]);
@@ -504,7 +504,6 @@ export default function WatchPage() {
       setViewerCount(prev => prev + 1);
       setShowWelcomeModal(true);
       
-      // Müziği hemen başlat (kullanıcı etkileşimi anında)
       if (event?.background_music && event.background_music !== 'none') {
         const musicFile = MUSIC_FILES[event.background_music];
         if (musicFile) {
@@ -696,7 +695,6 @@ export default function WatchPage() {
     );
   }
 
-  // Geri dönen kullanıcı için hoşgeldin modalı
   if (showReturningModal && isReturningViewer) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
@@ -819,7 +817,6 @@ export default function WatchPage() {
               </span>
             )}
             
-            {/* Müzik kontrol butonu - bekleme ekranında göster */}
             {hasMusicSelected && isNameEntered && (!streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest)) && (
               isMusicPlaying ? (
                 <button
@@ -921,26 +918,24 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[180px] h-[180px] lg:w-[260px] lg:h-[260px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-2 lg:mb-4 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px] landscape:w-[80px] landscape:h-[80px] landscape:mb-1" />
                     
-                    
-                    
-                    <div className="flex gap-2 lg:gap-3 landscape:gap-4">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-5 landscape:py-3 landscape:min-w-[70px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-2xl">{countdown.days}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-sm">Gün</div>
+                    <div className="flex gap-2 lg:gap-3 landscape:gap-1">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.days}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Gün</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.hours}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Saat</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.hours}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Saat</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.minutes}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Dakika</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.minutes}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Dakika</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.seconds}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Saniye</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.seconds}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Saniye</div>
                       </div>
                     </div>
                   </div>
@@ -953,26 +948,24 @@ export default function WatchPage() {
                   <div className="absolute inset-0 bg-black/60"></div>
                   
                   <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-4 lg:mb-6 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[180px] h-[180px] lg:w-[260px] lg:h-[260px]" />
+                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-2 lg:mb-4 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[200px] lg:h-[200px] landscape:w-[80px] landscape:h-[80px] landscape:mb-1" />
                     
-                    
-                    
-                    <div className="flex gap-2 lg:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.days}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Gün</div>
+                    <div className="flex gap-2 lg:gap-3 landscape:gap-1">
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.days}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Gün</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.hours}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Saat</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.hours}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Saat</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.minutes}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Dakika</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.minutes}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Dakika</div>
                       </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px]">
-                        <div className="text-lg lg:text-2xl font-bold text-white">{countdown.seconds}</div>
-                        <div className="text-[10px] lg:text-xs text-gray-300">Saniye</div>
+                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-3 lg:px-4 py-2 lg:py-3 text-center min-w-[50px] lg:min-w-[60px] landscape:px-2 landscape:py-1 landscape:min-w-[40px]">
+                        <div className="text-lg lg:text-2xl font-bold text-white landscape:text-base">{countdown.seconds}</div>
+                        <div className="text-[10px] lg:text-xs text-gray-300 landscape:text-[8px]">Saniye</div>
                       </div>
                     </div>
                   </div>
