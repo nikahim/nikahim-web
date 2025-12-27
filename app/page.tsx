@@ -424,13 +424,13 @@ export default function Home() {
             {/* Özellik 1 */}
             <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-blue-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                <div className="w-16 h-16 bg-blue-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
                   🔐
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-blue-500 text-white text-sm font-bold px-3 py-1 rounded-full">1</span>
+                  <span className="bg-blue-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">1</span>
                   <h3 className="text-xl font-bold text-gray-900">Size Özel Canlı Yayın Sayfası</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
@@ -444,13 +444,13 @@ export default function Home() {
             {/* Özellik 2 */}
             <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-purple-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-                  ⚡
+                <div className="w-16 h-16 bg-purple-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  👆
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-purple-500 text-white text-sm font-bold px-3 py-1 rounded-full">2</span>
+                  <span className="bg-purple-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">2</span>
                   <h3 className="text-xl font-bold text-gray-900">Tek Tıkla Katılım - Üyelik Yok, Form Yok!</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
@@ -464,13 +464,13 @@ export default function Home() {
             {/* Özellik 3 */}
             <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-yellow-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-                  💰
+                <div className="w-16 h-16 bg-yellow-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                  🪙
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-yellow-500 text-white text-sm font-bold px-3 py-1 rounded-full">3</span>
+                  <span className="bg-yellow-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">3</span>
                   <h3 className="text-xl font-bold text-gray-900">Kolayca Altın Takma</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
@@ -485,13 +485,13 @@ export default function Home() {
             {/* Özellik 4 */}
             <div className="bg-gradient-to-r from-green-50 to-teal-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                <div className="w-16 h-16 bg-green-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
                   💌
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full">4</span>
+                  <span className="bg-green-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">4</span>
                   <h3 className="text-xl font-bold text-gray-900">Size Özel Dijital Davetiye</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
@@ -504,13 +504,13 @@ export default function Home() {
             {/* Özellik 5 */}
             <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-indigo-500 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
+                <div className="w-16 h-16 bg-indigo-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
                   📊
                 </div>
               </div>
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-indigo-500 text-white text-sm font-bold px-3 py-1 rounded-full">5</span>
+                  <span className="bg-indigo-400/80 text-white text-sm font-bold px-3 py-1 rounded-full">5</span>
                   <h3 className="text-xl font-bold text-gray-900">Detaylı Takip ve İstatistik</h3>
                 </div>
                 <p className="text-gray-600 leading-relaxed">
