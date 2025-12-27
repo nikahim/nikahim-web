@@ -154,6 +154,22 @@ export default function WatchPage() {
     };
   }, [event?.background_music, streamData?.status, isNameEntered, showEndedScreen, streamData?.isTest]);
 
+  // Sayfa arka plana gidince müziği durdur
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && audioRef.current) {
+        audioRef.current.pause();
+        setIsMusicPlaying(false);
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const toggleMusicMute = () => {
     if (audioRef.current) {
       if (musicMuted) {
