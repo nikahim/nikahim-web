@@ -103,6 +103,7 @@ export default function WatchPage() {
   const [showVideoRecorder, setShowVideoRecorder] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [musicMuted, setMusicMuted] = useState(false);
+  const [showReturningModal, setShowReturningModal] = useState(false);
 
   const pendingPaymentIdRef = useRef<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
@@ -135,7 +136,7 @@ export default function WatchPage() {
           console.log('Müzik otomatik başlatılamadı:', err);
           setIsMusicPlaying(false);
         });
-      } else if (audioRef.current && audioRef.current.paused) {
+      } else if (audioRef.current && audioRef.current.paused && !document.hidden) {
         audioRef.current.play().catch(() => {});
         setIsMusicPlaying(true);
       }
@@ -145,22 +146,26 @@ export default function WatchPage() {
         setIsMusicPlaying(false);
       }
     }
+  }, [event?.background_music, streamData?.status, isNameEntered, showEndedScreen, streamData?.isTest]);
 
+  // Component unmount olduğunda müziği temizle
+  useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
       }
     };
-  }, [event?.background_music, streamData?.status, isNameEntered, showEndedScreen, streamData?.isTest]);
+  }, []);
 
-  // Sayfa arka plana gidince müziği durdur
+  // Sayfa arka plana gidince müziği durdur, geri gelince devam et
   useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden && audioRef.current) {
         audioRef.current.pause();
         setIsMusicPlaying(false);
       }
+      // Sayfa tekrar görünür olunca müziği devam ettirme - kullanıcı manuel başlatsın
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -188,6 +193,26 @@ export default function WatchPage() {
         setIsMusicPlaying(true);
       }).catch(() => {});
     } else if (event?.background_music && event.background_music !== 'none') {
+      const musicFile = MUSIC_FILES[event.background_music];
+      if (musicFile) {
+        const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
+        audio.loop = true;
+        audio.volume = 0.3;
+        audioRef.current = audio;
+        audio.play().then(() => {
+          setIsMusicPlaying(true);
+        }).catch(() => {});
+      }
+    }
+  };
+
+  // Geri dönen kullanıcı devam et
+  const handleReturningContinue = () => {
+    setShowReturningModal(false);
+    setIsNameEntered(true);
+    
+    // Müziği başlat
+    if (event?.background_music && event.background_music !== 'none') {
       const musicFile = MUSIC_FILES[event.background_music];
       if (musicFile) {
         const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
@@ -347,8 +372,8 @@ export default function WatchPage() {
       const savedName = localStorage.getItem(`nikahim_viewer_${slug}`);
       if (savedName) {
         setViewerName(savedName);
-        setIsNameEntered(true);
         setIsReturningViewer(true);
+        setShowReturningModal(true); // Modal göster
       }
     }
   }, [slug]);
@@ -478,6 +503,20 @@ export default function WatchPage() {
       
       setViewerCount(prev => prev + 1);
       setShowWelcomeModal(true);
+      
+      // Müziği hemen başlat (kullanıcı etkileşimi anında)
+      if (event?.background_music && event.background_music !== 'none') {
+        const musicFile = MUSIC_FILES[event.background_music];
+        if (musicFile) {
+          const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
+          audio.loop = true;
+          audio.volume = 0.3;
+          audioRef.current = audio;
+          audio.play().then(() => {
+            setIsMusicPlaying(true);
+          }).catch(() => {});
+        }
+      }
       
       setTimeout(() => {
         setShowWelcomeModal(false);
@@ -652,6 +691,42 @@ export default function WatchPage() {
           </div>
           
           <p className="text-gray-400 text-sm">Daha sonra tekrar deneyebilirsiniz.</p>
+        </div>
+      </main>
+    );
+  }
+
+  // Geri dönen kullanıcı için hoşgeldin modalı
+  if (showReturningModal && isReturningViewer) {
+    return (
+      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
+          <div className="absolute top-4 left-4 flex items-center gap-2">
+            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
+            <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
+          </div>
+          
+          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[160px] h-[160px] border-4 border-blue-100 shadow-lg mt-8" />
+          
+          <div className="text-5xl mb-4">🎉</div>
+          
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Tekrar Hoş Geldin!
+          </h1>
+          <p className="text-gray-600 mb-6 text-lg">
+            {viewerName}
+          </p>
+          
+          <button
+            onClick={handleReturningContinue}
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+          >
+            {event.background_music && event.background_music !== 'none' ? '🎵 Devam Et' : 'Devam Et'}
+          </button>
+          
+          <p className="text-gray-400 text-sm mt-4">
+            {event.bride_full_name} & {event.groom_full_name}
+          </p>
         </div>
       </main>
     );
