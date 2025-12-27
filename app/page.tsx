@@ -465,7 +465,7 @@ export default function Home() {
             <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-start gap-6 hover:shadow-lg transition-shadow">
               <div className="flex-shrink-0">
                 <div className="w-16 h-16 bg-yellow-400/80 rounded-2xl flex items-center justify-center text-3xl shadow-lg">
-                  🎁
+                  💰
                 </div>
               </div>
               <div className="flex-1">
