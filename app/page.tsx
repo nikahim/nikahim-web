@@ -672,7 +672,7 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="text-center text-gray-400 text-sm mt-8">
+          <p className="text-center text-gray-900 text-base mt-8">
             * Canlı yayın çözünürlük kalitesi internet bağlantınıza bağlıdır, değişiklik gösterebilir.
           </p>
         </div>

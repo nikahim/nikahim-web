@@ -85,12 +85,6 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
     mediaRecorder.onstop = () => {
       const blob = new Blob(chunksRef.current, { type: mimeTypeRef.current });
       setRecordedBlob(blob);
-      
-      // Preview için URL oluştur
-      if (previewRef.current) {
-        previewRef.current.src = URL.createObjectURL(blob);
-      }
-      
       setState('recorded');
     };
 
@@ -239,6 +233,13 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
   useEffect(() => {
     return () => cleanup();
   }, []);
+
+  // Kayıt bittikten sonra önizleme videoyu yükle
+  useEffect(() => {
+    if (state === 'recorded' && recordedBlob && previewRef.current) {
+      previewRef.current.src = URL.createObjectURL(recordedBlob);
+    }
+  }, [state, recordedBlob]);
 
   // Stream hazır olduğunda video element'e ata
   useEffect(() => {
