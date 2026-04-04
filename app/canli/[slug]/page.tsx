@@ -117,6 +117,7 @@ export default function WatchPage() {
   const [showReturningModal, setShowReturningModal] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
   const [showPhotoGallery, setShowPhotoGallery] = useState(false);
+  const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
   const [videoTebrikCount, setVideoTebrikCount] = useState(0);
@@ -435,7 +436,18 @@ export default function WatchPage() {
       
       if (data) {
         setEvent(data);
-        
+
+        // Slideshow fotoğraflarını çek
+        const { data: files } = await supabase.storage
+          .from('slideshow-photos')
+          .list(data.id, { sortBy: { column: 'created_at', order: 'asc' } });
+        if (files && files.length > 0) {
+          const urls = files
+            .filter((f: any) => !f.name.startsWith('.'))
+            .map((f: any) => supabase.storage.from('slideshow-photos').getPublicUrl(`${data.id}/${f.name}`).data.publicUrl);
+          setSlideshowPhotos(urls);
+        }
+
         if (data.package_id) {
           const { data: pkgData } = await supabase
             .from('packages')
@@ -1389,7 +1401,7 @@ export default function WatchPage() {
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
           <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
             {/* Video Tebrik - pastel kırmızı pembe */}
-            <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(180,70,80,0.08)' }}>
+            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-4 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(180,70,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -1402,7 +1414,7 @@ export default function WatchPage() {
             </div>
 
             {/* Sesli Tebrik - pastel mavi */}
-            <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #F5FAFF, #EDF5FC)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(111,175,207,0.08)' }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-4 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F5FAFF, #EDF5FC)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(111,175,207,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
@@ -1415,7 +1427,7 @@ export default function WatchPage() {
             </div>
 
             {/* Mesaj Tebrik - açık yeşil */}
-            <div id="tebrik-section" className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #F2FAF5, #E8F5ED)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(76,175,80,0.08)' }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-4 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F2FAF5, #E8F5ED)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(76,175,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
@@ -1433,7 +1445,7 @@ export default function WatchPage() {
                 <p className="text-xs font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
               </div>
               <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
-                {[0, 1, 2].map((i) => {
+                {(slideshowPhotos.length > 0 ? slideshowPhotos.slice(0, 3) : [null, null, null]).map((url, i) => {
                   const isCenter = i === 0;
                   const isLeft = i === 1;
                   return (
@@ -1449,14 +1461,18 @@ export default function WatchPage() {
                       opacity: isCenter ? 1 : 0.6,
                       border: isCenter ? '2px solid rgba(200,104,110,0.3)' : '1px solid rgba(0,0,0,0.08)',
                     }}>
-                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)' }}>
-                        <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      </div>
+                      {url ? (
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)' }}>
+                          <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
               </div>
-              <p className="text-center text-[10px] text-gray-300 mt-2">Fotoğrafları görmek için tıklayın</p>
+              <p className="text-center text-[10px] text-gray-300 mt-2">{slideshowPhotos.length > 0 ? `${slideshowPhotos.length} fotoğraf` : 'Henüz fotoğraf yok'}</p>
             </div>
 
           </div>
@@ -1476,17 +1492,20 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <h3 className="font-bold text-lg" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</h3>
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                {[0,1,2,3,4,5].map((i) => (
-                  <div key={i} className="aspect-square rounded-xl overflow-hidden flex items-center justify-center transition-all hover:scale-105 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)', border: '1px solid rgba(200,104,110,0.1)' }}>
-                    <div className="text-center">
-                      <svg className="w-8 h-8 mx-auto opacity-15" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      <p className="text-[9px] mt-1 opacity-20" style={{ color: '#C8686E' }}>Yakında</p>
+              {slideshowPhotos.length > 0 ? (
+                <div className="grid grid-cols-3 gap-3">
+                  {slideshowPhotos.map((url, i) => (
+                    <div key={i} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer" style={{ border: '1px solid rgba(200,104,110,0.1)' }}>
+                      <img src={url} alt="" className="w-full h-full object-cover" />
                     </div>
-                  </div>
-                ))}
-              </div>
-              <p className="text-center text-xs text-gray-400 mt-4">Fotoğraflar çift tarafından onaylandıktan sonra burada görünecek</p>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <svg className="w-12 h-12 mx-auto opacity-15 mb-2" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  <p className="text-sm text-gray-400">Henüz fotoğraf eklenmedi</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
