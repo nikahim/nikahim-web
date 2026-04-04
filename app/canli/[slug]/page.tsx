@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
 import VideoRecorder from '@/components/VideoRecorder';
+import VoiceRecorder from '@/components/VoiceRecorder';
 
 const SUPABASE_URL = 'https://haeifluvvazdealsofle.supabase.co';
 
@@ -110,6 +111,7 @@ export default function WatchPage() {
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
   const [showVideoRecorder, setShowVideoRecorder] = useState(false);
+  const [showVoiceRecorder, setShowVoiceRecorder] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [musicMuted, setMusicMuted] = useState(false);
   const [showReturningModal, setShowReturningModal] = useState(false);
@@ -125,12 +127,16 @@ export default function WatchPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [fsTebrikMenu, setFsTebrikMenu] = useState(false);
   const [fsTebrikPanel, setFsTebrikPanel] = useState<'video' | 'voice' | 'message' | null>(null);
+  const [fsGoldMode, setFsGoldMode] = useState(false);
+  const prevMusicVolumeRef = useRef<number | null>(null);
   const [paymentStep, setPaymentStep] = useState<1 | 2 | 3>(1);
   const [confirmTimer, setConfirmTimer] = useState(10);
   const [liveGoldPrices, setLiveGoldPrices] = useState<Record<string, number>>({});
   const [paymentMethod, setPaymentMethod] = useState<'iban' | 'qr' | 'crypto' | null>(null);
   const pendingPaymentIdRef = useRef<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const rightPanelRef = useRef<HTMLDivElement>(null);
+  const leftPanelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [countdown, setCountdown] = useState({
@@ -222,6 +228,37 @@ export default function WatchPage() {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
+
+  // Tebrik popup açılınca müziği kıs, kapanınca geri aç
+  const isRecordingOpen = fsTebrikPanel === 'video' || fsTebrikPanel === 'voice' || showVideoRecorder || showVoiceRecorder;
+
+  // Sol panel yüksekliğini sağ panelle eşitle
+  useEffect(() => {
+    const sync = () => {
+      if (rightPanelRef.current && leftPanelRef.current) {
+        const rightBottom = rightPanelRef.current.getBoundingClientRect().bottom;
+        const leftTop = leftPanelRef.current.getBoundingClientRect().top;
+        leftPanelRef.current.style.height = `${rightBottom - leftTop}px`;
+      }
+    };
+    sync();
+    window.addEventListener('resize', sync);
+    const timer = setTimeout(sync, 500);
+    return () => { window.removeEventListener('resize', sync); clearTimeout(timer); };
+  }, [event]);
+  useEffect(() => {
+    if (isRecordingOpen) {
+      if (audioRef.current) {
+        prevMusicVolumeRef.current = audioRef.current.volume;
+        audioRef.current.volume = 0;
+      }
+    } else {
+      if (audioRef.current && prevMusicVolumeRef.current !== null) {
+        audioRef.current.volume = prevMusicVolumeRef.current;
+        prevMusicVolumeRef.current = null;
+      }
+    }
+  }, [isRecordingOpen]);
 
   const toggleMusicMute = () => {
     if (audioRef.current) {
@@ -581,7 +618,7 @@ export default function WatchPage() {
         setShowWelcomeModal(false);
         setIsNameEntered(true);
         setVideoNotification({ text: `${viewerName.trim()} nikaha katıldı!`, type: 'join' });
-        setTimeout(() => setVideoNotification(null), 3500);
+        setTimeout(() => setVideoNotification(null), 8000);
       }, 3000);
     }
   };
@@ -597,7 +634,7 @@ export default function WatchPage() {
       setMessage("");
       setShowEmojiPicker(false);
       setVideoNotification({ text: `${viewerName}: ${message.trim().substring(0, 40)}${message.trim().length > 40 ? '...' : ''}`, type: 'message' });
-      setTimeout(() => setVideoNotification(null), 3500);
+      setTimeout(() => setVideoNotification(null), 8000);
     }
   };
 
@@ -674,8 +711,8 @@ export default function WatchPage() {
     setPaymentStep(3);
 
     const goldName = goldOptions.find(g => g.id === selectedGold)?.name || 'Altın';
-    setVideoNotification({ text: `${viewerName} ${goldName} gönderdi! 💛`, type: 'gold' });
-    setTimeout(() => setVideoNotification(null), 4000);
+    setVideoNotification({ text: `${viewerName} ${goldName} gönderdi!`, type: 'gold' });
+    setTimeout(() => setVideoNotification(null), 8000);
 
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
@@ -948,7 +985,7 @@ export default function WatchPage() {
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
-          <div className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3" style={{ maxHeight: 'calc((min(100vw, 1600px) - 620px) * 9 / 16)' }}>
+          <div ref={leftPanelRef} className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3">
             {/* Çift Kartı */}
             <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div className="text-center">
@@ -957,15 +994,15 @@ export default function WatchPage() {
                 ) : (
                   <img src="/couple-icon.png" alt="Çift" className="w-20 h-20 mx-auto rounded-full object-cover mb-3" />
                 )}
-                <h2 className="text-gray-900 font-bold text-[15px] mb-0.5">{event.bride_first_name} & {event.groom_first_name}</h2>
-                <p className="text-gray-400 text-xs">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+                <h2 className="text-gray-900 font-bold text-[17px] mb-0.5">{event.bride_first_name} & {event.groom_first_name}</h2>
+                <p className="text-gray-500 text-[13px]">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-50 space-y-2">
-                <div className="flex items-center gap-2 text-gray-400 text-xs">
+                <div className="flex items-center gap-2 text-gray-500 text-sm">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   {eventDate}
                 </div>
-                <div className="flex items-center gap-2 text-gray-400 text-xs">
+                <div className="flex items-center gap-2 text-gray-500 text-sm">
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   {eventTime}
                 </div>
@@ -991,7 +1028,7 @@ export default function WatchPage() {
           <div className="flex-1 min-w-0">
             <div className={`bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
               {/* Fullscreen toggle button */}
-              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (!next) { setFsTebrikMenu(false); setFsTebrikPanel(null); } }} className="absolute bottom-3 right-3 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (!next) { setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-3 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
                 ) : (
@@ -1000,10 +1037,10 @@ export default function WatchPage() {
               </button>
 
               {/* Fullscreen floating action bar */}
-              {isFullscreen && (
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 p-2.5 rounded-[20px]" style={{ background: 'rgba(20,15,10,0.75)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+              {isFullscreen && !fsGoldMode && (
+                <div className="fixed bottom-8 flex items-center gap-2.5 p-2.5 rounded-[20px]" style={{ zIndex: 10001, left: '50%', transform: 'translateX(-50%)', background: 'rgba(20,15,10,0.75)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
                   {/* Altın Tak */}
-                  <button onClick={() => { setIsFullscreen(false); setTimeout(() => document.getElementById('gold-section')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="flex items-center gap-3 pl-4 pr-6 py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'linear-gradient(135deg, rgba(60,45,20,0.9), rgba(40,30,15,0.9))', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
+                  <button onClick={() => setFsGoldMode(true)} className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'linear-gradient(135deg, rgba(60,45,20,0.9), rgba(40,30,15,0.9))', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8960B)', boxShadow: '0 2px 8px rgba(212,175,55,0.3)' }}>
                       <Image src="/altintak.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />
                     </div>
@@ -1013,7 +1050,7 @@ export default function WatchPage() {
                     </div>
                   </button>
                   {/* İzleyici */}
-                  <div className="flex items-center gap-3 pl-4 pr-6 py-3 rounded-2xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-2xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
                     <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
                       <svg className="w-4.5 h-4.5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                     </div>
@@ -1024,13 +1061,13 @@ export default function WatchPage() {
                   </div>
                   {/* Tebrik Mesajı */}
                   <div className="relative">
-                    <button onClick={() => setFsTebrikMenu(!fsTebrikMenu)} className="flex items-center gap-3 pl-4 pr-6 py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: fsTebrikMenu ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.15)' }}>
-                        <Image src="/tebrik-defteri-icon.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />
+                    <button onClick={() => setFsTebrikMenu(!fsTebrikMenu)} className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: fsTebrikMenu ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.2), rgba(180,70,80,0.15))', boxShadow: '0 2px 8px rgba(200,104,110,0.15)' }}>
+                        <svg className="w-[18px] h-[18px]" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
                       </div>
                       <div className="text-left">
-                        <div className="text-[13px] font-bold text-white">Tebrik Mesajı</div>
-                        <div className="text-[10px] text-white/40">Kutlama gönder</div>
+                        <div className="text-[13px] font-bold text-white">Tebrik Gönder</div>
+                        <div className="text-[10px] text-white/40">Kutlama mesajı</div>
                       </div>
                     </button>
                     {/* Tebrik alt menü */}
@@ -1078,6 +1115,31 @@ export default function WatchPage() {
                   )}
                 </div>
               )}
+              {/* Fullscreen altın seçim modu */}
+              {isFullscreen && fsGoldMode && (
+                <div className="fixed bottom-8 flex items-center gap-3 p-2.5 rounded-[20px]" style={{ zIndex: 10001, left: '50%', transform: 'translateX(-50%)', background: 'rgba(20,15,10,0.75)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+                  {/* Geri butonu */}
+                  <button onClick={() => setFsGoldMode(false)} className="flex items-center gap-2 px-4 py-3 rounded-2xl transition-all hover:scale-[1.03]" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <svg className="w-4 h-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                    <span className="text-[12px] font-medium text-white/70">Geri</span>
+                  </button>
+                  {/* 6 altın butonu */}
+                  {goldOptions.map((gold) => (
+                    <button key={gold.id} onClick={() => { handleGoldSelect(gold.id); }} className="group flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-2xl transition-all duration-300 hover:scale-[1.1] hover:-translate-y-1 relative" style={{ background: gold.id === 'nakit' ? 'linear-gradient(165deg, rgba(180,160,130,0.15), rgba(150,135,110,0.1))' : 'linear-gradient(165deg, rgba(255,253,248,0.08), rgba(248,242,232,0.05))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.25), 0 4px 12px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.12)'; }}>
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.15), transparent 70%)' }} />
+                      <div className="relative w-11 h-11 group-hover:scale-110 transition-transform duration-300">
+                        <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" />
+                      </div>
+                      <div className="text-[10px] font-semibold text-white/80 leading-tight text-center">{gold.name}</div>
+                      {gold.price > 0 ? (
+                        <div className="text-[10px] font-bold" style={{ color: '#D4AF37' }}>{'\u20BA'}{gold.price.toLocaleString()}</div>
+                      ) : (
+                        <div className="text-[10px] text-white/30">Serbest</div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
               {/* Fullscreen video tebrik popup - sağ alt */}
               {isFullscreen && fsTebrikPanel === 'video' && event && (
                 <div className="absolute bottom-24 right-6 z-50 w-[380px] rounded-2xl overflow-hidden animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
@@ -1093,7 +1155,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 3500); }} onClose={() => setFsTebrikPanel(null)} />
+                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setFsTebrikPanel(null)} />
                   </div>
                 </div>
               )}
@@ -1120,8 +1182,8 @@ export default function WatchPage() {
                 </div>
               )}
               {/* Fullscreen sesli tebrik popup - sağ alt */}
-              {isFullscreen && fsTebrikPanel === 'voice' && (
-                <div className="absolute bottom-24 right-6 z-50 w-[340px] rounded-2xl overflow-hidden animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+              {isFullscreen && fsTebrikPanel === 'voice' && event && (
+                <div className="absolute bottom-24 right-6 z-50 w-[340px] rounded-2xl overflow-hidden" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
                   <div className="flex items-center justify-between px-4 pt-4 pb-2">
                     <div className="flex items-center gap-2">
                       <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.15)' }}>
@@ -1133,11 +1195,8 @@ export default function WatchPage() {
                       <svg className="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
                   </div>
-                  <div className="px-4 pb-4 text-center">
-                    <p className="text-white/40 text-[12px] mb-3">Mikrofon butonuna basılı tutarak sesli mesaj gönderin</p>
-                    <button className="w-16 h-16 rounded-full flex items-center justify-center mx-auto transition-all hover:scale-110" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 4px 20px rgba(111,175,207,0.3)' }}>
-                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
-                    </button>
+                  <div className="px-4 pb-4">
+                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setFsTebrikPanel(null)} />
                   </div>
                 </div>
               )}
@@ -1187,18 +1246,59 @@ export default function WatchPage() {
                   </div>
                 </div>
               )}
-              {/* Video notification popup */}
+              {/* Video notification popup - Premium */}
               {videoNotification && (
-                <div className="absolute bottom-5 right-5 z-30 max-w-[300px] video-notification">
-                  <div className="rounded-2xl px-4 py-3 flex items-center gap-3" style={{ background: videoNotification.type === 'gold' ? 'linear-gradient(135deg, rgba(255,248,230,0.95), rgba(255,243,210,0.95))' : videoNotification.type === 'join' ? 'linear-gradient(135deg, rgba(236,253,245,0.95), rgba(220,252,231,0.95))' : videoNotification.type === 'voice' ? 'linear-gradient(135deg, rgba(239,246,255,0.95), rgba(224,242,254,0.95))' : 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(253,245,245,0.95))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: videoNotification.type === 'gold' ? '0 8px 32px rgba(212,175,55,0.2), 0 0 0 1px rgba(212,175,55,0.1)' : videoNotification.type === 'join' ? '0 8px 32px rgba(34,197,94,0.15), 0 0 0 1px rgba(34,197,94,0.1)' : videoNotification.type === 'voice' ? '0 8px 32px rgba(111,175,207,0.15), 0 0 0 1px rgba(111,175,207,0.1)' : '0 8px 32px rgba(200,104,110,0.12), 0 0 0 1px rgba(200,104,110,0.08)' }}>
-                    <div className="w-8 h-8 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: videoNotification.type === 'gold' ? 'rgba(212,175,55,0.15)' : videoNotification.type === 'join' ? 'rgba(34,197,94,0.1)' : videoNotification.type === 'video' ? 'rgba(200,104,110,0.1)' : videoNotification.type === 'voice' ? 'rgba(111,175,207,0.1)' : 'rgba(200,104,110,0.1)' }}>
-                      {videoNotification.type === 'gold' && <Image src="/altintak.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />}
-                      {videoNotification.type === 'join' && <span className="text-sm">👋</span>}
-                      {videoNotification.type === 'video' && <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
-                      {videoNotification.type === 'voice' && <svg className="w-4 h-4" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>}
-                      {videoNotification.type === 'message' && <Image src="/tebrik-defteri-icon.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />}
+                <div className="absolute bottom-5 right-5 z-30 max-w-[380px] min-w-[300px] video-notification">
+                  <div className={`rounded-2xl px-4 py-3 flex items-center gap-3 relative ${videoNotification.type === 'gold' ? 'notif-gold' : ''}`} style={{
+                    background: videoNotification.type === 'gold'
+                      ? 'rgba(40,30,15,0.75)'
+                      : videoNotification.type === 'join'
+                      ? 'rgba(30,30,35,0.7)'
+                      : videoNotification.type === 'voice'
+                      ? 'rgba(30,30,35,0.7)'
+                      : 'rgba(30,30,35,0.7)',
+                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+                    border: videoNotification.type === 'gold'
+                      ? '1px solid rgba(255,200,60,0.3)'
+                      : '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                  }}>
+                    {/* Sparkle + shimmer for gold */}
+                    {videoNotification.type === 'gold' && (
+                      <>
+                        <div className="sparkle-layer" />
+                        <div className="notif-shimmer" />
+                      </>
+                    )}
+                    {/* Left icon */}
+                    <div className="w-10 h-10 flex-shrink-0 relative z-10 rounded-full flex items-center justify-center" style={{
+                      border: videoNotification.type === 'gold' ? 'none' : '2px solid rgba(255,255,255,0.15)',
+                      background: videoNotification.type === 'gold'
+                        ? 'transparent'
+                        : videoNotification.type === 'join'
+                        ? 'rgba(34,197,94,0.15)'
+                        : videoNotification.type === 'video'
+                        ? 'rgba(200,104,110,0.15)'
+                        : videoNotification.type === 'voice'
+                        ? 'rgba(111,175,207,0.15)'
+                        : 'rgba(76,175,80,0.15)',
+                    }}>
+                      {videoNotification.type === 'gold' && <Image src="/altintak.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />}
+                      {videoNotification.type === 'join' && <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
+                      {videoNotification.type === 'video' && <svg className="w-5 h-5" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
+                      {videoNotification.type === 'voice' && <svg className="w-5 h-5" style={{ color: '#8EC8E4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>}
+                      {videoNotification.type === 'message' && <svg className="w-5 h-5" style={{ color: '#7ED687' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>}
                     </div>
-                    <p className="text-[12px] font-medium leading-snug" style={{ color: videoNotification.type === 'gold' ? '#8B6914' : videoNotification.type === 'join' ? '#166534' : videoNotification.type === 'voice' ? '#1e40af' : videoNotification.type === 'video' ? '#9f1239' : '#374151' }}>{videoNotification.text}</p>
+                    {/* Content */}
+                    <div className="flex-1 relative z-10 text-white">
+                      <p className="text-[13px] font-semibold leading-snug">{videoNotification.text}</p>
+                    </div>
+                    {/* Right icon for gold */}
+                    {videoNotification.type === 'gold' && (
+                      <div className="flex-shrink-0 relative z-10">
+                        <Image src="/altintak.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
+                      </div>
+                    )}
                   </div>
                 </div>
               )}
@@ -1236,16 +1336,20 @@ export default function WatchPage() {
             </div>
 
             {/* Altın Tak - Premium */}
-            <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #F8F0E0, #F0E6D2, #E8DCCA)', boxShadow: '0 8px 40px rgba(180,155,120,0.12), 0 2px 10px rgba(0,0,0,0.04)', border: '1px solid rgba(200,180,150,0.2)' }}>
+            <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(248,240,224,0.85), rgba(240,230,210,0.8), rgba(232,220,202,0.85))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 8px 40px rgba(180,155,120,0.12), 0 2px 10px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)', border: '1px solid rgba(212,175,55,0.12)' }}>
               {/* Dekoratif ışıklar - daha parlak */}
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-28 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(232,210,160,0.25), rgba(212,175,55,0.08) 50%, transparent 80%)' }} />
               <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-[0.08] pointer-events-none" style={{ background: '#D4AF37' }} />
               <div className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-[0.05] pointer-events-none" style={{ background: '#E8C27A' }} />
 
-              <div className="px-5 pt-5 pb-4">
+              <div className="px-5 pt-4 pb-3">
                 {/* Merkezi başlık */}
-                <div className="text-center mb-4">
-                  <h2 className="text-[20px] font-bold mb-1 tracking-tight" style={{ color: '#2D2418' }}>Mutlu Çifte <span className="gold-shimmer">ALTIN</span> Tak</h2>
+                <div className="text-center mb-3">
+                  <h2 className="flex items-center justify-center gap-5 text-[29px] mb-1" style={{ color: '#5c4632', fontFamily: 'var(--font-script), cursive', letterSpacing: '1px', textShadow: '0 2px 6px rgba(60,40,20,0.2), 0 1px 2px rgba(0,0,0,0.1)' }}>
+                    <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, #d4af37, transparent)', opacity: 0.6 }} />
+                    <span>Mutlu Çifte <span className="gold-title-shimmer" style={{ fontWeight: 700, color: '#C4A020' }}>Altın Tak</span></span>
+                    <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, #d4af37, transparent)', opacity: 0.6 }} />
+                  </h2>
                 </div>
 
                 {/* Altın kartları */}
@@ -1256,8 +1360,8 @@ export default function WatchPage() {
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.1), transparent 70%)' }} />
                       {gold.id === 'ceyrek_altin' && <div className="absolute top-1.5 left-1/2 -translate-x-1/2 text-[8px] font-bold px-2.5 py-0.5 rounded-full text-white z-10" style={{ background: 'linear-gradient(135deg, #B8860B, #96700A)', boxShadow: '0 2px 6px rgba(184,134,11,0.3)' }}>Popular</div>}
                       <div className="relative w-14 h-14 mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300"><Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" /></div>
-                      <div className="text-[12px] font-semibold leading-tight" style={{ color: '#4A3C28' }}>{gold.name}</div>
-                      {gold.price > 0 ? (<div className="text-[11px] font-bold mt-1" style={{ color: '#8B6914' }}>₺{gold.price.toLocaleString()}</div>) : (<div className="text-[11px] mt-1" style={{ color: 'rgba(120,100,70,0.4)' }}>Serbest</div>)}
+                      <div className="text-[14px] font-semibold leading-tight" style={{ color: '#4A3C28' }}>{gold.name}</div>
+                      {gold.price > 0 ? (<div className="text-[13px] font-bold mt-1" style={{ color: '#8B6914' }}>₺{gold.price.toLocaleString()}</div>) : (<div className="text-[13px] mt-1" style={{ color: 'rgba(120,100,70,0.4)' }}>Serbest</div>)}
                     </button>
                   ))}
                 </div>
@@ -1283,7 +1387,7 @@ export default function WatchPage() {
           </div>
 
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
-          <div className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
+          <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
             {/* Video Tebrik - pastel kırmızı pembe */}
             <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(180,70,80,0.08)' }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
@@ -1307,7 +1411,7 @@ export default function WatchPage() {
                 <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
-              <button className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 2px 8px rgba(111,175,207,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 2px 8px rgba(111,175,207,0.15)' }}>Gönder</button>
             </div>
 
             {/* Mesaj Tebrik - açık yeşil */}
@@ -1325,9 +1429,8 @@ export default function WatchPage() {
 
             {/* Nikah Gününden Kareler - sağ panelde */}
             <div className="rounded-2xl p-4 cursor-pointer flex flex-col" onClick={() => setShowPhotoGallery(true)} style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)', height: '200px' }}>
-              <div className="flex items-center gap-2 mb-3">
-                <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                <p className="text-[11px] font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
+              <div className="text-center mb-2">
+                <p className="text-xs font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
               </div>
               <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
                 {[0, 1, 2].map((i) => {
@@ -1390,11 +1493,15 @@ export default function WatchPage() {
       )}
 
       {showVideoRecorder && event && (
-        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 3500); }} onClose={() => setShowVideoRecorder(false)} />
+        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setShowVideoRecorder(false)} />
+      )}
+
+      {showVoiceRecorder && event && (
+        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setShowVoiceRecorder(false)} />
       )}
 
       {showPaymentModal && selectedGold && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={handleCloseModal} style={{ background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+        <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
           <div className="rounded-[24px] max-w-[420px] w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(255,252,245,0.95), rgba(248,243,232,0.92))', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', boxShadow: '0 30px 90px rgba(0,0,0,0.25), 0 0 0 1px rgba(212,175,55,0.08) inset, 0 1px 0 rgba(255,255,255,0.5) inset' }}>
             {/* Decorative shimmer */}
             <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }} />
@@ -1435,69 +1542,69 @@ export default function WatchPage() {
               <div className="p-6 pt-4">
                 <h2 className="text-xl font-bold text-gray-900 mb-5">Altın Gönder</h2>
 
-                {/* Gold card */}
-                <div className="flex items-center gap-4 rounded-2xl p-4 mb-5" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.8), rgba(248,243,232,0.6))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 2px 12px rgba(212,175,55,0.06)' }}>
-                  <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(212,175,55,0.1)' }}>
+                {/* Gold card - highlight */}
+                <div className="flex items-center gap-4 rounded-2xl p-4 mb-6" style={{ background: 'linear-gradient(135deg, #FFFDF5, #FFF8E7, #FDF3D7)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 4px 20px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
+                  <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 12px rgba(212,175,55,0.12)' }}>
                     {goldOptions.find(g => g.id === selectedGold)?.image && (
                       <div className="relative w-9 h-9"><Image src={goldOptions.find(g => g.id === selectedGold)!.image} alt="" fill className="object-contain" /></div>
                     )}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-gray-800">{event.bride_first_name} & {event.groom_first_name} için</p>
-                    <p className="text-xs mt-0.5" style={{ color: '#A08530' }}>{goldOptions.find(g => g.id === selectedGold)?.name}</p>
+                    <p className="text-sm font-bold text-gray-900">{event.bride_first_name} & {event.groom_first_name} için</p>
+                    <p className="text-xs mt-0.5 font-medium" style={{ color: '#A08530' }}>{goldOptions.find(g => g.id === selectedGold)?.name}</p>
                   </div>
-                  {getSelectedPrice() > 0 && <p className="text-xl font-bold ml-auto" style={{ color: '#8B6914' }}>₺{getSelectedPrice().toLocaleString()}</p>}
+                  {getSelectedPrice() > 0 && <p className="text-xl font-semibold ml-auto tracking-tight" style={{ color: '#8B6914' }}>₺{getSelectedPrice().toLocaleString()}</p>}
                 </div>
 
                 {/* Custom amount for nakit */}
                 {selectedGold === "nakit" && !pendingPaymentId && (
-                  <div className="mb-5">
+                  <div className="mb-6">
                     <label className="block text-gray-500 mb-2 font-medium text-xs">Göndermek istediğiniz miktar</label>
                     <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="₺0" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center" style={{ border: '1.5px solid rgba(212,175,55,0.15)', background: 'rgba(255,255,255,0.6)' }} />
                   </div>
                 )}
 
                 {/* Payment method selection */}
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">Ödeme Yöntemini Seç</h3>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Ödeme Yöntemini Seçin</h3>
                 <div className="space-y-2.5 mb-5">
                   {/* Banka / IBAN */}
-                  <button onClick={() => { setPaymentMethod('iban'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,243,232,0.5))', border: '1.5px solid rgba(212,175,55,0.15)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.1), rgba(201,161,59,0.06))' }}>
+                  <button onClick={() => { setPaymentMethod('iban'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer" style={{ background: '#FFFFFF', border: '1.5px solid rgba(212,175,55,0.15)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.12), rgba(201,161,59,0.06))' }}>
                       <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="text-sm font-semibold text-gray-800">Banka / IBAN</p>
-                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'linear-gradient(135deg, #D4AF37, #C9A13B)', color: '#fff' }}>Önerilen</span>
+                        <p className="text-sm font-bold text-gray-900">Banka / IBAN</p>
+                        <span className="text-[9px] font-bold px-2.5 py-0.5 rounded-full" style={{ background: 'linear-gradient(135deg, #D4AF37, #C9A13B)', color: '#fff', boxShadow: '0 2px 6px rgba(212,175,55,0.3)' }}>Önerilen</span>
                       </div>
                       <p className="text-xs text-gray-400 mt-0.5">Havale / EFT ile gönder</p>
                     </div>
-                    <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#D4AF37' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
 
                   {/* QR Kod */}
-                  <button onClick={() => { setPaymentMethod('qr'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,243,232,0.5))', border: '1.5px solid rgba(212,175,55,0.12)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
+                  <button onClick={() => { setPaymentMethod('qr'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer" style={{ background: '#FFFFFF', border: '1.5px solid rgba(200,180,140,0.12)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
                       <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm font-semibold text-gray-800">QR Kod</p>
+                      <p className="text-sm font-bold text-gray-900">QR Kod</p>
                       <p className="text-xs text-gray-400 mt-0.5">Mobil bankacılık ile hızlı ödeme</p>
                     </div>
-                    <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#D4AF37' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
 
                   {/* Kripto */}
                   {event.payment_methods_enabled?.crypto && (
-                    <button onClick={() => { setPaymentMethod('crypto'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,243,232,0.5))', border: '1.5px solid rgba(212,175,55,0.12)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
+                    <button onClick={() => { setPaymentMethod('crypto'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer" style={{ background: '#FFFFFF', border: '1.5px solid rgba(200,180,140,0.12)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
                         <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-800">Kripto Para</p>
+                        <p className="text-sm font-bold text-gray-900">Kripto Para</p>
                         <p className="text-xs text-gray-400 mt-0.5">USDT, TRYB ile gönder</p>
                       </div>
-                      <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#D4AF37' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                     </button>
                   )}
                 </div>
@@ -1512,8 +1619,7 @@ export default function WatchPage() {
             {/* STEP 2: Transfer details */}
             {paymentStep === 2 && (
               <div className="p-6 pt-4">
-                <h2 className="text-xl font-bold text-gray-900 mb-1">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
-                <p className="text-xs text-gray-400 mb-5">Ödemenizi tamamlayın ve onaylayın</p>
+                <h2 className="text-xl font-bold text-gray-900 mb-4">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
 
                 {/* IBAN Content */}
                 {paymentMethod === 'iban' && (
@@ -1549,11 +1655,6 @@ export default function WatchPage() {
                           </div>
                         </div>
                       )}
-                    </div>
-
-                    <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
-                      <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider mb-1.5">Açıklama</p>
-                      <p className="text-sm text-gray-600 font-medium">{viewerName} – Tebrik</p>
                     </div>
                   </div>
                 )}
@@ -1607,14 +1708,14 @@ export default function WatchPage() {
                 )}
 
                 {/* Waiting indicator section */}
-                <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'linear-gradient(135deg, rgba(255,252,240,0.8), rgba(248,243,225,0.6))', border: '1px solid rgba(212,175,55,0.12)' }}>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="flex-shrink-0" style={{ animation: 'spin 3s linear infinite' }}>
+                <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'linear-gradient(135deg, #FFF9E6, #FFF3CC)', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
+                  <div className="flex flex-col items-center text-center mb-2">
+                    <div className="flex-shrink-0 mb-1.5" style={{ animation: 'spin 3s linear infinite' }}>
                       <span className="text-3xl">⏳</span>
                     </div>
-                    <p className="text-sm font-semibold text-gray-700">Ödemeniz bekleniyor</p>
+                    <p className="text-[15px] font-bold text-gray-900">Ödemeniz bekleniyor</p>
                   </div>
-                  <p className="text-xs text-gray-400 ml-12">Şimdi banka uygulamanızdan çiftin hesabına para gönderimini yapın, ardından bu sayfadan onaylayın</p>
+                  <p className="text-xs text-gray-600 leading-relaxed text-center">Şimdi banka uygulamanızdan çiftin hesabına para gönderimini yapın, ardından bu sayfadan onaylayın</p>
                 </div>
                 <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
@@ -1737,7 +1838,7 @@ export default function WatchPage() {
       )}
 
       {showCopiedToast && (
-        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg z-[70]">
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg" style={{ zIndex: 10002 }}>
           ✓ Kopyalandı!
         </div>
       )}

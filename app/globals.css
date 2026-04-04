@@ -98,7 +98,60 @@ html, body {
 }
 
 .video-notification {
-  animation: notificationSlide 3.5s ease-in-out forwards;
+  animation: notifSlideIn 0.4s ease forwards, notifSlideOut 0.8s ease 7s forwards;
+}
+
+@keyframes notifSlideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes notifSlideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateY(20px); opacity: 0; }
+}
+
+@keyframes notifShimmer {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.notif-gold {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Sparkle particle background */
+.notif-gold .sparkle-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.notif-gold .sparkle-layer::before,
+.notif-gold .sparkle-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255,215,120,0.8) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px);
+  background-size: 40px 40px, 60px 60px;
+  animation: sparkleMove 6s linear infinite;
+  opacity: 0.35;
+}
+
+/* Shimmer sweep */
+.notif-gold .notif-shimmer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+  animation: notifShimmer 2.5s infinite;
+}
+
+@keyframes sparkleMove {
+  from { transform: translateY(0); }
+  to { transform: translateY(-40px); }
 }
 
 .animate-float {
@@ -161,19 +214,31 @@ html, body {
 .gold-shimmer {
   background: linear-gradient(
     105deg,
-    #B8960B 0%,
-    #C9A215 25%,
-    #EDD04E 45%,
-    #E2C442 55%,
-    #C9A215 75%,
-    #B8960B 100%
+    #C9A215 0%,
+    #D4B52A 25%,
+    #F0D860 45%,
+    #EACE50 55%,
+    #D4B52A 75%,
+    #C9A215 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: goldShimmer 3.5s linear infinite;
-  filter: drop-shadow(0 0 4px rgba(212,175,55,0.25));
+}
+
+/* Title gold gradient top-to-bottom */
+.gold-title-shimmer {
+  background: linear-gradient(180deg, #F0D850 0%, #C49520 50%, #A07818 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes waveBar {
+  0% { height: 8px; }
+  100% { height: 28px; }
 }
 
 /* Premium card hover */

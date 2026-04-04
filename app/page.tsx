@@ -157,7 +157,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-32 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium mb-6" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium mb-6 mt-8 lg:mt-12" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#C8686E' }} />
                 Türkiye&apos;nin İlk Nikah Canlı Yayın Platformu
               </div>
@@ -166,19 +166,33 @@ export default function Home() {
               </h1>
               <p className="text-xl lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[480px]">Sevdikleriniz nerede olursa olsun, en özel anınızı birlikte yaşayın. Canlı yayın, online altın takma ve video tebrik — hepsi tek platformda.</p>
               <div className="flex flex-wrap gap-4 mb-16">
-                <button onClick={() => scrollToSection("nikah-ara")} className="text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3)' }}>Canlı Yayını İzle</button>
-                <button onClick={() => setShowAppPopup(true)} className="px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press border-2" style={{ background: 'rgba(255,255,255,0.8)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E' }}>Nikahımı Başlat</button>
+                <button onClick={() => scrollToSection("nikah-ara")} className="text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Canlı Yayını İzle</button>
+                <button onClick={() => setShowAppPopup(true)} className="px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press border-2" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Nikahımı Başlat</button>
               </div>
-              <div className="flex gap-12">
-                {[{ num: '500+', label: 'Mutlu Çift' }, { num: '10K+', label: 'İzleyici' }].map((s, i) => (
-                  <div key={i}><div className="text-3xl font-bold text-gray-900 tracking-tight">{s.num}</div><div className="text-gray-400 text-sm mt-1 font-medium">{s.label}</div></div>
+              <div className="flex gap-5">
+                {[
+                  { num: '500', suffix: '+', label: 'Mutlu Çift', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
+                  { num: '10K', suffix: '+', label: 'İzleyici', icon: '/izleyici-icon-2.png', iconSize: 'w-[78px] h-[78px] -my-3 relative top-[3px]' }
+                ].map((s, i) => (
+                  <div key={i} className="group flex items-center gap-1 px-4 py-3 rounded-[16px] transition-all duration-300 hover:-translate-y-1 cursor-default" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(200,180,160,0.12)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(200,104,110,0.1), 0 4px 12px rgba(0,0,0,0.04)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'; }}>
+                    <div className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
+                      <Image src={s.icon} alt={s.label} width={72} height={72} className={`${s.iconSize} object-contain`} />
+                    </div>
+                    <div>
+                      <div className="flex items-baseline gap-0.5">
+                        <span className="text-[36px] font-bold text-gray-900 tracking-tight leading-none">{s.num}</span>
+                        <span className="text-[28px] font-bold leading-none" style={{ color: '#C8686E' }}>{s.suffix}</span>
+                      </div>
+                      <div className="text-gray-600 text-[14px] mt-1.5 font-medium ml-1">{s.label}</div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
             <div className="flex justify-center">
               <div className="relative w-full max-w-[420px]">
                 <div className="absolute -inset-8 rounded-[2rem] blur-3xl opacity-[0.12]" style={{ background: 'linear-gradient(135deg, #C8686E, #6FAFCF)' }} />
-                <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 30px 80px rgba(200,100,100,0.18), 0 10px 30px rgba(0,0,0,0.1)', aspectRatio: '4/5' }}>
+                <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 40px 100px rgba(200,100,100,0.25), 0 20px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.03)', aspectRatio: '4/5' }}>
                   <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: '70% center' }}>
                     <source src="/hero-video.mp4" type="video/mp4" />
                   </video>
