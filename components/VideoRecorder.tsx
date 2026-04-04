@@ -10,11 +10,12 @@ interface VideoRecorderProps {
   senderName: string;
   onSuccess: () => void;
   onClose: () => void;
+  embedded?: boolean;
 }
 
 type RecordingState = 'idle' | 'preview' | 'recording' | 'recorded' | 'uploading' | 'success' | 'error';
 
-export default function VideoRecorder({ eventId, senderName, onSuccess, onClose }: VideoRecorderProps) {
+export default function VideoRecorder({ eventId, senderName, onSuccess, onClose, embedded }: VideoRecorderProps) {
   const [state, setState] = useState<RecordingState>('idle');
   const [countdown, setCountdown] = useState(30);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
@@ -131,11 +132,25 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
     setUploadProgress(0);
 
     try {
+      // 0. API key'i access token'a çevir
+      const authResponse = await fetch('https://ws.api.video/auth/api-key', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ apiKey: API_VIDEO_KEY }),
+      });
+
+      if (!authResponse.ok) {
+        throw new Error('API kimlik doğrulama başarısız');
+      }
+
+      const authData = await authResponse.json();
+      const accessToken = authData.access_token;
+
       // 1. api.video'da video oluştur
       const createResponse = await fetch('https://ws.api.video/videos', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${API_VIDEO_KEY}`,
+          'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -166,7 +181,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
       const uploadResponse = await fetch(`https://ws.api.video/videos/${videoId}/source`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${API_VIDEO_KEY}`,
+          'Authorization': `Bearer ${accessToken}`,
         },
         body: formData,
       });
@@ -254,20 +269,8 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
     startCamera();
   }, []);
 
-  return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-lg w-full overflow-hidden">
-        
-        {/* Header */}
-        <div className="p-4 border-b flex items-center justify-between">
-          <h3 className="text-lg font-bold text-gray-900">🎥 Video Tebrik Gönder</h3>
-          <button onClick={handleClose} className="text-gray-400 hover:text-gray-600 text-2xl">
-            ×
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="p-4">
+  const content = (
+        <div className={embedded ? '' : 'p-4'}>
           
           {/* Kamera başlatılıyor */}
           {state === 'idle' && (
@@ -365,7 +368,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
           )}
 
           {/* Gönderen bilgisi */}
-          {state !== 'success' && state !== 'error' && state !== 'uploading' && (
+          {!embedded && state !== 'success' && state !== 'error' && state !== 'uploading' && (
             <div className="mt-4 bg-blue-50 rounded-xl p-3 flex items-center gap-3">
               <span className="text-2xl">👤</span>
               <div>
@@ -374,46 +377,75 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose 
               </div>
             </div>
           )}
-        </div>
 
-        {/* Buttons */}
-        <div className="p-4 border-t bg-gray-50">
+          {/* Buttons */}
+          <div className={embedded ? 'mt-3' : 'mt-4 p-4 border-t bg-gray-50 -mx-4 -mb-4'}>
           {state === 'preview' && (
             <button
               onClick={startRecording}
-              className="w-full bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2"
+              className={`w-full text-white py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 ${embedded ? 'text-[12px]' : ''}`}
+              style={{ background: 'linear-gradient(135deg, #D4757E, #C45560)' }}
             >
-              <span className="w-3 h-3 bg-white rounded-full"></span>
-              Kayda Başla (30 saniye)
+              <span className="w-2.5 h-2.5 bg-white rounded-full"></span>
+              Kayda Başla (30 sn)
             </button>
           )}
 
           {state === 'recording' && (
             <button
               onClick={stopRecording}
-              className="w-full bg-gray-800 hover:bg-gray-900 text-white py-3 rounded-xl font-semibold"
+              className={`w-full bg-gray-800 hover:bg-gray-900 text-white py-2.5 rounded-xl font-semibold ${embedded ? 'text-[12px]' : ''}`}
             >
-              ⏹️ Kaydı Bitir
+              Kaydı Bitir
             </button>
           )}
 
           {state === 'recorded' && (
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button
                 onClick={retake}
-                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-3 rounded-xl font-semibold"
+                className={`flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2.5 rounded-xl font-semibold ${embedded ? 'text-[12px]' : ''}`}
               >
-                🔄 Tekrar Çek
+                Tekrar Çek
               </button>
               <button
                 onClick={uploadVideo}
-                className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold"
+                className={`flex-1 text-white py-2.5 rounded-xl font-semibold ${embedded ? 'text-[12px]' : ''}`}
+                style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)' }}
               >
-                💝 Çifte Gönder
+                Gönder
               </button>
             </div>
           )}
+          </div>
         </div>
+  );
+
+  if (embedded) return content;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+      <div className="rounded-3xl max-w-lg w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, rgba(255,245,247,0.97), rgba(255,240,243,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.12)', border: '1px solid rgba(212,117,126,0.12)' }}>
+
+        {/* Close button */}
+        <button onClick={handleClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+        </button>
+
+        {/* Header */}
+        <div className="p-6 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(212,117,126,0.08)' }}>
+              <svg className="w-5 h-5" style={{ color: '#D4757E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-gray-900">Video Tebrik</h3>
+              <p className="text-xs text-gray-400">30 saniyelik video mesajınızı kaydedin</p>
+            </div>
+          </div>
+        </div>
+
+        {content}
       </div>
     </div>
   );

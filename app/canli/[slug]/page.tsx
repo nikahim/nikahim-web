@@ -51,6 +51,12 @@ interface Event {
     ata: number;
   } | null;
   package_id?: string;
+  payment_methods_enabled?: {
+    crypto?: boolean;
+    wallet_tl?: string;
+    wallet_usdt?: string;
+    wallet_xauusdt?: string;
+  };
 }
 
 interface Package {
@@ -92,7 +98,6 @@ export default function WatchPage() {
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
   const [showEndedScreen, setShowEndedScreen] = useState(false);
   const [endedCountdown, setEndedCountdown] = useState(10);
-  const [paymentMethod, setPaymentMethod] = useState<"qr" | "iban" | null>(null);
   const [viewerCount, setViewerCount] = useState(0);
   const [viewerLimitReached, setViewerLimitReached] = useState(false);
   const [streamData, setStreamData] = useState<{
@@ -109,6 +114,21 @@ export default function WatchPage() {
   const [musicMuted, setMusicMuted] = useState(false);
   const [showReturningModal, setShowReturningModal] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
+  const [showPhotoGallery, setShowPhotoGallery] = useState(false);
+  const [galleryIndex, setGalleryIndex] = useState(0);
+  const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
+  const [videoTebrikCount, setVideoTebrikCount] = useState(0);
+  const [sesliTebrikCount, setSesliTebrikCount] = useState(0);
+  const [activeTab, setActiveTab] = useState<'chat' | 'gold' | 'video'>('chat');
+  const [showAppPopup, setShowAppPopup] = useState(false);
+  const [showMessageModal, setShowMessageModal] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [fsTebrikMenu, setFsTebrikMenu] = useState(false);
+  const [fsTebrikPanel, setFsTebrikPanel] = useState<'video' | 'voice' | 'message' | null>(null);
+  const [paymentStep, setPaymentStep] = useState<1 | 2 | 3>(1);
+  const [confirmTimer, setConfirmTimer] = useState(10);
+  const [liveGoldPrices, setLiveGoldPrices] = useState<Record<string, number>>({});
+  const [paymentMethod, setPaymentMethod] = useState<'iban' | 'qr' | 'crypto' | null>(null);
   const pendingPaymentIdRef = useRef<string | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -121,6 +141,30 @@ export default function WatchPage() {
   });
 
   // Müzik kontrolü - bekleme ekranında çal, yayın başlayınca durdur
+  // Fetch live gold prices from free API
+  useEffect(() => {
+    const parsePrice = (val: string): number => {
+      const num = parseFloat(val.replace(/\./g, '').replace(',', '.'));
+      return Math.ceil(num / 10) * 10;
+    };
+    const fetchPrices = async () => {
+      try {
+        const res = await fetch('https://finans.truncgil.com/today.json');
+        const data = await res.json();
+        const prices: Record<string, number> = {};
+        if (data['gram-altin']?.Satış) prices.gram = parsePrice(data['gram-altin'].Satış);
+        if (data['ceyrek-altin']?.Satış) prices.ceyrek = parsePrice(data['ceyrek-altin'].Satış);
+        if (data['yarim-altin']?.Satış) prices.yarim = parsePrice(data['yarim-altin'].Satış);
+        if (data['tam-altin']?.Satış) prices.tam = parsePrice(data['tam-altin'].Satış);
+        if (data['ata-altin']?.Satış) prices.ata = parsePrice(data['ata-altin'].Satış);
+        setLiveGoldPrices(prices);
+      } catch (err) { console.log('Gold prices error:', err); }
+    };
+    fetchPrices();
+    const interval = setInterval(fetchPrices, 300000); // refresh every 5 min
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const musicId = event?.background_music;
     const isWaiting = !streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest);
@@ -231,6 +275,7 @@ export default function WatchPage() {
   };
 
   const getGoldPrice = (type: string): number => {
+    // 1. Locked prices (çift kilitlediyse)
     if (event?.gold_prices_locked) {
       const prices = event.gold_prices_locked;
       switch (type) {
@@ -242,6 +287,9 @@ export default function WatchPage() {
         default: return 0;
       }
     }
+    // 2. Live prices (canlı fiyatlar)
+    if (liveGoldPrices[type]) return liveGoldPrices[type];
+    // 3. Defaults
     const defaults: Record<string, number> = {
       gram: 6240,
       ceyrek: 9980,
@@ -482,6 +530,14 @@ export default function WatchPage() {
     return () => clearInterval(timer);
   }, [event]);
 
+  // Gallery carousel auto-rotate
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGalleryIndex(prev => (prev + 1) % 3);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
       const maxViewers = eventPackage?.max_viewers || 50;
@@ -524,6 +580,8 @@ export default function WatchPage() {
       setTimeout(() => {
         setShowWelcomeModal(false);
         setIsNameEntered(true);
+        setVideoNotification({ text: `${viewerName.trim()} nikaha katıldı!`, type: 'join' });
+        setTimeout(() => setVideoNotification(null), 3500);
       }, 3000);
     }
   };
@@ -538,6 +596,8 @@ export default function WatchPage() {
 
       setMessage("");
       setShowEmojiPicker(false);
+      setVideoNotification({ text: `${viewerName}: ${message.trim().substring(0, 40)}${message.trim().length > 40 ? '...' : ''}`, type: 'message' });
+      setTimeout(() => setVideoNotification(null), 3500);
     }
   };
 
@@ -548,6 +608,8 @@ export default function WatchPage() {
   const handleGoldSelect = async (goldId: string) => {
     setSelectedGold(goldId);
     setCustomAmount("");
+    setPaymentStep(1);
+    setPaymentMethod(null);
     setShowPaymentModal(true);
     
     if (goldId !== "nakit" && event?.id) {
@@ -584,9 +646,24 @@ export default function WatchPage() {
     }
   };
 
+  // 10 second timer for payment confirmation
+  useEffect(() => {
+    if (paymentStep === 2) {
+      setConfirmTimer(20);
+      const interval = setInterval(() => {
+        setConfirmTimer((prev) => {
+          if (prev <= 1) { clearInterval(interval); return 0; }
+          return prev - 1;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [paymentStep]);
+
+  // Green confirm button on step 2 → step 3 (success)
   const handlePaymentComplete = async () => {
     const paymentId = pendingPaymentIdRef.current;
-    
+
     if (paymentId) {
       await supabase
         .from('gift_payments')
@@ -594,18 +671,23 @@ export default function WatchPage() {
         .eq('id', paymentId);
     }
 
-    setShowPaymentModal(false);
-    setShowSuccessModal(true);
-    
+    setPaymentStep(3);
+
+    const goldName = goldOptions.find(g => g.id === selectedGold)?.name || 'Altın';
+    setVideoNotification({ text: `${viewerName} ${goldName} gönderdi! 💛`, type: 'gold' });
+    setTimeout(() => setVideoNotification(null), 4000);
+
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
 
+    // Auto-close after 4 seconds
     setTimeout(() => {
-      setShowSuccessModal(false);
+      setShowPaymentModal(false);
       setSelectedGold(null);
       setPaymentMethod(null);
       setCustomAmount("");
-    }, 3000);
+      setPaymentStep(1);
+    }, 4000);
   };
 
   const handleCloseModal = () => {
@@ -613,6 +695,7 @@ export default function WatchPage() {
     setPaymentMethod(null);
     setSelectedGold(null);
     setCustomAmount("");
+    setPaymentStep(1);
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
   };
@@ -659,7 +742,7 @@ export default function WatchPage() {
           <div className="text-6xl mb-4">😕</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Nikah Bulunamadı</h1>
           <p className="text-gray-600 mb-6">Bu linkle eşleşen bir nikah bulamadık.</p>
-          <a href="/" className="text-blue-500 hover:underline">Ana Sayfaya Dön</a>
+          <a href="/" className="text-[#C8686E] hover:underline">Ana Sayfaya Dön</a>
         </div>
       </main>
     );
@@ -672,12 +755,8 @@ export default function WatchPage() {
 
   if (viewerLimitReached && !isNameEntered && !isReturningViewer) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
-          <div className="absolute top-4 left-4 flex items-center gap-2">
-            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
-            <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
-          </div>
+      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
           
           <div className="text-6xl mb-4 mt-8">😔</div>
           
@@ -687,8 +766,8 @@ export default function WatchPage() {
             {event.bride_full_name} & {event.groom_full_name} nikah töreni için izleyici kapasitesi dolmuştur.
           </p>
           
-          <div className="bg-blue-50 rounded-xl p-4 mb-6">
-            <p className="text-blue-600 text-sm">
+          <div className="bg-rose-50/50 rounded-xl p-4 mb-6">
+            <p className="text-[#C8686E] text-sm">
               👥 Maksimum {eventPackage?.max_viewers || 50} izleyici kapasitesine ulaşıldı.
             </p>
           </div>
@@ -701,19 +780,19 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
-          <div className="absolute top-4 left-4 flex items-center gap-2">
-            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
-            <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
+      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
+          <div className="flex items-center gap-0 mb-6 justify-center cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain" />
           </div>
-          
-          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-blue-100 shadow-lg mt-8" />
-          
+
+          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
+
           <h1 className="text-2xl font-bold text-gray-900 mb-4">
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
-          
+
           <p className="text-gray-700 text-xl mb-1">
             🎉 Tekrar Hoş Geldin
           </p>
@@ -723,7 +802,8 @@ export default function WatchPage() {
           
           <button
             onClick={handleReturningContinue}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-xl font-semibold transition-colors"
+            className="w-full text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
+            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}
           >
             Devam Et
           </button>
@@ -734,15 +814,14 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center relative">
-          <div className="absolute top-4 left-4 flex items-center gap-2">
-            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
-            <span className="font-bold text-[#1565C0] text-base">Nikahım</span>
+      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
+          <div className="flex items-center gap-0 mb-6 justify-center cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain" />
           </div>
-          
-          <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[160px] h-[160px] border-4 border-blue-100 shadow-lg mt-8" />
-          
+          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
+
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
@@ -757,7 +836,7 @@ export default function WatchPage() {
               value={viewerName}
               onChange={(e) => setViewerName(e.target.value)}
               placeholder="Örn: Fatma Yılmaz"
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-gray-900 placeholder:text-gray-400"
+              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
               onKeyPress={(e) => e.key === "Enter" && handleNameSubmit()}
             />
           </div>
@@ -765,7 +844,8 @@ export default function WatchPage() {
           <button
             onClick={handleNameSubmit}
             disabled={!viewerName.trim()}
-            className="w-full bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-colors"
+            className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
+            style={{ background: viewerName.trim() ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}
           >
             Yayına Katıl
           </button>
@@ -775,12 +855,14 @@ export default function WatchPage() {
         </div>
 
         {showWelcomeModal && (
-          <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
-              <div className="text-6xl mb-4">🎊</div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
-              <p className="text-gray-600 mb-2">Katılım bilginiz çiftimize iletildi.</p>
-              <p className="text-gray-500">Katıldığınız için teşekkür ederiz! 🎉</p>
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+            <div className="rounded-3xl p-8 max-w-sm w-full text-center relative overflow-hidden" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.96), rgba(250,245,238,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
+              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.08), rgba(111,175,207,0.06))' }}>
+                <span className="text-3xl">💐</span>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Hoş Geldiniz!</h3>
+              <p className="text-sm text-gray-500 mb-1">Katılım bilginiz çiftimize iletildi</p>
+              <p className="text-xs text-gray-400">Keyifli izlemeler dileriz</p>
             </div>
           </div>
         )}
@@ -789,418 +871,856 @@ export default function WatchPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 overflow-x-hidden w-full max-w-[100vw]">
-      <header className="bg-white shadow-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/logo.png" alt="Nikahım" width={40} height={40} className="rounded-full" />
-            <span className="font-bold text-[#1565C0] hidden sm:block">Nikahım</span>
+    <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]" style={{ background: '#FAF7F5' }}>
+      {/* App İndir Popup */}
+      {showAppPopup && (
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
+          <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
+            <h3 className="text-2xl font-bold text-gray-900 text-center mb-2">Nikahım</h3>
+            <p className="text-gray-400 text-center text-sm mb-8">Nikahınızı canlı yayınlayın ve sevdiklerinizle paylaşın</p>
+            <div className="space-y-3">
+              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
+              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
+            </div>
+            <button onClick={() => setShowAppPopup(false)} className="w-full mt-8 py-3 text-gray-400 hover:text-gray-600 font-medium text-sm transition-colors">Kapat</button>
           </div>
+        </div>
+      )}
+
+      {/* NAVBAR */}
+      <header className="sticky top-0 z-50 border-b border-gray-100/50" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 flex items-center justify-between">
+          <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain hidden sm:block" />
+          </div>
+
+          {/* Ortada CTA */}
+          <div className="hidden md:flex items-center gap-4">
+            <span className="text-sm font-semibold"><span className="text-gray-800">Sende nikahını </span><span style={{ color: '#C8686E' }}>canlı yayınlamak</span><span className="text-gray-800"> ister misin?</span></span>
+            <button onClick={() => setShowAppPopup(true)} className="px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-105 border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.8)' }}>
+              Hemen Başla
+            </button>
+          </div>
+
           <div className="flex items-center gap-2">
             {streamData?.status === 'active' && (
-              <span className="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                CANLI
+              <span className="flex items-center gap-1.5 bg-red-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm">
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI
               </span>
             )}
             {streamData?.status === 'starting' && (
-              <span className={`flex items-center gap-1 ${streamData?.isTest ? 'bg-orange-500' : 'bg-yellow-500'} text-white px-3 py-1 rounded-full text-sm font-medium`}>
-                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                {streamData?.isTest ? 'TEST BAŞLIYOR' : 'BAŞLIYOR'}
+              <span className={`flex items-center gap-1.5 ${streamData?.isTest ? 'bg-amber-500' : 'bg-yellow-500'} text-white px-2.5 py-1 rounded-full text-[11px] font-bold`}>
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                {streamData?.isTest ? 'TEST' : 'BAŞLIYOR'}
               </span>
             )}
             {streamData?.status === 'ended' && showEndedScreen && (
-              <span className="flex items-center gap-1 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                İŞLENİYOR
+              <span className="flex items-center gap-1.5 bg-green-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold">
+                <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />İŞLENİYOR
               </span>
             )}
             {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && (
-              <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                ▶ KAYIT
-              </span>
+              <span className="flex items-center gap-1.5 bg-gray-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold">▶ KAYIT</span>
             )}
-            
             {hasMusicSelected && isNameEntered && (!streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest)) && (
               isMusicPlaying ? (
-                <button
-                  onClick={toggleMusicMute}
-                  className="flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
-                >
-                  {musicMuted ? (
-                    <><span>🎵</span> Müzik Çal</>
-                  ) : (
-                    <><span>🔇</span> Sessiz</>
-                  )}
+                <button onClick={toggleMusicMute} className="flex items-center gap-1.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 px-3 py-1.5 rounded-xl text-xs font-medium transition-colors shadow-sm">
+                  {musicMuted ? (<><span>🎵</span> Müzik Çal</>) : (<><span>🔇</span> Sessiz</>)}
                 </button>
               ) : (
-                <button
-                  onClick={startMusic}
-                  className="flex items-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
-                >
+                <button onClick={startMusic} className="flex items-center gap-1.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 px-3 py-1.5 rounded-xl text-xs font-medium transition-colors shadow-sm">
                   <span>🎵</span> Müzik Çal
                 </button>
               )
             )}
-            
-            <span className="text-gray-500 text-sm">👥 {viewerCount}/{eventPackage?.max_viewers || 50}</span>
+            <span className="text-gray-400 text-xs flex items-center gap-1.5">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+              {viewerCount} izleyen
+            </span>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto p-4 overflow-x-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6 w-full">
-          
-          <div className="lg:col-span-2 space-y-4 w-full min-w-0">
-            
-            <div className="bg-black rounded-2xl overflow-hidden aspect-video lg:aspect-video relative">
-              {streamData?.status === 'starting' && (
-                <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-gray-900 via-amber-950 to-gray-900' : 'bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800'}`}>
-                  <div className="text-7xl mb-6 animate-pulse">{streamData?.isTest ? '⚙️' : '🎥'}</div>
-                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
-                    {streamData?.isTest ? 'Test Yayını Birazdan Başlıyor' : 'Canlı Yayın Birazdan Başlıyor'}
-                  </h2>
-                  <p className="text-white/80 text-lg mb-6">Lütfen bekleyin...</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
-                  </div>
-                </div>
-              )}
+      {/* 3 PANEL LAYOUT */}
+      <div className="max-w-[1600px] mx-auto p-3 lg:p-5">
+        <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
-              {streamData?.status === 'ended' && showEndedScreen && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800 z-10">
-                  <div className="text-7xl mb-6">🎬</div>
-                  <h2 className="text-2xl lg:text-3xl font-bold text-white mb-3">
-                    {streamData?.isTest ? 'Test Yayını Sonlandı' : 'Canlı Yayın Sonlandı'}
-                  </h2>
-                  <p className="text-gray-300 text-lg mb-6">
-                    {streamData?.isTest ? 'Test yayını kaydedilmedi.' : 'Video kaydı hazırlanıyor...'}
-                  </p>
-                  {!streamData?.isTest && (
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                      <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+          {/* SOL PANEL - Çift Bilgisi (%20) */}
+          <div className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3" style={{ maxHeight: 'calc((min(100vw, 1600px) - 620px) * 9 / 16)' }}>
+            {/* Çift Kartı */}
+            <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+              <div className="text-center">
+                {event.couple_photo_url ? (
+                  <img src={event.couple_photo_url} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
+                ) : (
+                  <img src="/couple-icon.png" alt="Çift" className="w-20 h-20 mx-auto rounded-full object-cover mb-3" />
+                )}
+                <h2 className="text-gray-900 font-bold text-[15px] mb-0.5">{event.bride_first_name} & {event.groom_first_name}</h2>
+                <p className="text-gray-400 text-xs">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+              </div>
+              <div className="mt-4 pt-4 border-t border-gray-50 space-y-2">
+                <div className="flex items-center gap-2 text-gray-400 text-xs">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  {eventDate}
+                </div>
+                <div className="flex items-center gap-2 text-gray-400 text-xs">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  {eventTime}
+                </div>
+              </div>
+            </div>
+
+            {/* Aile Bilgisi */}
+            <div className="rounded-2xl p-5 space-y-3 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-xs">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-xs">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* ORTA + SAĞ PANEL WRAPPER */}
+          <div className="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
+          {/* ORTA ALAN - Video (%55) */}
+          <div className="flex-1 min-w-0">
+            <div className={`bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
+              {/* Fullscreen toggle button */}
+              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (!next) { setFsTebrikMenu(false); setFsTebrikPanel(null); } }} className="absolute bottom-3 right-3 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+                {isFullscreen ? (
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
+                ) : (
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
+                )}
+              </button>
+
+              {/* Fullscreen floating action bar */}
+              {isFullscreen && (
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 p-2.5 rounded-[20px]" style={{ background: 'rgba(20,15,10,0.75)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+                  {/* Altın Tak */}
+                  <button onClick={() => { setIsFullscreen(false); setTimeout(() => document.getElementById('gold-section')?.scrollIntoView({ behavior: 'smooth' }), 100); }} className="flex items-center gap-3 pl-4 pr-6 py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'linear-gradient(135deg, rgba(60,45,20,0.9), rgba(40,30,15,0.9))', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8960B)', boxShadow: '0 2px 8px rgba(212,175,55,0.3)' }}>
+                      <Image src="/altintak.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />
                     </div>
+                    <div className="text-left">
+                      <div className="text-[13px] font-bold" style={{ color: '#E8D5A0' }}>Altın Tak</div>
+                      <div className="text-[10px]" style={{ color: 'rgba(232,213,160,0.5)' }}>Çifte altın gönder</div>
+                    </div>
+                  </button>
+                  {/* İzleyici */}
+                  <div className="flex items-center gap-3 pl-4 pr-6 py-3 rounded-2xl" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <svg className="w-4.5 h-4.5 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                    </div>
+                    <div className="text-left">
+                      <div className="text-[13px] font-bold text-white">{viewerCount.toLocaleString()} kişi</div>
+                      <div className="text-[10px] text-white/40">Canlı izliyor</div>
+                    </div>
+                  </div>
+                  {/* Tebrik Mesajı */}
+                  <div className="relative">
+                    <button onClick={() => setFsTebrikMenu(!fsTebrikMenu)} className="flex items-center gap-3 pl-4 pr-6 py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: fsTebrikMenu ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }}>
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.15)' }}>
+                        <Image src="/tebrik-defteri-icon.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-[13px] font-bold text-white">Tebrik Mesajı</div>
+                        <div className="text-[10px] text-white/40">Kutlama gönder</div>
+                      </div>
+                    </button>
+                    {/* Tebrik alt menü */}
+                    {fsTebrikMenu && (
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 flex flex-col gap-2 p-2.5 rounded-2xl animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)', minWidth: '200px' }}>
+                        <button onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel('video'); }} className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(180,70,80,0.12)', border: '1px solid rgba(180,70,80,0.15)' }}>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.15)' }}>
+                            <svg className="w-4 h-4" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                          </div>
+                          <div className="text-left">
+                            <div className="text-[12px] font-semibold text-white">Video Tebrik</div>
+                            <div className="text-[10px] text-white/35">30sn video mesaj</div>
+                          </div>
+                        </button>
+                        <button onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel('voice'); }} className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(111,175,207,0.12)', border: '1px solid rgba(111,175,207,0.15)' }}>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.15)' }}>
+                            <svg className="w-4 h-4" style={{ color: '#8EC8E4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                          </div>
+                          <div className="text-left">
+                            <div className="text-[12px] font-semibold text-white">Sesli Tebrik</div>
+                            <div className="text-[10px] text-white/35">Sesli mesaj gönderin</div>
+                          </div>
+                        </button>
+                        <button onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel('message'); }} className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(76,175,80,0.12)', border: '1px solid rgba(76,175,80,0.15)' }}>
+                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.15)' }}>
+                            <svg className="w-4 h-4" style={{ color: '#7ED687' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                          </div>
+                          <div className="text-left">
+                            <div className="text-[12px] font-semibold text-white">Tebrik Mesajı</div>
+                            <div className="text-[10px] text-white/35">Yazılı tebrik bırakın</div>
+                          </div>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {/* Müzik */}
+                  {hasMusicSelected && (
+                    <button onClick={isMusicPlaying ? toggleMusicMute : startMusic} className="w-[52px] h-[52px] rounded-2xl flex items-center justify-center transition-all hover:scale-[1.08]" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                      {isMusicPlaying && !musicMuted ? (
+                        <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
+                      ) : (
+                        <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" /></svg>
+                      )}
+                    </button>
                   )}
                 </div>
               )}
-
+              {/* Fullscreen video tebrik popup - sağ alt */}
+              {isFullscreen && fsTebrikPanel === 'video' && event && (
+                <div className="absolute bottom-24 right-6 z-50 w-[380px] rounded-2xl overflow-hidden animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+                  <div className="flex items-center justify-between px-4 pt-4 pb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.15)' }}>
+                        <svg className="w-3.5 h-3.5" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                      </div>
+                      <span className="text-[13px] font-bold text-white">Video Tebrik</span>
+                    </div>
+                    <button onClick={() => setFsTebrikPanel(null)} className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <svg className="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                  <div className="px-4 pb-4">
+                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 3500); }} onClose={() => setFsTebrikPanel(null)} />
+                  </div>
+                </div>
+              )}
+              {/* Fullscreen tebrik popup - sağ alt */}
+              {isFullscreen && fsTebrikPanel === 'message' && (
+                <div className="absolute bottom-24 right-6 z-50 w-[340px] rounded-2xl overflow-hidden animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+                  <div className="flex items-center justify-between px-4 pt-4 pb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.15)' }}>
+                        <svg className="w-3.5 h-3.5" style={{ color: '#7ED687' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      </div>
+                      <span className="text-[13px] font-bold text-white">Tebrik Mesajı</span>
+                    </div>
+                    <button onClick={() => setFsTebrikPanel(null)} className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <svg className="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                  <div className="px-4 pb-4">
+                    <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={3} className="w-full px-3 py-2.5 rounded-xl outline-none text-[13px] text-white placeholder:text-white/25 resize-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'Georgia, serif' }} />
+                    <button onClick={() => { sendMessage(); setFsTebrikPanel(null); }} disabled={!message.trim()} className="w-full mt-2.5 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.25)' }}>
+                      Gönder
+                    </button>
+                  </div>
+                </div>
+              )}
+              {/* Fullscreen sesli tebrik popup - sağ alt */}
+              {isFullscreen && fsTebrikPanel === 'voice' && (
+                <div className="absolute bottom-24 right-6 z-50 w-[340px] rounded-2xl overflow-hidden animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 20px 60px rgba(0,0,0,0.5)' }}>
+                  <div className="flex items-center justify-between px-4 pt-4 pb-2">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.15)' }}>
+                        <svg className="w-3.5 h-3.5" style={{ color: '#8EC8E4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                      </div>
+                      <span className="text-[13px] font-bold text-white">Sesli Tebrik</span>
+                    </div>
+                    <button onClick={() => setFsTebrikPanel(null)} className="w-7 h-7 rounded-lg flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(255,255,255,0.1)' }}>
+                      <svg className="w-3.5 h-3.5 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                  </div>
+                  <div className="px-4 pb-4 text-center">
+                    <p className="text-white/40 text-[12px] mb-3">Mikrofon butonuna basılı tutarak sesli mesaj gönderin</p>
+                    <button className="w-16 h-16 rounded-full flex items-center justify-center mx-auto transition-all hover:scale-110" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 4px 20px rgba(111,175,207,0.3)' }}>
+                      <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+              {/* Starting */}
+              {streamData?.status === 'starting' && (
+                <div className={`absolute inset-0 flex flex-col items-center justify-center ${streamData?.isTest ? 'bg-gradient-to-br from-gray-900 via-amber-950 to-gray-900' : 'bg-gradient-to-br from-[#C8686E] via-[#B85A60] to-[#A04E54]'}`}>
+                  <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 bg-white/10">
+                    <svg className="w-8 h-8 text-white animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                  </div>
+                  <h2 className="text-xl lg:text-2xl font-bold text-white mb-2">{streamData?.isTest ? 'Test Yayını Başlıyor' : 'Canlı Yayın Başlıyor'}</h2>
+                  <p className="text-white/60 text-sm">Lütfen bekleyin...</p>
+                </div>
+              )}
+              {/* Ended */}
+              {streamData?.status === 'ended' && showEndedScreen && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-[#C8686E] via-[#B85A60] to-[#A04E54] z-10">
+                  <h2 className="text-xl font-bold text-white mb-2">{streamData?.isTest ? 'Test Sonlandı' : 'Yayın Sonlandı'}</h2>
+                  <p className="text-white/60 text-sm">{streamData?.isTest ? 'Test kaydedilmedi.' : 'Kayıt hazırlanıyor...'}</p>
+                </div>
+              )}
+              {/* Active */}
               {streamData?.status === 'active' && streamData?.playbackId && (
-                <ApiVideoPlayer
-                  liveStreamId={streamData.playbackId || undefined}
-                  videoId={streamData.videoId || undefined}
-                  isLive={true}
-                  isRecording={false}
-                  overlayInfo={{
-                    viewerCount: viewerCount,
-                    isTest: streamData.isTest,
-                  }}
-                  className="w-full h-full"
-                />
+                <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={true} isRecording={false} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
               )}
-
+              {/* Recording */}
               {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && streamData?.playbackId && (
-                <ApiVideoPlayer
-                  liveStreamId={streamData.playbackId || undefined}
-                  videoId={streamData.videoId || undefined}
-                  isLive={false}
-                  isRecording={true}
-                  overlayInfo={{
-                    viewerCount: viewerCount,
-                    isTest: streamData.isTest,
-                  }}
-                  className="w-full h-full"
-                />
+                <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={false} isRecording={true} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
               )}
-
-              {streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest && (
+              {/* Waiting with countdown */}
+              {((streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest) || ((!streamData?.status || streamData?.status === 'idle') && !isLive)) && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                  <img src="/wedding-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" style={{ minHeight: '100%', minWidth: '100%' }} />
-                  <div className="absolute inset-0 bg-black/60"></div>
-                  
-                  <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-8 lg:mb-12 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[260px] lg:h-[260px] landscape:w-[260px] landscape:h-[260px] landscape:mb-8" />
-                    
-                    <div className="flex gap-2 lg:gap-3 landscape:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.days}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Gün</div>
-                      </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.hours}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Saat</div>
-                      </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.minutes}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Dakika</div>
-                      </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.seconds}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Saniye</div>
+                  <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'blur(4px) brightness(0.7)', objectPosition: 'center top', animation: 'slowZoom 20s ease-in-out infinite alternate' }}><source src="/wedding-bg-video.mp4" type="video/mp4" /></video>
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
+                  <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
+                  <div className="relative z-10 flex flex-col items-center">
+                    <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="mb-6 rounded-full object-cover border-2 border-white/20 shadow-2xl w-[100px] h-[100px] lg:w-[160px] lg:h-[160px]" />
+                    <h3 className="text-white font-bold text-xl mb-6">{event.bride_first_name} & {event.groom_first_name}</h3>
+                    <div className="flex gap-3">
+                      {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
+                        <div key={i} className="backdrop-blur-xl rounded-2xl px-5 py-4 text-center min-w-[60px] transition-transform hover:scale-105" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: 'inset 0 0 20px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.15)' }}>
+                          <div className="text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">{c.v}</div>
+                          <div className="text-[10px] text-white/50 uppercase tracking-wider mt-1">{c.l}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                  </div>
+                </div>
+              )}
+              {/* Video notification popup */}
+              {videoNotification && (
+                <div className="absolute bottom-5 right-5 z-30 max-w-[300px] video-notification">
+                  <div className="rounded-2xl px-4 py-3 flex items-center gap-3" style={{ background: videoNotification.type === 'gold' ? 'linear-gradient(135deg, rgba(255,248,230,0.95), rgba(255,243,210,0.95))' : videoNotification.type === 'join' ? 'linear-gradient(135deg, rgba(236,253,245,0.95), rgba(220,252,231,0.95))' : videoNotification.type === 'voice' ? 'linear-gradient(135deg, rgba(239,246,255,0.95), rgba(224,242,254,0.95))' : 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(253,245,245,0.95))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: videoNotification.type === 'gold' ? '0 8px 32px rgba(212,175,55,0.2), 0 0 0 1px rgba(212,175,55,0.1)' : videoNotification.type === 'join' ? '0 8px 32px rgba(34,197,94,0.15), 0 0 0 1px rgba(34,197,94,0.1)' : videoNotification.type === 'voice' ? '0 8px 32px rgba(111,175,207,0.15), 0 0 0 1px rgba(111,175,207,0.1)' : '0 8px 32px rgba(200,104,110,0.12), 0 0 0 1px rgba(200,104,110,0.08)' }}>
+                    <div className="w-8 h-8 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: videoNotification.type === 'gold' ? 'rgba(212,175,55,0.15)' : videoNotification.type === 'join' ? 'rgba(34,197,94,0.1)' : videoNotification.type === 'video' ? 'rgba(200,104,110,0.1)' : videoNotification.type === 'voice' ? 'rgba(111,175,207,0.1)' : 'rgba(200,104,110,0.1)' }}>
+                      {videoNotification.type === 'gold' && <Image src="/altintak.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />}
+                      {videoNotification.type === 'join' && <span className="text-sm">👋</span>}
+                      {videoNotification.type === 'video' && <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
+                      {videoNotification.type === 'voice' && <svg className="w-4 h-4" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>}
+                      {videoNotification.type === 'message' && <Image src="/tebrik-defteri-icon.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />}
+                    </div>
+                    <p className="text-[12px] font-medium leading-snug" style={{ color: videoNotification.type === 'gold' ? '#8B6914' : videoNotification.type === 'join' ? '#166534' : videoNotification.type === 'voice' ? '#1e40af' : videoNotification.type === 'video' ? '#9f1239' : '#374151' }}>{videoNotification.text}</p>
+                  </div>
+                </div>
+              )}
+              {/* Live overlay - üst */}
+              {streamData?.status === 'active' && (
+                <div className="absolute top-0 left-0 right-0 z-20 p-4" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%)' }}>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="flex items-center gap-1.5 bg-red-500/90 backdrop-blur text-white px-3 py-1 rounded-lg text-xs font-bold shadow-lg"><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
+                      <span className="backdrop-blur-md bg-black/30 text-white/80 px-2.5 py-1 rounded-lg text-xs flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>{viewerCount}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+              {/* Live overlay - alt bilgi */}
+              {streamData?.status === 'active' && (
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-4" style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%)' }}>
+                  <div className="flex items-end justify-between">
+                    <div className="flex items-center gap-3">
+                      {event.couple_photo_url ? (
+                        <img src={event.couple_photo_url} alt="Çift" className="w-10 h-10 rounded-full object-cover border border-white/20" />
+                      ) : (
+                        <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.3)' }}>
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-white font-bold text-sm">{event.bride_first_name} & {event.groom_first_name}</h3>
+                        <p className="text-white/50 text-xs">💍 {event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               )}
-              
-              {(!streamData?.status || streamData?.status === 'idle') && !isLive && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                  <img src="/wedding-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" style={{ minHeight: '100%', minWidth: '100%' }} />
-                  <div className="absolute inset-0 bg-black/60"></div>
-                  
-                  <div className="relative z-10 flex flex-col items-center justify-center h-full">
-                    <img src={event.couple_photo_url || "/logo.png"} alt="Çift Fotoğrafı" className="mb-8 lg:mb-12 rounded-full object-cover border-4 border-white/30 shadow-2xl w-[140px] h-[140px] lg:w-[260px] lg:h-[260px] landscape:w-[260px] landscape:h-[260px] landscape:mb-8" />
-                    
-                    <div className="flex gap-2 lg:gap-3 landscape:gap-3">
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.days}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Gün</div>
-                      </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.hours}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Saat</div>
-                      </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.minutes}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Dakika</div>
-                      </div>
-                      <div className="bg-sky-200/30 backdrop-blur rounded-lg px-2 lg:px-4 py-1 lg:py-3 text-center min-w-[40px] lg:min-w-[60px] landscape:px-4 landscape:py-2 landscape:min-w-[60px]">
-                        <div className="text-sm lg:text-2xl font-bold text-white landscape:text-xl">{countdown.seconds}</div>
-                        <div className="text-[8px] lg:text-xs text-gray-300 landscape:text-xs">Saniye</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
-            <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
-              <div className="flex items-center gap-4">
-                <Image src="/wedding.png" alt="Nikah" width={80} height={80} className="object-contain" />
-                <div>
-                  <h1 className="text-lg lg:text-xl font-bold text-gray-900 mb-2">{event.bride_first_name} & {event.groom_first_name}</h1>
-                  <p className="text-gray-500">📅 {eventDate} - 🕐 {eventTime}</p>
+            {/* Altın Tak - Premium */}
+            <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #F8F0E0, #F0E6D2, #E8DCCA)', boxShadow: '0 8px 40px rgba(180,155,120,0.12), 0 2px 10px rgba(0,0,0,0.04)', border: '1px solid rgba(200,180,150,0.2)' }}>
+              {/* Dekoratif ışıklar - daha parlak */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] h-28 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(232,210,160,0.25), rgba(212,175,55,0.08) 50%, transparent 80%)' }} />
+              <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-[0.08] pointer-events-none" style={{ background: '#D4AF37' }} />
+              <div className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-[0.05] pointer-events-none" style={{ background: '#E8C27A' }} />
+
+              <div className="px-5 pt-5 pb-4">
+                {/* Merkezi başlık */}
+                <div className="text-center mb-4">
+                  <h2 className="text-[20px] font-bold mb-1 tracking-tight" style={{ color: '#2D2418' }}>Mutlu Çifte <span className="gold-shimmer">ALTIN</span> Tak</h2>
                 </div>
-              </div>
-              
-              <div className="grid sm:grid-cols-2 gap-4 mt-6 pt-6 border-t">
-                <div className="bg-blue-50 rounded-xl p-4">
-                  <p className="text-sm text-blue-600 font-medium mb-1">Gelin Ailesi</p>
-                  <p className="text-gray-900">
-                    {event.bride_father_name && event.bride_mother_name 
-                      ? `${event.bride_father_name} & ${event.bride_mother_name}`
-                      : event.bride_father_name || event.bride_mother_name || '-'}
-                  </p>
-                </div>
-                <div className="bg-blue-50 rounded-xl p-4">
-                  <p className="text-sm text-blue-600 font-medium mb-1">Damat Ailesi</p>
-                  <p className="text-gray-900">
-                    {event.groom_father_name && event.groom_mother_name 
-                      ? `${event.groom_father_name} & ${event.groom_mother_name}`
-                      : event.groom_father_name || event.groom_mother_name || '-'}
-                  </p>
+
+                {/* Altın kartları */}
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                  {goldOptions.map((gold) => (
+                    <button key={gold.id} onClick={() => handleGoldSelect(gold.id)} className="group rounded-2xl p-4 text-center transition-all duration-300 hover:scale-[1.05] hover:-translate-y-1 relative overflow-hidden" style={{ background: gold.id === 'nakit' ? 'linear-gradient(165deg, #F0EBE3, #E8E2D8)' : 'linear-gradient(165deg, #FFFDF8, #F8F2E8)', boxShadow: '0 4px 16px rgba(150,130,100,0.08), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,180,150,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.15), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,130,100,0.08), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.border = '1px solid rgba(200,180,150,0.15)'; }}>
+                      {/* Hover glow */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.1), transparent 70%)' }} />
+                      {gold.id === 'ceyrek_altin' && <div className="absolute top-1.5 left-1/2 -translate-x-1/2 text-[8px] font-bold px-2.5 py-0.5 rounded-full text-white z-10" style={{ background: 'linear-gradient(135deg, #B8860B, #96700A)', boxShadow: '0 2px 6px rgba(184,134,11,0.3)' }}>Popular</div>}
+                      <div className="relative w-14 h-14 mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300"><Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" /></div>
+                      <div className="text-[12px] font-semibold leading-tight" style={{ color: '#4A3C28' }}>{gold.name}</div>
+                      {gold.price > 0 ? (<div className="text-[11px] font-bold mt-1" style={{ color: '#8B6914' }}>₺{gold.price.toLocaleString()}</div>) : (<div className="text-[11px] mt-1" style={{ color: 'rgba(120,100,70,0.4)' }}>Serbest</div>)}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
 
-            <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-900">🎥 Video Tebrik</h2>
-                  <p className="text-gray-500 text-sm">30 saniyelik video mesaj gönderin</p>
-                </div>
-                <button onClick={() => setShowVideoRecorder(true)} className="bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-5 py-3 rounded-xl font-semibold flex items-center gap-2 transition-all hover:scale-105 shadow-lg">
-                  <span>📹</span>
-                  Video Çek
-                </button>
-              </div>
-              <div className="bg-pink-50 rounded-xl p-3 text-sm text-pink-700">
-                💡 Kameranızı açarak çifte özel bir video mesaj gönderin. Tüm video tebrikler sadece çift tarafından görüntülenebilir.
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl p-4 lg:p-6 w-full">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">💰 Altın Tak</h2>
-              <p className="text-gray-500 mb-6">Çifte altın takarak hediyenizi gönderin</p>
-              
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                {goldOptions.map((gold) => (
-                  <button key={gold.id} onClick={() => handleGoldSelect(gold.id)} className="group bg-gradient-to-br from-yellow-100 to-yellow-200 hover:from-yellow-200 hover:to-yellow-300 rounded-xl p-3 text-center transition-all hover:scale-105 hover:shadow-lg">
-                    <div className="relative w-12 h-12 mx-auto mb-2">
-                      <Image src={gold.image} alt={gold.name} fill className="object-contain" />
-                    </div>
-                    <div className="text-xs font-medium text-gray-700">{gold.name}</div>
-                    {gold.price > 0 ? (
-                      <div className="text-xs text-gray-500 mt-1">₺{gold.price.toLocaleString()}</div>
-                    ) : (
-                      <div className="text-xs text-gray-400 mt-1">Serbest</div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="lg:col-span-1 w-full min-w-0">
-            <div className="bg-white rounded-2xl h-[400px] lg:h-[600px] flex flex-col">
-              <div className="p-4 border-b">
-                <h2 className="font-bold text-gray-900">💬 Canlı Sohbet</h2>
-              </div>
-
-              <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3">
-                {messages.length === 0 ? (
-                  <p className="text-gray-400 text-center text-sm">Henüz mesaj yok. İlk mesajı siz gönderin!</p>
+            {/* Mobil: Çift bilgisi */}
+            <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-sm border border-gray-100/80">
+              <div className="flex items-center gap-3">
+                {event.couple_photo_url ? (
+                  <img src={event.couple_photo_url} alt="Çift" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
                 ) : (
-                  messages.map((msg) => (
-                    <div key={msg.id} className="bg-gray-50 rounded-xl p-3">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-bold text-gray-900 text-sm">{msg.name}</span>
-                        <span className="text-gray-400 text-xs">{msg.time}</span>
-                      </div>
-                      <p className="text-gray-600 text-sm">{msg.text}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-
-              {showEmojiPicker && (
-                <div className="px-4 py-2 border-t bg-gray-50 max-h-32 overflow-y-auto">
-                  <div className="flex flex-wrap gap-2">
-                    {emojis.map((emoji, index) => (
-                      <button key={index} onClick={() => addEmoji(emoji)} className="text-2xl hover:scale-125 transition-transform">
-                        {emoji}
-                      </button>
-                    ))}
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(111,175,207,0.1))' }}>
+                    <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                   </div>
-                </div>
-              )}
-
-              <div className="p-3 border-t">
-                <div className="flex gap-1 lg:gap-2 pr-1">
-                  <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className={`px-3 py-2 rounded-xl transition-colors ${showEmojiPicker ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 hover:bg-gray-200'}`}>
-                    😊
-                  </button>
-                  <input
-                    type="text"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    placeholder="Mesajınızı yazın..."
-                    className="flex-1 min-w-0 px-3 py-2 border border-gray-200 rounded-xl outline-none focus:border-blue-500 text-gray-900 placeholder:text-gray-400"
-                    onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-                    onFocus={(e) => {
-                      setTimeout(() => {
-                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      }, 300);
-                    }}
-                  />
-                  <button onClick={sendMessage} className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-xl font-medium text-sm lg:text-base flex-shrink-0">
-                    Gönder
-                  </button>
+                )}
+                <div>
+                  <h2 className="text-gray-900 font-bold">{event.bride_first_name} & {event.groom_first_name}</h2>
+                  <p className="text-gray-400 text-xs">{eventDate} · {eventTime}</p>
                 </div>
               </div>
             </div>
           </div>
+
+          {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
+          <div className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
+            {/* Video Tebrik - pastel kırmızı pembe */}
+            <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(180,70,80,0.08)' }}>
+              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
+                <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-gray-900 text-xs">Video Tebrik</h3>
+                <p className="text-gray-400 text-[10px]">30 sn video mesaj</p>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
+              <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #D4757E, #C45560)', boxShadow: '0 2px 8px rgba(180,70,80,0.15)' }}>Gönder</button>
+            </div>
+
+            {/* Sesli Tebrik - pastel mavi */}
+            <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #F5FAFF, #EDF5FC)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(111,175,207,0.08)' }}>
+              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
+                <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-gray-900 text-xs">Sesli Tebrik</h3>
+                <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
+              <button className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 2px 8px rgba(111,175,207,0.15)' }}>Gönder</button>
+            </div>
+
+            {/* Mesaj Tebrik - açık yeşil */}
+            <div id="tebrik-section" className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #F2FAF5, #E8F5ED)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(76,175,80,0.08)' }}>
+              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
+                <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-gray-900 text-xs">Mesaj Tebrik</h3>
+                <p className="text-gray-400 text-[10px]">Yazılı tebrik bırakın</p>
+              </div>
+              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
+              <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 2px 8px rgba(76,175,80,0.15)' }}>Gönder</button>
+            </div>
+
+            {/* Nikah Gününden Kareler - sağ panelde */}
+            <div className="rounded-2xl p-4 cursor-pointer flex flex-col" onClick={() => setShowPhotoGallery(true)} style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)', height: '200px' }}>
+              <div className="flex items-center gap-2 mb-3">
+                <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <p className="text-[11px] font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
+              </div>
+              <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
+                {[0, 1, 2].map((i) => {
+                  const isCenter = i === 0;
+                  const isLeft = i === 1;
+                  return (
+                    <div key={i} className="absolute rounded-xl overflow-hidden shadow-lg transition-all duration-700 ease-in-out" style={{
+                      width: isCenter ? '100px' : '80px',
+                      height: isCenter ? '100px' : '80px',
+                      transform: isCenter
+                        ? 'translateX(0) translateZ(20px) scale(1)'
+                        : isLeft
+                          ? 'translateX(-55px) translateZ(-10px) scale(0.85) rotateY(15deg)'
+                          : 'translateX(55px) translateZ(-10px) scale(0.85) rotateY(-15deg)',
+                      zIndex: isCenter ? 3 : 1,
+                      opacity: isCenter ? 1 : 0.6,
+                      border: isCenter ? '2px solid rgba(200,104,110,0.3)' : '1px solid rgba(0,0,0,0.08)',
+                    }}>
+                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)' }}>
+                        <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="text-center text-[10px] text-gray-300 mt-2">Fotoğrafları görmek için tıklayın</p>
+            </div>
+
+          </div>
+          </div>{/* end ORTA + SAĞ PANEL WRAPPER */}
         </div>
       </div>
 
+      {/* Photo Gallery Popup */}
+      {showPhotoGallery && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowPhotoGallery(false)} style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
+          <div className="rounded-3xl max-w-2xl w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(40px)', boxShadow: '0 25px 80px rgba(0,0,0,0.2)', border: '1px solid rgba(255,255,255,0.4)' }}>
+            <button onClick={() => setShowPhotoGallery(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100/50 transition-all">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <h3 className="font-bold text-lg" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {[0,1,2,3,4,5].map((i) => (
+                  <div key={i} className="aspect-square rounded-xl overflow-hidden flex items-center justify-center transition-all hover:scale-105 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)', border: '1px solid rgba(200,104,110,0.1)' }}>
+                    <div className="text-center">
+                      <svg className="w-8 h-8 mx-auto opacity-15" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      <p className="text-[9px] mt-1 opacity-20" style={{ color: '#C8686E' }}>Yakında</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-center text-xs text-gray-400 mt-4">Fotoğraflar çift tarafından onaylandıktan sonra burada görünecek</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {showVideoRecorder && event && (
-        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => setShowVideoRecorder(false)} onClose={() => setShowVideoRecorder(false)} />
+        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 3500); }} onClose={() => setShowVideoRecorder(false)} />
       )}
 
       {showPaymentModal && selectedGold && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={handleCloseModal}>
-          <div className="bg-white rounded-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-xl font-bold text-gray-900 mb-4">{goldOptions.find(g => g.id === selectedGold)?.name} Gönder</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={handleCloseModal} style={{ background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+          <div className="rounded-[24px] max-w-[420px] w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(255,252,245,0.95), rgba(248,243,232,0.92))', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', boxShadow: '0 30px 90px rgba(0,0,0,0.25), 0 0 0 1px rgba(212,175,55,0.08) inset, 0 1px 0 rgba(255,255,255,0.5) inset' }}>
+            {/* Decorative shimmer */}
+            <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }} />
+            <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-[0.06] pointer-events-none" style={{ background: '#D4AF37' }} />
 
-            {selectedGold === "nakit" && !pendingPaymentId && (
-              <div className="mb-4">
-                <label className="block text-gray-600 mb-2 font-medium">Göndermek istediğiniz miktar</label>
-                <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktarı girin (₺)" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-blue-500 outline-none text-lg text-gray-900" />
-                <button onClick={handleCustomAmountSubmit} disabled={!customAmount || parseFloat(customAmount) <= 0} className="w-full mt-3 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold">Devam Et</button>
-              </div>
-            )}
+            {/* Close button */}
+            <button onClick={handleCloseModal} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
 
-            {(selectedGold !== "nakit" || pendingPaymentId) && !paymentMethod && (
-              <div className="space-y-3">
-                <p className="text-gray-500 mb-2">Ödeme yöntemini seçin:</p>
-                <div className="bg-amber-50/70 text-amber-700 text-sm mb-4 flex items-center gap-2 px-3 py-2 rounded-lg">
-                  💡 Tüm ödemeler doğrudan çiftin banka hesabına yapılmaktadır.
-                </div>
-                
-                <button onClick={() => setPaymentMethod("qr")} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors">
-                  <span className="text-3xl">📱</span>
-                  <div className="text-left">
-                    <div className="font-medium text-gray-900">QR Kod ile FAST</div>
-                    <div className="text-sm text-green-600">%0 Komisyon</div>
-                    <div className="text-xs text-gray-400">QR kodu taratarak tek tıkla</div>
-                  </div>
-                </button>
-
-                <button onClick={() => setPaymentMethod("iban")} className="w-full flex items-center gap-4 p-4 border-2 border-gray-200 hover:border-blue-500 rounded-xl transition-colors">
-                  <span className="text-3xl">🏦</span>
-                  <div className="text-left">
-                    <div className="font-medium text-gray-900">IBAN ile Havale/EFT</div>
-                    <div className="text-sm text-green-600">%0 Komisyon</div>
-                    <div className="text-xs text-gray-400">IBAN bilgisi kopyalayarak para transferi</div>
-                  </div>
-                </button>
-
-                <button onClick={handleCloseModal} className="w-full py-3 text-gray-500 hover:text-gray-700 font-medium mt-4">İptal</button>
-              </div>
-            )}
-
-            {paymentMethod === "qr" && (
-              <div className="text-center">
-                <div className="bg-gray-100 rounded-xl p-6 mb-4">
-                  {event.qr_codes?.[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"] ? (
-                    <>
-                      <img src={event.qr_codes[selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel"]} alt="QR Kod" className="w-48 h-48 mx-auto rounded-lg object-contain" />
-                      <p className="text-gray-400 text-xs mt-2">💡 Kod üzerine basılı tutarak indirebilirsiniz</p>
-                    </>
-                  ) : (
-                    <div className="w-48 h-48 bg-white mx-auto rounded-lg flex items-center justify-center border-2 border-dashed border-gray-300">
-                      <span className="text-gray-400 text-center text-sm p-4">QR Kod Bulunamadı! Lütfen IBAN ile Havale/EFT Seçeneğini Seçin</span>
+            {/* Step indicator */}
+            {paymentStep < 3 && (
+              <div className="px-6 pt-16 pb-1">
+                <div className="flex items-center gap-0">
+                  {[{n:1, label:'Ödeme Yöntemi'}, {n:2, label:'Transfer'}, {n:3, label:'Onay'}].map((step, i) => (
+                    <div key={step.n} className="flex items-center" style={{ flex: i < 2 ? 1 : 'none' }}>
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300" style={{
+                          background: step.n < paymentStep ? 'linear-gradient(135deg, #C9A13B, #A8892E)' : step.n === paymentStep ? 'linear-gradient(135deg, #D4AF37, #B8960B)' : 'rgba(215,210,200,0.35)',
+                          color: step.n <= paymentStep ? '#fff' : '#bbb',
+                          boxShadow: step.n === paymentStep ? '0 2px 10px rgba(201,161,59,0.35)' : 'none',
+                        }}>{step.n < paymentStep ? '✓' : step.n}</div>
+                      </div>
+                      {i < 2 && <div className="flex-1 h-[2px] mx-2 rounded-full transition-all duration-500" style={{ background: step.n < paymentStep ? 'linear-gradient(90deg, #C9A13B, #D4AF37)' : 'rgba(215,210,200,0.25)' }} />}
                     </div>
+                  ))}
+                </div>
+                <div className="flex justify-between mt-1.5 px-0">
+                  <span className="text-[9px] font-medium" style={{ color: paymentStep >= 1 ? '#A08530' : '#ccc' }}>Ödeme Yöntemi</span>
+                  <span className="text-[9px] font-medium" style={{ color: paymentStep >= 2 ? '#A08530' : '#ccc' }}>Transfer</span>
+                  <span className="text-[9px] font-medium" style={{ color: paymentStep >= 3 ? '#A08530' : '#ccc' }}>Onay</span>
+                </div>
+              </div>
+            )}
+
+            {/* STEP 1: Gold info + Payment method selection */}
+            {paymentStep === 1 && (
+              <div className="p-6 pt-4">
+                <h2 className="text-xl font-bold text-gray-900 mb-5">Altın Gönder</h2>
+
+                {/* Gold card */}
+                <div className="flex items-center gap-4 rounded-2xl p-4 mb-5" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.8), rgba(248,243,232,0.6))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 2px 12px rgba(212,175,55,0.06)' }}>
+                  <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(212,175,55,0.1)' }}>
+                    {goldOptions.find(g => g.id === selectedGold)?.image && (
+                      <div className="relative w-9 h-9"><Image src={goldOptions.find(g => g.id === selectedGold)!.image} alt="" fill className="object-contain" /></div>
+                    )}
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">{event.bride_first_name} & {event.groom_first_name} için</p>
+                    <p className="text-xs mt-0.5" style={{ color: '#A08530' }}>{goldOptions.find(g => g.id === selectedGold)?.name}</p>
+                  </div>
+                  {getSelectedPrice() > 0 && <p className="text-xl font-bold ml-auto" style={{ color: '#8B6914' }}>₺{getSelectedPrice().toLocaleString()}</p>}
+                </div>
+
+                {/* Custom amount for nakit */}
+                {selectedGold === "nakit" && !pendingPaymentId && (
+                  <div className="mb-5">
+                    <label className="block text-gray-500 mb-2 font-medium text-xs">Göndermek istediğiniz miktar</label>
+                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="₺0" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center" style={{ border: '1.5px solid rgba(212,175,55,0.15)', background: 'rgba(255,255,255,0.6)' }} />
+                  </div>
+                )}
+
+                {/* Payment method selection */}
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">Ödeme Yöntemini Seç</h3>
+                <div className="space-y-2.5 mb-5">
+                  {/* Banka / IBAN */}
+                  <button onClick={() => { setPaymentMethod('iban'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,243,232,0.5))', border: '1.5px solid rgba(212,175,55,0.15)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.1), rgba(201,161,59,0.06))' }}>
+                      <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-gray-800">Banka / IBAN</p>
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'linear-gradient(135deg, #D4AF37, #C9A13B)', color: '#fff' }}>Önerilen</span>
+                      </div>
+                      <p className="text-xs text-gray-400 mt-0.5">Havale / EFT ile gönder</p>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </button>
+
+                  {/* QR Kod */}
+                  <button onClick={() => { setPaymentMethod('qr'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,243,232,0.5))', border: '1.5px solid rgba(212,175,55,0.12)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
+                      <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-gray-800">QR Kod</p>
+                      <p className="text-xs text-gray-400 mt-0.5">Mobil bankacılık ile hızlı ödeme</p>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                  </button>
+
+                  {/* Kripto */}
+                  {event.payment_methods_enabled?.crypto && (
+                    <button onClick={() => { setPaymentMethod('crypto'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className="w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all hover:scale-[1.01]" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.7), rgba(248,243,232,0.5))', border: '1.5px solid rgba(212,175,55,0.12)', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
+                        <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-gray-800">Kripto Para</p>
+                        <p className="text-xs text-gray-400 mt-0.5">USDT, TRYB ile gönder</p>
+                      </div>
+                      <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                    </button>
                   )}
                 </div>
-                
-                <p className="text-gray-600 mb-4">Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong></p>
 
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 flex items-start gap-2">
-                  <span className="text-yellow-600 text-lg">⚠️</span>
-                  <p className="text-yellow-700 text-sm text-left">Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.</p>
+                <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-300">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  Ödeme doğrudan çiftin hesabına aktarılır
                 </div>
-                
-                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">✓ Ödemeyi Tamamladım</button>
-                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">← Geri</button>
               </div>
             )}
 
-            {paymentMethod === "iban" && (
-              <div>
-                <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                  <p className="text-sm text-gray-500 mb-1">Hesap Sahibi</p>
-                  <p className="font-medium text-gray-900">{event.bank_holder_name || event.groom_full_name}</p>
-                </div>
-                <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                  <p className="text-sm text-gray-500 mb-1">IBAN</p>
-                  <p className="font-mono text-gray-900 text-sm">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
-                  <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="text-blue-500 text-sm mt-2 hover:underline">📋 IBAN Kopyala</button>
-                </div>
-                <p className="text-gray-600 mb-4">Tutar: <strong>₺{getSelectedPrice().toLocaleString()}</strong></p>
+            {/* STEP 2: Transfer details */}
+            {paymentStep === 2 && (
+              <div className="p-6 pt-4">
+                <h2 className="text-xl font-bold text-gray-900 mb-1">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
+                <p className="text-xs text-gray-400 mb-5">Ödemenizi tamamlayın ve onaylayın</p>
 
-                <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3 mb-4 flex items-start gap-2">
-                  <span className="text-yellow-600 text-lg">⚠️</span>
-                  <p className="text-yellow-700 text-sm text-left">Lütfen sadece para gönderim işleminizi tamamladıktan sonra aşağıda ki -Ödemeyi Tamamladım- tuşuna basın.</p>
+                {/* IBAN Content */}
+                {paymentMethod === 'iban' && (
+                  <div className="space-y-3">
+                    <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Banka</p>
+                          <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.bank_holder_name || event.groom_full_name}</p>
+                        </div>
+                      </div>
+                      <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                        <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">IBAN</p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <p className="font-mono text-gray-800 text-sm flex-1">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
+                          <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                            Kopyala &rsaquo;
+                          </button>
+                        </div>
+                      </div>
+                      <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                        <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Alıcı</p>
+                        <p className="text-sm text-gray-700 mt-0.5">{event.bride_first_name} & {event.groom_first_name}</p>
+                      </div>
+                      {getSelectedPrice() > 0 && (
+                        <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Göndereceğiniz Miktar</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <p className="font-bold text-gray-900 text-lg flex-1">₺{getSelectedPrice().toLocaleString()}</p>
+                            <button onClick={() => copyToClipboard(String(getSelectedPrice()))} className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                              Kopyala &rsaquo;
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                      <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider mb-1.5">Açıklama</p>
+                      <p className="text-sm text-gray-600 font-medium">{viewerName} – Tebrik</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* QR Content */}
+                {paymentMethod === 'qr' && (
+                  <div className="space-y-3">
+                    {(() => {
+                      const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
+                      const qrUrl = event.qr_codes?.[qrKey];
+                      return qrUrl ? (
+                        <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                          <img src={qrUrl} alt="QR Kod" className="w-48 h-48 mx-auto rounded-xl object-contain" />
+                          <p className="text-xs text-gray-400 mt-3">Bu kodu mobil bankacılıkla okutun</p>
+                          {getSelectedPrice() > 0 && (
+                            <div className="flex items-center justify-center gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(212,175,55,0.08)' }}>
+                              <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Miktar:</p>
+                              <p className="font-bold text-gray-900">₺{getSelectedPrice().toLocaleString()}</p>
+                              <button onClick={() => copyToClipboard(String(getSelectedPrice()))} className="text-[10px] font-semibold px-2 py-1 rounded-md transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala</button>
+                            </div>
+                          )}
+                        </div>
+                      ) : (
+                        <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                          <p className="text-sm text-gray-400">Bu hediye için QR kod tanımlanmamış</p>
+                          <button onClick={() => setPaymentMethod('iban')} className="text-xs font-medium mt-2" style={{ color: '#A08530' }}>IBAN ile gönderin →</button>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+
+                {/* Crypto Content */}
+                {paymentMethod === 'crypto' && (
+                  <div className="space-y-3">
+                    {event.payment_methods_enabled?.wallet_tl && (
+                      <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                        <p className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-1">TRYB (TRC-20)</p>
+                        <p className="font-mono text-gray-700 text-xs break-all">{event.payment_methods_enabled.wallet_tl}</p>
+                        <button onClick={() => copyToClipboard(event.payment_methods_enabled.wallet_tl)} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
+                      </div>
+                    )}
+                    {event.payment_methods_enabled?.wallet_usdt && (
+                      <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                        <p className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-1">USDT (TRC-20)</p>
+                        <p className="font-mono text-gray-700 text-xs break-all">{event.payment_methods_enabled.wallet_usdt}</p>
+                        <button onClick={() => copyToClipboard(event.payment_methods_enabled.wallet_usdt)} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Waiting indicator section */}
+                <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'linear-gradient(135deg, rgba(255,252,240,0.8), rgba(248,243,225,0.6))', border: '1px solid rgba(212,175,55,0.12)' }}>
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="flex-shrink-0" style={{ animation: 'spin 3s linear infinite' }}>
+                      <span className="text-3xl">⏳</span>
+                    </div>
+                    <p className="text-sm font-semibold text-gray-700">Ödemeniz bekleniyor</p>
+                  </div>
+                  <p className="text-xs text-gray-400 ml-12">Şimdi banka uygulamanızdan çiftin hesabına para gönderimini yapın, ardından bu sayfadan onaylayın</p>
+                </div>
+                <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
+
+                {/* SSL badge */}
+                <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-300 mb-3">
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  256-bit SSL ile korunur
                 </div>
 
-                <button onClick={handlePaymentComplete} className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-semibold mb-3">✓ Ödemeyi Tamamladım</button>
-                <button onClick={() => setPaymentMethod(null)} className="w-full py-2 text-gray-500 hover:text-gray-700">← Geri</button>
+                {/* Green confirm CTA - disabled for 10 seconds */}
+                <button onClick={handlePaymentComplete} disabled={confirmTimer > 0} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: confirmTimer > 0 ? '#9ca3af' : 'linear-gradient(135deg, #4ade80, #22c55e)', boxShadow: confirmTimer > 0 ? 'none' : '0 4px 16px rgba(34,197,94,0.25)' }}>
+                  {confirmTimer > 0 ? `Ödemeyi Onaylıyorum (${confirmTimer}s)` : '✓ Ödemeyi Onaylıyorum'}
+                </button>
+                <button onClick={() => { setPaymentStep(1); setPaymentMethod(null); }} className="w-full py-2.5 text-gray-400 hover:text-gray-600 text-xs font-medium mt-1">← Ödeme Yöntemine Dön</button>
               </div>
             )}
+
+            {/* STEP 3: Success */}
+            {paymentStep === 3 && (
+              <div className="relative overflow-hidden">
+                {/* Gold shimmer background */}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(248,240,220,0.5) 0%, rgba(255,252,245,0.9) 50%, rgba(248,243,232,0.95) 100%)' }} />
+                {/* Confetti */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                  {[...Array(24)].map((_, i) => (
+                    <div key={i} className="absolute" style={{
+                      left: `${3 + (i * 4.2) % 94}%`,
+                      top: `-5%`,
+                      width: `${4 + (i % 3) * 2}px`,
+                      height: `${8 + (i % 4) * 3}px`,
+                      borderRadius: i % 3 === 0 ? '50%' : '1px',
+                      background: ['#D4AF37', '#E8C97A', '#C8686E', '#B8960B', '#f0d68a', '#c9a13b'][i % 6],
+                      opacity: 0.8,
+                      animation: `goldFall ${2 + (i % 5) * 0.5}s ease-in ${(i % 10) * 0.2}s infinite`,
+                    }} />
+                  ))}
+                </div>
+                <style>{`
+                  @keyframes goldFall {
+                    0% { transform: translateY(-20px) rotate(0deg) scale(1); opacity: 0.9; }
+                    50% { opacity: 1; }
+                    100% { transform: translateY(500px) rotate(${360 + Math.random() * 360}deg) scale(0.5); opacity: 0; }
+                  }
+                `}</style>
+
+                <div className="relative z-10 p-8 pt-10 text-center">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Altın gönderildi</h2>
+                  <p className="text-sm text-gray-500 mb-1">{event.bride_first_name} & {event.groom_first_name}&apos;a hediyen ulaştı 💛</p>
+
+                  <div className="inline-block rounded-2xl px-6 py-3 mt-4 mb-5" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.1)' }}>
+                    <p className="text-sm font-bold text-gray-700">{goldOptions.find(g => g.id === selectedGold)?.name} — <span style={{ color: '#8B6914' }}>₺{getSelectedPrice().toLocaleString()}</span></p>
+                  </div>
+
+                  <div className="mb-5">
+                    <p className="text-xs text-gray-400 mb-2">Mesaj bırakmak ister misin?</p>
+                    <button onClick={() => { handleCloseModal(); /* focus tebrik input */ }} className="inline-flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                      Tebrik Mesajı Yaz
+                    </button>
+                  </div>
+
+                  <button onClick={handleCloseModal} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02]" style={{ background: 'linear-gradient(135deg, #C9A13B, #A8892E)', boxShadow: '0 4px 20px rgba(201,161,59,0.3)' }}>
+                    Canlı Yayına Dön
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Mesaj Tebrik Modal */}
+      {showMessageModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowMessageModal(false)} style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+          <div className="rounded-3xl max-w-md w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(245,252,247,0.96), rgba(238,248,240,0.94))', backdropFilter: 'blur(40px)', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(76,175,80,0.1)' }}>
+            <button onClick={() => setShowMessageModal(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 transition-all" style={{ background: 'rgba(0,0,0,0.05)' }}>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            <div className="p-7">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.08)' }}>
+                  <svg className="w-5.5 h-5.5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                </div>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900">Mesaj Tebrik</h2>
+                  <p className="text-xs text-gray-400">{event.bride_first_name} & {event.groom_first_name} için tebrik mesajınızı bırakın</p>
+                </div>
+              </div>
+
+              <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(76,175,80,0.1)' }}>
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'Georgia, serif' }} />
+                <div className="flex items-center gap-1 px-3 py-2" style={{ borderTop: '1px solid rgba(76,175,80,0.06)' }}>
+                  <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className={`transition-colors text-lg ${showEmojiPicker ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}>😊</button>
+                </div>
+              </div>
+
+              {showEmojiPicker && (
+                <div className="mt-2 p-2 rounded-xl max-h-24 overflow-y-auto" style={{ background: 'rgba(76,175,80,0.04)', border: '1px solid rgba(76,175,80,0.1)' }}>
+                  <div className="flex flex-wrap gap-1">{emojis.map((emoji, index) => (<button key={index} onClick={() => addEmoji(emoji)} className="text-lg hover:scale-125 transition-transform p-0.5">{emoji}</button>))}</div>
+                </div>
+              )}
+
+              <button onClick={() => { sendMessage(); setShowMessageModal(false); setShowEmojiPicker(false); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
+                Tebrik Gönder
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1219,17 +1739,6 @@ export default function WatchPage() {
       {showCopiedToast && (
         <div className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg z-[70]">
           ✓ Kopyalandı!
-        </div>
-      )}
-
-      {showSuccessModal && (
-        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
-            <div className="text-6xl mb-4">🎊</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-3">Tebrikler!</h3>
-            <p className="text-gray-600 mb-2">Hediyeniz çiftimize iletildi.</p>
-            <p className="text-gray-500">Katılımınız için teşekkür ederiz! 🎉</p>
-          </div>
         </div>
       )}
     </main>
