@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       args: chromium.args,
       defaultViewport: { width: 1080, height: 1920 },
       executablePath: await chromium.executablePath(),
-      headless: chromium.headless,
+      headless: true,
     });
 
     const page = await browser.newPage();
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     }
 
     // EventId yoksa direkt PNG döndür
-    return new NextResponse(screenshot, {
+    return new NextResponse(new Uint8Array(screenshot), {
       headers: {
         'Content-Type': 'image/png',
         'Content-Disposition': 'attachment; filename="davetiye.png"',
