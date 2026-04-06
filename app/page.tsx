@@ -115,9 +115,9 @@ export default function Home() {
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-sm' : ''}`} style={{ background: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.6)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="flex items-center justify-between h-[80px]">
-            <div className="flex items-center gap-1 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            <div className="flex items-center gap-0 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={280} height={80} className="h-[72px] w-auto object-contain" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={280} height={80} className="h-[79px] w-auto object-contain -ml-2" />
             </div>
             <nav className="hidden lg:flex items-center gap-8">
               {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
@@ -232,7 +232,7 @@ export default function Home() {
                         {event.couple_photo_url ? (
                           <Image src={event.couple_photo_url} alt="Çift" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
                         ) : (
-                          <div className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(111,175,207,0.1))' }}><svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg></div>
+                          <Image src="/icon.png" alt="Nikahım" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
                         )}
                         <div className="flex-1">
                           <div className="font-semibold text-gray-900">{event.bride_full_name} & {event.groom_full_name}</div>
@@ -279,7 +279,7 @@ export default function Home() {
             <div className="absolute inset-0 opacity-[0.03]" style={{ background: 'radial-gradient(circle at 20% 50%, #D4A056, transparent 50%)' }} />
             <div className="relative p-10 md:p-14 flex flex-col md:flex-row items-center gap-10">
               <div className="flex-shrink-0"><Image src="/altintak.png" alt="Altın" width={90} height={90} className="object-contain" /></div>
-              <div><h3 className="text-2xl font-bold text-gray-900 mb-3">Altınlarınızı Online Toplayın</h3><p className="text-[17px] leading-relaxed text-gray-500">Davetlileriniz QR kod veya havale ile doğrudan hesabınıza ödeme yapar. Komisyon yok, aracı yok. Tüm paketlerde aktif.</p></div>
+              <div><h3 className="text-2xl font-bold text-gray-900 mb-3">Altınlarınızı Online Toplayın</h3><p className="text-[17px] leading-relaxed text-gray-500">Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın. Komisyon yok! Aracı yok!</p></div>
             </div>
           </div>
         </div>
@@ -296,13 +296,16 @@ export default function Home() {
             {[
               { title: 'Size Özel Yayın Sayfası', desc: 'Sadece sizin davetlilerinize özel canlı yayın sayfası. Dilerseniz herkese kapalı olarak ayarlayın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
               { title: 'Tek Tıkla Katılım', desc: 'Üyelik yok, form yok. Davetlileriniz linke tıklasın, anında katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> },
-              { title: 'Online Altın Takma', desc: 'QR kod veya havale ile altın takma. Tüm ödemeler doğrudan sizin hesabınıza.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-              { title: 'Video Tebrik', desc: 'Davetliler 30 saniyelik video tebrik mesajı göndersin. Tüm paketlerde ücretsiz.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
+              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma. Tüm ödemeler direk sizin hesabınıza.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
+              { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
               { title: 'Dijital Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz özel davetiye.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
-              { title: 'Detaylı İstatistik', desc: 'Kim katıldı, ne mesaj bıraktı, hangi altını taktı — hepsini tek ekrandan takip edin.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg> },
+              { title: 'Kayıt ve Detaylı İstatistik', desc: 'Canlı yayın videonuzu dilediğiniz zaman tekrar izleyebilir ve istatistik bölümünden kim altın taktı kim mesaj attı tüm bilgileri inceleyebilirsiniz.', dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
             ].map((feature, i) => (
               <div key={i} className="premium-card group p-8 rounded-3xl border border-gray-100 bg-white">
-                <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>{feature.icon}</div>
+                <div className="flex gap-2 mb-6">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>{feature.icon}</div>
+                  {(feature as any).icon2 && <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>{(feature as any).icon2}</div>}
+                </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-3">{feature.title}</h3>
                 <p className="text-gray-400 leading-relaxed text-[15px]">{feature.desc}</p>
               </div>

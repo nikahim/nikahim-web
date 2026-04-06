@@ -117,6 +117,12 @@ export default function WatchPage() {
   const [showReturningModal, setShowReturningModal] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
   const [showPhotoGallery, setShowPhotoGallery] = useState(false);
+  const [showPhotoUpload, setShowPhotoUpload] = useState(false);
+  const [photoUploaderName, setPhotoUploaderName] = useState('');
+  const [photoUploadFiles, setPhotoUploadFiles] = useState<File[]>([]);
+  const [photoUploadPreviews, setPhotoUploadPreviews] = useState<string[]>([]);
+  const [uploadingGuestPhotos, setUploadingGuestPhotos] = useState(false);
+  const [photoUploadSuccess, setPhotoUploadSuccess] = useState(false);
   const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
@@ -831,9 +837,9 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
-          <div className="flex items-center gap-0 mb-6 justify-center cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain" />
+          <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[82px] w-auto object-contain -mt-5" />
           </div>
 
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
@@ -856,7 +862,94 @@ export default function WatchPage() {
           >
             Devam Et
           </button>
+
+          <div className="mt-6 pt-4 border-t border-gray-100">
+            <p className="text-gray-500 text-[13px] mb-1">Zaten çiftin yanında nikahta mısın?</p>
+            <button onClick={() => setShowPhotoUpload(true)} className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:opacity-70" style={{ color: '#C8686E' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              Fotoğraf Yükle
+            </button>
+          </div>
         </div>
+
+        {/* Fotoğraf Yükleme Popup - Tekrar gelen */}
+        {showPhotoUpload && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
+            <div className="rounded-3xl max-w-md w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.97), rgba(250,245,238,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
+              {photoUploadSuccess ? (
+                <div className="p-10 text-center">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Fotoğraflarınız Yüklendi!</h3>
+                  <p className="text-gray-500 text-sm mb-6">Çift onayladığında canlı yayın sayfasında görünecek.</p>
+                  <button onClick={() => { setShowPhotoUpload(false); setPhotoUploadSuccess(false); setPhotoUploadFiles([]); setPhotoUploadPreviews([]); setPhotoUploaderName(''); }} className="text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>
+                    Tamam
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <div className="p-6 pb-0">
+                    <button onClick={() => { setShowPhotoUpload(false); setPhotoUploadFiles([]); setPhotoUploadPreviews([]); }} className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)' }}>
+                        <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900">Fotoğraf Yükle</h3>
+                        <p className="text-xs text-gray-400">Nikah gününden fotoğraflarınızı paylaşın</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-6 pt-2">
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız</label>
+                    <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="Adınızı yazın" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 6)</label>
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      {photoUploadPreviews.map((prev, i) => (
+                        <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
+                          <img src={prev} alt="" className="w-full h-full object-cover" />
+                          <button onClick={() => { setPhotoUploadFiles(f => f.filter((_, idx) => idx !== i)); setPhotoUploadPreviews(p => p.filter((_, idx) => idx !== i)); }} className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/50 flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
+                        </div>
+                      ))}
+                      {photoUploadFiles.length < 6 && (
+                        <label className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E]/30 transition-colors">
+                          <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                          <span className="text-[10px] text-gray-300 mt-1">Ekle</span>
+                          <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
+                            const files = Array.from(e.target.files || []).slice(0, 6 - photoUploadFiles.length);
+                            setPhotoUploadFiles(prev => [...prev, ...files]);
+                            files.forEach(file => { const reader = new FileReader(); reader.onload = (ev) => setPhotoUploadPreviews(prev => [...prev, ev.target?.result as string]); reader.readAsDataURL(file); });
+                          }} />
+                        </label>
+                      )}
+                    </div>
+                    <button onClick={async () => {
+                      const name = photoUploaderName || viewerName;
+                      if (!name.trim() || photoUploadFiles.length === 0 || !event) return;
+                      setUploadingGuestPhotos(true);
+                      try {
+                        const urls: string[] = [];
+                        for (const file of photoUploadFiles) {
+                          const fileName = `pending/${event.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+                          const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
+                          if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); }
+                        }
+                        if (urls.length > 0) { await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' }); }
+                        setPhotoUploadSuccess(true);
+                      } catch (e) { console.error('Photo upload error:', e); }
+                      setUploadingGuestPhotos(false);
+                    }} disabled={!(photoUploaderName || viewerName).trim() || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: (photoUploaderName || viewerName).trim() && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}>
+                      {uploadingGuestPhotos ? 'Yükleniyor...' : 'Gönder'}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </main>
     );
   }
@@ -865,9 +958,9 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
-          <div className="flex items-center gap-0 mb-6 justify-center cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain" />
+          <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[82px] w-auto object-contain -mt-5" />
           </div>
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
@@ -901,7 +994,125 @@ export default function WatchPage() {
 
           <p className="text-gray-400 text-sm mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
           <p className="text-gray-400 text-xs mt-2">👥 {viewerCount}/{eventPackage?.max_viewers || 50} izleyici</p>
+
+          <div className="mt-6 pt-4 border-t border-gray-100">
+            <p className="text-gray-500 text-[13px] mb-1">Zaten çiftin yanında nikahta mısın?</p>
+            <button onClick={() => setShowPhotoUpload(true)} className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:opacity-70" style={{ color: '#C8686E' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              Fotoğraf Yükle
+            </button>
+          </div>
         </div>
+
+        {/* Fotoğraf Yükleme Popup */}
+        {showPhotoUpload && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
+            <div className="rounded-3xl max-w-md w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.97), rgba(250,245,238,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
+              {/* Başarılı ekranı */}
+              {photoUploadSuccess ? (
+                <div className="p-10 text-center">
+                  <div className="text-6xl mb-4">🎉</div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">Fotoğraflarınız Yüklendi!</h3>
+                  <p className="text-gray-500 text-sm mb-6">Çift onayladığında canlı yayın sayfasında görünecek.</p>
+                  <button onClick={() => { setShowPhotoUpload(false); setPhotoUploadSuccess(false); setPhotoUploadFiles([]); setPhotoUploadPreviews([]); setPhotoUploaderName(''); }} className="text-white px-8 py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>
+                    Tamam
+                  </button>
+                </div>
+              ) : (
+                <>
+                  {/* Header */}
+                  <div className="p-6 pb-0">
+                    <button onClick={() => { setShowPhotoUpload(false); setPhotoUploadFiles([]); setPhotoUploadPreviews([]); }} className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)' }}>
+                        <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-bold text-gray-900">Fotoğraf Yükle</h3>
+                        <p className="text-xs text-gray-400">Nikah gününden fotoğraflarınızı paylaşın</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 pt-2">
+                    {/* İsim */}
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız</label>
+                    <input type="text" value={photoUploaderName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="Adınızı yazın" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
+
+                    {/* Fotoğraf Seç */}
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 6)</label>
+                    <div className="grid grid-cols-3 gap-2 mb-4">
+                      {photoUploadPreviews.map((prev, i) => (
+                        <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
+                          <img src={prev} alt="" className="w-full h-full object-cover" />
+                          <button onClick={() => {
+                            setPhotoUploadFiles(f => f.filter((_, idx) => idx !== i));
+                            setPhotoUploadPreviews(p => p.filter((_, idx) => idx !== i));
+                          }} className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/50 flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                          </button>
+                        </div>
+                      ))}
+                      {photoUploadFiles.length < 6 && (
+                        <label className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E]/30 transition-colors">
+                          <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                          <span className="text-[10px] text-gray-300 mt-1">Ekle</span>
+                          <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
+                            const files = Array.from(e.target.files || []).slice(0, 6 - photoUploadFiles.length);
+                            setPhotoUploadFiles(prev => [...prev, ...files]);
+                            files.forEach(file => {
+                              const reader = new FileReader();
+                              reader.onload = (ev) => setPhotoUploadPreviews(prev => [...prev, ev.target?.result as string]);
+                              reader.readAsDataURL(file);
+                            });
+                          }} />
+                        </label>
+                      )}
+                    </div>
+
+                    {/* Gönder */}
+                    <button
+                      onClick={async () => {
+                        if (!photoUploaderName.trim() || photoUploadFiles.length === 0 || !event) return;
+                        setUploadingGuestPhotos(true);
+                        try {
+                          const urls: string[] = [];
+                          for (const file of photoUploadFiles) {
+                            const fileName = `pending/${event.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+                            const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
+                            if (!error) {
+                              const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName);
+                              urls.push(urlData.publicUrl);
+                            }
+                          }
+                          if (urls.length > 0) {
+                            await supabase.from('photo_requests').insert({
+                              event_id: event.id,
+                              sender_name: photoUploaderName,
+                              photo_urls: urls,
+                              status: 'pending',
+                            });
+                          }
+                          setPhotoUploadSuccess(true);
+                        } catch (e) {
+                          console.error('Photo upload error:', e);
+                        }
+                        setUploadingGuestPhotos(false);
+                      }}
+                      disabled={!photoUploaderName.trim() || photoUploadFiles.length === 0 || uploadingGuestPhotos}
+                      className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
+                      style={{ background: photoUploaderName.trim() && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}
+                    >
+                      {uploadingGuestPhotos ? 'Yükleniyor...' : 'Gönder'}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        )}
 
         {showWelcomeModal && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
@@ -942,7 +1153,7 @@ export default function WatchPage() {
         <div className="max-w-[1600px] mx-auto px-4 lg:px-6 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain hidden sm:block" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain hidden sm:block -ml-3" />
           </div>
 
           {/* Ortada CTA */}
@@ -1022,14 +1233,15 @@ export default function WatchPage() {
             </div>
 
             {/* Aile Bilgisi */}
-            <div className="rounded-2xl p-5 space-y-3 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+            <div className="rounded-2xl p-5 pb-[60px] space-y-3 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-xs">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[13px]">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
               </div>
+              <div className="flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.2), transparent)' }} /></div>
               <div>
-                <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-xs">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[13px]">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
               </div>
             </div>
           </div>
