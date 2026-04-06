@@ -94,7 +94,7 @@ export default function Home() {
   const scrollToSection = (id: string) => { document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }); setMobileMenuOpen(false); };
 
   return (
-    <main className="min-h-screen bg-white overflow-x-hidden">
+    <main className="min-h-screen overflow-x-hidden" style={{ background: '#FAF7F5' }}>
 
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
@@ -151,7 +151,7 @@ export default function Home() {
 
       {/* HERO */}
       <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FAFBFE 0%, #F5F3F0 35%, #FDF5F5 65%, #F8F6F3 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FBF8F5 0%, #F5F0EC 35%, #FDF5F3 65%, #FAF7F5 100%)' }} />
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-32 lg:py-0 w-full">
@@ -286,7 +286,7 @@ export default function Home() {
       </section>
 
       {/* NEDEN NİKAHIM */}
-      <section id="neden-nikahim" className="py-28 bg-white">
+      <section id="neden-nikahim" className="py-28">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Neden <span className="gradient-text">Nikahım?</span></h2>
@@ -351,7 +351,7 @@ export default function Home() {
       </section>
 
       {/* SSS */}
-      <section id="sss" className="py-28 bg-white">
+      <section id="sss" className="py-28">
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
