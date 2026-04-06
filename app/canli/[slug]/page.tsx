@@ -1925,14 +1925,14 @@ export default function WatchPage() {
                       <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
                         <p className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-1">TRYB (TRC-20)</p>
                         <p className="font-mono text-gray-700 text-xs break-all">{event.payment_methods_enabled.wallet_tl}</p>
-                        <button onClick={() => copyToClipboard(event.payment_methods_enabled.wallet_tl)} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
+                        <button onClick={() => copyToClipboard(event.payment_methods_enabled?.wallet_tl || '')} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
                       </div>
                     )}
                     {event.payment_methods_enabled?.wallet_usdt && (
                       <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
                         <p className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-1">USDT (TRC-20)</p>
                         <p className="font-mono text-gray-700 text-xs break-all">{event.payment_methods_enabled.wallet_usdt}</p>
-                        <button onClick={() => copyToClipboard(event.payment_methods_enabled.wallet_usdt)} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
+                        <button onClick={() => copyToClipboard(event.payment_methods_enabled?.wallet_usdt || '')} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
                       </div>
                     )}
                   </div>
