@@ -166,8 +166,8 @@ export default function Home() {
               </h1>
               <p className="text-xl lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[480px]">Sevdikleriniz nerede olursa olsun, en özel anınızı birlikte yaşayın. Canlı yayın, online altın takma ve video tebrik — hepsi tek platformda.</p>
               <div className="flex flex-wrap gap-4 mb-16">
-                <button onClick={() => scrollToSection("nikah-ara")} className="text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Canlı Yayını İzle</button>
-                <button onClick={() => setShowAppPopup(true)} className="px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press border-2" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Nikahımı Başlat</button>
+                <button onClick={() => setShowAppPopup(true)} className="text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Nikahını Oluştur</button>
+                <button onClick={() => scrollToSection("nikah-ara")} className="px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press border-2" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı Nikah İzle</button>
               </div>
               <div className="flex gap-5">
                 {[
