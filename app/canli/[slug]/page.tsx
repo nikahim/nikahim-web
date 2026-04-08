@@ -957,7 +957,7 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative" style={{ marginTop: -5 }}>
+        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative" style={{ marginTop: -40 }}>
           <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
             <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[82px] w-auto object-contain -mt-5" />
