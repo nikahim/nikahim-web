@@ -1493,9 +1493,9 @@ export default function WatchPage() {
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
                   <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
                   <div className="relative z-10 flex flex-col items-center">
-                    <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="mb-6 rounded-full object-cover border-2 border-white/20 shadow-2xl w-[100px] h-[100px] lg:w-[160px] lg:h-[160px]" />
-                    <h3 className="text-white font-bold text-xl mb-6">{event.bride_first_name} & {event.groom_first_name}</h3>
-                    <div className="flex gap-3">
+                    <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="mb-3 lg:mb-6 rounded-full object-cover border-2 border-white/20 shadow-2xl w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
+                    <h3 className="text-white font-bold text-xl mb-3 lg:mb-6">{event.bride_first_name} & {event.groom_first_name}</h3>
+                    <div className="flex gap-2 lg:gap-3">
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
                         <div key={i} className="backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[48px] lg:min-w-[60px] transition-transform hover:scale-105" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: 'inset 0 0 20px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.15)' }}>
                           <div className="text-xl lg:text-3xl font-bold text-white drop-shadow-lg">{c.v}</div>
