@@ -263,7 +263,7 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         </p>
 
         {/* Davet mesajı */}
-        <p style={{ fontSize: 17, color: colors.body, marginBottom: 20 }}>
+        <p style={{ fontSize: 19, color: colors.body, marginBottom: 20 }}>
           {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
         </p>
 
