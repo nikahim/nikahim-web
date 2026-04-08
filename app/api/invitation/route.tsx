@@ -250,15 +250,15 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         </div>
 
         {/* İsimler */}
-        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 0, lineHeight: 1.1 }}>
+        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: -6, lineHeight: 1.1 }}>
           {data.brideFirstName}
         </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '6px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '0px 0' }}>
           <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
           <p style={{ fontSize: 28, color: colors.accent }}>&</p>
           <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
         </div>
-        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 8, lineHeight: 1.1 }}>
+        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 4, marginTop: -6, lineHeight: 1.1 }}>
           {data.groomFirstName}
         </p>
 
