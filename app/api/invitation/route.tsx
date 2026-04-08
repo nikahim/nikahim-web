@@ -208,11 +208,127 @@ function ElegantNavyTemplate(data: any) {
   );
 }
 
+interface TemplateColors {
+  bgUrl: string;
+  title: string;      // başlık rengi
+  name: string;       // isim rengi
+  accent: string;     // altın/vurgu çizgi rengi
+  body: string;       // açıklama/gövde rengi
+  label: string;      // etiket rengi
+  link: string;       // link rengi
+  top: number;        // metin alanı üst
+  bottom: number;     // metin alanı alt
+}
+
+function ImageTemplate(data: any, colors: TemplateColors) {
+  return (
+    <div style={{
+      width: 1024, height: 1536, display: 'flex', position: 'relative',
+      fontFamily: 'serif',
+    }}>
+      <img src={colors.bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1024, height: 1536 }} />
+
+      <div style={{
+        position: 'absolute', top: colors.top, left: 120, right: 120, bottom: colors.bottom,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <p style={{ fontSize: 20, color: colors.label, letterSpacing: 6, marginBottom: 12 }}>
+          {data.eventType === 'dugun' ? 'Düğün Davetiyesi' : 'Nikah Davetiyesi'}
+        </p>
+
+        <div style={{ display: 'flex', gap: 50, marginBottom: 16, textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: 14, color: colors.label, letterSpacing: 3, marginBottom: 4 }}>Gelin Ailesi</p>
+            <p style={{ fontSize: 17, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <p style={{ fontSize: 14, color: colors.label, letterSpacing: 3, marginBottom: 4 }}>Damat Ailesi</p>
+            <p style={{ fontSize: 17, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+          </div>
+        </div>
+
+        <p style={{ fontSize: 16, color: colors.body, marginBottom: 10 }}>kızları ve oğullarının</p>
+
+        <p style={{ fontSize: 58, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 0, lineHeight: 1.1 }}>
+          {data.brideFirstName}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '4px 0' }}>
+          <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
+          <p style={{ fontSize: 28, color: colors.accent }}>&</p>
+          <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
+        </div>
+        <p style={{ fontSize: 58, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 6, lineHeight: 1.1 }}>
+          {data.groomFirstName}
+        </p>
+
+        <p style={{ fontSize: 16, color: colors.body, marginBottom: 14 }}>
+          {data.eventType === 'dugun' ? 'düğün törenlerine davet ederler' : 'nikah törenlerine davet ederler'}
+        </p>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 30, marginBottom: 12 }}>
+          <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>{formatDate(data.eventDate)}</p>
+          <div style={{ width: 1, height: 30, background: colors.accent, opacity: 0.5, display: 'flex' }} />
+          <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>Saat {data.eventTime}</p>
+        </div>
+
+        {data.venueName && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 12 }}>
+            <p style={{ fontSize: 22, color: colors.name, fontWeight: 600 }}>{data.venueName}</p>
+            {data.venueAddress && <p style={{ fontSize: 16, color: colors.body, marginTop: 4 }}>{data.venueAddress}</p>}
+            {data.venueCity && <p style={{ fontSize: 16, color: colors.body, marginTop: 2 }}>{data.venueCity}</p>}
+          </div>
+        )}
+
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 8 }}>
+          <p style={{ fontSize: 13, color: colors.label, letterSpacing: 3 }}>CANLI YAYIN</p>
+          <p style={{ fontSize: 18, color: colors.link, fontWeight: 600, marginTop: 4 }}>nikahim.com/canli/{data.eventLink}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Davetiye 1: Pembe güller, bej/krem — kahverengi + altın
+const FLORAL_ROSE_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-1.png',
+  title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
+  body: '#8B7355', label: '#B08968', link: '#C8686E',
+  top: 240, bottom: 280,
+};
+
+// Davetiye 2: Pembe + mavi çiçekler — koyu mor + altın
+const FLORAL_BLUE_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-2.png',
+  title: '#3D3255', name: '#3D3255', accent: '#C9A96E',
+  body: '#6B5B7B', label: '#8B7BA0', link: '#7B68AE',
+  top: 240, bottom: 260,
+};
+
+// Davetiye 3: Köşe güller, soft bej — koyu kahve + rose altın
+const FLORAL_CORNER_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-3.png',
+  title: '#5C4033', name: '#5C4033', accent: '#C4A882',
+  body: '#8B7B6B', label: '#A89080', link: '#C8686E',
+  top: 200, bottom: 220,
+};
+
+// Davetiye 4: Beyaz güller, altın yapraklar — altın + kahve
+const FLORAL_GOLD_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-4.png',
+  title: '#5A4A35', name: '#5A4A35', accent: '#C4A56A',
+  body: '#8B7B65', label: '#A89570', link: '#B8956A',
+  top: 200, bottom: 220,
+};
+
 const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
   classic_rose: ClassicRoseTemplate,
   modern_gold: ModernGoldTemplate,
   minimal_white: MinimalWhiteTemplate,
   elegant_navy: ElegantNavyTemplate,
+  floral_rose: (data) => ImageTemplate(data, FLORAL_ROSE_COLORS),
+  floral_blue: (data) => ImageTemplate(data, FLORAL_BLUE_COLORS),
+  floral_corner: (data) => ImageTemplate(data, FLORAL_CORNER_COLORS),
+  floral_gold: (data) => ImageTemplate(data, FLORAL_GOLD_COLORS),
 };
 
 export async function POST(request: NextRequest) {
@@ -224,11 +340,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Template ve data gerekli' }, { status: 400 });
     }
 
-    const renderer = TEMPLATE_RENDERERS[template] || TEMPLATE_RENDERERS['classic_rose'];
+    const renderer = TEMPLATE_RENDERERS[template] || TEMPLATE_RENDERERS['floral_rose'];
+    const isFloral = template.startsWith('floral_');
 
     const imageResponse = new ImageResponse(renderer(data), {
-      width: 1080,
-      height: 1920,
+      width: isFloral ? 1024 : 1080,
+      height: isFloral ? 1536 : 1920,
     });
 
     const arrayBuffer = await imageResponse.arrayBuffer();

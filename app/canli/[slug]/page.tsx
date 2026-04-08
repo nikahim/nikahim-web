@@ -52,6 +52,7 @@ interface Event {
     ata: number;
   } | null;
   package_id?: string;
+  hide_gold_names?: boolean;
   payment_methods_enabled?: {
     crypto?: boolean;
     wallet_tl?: string;
@@ -126,7 +127,8 @@ export default function WatchPage() {
   const [uploadingGuestPhotos, setUploadingGuestPhotos] = useState(false);
   const [photoUploadSuccess, setPhotoUploadSuccess] = useState(false);
   const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
-  const [goldHistory, setGoldHistory] = useState<{ name: string; type: string }[]>([]);
+  const [goldHistory, setGoldHistory] = useState<{ name: string; type: string; anonymous?: boolean }[]>([]);
+  const [anonymousGold, setAnonymousGold] = useState(false);
   const [goldDisplayIndex, setGoldDisplayIndex] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
@@ -477,21 +479,24 @@ export default function WatchPage() {
           setSlideshowPhotos(urls);
         }
 
-        // Mevcut altın gönderimlerini çek
-        const { data: giftData } = await supabase
-          .from('gift_payments')
-          .select('sender_name, gift_type')
-          .eq('event_id', data.id)
-          .eq('status', 'completed')
-          .order('created_at', { ascending: false })
-          .limit(20);
-        if (giftData && giftData.length > 0) {
-          const GOLD_NAMES: Record<string, string> = { gram_altin: 'Gram Altın', ceyrek_altin: 'Çeyrek Altın', yarim_altin: 'Yarım Altın', tam_altin: 'Tam Altın', ata_altin: 'Ata Altın', nakit: 'Nakit' };
-          setGoldHistory(giftData.map((g: any) => {
-            const parts = (g.sender_name || '').split(' ');
-            const shortName = parts[0] + (parts[1] ? ' ' + parts[1].charAt(0) + '.' : '');
-            return { name: shortName, type: GOLD_NAMES[g.gift_type] || g.gift_type };
-          }));
+        // Mevcut altın gönderimlerini çek (hide_gold_names aktifse listeyi gösterme)
+        if (!data.hide_gold_names) {
+          const { data: giftData } = await supabase
+            .from('gift_payments')
+            .select('sender_name, gift_type, anonymous')
+            .eq('event_id', data.id)
+            .eq('status', 'completed')
+            .eq('anonymous', false)
+            .order('created_at', { ascending: false })
+            .limit(20);
+          if (giftData && giftData.length > 0) {
+            const GOLD_NAMES: Record<string, string> = { gram_altin: 'Gram Altın', ceyrek_altin: 'Çeyrek Altın', yarim_altin: 'Yarım Altın', tam_altin: 'Tam Altın', ata_altin: 'Ata Altın', nakit: 'Nakit' };
+            setGoldHistory(giftData.map((g: any) => {
+              const parts = (g.sender_name || '').split(' ');
+              const shortName = parts[0] + (parts[1] ? ' ' + parts[1].charAt(0) + '.' : '');
+              return { name: shortName, type: GOLD_NAMES[g.gift_type] || g.gift_type };
+            }));
+          }
         }
 
         if (data.package_id) {
@@ -763,18 +768,24 @@ export default function WatchPage() {
   const handlePaymentComplete = async () => {
     const paymentId = pendingPaymentIdRef.current;
 
+    const isAnonymous = anonymousGold || event?.hide_gold_names;
+
     if (paymentId) {
       await supabase
         .from('gift_payments')
-        .update({ status: 'completed' })
+        .update({ status: 'completed', anonymous: !!isAnonymous })
         .eq('id', paymentId);
     }
 
     setPaymentStep(3);
 
     const goldName = goldOptions.find(g => g.id === selectedGold)?.name || 'Altın';
-    setVideoNotification({ text: `${viewerName} ${goldName} gönderdi!`, type: 'gold' });
-    setGoldHistory(prev => [{ name: viewerName.split(' ')[0] + (viewerName.split(' ')[1] ? ' ' + viewerName.split(' ')[1].charAt(0) + '.' : ''), type: goldName }, ...prev].slice(0, 10));
+    if (isAnonymous) {
+      setVideoNotification({ text: `Bir ziyaretçi ${goldName} taktı!`, type: 'gold' });
+    } else {
+      setVideoNotification({ text: `${viewerName} ${goldName} gönderdi!`, type: 'gold' });
+      setGoldHistory(prev => [{ name: viewerName.split(' ')[0] + (viewerName.split(' ')[1] ? ' ' + viewerName.split(' ')[1].charAt(0) + '.' : ''), type: goldName }, ...prev].slice(0, 10));
+    }
     setTimeout(() => setVideoNotification(null), 8000);
 
     setPendingPaymentId(null);
@@ -788,6 +799,7 @@ export default function WatchPage() {
       setCustomAmount("");
       setPaymentStep(1);
       setFsGoldMode(false);
+      setAnonymousGold(false);
       // Fullscreen'deyse yataya dön
       if (isFullscreen) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} }
     }, 4000);
@@ -802,6 +814,7 @@ export default function WatchPage() {
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
     setFsGoldMode(false);
+    setAnonymousGold(false);
     // Fullscreen'deyse yataya geri dön
     if (isFullscreen) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} }
   };
@@ -1332,8 +1345,8 @@ export default function WatchPage() {
                 )}
               </button>
 
-              {/* Altın listesi - sağ üst (her zaman, fullscreen olmasa da) */}
-              {goldHistory.length > 0 && (
+              {/* Altın listesi - sağ üst (hide_gold_names aktifse gösterme) */}
+              {goldHistory.length > 0 && !event?.hide_gold_names && (
                 <div className="absolute top-3 right-5 z-30 overflow-hidden" style={{ height: 30 }}>
                   <div style={{ transform: `translateY(-${goldDisplayIndex * 30}px)`, transition: goldTransition ? 'transform 0.7s ease-in-out' : 'none' }}>
                     {goldHistory.map((g, i) => (
@@ -2049,6 +2062,15 @@ export default function WatchPage() {
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                   256-bit SSL ile korunur
                 </div>
+
+                {/* Anonim altın seçeneği */}
+                <label className="flex items-center gap-2.5 mb-3 cursor-pointer select-none">
+                  <input type="checkbox" checked={anonymousGold} onChange={(e) => setAnonymousGold(e.target.checked)} className="sr-only peer" />
+                  <div className="w-5 h-5 rounded-md border-2 border-gray-300 peer-checked:bg-[#C8686E] peer-checked:border-[#C8686E] flex items-center justify-center transition-all">
+                    {anonymousGold && <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                  </div>
+                  <span className="text-[12px] text-gray-500">Taktığım altın ve ismim yayınlanmasın</span>
+                </label>
 
                 {/* Green confirm CTA - disabled for 10 seconds */}
                 <button onClick={handlePaymentComplete} disabled={confirmTimer > 0} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: confirmTimer > 0 ? '#9ca3af' : 'linear-gradient(135deg, #4ade80, #22c55e)', boxShadow: confirmTimer > 0 ? 'none' : '0 4px 16px rgba(34,197,94,0.25)' }}>
