@@ -240,11 +240,11 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         {/* Aile bilgileri */}
         <div style={{ display: 'flex', gap: 60, marginBottom: 14, textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>Gelin Ailesi</p>
+            <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
             <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>Damat Ailesi</p>
+            <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
             <p style={{ fontSize: 19, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
           </div>
         </div>
