@@ -857,10 +857,15 @@ export default function WatchPage() {
           <p className="text-gray-700 text-xl mb-1">
             🎉 Tekrar Hoş Geldin
           </p>
-          <p className="text-gray-800 font-semibold text-lg mb-6">
+          <p className="text-gray-800 font-semibold text-lg mb-3">
             {viewerName}
           </p>
-          
+          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
+            <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
+            <span className="text-gray-200">|</span>
+            <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
+          </div>
+
           <button
             onClick={handleReturningContinue}
             className="w-full text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
@@ -1175,7 +1180,7 @@ export default function WatchPage() {
         <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-1 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[52px] w-auto object-contain -ml-2" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[78px] w-auto object-contain -ml-3" />
           </div>
 
           {/* Ortada CTA */}
@@ -1595,6 +1600,31 @@ export default function WatchPage() {
               )}
             </div>
 
+            {/* Mobil: Çift bilgisi + Aile */}
+            <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-sm border border-gray-100/80">
+              <div className="flex items-center gap-3 mb-3">
+                {event.couple_photo_url ? (
+                  <img src={event.couple_photo_url} alt="Çift" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
+                ) : (
+                  <img src="/couple-icon.png" alt="Çift" className="w-12 h-12 rounded-full object-cover" />
+                )}
+                <div>
+                  <h2 className="text-gray-900 font-bold text-[15px]">{event.bride_first_name} & {event.groom_first_name}</h2>
+                  <p className="text-gray-400 text-xs">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'} · {eventDate}</p>
+                </div>
+              </div>
+              <div className="flex gap-4 pt-3 border-t border-gray-50">
+                <div className="flex-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                  <p className="text-gray-600 text-xs">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+                </div>
+                <div className="flex-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                  <p className="text-gray-600 text-xs">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+                </div>
+              </div>
+            </div>
+
             {/* Altın Tak - Premium */}
             <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(248,240,224,0.85), rgba(240,230,210,0.8), rgba(232,220,202,0.85))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 8px 40px rgba(180,155,120,0.12), 0 2px 10px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)', border: '1px solid rgba(212,175,55,0.12)' }}>
               {/* Dekoratif ışıklar - daha parlak */}
@@ -1628,30 +1658,6 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* Mobil: Çift bilgisi + Aile */}
-            <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-sm border border-gray-100/80">
-              <div className="flex items-center gap-3 mb-3">
-                {event.couple_photo_url ? (
-                  <img src={event.couple_photo_url} alt="Çift" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
-                ) : (
-                  <img src="/couple-icon.png" alt="Çift" className="w-12 h-12 rounded-full object-cover" />
-                )}
-                <div>
-                  <h2 className="text-gray-900 font-bold text-[15px]">{event.bride_first_name} & {event.groom_first_name}</h2>
-                  <p className="text-gray-400 text-xs">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'} · {eventDate}</p>
-                </div>
-              </div>
-              <div className="flex gap-4 pt-3 border-t border-gray-50">
-                <div className="flex-1">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                  <p className="text-gray-600 text-xs">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
-                </div>
-                <div className="flex-1">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                  <p className="text-gray-600 text-xs">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
@@ -1696,12 +1702,12 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Gününden Kareler - sağ panelde */}
-            <div className="rounded-2xl p-4 cursor-pointer flex flex-col" onClick={() => setShowPhotoGallery(true)} style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)', height: '200px' }}>
-              <div className="text-center mb-2">
-                <p className="text-xs font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
-                <div className="mt-1">
-                  <span className="text-[10px] text-gray-400">Çiftin yanında mısın? </span>
-                  <button onClick={(e) => { e.stopPropagation(); setShowPhotoUpload(true); }} className="text-[10px] font-semibold" style={{ color: '#C8686E' }}>Fotoğraf Yükle</button>
+            <div className="rounded-2xl p-4 cursor-pointer flex flex-col" onClick={() => setShowPhotoGallery(true)} style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)', minHeight: '240px' }}>
+              <div className="text-center mb-3">
+                <p className="text-sm font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
+                <div className="mt-1.5">
+                  <span className="text-[11px] text-gray-400">Çiftin yanında mısın? </span>
+                  <button onClick={(e) => { e.stopPropagation(); setShowPhotoUpload(true); }} className="text-[11px] font-semibold" style={{ color: '#C8686E' }}>Fotoğraf Yükle</button>
                 </div>
               </div>
               <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
@@ -1732,7 +1738,7 @@ export default function WatchPage() {
                   );
                 })}
               </div>
-              <p className="text-center text-[10px] text-gray-300 mt-2">{slideshowPhotos.length > 0 ? `${slideshowPhotos.length} fotoğraf` : 'Henüz fotoğraf yok'}</p>
+              <p className="text-center text-[10px] text-gray-300 mt-auto pt-2">{slideshowPhotos.length > 0 ? `${slideshowPhotos.length} fotoğraf` : 'Henüz fotoğraf yok'}</p>
             </div>
 
           </div>
@@ -1797,21 +1803,15 @@ export default function WatchPage() {
                 <div className="flex items-center gap-0">
                   {[{n:1, label:'Ödeme Yöntemi'}, {n:2, label:'Transfer'}, {n:3, label:'Onay'}].map((step, i) => (
                     <div key={step.n} className="flex items-center" style={{ flex: i < 2 ? 1 : 'none' }}>
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-col items-center">
                         <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300" style={{
                           background: step.n < paymentStep ? 'linear-gradient(135deg, #C9A13B, #A8892E)' : step.n === paymentStep ? 'linear-gradient(135deg, #D4AF37, #B8960B)' : 'rgba(215,210,200,0.35)',
                           color: step.n <= paymentStep ? '#fff' : '#bbb',
                           boxShadow: step.n === paymentStep ? '0 2px 10px rgba(201,161,59,0.35)' : 'none',
                         }}>{step.n < paymentStep ? '✓' : step.n}</div>
+                        <span className="text-[8px] font-medium mt-1.5 whitespace-nowrap" style={{ color: paymentStep >= step.n ? '#A08530' : '#ccc' }}>{step.label}</span>
                       </div>
-                      {i < 2 && <div className="flex-1 h-[2px] mx-2 rounded-full transition-all duration-500" style={{ background: step.n < paymentStep ? 'linear-gradient(90deg, #C9A13B, #D4AF37)' : 'rgba(215,210,200,0.25)' }} />}
-                    </div>
-                  ))}
-                </div>
-                <div className="flex items-center mt-1.5">
-                  {[{n:1, label:'Ödeme Yöntemi'}, {n:2, label:'Transfer'}, {n:3, label:'Onay'}].map((step, i) => (
-                    <div key={step.n} className="text-center" style={{ flex: i < 2 ? 1 : 'none', minWidth: i === 2 ? 50 : undefined }}>
-                      <span className="text-[9px] font-medium" style={{ color: paymentStep >= step.n ? '#A08530' : '#ccc' }}>{step.label}</span>
+                      {i < 2 && <div className="flex-1 h-[2px] mx-2 rounded-full transition-all duration-500 mb-5" style={{ background: step.n < paymentStep ? 'linear-gradient(90deg, #C9A13B, #D4AF37)' : 'rgba(215,210,200,0.25)' }} />}
                     </div>
                   ))}
                 </div>
