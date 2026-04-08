@@ -863,7 +863,7 @@ export default function WatchPage() {
             Devam Et
           </button>
 
-          <div className="mt-6 pt-4 border-t border-gray-100">
+          <div className="mt-4 pt-3 border-t border-gray-100">
             <p className="text-gray-500 text-[13px] mb-1">Zaten çiftin yanında nikahta mısın?</p>
             <button onClick={() => setShowPhotoUpload(true)} className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:opacity-70" style={{ color: '#C8686E' }}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -957,7 +957,7 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
+        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative" style={{ marginTop: -5 }}>
           <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
             <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[82px] w-auto object-contain -mt-5" />
@@ -967,9 +967,10 @@ export default function WatchPage() {
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
-          <p className="text-gray-500 mb-6">
+          <p className="text-gray-500 mb-1">
             {event.event_type === 'dugun' ? 'Düğün Canlı Yayını' : 'Nikah Töreni Canlı Yayını'}
           </p>
+          <p className="text-gray-400 text-sm mb-6">📅 {eventDate} - 🕐 {eventTime}</p>
 
           <div className="mb-6">
             <label className="block text-left text-gray-600 mb-2 font-medium">Adınız Soyadınız</label>
@@ -992,10 +993,7 @@ export default function WatchPage() {
             Yayına Katıl
           </button>
 
-          <p className="text-gray-400 text-sm mt-4">📅 {eventDate} - 🕐 {eventTime}</p>
-          <p className="text-gray-400 text-xs mt-2">👥 {viewerCount}/{eventPackage?.max_viewers || 50} izleyici</p>
-
-          <div className="mt-6 pt-4 border-t border-gray-100">
+          <div className="mt-4 pt-3 border-t border-gray-100">
             <p className="text-gray-500 text-[13px] mb-1">Zaten çiftin yanında nikahta mısın?</p>
             <button onClick={() => setShowPhotoUpload(true)} className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:opacity-70" style={{ color: '#C8686E' }}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
