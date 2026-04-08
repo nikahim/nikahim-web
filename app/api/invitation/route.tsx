@@ -263,12 +263,12 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         </p>
 
         {/* Davet mesajı */}
-        <p style={{ fontSize: 19, color: colors.body, marginBottom: 8, marginTop: 10 }}>
+        <p style={{ fontSize: 19, color: colors.body, marginBottom: 4, marginTop: 6 }}>
           {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
         </p>
 
         {/* Tarih ve saat */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 30, marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 30, marginBottom: 10 }}>
           <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>{formatDate(data.eventDate)}</p>
           <div style={{ width: 1, height: 30, background: colors.accent, opacity: 0.5, display: 'flex' }} />
           <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>Saat {formatTime(data.eventTime)}</p>
@@ -301,7 +301,7 @@ const FLORAL_ROSE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-1.png',
   title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
   body: '#8B7355', label: '#B08968', link: '#C8686E',
-  top: 330, bottom: 250,
+  top: 430, bottom: 310,
 };
 
 // Davetiye 2: Pembe + mavi çiçekler — koyu mor + altın
@@ -309,7 +309,7 @@ const FLORAL_BLUE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-2.png',
   title: '#3D3255', name: '#3D3255', accent: '#C9A96E',
   body: '#6B5B7B', label: '#8B7BA0', link: '#7B68AE',
-  top: 330, bottom: 230,
+  top: 430, bottom: 290,
 };
 
 // Davetiye 3: Köşe güller, soft bej — koyu kahve + rose altın
@@ -317,7 +317,7 @@ const FLORAL_CORNER_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-3.png',
   title: '#5C4033', name: '#5C4033', accent: '#C4A882',
   body: '#8B7B6B', label: '#A89080', link: '#C8686E',
-  top: 280, bottom: 190,
+  top: 370, bottom: 250,
 };
 
 // Davetiye 4: Beyaz güller, altın yapraklar — altın + kahve
@@ -325,7 +325,7 @@ const FLORAL_GOLD_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-4.png',
   title: '#5A4A35', name: '#5A4A35', accent: '#C4A56A',
   body: '#8B7B65', label: '#A89570', link: '#B8956A',
-  top: 280, bottom: 190,
+  top: 370, bottom: 250,
 };
 
 const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
