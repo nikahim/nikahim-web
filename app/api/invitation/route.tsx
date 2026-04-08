@@ -381,11 +381,14 @@ export async function POST(request: NextRequest) {
 
       const { data: urlData } = supabase.storage.from('invitation-finals').getPublicUrl(fileName);
 
+      // Cache-bust: timestamp ekle ki browser eski cache göstermesin
+      const finalUrl = `${urlData.publicUrl}?v=${Date.now()}`;
+
       await supabase.from('events').update({
-        invitation_final_url: urlData.publicUrl
+        invitation_final_url: finalUrl
       }).eq('id', eventId);
 
-      return NextResponse.json({ success: true, url: urlData.publicUrl }, { headers: corsHeaders });
+      return NextResponse.json({ success: true, url: finalUrl }, { headers: corsHeaders });
     }
 
     return new NextResponse(uint8Array, {
