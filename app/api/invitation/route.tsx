@@ -235,10 +235,10 @@ function ImageTemplate(data: any, colors: TemplateColors) {
 
       <div style={{
         position: 'absolute', top: colors.top, left: 100, right: 100, bottom: colors.bottom,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 80,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 30,
       }}>
         {/* Aile bilgileri */}
-        <div style={{ display: 'flex', gap: 60, marginBottom: 14, textAlign: 'center' }}>
+        <div style={{ display: 'flex', gap: 60, marginBottom: 14, marginTop: 10, textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
             <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
@@ -263,7 +263,7 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         </p>
 
         {/* Davet mesajı */}
-        <p style={{ fontSize: 19, color: colors.body, marginBottom: 20 }}>
+        <p style={{ fontSize: 19, color: colors.body, marginBottom: 8, marginTop: 10 }}>
           {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
         </p>
 
@@ -286,7 +286,7 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         {/* Canlı yayın */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 6 }}>
           <p style={{ fontSize: 21, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
-          <div style={{ display: 'flex', flexDirection: 'row', marginTop: -2, gap: 5 }}>
+          <div style={{ display: 'flex', flexDirection: 'row', marginTop: -6, gap: 5 }}>
             <p style={{ fontSize: 19, color: '#C06068', fontWeight: 700 }}>nikahim.com</p>
             <p style={{ fontSize: 19, color: colors.body }}>{`'dan canlı izleyebilirsiniz`}</p>
           </div>
@@ -301,7 +301,7 @@ const FLORAL_ROSE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-1.png',
   title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
   body: '#8B7355', label: '#B08968', link: '#C8686E',
-  top: 240, bottom: 280,
+  top: 280, bottom: 260,
 };
 
 // Davetiye 2: Pembe + mavi çiçekler — koyu mor + altın
@@ -309,7 +309,7 @@ const FLORAL_BLUE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-2.png',
   title: '#3D3255', name: '#3D3255', accent: '#C9A96E',
   body: '#6B5B7B', label: '#8B7BA0', link: '#7B68AE',
-  top: 240, bottom: 260,
+  top: 280, bottom: 240,
 };
 
 // Davetiye 3: Köşe güller, soft bej — koyu kahve + rose altın
@@ -317,7 +317,7 @@ const FLORAL_CORNER_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-3.png',
   title: '#5C4033', name: '#5C4033', accent: '#C4A882',
   body: '#8B7B6B', label: '#A89080', link: '#C8686E',
-  top: 200, bottom: 220,
+  top: 240, bottom: 200,
 };
 
 // Davetiye 4: Beyaz güller, altın yapraklar — altın + kahve
@@ -325,7 +325,7 @@ const FLORAL_GOLD_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-4.png',
   title: '#5A4A35', name: '#5A4A35', accent: '#C4A56A',
   body: '#8B7B65', label: '#A89570', link: '#B8956A',
-  top: 200, bottom: 220,
+  top: 240, bottom: 200,
 };
 
 const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
