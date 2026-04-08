@@ -331,13 +331,23 @@ const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
   floral_gold: (data) => ImageTemplate(data, FLORAL_GOLD_COLORS),
 };
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+};
+
+export async function OPTIONS() {
+  return new NextResponse(null, { status: 200, headers: corsHeaders });
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const { template, data, eventId } = body;
 
     if (!template || !data) {
-      return NextResponse.json({ error: 'Template ve data gerekli' }, { status: 400 });
+      return NextResponse.json({ error: 'Template ve data gerekli' }, { status: 400, headers: corsHeaders });
     }
 
     const renderer = TEMPLATE_RENDERERS[template] || TEMPLATE_RENDERERS['floral_rose'];
@@ -367,11 +377,12 @@ export async function POST(request: NextRequest) {
         invitation_final_url: urlData.publicUrl
       }).eq('id', eventId);
 
-      return NextResponse.json({ success: true, url: urlData.publicUrl });
+      return NextResponse.json({ success: true, url: urlData.publicUrl }, { headers: corsHeaders });
     }
 
     return new NextResponse(uint8Array, {
       headers: {
+        ...corsHeaders,
         'Content-Type': 'image/png',
         'Content-Disposition': 'attachment; filename="davetiye.png"',
       },
@@ -379,6 +390,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Invitation render error:', error);
-    return NextResponse.json({ error: 'Render hatası: ' + String(error) }, { status: 500 });
+    return NextResponse.json({ error: 'Render hatası: ' + String(error) }, { status: 500, headers: corsHeaders });
   }
 }
