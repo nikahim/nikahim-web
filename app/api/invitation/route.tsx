@@ -234,16 +234,14 @@ function ImageTemplate(data: any, colors: TemplateColors) {
     <div style={{ width: 1024, height: 1536, display: 'flex', position: 'relative', fontFamily: 'serif' }}>
       <img src={colors.bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1024, height: 1536 }} />
 
-      {/* Aile başlıkları */}
-      <div style={{ ...row(t), gap: 200 }}>
+      {/* Aile bilgileri — sol ve sağ blok, her biri kendi içinde ortalı */}
+      <div style={{ position: 'absolute', top: t, left: 120, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
-        <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
+        <p style={{ fontSize: 19, color: colors.name, marginTop: 6 }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
       </div>
-
-      {/* Aile isimleri */}
-      <div style={{ ...row(t + 30), gap: 120 }}>
-        <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
-        <p style={{ fontSize: 19, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+      <div style={{ position: 'absolute', top: t, right: 120, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
+        <p style={{ fontSize: 19, color: colors.name, marginTop: 6 }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
       </div>
 
       {/* Gelin ismi */}
@@ -251,8 +249,8 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.brideFirstName}</p>
       </div>
 
-      {/* & işareti ve çizgiler — gelin ve damat arasında tam orta */}
-      <div style={{ ...row(t + 155), gap: 16 }}>
+      {/* & işareti ve çizgiler — damat ismine yakın */}
+      <div style={{ ...row(t + 175), gap: 16 }}>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
         <p style={{ fontSize: 28, color: colors.accent }}>&</p>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
