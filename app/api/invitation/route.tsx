@@ -226,53 +226,67 @@ function formatTime(timeStr: string) {
 }
 
 function ImageTemplate(data: any, colors: TemplateColors) {
-  // Absolute positioning - her eleman piksel piksel yerleştirilir
-  const cx = 512; // yatay merkez (1024/2)
+  const t = colors.top; // kısaltma
+  const abs = (top: number): any => ({ position: 'absolute' as const, top, left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' });
   return (
     <div style={{ width: 1024, height: 1536, display: 'flex', position: 'relative', fontFamily: 'serif' }}>
       <img src={colors.bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1024, height: 1536 }} />
 
       {/* Aile başlıkları */}
-      <p style={{ position: 'absolute', top: colors.top, left: 140, fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
-      <p style={{ position: 'absolute', top: colors.top, right: 140, fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
+      <div style={{ ...abs(t), gap: 200 }}>
+        <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
+        <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
+      </div>
 
       {/* Aile isimleri */}
-      <p style={{ position: 'absolute', top: colors.top + 30, left: 140, fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
-      <p style={{ position: 'absolute', top: colors.top + 30, right: 140, fontSize: 19, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+      <div style={{ ...abs(t + 30), gap: 120 }}>
+        <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
+        <p style={{ fontSize: 19, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+      </div>
 
       {/* Gelin ismi */}
-      <p style={{ position: 'absolute', top: colors.top + 90, width: 1024, textAlign: 'center', fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.brideFirstName}</p>
+      <div style={abs(t + 90)}>
+        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.brideFirstName}</p>
+      </div>
 
       {/* & işareti ve çizgiler */}
-      <div style={{ position: 'absolute', top: colors.top + 160, left: 0, width: 1024, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 16 }}>
+      <div style={{ ...abs(t + 160), gap: 16 }}>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
         <p style={{ fontSize: 28, color: colors.accent }}>&</p>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
       </div>
 
       {/* Damat ismi */}
-      <p style={{ position: 'absolute', top: colors.top + 200, width: 1024, textAlign: 'center', fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.groomFirstName}</p>
+      <div style={abs(t + 200)}>
+        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.groomFirstName}</p>
+      </div>
 
       {/* Davet mesajı */}
-      <p style={{ position: 'absolute', top: colors.top + 280, width: 1024, textAlign: 'center', fontSize: 19, color: colors.body }}>
-        {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
-      </p>
+      <div style={abs(t + 280)}>
+        <p style={{ fontSize: 19, color: colors.body }}>
+          {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
+        </p>
+      </div>
 
       {/* Tarih ve saat */}
-      <div style={{ position: 'absolute', top: colors.top + 320, left: 0, width: 1024, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30 }}>
+      <div style={{ ...abs(t + 320), gap: 30 }}>
         <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>{formatDate(data.eventDate)}</p>
         <div style={{ width: 1, height: 30, background: colors.accent, opacity: 0.5, display: 'flex' }} />
         <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>Saat {formatTime(data.eventTime)}</p>
       </div>
 
       {/* Mekan */}
-      <p style={{ position: 'absolute', top: colors.top + 380, width: 1024, textAlign: 'center', fontSize: 22, color: colors.name, fontWeight: 600 }}>{data.venueName || ''}</p>
-      {data.venueAddress && <p style={{ position: 'absolute', top: colors.top + 410, width: 1024, textAlign: 'center', fontSize: 16, color: colors.body }}>{data.venueAddress}</p>}
-      {data.venueCity && <p style={{ position: 'absolute', top: colors.top + 434, width: 1024, textAlign: 'center', fontSize: 16, color: colors.body }}>{data.venueCity}</p>}
+      <div style={abs(t + 380)}>
+        <p style={{ fontSize: 22, color: colors.name, fontWeight: 600 }}>{data.venueName || ''}</p>
+      </div>
+      {data.venueAddress && <div style={abs(t + 412)}><p style={{ fontSize: 16, color: colors.body }}>{data.venueAddress}</p></div>}
+      {data.venueCity && <div style={abs(t + 436)}><p style={{ fontSize: 16, color: colors.body }}>{data.venueCity}</p></div>}
 
       {/* Canlı yayın */}
-      <p style={{ position: 'absolute', bottom: colors.bottom + 50, width: 1024, textAlign: 'center', fontSize: 21, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
-      <div style={{ position: 'absolute', bottom: colors.bottom + 20, left: 0, width: 1024, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
+      <div style={{ position: 'absolute', bottom: colors.bottom + 50, left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <p style={{ fontSize: 21, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
+      </div>
+      <div style={{ position: 'absolute', bottom: colors.bottom + 22, left: 0, right: 0, display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 5 }}>
         <p style={{ fontSize: 19, color: '#C06068', fontWeight: 700 }}>nikahim.com</p>
         <p style={{ fontSize: 19, color: colors.body }}>{`'dan canlı izleyebilirsiniz`}</p>
       </div>
