@@ -234,14 +234,16 @@ function ImageTemplate(data: any, colors: TemplateColors) {
     <div style={{ width: 1024, height: 1536, display: 'flex', position: 'relative', fontFamily: 'serif' }}>
       <img src={colors.bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1024, height: 1536 }} />
 
-      {/* Aile bilgileri — sol ve sağ blok, her biri kendi içinde ortalı */}
-      <div style={{ position: 'absolute', top: t, left: 120, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
-        <p style={{ fontSize: 19, color: colors.name, marginTop: 6 }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
-      </div>
-      <div style={{ position: 'absolute', top: t, right: 120, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
-        <p style={{ fontSize: 19, color: colors.name, marginTop: 6 }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+      {/* Aile bilgileri — ortalanmış row, her blok kendi içinde ortalı */}
+      <div style={{ ...row(t), gap: 140 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
+          <p style={{ fontSize: 19, color: colors.name, marginTop: 6 }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3 }}>{(data.groomLastName || 'Damat').toUpperCase()} Ailesi</p>
+          <p style={{ fontSize: 19, color: colors.name, marginTop: 6 }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+        </div>
       </div>
 
       {/* Gelin ismi */}
