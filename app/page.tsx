@@ -156,7 +156,7 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium mb-6 mt-2 lg:mt-4" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium mb-6 mt-4 lg:mt-6" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#C8686E' }} />
                 Türkiye&apos;nin İlk Nikah Canlı Yayın Platformu
               </div>
@@ -182,7 +182,7 @@ export default function Home() {
                         <span className="text-[28px] md:text-[36px] font-bold text-gray-900 tracking-tight leading-none">{s.num}</span>
                         <span className="text-[22px] md:text-[28px] font-bold leading-none" style={{ color: '#C8686E' }}>{s.suffix}</span>
                       </div>
-                      <div className="text-gray-600 text-[14px] mt-1.5 font-medium ml-1">{s.label}</div>
+                      <div className="text-gray-600 text-[14px] mt-1.5 font-medium ml-1 whitespace-nowrap">{s.label}</div>
                     </div>
                   </div>
                 ))}
@@ -420,7 +420,7 @@ export default function Home() {
       <footer className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
-            <div><div className="flex items-center gap-2 mb-4"><Image src="/icon.png" alt="Nikahım" width={44} height={44} className="rounded-xl" /><Image src="/navbar-text.png" alt="Nikahım" width={160} height={50} className="h-[50px] w-auto object-contain brightness-0 invert" /></div><p className="text-gray-400 text-sm leading-relaxed">Sevdikleriniz uzakta olsa bile özel gününüzde yanınızda olsun.</p></div>
+            <div><div className="flex items-center gap-2 mb-4"><Image src="/icon.png" alt="Nikahım" width={44} height={44} className="rounded-xl" /><Image src="/navbar-text.png" alt="Nikahım" width={160} height={50} className="h-[75px] w-auto object-contain brightness-0 invert" /></div><p className="text-gray-400 text-sm leading-relaxed">Sevdikleriniz uzakta olsa bile özel gününüzde yanınızda olsun.</p></div>
             <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4><div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">{['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => { const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss']; return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>; })}</div></div>
             <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Bizi Takip Edin</h4><a href="https://instagram.com/nikahim.co" target="_blank" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"><Image src="/instagram.png" alt="Instagram" width={24} height={24} className="w-6 h-6 rounded" />@nikahim.co</a></div>
           </div>
