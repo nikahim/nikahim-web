@@ -238,7 +238,7 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       }}>
         {/* Aile bilgileri */}
-        <div style={{ display: 'flex', gap: 60, marginBottom: 20, textAlign: 'center' }}>
+        <div style={{ display: 'flex', gap: 60, marginBottom: 20, marginTop: 16, textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>Gelin Ailesi</p>
             <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
@@ -285,8 +285,11 @@ function ImageTemplate(data: any, colors: TemplateColors) {
 
         {/* Canlı yayın */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 6 }}>
-          <p style={{ fontSize: 15, color: '#C8686E', letterSpacing: 4, fontWeight: 700 }}>CANLI YAYIN</p>
-          <p style={{ fontSize: 17, color: colors.link, fontWeight: 600, marginTop: 2 }}>nikahim.com/canli/{data.eventLink}</p>
+          <p style={{ fontSize: 17, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
+          <div style={{ display: 'flex', flexDirection: 'row', marginTop: 4, gap: 5 }}>
+            <p style={{ fontSize: 16, color: '#C06068', fontWeight: 700 }}>nikahim.com</p>
+            <p style={{ fontSize: 16, color: colors.body }}>{`'dan canlı izleyebilirsiniz`}</p>
+          </div>
         </div>
       </div>
     </div>
