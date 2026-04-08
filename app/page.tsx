@@ -100,7 +100,6 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
             <div className="w-20 h-20 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            <h3 className="text-2xl font-bold text-gray-900 text-center mb-2">Nikahım</h3>
             <p className="text-gray-500 text-center text-sm mb-8">Uygulamayı indirin ve nikahınızı planlayın</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
@@ -154,10 +153,10 @@ export default function Home() {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FBF8F5 0%, #F5F0EC 35%, #FDF5F3 65%, #FAF7F5 100%)' }} />
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-32 lg:py-0 w-full">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium mb-6 mt-8 lg:mt-12" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-sm font-medium mb-6 mt-2 lg:mt-4" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#C8686E' }} />
                 Türkiye&apos;nin İlk Nikah Canlı Yayın Platformu
               </div>
@@ -166,7 +165,7 @@ export default function Home() {
               </h1>
               <p className="text-xl lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[480px]">Sevdikleriniz nerede olursa olsun, en özel anınızı birlikte yaşayın. Canlı yayın, online altın takma ve video tebrik — hepsi tek platformda.</p>
               <div className="flex flex-wrap gap-4 mb-16">
-                <button onClick={() => setShowAppPopup(true)} className="text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Nikahını Oluştur</button>
+                <button onClick={() => setShowAppPopup(true)} className="text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Nikah Oluştur</button>
                 <button onClick={() => scrollToSection("nikah-ara")} className="px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.03] btn-press border-2" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı Nikah İzle</button>
               </div>
               <div className="flex gap-5">
@@ -180,8 +179,8 @@ export default function Home() {
                     </div>
                     <div>
                       <div className="flex items-baseline gap-0.5">
-                        <span className="text-[36px] font-bold text-gray-900 tracking-tight leading-none">{s.num}</span>
-                        <span className="text-[28px] font-bold leading-none" style={{ color: '#C8686E' }}>{s.suffix}</span>
+                        <span className="text-[28px] md:text-[36px] font-bold text-gray-900 tracking-tight leading-none">{s.num}</span>
+                        <span className="text-[22px] md:text-[28px] font-bold leading-none" style={{ color: '#C8686E' }}>{s.suffix}</span>
                       </div>
                       <div className="text-gray-600 text-[14px] mt-1.5 font-medium ml-1">{s.label}</div>
                     </div>
@@ -329,7 +328,7 @@ export default function Home() {
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
-                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`relative bg-white rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'shadow-2xl scale-[1.04] border-2' : 'border border-gray-100 hover:shadow-xl hover:-translate-y-1'}`} style={isSelected ? { borderColor: '#C8686E' } : {}}>
+                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`relative rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'scale-[1.04] border-2' : 'border border-gray-100/80 hover:-translate-y-2'}`} style={isSelected ? { borderColor: '#C8686E', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)', boxShadow: '0 20px 60px rgba(200,104,110,0.15), 0 8px 24px rgba(0,0,0,0.08)' } : { background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)' }}>
                   {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg" style={{ background: 'linear-gradient(135deg, #D97070, #C8686E)', boxShadow: '0 4px 16px rgba(200,104,110,0.3)' }}>{pkg.badge}</div>}
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{pkg.name}</h3>
@@ -393,13 +392,12 @@ export default function Home() {
                 <input type="text" placeholder="Adınız Soyadınız" value={contactName} onChange={(e) => setContactName(e.target.value)} className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-300 bg-gray-50/50 focus:bg-white transition-all" required />
                 <input type="email" placeholder="E-posta adresiniz" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-300 bg-gray-50/50 focus:bg-white transition-all" required />
               </div>
-              <select value={contactSubject} onChange={(e) => setContactSubject(e.target.value)} className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-[#C8686E]/40 outline-none bg-gray-50/50 focus:bg-white text-gray-900 transition-all"><option>Genel Soru</option><option>Teknik Destek</option><option>Ödeme Sorunu</option></select>
               <textarea rows={4} placeholder="Mesajınız" value={contactMessage} onChange={(e) => setContactMessage(e.target.value)} className="w-full px-5 py-4 rounded-2xl border border-gray-200 focus:border-[#C8686E]/40 outline-none resize-none text-gray-900 placeholder:text-gray-300 bg-gray-50/50 focus:bg-white transition-all" required />
               <button type="submit" disabled={contactSending} className="w-full py-4 rounded-2xl font-semibold text-white transition-all hover:shadow-xl disabled:opacity-50" style={{ background: contactSending ? '#ccc' : 'linear-gradient(135deg, #D97070, #C8686E, #C06068)', boxShadow: contactSending ? 'none' : '0 4px 20px rgba(200,104,110,0.3)' }}>{contactSending ? 'Gönderiliyor...' : 'Gönder'}</button>
             </form>
             <div className="mt-8 pt-8 border-t border-gray-100 flex flex-wrap justify-center gap-8">
-              <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-gray-400 hover:text-[#C8686E] transition-colors text-sm"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>destek@nikahim.com</a>
-              <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-gray-400 hover:text-[#C8686E] transition-colors text-sm"><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>Canlı Destek</a>
+              <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#C8686E' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>destek@nikahim.com</a>
+              <a href="https://wa.me/905366919361?text=Merhaba%20nikahim.com%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#C8686E' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>Canlı Destek</a>
             </div>
           </div>
         </div>
@@ -421,10 +419,9 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-12 mb-12">
-            <div><div className="flex items-center gap-3 mb-4"><Image src="/icon.png" alt="Nikahım" width={36} height={36} className="rounded-xl" /><Image src="/navbar-text.png" alt="Nikahım" width={100} height={30} className="h-7 w-auto object-contain brightness-0 invert" /></div><p className="text-gray-400 text-sm leading-relaxed">Sevdikleriniz uzakta olsa bile özel gününüzde yanınızda olsun.</p></div>
-            <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">İndir</h4><div className="space-y-3"><Image src="/appstore.png" alt="App Store" width={120} height={40} className="h-10 w-auto cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setShowAppPopup(true)} /><Image src="/playstore.png" alt="Google Play" width={120} height={40} className="h-10 w-auto cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setShowAppPopup(true)} /></div></div>
-            <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4><div className="space-y-3 text-sm">{['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => { const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss']; return <button key={i} onClick={() => scrollToSection(ids[i])} className="block text-gray-400 hover:text-white transition-colors">{label}</button>; })}</div></div>
+          <div className="grid md:grid-cols-3 gap-12 mb-12">
+            <div><div className="flex items-center gap-2 mb-4"><Image src="/icon.png" alt="Nikahım" width={44} height={44} className="rounded-xl" /><Image src="/navbar-text.png" alt="Nikahım" width={160} height={50} className="h-[50px] w-auto object-contain brightness-0 invert" /></div><p className="text-gray-400 text-sm leading-relaxed">Sevdikleriniz uzakta olsa bile özel gününüzde yanınızda olsun.</p></div>
+            <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4><div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">{['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => { const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss']; return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>; })}</div></div>
             <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Bizi Takip Edin</h4><a href="https://instagram.com/nikahim.co" target="_blank" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"><Image src="/instagram.png" alt="Instagram" width={24} height={24} className="w-6 h-6 rounded" />@nikahim.co</a></div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">© 2025 Nikahim.com — Tüm hakları saklıdır.</div>
