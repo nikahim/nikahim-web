@@ -220,6 +220,11 @@ interface TemplateColors {
   bottom: number;     // metin alanı alt
 }
 
+function formatTime(timeStr: string) {
+  if (!timeStr) return '';
+  return timeStr.slice(0, 5);
+}
+
 function ImageTemplate(data: any, colors: TemplateColors) {
   return (
     <div style={{
@@ -229,59 +234,59 @@ function ImageTemplate(data: any, colors: TemplateColors) {
       <img src={colors.bgUrl} style={{ position: 'absolute', top: 0, left: 0, width: 1024, height: 1536 }} />
 
       <div style={{
-        position: 'absolute', top: colors.top, left: 120, right: 120, bottom: colors.bottom,
+        position: 'absolute', top: colors.top, left: 100, right: 100, bottom: colors.bottom,
         display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
       }}>
-        <p style={{ fontSize: 20, color: colors.label, letterSpacing: 6, marginBottom: 12 }}>
-          {data.eventType === 'dugun' ? 'Düğün Davetiyesi' : 'Nikah Davetiyesi'}
-        </p>
-
-        <div style={{ display: 'flex', gap: 50, marginBottom: 16, textAlign: 'center' }}>
+        {/* Aile bilgileri */}
+        <div style={{ display: 'flex', gap: 60, marginBottom: 20, textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: 14, color: colors.label, letterSpacing: 3, marginBottom: 4 }}>Gelin Ailesi</p>
-            <p style={{ fontSize: 17, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
+            <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>Gelin Ailesi</p>
+            <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <p style={{ fontSize: 14, color: colors.label, letterSpacing: 3, marginBottom: 4 }}>Damat Ailesi</p>
-            <p style={{ fontSize: 17, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
+            <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>Damat Ailesi</p>
+            <p style={{ fontSize: 19, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
           </div>
         </div>
 
-        <p style={{ fontSize: 16, color: colors.body, marginBottom: 10 }}>kızları ve oğullarının</p>
-
-        <p style={{ fontSize: 58, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 0, lineHeight: 1.1 }}>
+        {/* İsimler */}
+        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 0, lineHeight: 1.1 }}>
           {data.brideFirstName}
         </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '4px 0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, margin: '6px 0' }}>
           <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
           <p style={{ fontSize: 28, color: colors.accent }}>&</p>
           <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
         </div>
-        <p style={{ fontSize: 58, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 6, lineHeight: 1.1 }}>
+        <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3, marginBottom: 8, lineHeight: 1.1 }}>
           {data.groomFirstName}
         </p>
 
-        <p style={{ fontSize: 16, color: colors.body, marginBottom: 14 }}>
-          {data.eventType === 'dugun' ? 'düğün törenlerine davet ederler' : 'nikah törenlerine davet ederler'}
+        {/* Davet mesajı */}
+        <p style={{ fontSize: 17, color: colors.body, marginBottom: 20 }}>
+          {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
         </p>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 30, marginBottom: 12 }}>
+        {/* Tarih ve saat */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 30, marginBottom: 16 }}>
           <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>{formatDate(data.eventDate)}</p>
           <div style={{ width: 1, height: 30, background: colors.accent, opacity: 0.5, display: 'flex' }} />
-          <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>Saat {data.eventTime}</p>
+          <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>Saat {formatTime(data.eventTime)}</p>
         </div>
 
+        {/* Mekan */}
         {data.venueName && (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 16 }}>
             <p style={{ fontSize: 22, color: colors.name, fontWeight: 600 }}>{data.venueName}</p>
             {data.venueAddress && <p style={{ fontSize: 16, color: colors.body, marginTop: 4 }}>{data.venueAddress}</p>}
             {data.venueCity && <p style={{ fontSize: 16, color: colors.body, marginTop: 2 }}>{data.venueCity}</p>}
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 8 }}>
-          <p style={{ fontSize: 13, color: colors.label, letterSpacing: 3 }}>CANLI YAYIN</p>
-          <p style={{ fontSize: 18, color: colors.link, fontWeight: 600, marginTop: 4 }}>nikahim.com/canli/{data.eventLink}</p>
+        {/* Canlı yayın */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 6 }}>
+          <p style={{ fontSize: 15, color: '#C8686E', letterSpacing: 4, fontWeight: 700 }}>CANLI YAYIN</p>
+          <p style={{ fontSize: 17, color: colors.link, fontWeight: 600, marginTop: 2 }}>nikahim.com/canli/{data.eventLink}</p>
         </div>
       </div>
     </div>
