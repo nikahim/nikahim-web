@@ -127,6 +127,7 @@ export default function WatchPage() {
   const [photoUploadSuccess, setPhotoUploadSuccess] = useState(false);
   const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
   const [goldHistory, setGoldHistory] = useState<{ name: string; type: string }[]>([]);
+  const [goldDisplayIndex, setGoldDisplayIndex] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
   const [videoTebrikCount, setVideoTebrikCount] = useState(0);
@@ -241,6 +242,15 @@ export default function WatchPage() {
 
   // Tebrik popup açılınca müziği kıs, kapanınca geri aç
   const isRecordingOpen = fsTebrikPanel === 'video' || fsTebrikPanel === 'voice' || showVideoRecorder || showVoiceRecorder;
+
+  // Altın listesi döngüsü
+  useEffect(() => {
+    if (goldHistory.length <= 1) return;
+    const interval = setInterval(() => {
+      setGoldDisplayIndex(prev => (prev + 1) % goldHistory.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [goldHistory.length]);
 
   // Sol panel yüksekliğini sağ panelle eşitle
   useEffect(() => {
@@ -455,6 +465,23 @@ export default function WatchPage() {
             .filter((f: any) => !f.name.startsWith('.'))
             .map((f: any) => supabase.storage.from('slideshow-photos').getPublicUrl(`${data.id}/${f.name}`).data.publicUrl);
           setSlideshowPhotos(urls);
+        }
+
+        // Mevcut altın gönderimlerini çek
+        const { data: giftData } = await supabase
+          .from('gift_payments')
+          .select('sender_name, gift_type')
+          .eq('event_id', data.id)
+          .eq('status', 'completed')
+          .order('created_at', { ascending: false })
+          .limit(20);
+        if (giftData && giftData.length > 0) {
+          const GOLD_NAMES: Record<string, string> = { gram_altin: 'Gram Altın', ceyrek_altin: 'Çeyrek Altın', yarim_altin: 'Yarım Altın', tam_altin: 'Tam Altın', ata_altin: 'Ata Altın', nakit: 'Nakit' };
+          setGoldHistory(giftData.map((g: any) => {
+            const parts = (g.sender_name || '').split(' ');
+            const shortName = parts[0] + (parts[1] ? ' ' + parts[1].charAt(0) + '.' : '');
+            return { name: shortName, type: GOLD_NAMES[g.gift_type] || g.gift_type };
+          }));
         }
 
         if (data.package_id) {
@@ -1291,16 +1318,18 @@ export default function WatchPage() {
                 )}
               </button>
 
-              {/* Fullscreen altın listesi - sağ üst */}
-              {isFullscreen && goldHistory.length > 0 && (
-                <div className="absolute top-4 right-4 z-30 flex flex-col gap-1.5 max-h-[40vh] overflow-hidden">
-                  {goldHistory.slice(0, 5).map((g, i) => (
-                    <div key={i} className="flex items-center gap-2 px-3 py-1.5" style={{ opacity: 1 - i * 0.15 }}>
-                      <Image src="/altintak.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />
-                      <span className="text-white/90 text-[11px] font-semibold">{g.type}</span>
-                      <span className="text-white/50 text-[11px]">{g.name}</span>
-                    </div>
-                  ))}
+              {/* Altın listesi - sağ üst (her zaman, fullscreen olmasa da) */}
+              {goldHistory.length > 0 && (
+                <div className="absolute top-3 right-3 z-30 overflow-hidden" style={{ height: 32, width: 220 }}>
+                  <div className="transition-transform duration-700 ease-in-out" style={{ transform: `translateY(-${goldDisplayIndex * 32}px)` }}>
+                    {goldHistory.map((g, i) => (
+                      <div key={i} className="flex items-center gap-2 h-[32px] px-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(8px)' }}>
+                        <Image src="/altintak.png" alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain flex-shrink-0" />
+                        <span className="text-white/90 text-[11px] font-semibold truncate">{g.type}</span>
+                        <span className="text-white/50 text-[11px] truncate">{g.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
