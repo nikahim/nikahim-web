@@ -1703,8 +1703,8 @@ export default function WatchPage() {
               <div className="text-center mb-3">
                 <p className="text-sm font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
                 <div className="mt-1.5">
-                  <span className="text-[11px] text-gray-400">Çiftin yanında mısın? </span>
-                  <button onClick={(e) => { e.stopPropagation(); setShowPhotoUpload(true); }} className="text-[11px] font-semibold" style={{ color: '#C8686E' }}>Fotoğraf Yükle</button>
+                  <span className="text-[11px] text-gray-500">Çiftin yanında nikahta mısın? </span>
+                  <button onClick={(e) => { e.stopPropagation(); setShowPhotoUpload(true); }} className="text-[12px] font-bold underline" style={{ color: '#C8686E' }}>Fotoğraf Yükle</button>
                 </div>
               </div>
               <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
