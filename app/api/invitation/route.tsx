@@ -299,7 +299,7 @@ const FLORAL_ROSE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-1.png',
   title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
   body: '#8B7355', label: '#B08968', link: '#C8686E',
-  top: 310, bottom: 200,
+  top: 330, bottom: 200,
 };
 
 // Davetiye 2: Pembe + mavi çiçekler — koyu mor + altın
