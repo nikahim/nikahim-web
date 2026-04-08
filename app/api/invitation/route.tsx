@@ -371,16 +371,22 @@ export async function POST(request: NextRequest) {
     if (eventId) {
       const supabase = createClient(supabaseUrl, supabaseKey);
 
-      const fileName = `invitation_${eventId}_${template}.png`;
+      // Her seferinde benzersiz dosya adı — CDN cache sorununu önler
+      const ts = Date.now();
+      const fileName = `invitation_${eventId}_${ts}.png`;
+
+      // Eski dosyaları temizle
+      const { data: oldFiles } = await supabase.storage.from('invitation-finals').list('', { search: `invitation_${eventId}_` });
+      if (oldFiles && oldFiles.length > 0) {
+        await supabase.storage.from('invitation-finals').remove(oldFiles.map(f => f.name));
+      }
+
       await supabase.storage.from('invitation-finals').upload(fileName, uint8Array, {
         contentType: 'image/png',
-        upsert: true,
       });
 
       const { data: urlData } = supabase.storage.from('invitation-finals').getPublicUrl(fileName);
-
-      // Cache-bust: timestamp ekle ki browser eski cache göstermesin
-      const finalUrl = `${urlData.publicUrl}?v=${Date.now()}`;
+      const finalUrl = urlData.publicUrl;
 
       await supabase.from('events').update({
         invitation_final_url: finalUrl
