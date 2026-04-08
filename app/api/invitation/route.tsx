@@ -235,7 +235,7 @@ function ImageTemplate(data: any, colors: TemplateColors) {
 
       <div style={{
         position: 'absolute', top: colors.top, left: 100, right: 100, bottom: colors.bottom,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 10,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 0,
       }}>
         {/* Aile bilgileri */}
         <div style={{ display: 'flex', gap: 60, marginBottom: 14, textAlign: 'center' }}>
