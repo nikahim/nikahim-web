@@ -1279,7 +1279,7 @@ export default function WatchPage() {
           <div className="flex-1 min-w-0">
             <div className={`bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
               {/* Fullscreen toggle button */}
-              <button onClick={async () => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { await document.documentElement.requestFullscreen?.(); (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { document.exitFullscreen?.(); (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-3 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+              <button onClick={async () => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { await document.documentElement.requestFullscreen?.(); (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { document.exitFullscreen?.(); (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
                 ) : (
@@ -1307,8 +1307,8 @@ export default function WatchPage() {
                   <button onClick={() => setFsGoldMode(true)} className="flex items-center gap-2 px-3 py-2 lg:px-4 lg:py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'linear-gradient(135deg, rgba(60,45,20,0.9), rgba(40,30,15,0.9))', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
                     <Image src="/altintak.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
                     <div className="text-left">
-                      <div className="text-[13px] font-bold" style={{ color: '#E8D5A0' }}>Altın Tak</div>
-                      <div className="text-[10px]" style={{ color: 'rgba(232,213,160,0.5)' }}>Çifte altın gönder</div>
+                      <div className="text-[11px] lg:text-[13px] font-bold whitespace-nowrap" style={{ color: '#E8D5A0' }}>Altın Tak</div>
+                      <div className="text-[9px] lg:text-[10px] whitespace-nowrap" style={{ color: 'rgba(232,213,160,0.5)' }}>Çifte altın gönder</div>
                     </div>
                   </button>
                   {/* İzleyici */}
@@ -1317,8 +1317,8 @@ export default function WatchPage() {
                       <svg className="w-4 h-4 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
                     </div>
                     <div className="text-left">
-                      <div className="text-[11px] lg:text-[13px] font-bold text-white">{viewerCount.toLocaleString()} kişi</div>
-                      <div className="text-[9px] lg:text-[10px] text-white/40">Canlı izliyor</div>
+                      <div className="text-[11px] lg:text-[13px] font-bold text-white whitespace-nowrap">{viewerCount.toLocaleString()} kişi</div>
+                      <div className="text-[9px] lg:text-[10px] text-white/40 whitespace-nowrap">Canlı izliyor</div>
                     </div>
                   </div>
                   {/* Tebrik Mesajı */}
@@ -1328,8 +1328,7 @@ export default function WatchPage() {
                         <svg className="w-4 h-4" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
                       </div>
                       <div className="text-left">
-                        <div className="text-[11px] lg:text-[13px] font-bold text-white">Tebrik Gönder</div>
-                        <div className="text-[9px] lg:text-[10px] text-white/40 hidden lg:block">Kutlama mesajı</div>
+                        <div className="text-[11px] lg:text-[13px] font-bold text-white whitespace-nowrap">Tebrik Gönder</div>
                       </div>
                     </button>
                     {/* Tebrik alt menü */}
