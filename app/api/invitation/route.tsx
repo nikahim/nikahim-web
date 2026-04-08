@@ -251,8 +251,8 @@ function ImageTemplate(data: any, colors: TemplateColors) {
         <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.brideFirstName}</p>
       </div>
 
-      {/* & işareti ve çizgiler — damat ismine yakın */}
-      <div style={{ ...row(t + 175), gap: 16 }}>
+      {/* & işareti ve çizgiler */}
+      <div style={{ ...row(t + 170), gap: 16 }}>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
         <p style={{ fontSize: 28, color: colors.accent }}>&</p>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
