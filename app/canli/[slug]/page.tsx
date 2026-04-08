@@ -88,6 +88,8 @@ export default function WatchPage() {
   const [eventPackage, setEventPackage] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [viewerName, setViewerName] = useState("");
+  const [viewerFirstName, setViewerFirstName] = useState("");
+  const [viewerLastName, setViewerLastName] = useState("");
   const [isNameEntered, setIsNameEntered] = useState(false);
   const [isReturningViewer, setIsReturningViewer] = useState(false);
   const [message, setMessage] = useState("");
@@ -124,6 +126,7 @@ export default function WatchPage() {
   const [uploadingGuestPhotos, setUploadingGuestPhotos] = useState(false);
   const [photoUploadSuccess, setPhotoUploadSuccess] = useState(false);
   const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
+  const [goldHistory, setGoldHistory] = useState<{ name: string; type: string }[]>([]);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
   const [videoTebrikCount, setVideoTebrikCount] = useState(0);
@@ -614,6 +617,8 @@ export default function WatchPage() {
       await supabase.from('viewers').insert({
         event_id: event.id,
         full_name: viewerName,
+        first_name: viewerFirstName.trim() || null,
+        last_name: viewerLastName.trim() || null,
       });
       
       setViewerCount(prev => prev + 1);
@@ -730,6 +735,7 @@ export default function WatchPage() {
 
     const goldName = goldOptions.find(g => g.id === selectedGold)?.name || 'Altın';
     setVideoNotification({ text: `${viewerName} ${goldName} gönderdi!`, type: 'gold' });
+    setGoldHistory(prev => [{ name: viewerName.split(' ')[0] + (viewerName.split(' ')[1] ? ' ' + viewerName.split(' ')[1].charAt(0) + '.' : ''), type: goldName }, ...prev].slice(0, 10));
     setTimeout(() => setVideoNotification(null), 8000);
 
     setPendingPaymentId(null);
@@ -977,15 +983,29 @@ export default function WatchPage() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-left text-gray-600 mb-2 font-medium">Adınız Soyadınız</label>
-            <input
-              type="text"
-              value={viewerName}
-              onChange={(e) => setViewerName(e.target.value)}
-              placeholder="Örn: Fatma Yılmaz"
-              className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
-              onKeyPress={(e) => e.key === "Enter" && handleNameSubmit()}
-            />
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-left text-gray-600 mb-1.5 font-medium text-sm">Adınız</label>
+                <input
+                  type="text"
+                  value={viewerFirstName}
+                  onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
+                  placeholder="Fatma"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
+                />
+              </div>
+              <div>
+                <label className="block text-left text-gray-600 mb-1.5 font-medium text-sm">Soyadınız</label>
+                <input
+                  type="text"
+                  value={viewerLastName}
+                  onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
+                  placeholder="Yılmaz"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
+                  onKeyPress={(e) => e.key === "Enter" && handleNameSubmit()}
+                />
+              </div>
+            </div>
           </div>
 
           <button
@@ -1152,10 +1172,10 @@ export default function WatchPage() {
 
       {/* NAVBAR */}
       <header className="sticky top-0 z-50 border-b border-gray-100/50" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
-        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-1 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[72px] w-auto object-contain hidden sm:block -ml-3" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[52px] w-auto object-contain -ml-2" />
           </div>
 
           {/* Ortada CTA */}
@@ -1254,13 +1274,26 @@ export default function WatchPage() {
           <div className="flex-1 min-w-0">
             <div className={`bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
               {/* Fullscreen toggle button */}
-              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (!next) { setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-3 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-3 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
                 ) : (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
                 )}
               </button>
+
+              {/* Fullscreen altın listesi - sağ üst */}
+              {isFullscreen && goldHistory.length > 0 && (
+                <div className="absolute top-4 right-4 z-30 flex flex-col gap-1.5 max-h-[40vh] overflow-hidden">
+                  {goldHistory.slice(0, 5).map((g, i) => (
+                    <div key={i} className="flex items-center gap-2 px-3 py-1.5" style={{ opacity: 1 - i * 0.15 }}>
+                      <Image src="/altintak.png" alt="" width={20} height={20} className="w-5 h-5 object-contain" />
+                      <span className="text-white/90 text-[11px] font-semibold">{g.type}</span>
+                      <span className="text-white/50 text-[11px]">{g.name}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Fullscreen floating action bar */}
               {isFullscreen && !fsGoldMode && (
@@ -1462,9 +1495,9 @@ export default function WatchPage() {
                     <h3 className="text-white font-bold text-xl mb-6">{event.bride_first_name} & {event.groom_first_name}</h3>
                     <div className="flex gap-3">
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
-                        <div key={i} className="backdrop-blur-xl rounded-2xl px-5 py-4 text-center min-w-[60px] transition-transform hover:scale-105" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: 'inset 0 0 20px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.15)' }}>
-                          <div className="text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">{c.v}</div>
-                          <div className="text-[10px] text-white/50 uppercase tracking-wider mt-1">{c.l}</div>
+                        <div key={i} className="backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[48px] lg:min-w-[60px] transition-transform hover:scale-105" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: 'inset 0 0 20px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.15)' }}>
+                          <div className="text-xl lg:text-3xl font-bold text-white drop-shadow-lg">{c.v}</div>
+                          <div className="text-[9px] lg:text-[10px] text-white/50 uppercase tracking-wider mt-1">{c.l}</div>
                         </div>
                       ))}
                     </div>
@@ -1533,6 +1566,7 @@ export default function WatchPage() {
                 <div className="absolute top-0 left-0 right-0 z-20 p-4" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%)' }}>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
+                      <Image src="/navbar-icon.png" alt="" width={28} height={28} className="h-7 w-7 object-contain opacity-80 drop-shadow-lg" />
                       <span className="flex items-center gap-1.5 bg-red-500/90 backdrop-blur text-white px-3 py-1 rounded-lg text-xs font-bold shadow-lg"><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
                       <span className="backdrop-blur-md bg-black/30 text-white/80 px-2.5 py-1 rounded-lg text-xs flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>{viewerCount}</span>
                     </div>
@@ -1594,19 +1628,27 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* Mobil: Çift bilgisi */}
+            {/* Mobil: Çift bilgisi + Aile */}
             <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-sm border border-gray-100/80">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 mb-3">
                 {event.couple_photo_url ? (
                   <img src={event.couple_photo_url} alt="Çift" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
                 ) : (
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(111,175,207,0.1))' }}>
-                    <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
-                  </div>
+                  <img src="/couple-icon.png" alt="Çift" className="w-12 h-12 rounded-full object-cover" />
                 )}
                 <div>
-                  <h2 className="text-gray-900 font-bold">{event.bride_first_name} & {event.groom_first_name}</h2>
-                  <p className="text-gray-400 text-xs">{eventDate} · {eventTime}</p>
+                  <h2 className="text-gray-900 font-bold text-[15px]">{event.bride_first_name} & {event.groom_first_name}</h2>
+                  <p className="text-gray-400 text-xs">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'} · {eventDate}</p>
+                </div>
+              </div>
+              <div className="flex gap-4 pt-3 border-t border-gray-50">
+                <div className="flex-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                  <p className="text-gray-600 text-xs">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+                </div>
+                <div className="flex-1">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                  <p className="text-gray-600 text-xs">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
                 </div>
               </div>
             </div>
@@ -1615,48 +1657,52 @@ export default function WatchPage() {
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
           <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
             {/* Video Tebrik - pastel kırmızı pembe */}
-            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-4 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(180,70,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(180,70,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-xs">Video Tebrik</h3>
+                <h3 className="font-bold text-gray-900 text-sm">Video Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">30 sn video mesaj</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
-              <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #D4757E, #C45560)', boxShadow: '0 2px 8px rgba(180,70,80,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowVideoRecorder(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #D4757E, #C45560)', boxShadow: '0 2px 8px rgba(180,70,80,0.15)' }}>Gönder</button>
             </div>
 
             {/* Sesli Tebrik - pastel mavi */}
-            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-4 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F5FAFF, #EDF5FC)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(111,175,207,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F5FAFF, #EDF5FC)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(111,175,207,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-xs">Sesli Tebrik</h3>
+                <h3 className="font-bold text-gray-900 text-sm">Sesli Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
-              <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 2px 8px rgba(111,175,207,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 2px 8px rgba(111,175,207,0.15)' }}>Gönder</button>
             </div>
 
             {/* Mesaj Tebrik - açık yeşil */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-4 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F2FAF5, #E8F5ED)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(76,175,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F2FAF5, #E8F5ED)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(76,175,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-xs">Mesaj Tebrik</h3>
+                <h3 className="font-bold text-gray-900 text-sm">Mesaj Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">Yazılı tebrik bırakın</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
-              <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2 rounded-lg font-medium text-[11px] flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 2px 8px rgba(76,175,80,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowMessageModal(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 2px 8px rgba(76,175,80,0.15)' }}>Gönder</button>
             </div>
 
             {/* Nikah Gününden Kareler - sağ panelde */}
             <div className="rounded-2xl p-4 cursor-pointer flex flex-col" onClick={() => setShowPhotoGallery(true)} style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)', height: '200px' }}>
               <div className="text-center mb-2">
                 <p className="text-xs font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
+                <div className="mt-1">
+                  <span className="text-[10px] text-gray-400">Çiftin yanında mısın? </span>
+                  <button onClick={(e) => { e.stopPropagation(); setShowPhotoUpload(true); }} className="text-[10px] font-semibold" style={{ color: '#C8686E' }}>Fotoğraf Yükle</button>
+                </div>
               </div>
               <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
                 {(slideshowPhotos.length > 0 ? slideshowPhotos.slice(0, 3) : [null, null, null]).map((url, i) => {
@@ -1762,10 +1808,12 @@ export default function WatchPage() {
                     </div>
                   ))}
                 </div>
-                <div className="flex justify-between mt-1.5 px-0">
-                  <span className="text-[9px] font-medium" style={{ color: paymentStep >= 1 ? '#A08530' : '#ccc' }}>Ödeme Yöntemi</span>
-                  <span className="text-[9px] font-medium" style={{ color: paymentStep >= 2 ? '#A08530' : '#ccc' }}>Transfer</span>
-                  <span className="text-[9px] font-medium" style={{ color: paymentStep >= 3 ? '#A08530' : '#ccc' }}>Onay</span>
+                <div className="flex items-center mt-1.5">
+                  {[{n:1, label:'Ödeme Yöntemi'}, {n:2, label:'Transfer'}, {n:3, label:'Onay'}].map((step, i) => (
+                    <div key={step.n} className="text-center" style={{ flex: i < 2 ? 1 : 'none', minWidth: i === 2 ? 50 : undefined }}>
+                      <span className="text-[9px] font-medium" style={{ color: paymentStep >= step.n ? '#A08530' : '#ccc' }}>{step.label}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
@@ -1948,7 +1996,7 @@ export default function WatchPage() {
                     </div>
                     <p className="text-[15px] font-bold text-gray-900">Ödemeniz bekleniyor</p>
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed text-center">Şimdi banka uygulamanızdan çiftin hesabına para gönderimini yapın, ardından bu sayfadan onaylayın</p>
+                  <p className="text-xs text-gray-600 leading-relaxed text-center">Şimdi banka uygulamanızdan çiftin hesabına para gönderimini yapın ve ardından bu sayfaya dönerek onaylayın</p>
                 </div>
                 <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
