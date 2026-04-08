@@ -235,7 +235,7 @@ function ImageTemplate(data: any, colors: TemplateColors) {
 
       <div style={{
         position: 'absolute', top: colors.top, left: 100, right: 100, bottom: colors.bottom,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 60,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 80,
       }}>
         {/* Aile bilgileri */}
         <div style={{ display: 'flex', gap: 60, marginBottom: 14, textAlign: 'center' }}>
@@ -285,8 +285,8 @@ function ImageTemplate(data: any, colors: TemplateColors) {
 
         {/* Canlı yayın */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 6 }}>
-          <p style={{ fontSize: 20, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
-          <div style={{ display: 'flex', flexDirection: 'row', marginTop: 1, gap: 5 }}>
+          <p style={{ fontSize: 21, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
+          <div style={{ display: 'flex', flexDirection: 'row', marginTop: -2, gap: 5 }}>
             <p style={{ fontSize: 19, color: '#C06068', fontWeight: 700 }}>nikahim.com</p>
             <p style={{ fontSize: 19, color: colors.body }}>{`'dan canlı izleyebilirsiniz`}</p>
           </div>
