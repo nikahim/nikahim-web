@@ -241,50 +241,50 @@ function ImageTemplate(data: any, colors: TemplateColors) {
       </div>
 
       {/* Aile isimleri */}
-      <div style={{ ...row(t + 28), gap: 120 }}>
+      <div style={{ ...row(t + 30), gap: 120 }}>
         <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
         <p style={{ fontSize: 19, color: colors.name }}>{data.groomFatherName || ''} & {data.groomMotherName || ''}</p>
       </div>
 
       {/* Gelin ismi */}
-      <div style={row(t + 80)}>
+      <div style={row(t + 100)}>
         <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.brideFirstName}</p>
       </div>
 
       {/* & işareti ve çizgiler */}
-      <div style={{ ...row(t + 145), gap: 16 }}>
+      <div style={{ ...row(t + 170), gap: 16 }}>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
         <p style={{ fontSize: 28, color: colors.accent }}>&</p>
         <div style={{ width: 50, height: 1, background: colors.accent, display: 'flex' }} />
       </div>
 
       {/* Damat ismi */}
-      <div style={row(t + 180)}>
+      <div style={row(t + 210)}>
         <p style={{ fontSize: 60, color: colors.name, fontWeight: 700, letterSpacing: 3 }}>{data.groomFirstName}</p>
       </div>
 
       {/* Davet mesajı */}
-      <div style={row(t + 255)}>
+      <div style={row(t + 300)}>
         <p style={{ fontSize: 19, color: colors.body }}>
           {data.eventType === 'dugun' ? 'Düğün törenine davetlisiniz' : 'Nikah törenine davetlisiniz'}
         </p>
       </div>
 
       {/* Tarih ve saat */}
-      <div style={{ ...row(t + 290), gap: 30 }}>
+      <div style={{ ...row(t + 350), gap: 30 }}>
         <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>{formatDate(data.eventDate)}</p>
         <div style={{ width: 1, height: 30, background: colors.accent, opacity: 0.5, display: 'flex' }} />
         <p style={{ fontSize: 28, color: colors.name, fontWeight: 600 }}>Saat {formatTime(data.eventTime)}</p>
       </div>
 
       {/* Mekan */}
-      <div style={row(t + 345)}>
+      <div style={row(t + 420)}>
         <p style={{ fontSize: 22, color: colors.name, fontWeight: 600 }}>{data.venueName || ''}</p>
       </div>
-      {data.venueAddress && <div style={row(t + 375)}><p style={{ fontSize: 16, color: colors.body }}>{data.venueAddress}</p></div>}
-      {data.venueCity && <div style={row(t + 397)}><p style={{ fontSize: 16, color: colors.body }}>{data.venueCity}</p></div>}
+      {data.venueAddress && <div style={row(t + 452)}><p style={{ fontSize: 16, color: colors.body }}>{data.venueAddress}</p></div>}
+      {data.venueCity && <div style={row(t + 476)}><p style={{ fontSize: 16, color: colors.body }}>{data.venueCity}</p></div>}
 
-      {/* Canlı yayın — alttan konumla */}
+      {/* Canlı yayın — yüzüklerin üstünde */}
       <div style={brow(b + 40)}>
         <p style={{ fontSize: 21, color: '#C06068', letterSpacing: 4, fontWeight: 800 }}>CANLI YAYIN</p>
       </div>
@@ -301,7 +301,7 @@ const FLORAL_ROSE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-1.png',
   title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
   body: '#8B7355', label: '#B08968', link: '#C8686E',
-  top: 330, bottom: 360,
+  top: 330, bottom: 430,
 };
 
 // Davetiye 2: Pembe + mavi çiçekler — koyu mor + altın
@@ -309,7 +309,7 @@ const FLORAL_BLUE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-2.png',
   title: '#3D3255', name: '#3D3255', accent: '#C9A96E',
   body: '#6B5B7B', label: '#8B7BA0', link: '#7B68AE',
-  top: 310, bottom: 350,
+  top: 310, bottom: 420,
 };
 
 // Davetiye 3: Köşe güller, soft bej — koyu kahve + rose altın
@@ -317,7 +317,7 @@ const FLORAL_CORNER_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-3.png',
   title: '#5C4033', name: '#5C4033', accent: '#C4A882',
   body: '#8B7B6B', label: '#A89080', link: '#C8686E',
-  top: 270, bottom: 330,
+  top: 270, bottom: 400,
 };
 
 // Davetiye 4: Beyaz güller, altın yapraklar — altın + kahve
@@ -325,7 +325,7 @@ const FLORAL_GOLD_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-4.png',
   title: '#5A4A35', name: '#5A4A35', accent: '#C4A56A',
   body: '#8B7B65', label: '#A89570', link: '#B8956A',
-  top: 270, bottom: 330,
+  top: 270, bottom: 400,
 };
 
 const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
