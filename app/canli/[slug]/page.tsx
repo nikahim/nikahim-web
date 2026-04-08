@@ -244,10 +244,20 @@ export default function WatchPage() {
   const isRecordingOpen = fsTebrikPanel === 'video' || fsTebrikPanel === 'voice' || showVideoRecorder || showVoiceRecorder;
 
   // Altın listesi döngüsü
+  const [goldTransition, setGoldTransition] = useState(true);
   useEffect(() => {
     if (goldHistory.length <= 1) return;
     const interval = setInterval(() => {
-      setGoldDisplayIndex(prev => (prev + 1) % goldHistory.length);
+      setGoldDisplayIndex(prev => {
+        const next = prev + 1;
+        if (next >= goldHistory.length) {
+          // Sona gelince transition kapat, sıfırla
+          setGoldTransition(false);
+          setTimeout(() => setGoldTransition(true), 50);
+          return 0;
+        }
+        return next;
+      });
     }, 4000);
     return () => clearInterval(interval);
   }, [goldHistory.length]);
@@ -777,6 +787,9 @@ export default function WatchPage() {
       setPaymentMethod(null);
       setCustomAmount("");
       setPaymentStep(1);
+      setFsGoldMode(false);
+      // Fullscreen'deyse yataya dön
+      if (isFullscreen) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} }
     }, 4000);
   };
 
@@ -788,6 +801,7 @@ export default function WatchPage() {
     setPaymentStep(1);
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
+    setFsGoldMode(false);
     // Fullscreen'deyse yataya geri dön
     if (isFullscreen) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} }
   };
@@ -1321,7 +1335,7 @@ export default function WatchPage() {
               {/* Altın listesi - sağ üst (her zaman, fullscreen olmasa da) */}
               {goldHistory.length > 0 && (
                 <div className="absolute top-3 right-5 z-30 overflow-hidden" style={{ height: 30 }}>
-                  <div className="transition-transform duration-700 ease-in-out" style={{ transform: `translateY(-${goldDisplayIndex * 30}px)` }}>
+                  <div style={{ transform: `translateY(-${goldDisplayIndex * 30}px)`, transition: goldTransition ? 'transform 0.7s ease-in-out' : 'none' }}>
                     {goldHistory.map((g, i) => (
                       <div key={i} className="flex items-center gap-1.5 h-[30px] px-2.5 rounded-lg" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(6px)' }}>
                         <Image src="/altintak.png" alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain flex-shrink-0" />
