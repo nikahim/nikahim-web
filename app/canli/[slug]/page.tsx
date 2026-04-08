@@ -1320,10 +1320,10 @@ export default function WatchPage() {
 
               {/* Altın listesi - sağ üst (her zaman, fullscreen olmasa da) */}
               {goldHistory.length > 0 && (
-                <div className="absolute top-3 right-3 z-30 overflow-hidden" style={{ height: 32, width: 220 }}>
-                  <div className="transition-transform duration-700 ease-in-out" style={{ transform: `translateY(-${goldDisplayIndex * 32}px)` }}>
+                <div className="absolute top-3 right-3 z-30 overflow-hidden" style={{ height: 30 }}>
+                  <div className="transition-transform duration-700 ease-in-out" style={{ transform: `translateY(-${goldDisplayIndex * 30}px)` }}>
                     {goldHistory.map((g, i) => (
-                      <div key={i} className="flex items-center gap-2 h-[32px] px-3 rounded-lg" style={{ background: 'rgba(0,0,0,0.3)', backdropFilter: 'blur(8px)' }}>
+                      <div key={i} className="flex items-center gap-1.5 h-[30px] px-2.5 rounded-lg" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(6px)' }}>
                         <Image src="/altintak.png" alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain flex-shrink-0" />
                         <span className="text-white/90 text-[11px] font-semibold truncate">{g.type}</span>
                         <span className="text-white/50 text-[11px] truncate">{g.name}</span>
