@@ -235,10 +235,10 @@ function ImageTemplate(data: any, colors: TemplateColors) {
 
       <div style={{
         position: 'absolute', top: colors.top, left: 100, right: 100, bottom: colors.bottom,
-        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 30,
+        display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', paddingTop: 10,
       }}>
         {/* Aile bilgileri */}
-        <div style={{ display: 'flex', gap: 60, marginBottom: 14, marginTop: 10, textAlign: 'center' }}>
+        <div style={{ display: 'flex', gap: 60, marginBottom: 14, textAlign: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <p style={{ fontSize: 16, color: colors.label, letterSpacing: 3, marginBottom: 6 }}>{(data.brideLastName || 'Gelin').toUpperCase()} Ailesi</p>
             <p style={{ fontSize: 19, color: colors.name }}>{data.brideFatherName || ''} & {data.brideMotherName || ''}</p>
@@ -301,7 +301,7 @@ const FLORAL_ROSE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-1.png',
   title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
   body: '#8B7355', label: '#B08968', link: '#C8686E',
-  top: 280, bottom: 260,
+  top: 330, bottom: 250,
 };
 
 // Davetiye 2: Pembe + mavi çiçekler — koyu mor + altın
@@ -309,7 +309,7 @@ const FLORAL_BLUE_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-2.png',
   title: '#3D3255', name: '#3D3255', accent: '#C9A96E',
   body: '#6B5B7B', label: '#8B7BA0', link: '#7B68AE',
-  top: 280, bottom: 240,
+  top: 330, bottom: 230,
 };
 
 // Davetiye 3: Köşe güller, soft bej — koyu kahve + rose altın
@@ -317,7 +317,7 @@ const FLORAL_CORNER_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-3.png',
   title: '#5C4033', name: '#5C4033', accent: '#C4A882',
   body: '#8B7B6B', label: '#A89080', link: '#C8686E',
-  top: 240, bottom: 200,
+  top: 280, bottom: 190,
 };
 
 // Davetiye 4: Beyaz güller, altın yapraklar — altın + kahve
@@ -325,7 +325,7 @@ const FLORAL_GOLD_COLORS: TemplateColors = {
   bgUrl: 'https://nikahim.com/davetiye-bg-4.png',
   title: '#5A4A35', name: '#5A4A35', accent: '#C4A56A',
   body: '#8B7B65', label: '#A89570', link: '#B8956A',
-  top: 240, bottom: 200,
+  top: 280, bottom: 190,
 };
 
 const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
