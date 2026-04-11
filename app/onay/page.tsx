@@ -7,36 +7,37 @@ import { supabase } from "@/lib/supabase";
 export default function OnayPage() {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const [errorMsg, setErrorMsg] = useState("");
+  const [userType, setUserType] = useState<"individual" | "business">("individual");
 
   useEffect(() => {
     const handleAuth = async () => {
       try {
-        // 1. URL parametrelerini kontrol et (Yeni PKCE yöntemi)
         const urlParams = new URLSearchParams(window.location.search);
         const token_hash = urlParams.get("token_hash");
         const type = urlParams.get("type");
 
         if (token_hash && type) {
-          console.log("Token hash bulundu, onaylanıyor...");
-          
-          const { error } = await supabase.auth.verifyOtp({
+          const { data: verifyData, error } = await supabase.auth.verifyOtp({
             token_hash,
             type: type as "signup" | "email",
           });
 
           if (error) {
-            console.error("Verify OTP hatası:", error);
             setErrorMsg(error.message);
             setStatus("error");
             return;
           }
 
-          console.log("Email başarıyla onaylandı!");
+          // user_type kontrol
+          if (verifyData?.user) {
+            const { data: userData } = await supabase.from('users').select('user_type').eq('id', verifyData.user.id).single();
+            if (userData?.user_type === 'business') setUserType('business');
+          }
+
           setStatus("success");
           return;
         }
 
-        // 2. Hash fragment kontrol et (Eski implicit yöntem)
         const hash = window.location.hash;
         if (hash && hash.includes("access_token")) {
           const hashParams = new URLSearchParams(hash.substring(1));
@@ -50,10 +51,16 @@ export default function OnayPage() {
             });
 
             if (error) {
-              console.error("Set session hatası:", error);
               setErrorMsg(error.message);
               setStatus("error");
               return;
+            }
+
+            // user_type kontrol
+            const { data: sessionData } = await supabase.auth.getUser();
+            if (sessionData?.user) {
+              const { data: userData } = await supabase.from('users').select('user_type').eq('id', sessionData.user.id).single();
+              if (userData?.user_type === 'business') setUserType('business');
             }
 
             setStatus("success");
@@ -61,19 +68,17 @@ export default function OnayPage() {
           }
         }
 
-        // 3. Zaten session varsa
         const { data } = await supabase.auth.getSession();
         if (data.session) {
+          const { data: userData } = await supabase.from('users').select('user_type').eq('id', data.session.user.id).single();
+          if (userData?.user_type === 'business') setUserType('business');
           setStatus("success");
           return;
         }
 
-        // 4. Hiçbiri yoksa hata
         setErrorMsg("Geçersiz veya süresi dolmuş onay linki.");
         setStatus("error");
-
-      } catch (err) {
-        console.error("Onay hatası:", err);
+      } catch {
         setErrorMsg("Beklenmeyen bir hata oluştu.");
         setStatus("error");
       }
@@ -84,10 +89,10 @@ export default function OnayPage() {
 
   const openApp = () => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    
+    const deepLink = userType === 'business' ? 'nikahim://shop-login' : 'nikahim://login';
+
     if (isMobile) {
-      window.location.href = "nikahim://login";
-      
+      window.location.href = deepLink;
       setTimeout(() => {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         if (isIOS) {
@@ -101,106 +106,88 @@ export default function OnayPage() {
     }
   };
 
-  // Loading
+  const isBusiness = userType === 'business';
+  const accentColor = isBusiness ? '#B8965A' : '#C8686E';
+  const bgGradient = isBusiness
+    ? 'linear-gradient(180deg, #FDFCF8 0%, #F8F3EB 50%, #F3EDE2 100%)'
+    : 'linear-gradient(180deg, #FDFCFA 0%, #F8F5F0 50%, #F5F2ED 100%)';
+
   if (status === "loading") {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
+      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: bgGradient }}>
         <div className="text-center">
-          <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Hesabınız doğrulanıyor...</p>
+          <div className="w-14 h-14 border-4 rounded-full animate-spin mx-auto mb-4" style={{ borderColor: accentColor, borderTopColor: 'transparent' }} />
+          <p className="text-gray-500 text-lg font-medium">Hesabınız doğrulanıyor...</p>
         </div>
       </main>
     );
   }
 
-  // Error
   if (status === "error") {
     return (
-      <main className="min-h-screen bg-gradient-to-b from-red-50 to-white flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-          <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <span className="text-5xl">❌</span>
+      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: bgGradient }}>
+        <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}>
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style={{ backgroundColor: 'rgba(239,68,68,0.08)' }}>
+            <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
-          
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Onay Başarısız</h1>
-          
-          <p className="text-gray-600 mb-4">
-            {errorMsg || "Onay linki geçersiz veya süresi dolmuş."}
-          </p>
-          
-          <p className="text-gray-500 text-sm mb-6">
-            Lütfen uygulamadan tekrar kayıt olun veya yeni bir onay maili isteyin.
-          </p>
-
-          <a
-            href="/"
-            className="inline-block bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-xl font-semibold transition-colors"
-          >
-            Ana Sayfaya Dön
-          </a>
+          <h1 className="text-xl font-bold text-gray-900 mb-3">Onay Başarısız</h1>
+          <p className="text-gray-500 text-sm mb-6 leading-relaxed">{errorMsg || "Onay linki geçersiz veya süresi dolmuş."}</p>
+          <a href="/" className="inline-block text-white py-3.5 px-8 rounded-full font-semibold text-sm transition-all hover:scale-[1.02]" style={{ background: accentColor }}>Ana Sayfaya Dön</a>
         </div>
       </main>
     );
   }
 
-  // Success
   return (
-    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center">
-        <Image 
-          src="/logo.png" 
-          alt="Nikahim.com" 
-          width={80} 
-          height={80} 
-          className="mx-auto rounded-full mb-6" 
-        />
-        
-        <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <span className="text-5xl">✅</span>
+    <main className="min-h-screen flex items-center justify-center p-4" style={{ background: bgGradient }}>
+      <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}>
+
+        {isBusiness ? (
+          <Image src="/nikah-dunyasi-icon.png" alt="Nikah Dünyası" width={80} height={80} className="mx-auto mb-4 object-contain" style={{ width: 80, height: 80 }} />
+        ) : (
+          <Image src="/logo.png" alt="Nikahim.com" width={70} height={70} className="mx-auto rounded-full mb-4" />
+        )}
+
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style={{ backgroundColor: 'rgba(34,197,94,0.08)' }}>
+          <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" /></svg>
         </div>
-        
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Hesabınız Aktif!</h1>
-        
-        <p className="text-gray-600 mb-8">
-          E-posta adresiniz başarıyla doğrulandı.<br />
-          Artık uygulamaya giriş yapabilirsiniz.
+
+        <h1 className="text-xl font-bold text-gray-900 mb-2">
+          {isBusiness ? 'Hesabınız Aktif!' : 'Hesabınız Aktif!'}
+        </h1>
+
+        <p className="text-gray-500 text-sm mb-2 leading-relaxed">
+          E-posta adresiniz başarıyla doğrulandı.
         </p>
+
+        {isBusiness && (
+          <p className="text-sm mb-6 leading-relaxed" style={{ color: '#B8965A' }}>
+            Mağazanız admin onayı bekleniyor. Onaylandığında bildirim alacaksınız.
+          </p>
+        )}
+
+        {!isBusiness && (
+          <p className="text-gray-500 text-sm mb-6 leading-relaxed">
+            Artık uygulamaya giriş yapabilirsiniz.
+          </p>
+        )}
 
         <button
           onClick={openApp}
-          className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-2xl font-semibold text-lg mb-6 flex items-center justify-center gap-2 transition-colors"
+          className="w-full text-white py-4 rounded-full font-semibold text-[15px] mb-5 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]"
+          style={{ background: isBusiness ? 'linear-gradient(135deg, #E8D3A3, #D4AF7A, #B8965A)' : 'linear-gradient(135deg, #D97070, #C8686E, #C06068)', boxShadow: `0 8px 24px ${isBusiness ? 'rgba(184,150,90,0.3)' : 'rgba(200,104,110,0.3)'}` }}
         >
-          📱 Uygulamaya Geri Dön
+          Uygulamaya Geri Dön
         </button>
 
-        <div className="border-t pt-6">
-          <p className="text-gray-500 text-sm mb-4">Uygulama yüklü değil mi?</p>
-          <div className="flex gap-4 justify-center">
-            <a 
-              href="https://apps.apple.com/app/nikahim" 
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image 
-                src="/appstore.png" 
-                alt="App Store" 
-                width={130} 
-                height={44} 
-                className="h-11 w-auto hover:opacity-80 transition-opacity" 
-              />
+        <div className="border-t pt-5" style={{ borderColor: 'rgba(0,0,0,0.06)' }}>
+          <p className="text-gray-400 text-xs mb-3">Uygulama yüklü değil mi?</p>
+          <div className="flex gap-3 justify-center">
+            <a href="https://apps.apple.com/app/nikahim" target="_blank" rel="noopener noreferrer">
+              <Image src="/appstore.png" alt="App Store" width={120} height={40} className="h-10 w-auto hover:opacity-80 transition-opacity" />
             </a>
-            <a 
-              href="https://play.google.com/store/apps/details?id=com.nikahim" 
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image 
-                src="/playstore.png" 
-                alt="Google Play" 
-                width={130} 
-                height={44} 
-                className="h-11 w-auto hover:opacity-80 transition-opacity" 
-              />
+            <a href="https://play.google.com/store/apps/details?id=com.nikahim" target="_blank" rel="noopener noreferrer">
+              <Image src="/playstore.png" alt="Google Play" width={120} height={40} className="h-10 w-auto hover:opacity-80 transition-opacity" />
             </a>
           </div>
         </div>
