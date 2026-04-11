@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 
 export default function AdminEventsPage() {
   const [events, setEvents] = useState<any[]>([]);
@@ -65,9 +66,11 @@ export default function AdminEventsPage() {
             </thead>
             <tbody>
               {events.map(e => (
-                <tr key={e.id} className="border-b border-gray-50 hover:bg-gray-50">
+                <tr key={e.id} className="border-b border-gray-50 hover:bg-gray-50 cursor-pointer">
                   <td className="py-3 px-5 text-sm font-semibold text-gray-800">
-                    {e.bride_first_name} & {e.groom_first_name}
+                    <Link href={`/admin/events/${e.id}`} className="hover:text-rose-500">
+                      {e.bride_first_name} & {e.groom_first_name}
+                    </Link>
                   </td>
                   <td className="py-3 px-5 text-sm text-gray-600 capitalize">{e.event_type || '—'}</td>
                   <td className="py-3 px-5 text-sm text-gray-600">{formatDate(e.event_date)}</td>

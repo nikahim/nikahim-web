@@ -15,6 +15,7 @@ interface Shop {
   whatsapp: string | null;
   instagram: string | null;
   cover_image: string | null;
+  images: string[] | null;
   is_approved: boolean;
   is_active: boolean;
   owner_first_name: string | null;
@@ -249,6 +250,32 @@ export default function AdminShopsPage() {
                   </div>
                 )}
               </div>
+
+              {/* Galeri */}
+              {selectedShop.images && selectedShop.images.length > 0 && (
+                <div className="mb-6">
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase mb-2">Galeri ({selectedShop.images.length})</h4>
+                  <div className="grid grid-cols-4 gap-2">
+                    {selectedShop.images.map((img, i) => (
+                      <div key={i} className="relative group">
+                        <img src={img} alt="" className="w-full h-24 object-cover rounded-lg" />
+                        <button
+                          onClick={async () => {
+                            if (!confirm('Bu fotoğrafı silmek istediğinize emin misiniz?')) return;
+                            const newImages = selectedShop.images!.filter((_, idx) => idx !== i);
+                            await supabase.from('shops').update({ images: newImages }).eq('id', selectedShop.id);
+                            setSelectedShop({ ...selectedShop, images: newImages });
+                            fetchShops();
+                          }}
+                          className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Aksiyonlar */}
               <div className="flex flex-wrap gap-3 pt-6 border-t border-gray-100">
