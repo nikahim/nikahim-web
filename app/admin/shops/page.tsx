@@ -59,26 +59,42 @@ export default function AdminShopsPage() {
 
   const doApprove = async (shop: Shop) => {
     setProcessing(true);
-    let { error } = await supabase.from('shops').update({
+
+    // 1. Deneme — approved_at kolonu ile
+    let { data, error } = await supabase.from('shops').update({
       is_approved: true,
       is_active: true,
       approved_at: new Date().toISOString(),
-    }).eq('id', shop.id);
+    }).eq('id', shop.id).select();
 
+    // 2. Deneme — approved_at kolonu yoksa
     if (error && error.message?.includes('approved_at')) {
       const retry = await supabase.from('shops').update({
         is_approved: true,
         is_active: true,
-      }).eq('id', shop.id);
+      }).eq('id', shop.id).select();
+      data = retry.data;
       error = retry.error;
     }
 
     setProcessing(false);
+
     if (error) {
       showToast(`Onaylama başarısız: ${error.message}`, 'error');
       console.error('Shop approve error:', error);
       return;
     }
+
+    // RLS sessizce engelliyorsa data = [] döner
+    if (!data || data.length === 0) {
+      showToast(
+        'Onay yazıldı ama veritabanı 0 satır güncelledi. RLS policy eksik — Supabase\'de admin update izni ver.',
+        'error'
+      );
+      console.error('Shop approve: 0 rows updated — RLS blocking');
+      return;
+    }
+
     showToast(`${shop.name} onaylandı`);
     setSelectedShop(null);
     fetchShops();
