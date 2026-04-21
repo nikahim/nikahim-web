@@ -36,6 +36,13 @@ export default function AdminShopsPage() {
   const [search, setSearch] = useState('');
   const [selectedShop, setSelectedShop] = useState<Shop | null>(null);
   const [processing, setProcessing] = useState(false);
+  const [confirmDialog, setConfirmDialog] = useState<{ title: string; message: string; onConfirm: () => void; danger?: boolean } | null>(null);
+  const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (msg: string, type: 'success' | 'error' = 'success') => {
+    setToast({ msg, type });
+    setTimeout(() => setToast(null), 3500);
+  };
 
   useEffect(() => { fetchShops(); }, [filter]);
 
@@ -50,39 +57,82 @@ export default function AdminShopsPage() {
     setLoading(false);
   };
 
-  const approveShop = async (shop: Shop) => {
+  const doApprove = async (shop: Shop) => {
     setProcessing(true);
-    await supabase.from('shops').update({
+    let { error } = await supabase.from('shops').update({
       is_approved: true,
+      is_active: true,
       approved_at: new Date().toISOString(),
     }).eq('id', shop.id);
+
+    if (error && error.message?.includes('approved_at')) {
+      const retry = await supabase.from('shops').update({
+        is_approved: true,
+        is_active: true,
+      }).eq('id', shop.id);
+      error = retry.error;
+    }
+
     setProcessing(false);
+    if (error) {
+      showToast(`Onaylama başarısız: ${error.message}`, 'error');
+      console.error('Shop approve error:', error);
+      return;
+    }
+    showToast(`${shop.name} onaylandı`);
     setSelectedShop(null);
     fetchShops();
   };
 
-  const rejectShop = async (shop: Shop) => {
-    if (!confirm(`"${shop.name}" mağazasını reddetmek istediğinize emin misiniz?`)) return;
-    setProcessing(true);
-    await supabase.from('shops').update({ is_active: false, is_approved: false }).eq('id', shop.id);
-    setProcessing(false);
-    setSelectedShop(null);
-    fetchShops();
+  const approveShop = (shop: Shop) => {
+    // setSelectedShop'u önce kapat ki büyük modal kalksın, sonra confirmDialog açılsın
+    setConfirmDialog({
+      title: 'Mağazayı Onayla',
+      message: `"${shop.name}" mağazasını onaylamak istediğinize emin misiniz? Onaylanan mağaza Nikah Dünyası'nda görünür olacak.`,
+      onConfirm: () => doApprove(shop),
+    });
   };
 
-  const deleteShop = async (shop: Shop) => {
-    if (!confirm(`"${shop.name}" mağazasını TAMAMEN silmek istediğinize emin misiniz?`)) return;
-    setProcessing(true);
-    await supabase.from('shops').delete().eq('id', shop.id);
-    setProcessing(false);
-    setSelectedShop(null);
-    fetchShops();
+  const rejectShop = (shop: Shop) => {
+    setConfirmDialog({
+      title: 'Mağazayı Reddet',
+      message: `"${shop.name}" mağazasını reddetmek istediğinize emin misiniz?`,
+      danger: true,
+      onConfirm: async () => {
+        setProcessing(true);
+        const { error } = await supabase.from('shops').update({ is_active: false, is_approved: false }).eq('id', shop.id);
+        setProcessing(false);
+        if (error) { showToast(`Reddetme başarısız: ${error.message}`, 'error'); return; }
+        showToast(`${shop.name} reddedildi`);
+        setSelectedShop(null);
+        fetchShops();
+      },
+    });
+  };
+
+  const deleteShop = (shop: Shop) => {
+    setConfirmDialog({
+      title: 'Mağazayı Sil',
+      message: `"${shop.name}" mağazasını TAMAMEN silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`,
+      danger: true,
+      onConfirm: async () => {
+        setProcessing(true);
+        const { error } = await supabase.from('shops').delete().eq('id', shop.id);
+        setProcessing(false);
+        if (error) { showToast(`Silme başarısız: ${error.message}`, 'error'); return; }
+        showToast(`${shop.name} silindi`);
+        setSelectedShop(null);
+        fetchShops();
+      },
+    });
   };
 
   const toggleActive = async (shop: Shop) => {
     setProcessing(true);
-    await supabase.from('shops').update({ is_active: !shop.is_active }).eq('id', shop.id);
+    const { error } = await supabase.from('shops').update({ is_active: !shop.is_active }).eq('id', shop.id);
     setProcessing(false);
+    if (error) { showToast(`İşlem başarısız: ${error.message}`, 'error'); return; }
+    showToast(`${shop.name} ${!shop.is_active ? 'aktifleştirildi' : 'askıya alındı'}`);
     fetchShops();
   };
 
@@ -189,6 +239,63 @@ export default function AdminShopsPage() {
         </div>
       )}
 
+      {/* Confirm Dialog — UI'yi bloke etmez */}
+      {confirmDialog && (
+        <div
+          className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-[60]"
+          onClick={() => !processing && setConfirmDialog(null)}
+        >
+          <div
+            className="bg-white rounded-3xl max-w-md w-full p-7 shadow-2xl"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <div
+                className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${confirmDialog.danger ? 'bg-red-50' : 'bg-amber-50'}`}
+              >
+                <svg className={`w-6 h-6 ${confirmDialog.danger ? 'text-red-500' : 'text-amber-500'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg font-bold text-gray-800 mb-1">{confirmDialog.title}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed">{confirmDialog.message}</p>
+              </div>
+            </div>
+            <div className="flex gap-3 mt-5">
+              <button
+                onClick={() => setConfirmDialog(null)}
+                disabled={processing}
+                className="flex-1 py-2.5 rounded-full font-semibold text-sm border-2 border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50"
+              >
+                İptal
+              </button>
+              <button
+                onClick={() => {
+                  const fn = confirmDialog.onConfirm;
+                  setConfirmDialog(null);
+                  // bir sonraki tick'te çalıştır → modal kapanması render edilsin
+                  setTimeout(fn, 0);
+                }}
+                disabled={processing}
+                className={`flex-1 py-2.5 rounded-full font-semibold text-sm text-white disabled:opacity-50 ${confirmDialog.danger ? 'bg-red-500 hover:bg-red-600' : 'bg-rose-500 hover:bg-rose-600'}`}
+              >
+                Onayla
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast */}
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-[70] animate-in fade-in slide-in-from-bottom-4">
+          <div className={`px-5 py-3 rounded-2xl shadow-2xl text-white text-sm font-semibold ${toast.type === 'error' ? 'bg-red-500' : 'bg-green-500'}`}>
+            {toast.msg}
+          </div>
+        </div>
+      )}
+
       {/* Detay Modal */}
       {selectedShop && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => setSelectedShop(null)}>
@@ -260,12 +367,20 @@ export default function AdminShopsPage() {
                       <div key={i} className="relative group">
                         <img src={img} alt="" className="w-full h-24 object-cover rounded-lg" />
                         <button
-                          onClick={async () => {
-                            if (!confirm('Bu fotoğrafı silmek istediğinize emin misiniz?')) return;
-                            const newImages = selectedShop.images!.filter((_, idx) => idx !== i);
-                            await supabase.from('shops').update({ images: newImages }).eq('id', selectedShop.id);
-                            setSelectedShop({ ...selectedShop, images: newImages });
-                            fetchShops();
+                          onClick={() => {
+                            setConfirmDialog({
+                              title: 'Fotoğrafı Sil',
+                              message: 'Bu fotoğrafı silmek istediğinize emin misiniz?',
+                              danger: true,
+                              onConfirm: async () => {
+                                const newImages = selectedShop.images!.filter((_, idx) => idx !== i);
+                                const { error } = await supabase.from('shops').update({ images: newImages }).eq('id', selectedShop.id);
+                                if (error) { showToast(`Silme başarısız: ${error.message}`, 'error'); return; }
+                                setSelectedShop({ ...selectedShop, images: newImages });
+                                showToast('Fotoğraf silindi');
+                                fetchShops();
+                              },
+                            });
                           }}
                           className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                         >
