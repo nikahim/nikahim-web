@@ -328,6 +328,30 @@ const FLORAL_GOLD_COLORS: TemplateColors = {
   top: 430, bottom: 400,
 };
 
+// Davetiye 5: Karma pembe+mavi çiçekler, ince altın çerçeve, alyans detayı
+const FLORAL_CLASSIC_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-5.png',
+  title: '#5C4033', name: '#5C4033', accent: '#C9A96E',
+  body: '#8B7355', label: '#B08968', link: '#C8686E',
+  top: 450, bottom: 400,
+};
+
+// Davetiye 6: Krem/ivory güller, altın yapraklar, alyans — zarif altın
+const FLORAL_IVORY_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-6.png',
+  title: '#5A4A2E', name: '#5A4A2E', accent: '#B8965A',
+  body: '#8B7549', label: '#A89060', link: '#B8965A',
+  top: 430, bottom: 390,
+};
+
+// Davetiye 7: Minimal peach, altın ince çerçeve, soft yaprak motifleri
+const FLORAL_MINIMAL_COLORS: TemplateColors = {
+  bgUrl: 'https://nikahim.com/davetiye-bg-7.png',
+  title: '#6B4A3D', name: '#6B4A3D', accent: '#C49770',
+  body: '#8B7060', label: '#A88676', link: '#C8686E',
+  top: 400, bottom: 360,
+};
+
 const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
   classic_rose: ClassicRoseTemplate,
   modern_gold: ModernGoldTemplate,
@@ -337,6 +361,9 @@ const TEMPLATE_RENDERERS: Record<string, (data: any) => JSX.Element> = {
   floral_blue: (data) => ImageTemplate(data, FLORAL_BLUE_COLORS),
   floral_corner: (data) => ImageTemplate(data, FLORAL_CORNER_COLORS),
   floral_gold: (data) => ImageTemplate(data, FLORAL_GOLD_COLORS),
+  floral_classic: (data) => ImageTemplate(data, FLORAL_CLASSIC_COLORS),
+  floral_ivory: (data) => ImageTemplate(data, FLORAL_IVORY_COLORS),
+  floral_minimal: (data) => ImageTemplate(data, FLORAL_MINIMAL_COLORS),
 };
 
 const corsHeaders = {
