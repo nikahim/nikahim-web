@@ -184,12 +184,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
             <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
           </div>
         )}
-        <div className="flex-1">
-          <div className="font-bold text-gray-900 text-base">Elif</div>
-          <div className="flex items-center gap-1.5 text-xs" style={{ color: "#8B7355" }}>
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-            Destek Asistanı · Çevrimiçi
-          </div>
+        <div className="flex-1 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-green-500" />
+          <span className="font-semibold text-sm text-gray-900">Nikahım Destek Asistanı · Çevrimiçi</span>
         </div>
         {!embedded && (
           <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center" style={{ color: "#8B7355" }}>
@@ -201,9 +198,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {/* Pre-chat start screen */}
       {!hasStarted ? (
         <div className="flex-1 flex flex-col items-center justify-center p-6" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-5" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-2" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
             <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
           </div>
+          <div className="text-base font-bold mb-4" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
           <div className="text-center mb-5">
             <div className="text-lg font-bold text-gray-900 mb-1">Hoş geldiniz!</div>
             <div className="text-sm text-gray-600 leading-relaxed">
@@ -330,19 +328,19 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 flex items-center gap-3 pl-2 pr-5 py-2 rounded-full shadow-2xl text-white z-[9999] hover:scale-105 transition-transform group"
-          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 32px rgba(200,104,110,0.5)" }}
+          className="fixed bottom-6 right-6 flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full shadow-2xl text-white z-[9999] hover:scale-105 transition-transform"
+          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 10px 26px rgba(200,104,110,0.5)" }}
           aria-label="Canlı destek"
         >
           <span className="relative">
-            <span className="block w-12 h-12 rounded-full overflow-hidden border-2 border-white/50 bg-white">
+            <span className="block w-10 h-10 rounded-full overflow-hidden border-2 border-white/60 bg-white">
               <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
             </span>
-            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
           </span>
-          <span className="flex flex-col items-start leading-tight">
-            <span className="text-[10px] font-medium uppercase tracking-wide text-white/85">Canlı Destek</span>
-            <span className="text-sm font-bold">Sorularınız mı var?</span>
+          <span className="flex flex-col items-start leading-[1.05]">
+            <span className="text-sm font-bold">Canlı</span>
+            <span className="text-sm font-bold">Destek</span>
           </span>
         </button>
       )}
