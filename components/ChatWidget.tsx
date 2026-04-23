@@ -11,7 +11,7 @@ interface ChatMessage {
 const WELCOME_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
-    "Merhaba! Ben Nikahım destek ekibinden Elif. Size nasıl yardımcı olabilirim? Soru veya sorununuzu yazın, hemen döneyim.",
+    "Merhaba! Ben Nikahım destek asistanınız Elif. Sorularınızı ve ihtiyaçlarınızı yazın, yardımcı olayım. Çözemediğim bir durum olursa konuyu hemen Nikahım destek ekibine iletirim ve size bir referans kodu veririm.",
 };
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://haeifluvvazdealsofle.supabase.co";
@@ -180,7 +180,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           <div className="font-bold text-gray-900">Elif</div>
           <div className="flex items-center gap-1.5 text-xs text-green-600">
             <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-            Destek Uzmanı · Çevrimiçi
+            Destek Asistanı · Çevrimiçi
           </div>
         </div>
         {!embedded && (
