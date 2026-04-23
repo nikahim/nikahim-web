@@ -11,7 +11,7 @@ interface ChatMessage {
 const WELCOME_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
-    "Merhaba! Ben Nikahım destek asistanınız Elif. Sorularınızı ve ihtiyaçlarınızı yazın, yardımcı olayım. Çözemediğim bir durum olursa konuyu hemen Nikahım destek ekibine iletirim ve size bir referans kodu veririm.",
+    "Merhaba! Ben Nikahım destek asistanınız Elif. Size nasıl yardımcı olabilirim?",
 };
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://haeifluvvazdealsofle.supabase.co";
