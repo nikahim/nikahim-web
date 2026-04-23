@@ -259,7 +259,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       </div>
 
       {/* Input */}
-      <div className="flex items-end gap-2 p-3 bg-white" style={{ borderTop: "1px solid rgba(200,104,110,0.12)" }}>
+      <div className="flex items-center gap-2 p-3 bg-white" style={{ borderTop: "1px solid rgba(200,104,110,0.12)" }}>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
