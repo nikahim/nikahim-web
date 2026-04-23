@@ -171,9 +171,8 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {/* Header */}
       <div className="flex items-center gap-3 p-4 bg-white" style={{ borderBottom: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
         <div className="relative">
-          {/* TODO: Elif foto eklendiğinde <Image .../> ile değiştir */}
-          <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-lg overflow-hidden" style={{ background: "#FDF0F1", color: "#C8686E", fontFamily: "serif", border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
-            E
+          <div className="w-11 h-11 rounded-full overflow-hidden" style={{ border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
+            <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
           </div>
           <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
         </div>
@@ -217,8 +216,8 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         {messages.map((m, i) => (
           <div key={i} className={`flex items-end gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             {m.role === "assistant" && (
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 overflow-hidden" style={{ background: "#FDF0F1", color: "#C8686E", border: "1.5px solid rgba(200,104,110,0.3)", fontFamily: "serif" }}>
-                E
+              <div className="w-8 h-8 rounded-full flex-shrink-0 overflow-hidden" style={{ border: "1.5px solid rgba(200,104,110,0.3)" }}>
+                <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
               </div>
             )}
             <div
@@ -246,8 +245,8 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ))}
         {typing && (
           <div className="flex items-end gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold overflow-hidden" style={{ background: "#FDF0F1", color: "#C8686E", border: "1.5px solid rgba(200,104,110,0.3)", fontFamily: "serif" }}>
-              E
+            <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: "1.5px solid rgba(200,104,110,0.3)" }}>
+              <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5" style={{ border: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 6px rgba(200,104,110,0.08)" }}>
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" />
