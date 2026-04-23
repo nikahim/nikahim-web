@@ -170,7 +170,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       className={
         embedded
           ? "w-full h-[560px] rounded-3xl overflow-hidden flex flex-col bg-white border border-gray-200 shadow-xl"
-          : "fixed bottom-24 right-6 w-[380px] max-w-[calc(100vw-24px)] h-[560px] max-h-[calc(100vh-120px)] rounded-3xl overflow-hidden flex flex-col bg-white border border-gray-200 shadow-2xl z-[9999]"
+          : "fixed bottom-24 inset-x-3 sm:inset-x-auto sm:right-6 sm:w-[380px] h-[560px] max-h-[calc(100vh-120px)] rounded-3xl overflow-hidden flex flex-col bg-white border border-gray-200 shadow-2xl z-[9999]"
       }
       style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.2)" }}
     >
