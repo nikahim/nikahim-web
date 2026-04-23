@@ -169,22 +169,23 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.2)" }}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 p-4" style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 6px 14px rgba(200,104,110,0.25)" }}>
+      <div className="flex items-center gap-3 p-4 bg-white" style={{ borderBottom: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
         <div className="relative">
-          <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-lg bg-white" style={{ color: "#C8686E", fontFamily: "serif", boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}>
+          {/* TODO: Elif foto eklendiğinde <Image .../> ile değiştir */}
+          <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-lg overflow-hidden" style={{ background: "#FDF0F1", color: "#C8686E", fontFamily: "serif", border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
             E
           </div>
-          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-400 border-2 border-white" />
+          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
         </div>
         <div className="flex-1">
-          <div className="font-bold text-white text-base">Elif</div>
-          <div className="flex items-center gap-1.5 text-xs text-white/85">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-300" />
+          <div className="font-bold text-gray-900 text-base">Elif</div>
+          <div className="flex items-center gap-1.5 text-xs" style={{ color: "#8B7355" }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
             Destek Asistanı · Çevrimiçi
           </div>
         </div>
         {!embedded && (
-          <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-white/15 flex items-center justify-center text-white/90">
+          <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center" style={{ color: "#8B7355" }}>
             ✕
           </button>
         )}
@@ -212,11 +213,11 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       )}
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "linear-gradient(180deg, #FFFBFC, #FFF2F4)" }}>
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
         {messages.map((m, i) => (
           <div key={i} className={`flex items-end gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             {m.role === "assistant" && (
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: "#C8686E" }}>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 overflow-hidden" style={{ background: "#FDF0F1", color: "#C8686E", border: "1.5px solid rgba(200,104,110,0.3)", fontFamily: "serif" }}>
                 E
               </div>
             )}
@@ -245,10 +246,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ))}
         {typing && (
           <div className="flex items-end gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ background: "#C8686E" }}>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold overflow-hidden" style={{ background: "#FDF0F1", color: "#C8686E", border: "1.5px solid rgba(200,104,110,0.3)", fontFamily: "serif" }}>
               E
             </div>
-            <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-md shadow-sm px-4 py-3 flex items-center gap-1.5">
+            <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5" style={{ border: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 6px rgba(200,104,110,0.08)" }}>
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" />
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.15s" }} />
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.3s" }} />
