@@ -322,18 +322,22 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
             {[
-              { id: 0, name: 'Temel', sub: 'Başlangıç için ideal', price: '₺299', badge: null, features: ['15 Dakika Canlı Yayın', '20 İzleyici', '720p HD*', 'Dijital Davetiye', 'Altın Takma', 'Video Tebrik', 'Canlı Sohbet'], disabled: ['Yayın Kaydı'] },
-              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺499', badge: 'En Popüler', features: ['30 Dakika Canlı Yayın', '50 İzleyici', '1080p Full HD*', 'Dijital Davetiye', 'Altın Takma', 'Video Tebrik', 'Canlı Sohbet', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺1.199', badge: null, features: ['60 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Dijital Davetiye', 'Altın Takma', 'Video Tebrik', 'Canlı Sohbet', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺499', oldPrice: '₺599', discountLabel: '%20 İndirim', badge: null, features: ['15 Dakika Canlı Yayın', '25 İzleyici', '720p HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik'], disabled: ['Yayın Kaydı'] },
+              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺599', oldPrice: '₺799', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['30 Dakika Canlı Yayın', '50 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺999', oldPrice: '₺1.299', discountLabel: '%30 İndirim', badge: null, features: ['60 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
                 <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`relative rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'scale-[1.04] border-2' : 'border border-gray-100/80 hover:-translate-y-2'}`} style={isSelected ? { borderColor: '#C8686E', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)', boxShadow: '0 20px 60px rgba(200,104,110,0.15), 0 8px 24px rgba(0,0,0,0.08)' } : { background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)' }}>
                   {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg" style={{ background: 'linear-gradient(135deg, #D97070, #C8686E)', boxShadow: '0 4px 16px rgba(200,104,110,0.3)' }}>{pkg.badge}</div>}
+                  <div className="absolute top-5 right-5 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)', boxShadow: '0 4px 12px rgba(239,68,68,0.25)' }}>{pkg.discountLabel}</div>
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{pkg.name}</h3>
                     <p className="text-sm text-gray-400">{pkg.sub}</p>
-                    <div className="mt-5"><span className="text-5xl font-bold" style={{ color: isSelected ? '#C8686E' : '#111827' }}>{pkg.price}</span></div>
+                    <div className="mt-5 flex items-baseline gap-3">
+                      <span className="text-5xl font-bold" style={{ color: isSelected ? '#C8686E' : '#111827' }}>{pkg.price}</span>
+                      <span className="text-xl font-medium text-gray-400 line-through">{pkg.oldPrice}</span>
+                    </div>
                   </div>
                   <ul className="space-y-4 mb-9">
                     {pkg.features.map((f, i) => (<li key={i} className="flex items-center gap-3 text-sm text-gray-600"><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `rgba(200,104,110,${isSelected ? '0.15' : '0.1'})` }}><svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>{f}</li>))}
@@ -365,7 +369,7 @@ export default function Home() {
               { q: "Nikahım platformu güvenilir mi?", a: "Nikahım.com kurulduğu günden beri çiftlerin mutluluğunu birinci önceliği olarak benimseyen bir aile kuruluşudur. Yapılan tüm maddi, görsel ve yazılı paylaşımlar sadece davetliler ve çift arasındadır. Nikahım kesinlikle bu bilgileri 3. şahıs veya kuruluşlarla paylaşmamaktadır. Nikahım platformunda davetliler tarafından yapılan tüm ödemeler direkt olarak çiftin kendi TL hesaplarına yapılmaktadır. Bu noktada Nikahım bir aracılık yapmamaktadır." },
               { q: "Altın takma sistemi nasıl çalışır?", a: "Altın takma bölümünde Nikahım platformu güncel altın fiyatlarını günlük olarak çeker ve çiftin canlı yayın sayfasında bu değerleri gösterir. Davetli kişi çifte altın takmak istediğinde altın türünü seçer ve buna denk gelen TL miktarı davetliye gösterilir. Davetli kişi Havale/EFT veya Crypto yöntemlerinden biri ile çiftin direkt hesabına kendi bankacılık uygulaması üzerinden para transferi yapar. Ardından canlı yayın sayfasına tekrar gelerek bu gönderimi onaylar. Bu onaylanan gönderimler çiftin uygulama sayfasında takılan altın olarak kayıt altına alınır." },
               { q: "Yayın kayıt ediliyor mu?", a: "Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir." },
-              { q: "Kaç kişi aynı anda izleyebilir?", a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 250 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir." },
+              { q: "Kaç kişi aynı anda izleyebilir?", a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir." },
             ].map((faq, index) => (
               <div key={index} className="border border-gray-100 rounded-2xl overflow-hidden hover:border-gray-200 transition-colors">
                 <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full p-6 flex items-center justify-between text-left">
