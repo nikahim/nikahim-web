@@ -169,22 +169,22 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.2)" }}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 border-b border-gray-100" style={{ background: "linear-gradient(135deg, #FDFCF8, #F8F3EB)" }}>
+      <div className="flex items-center gap-3 p-4" style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 6px 14px rgba(200,104,110,0.25)" }}>
         <div className="relative">
-          <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-lg" style={{ background: "#D4AF7A", fontFamily: "serif", boxShadow: "0 4px 12px rgba(184,150,90,0.3)" }}>
+          <div className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-lg bg-white" style={{ color: "#C8686E", fontFamily: "serif", boxShadow: "0 4px 12px rgba(0,0,0,0.2)" }}>
             E
           </div>
-          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
+          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-400 border-2 border-white" />
         </div>
         <div className="flex-1">
-          <div className="font-bold text-gray-900">Elif</div>
-          <div className="flex items-center gap-1.5 text-xs text-green-600">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
+          <div className="font-bold text-white text-base">Elif</div>
+          <div className="flex items-center gap-1.5 text-xs text-white/85">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-300" />
             Destek Asistanı · Çevrimiçi
           </div>
         </div>
         {!embedded && (
-          <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center text-gray-500">
+          <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-white/15 flex items-center justify-center text-white/90">
             ✕
           </button>
         )}
@@ -192,47 +192,52 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
       {/* Guest info */}
       {needsContact && (
-        <div className="p-4 bg-[#FDFBF5] border-b border-gray-100 space-y-2">
-          <div className="text-xs font-semibold text-[#8B6F3A] mb-1">Size daha iyi yardımcı olabilmem için bilgilerinizi alayım:</div>
+        <div className="p-4 border-b border-gray-100 space-y-2" style={{ background: "#FFF5F6" }}>
+          <div className="text-xs font-semibold mb-1" style={{ color: "#C8686E" }}>Size daha iyi yardımcı olabilmem için bilgilerinizi alayım:</div>
           <input
             type="text"
             placeholder="Ad Soyad"
             value={guestName}
             onChange={(e) => setGuestName(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#D4AF7A] focus:outline-none text-sm text-gray-900"
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#C8686E] focus:outline-none text-sm text-gray-900"
           />
           <input
             type="email"
             placeholder="E-posta adresi"
             value={guestEmail}
             onChange={(e) => setGuestEmail(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#D4AF7A] focus:outline-none text-sm text-gray-900"
+            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#C8686E] focus:outline-none text-sm text-gray-900"
           />
         </div>
       )}
 
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "#FDFCF8" }}>
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "linear-gradient(180deg, #FFFBFC, #FFF2F4)" }}>
         {messages.map((m, i) => (
           <div key={i} className={`flex items-end gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             {m.role === "assistant" && (
-              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: "#D4AF7A" }}>
+              <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: "#C8686E" }}>
                 E
               </div>
             )}
             <div
               className={`max-w-[78%] px-4 py-2.5 rounded-2xl ${
                 m.role === "user"
-                  ? "bg-[#D4AF7A] text-white rounded-br-md"
-                  : "bg-white text-gray-900 border border-gray-100 rounded-bl-md shadow-sm"
+                  ? "text-white rounded-br-md"
+                  : "bg-white text-gray-900 rounded-bl-md"
               }`}
+              style={
+                m.role === "user"
+                  ? { background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 4px 12px rgba(200,104,110,0.3)" }
+                  : { border: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 8px rgba(200,104,110,0.08)" }
+              }
             >
               <div className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</div>
               {m.ticketNumber && (
-                <div className="mt-3 bg-[#FDFBF5] border border-[#D4AF7A]/40 rounded-xl p-3">
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#8B6F3A] tracking-wider mb-1">📋 BAŞVURU NUMARASI</div>
-                  <div className="text-lg font-extrabold text-[#6B5A3A] mb-1">{m.ticketNumber}</div>
-                  <div className="text-[11px] text-[#8B7355] leading-snug">Bu numarayı saklayın. 24 saat içinde size dönüş yapılacak.</div>
+                <div className="mt-3 rounded-xl p-3" style={{ background: "#FFF5F6", border: "1.5px solid rgba(200,104,110,0.3)" }}>
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider mb-1" style={{ color: "#C8686E" }}>📋 BAŞVURU NUMARASI</div>
+                  <div className="text-lg font-extrabold mb-1" style={{ color: "#B85A60" }}>{m.ticketNumber}</div>
+                  <div className="text-[11px] leading-snug" style={{ color: "#8B5A5E" }}>Bu numarayı saklayın. 24 saat içinde size dönüş yapılacak.</div>
                 </div>
               )}
             </div>
@@ -240,13 +245,13 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ))}
         {typing && (
           <div className="flex items-end gap-2">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ background: "#D4AF7A" }}>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold" style={{ background: "#C8686E" }}>
               E
             </div>
             <div className="bg-white border border-gray-100 rounded-2xl rounded-bl-md shadow-sm px-4 py-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF7A] animate-pulse" />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF7A] animate-pulse" style={{ animationDelay: "0.15s" }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF7A] animate-pulse" style={{ animationDelay: "0.3s" }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.15s" }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.3s" }} />
               <span className="text-xs text-[#8B7355] italic ml-1">Yazıyor…</span>
             </div>
           </div>
@@ -254,7 +259,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       </div>
 
       {/* Input */}
-      <div className="flex items-end gap-2 p-3 border-t border-gray-100 bg-white">
+      <div className="flex items-end gap-2 p-3 bg-white" style={{ borderTop: "1px solid rgba(200,104,110,0.12)" }}>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -262,14 +267,14 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           placeholder="Sorunuzu yazın…"
           rows={1}
           disabled={sending}
-          className="flex-1 resize-none px-4 py-2.5 rounded-2xl border border-gray-200 bg-[#F9FAFB] focus:bg-white focus:border-[#D4AF7A] focus:outline-none text-sm text-gray-900 placeholder:text-gray-400 max-h-24"
-          style={{ fontFamily: "inherit" }}
+          className="flex-1 resize-none px-4 py-2.5 rounded-2xl bg-[#FFF8F9] focus:bg-white focus:outline-none text-sm text-gray-900 placeholder:text-gray-400 max-h-24"
+          style={{ fontFamily: "inherit", border: "1.5px solid rgba(200,104,110,0.15)" }}
         />
         <button
           onClick={sendMessage}
           disabled={sending || !input.trim()}
           className="w-11 h-11 rounded-full flex items-center justify-center text-white disabled:opacity-50 transition-opacity flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #E8D3A3, #D4AF7A, #B8965A)" }}
+          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 4px 12px rgba(200,104,110,0.35)" }}
         >
           {sending ? (
             <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -295,7 +300,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         <button
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-6 w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-white z-[9999] hover:scale-105 transition-transform"
-          style={{ background: "linear-gradient(135deg, #E8D3A3, #D4AF7A, #B8965A)", boxShadow: "0 12px 32px rgba(184,150,90,0.45)" }}
+          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 32px rgba(200,104,110,0.5)" }}
           aria-label="Canlı destek"
         >
           <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
