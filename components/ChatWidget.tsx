@@ -170,7 +170,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       className={
         embedded
           ? "w-full h-[560px] rounded-3xl overflow-hidden flex flex-col bg-white border border-gray-200 shadow-xl"
-          : "fixed bottom-24 inset-x-3 sm:inset-x-auto sm:right-6 sm:w-[380px] h-[560px] max-h-[calc(100vh-120px)] rounded-3xl overflow-hidden flex flex-col bg-white border border-gray-200 shadow-2xl z-[9999]"
+          : "fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-6 sm:w-[380px] sm:h-[560px] sm:max-h-[calc(100vh-120px)] sm:rounded-3xl overflow-hidden flex flex-col bg-white sm:border sm:border-gray-200 shadow-2xl z-[9999]"
       }
       style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.2)" }}
     >
@@ -328,19 +328,19 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 flex items-center gap-2 pl-1.5 pr-3.5 py-1.5 rounded-full shadow-2xl text-white z-[9999] hover:scale-105 transition-transform"
-          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 10px 26px rgba(200,104,110,0.5)" }}
+          className="fixed bottom-6 right-6 flex items-center gap-2.5 pl-2 pr-5 py-2 rounded-full shadow-2xl text-white z-[9999] hover:scale-105 transition-transform"
+          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 30px rgba(200,104,110,0.5)" }}
           aria-label="Canlı destek"
         >
           <span className="relative">
-            <span className="block w-10 h-10 rounded-full overflow-hidden border-2 border-white/60 bg-white">
+            <span className="block w-[52px] h-[52px] rounded-full overflow-hidden border-2 border-white/60 bg-white">
               <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
             </span>
-            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white" />
           </span>
           <span className="flex flex-col items-start leading-[1.05]">
-            <span className="text-sm font-bold">Canlı</span>
-            <span className="text-sm font-bold">Destek</span>
+            <span className="text-base font-bold">Canlı</span>
+            <span className="text-base font-bold">Destek</span>
           </span>
         </button>
       )}
