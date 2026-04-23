@@ -322,7 +322,7 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
             {[
-              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺499', oldPrice: '₺599', discountLabel: '%20 İndirim', badge: null, features: ['15 Dakika Canlı Yayın', '25 İzleyici', '720p HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik'], disabled: ['Yayın Kaydı'] },
+              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺499', oldPrice: '₺599', discountLabel: '%20 İndirim', badge: null, features: ['15 Dakika Canlı Yayın', '25 İzleyici', '720p HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik'], disabled: ['Yayın Kaydı ve İndirme'] },
               { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺599', oldPrice: '₺799', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['30 Dakika Canlı Yayın', '50 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
               { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺999', oldPrice: '₺1.299', discountLabel: '%30 İndirim', badge: null, features: ['60 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
