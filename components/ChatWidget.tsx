@@ -176,12 +176,14 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     >
       {/* Header */}
       <div className="flex items-center gap-3 p-4 bg-white" style={{ borderBottom: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
-        <div className="relative">
-          <div className="w-11 h-11 rounded-full overflow-hidden" style={{ border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
-            <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+        {hasStarted && (
+          <div className="relative">
+            <div className="w-11 h-11 rounded-full overflow-hidden" style={{ border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
+              <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+            </div>
+            <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
           </div>
-          <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
-        </div>
+        )}
         <div className="flex-1">
           <div className="font-bold text-gray-900 text-base">Elif</div>
           <div className="flex items-center gap-1.5 text-xs" style={{ color: "#8B7355" }}>
@@ -340,7 +342,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           </span>
           <span className="flex flex-col items-start leading-tight">
             <span className="text-[10px] font-medium uppercase tracking-wide text-white/85">Canlı Destek</span>
-            <span className="text-sm font-bold">Size yardımcı olayım</span>
+            <span className="text-sm font-bold">Sorularınız mı var?</span>
           </span>
         </button>
       )}
