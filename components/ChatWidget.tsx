@@ -41,7 +41,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   const [sending, setSending] = useState(false);
   const [guestName, setGuestName] = useState(userName);
   const [guestEmail, setGuestEmail] = useState(userEmail);
-  const [needsContact, setNeedsContact] = useState(!userEmail);
+  const [hasStarted, setHasStarted] = useState(!!userEmail);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -84,15 +84,21 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     }
   };
 
+  const startChat = () => {
+    if (!guestName.trim() || !guestEmail.trim()) {
+      alert("Lütfen adınızı ve e-posta adresinizi girin.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(guestEmail.trim())) {
+      alert("Lütfen geçerli bir e-posta adresi girin.");
+      return;
+    }
+    setHasStarted(true);
+  };
+
   const sendMessage = async () => {
     const text = input.trim();
     if (!text || sending) return;
-
-    if (needsContact && (!guestName.trim() || !guestEmail.trim())) {
-      alert("Lütfen önce adınızı ve e-posta adresinizi girin.");
-      return;
-    }
-    if (needsContact) setNeedsContact(false);
 
     const userMsg: ChatMessage = { role: "user", content: text };
     const newConvo = [...messages, userMsg];
@@ -190,27 +196,48 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         )}
       </div>
 
-      {/* Guest info */}
-      {needsContact && (
-        <div className="p-4 border-b border-gray-100 space-y-2" style={{ background: "#FFF5F6" }}>
-          <div className="text-xs font-semibold mb-1" style={{ color: "#C8686E" }}>Size daha iyi yardımcı olabilmem için bilgilerinizi alayım:</div>
-          <input
-            type="text"
-            placeholder="Ad Soyad"
-            value={guestName}
-            onChange={(e) => setGuestName(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#C8686E] focus:outline-none text-sm text-gray-900"
-          />
-          <input
-            type="email"
-            placeholder="E-posta adresi"
-            value={guestEmail}
-            onChange={(e) => setGuestEmail(e.target.value)}
-            className="w-full px-3 py-2 rounded-lg border border-gray-200 focus:border-[#C8686E] focus:outline-none text-sm text-gray-900"
-          />
+      {/* Pre-chat start screen */}
+      {!hasStarted ? (
+        <div className="flex-1 flex flex-col items-center justify-center p-6" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-5" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
+            <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+          </div>
+          <div className="text-center mb-5">
+            <div className="text-lg font-bold text-gray-900 mb-1">Hoş geldiniz!</div>
+            <div className="text-sm text-gray-600 leading-relaxed">
+              Size daha iyi yardımcı olabilmemiz için<br />
+              lütfen bilgilerinizi girin.
+            </div>
+          </div>
+          <div className="w-full space-y-3">
+            <input
+              type="text"
+              placeholder="Ad Soyad"
+              value={guestName}
+              onChange={(e) => setGuestName(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+              style={{ border: "1.5px solid rgba(200,104,110,0.2)" }}
+            />
+            <input
+              type="email"
+              placeholder="E-posta adresi"
+              value={guestEmail}
+              onChange={(e) => setGuestEmail(e.target.value)}
+              className="w-full px-4 py-3 rounded-xl bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
+              style={{ border: "1.5px solid rgba(200,104,110,0.2)" }}
+            />
+            <button
+              onClick={startChat}
+              className="w-full py-3 rounded-xl font-bold text-white hover:shadow-xl transition-all"
+              style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 6px 18px rgba(200,104,110,0.35)" }}
+            >
+              Sohbeti Başlat
+            </button>
+          </div>
+          <div className="text-[10px] text-gray-400 mt-4 text-center">Bilgileriniz sadece destek talebinizin<br />yanıtlanması için kullanılır.</div>
         </div>
-      )}
-
+      ) : (
+      <>
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
         {messages.map((m, i) => (
@@ -288,6 +315,8 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           )}
         </button>
       </div>
+      </>
+      )}
     </div>
   );
 
@@ -299,14 +328,20 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 w-16 h-16 rounded-full shadow-2xl flex items-center justify-center text-white z-[9999] hover:scale-105 transition-transform"
+          className="fixed bottom-6 right-6 flex items-center gap-3 pl-2 pr-5 py-2 rounded-full shadow-2xl text-white z-[9999] hover:scale-105 transition-transform group"
           style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 32px rgba(200,104,110,0.5)" }}
           aria-label="Canlı destek"
         >
-          <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 11H6v-2h12v2zm0-4H6V7h12v2z" />
-          </svg>
-          <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-green-500 rounded-full border-2 border-white" />
+          <span className="relative">
+            <span className="block w-12 h-12 rounded-full overflow-hidden border-2 border-white/50 bg-white">
+              <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+            </span>
+            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white" />
+          </span>
+          <span className="flex flex-col items-start leading-tight">
+            <span className="text-[10px] font-medium uppercase tracking-wide text-white/85">Canlı Destek</span>
+            <span className="text-sm font-bold">Size yardımcı olayım</span>
+          </span>
         </button>
       )}
     </>
