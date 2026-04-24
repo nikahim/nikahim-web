@@ -58,6 +58,30 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     return () => window.removeEventListener('nikahim:open-chat', opener);
   }, []);
 
+  // Tam ekran modunda floating butonu gizle (canlı yayın videosu vs.)
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  useEffect(() => {
+    const onChange = () => {
+      const fs = !!(
+        document.fullscreenElement ||
+        // @ts-expect-error vendor prefixes
+        document.webkitFullscreenElement ||
+        // @ts-expect-error vendor prefixes
+        document.msFullscreenElement
+      );
+      setIsFullscreen(fs);
+      if (fs) setOpen(false); // tam ekrana geçilirse açıksa kapat
+    };
+    document.addEventListener('fullscreenchange', onChange);
+    document.addEventListener('webkitfullscreenchange', onChange);
+    document.addEventListener('msfullscreenchange', onChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange);
+      document.removeEventListener('webkitfullscreenchange', onChange);
+      document.removeEventListener('msfullscreenchange', onChange);
+    };
+  }, []);
+
   const sendTicketEmail = async (ticketNumber: string, conversation: ChatMessage[]) => {
     const convoText = conversation
       .map((m) => (m.role === "user" ? "👤 Kullanıcı" : "💬 Elif") + ":\n" + m.content)
@@ -337,6 +361,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   );
 
   if (embedded) return chatBox;
+  if (isFullscreen) return null;
 
   return (
     <>
