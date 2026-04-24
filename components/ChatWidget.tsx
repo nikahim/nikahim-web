@@ -51,6 +51,13 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     }
   }, [messages, typing]);
 
+  // Sayfa içinden 'Canlı Destek' butonu chat'i açabilsin
+  useEffect(() => {
+    const opener = () => setOpen(true);
+    window.addEventListener('nikahim:open-chat', opener);
+    return () => window.removeEventListener('nikahim:open-chat', opener);
+  }, []);
+
   const sendTicketEmail = async (ticketNumber: string, conversation: ChatMessage[]) => {
     const convoText = conversation
       .map((m) => (m.role === "user" ? "👤 Kullanıcı" : "💬 Elif") + ":\n" + m.content)
