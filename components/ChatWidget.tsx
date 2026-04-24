@@ -134,10 +134,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       });
 
       const data = await res.json();
-      setTyping(false);
-      setSending(false);
 
       if (!res.ok) {
+        setTyping(false);
+        setSending(false);
         setMessages((prev) => [
           ...prev,
           { role: "assistant", content: "Üzgünüm, şu an bağlantıda bir sorun var. Lütfen birkaç saniye sonra tekrar deneyin." },
@@ -150,11 +150,20 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         content: data.reply || "Bir hata oluştu, lütfen tekrar deneyin.",
         ticketNumber: data.ticketNumber || undefined,
       };
-      setMessages((prev) => [...prev, botMsg]);
 
-      if (data.escalated && data.ticketNumber) {
-        await sendTicketEmail(data.ticketNumber, [...newConvo, botMsg]);
-      }
+      // Gerçekçi yazma süresi: kısa 3s, orta 5s, uzun 7s
+      const len = botMsg.content.length;
+      const typingDelay = len < 100 ? 3000 : len < 200 ? 5000 : 7000;
+
+      setTimeout(async () => {
+        setTyping(false);
+        setSending(false);
+        setMessages((prev) => [...prev, botMsg]);
+
+        if (data.escalated && data.ticketNumber) {
+          await sendTicketEmail(data.ticketNumber, [...newConvo, botMsg]);
+        }
+      }, typingDelay);
     } catch {
       setTyping(false);
       setSending(false);
@@ -286,7 +295,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" />
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.15s" }} />
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.3s" }} />
-              <span className="text-xs text-[#8B7355] italic ml-1">Yazıyor…</span>
+              <span className="text-xs text-[#8B7355] italic ml-1">Elif yazıyor…</span>
             </div>
           </div>
         )}
