@@ -927,16 +927,34 @@ export default function WatchPage() {
 
           <button
             onClick={handleReturningContinue}
-            className="w-full text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
-            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}
+            className="w-full text-white py-3.5 rounded-2xl font-semibold transition-all hover:shadow-xl flex items-center justify-center gap-2 text-base"
+            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.35)' }}
           >
+            <span className="w-7 h-7 rounded-full bg-white/25 flex items-center justify-center"><svg className="w-3.5 h-3.5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
             Devam Et
           </button>
 
-          <div className="mt-4 pt-3 border-t border-gray-100">
-            <p className="text-gray-500 text-[13px] mb-1">Zaten çiftin yanında nikahta mısın?</p>
-            <button onClick={() => setShowPhotoUpload(true)} className="inline-flex items-center gap-1.5 text-sm font-semibold transition-all hover:opacity-70" style={{ color: '#C8686E' }}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+          {/* Anı Paylaş kartı — afilli */}
+          <div className="mt-5 rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+            <div className="flex items-start gap-3">
+              <div className="relative flex-shrink-0">
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
+                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                </div>
+              </div>
+              <div className="flex-1 text-left">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikâhtaysan Anı Paylaş</h4>
+                  <span className="text-base">✨</span>
+                </div>
+                <p className="text-xs text-gray-600 leading-snug">Salondan fotoğraf yükle, çiftimiz canlı yayında görsün! <span style={{ color: '#C8686E' }}>♥</span></p>
+              </div>
+            </div>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
           </div>
