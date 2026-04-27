@@ -1777,44 +1777,47 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 2px 8px rgba(76,175,80,0.15)' }}>Gönder</button>
             </div>
 
-            {/* Nikah Gününden Kareler - sağ panelde */}
-            <div className="rounded-2xl p-4 cursor-pointer flex flex-col" onClick={() => setShowPhotoGallery(true)} style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)', minHeight: '240px' }}>
-              <div className="text-center mb-3">
-                <p className="text-sm font-bold" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</p>
-                <div className="mt-1.5">
-                  <span className="text-[11px] text-gray-500">Çiftin yanında nikahta mısın? </span>
-                  <button onClick={(e) => { e.stopPropagation(); setShowPhotoUpload(true); }} className="text-[12px] font-bold underline" style={{ color: '#C8686E' }}>Fotoğraf Yükle</button>
+            {/* Nikah Albümü - sağ panelde */}
+            <div className="rounded-2xl p-4 flex flex-col" style={{ background: '#fff', boxShadow: '0 4px 20px rgba(200,104,110,0.08)', border: '1px solid rgba(200,104,110,0.12)' }}>
+              {/* Header — kamera ikonu + başlık + sparkle */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.1)' }}>
+                  <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
+                <h3 className="text-base font-bold flex-1" style={{ color: '#1A1A2E' }}>Nikah Albümü</h3>
+                <span className="text-base">✨</span>
               </div>
-              <div className="relative flex-1 min-h-[120px] flex items-center justify-center" style={{ perspective: '600px' }}>
-                {(slideshowPhotos.length > 0 ? slideshowPhotos.slice(0, 3) : [null, null, null]).map((url, i) => {
-                  const isCenter = i === 0;
-                  const isLeft = i === 1;
-                  return (
-                    <div key={i} className="absolute rounded-xl overflow-hidden shadow-lg transition-all duration-700 ease-in-out" style={{
-                      width: isCenter ? '100px' : '80px',
-                      height: isCenter ? '100px' : '80px',
-                      transform: isCenter
-                        ? 'translateX(0) translateZ(20px) scale(1)'
-                        : isLeft
-                          ? 'translateX(-55px) translateZ(-10px) scale(0.85) rotateY(15deg)'
-                          : 'translateX(55px) translateZ(-10px) scale(0.85) rotateY(-15deg)',
-                      zIndex: isCenter ? 3 : 1,
-                      opacity: isCenter ? 1 : 0.6,
-                      border: isCenter ? '2px solid rgba(200,104,110,0.3)' : '1px solid rgba(0,0,0,0.08)',
-                    }}>
-                      {url ? (
-                        <img src={url} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)' }}>
-                          <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+
+              {/* Subtitle — Nikâhta mısın? Fotoğraf yükle, çift hemen görsün */}
+              <p className="text-[12px] text-gray-500 mb-3 text-center leading-snug">
+                Nikâhta mısın? <button onClick={() => setShowPhotoUpload(true)} className="font-semibold underline" style={{ color: '#C8686E' }}>Fotoğraf yükle</button>, çift hemen görsün.
+              </p>
+
+              {/* 3 thumbnail */}
+              <div className="grid grid-cols-3 gap-2 mb-3 cursor-pointer" onClick={() => setShowPhotoGallery(true)}>
+                {(slideshowPhotos.length > 0 ? slideshowPhotos.slice(0, 3) : [null, null, null]).map((url, i) => (
+                  <div key={i} className="aspect-square rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.1)' }}>
+                    {url ? (
+                      <img src={url} alt="" className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)' }}>
+                        <svg className="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-              <p className="text-center text-[10px] text-gray-300 mt-auto pt-2">{slideshowPhotos.length > 0 ? `${slideshowPhotos.length} fotoğraf` : 'Henüz fotoğraf yok'}</p>
+
+              {/* Fotoğraf Ekle butonu — dashed border rose */}
+              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
+                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+                </span>
+                Fotoğraf Ekle
+              </button>
+
+              {/* Bottom counter */}
+              <p className="text-center text-[11px] text-gray-400 mt-2">Toplam {slideshowPhotos.length} fotoğraf</p>
             </div>
 
           </div>
