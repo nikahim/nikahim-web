@@ -59,9 +59,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     return () => window.removeEventListener('nikahim:open-chat', opener);
   }, []);
 
-  // İlk girişte 4 sn göster, sonra otomatik collapse
+  // İlk girişte 5 sn göster, sonra otomatik collapse
   useEffect(() => {
-    const t = setTimeout(() => setIsCollapsed(true), 4000);
+    const t = setTimeout(() => setIsCollapsed(true), 5000);
     return () => clearTimeout(t);
   }, []);
 
@@ -374,7 +374,11 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     <>
       {open && chatBox}
       {!open && (
-        <div className="fixed bottom-6 right-0 flex items-center z-[9999]" aria-label="Canlı destek">
+        <div
+          className="fixed bottom-6 right-0 flex items-stretch z-[9999]"
+          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 30px rgba(200,104,110,0.45)", borderTopLeftRadius: 16, borderBottomLeftRadius: 16 }}
+          aria-label="Canlı destek"
+        >
           {/* Full button — slide collapse */}
           <div
             className="overflow-hidden transition-all duration-500 ease-out"
@@ -382,11 +386,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           >
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-2.5 pl-2 pr-4 py-2 text-white whitespace-nowrap"
-              style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 30px rgba(200,104,110,0.5)", borderTopLeftRadius: 999, borderBottomLeftRadius: 999 }}
+              className="flex items-center gap-2.5 pl-2 pr-3 py-2 text-white whitespace-nowrap"
             >
               <span className="relative">
-                <span className="block w-[44px] h-[44px] rounded-full overflow-hidden border-2 border-white/60 bg-white">
+                <span className="block w-[44px] h-[44px] rounded-2xl overflow-hidden border-2 border-white/70 bg-white">
                   <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
                 </span>
                 <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
@@ -398,11 +401,11 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
             </button>
           </div>
 
-          {/* Always visible arrow tab — toggles collapse */}
+          {/* Arrow tab — same gradient bg as parent, no separate shadow */}
           <button
             onClick={() => setIsCollapsed(c => !c)}
-            className="flex items-center justify-center text-white transition-transform duration-300"
-            style={{ background: "linear-gradient(135deg, #D17075, #C86068)", width: 26, height: 56, borderTopLeftRadius: isCollapsed ? 14 : 0, borderBottomLeftRadius: isCollapsed ? 14 : 0, boxShadow: "0 6px 18px rgba(200,104,110,0.4)" }}
+            className="flex items-center justify-center text-white px-2"
+            style={{ minWidth: 28, borderTopLeftRadius: isCollapsed ? 16 : 0, borderBottomLeftRadius: isCollapsed ? 16 : 0 }}
             aria-label={isCollapsed ? "Canlı Destek aç" : "Kapat"}
           >
             <svg className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
