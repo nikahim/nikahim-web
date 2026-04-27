@@ -631,13 +631,14 @@ export default function WatchPage() {
     return () => clearInterval(timer);
   }, [event]);
 
-  // Gallery carousel auto-rotate
+  // Gallery carousel auto-rotate (Nikah Albümü hero foto, slideshowPhotos.length'e göre)
   useEffect(() => {
+    if (slideshowPhotos.length < 2) return;
     const interval = setInterval(() => {
-      setGalleryIndex(prev => (prev + 1) % 3);
-    }, 5000);
+      setGalleryIndex(prev => (prev + 1) % slideshowPhotos.length);
+    }, 4500);
     return () => clearInterval(interval);
-  }, []);
+  }, [slideshowPhotos.length]);
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
@@ -1795,38 +1796,77 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 2px 8px rgba(76,175,80,0.15)' }}>Gönder</button>
             </div>
 
-            {/* Nikah Albümü - sağ panelde */}
-            <div className="rounded-2xl p-4 flex flex-col" style={{ background: '#fff', boxShadow: '0 4px 20px rgba(200,104,110,0.08)', border: '1px solid rgba(200,104,110,0.12)' }}>
+            {/* Nikah Albümü — premium hero carousel */}
+            <div className="rounded-2xl p-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF8F9 100%)', boxShadow: '0 8px 32px rgba(200,104,110,0.1)', border: '1px solid rgba(200,104,110,0.14)' }}>
+              {/* Decorative gold/rose corner shimmer */}
+              <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-[0.07] pointer-events-none" style={{ background: 'radial-gradient(circle, #D4AF7A, transparent 70%)' }} />
+
               {/* Header — kamera ikonu + başlık + sparkle */}
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.1)' }}>
+              <div className="flex items-center gap-2 mb-2 relative z-10">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.14), rgba(200,104,110,0.06))', border: '1px solid rgba(200,104,110,0.15)' }}>
                   <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </div>
-                <h3 className="text-base font-bold flex-1" style={{ color: '#1A1A2E' }}>Nikah Albümü</h3>
-                <span className="text-base">✨</span>
+                <h3 className="text-base font-bold flex-1" style={{ color: '#1A1A2E', fontFamily: 'var(--font-playfair)' }}>Nikah Albümü</h3>
+                <span className="text-sm" style={{ color: '#D4AF7A' }}>✨</span>
               </div>
 
-              {/* Subtitle — Nikâhta mısın? Fotoğraf yükle, çift hemen görsün */}
+              {/* Subtitle */}
               <p className="text-[12px] text-gray-500 mb-3 text-center leading-snug">
-                Nikâhta mısın? <button onClick={() => setShowPhotoUpload(true)} className="font-semibold underline" style={{ color: '#C8686E' }}>Fotoğraf yükle</button>, çift hemen görsün.
+                Nikahta mısın? <button onClick={() => setShowPhotoUpload(true)} className="font-semibold underline decoration-dotted underline-offset-2" style={{ color: '#C8686E' }}>Fotoğraf yükle</button>, çift hemen görsün.
               </p>
 
-              {/* 3 thumbnail */}
-              <div className="grid grid-cols-3 gap-2 mb-3 cursor-pointer" onClick={() => setShowPhotoGallery(true)}>
-                {(slideshowPhotos.length > 0 ? slideshowPhotos.slice(0, 3) : [null, null, null]).map((url, i) => (
-                  <div key={i} className="aspect-square rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.1)' }}>
-                    {url ? (
-                      <img src={url} alt="" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)' }}>
-                        <svg className="w-7 h-7 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                      </div>
-                    )}
+              {/* HERO foto — auto-rotate + Ken Burns */}
+              <div onClick={() => slideshowPhotos.length > 0 && setPhotoLightboxIndex(galleryIndex)} className="relative w-full overflow-hidden rounded-2xl mb-3 cursor-pointer group" style={{ aspectRatio: '16 / 10', background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)', border: '1px solid rgba(200,104,110,0.12)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.6), 0 4px 12px rgba(200,104,110,0.08)' }}>
+                {slideshowPhotos.length === 0 ? (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <svg className="w-10 h-10 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span className="text-[11px] text-gray-400">Henüz fotoğraf yok</span>
                   </div>
-                ))}
+                ) : (
+                  slideshowPhotos.map((url, i) => (
+                    <img
+                      key={i}
+                      src={url}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out album-hero-img"
+                      style={{
+                        opacity: i === galleryIndex ? 1 : 0,
+                        animation: i === galleryIndex ? 'albumKenBurns 6s ease-in-out infinite alternate' : 'none',
+                      }}
+                    />
+                  ))
+                )}
+                {/* Üstte küçük sayaç pill */}
+                {slideshowPhotos.length > 0 && (
+                  <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)' }}>
+                    {galleryIndex + 1} / {slideshowPhotos.length}
+                  </div>
+                )}
+                {/* Hover hint */}
+                {slideshowPhotos.length > 0 && (
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'rgba(0,0,0,0.25)' }}>
+                    <div className="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style={{ background: 'rgba(200,104,110,0.95)' }}>Tüm Albümü Aç</div>
+                  </div>
+                )}
               </div>
 
-              {/* Fotoğraf Ekle butonu — dashed border rose */}
+              {/* Dots */}
+              {slideshowPhotos.length > 1 && (
+                <div className="flex justify-center gap-1.5 mb-3">
+                  {slideshowPhotos.slice(0, 8).map((_, i) => (
+                    <button key={i} onClick={() => setGalleryIndex(i)} className="rounded-full transition-all" style={{
+                      width: i === galleryIndex ? 18 : 6,
+                      height: 6,
+                      background: i === galleryIndex ? '#C8686E' : 'rgba(200,104,110,0.25)',
+                    }} aria-label={`Foto ${i+1}`} />
+                  ))}
+                  {slideshowPhotos.length > 8 && (
+                    <span className="text-[10px] text-gray-400 ml-1 self-center">+{slideshowPhotos.length - 8}</span>
+                  )}
+                </div>
+              )}
+
+              {/* Fotoğraf Ekle butonu */}
               <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
                 <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
                   <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
