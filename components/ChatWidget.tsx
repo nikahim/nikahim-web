@@ -42,6 +42,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   const [guestName, setGuestName] = useState(userName);
   const [guestEmail, setGuestEmail] = useState(userEmail);
   const [hasStarted, setHasStarted] = useState(!!userEmail);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +57,12 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     const opener = () => setOpen(true);
     window.addEventListener('nikahim:open-chat', opener);
     return () => window.removeEventListener('nikahim:open-chat', opener);
+  }, []);
+
+  // İlk girişte 4 sn göster, sonra otomatik collapse
+  useEffect(() => {
+    const t = setTimeout(() => setIsCollapsed(true), 4000);
+    return () => clearTimeout(t);
   }, []);
 
   // Tam ekran modunda floating butonu gizle (canlı yayın videosu vs.)
@@ -367,23 +374,42 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     <>
       {open && chatBox}
       {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-6 flex items-center gap-2.5 pl-2 pr-5 py-2 rounded-full shadow-2xl text-white z-[9999] hover:scale-105 transition-transform"
-          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 30px rgba(200,104,110,0.5)" }}
-          aria-label="Canlı destek"
-        >
-          <span className="relative">
-            <span className="block w-[52px] h-[52px] rounded-full overflow-hidden border-2 border-white/60 bg-white">
-              <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
-            </span>
-            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-green-400 rounded-full border-2 border-white" />
-          </span>
-          <span className="flex flex-col items-start leading-[1.05]">
-            <span className="text-base font-bold">Canlı</span>
-            <span className="text-base font-bold">Destek</span>
-          </span>
-        </button>
+        <div className="fixed bottom-6 right-0 flex items-center z-[9999]" aria-label="Canlı destek">
+          {/* Full button — slide collapse */}
+          <div
+            className="overflow-hidden transition-all duration-500 ease-out"
+            style={{ maxWidth: isCollapsed ? 0 : 200, opacity: isCollapsed ? 0 : 1 }}
+          >
+            <button
+              onClick={() => setOpen(true)}
+              className="flex items-center gap-2.5 pl-2 pr-4 py-2 text-white whitespace-nowrap"
+              style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 12px 30px rgba(200,104,110,0.5)", borderTopLeftRadius: 999, borderBottomLeftRadius: 999 }}
+            >
+              <span className="relative">
+                <span className="block w-[44px] h-[44px] rounded-full overflow-hidden border-2 border-white/60 bg-white">
+                  <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+                </span>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+              </span>
+              <span className="flex flex-col items-start leading-[1.05]">
+                <span className="text-sm font-bold">Canlı</span>
+                <span className="text-sm font-bold">Destek</span>
+              </span>
+            </button>
+          </div>
+
+          {/* Always visible arrow tab — toggles collapse */}
+          <button
+            onClick={() => setIsCollapsed(c => !c)}
+            className="flex items-center justify-center text-white transition-transform duration-300"
+            style={{ background: "linear-gradient(135deg, #D17075, #C86068)", width: 26, height: 56, borderTopLeftRadius: isCollapsed ? 14 : 0, borderBottomLeftRadius: isCollapsed ? 14 : 0, boxShadow: "0 6px 18px rgba(200,104,110,0.4)" }}
+            aria-label={isCollapsed ? "Canlı Destek aç" : "Kapat"}
+          >
+            <svg className={`w-5 h-5 transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        </div>
       )}
     </>
   );
