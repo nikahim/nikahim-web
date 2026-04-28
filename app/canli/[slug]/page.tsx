@@ -1741,22 +1741,72 @@ export default function WatchPage() {
               <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-[0.08] pointer-events-none" style={{ background: '#D4AF37' }} />
               <div className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-[0.05] pointer-events-none" style={{ background: '#E8C27A' }} />
 
-              {/* Dekoratif yaprak/çiçek köşesi - sol üst */}
-              <svg className="absolute top-0 left-0 w-32 h-32 pointer-events-none opacity-50" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 15 Q 25 10 35 25 Q 30 35 18 32 Q 10 28 5 15 Z" fill="#D4C088" opacity="0.55" />
-                <path d="M40 8 Q 55 5 60 18 Q 56 25 47 22 Q 40 18 40 8 Z" fill="#E8D3A3" opacity="0.5" />
-                <path d="M15 40 Q 30 35 38 50 Q 32 60 22 55 Q 15 50 15 40 Z" fill="#C9B871" opacity="0.45" />
-                <circle cx="50" cy="40" r="6" fill="#F0D080" opacity="0.7" />
-                <circle cx="48" cy="38" r="2" fill="#B8965A" opacity="0.8" />
-                <path d="M58 35 Q 72 30 78 45 Q 70 52 60 48 Q 55 45 58 35 Z" fill="#D4C088" opacity="0.4" />
-                <path d="M3 50 Q 10 60 20 70 Q 12 75 5 70 Q 0 62 3 50 Z" fill="#A8965A" opacity="0.35" />
+              {/* Dekoratif dallı çiçek - sol üst */}
+              <svg className="absolute top-0 left-0 w-40 h-40 pointer-events-none opacity-70" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Ana dal */}
+                <path d="M 6 6 Q 18 22 28 38 T 44 64 T 64 90" stroke="#9C8A60" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.55" />
+                {/* Yan dal */}
+                <path d="M 28 38 Q 40 32 52 32" stroke="#9C8A60" strokeWidth="1" fill="none" strokeLinecap="round" opacity="0.45" />
+                <path d="M 44 64 Q 56 58 68 58" stroke="#9C8A60" strokeWidth="1" fill="none" strokeLinecap="round" opacity="0.42" />
+                {/* Yapraklar - ana dal */}
+                <ellipse cx="14" cy="22" rx="5.5" ry="2.2" fill="#B5A570" opacity="0.55" transform="rotate(-25 14 22)" />
+                <ellipse cx="22" cy="20" rx="5.5" ry="2.2" fill="#C9BB87" opacity="0.55" transform="rotate(45 22 20)" />
+                <ellipse cx="22" cy="44" rx="6" ry="2.4" fill="#B5A570" opacity="0.55" transform="rotate(-20 22 44)" />
+                <ellipse cx="34" cy="42" rx="6" ry="2.4" fill="#C9BB87" opacity="0.55" transform="rotate(55 34 42)" />
+                <ellipse cx="38" cy="68" rx="5.5" ry="2.2" fill="#B5A570" opacity="0.55" transform="rotate(-15 38 68)" />
+                <ellipse cx="50" cy="66" rx="5.5" ry="2.2" fill="#C9BB87" opacity="0.55" transform="rotate(60 50 66)" />
+                <ellipse cx="58" cy="92" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-10 58 92)" />
+                {/* Yan dal yaprakları */}
+                <ellipse cx="40" cy="34" rx="4" ry="1.8" fill="#C9BB87" opacity="0.5" transform="rotate(20 40 34)" />
+                <ellipse cx="48" cy="32" rx="4" ry="1.8" fill="#B5A570" opacity="0.5" transform="rotate(-5 48 32)" />
+                <ellipse cx="58" cy="60" rx="4.2" ry="1.8" fill="#C9BB87" opacity="0.5" transform="rotate(15 58 60)" />
+                {/* Ana çiçek */}
+                <g transform="translate(56, 30)">
+                  <g><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
+                  <g transform="rotate(72)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
+                  <g transform="rotate(144)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
+                  <g transform="rotate(216)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
+                  <g transform="rotate(288)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
+                  <circle r="1.9" cx="0" cy="0" fill="#B8965A" opacity="0.9" />
+                </g>
+                {/* İkinci çiçek */}
+                <g transform="translate(72, 56)">
+                  <g><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
+                  <g transform="rotate(72)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
+                  <g transform="rotate(144)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
+                  <g transform="rotate(216)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
+                  <g transform="rotate(288)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
+                  <circle r="1.5" cx="0" cy="0" fill="#B8965A" opacity="0.9" />
+                </g>
+                {/* Küçük tomurcuk */}
+                <g transform="translate(18, 10)">
+                  <circle r="2.4" fill="#F0D58A" opacity="0.6" />
+                  <circle r="1" fill="#B8965A" opacity="0.85" />
+                </g>
               </svg>
 
-              {/* Dekoratif yaprak köşesi - sağ üst */}
-              <svg className="absolute top-0 right-0 w-28 h-28 pointer-events-none opacity-40 scale-x-[-1]" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10 18 Q 30 12 40 28 Q 35 38 22 35 Q 12 30 10 18 Z" fill="#D4C088" opacity="0.5" />
-                <path d="M45 12 Q 60 8 65 22 Q 60 30 50 26 Q 45 22 45 12 Z" fill="#E8D3A3" opacity="0.45" />
-                <circle cx="55" cy="42" r="5" fill="#F0D080" opacity="0.6" />
+              {/* Dekoratif dallı çiçek - sağ üst (mirror) */}
+              <svg className="absolute top-0 right-0 w-36 h-36 pointer-events-none opacity-60 scale-x-[-1]" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 6 6 Q 18 22 28 38 T 44 64 T 60 88" stroke="#9C8A60" strokeWidth="1.3" fill="none" strokeLinecap="round" opacity="0.5" />
+                <path d="M 28 38 Q 40 34 50 34" stroke="#9C8A60" strokeWidth="0.9" fill="none" strokeLinecap="round" opacity="0.42" />
+                <ellipse cx="14" cy="22" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-25 14 22)" />
+                <ellipse cx="22" cy="20" rx="5" ry="2" fill="#C9BB87" opacity="0.5" transform="rotate(45 22 20)" />
+                <ellipse cx="22" cy="44" rx="5.5" ry="2.2" fill="#B5A570" opacity="0.5" transform="rotate(-20 22 44)" />
+                <ellipse cx="34" cy="42" rx="5.5" ry="2.2" fill="#C9BB87" opacity="0.5" transform="rotate(55 34 42)" />
+                <ellipse cx="38" cy="68" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-15 38 68)" />
+                <ellipse cx="44" cy="36" rx="3.8" ry="1.6" fill="#C9BB87" opacity="0.45" transform="rotate(15 44 36)" />
+                <g transform="translate(54, 30)">
+                  <g><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
+                  <g transform="rotate(72)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
+                  <g transform="rotate(144)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
+                  <g transform="rotate(216)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
+                  <g transform="rotate(288)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
+                  <circle r="1.7" cx="0" cy="0" fill="#B8965A" opacity="0.85" />
+                </g>
+                <g transform="translate(20, 10)">
+                  <circle r="2.2" fill="#F0D58A" opacity="0.55" />
+                  <circle r="0.9" fill="#B8965A" opacity="0.8" />
+                </g>
               </svg>
 
               <div className="px-5 pt-4 pb-3">
@@ -1789,8 +1839,8 @@ export default function WatchPage() {
 
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
           <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
-            {/* Video Tebrik - pastel kırmızı pembe */}
-            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FFF5F5, #FFF0F0)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(180,70,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
+            {/* Video Tebrik - warm cream */}
+            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -1802,8 +1852,8 @@ export default function WatchPage() {
               <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #E8A8AE, #D4757E, #C25A65)', boxShadow: '0 6px 16px rgba(196,90,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Sesli Tebrik - pastel mavi */}
-            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F5FAFF, #EDF5FC)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(111,175,207,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
+            {/* Sesli Tebrik - warm cream */}
+            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F8F4EE, #ECE7DD)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(111,175,207,0.12)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
@@ -1815,8 +1865,8 @@ export default function WatchPage() {
               <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #B5DAEA, #85C4DE, #6FAFCF)', boxShadow: '0 6px 16px rgba(111,175,207,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Mesaj Tebrik - açık yeşil */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F2FAF5, #E8F5ED)', boxShadow: '0 4px 16px rgba(0,0,0,0.06)', border: '1px solid rgba(76,175,80,0.08)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.12)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.06)'; }}>
+            {/* Mesaj Tebrik - warm cream */}
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F7F3EA, #ECE6D6)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(76,175,80,0.12)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
@@ -1849,20 +1899,50 @@ export default function WatchPage() {
 
               {/* POLAROID STAGE — scattered + auto-rotate */}
               <div className="relative w-full overflow-hidden rounded-2xl mb-3" style={{ aspectRatio: '16 / 11', background: 'linear-gradient(135deg, #FBF1E0 0%, #F5E2C8 50%, #EFD5B0 100%)', border: '1px solid rgba(200,104,110,0.10)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.55), inset 0 -20px 40px rgba(184,120,80,0.07), 0 4px 12px rgba(200,104,110,0.06)' }}>
-                {/* Background flower/leaf decoration — top-left */}
-                <svg className="absolute -top-1 -left-1 w-20 h-20 pointer-events-none" viewBox="0 0 100 100">
-                  <path d="M5 18 Q 22 10 30 25 Q 26 33 14 30 Q 6 26 5 18 Z" fill="#D4C088" opacity="0.55" />
-                  <path d="M32 8 Q 46 6 50 20 Q 46 26 38 23 Q 32 18 32 8 Z" fill="#E8D3A3" opacity="0.5" />
-                  <circle cx="42" cy="32" r="4" fill="#F0D080" opacity="0.7" />
-                  <circle cx="40.5" cy="30.5" r="1.5" fill="#B8965A" opacity="0.8" />
-                  <path d="M10 38 Q 26 33 32 50 Q 26 58 16 53 Q 10 47 10 38 Z" fill="#C9B871" opacity="0.4" />
+                {/* Dallı çiçek dekor — sol üst */}
+                <svg className="absolute -top-2 -left-2 w-24 h-24 pointer-events-none" viewBox="0 0 100 100">
+                  <path d="M 5 5 Q 14 18 22 30 T 36 52 T 52 76" stroke="#9C8A60" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.55" />
+                  <path d="M 22 30 Q 32 26 42 26" stroke="#9C8A60" strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.45" />
+                  <ellipse cx="11" cy="18" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.55" transform="rotate(-25 11 18)" />
+                  <ellipse cx="18" cy="16" rx="4.5" ry="1.8" fill="#C9BB87" opacity="0.55" transform="rotate(45 18 16)" />
+                  <ellipse cx="18" cy="36" rx="5" ry="2" fill="#B5A570" opacity="0.55" transform="rotate(-20 18 36)" />
+                  <ellipse cx="28" cy="34" rx="5" ry="2" fill="#C9BB87" opacity="0.55" transform="rotate(55 28 34)" />
+                  <ellipse cx="32" cy="56" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.5" transform="rotate(-15 32 56)" />
+                  <ellipse cx="34" cy="22" rx="3.5" ry="1.5" fill="#C9BB87" opacity="0.5" transform="rotate(20 34 22)" />
+                  <g transform="translate(46, 22)">
+                    <g><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
+                    <g transform="rotate(72)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
+                    <g transform="rotate(144)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
+                    <g transform="rotate(216)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
+                    <g transform="rotate(288)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
+                    <circle r="1.5" cx="0" cy="0" fill="#B8965A" opacity="0.9" />
+                  </g>
+                  <g transform="translate(15, 8)">
+                    <circle r="2" fill="#F0D58A" opacity="0.6" />
+                    <circle r="0.9" fill="#B8965A" opacity="0.85" />
+                  </g>
                 </svg>
-                {/* Background flower/leaf decoration — bottom-right (mirrored) */}
-                <svg className="absolute -bottom-1 -right-1 w-24 h-24 pointer-events-none scale-x-[-1]" viewBox="0 0 100 100">
-                  <path d="M5 18 Q 22 10 30 25 Q 26 33 14 30 Q 6 26 5 18 Z" fill="#D4C088" opacity="0.5" />
-                  <circle cx="42" cy="30" r="4" fill="#F0D080" opacity="0.65" />
-                  <path d="M10 38 Q 26 33 34 52 Q 28 60 16 54 Q 10 48 10 38 Z" fill="#C9B871" opacity="0.35" />
-                  <path d="M50 12 Q 64 10 68 24 Q 62 30 54 26 Q 50 22 50 12 Z" fill="#E8D3A3" opacity="0.45" />
+                {/* Dallı çiçek dekor — sağ alt (mirror) */}
+                <svg className="absolute -bottom-2 -right-2 w-28 h-28 pointer-events-none scale-x-[-1] rotate-180" viewBox="0 0 100 100">
+                  <path d="M 5 5 Q 14 18 22 30 T 36 52 T 52 76" stroke="#9C8A60" strokeWidth="1.1" fill="none" strokeLinecap="round" opacity="0.5" />
+                  <path d="M 22 30 Q 32 26 42 26" stroke="#9C8A60" strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.42" />
+                  <ellipse cx="11" cy="18" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.5" transform="rotate(-25 11 18)" />
+                  <ellipse cx="18" cy="16" rx="4.5" ry="1.8" fill="#C9BB87" opacity="0.5" transform="rotate(45 18 16)" />
+                  <ellipse cx="18" cy="36" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-20 18 36)" />
+                  <ellipse cx="28" cy="34" rx="5" ry="2" fill="#C9BB87" opacity="0.5" transform="rotate(55 28 34)" />
+                  <ellipse cx="32" cy="56" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.45" transform="rotate(-15 32 56)" />
+                  <g transform="translate(46, 22)">
+                    <g><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
+                    <g transform="rotate(72)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
+                    <g transform="rotate(144)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
+                    <g transform="rotate(216)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
+                    <g transform="rotate(288)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
+                    <circle r="1.4" cx="0" cy="0" fill="#B8965A" opacity="0.85" />
+                  </g>
+                  <g transform="translate(16, 8)">
+                    <circle r="1.8" fill="#F0D58A" opacity="0.55" />
+                    <circle r="0.8" fill="#B8965A" opacity="0.8" />
+                  </g>
                 </svg>
 
                 {slideshowPhotos.length === 0 ? (
@@ -1913,17 +1993,10 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Albümü Görüntüle — premium pill */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:scale-[1.02] text-white relative overflow-hidden mb-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: 'linear-gradient(135deg, #E8B89A, #D4956A, #B87850)', boxShadow: '0 6px 16px rgba(184,120,80,0.3), inset 0 1px 0 rgba(255,255,255,0.4)' }}>
-                <span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} />
-                <svg className="w-4 h-4 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                <span className="relative">Albümü Görüntüle</span>
-              </button>
-
-              {/* Fotoğraf Ekle — secondary */}
-              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2 rounded-xl flex items-center justify-center gap-2 font-semibold text-xs transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
-                <span className="w-4 h-4 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
-                  <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+              {/* Fotoğraf Ekle */}
+              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
+                <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
+                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
                 </span>
                 Fotoğraf Ekle
               </button>
