@@ -1605,8 +1605,8 @@ export default function WatchPage() {
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
                   <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
                   <div className="relative z-10 flex flex-col items-center">
-                    {/* Couple photo with gold ring */}
-                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #F0D58A 0%, #C49520 35%, #8B6914 65%, #F0D58A 100%)', padding: '2.5px', boxShadow: '0 0 30px rgba(212,175,55,0.30), 0 8px 28px rgba(0,0,0,0.45)' }}>
+                    {/* Couple photo with shiny gold ring */}
+                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #FFE070 0%, #F5C940 25%, #B8860B 55%, #F5C940 80%, #FFE070 100%)', padding: '3px', boxShadow: '0 0 45px rgba(245,200,80,0.40), 0 0 22px rgba(255,225,140,0.25), 0 8px 32px rgba(0,0,0,0.55)' }}>
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
                     </div>
 
@@ -1624,19 +1624,19 @@ export default function WatchPage() {
                       <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.65) 50%, transparent)' }} />
                     </div>
 
-                    {/* Countdown boxes — gold-bordered premium */}
-                    <div className="flex items-center">
+                    {/* Countdown boxes — shiny gold premium frame */}
+                    <div className="flex items-center gap-2 lg:gap-3">
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
-                        <div key={i} className="flex items-center">
-                          {i > 0 && (
-                            <span className="px-1 lg:px-1.5 text-xl lg:text-2xl font-bold" style={{ color: '#D4AF37', textShadow: '0 0 8px rgba(212,175,55,0.6)' }}>:</span>
-                          )}
-                          <div className="rounded-xl" style={{ background: 'linear-gradient(135deg, #F0D58A 0%, #B8860B 35%, #8B6914 70%, #F0D58A 100%)', padding: '1.5px', boxShadow: '0 6px 20px rgba(0,0,0,0.45), 0 0 0 1px rgba(212,175,55,0.18)' }}>
-                            <div className="relative rounded-[10px] text-center min-w-[58px] lg:min-w-[88px] px-3 py-2.5 lg:px-5 lg:py-4" style={{ background: 'linear-gradient(180deg, rgba(15,10,5,0.95) 0%, rgba(35,24,10,0.95) 100%)', boxShadow: 'inset 0 0 18px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,220,140,0.15)' }}>
-                              <div className="absolute inset-1.5 rounded-md pointer-events-none" style={{ border: '0.8px solid rgba(212,175,55,0.25)' }} />
-                              <div className="text-2xl lg:text-4xl font-bold relative z-10 leading-none" style={{ background: 'linear-gradient(180deg, #F0D850 0%, #D4B040 40%, #A07818 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontFamily: 'Georgia, serif', filter: 'drop-shadow(0 0 8px rgba(240,213,80,0.30))' }}>{c.v}</div>
-                              <div className="text-[9px] lg:text-[11px] uppercase tracking-[0.15em] mt-1.5 relative z-10" style={{ color: 'rgba(255,240,210,0.7)', fontWeight: 500 }}>{c.l}</div>
-                            </div>
+                        <div key={i} className="rounded-xl" style={{ background: 'linear-gradient(135deg, #FFE070 0%, #F5C940 22%, #B8860B 50%, #F5C940 78%, #FFE070 100%)', padding: '2px', boxShadow: '0 8px 24px rgba(0,0,0,0.55), 0 0 22px rgba(245,200,80,0.28), 0 0 0 1px rgba(212,175,55,0.25)' }}>
+                          <div className="relative rounded-[10px] text-center min-w-[58px] lg:min-w-[88px] px-3 py-2.5 lg:px-5 lg:py-4 overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(20,12,5,0.97) 0%, rgba(45,30,12,0.95) 100%)', boxShadow: 'inset 0 0 25px rgba(212,175,55,0.18), inset 0 1px 0 rgba(255,225,140,0.30)' }}>
+                            {/* Alt sıcak iç parıltı */}
+                            <div className="absolute inset-x-0 bottom-0 h-2/3 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(245,200,80,0.38) 0%, rgba(212,175,55,0.12) 45%, transparent 75%)' }} />
+                            {/* Üst parlak shine çizgisi */}
+                            <div className="absolute top-1.5 left-3 right-3 h-[1.5px] pointer-events-none" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,235,160,0.9) 50%, transparent)', boxShadow: '0 0 6px rgba(255,225,140,0.65)' }} />
+                            {/* İç altın halka */}
+                            <div className="absolute inset-1.5 rounded-md pointer-events-none" style={{ border: '1px solid rgba(245,200,80,0.40)', boxShadow: 'inset 0 0 10px rgba(245,200,80,0.18)' }} />
+                            <div className="text-2xl lg:text-4xl font-bold relative z-10 leading-none" style={{ background: 'linear-gradient(180deg, #FFE85C 0%, #E8C040 35%, #B08820 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontFamily: 'Georgia, serif', filter: 'drop-shadow(0 0 10px rgba(255,220,80,0.45))' }}>{c.v}</div>
+                            <div className="text-[9px] lg:text-[11px] uppercase tracking-[0.2em] mt-1.5 relative z-10" style={{ color: 'rgba(255,240,210,0.88)', fontWeight: 500, textShadow: '0 1px 4px rgba(0,0,0,0.7)' }}>{c.l}</div>
                           </div>
                         </div>
                       ))}
