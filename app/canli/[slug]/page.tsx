@@ -1785,8 +1785,8 @@ export default function WatchPage() {
               <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #E8A8AE, #D4757E, #C25A65)', boxShadow: '0 6px 16px rgba(196,90,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Sesli Tebrik - warm cream */}
-            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F8F4EE, #ECE7DD)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(111,175,207,0.12)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
+            {/* Sesli Tebrik - soft blue */}
+            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
@@ -1798,8 +1798,8 @@ export default function WatchPage() {
               <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #B5DAEA, #85C4DE, #6FAFCF)', boxShadow: '0 6px 16px rgba(111,175,207,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Mesaj Tebrik - warm cream */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F7F3EA, #ECE6D6)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(76,175,80,0.12)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
+            {/* Mesaj Tebrik - soft green */}
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
@@ -1811,10 +1811,10 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — fan-stack design */}
-            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #EEF1E5 0%, #DCE2CB 100%)', boxShadow: '0 8px 32px rgba(120,140,90,0.14)', border: '1px solid rgba(140,160,110,0.20)' }}>
-              {/* Beyaz gül + dal görseli - sağ üst */}
-              <img src="/nikah-cicek.png" alt="" className="absolute -top-2 -right-2 w-36 pointer-events-none select-none z-0" style={{ filter: 'drop-shadow(0 2px 8px rgba(80,90,60,0.12))' }} />
+            {/* Nikah Albümü — premium white + depth shadow */}
+            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FAF7F2 100%)', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+              {/* Beyaz gül + dal görseli - sağ üst (multiply ile gri zemin yok olur) */}
+              <img src="/nikah-cicek.png" alt="" className="absolute -top-3 -right-3 w-32 pointer-events-none select-none z-0" style={{ mixBlendMode: 'multiply', opacity: 0.95 }} />
 
               {/* Centered header */}
               <div className="text-center mb-1 relative z-10">
