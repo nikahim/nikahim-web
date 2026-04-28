@@ -1828,7 +1828,7 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — premium hero carousel */}
+            {/* Nikah Albümü — polaroid scattered stage */}
             <div className="rounded-2xl p-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF8F9 100%)', boxShadow: '0 8px 32px rgba(200,104,110,0.1)', border: '1px solid rgba(200,104,110,0.14)' }}>
               {/* Decorative gold/rose corner shimmer */}
               <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-[0.07] pointer-events-none" style={{ background: 'radial-gradient(circle, #D4AF7A, transparent 70%)' }} />
@@ -1847,67 +1847,86 @@ export default function WatchPage() {
                 Nikah gününde çekilen fotoğrafların albümü.
               </p>
 
-              {/* HERO foto — auto-rotate + Ken Burns */}
-              <div onClick={() => slideshowPhotos.length > 0 && setPhotoLightboxIndex(galleryIndex)} className="relative w-full overflow-hidden rounded-2xl mb-3 cursor-pointer group" style={{ aspectRatio: '16 / 10', background: 'linear-gradient(135deg, #FAF0E2, #F5E8D4)', border: '1px solid rgba(200,104,110,0.12)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.6), 0 4px 12px rgba(200,104,110,0.08)' }}>
+              {/* POLAROID STAGE — scattered + auto-rotate */}
+              <div className="relative w-full overflow-hidden rounded-2xl mb-3" style={{ aspectRatio: '16 / 11', background: 'linear-gradient(135deg, #FBF1E0 0%, #F5E2C8 50%, #EFD5B0 100%)', border: '1px solid rgba(200,104,110,0.10)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.55), inset 0 -20px 40px rgba(184,120,80,0.07), 0 4px 12px rgba(200,104,110,0.06)' }}>
+                {/* Background flower/leaf decoration — top-left */}
+                <svg className="absolute -top-1 -left-1 w-20 h-20 pointer-events-none" viewBox="0 0 100 100">
+                  <path d="M5 18 Q 22 10 30 25 Q 26 33 14 30 Q 6 26 5 18 Z" fill="#D4C088" opacity="0.55" />
+                  <path d="M32 8 Q 46 6 50 20 Q 46 26 38 23 Q 32 18 32 8 Z" fill="#E8D3A3" opacity="0.5" />
+                  <circle cx="42" cy="32" r="4" fill="#F0D080" opacity="0.7" />
+                  <circle cx="40.5" cy="30.5" r="1.5" fill="#B8965A" opacity="0.8" />
+                  <path d="M10 38 Q 26 33 32 50 Q 26 58 16 53 Q 10 47 10 38 Z" fill="#C9B871" opacity="0.4" />
+                </svg>
+                {/* Background flower/leaf decoration — bottom-right (mirrored) */}
+                <svg className="absolute -bottom-1 -right-1 w-24 h-24 pointer-events-none scale-x-[-1]" viewBox="0 0 100 100">
+                  <path d="M5 18 Q 22 10 30 25 Q 26 33 14 30 Q 6 26 5 18 Z" fill="#D4C088" opacity="0.5" />
+                  <circle cx="42" cy="30" r="4" fill="#F0D080" opacity="0.65" />
+                  <path d="M10 38 Q 26 33 34 52 Q 28 60 16 54 Q 10 48 10 38 Z" fill="#C9B871" opacity="0.35" />
+                  <path d="M50 12 Q 64 10 68 24 Q 62 30 54 26 Q 50 22 50 12 Z" fill="#E8D3A3" opacity="0.45" />
+                </svg>
+
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <svg className="w-10 h-10 text-gray-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    <span className="text-[11px] text-gray-400">Henüz fotoğraf yok</span>
+                    <svg className="w-10 h-10 text-gray-400 mb-2 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span className="text-[11px] text-gray-500">Henüz fotoğraf yok</span>
                   </div>
                 ) : (
-                  slideshowPhotos.map((url, i) => (
-                    <img
-                      key={i}
-                      src={url}
-                      alt=""
-                      className="absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out album-hero-img"
-                      style={{
-                        opacity: i === galleryIndex ? 1 : 0,
-                        animation: i === galleryIndex ? 'albumKenBurns 6s ease-in-out infinite alternate' : 'none',
-                      }}
-                    />
-                  ))
-                )}
-                {/* Üstte küçük sayaç pill */}
-                {slideshowPhotos.length > 0 && (
-                  <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)' }}>
-                    {galleryIndex + 1} / {slideshowPhotos.length}
-                  </div>
-                )}
-                {/* Hover hint */}
-                {slideshowPhotos.length > 0 && (
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity" style={{ background: 'rgba(0,0,0,0.25)' }}>
-                    <div className="px-3 py-1.5 rounded-full text-xs font-semibold text-white" style={{ background: 'rgba(200,104,110,0.95)' }}>Tüm Albümü Aç</div>
-                  </div>
+                  <>
+                    {[0, 1, 2].map((slot) => {
+                      const photoIdx = (galleryIndex + slot) % slideshowPhotos.length;
+                      const z = slot === 1 ? 3 : slot === 2 ? 2 : 1;
+                      const tapeColor = slot === 0 ? 'rgba(212,196,171,0.65)' : slot === 1 ? 'rgba(232,213,178,0.7)' : 'rgba(200,176,150,0.6)';
+                      const tapeRot = slot === 0 ? 18 : slot === 1 ? -8 : -14;
+                      return (
+                        <div
+                          key={slot}
+                          onClick={() => setPhotoLightboxIndex(photoIdx)}
+                          className="absolute top-1/2 left-1/2 cursor-pointer hover:z-10 transition-transform"
+                          style={{
+                            zIndex: z,
+                            animation: `polaroidFloat${slot} 5s ease-in-out infinite alternate`,
+                          }}
+                        >
+                          <div className="relative bg-white" style={{ padding: '6px 6px 18px 6px', boxShadow: '0 8px 22px rgba(80,50,30,0.22), 0 2px 6px rgba(0,0,0,0.08)' }}>
+                            {/* Washi tape */}
+                            <div className="absolute -top-1.5 left-1/2 w-10 h-3 pointer-events-none" style={{ background: `linear-gradient(90deg, transparent 0%, ${tapeColor} 15%, ${tapeColor} 85%, transparent 100%)`, transform: `translateX(-50%) rotate(${tapeRot}deg)`, boxShadow: '0 1px 2px rgba(0,0,0,0.08)' }} />
+                            <img
+                              key={`${slot}-${photoIdx}`}
+                              src={slideshowPhotos[photoIdx]}
+                              alt=""
+                              className="block object-cover"
+                              style={{ width: 78, height: 78, animation: 'polaroidPop 0.55s ease-out' }}
+                            />
+                            <div className="absolute bottom-1 left-0 right-0 text-center text-[8px] font-semibold tracking-wide" style={{ color: '#B8965A', fontFamily: '"Brush Script MT", "Lucida Handwriting", cursive' }}>
+                              ♥ Nikahım
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* Counter pill */}
+                    <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white z-20" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)' }}>
+                      {slideshowPhotos.length} foto
+                    </div>
+                  </>
                 )}
               </div>
 
-              {/* Dots */}
-              {slideshowPhotos.length > 1 && (
-                <div className="flex justify-center gap-1.5 mb-3">
-                  {slideshowPhotos.slice(0, 8).map((_, i) => (
-                    <button key={i} onClick={() => setGalleryIndex(i)} className="rounded-full transition-all" style={{
-                      width: i === galleryIndex ? 18 : 6,
-                      height: 6,
-                      background: i === galleryIndex ? '#C8686E' : 'rgba(200,104,110,0.25)',
-                    }} aria-label={`Foto ${i+1}`} />
-                  ))}
-                  {slideshowPhotos.length > 8 && (
-                    <span className="text-[10px] text-gray-400 ml-1 self-center">+{slideshowPhotos.length - 8}</span>
-                  )}
-                </div>
-              )}
+              {/* Albümü Görüntüle — premium pill */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:scale-[1.02] text-white relative overflow-hidden mb-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: 'linear-gradient(135deg, #E8B89A, #D4956A, #B87850)', boxShadow: '0 6px 16px rgba(184,120,80,0.3), inset 0 1px 0 rgba(255,255,255,0.4)' }}>
+                <span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} />
+                <svg className="w-4 h-4 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                <span className="relative">Albümü Görüntüle</span>
+              </button>
 
-              {/* Fotoğraf Ekle butonu */}
-              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
-                <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
+              {/* Fotoğraf Ekle — secondary */}
+              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2 rounded-xl flex items-center justify-center gap-2 font-semibold text-xs transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
+                <span className="w-4 h-4 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
+                  <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
                 </span>
                 Fotoğraf Ekle
               </button>
-
-              {/* Bottom counter */}
-              <p className="text-center text-[11px] text-gray-400 mt-2">Toplam {slideshowPhotos.length} fotoğraf</p>
             </div>
 
           </div>

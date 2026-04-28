@@ -95,6 +95,25 @@ html, body {
   100% { transform: scale(1.08) translate(-1.5%, -1.5%); }
 }
 
+@keyframes polaroidFloat0 {
+  0%, 100% { transform: translate(-50%, -50%) translate(-30%, 6%) rotate(-9deg); }
+  50%      { transform: translate(-50%, -50%) translate(-30%, 4%) rotate(-8deg); }
+}
+@keyframes polaroidFloat1 {
+  0%, 100% { transform: translate(-50%, -50%) translate(0%, -2%) rotate(3deg); }
+  50%      { transform: translate(-50%, -50%) translate(0%, -4%) rotate(2deg); }
+}
+@keyframes polaroidFloat2 {
+  0%, 100% { transform: translate(-50%, -50%) translate(30%, 4%) rotate(8deg); }
+  50%      { transform: translate(-50%, -50%) translate(30%, 2%) rotate(9deg); }
+}
+
+@keyframes polaroidPop {
+  0%   { opacity: 0; transform: scale(0.85); }
+  60%  { opacity: 1; transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 @keyframes notificationSlide {
   0% { opacity: 0; transform: translateY(12px) scale(0.95); }
   8% { opacity: 1; transform: translateY(0) scale(1); }
