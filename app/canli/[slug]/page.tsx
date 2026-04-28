@@ -1741,6 +1741,24 @@ export default function WatchPage() {
               <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-[0.08] pointer-events-none" style={{ background: '#D4AF37' }} />
               <div className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-[0.05] pointer-events-none" style={{ background: '#E8C27A' }} />
 
+              {/* Dekoratif yaprak/çiçek köşesi - sol üst */}
+              <svg className="absolute top-0 left-0 w-32 h-32 pointer-events-none opacity-50" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 15 Q 25 10 35 25 Q 30 35 18 32 Q 10 28 5 15 Z" fill="#D4C088" opacity="0.55" />
+                <path d="M40 8 Q 55 5 60 18 Q 56 25 47 22 Q 40 18 40 8 Z" fill="#E8D3A3" opacity="0.5" />
+                <path d="M15 40 Q 30 35 38 50 Q 32 60 22 55 Q 15 50 15 40 Z" fill="#C9B871" opacity="0.45" />
+                <circle cx="50" cy="40" r="6" fill="#F0D080" opacity="0.7" />
+                <circle cx="48" cy="38" r="2" fill="#B8965A" opacity="0.8" />
+                <path d="M58 35 Q 72 30 78 45 Q 70 52 60 48 Q 55 45 58 35 Z" fill="#D4C088" opacity="0.4" />
+                <path d="M3 50 Q 10 60 20 70 Q 12 75 5 70 Q 0 62 3 50 Z" fill="#A8965A" opacity="0.35" />
+              </svg>
+
+              {/* Dekoratif yaprak köşesi - sağ üst */}
+              <svg className="absolute top-0 right-0 w-28 h-28 pointer-events-none opacity-40 scale-x-[-1]" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10 18 Q 30 12 40 28 Q 35 38 22 35 Q 12 30 10 18 Z" fill="#D4C088" opacity="0.5" />
+                <path d="M45 12 Q 60 8 65 22 Q 60 30 50 26 Q 45 22 45 12 Z" fill="#E8D3A3" opacity="0.45" />
+                <circle cx="55" cy="42" r="5" fill="#F0D080" opacity="0.6" />
+              </svg>
+
               <div className="px-5 pt-4 pb-3">
                 {/* Merkezi başlık */}
                 <div className="text-center mb-3">
@@ -1781,7 +1799,7 @@ export default function WatchPage() {
                 <p className="text-gray-400 text-[10px]">30 sn video mesaj</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
-              <button onClick={() => setShowVideoRecorder(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #D4757E, #C45560)', boxShadow: '0 2px 8px rgba(180,70,80,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #E8A8AE, #D4757E, #C25A65)', boxShadow: '0 6px 16px rgba(196,90,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
             {/* Sesli Tebrik - pastel mavi */}
@@ -1794,7 +1812,7 @@ export default function WatchPage() {
                 <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
-              <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 2px 8px rgba(111,175,207,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #B5DAEA, #85C4DE, #6FAFCF)', boxShadow: '0 6px 16px rgba(111,175,207,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
             {/* Mesaj Tebrik - açık yeşil */}
@@ -1807,7 +1825,7 @@ export default function WatchPage() {
                 <p className="text-gray-400 text-[10px]">Yazılı tebrik bırakın</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
-              <button onClick={() => setShowMessageModal(true)} className="text-white px-5 py-2.5 rounded-lg font-medium text-xs flex-shrink-0 transition-all hover:scale-105" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 2px 8px rgba(76,175,80,0.15)' }}>Gönder</button>
+              <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
             {/* Nikah Albümü — premium hero carousel */}
