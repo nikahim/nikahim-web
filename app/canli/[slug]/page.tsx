@@ -876,7 +876,7 @@ export default function WatchPage() {
 
   if (viewerLimitReached && !isNameEntered && !isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
           
           <div className="text-6xl mb-4 mt-8">😔</div>
@@ -901,7 +901,7 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
           <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
@@ -935,8 +935,15 @@ export default function WatchPage() {
             Devam Et
           </button>
 
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-[10px] font-semibold text-gray-400 tracking-wider">veya</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
           {/* Anı Paylaş kartı — afilli */}
-          <div className="mt-5 rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
@@ -1045,7 +1052,7 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative" style={{ marginTop: -40 }}>
           <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
@@ -1101,8 +1108,15 @@ export default function WatchPage() {
             Devam Et
           </button>
 
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-[10px] font-semibold text-gray-400 tracking-wider">veya</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
+
           {/* Anı Paylaş kartı — afilli */}
-          <div className="mt-5 rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
