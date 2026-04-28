@@ -1741,73 +1741,6 @@ export default function WatchPage() {
               <div className="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-[0.08] pointer-events-none" style={{ background: '#D4AF37' }} />
               <div className="absolute top-0 left-0 w-32 h-32 rounded-full blur-3xl opacity-[0.05] pointer-events-none" style={{ background: '#E8C27A' }} />
 
-              {/* Dekoratif dallı çiçek - sol üst */}
-              <svg className="absolute top-0 left-0 w-40 h-40 pointer-events-none opacity-70" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Ana dal */}
-                <path d="M 6 6 Q 18 22 28 38 T 44 64 T 64 90" stroke="#9C8A60" strokeWidth="1.4" fill="none" strokeLinecap="round" opacity="0.55" />
-                {/* Yan dal */}
-                <path d="M 28 38 Q 40 32 52 32" stroke="#9C8A60" strokeWidth="1" fill="none" strokeLinecap="round" opacity="0.45" />
-                <path d="M 44 64 Q 56 58 68 58" stroke="#9C8A60" strokeWidth="1" fill="none" strokeLinecap="round" opacity="0.42" />
-                {/* Yapraklar - ana dal */}
-                <ellipse cx="14" cy="22" rx="5.5" ry="2.2" fill="#B5A570" opacity="0.55" transform="rotate(-25 14 22)" />
-                <ellipse cx="22" cy="20" rx="5.5" ry="2.2" fill="#C9BB87" opacity="0.55" transform="rotate(45 22 20)" />
-                <ellipse cx="22" cy="44" rx="6" ry="2.4" fill="#B5A570" opacity="0.55" transform="rotate(-20 22 44)" />
-                <ellipse cx="34" cy="42" rx="6" ry="2.4" fill="#C9BB87" opacity="0.55" transform="rotate(55 34 42)" />
-                <ellipse cx="38" cy="68" rx="5.5" ry="2.2" fill="#B5A570" opacity="0.55" transform="rotate(-15 38 68)" />
-                <ellipse cx="50" cy="66" rx="5.5" ry="2.2" fill="#C9BB87" opacity="0.55" transform="rotate(60 50 66)" />
-                <ellipse cx="58" cy="92" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-10 58 92)" />
-                {/* Yan dal yaprakları */}
-                <ellipse cx="40" cy="34" rx="4" ry="1.8" fill="#C9BB87" opacity="0.5" transform="rotate(20 40 34)" />
-                <ellipse cx="48" cy="32" rx="4" ry="1.8" fill="#B5A570" opacity="0.5" transform="rotate(-5 48 32)" />
-                <ellipse cx="58" cy="60" rx="4.2" ry="1.8" fill="#C9BB87" opacity="0.5" transform="rotate(15 58 60)" />
-                {/* Ana çiçek */}
-                <g transform="translate(56, 30)">
-                  <g><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
-                  <g transform="rotate(72)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
-                  <g transform="rotate(144)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
-                  <g transform="rotate(216)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
-                  <g transform="rotate(288)"><ellipse cx="0" cy="-4.2" rx="2.6" ry="3.8" fill="#F0D58A" opacity="0.8" /></g>
-                  <circle r="1.9" cx="0" cy="0" fill="#B8965A" opacity="0.9" />
-                </g>
-                {/* İkinci çiçek */}
-                <g transform="translate(72, 56)">
-                  <g><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
-                  <g transform="rotate(72)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
-                  <g transform="rotate(144)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
-                  <g transform="rotate(216)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
-                  <g transform="rotate(288)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#E8C56B" opacity="0.75" /></g>
-                  <circle r="1.5" cx="0" cy="0" fill="#B8965A" opacity="0.9" />
-                </g>
-                {/* Küçük tomurcuk */}
-                <g transform="translate(18, 10)">
-                  <circle r="2.4" fill="#F0D58A" opacity="0.6" />
-                  <circle r="1" fill="#B8965A" opacity="0.85" />
-                </g>
-              </svg>
-
-              {/* Dekoratif dallı çiçek - sağ üst (mirror) */}
-              <svg className="absolute top-0 right-0 w-36 h-36 pointer-events-none opacity-60 scale-x-[-1]" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 6 6 Q 18 22 28 38 T 44 64 T 60 88" stroke="#9C8A60" strokeWidth="1.3" fill="none" strokeLinecap="round" opacity="0.5" />
-                <path d="M 28 38 Q 40 34 50 34" stroke="#9C8A60" strokeWidth="0.9" fill="none" strokeLinecap="round" opacity="0.42" />
-                <ellipse cx="14" cy="22" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-25 14 22)" />
-                <ellipse cx="22" cy="20" rx="5" ry="2" fill="#C9BB87" opacity="0.5" transform="rotate(45 22 20)" />
-                <ellipse cx="22" cy="44" rx="5.5" ry="2.2" fill="#B5A570" opacity="0.5" transform="rotate(-20 22 44)" />
-                <ellipse cx="34" cy="42" rx="5.5" ry="2.2" fill="#C9BB87" opacity="0.5" transform="rotate(55 34 42)" />
-                <ellipse cx="38" cy="68" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-15 38 68)" />
-                <ellipse cx="44" cy="36" rx="3.8" ry="1.6" fill="#C9BB87" opacity="0.45" transform="rotate(15 44 36)" />
-                <g transform="translate(54, 30)">
-                  <g><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
-                  <g transform="rotate(72)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
-                  <g transform="rotate(144)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
-                  <g transform="rotate(216)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
-                  <g transform="rotate(288)"><ellipse cx="0" cy="-3.8" rx="2.3" ry="3.4" fill="#F0D58A" opacity="0.75" /></g>
-                  <circle r="1.7" cx="0" cy="0" fill="#B8965A" opacity="0.85" />
-                </g>
-                <g transform="translate(20, 10)">
-                  <circle r="2.2" fill="#F0D58A" opacity="0.55" />
-                  <circle r="0.9" fill="#B8965A" opacity="0.8" />
-                </g>
-              </svg>
 
               <div className="px-5 pt-4 pb-3">
                 {/* Merkezi başlık */}
@@ -1899,51 +1832,6 @@ export default function WatchPage() {
 
               {/* POLAROID STAGE — scattered + auto-rotate */}
               <div className="relative w-full overflow-hidden rounded-2xl mb-3" style={{ aspectRatio: '16 / 11', background: 'linear-gradient(135deg, #FBF1E0 0%, #F5E2C8 50%, #EFD5B0 100%)', border: '1px solid rgba(200,104,110,0.10)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.55), inset 0 -20px 40px rgba(184,120,80,0.07), 0 4px 12px rgba(200,104,110,0.06)' }}>
-                {/* Dallı çiçek dekor — sol üst */}
-                <svg className="absolute -top-2 -left-2 w-24 h-24 pointer-events-none" viewBox="0 0 100 100">
-                  <path d="M 5 5 Q 14 18 22 30 T 36 52 T 52 76" stroke="#9C8A60" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.55" />
-                  <path d="M 22 30 Q 32 26 42 26" stroke="#9C8A60" strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.45" />
-                  <ellipse cx="11" cy="18" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.55" transform="rotate(-25 11 18)" />
-                  <ellipse cx="18" cy="16" rx="4.5" ry="1.8" fill="#C9BB87" opacity="0.55" transform="rotate(45 18 16)" />
-                  <ellipse cx="18" cy="36" rx="5" ry="2" fill="#B5A570" opacity="0.55" transform="rotate(-20 18 36)" />
-                  <ellipse cx="28" cy="34" rx="5" ry="2" fill="#C9BB87" opacity="0.55" transform="rotate(55 28 34)" />
-                  <ellipse cx="32" cy="56" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.5" transform="rotate(-15 32 56)" />
-                  <ellipse cx="34" cy="22" rx="3.5" ry="1.5" fill="#C9BB87" opacity="0.5" transform="rotate(20 34 22)" />
-                  <g transform="translate(46, 22)">
-                    <g><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
-                    <g transform="rotate(72)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
-                    <g transform="rotate(144)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
-                    <g transform="rotate(216)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
-                    <g transform="rotate(288)"><ellipse cx="0" cy="-3.4" rx="2.1" ry="3" fill="#F0D58A" opacity="0.78" /></g>
-                    <circle r="1.5" cx="0" cy="0" fill="#B8965A" opacity="0.9" />
-                  </g>
-                  <g transform="translate(15, 8)">
-                    <circle r="2" fill="#F0D58A" opacity="0.6" />
-                    <circle r="0.9" fill="#B8965A" opacity="0.85" />
-                  </g>
-                </svg>
-                {/* Dallı çiçek dekor — sağ alt (mirror) */}
-                <svg className="absolute -bottom-2 -right-2 w-28 h-28 pointer-events-none scale-x-[-1] rotate-180" viewBox="0 0 100 100">
-                  <path d="M 5 5 Q 14 18 22 30 T 36 52 T 52 76" stroke="#9C8A60" strokeWidth="1.1" fill="none" strokeLinecap="round" opacity="0.5" />
-                  <path d="M 22 30 Q 32 26 42 26" stroke="#9C8A60" strokeWidth="0.8" fill="none" strokeLinecap="round" opacity="0.42" />
-                  <ellipse cx="11" cy="18" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.5" transform="rotate(-25 11 18)" />
-                  <ellipse cx="18" cy="16" rx="4.5" ry="1.8" fill="#C9BB87" opacity="0.5" transform="rotate(45 18 16)" />
-                  <ellipse cx="18" cy="36" rx="5" ry="2" fill="#B5A570" opacity="0.5" transform="rotate(-20 18 36)" />
-                  <ellipse cx="28" cy="34" rx="5" ry="2" fill="#C9BB87" opacity="0.5" transform="rotate(55 28 34)" />
-                  <ellipse cx="32" cy="56" rx="4.5" ry="1.8" fill="#B5A570" opacity="0.45" transform="rotate(-15 32 56)" />
-                  <g transform="translate(46, 22)">
-                    <g><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
-                    <g transform="rotate(72)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
-                    <g transform="rotate(144)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
-                    <g transform="rotate(216)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
-                    <g transform="rotate(288)"><ellipse cx="0" cy="-3.2" rx="2" ry="2.8" fill="#F0D58A" opacity="0.72" /></g>
-                    <circle r="1.4" cx="0" cy="0" fill="#B8965A" opacity="0.85" />
-                  </g>
-                  <g transform="translate(16, 8)">
-                    <circle r="1.8" fill="#F0D58A" opacity="0.55" />
-                    <circle r="0.8" fill="#B8965A" opacity="0.8" />
-                  </g>
-                </svg>
 
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
