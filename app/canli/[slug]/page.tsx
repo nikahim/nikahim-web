@@ -1812,20 +1812,9 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — fan-stack design */}
-            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FBF5EC 0%, #F4E8D4 100%)', boxShadow: '0 8px 32px rgba(184,150,90,0.12)', border: '1px solid rgba(200,170,120,0.20)' }}>
-              {/* Eucalyptus leaf branch - sağ üst */}
-              <svg className="absolute -top-1 -right-1 w-32 h-20 pointer-events-none" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M 115 5 Q 85 18 60 32 Q 35 46 8 56" stroke="#7B8A6E" strokeWidth="0.9" fill="none" strokeLinecap="round" opacity="0.7" />
-                <ellipse cx="105" cy="6" rx="7" ry="3.5" fill="#A8BD86" opacity="0.85" transform="rotate(-25 105 6)" />
-                <ellipse cx="100" cy="14" rx="6" ry="3" fill="#92A772" opacity="0.85" transform="rotate(155 100 14)" />
-                <ellipse cx="88" cy="14" rx="8" ry="4" fill="#A8BD86" opacity="0.85" transform="rotate(-15 88 14)" />
-                <ellipse cx="80" cy="24" rx="7" ry="3.5" fill="#92A772" opacity="0.85" transform="rotate(165 80 24)" />
-                <ellipse cx="65" cy="26" rx="9" ry="4" fill="#A8BD86" opacity="0.85" transform="rotate(-10 65 26)" />
-                <ellipse cx="58" cy="36" rx="7" ry="3.5" fill="#9DB07A" opacity="0.85" transform="rotate(170 58 36)" />
-                <ellipse cx="42" cy="40" rx="8" ry="3.5" fill="#A8BD86" opacity="0.85" transform="rotate(-5 42 40)" />
-                <ellipse cx="34" cy="48" rx="6" ry="3" fill="#92A772" opacity="0.85" transform="rotate(175 34 48)" />
-                <ellipse cx="20" cy="52" rx="6" ry="2.8" fill="#A8BD86" opacity="0.85" transform="rotate(5 20 52)" />
-              </svg>
+            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #EEF1E5 0%, #DCE2CB 100%)', boxShadow: '0 8px 32px rgba(120,140,90,0.14)', border: '1px solid rgba(140,160,110,0.20)' }}>
+              {/* Beyaz gül + dal görseli - sağ üst */}
+              <img src="/nikah-cicek.png" alt="" className="absolute -top-2 -right-2 w-36 pointer-events-none select-none z-0" style={{ filter: 'drop-shadow(0 2px 8px rgba(80,90,60,0.12))' }} />
 
               {/* Centered header */}
               <div className="text-center mb-1 relative z-10">
