@@ -1605,13 +1605,39 @@ export default function WatchPage() {
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
                   <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
                   <div className="relative z-10 flex flex-col items-center">
-                    <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="mb-3 lg:mb-6 rounded-full object-cover border-2 border-white/20 shadow-2xl w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
-                    <h3 className="text-white font-bold text-xl mb-3 lg:mb-6">{event.bride_first_name} & {event.groom_first_name}</h3>
-                    <div className="flex gap-2 lg:gap-3">
+                    {/* Couple photo with gold ring */}
+                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #F0D58A 0%, #C49520 35%, #8B6914 65%, #F0D58A 100%)', padding: '2.5px', boxShadow: '0 0 30px rgba(212,175,55,0.30), 0 8px 28px rgba(0,0,0,0.45)' }}>
+                      <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
+                    </div>
+
+                    {/* Couple names — serif premium */}
+                    <h3 className="text-white text-2xl lg:text-4xl mb-2 lg:mb-3" style={{ fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, textShadow: '0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(212,175,55,0.18)', letterSpacing: '0.5px' }}>
+                      {event.bride_first_name} & {event.groom_first_name}
+                    </h3>
+
+                    {/* Decorative line + heart */}
+                    <div className="flex items-center gap-3 mb-4 lg:mb-6 w-[280px] lg:w-[420px]">
+                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.65) 50%, transparent)' }} />
+                      <svg className="w-3 h-3 lg:w-3.5 lg:h-3.5" viewBox="0 0 24 24" fill="#D4AF37" style={{ filter: 'drop-shadow(0 0 4px rgba(212,175,55,0.6))' }}>
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                      </svg>
+                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.65) 50%, transparent)' }} />
+                    </div>
+
+                    {/* Countdown boxes — gold-bordered premium */}
+                    <div className="flex items-center">
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
-                        <div key={i} className="backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[48px] lg:min-w-[60px] transition-transform hover:scale-105" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: 'inset 0 0 20px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.15)' }}>
-                          <div className="text-xl lg:text-3xl font-bold text-white drop-shadow-lg">{c.v}</div>
-                          <div className="text-[9px] lg:text-[10px] text-white/50 uppercase tracking-wider mt-1">{c.l}</div>
+                        <div key={i} className="flex items-center">
+                          {i > 0 && (
+                            <span className="px-1 lg:px-1.5 text-xl lg:text-2xl font-bold" style={{ color: '#D4AF37', textShadow: '0 0 8px rgba(212,175,55,0.6)' }}>:</span>
+                          )}
+                          <div className="rounded-xl" style={{ background: 'linear-gradient(135deg, #F0D58A 0%, #B8860B 35%, #8B6914 70%, #F0D58A 100%)', padding: '1.5px', boxShadow: '0 6px 20px rgba(0,0,0,0.45), 0 0 0 1px rgba(212,175,55,0.18)' }}>
+                            <div className="relative rounded-[10px] text-center min-w-[58px] lg:min-w-[88px] px-3 py-2.5 lg:px-5 lg:py-4" style={{ background: 'linear-gradient(180deg, rgba(15,10,5,0.95) 0%, rgba(35,24,10,0.95) 100%)', boxShadow: 'inset 0 0 18px rgba(212,175,55,0.12), inset 0 1px 0 rgba(255,220,140,0.15)' }}>
+                              <div className="absolute inset-1.5 rounded-md pointer-events-none" style={{ border: '0.8px solid rgba(212,175,55,0.25)' }} />
+                              <div className="text-2xl lg:text-4xl font-bold relative z-10 leading-none" style={{ background: 'linear-gradient(180deg, #F0D850 0%, #D4B040 40%, #A07818 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontFamily: 'Georgia, serif', filter: 'drop-shadow(0 0 8px rgba(240,213,80,0.30))' }}>{c.v}</div>
+                              <div className="text-[9px] lg:text-[11px] uppercase tracking-[0.15em] mt-1.5 relative z-10" style={{ color: 'rgba(255,240,210,0.7)', fontWeight: 500 }}>{c.l}</div>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
