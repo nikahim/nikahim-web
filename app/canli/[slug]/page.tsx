@@ -1811,78 +1811,72 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — polaroid scattered stage */}
-            <div className="rounded-2xl p-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF8F9 100%)', boxShadow: '0 8px 32px rgba(200,104,110,0.1)', border: '1px solid rgba(200,104,110,0.14)' }}>
-              {/* Decorative gold/rose corner shimmer */}
-              <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-[0.07] pointer-events-none" style={{ background: 'radial-gradient(circle, #D4AF7A, transparent 70%)' }} />
+            {/* Nikah Albümü — fan-stack design */}
+            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FBF5EC 0%, #F4E8D4 100%)', boxShadow: '0 8px 32px rgba(184,150,90,0.12)', border: '1px solid rgba(200,170,120,0.20)' }}>
+              {/* Eucalyptus leaf branch - sağ üst */}
+              <svg className="absolute -top-1 -right-1 w-32 h-20 pointer-events-none" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 115 5 Q 85 18 60 32 Q 35 46 8 56" stroke="#7B8A6E" strokeWidth="0.9" fill="none" strokeLinecap="round" opacity="0.7" />
+                <ellipse cx="105" cy="6" rx="7" ry="3.5" fill="#A8BD86" opacity="0.85" transform="rotate(-25 105 6)" />
+                <ellipse cx="100" cy="14" rx="6" ry="3" fill="#92A772" opacity="0.85" transform="rotate(155 100 14)" />
+                <ellipse cx="88" cy="14" rx="8" ry="4" fill="#A8BD86" opacity="0.85" transform="rotate(-15 88 14)" />
+                <ellipse cx="80" cy="24" rx="7" ry="3.5" fill="#92A772" opacity="0.85" transform="rotate(165 80 24)" />
+                <ellipse cx="65" cy="26" rx="9" ry="4" fill="#A8BD86" opacity="0.85" transform="rotate(-10 65 26)" />
+                <ellipse cx="58" cy="36" rx="7" ry="3.5" fill="#9DB07A" opacity="0.85" transform="rotate(170 58 36)" />
+                <ellipse cx="42" cy="40" rx="8" ry="3.5" fill="#A8BD86" opacity="0.85" transform="rotate(-5 42 40)" />
+                <ellipse cx="34" cy="48" rx="6" ry="3" fill="#92A772" opacity="0.85" transform="rotate(175 34 48)" />
+                <ellipse cx="20" cy="52" rx="6" ry="2.8" fill="#A8BD86" opacity="0.85" transform="rotate(5 20 52)" />
+              </svg>
 
-              {/* Header — kamera ikonu + başlık + sparkle */}
-              <div className="flex items-center gap-2 mb-2 relative z-10">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.14), rgba(200,104,110,0.06))', border: '1px solid rgba(200,104,110,0.15)' }}>
-                  <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </div>
-                <h3 className="text-base font-bold flex-1" style={{ color: '#1A1A2E' }}>Nikah Albümü</h3>
-                <span className="text-sm" style={{ color: '#D4AF7A' }}>✨</span>
+              {/* Centered header */}
+              <div className="text-center mb-1 relative z-10">
+                <h3 className="text-lg" style={{ color: '#3A2D20', fontFamily: 'Georgia, "Playfair Display", serif', letterSpacing: '0.3px', fontWeight: 500 }}>
+                  Nikah Albümü <span style={{ color: '#D4AF7A' }}>✨</span>
+                </h3>
+                <p className="text-[11px] text-gray-500 mt-0.5">Nikah gününde çekilen fotoğrafların albümü.</p>
               </div>
 
-              {/* Subtitle */}
-              <p className="text-[12px] text-gray-500 mb-3 text-center leading-snug">
-                Nikah gününde çekilen fotoğrafların albümü.
-              </p>
-
-              {/* POLAROID STAGE — scattered + auto-rotate */}
-              <div className="relative w-full overflow-hidden rounded-2xl mb-3" style={{ aspectRatio: '16 / 11', background: 'linear-gradient(135deg, #FBF1E0 0%, #F5E2C8 50%, #EFD5B0 100%)', border: '1px solid rgba(200,104,110,0.10)', boxShadow: 'inset 0 0 0 1px rgba(255,255,255,0.55), inset 0 -20px 40px rgba(184,120,80,0.07), 0 4px 12px rgba(200,104,110,0.06)' }}>
-
+              {/* PHOTO FAN STAGE */}
+              <div className="relative w-full mb-3 mt-3" style={{ aspectRatio: '16 / 11' }}>
                 {slideshowPhotos.length === 0 ? (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl" style={{ background: 'rgba(255,255,255,0.4)' }}>
                     <svg className="w-10 h-10 text-gray-400 mb-2 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                     <span className="text-[11px] text-gray-500">Henüz fotoğraf yok</span>
                   </div>
                 ) : (
                   <>
-                    {[0, 1, 2].map((slot) => {
-                      const photoIdx = (galleryIndex + slot) % slideshowPhotos.length;
-                      const z = slot === 1 ? 3 : slot === 2 ? 2 : 1;
-                      const tapeColor = slot === 0 ? 'rgba(212,196,171,0.65)' : slot === 1 ? 'rgba(232,213,178,0.7)' : 'rgba(200,176,150,0.6)';
-                      const tapeRot = slot === 0 ? 18 : slot === 1 ? -8 : -14;
-                      return (
-                        <div
-                          key={slot}
-                          onClick={() => setPhotoLightboxIndex(photoIdx)}
-                          className="absolute top-1/2 left-1/2 cursor-pointer hover:z-10 transition-transform"
-                          style={{
-                            zIndex: z,
-                            animation: `polaroidFloat${slot} 5s ease-in-out infinite alternate`,
-                          }}
-                        >
-                          <div className="relative bg-white" style={{ padding: '6px 6px 18px 6px', boxShadow: '0 8px 22px rgba(80,50,30,0.22), 0 2px 6px rgba(0,0,0,0.08)' }}>
-                            {/* Washi tape */}
-                            <div className="absolute -top-1.5 left-1/2 w-10 h-3 pointer-events-none" style={{ background: `linear-gradient(90deg, transparent 0%, ${tapeColor} 15%, ${tapeColor} 85%, transparent 100%)`, transform: `translateX(-50%) rotate(${tapeRot}deg)`, boxShadow: '0 1px 2px rgba(0,0,0,0.08)' }} />
-                            <img
-                              key={`${slot}-${photoIdx}`}
-                              src={slideshowPhotos[photoIdx]}
-                              alt=""
-                              className="block object-cover"
-                              style={{ width: 78, height: 78, animation: 'polaroidPop 0.55s ease-out' }}
-                            />
-                            <div className="absolute bottom-1 left-0 right-0 text-center text-[8px] font-semibold tracking-wide" style={{ color: '#B8965A', fontFamily: '"Brush Script MT", "Lucida Handwriting", cursive' }}>
-                              ♥ Nikahım
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {/* Sol fotoğraf */}
+                    <div onClick={() => setPhotoLightboxIndex((galleryIndex + 0) % slideshowPhotos.length)} className="absolute top-1/2 left-0 cursor-pointer transition-transform hover:scale-[1.04]" style={{ transform: 'translateY(-50%) rotate(-7deg)', zIndex: 1 }}>
+                      <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.08)' }}>
+                        <img key={`left-${(galleryIndex + 0) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 0) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'polaroidPop 0.55s ease-out' }} />
+                      </div>
+                    </div>
 
-                    {/* Counter pill */}
-                    <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full text-[10px] font-bold text-white z-20" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)' }}>
-                      {slideshowPhotos.length} foto
+                    {/* Sağ fotoğraf */}
+                    <div onClick={() => setPhotoLightboxIndex((galleryIndex + 2) % slideshowPhotos.length)} className="absolute top-1/2 right-0 cursor-pointer transition-transform hover:scale-[1.04]" style={{ transform: 'translateY(-50%) rotate(7deg)', zIndex: 1 }}>
+                      <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.08)' }}>
+                        <img key={`right-${(galleryIndex + 2) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 2) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'polaroidPop 0.55s ease-out' }} />
+                      </div>
+                    </div>
+
+                    {/* Orta fotoğraf - öne, Albümü Görüntüle pill ile */}
+                    <div className="absolute top-1/2 left-1/2 cursor-pointer" style={{ transform: 'translate(-50%, -50%) rotate(2deg)', zIndex: 3 }} onClick={() => setPhotoLightboxIndex((galleryIndex + 1) % slideshowPhotos.length)}>
+                      <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 14px 28px rgba(60,40,20,0.30), 0 4px 10px rgba(0,0,0,0.10)' }}>
+                        <img key={`center-${(galleryIndex + 1) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 1) % slideshowPhotos.length]} alt="" className="block object-cover rounded-lg" style={{ width: 130, height: 145, animation: 'polaroidPop 0.55s ease-out' }} />
+
+                        {/* Albümü Görüntüle pill */}
+                        <button onClick={(e) => { e.stopPropagation(); setShowPhotoGallery(true); }} className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-white text-[10px] font-semibold whitespace-nowrap transition-all hover:scale-105" style={{ background: 'rgba(20,15,12,0.88)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', boxShadow: '0 4px 10px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                          Albümü Görüntüle
+                          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}
               </div>
 
               {/* Fotoğraf Ekle */}
-              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:bg-rose-50" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
+              <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:bg-rose-50 relative z-10" style={{ color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)', background: 'rgba(200,104,110,0.03)' }}>
                 <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: '#C8686E' }}>
                   <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
                 </span>
