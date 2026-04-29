@@ -114,6 +114,11 @@ html, body {
   100% { opacity: 1; transform: scale(1); }
 }
 
+@keyframes albumPhotoFade {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 @keyframes albumFloatLeft {
   0%   { transform: translateY(-50%) rotate(-7deg); }
   100% { transform: translateY(-53%) rotate(-9deg); }

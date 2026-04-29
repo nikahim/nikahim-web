@@ -1820,31 +1820,39 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — temiz pembe gül background */}
-            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ background: 'url(/album-bg-3.png) center/cover no-repeat', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            {/* Nikah Albümü — temiz pembe gül background (tam stretch) */}
+            <div className="rounded-2xl px-4 pt-5 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-3.png)', backgroundSize: '100% 100%', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Centered header — 3-tier + iki yan pembe gül */}
+              {/* Centered header — başlık + iki yan zengin pembe gül */}
               <div className="text-center relative z-10">
-                <p className="uppercase" style={{ color: '#C5A46D', fontSize: '10px', fontWeight: 500, letterSpacing: '2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                  Özel Anlar
-                </p>
-                <div className="flex items-center justify-center gap-2 mt-1">
-                  <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none">
-                    <ellipse cx="6" cy="14" rx="3.5" ry="2" fill="#9DB07A" opacity="0.65" transform="rotate(-30 6 14)" />
-                    <ellipse cx="18" cy="13" rx="3" ry="1.8" fill="#A8BD86" opacity="0.6" transform="rotate(35 18 13)" />
-                    <circle cx="12" cy="11" r="3.5" fill="#E8A5A9" opacity="0.95" />
-                    <circle cx="12" cy="11" r="2.2" fill="#D17075" opacity="0.85" />
-                    <circle cx="11.5" cy="10.5" r="0.9" fill="#FCE0E1" opacity="0.85" />
+                <div className="flex items-center justify-center gap-2.5">
+                  <svg className="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none">
+                    {/* Yapraklar */}
+                    <ellipse cx="6" cy="20" rx="5" ry="2.5" fill="#9DB07A" opacity="0.7" transform="rotate(-35 6 20)" />
+                    <ellipse cx="24" cy="22" rx="4.5" ry="2.2" fill="#A8BD86" opacity="0.65" transform="rotate(40 24 22)" />
+                    <ellipse cx="9" cy="11" rx="3.5" ry="1.8" fill="#A8BD86" opacity="0.6" transform="rotate(-50 9 11)" />
+                    {/* Büyük gül */}
+                    <circle cx="16" cy="14" r="5.5" fill="#F2C2C5" opacity="0.95" />
+                    <circle cx="16" cy="14" r="3.8" fill="#E8A5A9" />
+                    <circle cx="16" cy="14" r="2.2" fill="#D17075" />
+                    <circle cx="15.4" cy="13.4" r="0.9" fill="#FCE0E1" opacity="0.9" />
+                    {/* Tomurcuk */}
+                    <circle cx="22" cy="9" r="2" fill="#F2C2C5" opacity="0.85" />
+                    <circle cx="22" cy="9" r="1.1" fill="#D17075" opacity="0.8" />
                   </svg>
                   <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '24px', letterSpacing: '0.5px', lineHeight: 1.2 }}>
                     Nikah Albümü
                   </h3>
-                  <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none">
-                    <ellipse cx="6" cy="14" rx="3.5" ry="2" fill="#9DB07A" opacity="0.65" transform="rotate(-30 6 14)" />
-                    <ellipse cx="18" cy="13" rx="3" ry="1.8" fill="#A8BD86" opacity="0.6" transform="rotate(35 18 13)" />
-                    <circle cx="12" cy="11" r="3.5" fill="#E8A5A9" opacity="0.95" />
-                    <circle cx="12" cy="11" r="2.2" fill="#D17075" opacity="0.85" />
-                    <circle cx="11.5" cy="10.5" r="0.9" fill="#FCE0E1" opacity="0.85" />
+                  <svg className="w-7 h-7 flex-shrink-0" viewBox="0 0 32 32" fill="none">
+                    <ellipse cx="6" cy="20" rx="5" ry="2.5" fill="#9DB07A" opacity="0.7" transform="rotate(-35 6 20)" />
+                    <ellipse cx="24" cy="22" rx="4.5" ry="2.2" fill="#A8BD86" opacity="0.65" transform="rotate(40 24 22)" />
+                    <ellipse cx="9" cy="11" rx="3.5" ry="1.8" fill="#A8BD86" opacity="0.6" transform="rotate(-50 9 11)" />
+                    <circle cx="16" cy="14" r="5.5" fill="#F2C2C5" opacity="0.95" />
+                    <circle cx="16" cy="14" r="3.8" fill="#E8A5A9" />
+                    <circle cx="16" cy="14" r="2.2" fill="#D17075" />
+                    <circle cx="15.4" cy="13.4" r="0.9" fill="#FCE0E1" opacity="0.9" />
+                    <circle cx="22" cy="9" r="2" fill="#F2C2C5" opacity="0.85" />
+                    <circle cx="22" cy="9" r="1.1" fill="#D17075" opacity="0.8" />
                   </svg>
                 </div>
                 <p className="mt-1.5" style={{ color: '#8A8A8A', fontSize: '12px', fontWeight: 400, lineHeight: 1.5, fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
@@ -1864,21 +1872,21 @@ export default function WatchPage() {
                     {/* Sol fotoğraf — float animasyonlu */}
                     <div onClick={() => setPhotoLightboxIndex((galleryIndex + 0) % slideshowPhotos.length)} className="absolute top-1/2 left-1 cursor-pointer" style={{ animation: 'albumFloatLeft 4.5s ease-in-out infinite alternate', zIndex: 1 }}>
                       <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.08)' }}>
-                        <img key={`left-${(galleryIndex + 0) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 0) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'polaroidPop 0.55s ease-out' }} />
+                        <img key={`left-${(galleryIndex + 0) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 0) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'albumPhotoFade 1s ease-in-out' }} />
                       </div>
                     </div>
 
                     {/* Sağ fotoğraf — float animasyonlu */}
                     <div onClick={() => setPhotoLightboxIndex((galleryIndex + 2) % slideshowPhotos.length)} className="absolute top-1/2 right-1 cursor-pointer" style={{ animation: 'albumFloatRight 5s ease-in-out infinite alternate', zIndex: 1 }}>
                       <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.08)' }}>
-                        <img key={`right-${(galleryIndex + 2) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 2) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'polaroidPop 0.55s ease-out' }} />
+                        <img key={`right-${(galleryIndex + 2) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 2) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'albumPhotoFade 1s ease-in-out' }} />
                       </div>
                     </div>
 
                     {/* Orta fotoğraf - öne, float animasyonlu */}
                     <div className="absolute top-1/2 left-1/2 cursor-pointer" style={{ animation: 'albumFloatCenter 4.2s ease-in-out infinite alternate', zIndex: 3 }} onClick={() => setPhotoLightboxIndex((galleryIndex + 1) % slideshowPhotos.length)}>
                       <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 14px 28px rgba(60,40,20,0.30), 0 4px 10px rgba(0,0,0,0.10)' }}>
-                        <img key={`center-${(galleryIndex + 1) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 1) % slideshowPhotos.length]} alt="" className="block object-cover rounded-lg" style={{ width: 130, height: 145, animation: 'polaroidPop 0.55s ease-out' }} />
+                        <img key={`center-${(galleryIndex + 1) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 1) % slideshowPhotos.length]} alt="" className="block object-cover rounded-lg" style={{ width: 130, height: 145, animation: 'albumPhotoFade 1s ease-in-out' }} />
                       </div>
                     </div>
                   </>
