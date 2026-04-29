@@ -165,8 +165,8 @@ export default function Home() {
               </h1>
               <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Nikah Albümü, Online Altın Takma, Videolu Tebrik mesajları ve daha fazlası tek platformda!</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-16">
-                <button onClick={() => setShowAppPopup(true)} className="text-white px-7 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Nikah Oluştur</button>
-                <button onClick={() => scrollToSection("nikah-ara")} className="px-7 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}><span className="lg:hidden">Canlı İzle</span><span className="hidden lg:inline">Canlı Nikah İzle</span></button>
+                <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Nikah Oluştur</button>
+                <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}><span className="lg:hidden">Canlı İzle</span><span className="hidden lg:inline">Canlı Nikah İzle</span></button>
               </div>
               <div className="flex gap-5">
                 {[
@@ -200,6 +200,67 @@ export default function Home() {
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse" />CANLI
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 space-y-8">
+          {/* Altınlarınızı Online Toplayın - kart */}
+          <div className="relative rounded-3xl overflow-hidden" style={{ backgroundImage: 'url(/altin-toplama-bg.png)', backgroundSize: 'cover', backgroundPosition: 'left center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <div className="grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[300px] md:min-h-[300px]">
+              <div className="hidden md:block" />
+              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[300px] md:min-h-[280px]">
+                <div className="pl-[44%] md:pl-0 text-right md:text-left">
+                  <h3 className="text-[22px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
+                  <h3 className="text-[22px] md:text-[40px] italic mb-2 md:mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
+                  <p className="text-[12px] md:text-[15px] leading-relaxed pl-[15%] md:pl-0" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
+                </div>
+                <div className="flex gap-2 flex-nowrap justify-end md:justify-start mt-5 md:mt-0">
+                  {[
+                    { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                    { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                    { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+                  ].map((b, i) => (
+                    <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Nikah Albümü - kart (dikey, 1 sütun) */}
+          <div className="relative rounded-3xl overflow-hidden" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: 'cover', backgroundPosition: 'top left', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <div className="px-6 pt-12 pb-8 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
+              <h3 className="mb-5 self-center" style={{ color: '#5c4632', fontFamily: 'var(--font-script), cursive', fontWeight: 600, fontSize: '30px', letterSpacing: '1px', lineHeight: 1.1, textShadow: '0 2px 6px rgba(60,40,20,0.15), 0 1px 2px rgba(0,0,0,0.08)', paddingLeft: '10%' }}><span className="md:hidden">Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '34px' }}>Nikah Albümü</span></h3>
+              <div className="relative w-full flex items-center justify-center mb-6" style={{ perspective: '1000px', height: 175 }}>
+                <div className="absolute" style={{ transform: 'translateX(-78px) translateY(8px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
+                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
+                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 96, height: 112 }} />
+                  </div>
+                </div>
+                <div className="absolute" style={{ transform: 'translateX(78px) translateY(8px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
+                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
+                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 96, height: 112 }} />
+                  </div>
+                </div>
+                <div className="relative" style={{ transform: 'translateZ(60px)', zIndex: 3 }}>
+                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
+                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md" style={{ width: 120, height: 140 }} />
+                  </div>
+                </div>
+              </div>
+              <p className="text-[14px] md:text-[15px] leading-relaxed mb-4 max-w-2xl" style={{ color: '#6E5A5A' }}>Online Nikah albümünüzü oluşturun, siz veya nikahtaki sevdikleriniz fotoğraflarını yüklesin. Tüm nikah fotoğraflarınızı tek bir yerde toplayın.</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {[
+                  { label: 'Birlikte Yükleyin', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
+                  { label: 'Tek Yerde Toplayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg> },
+                ].map((b, i) => (
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style={{ background: 'rgba(255,255,255,0.85)', color: '#9F4F58', border: '1px solid rgba(232,165,169,0.40)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                ))}
               </div>
             </div>
           </div>
@@ -272,74 +333,6 @@ export default function Home() {
                 <p className="text-gray-400 leading-relaxed">{item.desc}</p>
               </div>
             ))}
-          </div>
-          {/* Altınlarınızı Online Toplayın - kart */}
-          <div className="relative rounded-3xl overflow-hidden mb-8" style={{ backgroundImage: 'url(/altin-toplama-bg.png)', backgroundSize: 'cover', backgroundPosition: 'left center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[260px] md:min-h-[280px]">
-              {/* Sol: bg image'da gül + altın madalyon var */}
-              <div className="hidden md:block" />
-              {/* Sağ: içerik */}
-              <div className="p-6 md:py-10 md:pr-10 md:pl-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div className="md:max-w-md">
-                  <h3 className="text-3xl md:text-[40px] mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
-                  <h3 className="text-3xl md:text-[40px] italic mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
-                  <p className="text-[15px] leading-relaxed mb-5" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
-                  <div className="flex gap-2 flex-nowrap">
-                    {[
-                      { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                      { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                      { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
-                    ].map((b, i) => (
-                      <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
-                    ))}
-                  </div>
-                </div>
-                <div className="hidden xl:flex flex-col items-center text-center flex-shrink-0">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2" style={{ background: 'rgba(232,165,169,0.20)', border: '1px solid rgba(200,104,110,0.18)' }}>
-                    <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>
-                  </div>
-                  <p className="text-[13px] text-gray-600">Aracı yok.</p>
-                  <p className="text-[14px] italic font-semibold" style={{ color: '#C8686E' }}>doğrudan size!</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Nikah Albümü - kart (dikey, 1 sütun) */}
-          <div className="relative rounded-3xl overflow-hidden" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: 'cover', backgroundPosition: 'top left', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="px-6 pt-6 pb-8 md:px-10 md:pt-8 md:pb-10 flex flex-col items-center text-center">
-              {/* Başlık - sağa kayık (sol üst çiçek görünsün) */}
-              <h3 className="mb-5 self-center" style={{ color: '#5c4632', fontFamily: 'var(--font-script), cursive', fontWeight: 600, fontSize: '34px', letterSpacing: '1px', lineHeight: 1.1, textShadow: '0 2px 6px rgba(60,40,20,0.15), 0 1px 2px rgba(0,0,0,0.08)', paddingLeft: '8%' }}>Nikah Albümü</h3>
-              {/* 3 fotoğraf fan */}
-              <div className="relative w-full flex items-center justify-center mb-6" style={{ perspective: '1000px', height: 175 }}>
-                <div className="absolute" style={{ transform: 'translateX(-78px) translateY(8px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 96, height: 112 }} />
-                  </div>
-                </div>
-                <div className="absolute" style={{ transform: 'translateX(78px) translateY(8px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 96, height: 112 }} />
-                  </div>
-                </div>
-                <div className="relative" style={{ transform: 'translateZ(60px)', zIndex: 3 }}>
-                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md" style={{ width: 120, height: 140 }} />
-                  </div>
-                </div>
-              </div>
-              {/* Açıklama */}
-              <p className="text-[15px] leading-relaxed mb-4 max-w-2xl" style={{ color: '#6E5A5A' }}>Online Nikah albümünüzü oluşturun, siz veya nikahtaki sevdikleriniz fotoğraflarını yüklesin. Tüm nikah fotoğraflarınızı tek bir yerde toplayın.</p>
-              {/* 2 badge */}
-              <div className="flex flex-wrap justify-center gap-2">
-                {[
-                  { label: 'Birlikte Yükleyin', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-                  { label: 'Tek Yerde Toplayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg> },
-                ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style={{ background: 'rgba(255,255,255,0.85)', color: '#9F4F58', border: '1px solid rgba(232,165,169,0.40)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
