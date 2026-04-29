@@ -152,6 +152,7 @@ export default function WatchPage() {
   const rightPanelRef = useRef<HTMLDivElement>(null);
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const lightboxTouchStartRef = useRef<number>(0);
 
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -1731,12 +1732,14 @@ export default function WatchPage() {
                   <p className="text-gray-400 text-sm">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'} · {eventDate}</p>
                 </div>
               </div>
-              <div className="flex gap-4 pt-3 border-t border-gray-50">
-                <div className="flex-1">
+              <div className="flex pt-3 border-t border-gray-50 relative" style={{ paddingLeft: 60 }}>
+                <div className="flex-1 min-w-0">
                   <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
                   <p className="text-gray-600 text-sm">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
                 </div>
-                <div className="flex-1">
+                {/* Faded vertical divider */}
+                <div className="w-px self-stretch mx-1" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
+                <div className="flex-1 min-w-0 pl-4">
                   <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
                   <p className="text-gray-600 text-sm">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
                 </div>
@@ -1820,8 +1823,8 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — pembe sulu boya gül background (cover, aspect korunmuş) */}
-            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            {/* Nikah Albümü — pembe sulu boya gül background (yatayda hafif stretch ile çizgiler yok) */}
+            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Centered header — biraz aşağı */}
               <div className="text-center relative z-10 mt-6">
@@ -1833,32 +1836,52 @@ export default function WatchPage() {
                 </p>
               </div>
 
-              {/* PHOTO MARQUEE — sağdan sola otomatik kayan carousel */}
-              <div className="relative w-full mt-5 mb-4 overflow-hidden" style={{ height: 130 }}>
+              {/* PHOTO COVERFLOW — 3D premium carousel */}
+              <div className="relative w-full mt-5 mb-4" style={{ height: 165, perspective: '900px' }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center">
                     <svg className="w-9 h-9 text-gray-400 mb-1.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                     <span className="text-[11px] text-gray-500">Henüz fotoğraf yok</span>
                   </div>
                 ) : (
-                  <div className="flex gap-3 w-max items-center" style={{ animation: `albumMarqueeLeft ${Math.max(slideshowPhotos.length * 4.5, 20)}s linear infinite`, height: '100%' }}>
-                    {[...slideshowPhotos, ...slideshowPhotos].map((url, i) => (
-                      <div key={i} onClick={() => setPhotoLightboxIndex(i % slideshowPhotos.length)} className="cursor-pointer flex-shrink-0 bg-white p-1.5 rounded-lg transition-transform hover:scale-105 hover:z-10" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                        <img src={url} alt="" className="block object-cover rounded-md" style={{ width: 92, height: 110 }} />
+                  slideshowPhotos.map((url, i) => {
+                    const offset = ((i - galleryIndex) % slideshowPhotos.length + slideshowPhotos.length) % slideshowPhotos.length;
+                    const isLeft = offset === slideshowPhotos.length - 1 && slideshowPhotos.length > 1;
+                    const isCenter = offset === 0;
+                    const isRight = offset === 1 && slideshowPhotos.length > 1;
+                    const isVisible = isLeft || isCenter || isRight;
+                    let transform = 'translate(-50%, -50%) scale(0.5)';
+                    let zIndex = 0;
+                    let opacity = 0;
+                    if (isCenter) {
+                      transform = 'translate(-50%, -50%) translateZ(60px) rotateY(0deg)';
+                      zIndex = 3;
+                      opacity = 1;
+                    } else if (isRight) {
+                      transform = 'translate(-50%, -50%) translateX(72px) translateZ(0) rotateY(-32deg)';
+                      zIndex = 2;
+                      opacity = 0.85;
+                    } else if (isLeft) {
+                      transform = 'translate(-50%, -50%) translateX(-72px) translateZ(0) rotateY(32deg)';
+                      zIndex = 2;
+                      opacity = 0.85;
+                    }
+                    return (
+                      <div key={i} onClick={() => isVisible && setPhotoLightboxIndex(i)} className="absolute top-1/2 left-1/2 transition-all duration-1000 ease-in-out" style={{ transform, zIndex, opacity, transformStyle: 'preserve-3d', cursor: isVisible ? 'pointer' : 'default', pointerEvents: isVisible ? 'auto' : 'none' }}>
+                        <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 14px 32px rgba(80,60,40,0.28), 0 4px 10px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                          <img src={url} alt="" className="block object-cover rounded-md" style={{ width: isCenter ? 112 : 92, height: isCenter ? 132 : 108 }} />
+                        </div>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })
                 )}
-                {/* Soft fade edges */}
-                <div className="absolute top-0 left-0 bottom-0 w-8 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255,240,240,0.85), transparent)' }} />
-                <div className="absolute top-0 right-0 bottom-0 w-8 pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255,240,240,0.85), transparent)' }} />
               </div>
 
-              {/* Albümü Görüntüle — sol alt, yarı genişlik, premium */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start flex items-center justify-center gap-2 px-5 py-3 rounded-full font-semibold text-[13px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: '55%', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
-                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              {/* Albümü Görüntüle — sol alt, tek satır, daha kompakt */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap flex items-center justify-center gap-1.5 px-4 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: '55%', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
-                <svg className="w-3 h-3 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
               </button>
             </div>
 
@@ -1911,7 +1934,19 @@ export default function WatchPage() {
       )}
 
       {photoLightboxIndex !== null && slideshowPhotos[photoLightboxIndex] && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.92)' }} onClick={() => setPhotoLightboxIndex(null)}>
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center"
+          style={{ background: 'rgba(0,0,0,0.92)' }}
+          onClick={() => setPhotoLightboxIndex(null)}
+          onTouchStart={(e) => { lightboxTouchStartRef.current = e.touches[0].clientX; }}
+          onTouchEnd={(e) => {
+            const diff = e.changedTouches[0].clientX - lightboxTouchStartRef.current;
+            if (Math.abs(diff) > 50) {
+              if (diff > 0 && photoLightboxIndex > 0) setPhotoLightboxIndex(photoLightboxIndex - 1);
+              else if (diff < 0 && photoLightboxIndex < slideshowPhotos.length - 1) setPhotoLightboxIndex(photoLightboxIndex + 1);
+            }
+          }}
+        >
           <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(null); }} className="absolute top-6 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Kapat">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
