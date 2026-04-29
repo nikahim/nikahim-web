@@ -942,26 +942,26 @@ export default function WatchPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — neredeyse beyaz */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFEFE 0%, #FFF8F9 100%)', border: '1px solid rgba(200,104,110,0.12)' }}>
+          {/* Anı Paylaş kartı — sage/leafy konsept */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FBFCF7 0%, #F2F4EA 100%)', border: '1px solid rgba(155,170,130,0.22)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #B8C99A, #9AB07A, #7A9560)', boxShadow: '0 6px 16px rgba(120,140,90,0.30)' }}>
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </div>
                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
-                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                  <svg className="w-3 h-3" fill="#7A9560" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                 </div>
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
+                  <h4 className="font-bold text-base" style={{ color: '#5A6B4A' }}>Nikahtaysan Anı Paylaş</h4>
                   <span className="text-base">✨</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
+                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#7A9560' }}>♥</span></p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#5A6B4A', border: '1.5px solid rgba(155,170,130,0.40)', boxShadow: '0 4px 14px rgba(120,140,90,0.14)' }}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
@@ -1115,26 +1115,26 @@ export default function WatchPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — neredeyse beyaz */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFEFE 0%, #FFF8F9 100%)', border: '1px solid rgba(200,104,110,0.12)' }}>
+          {/* Anı Paylaş kartı — sage/leafy konsept */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FBFCF7 0%, #F2F4EA 100%)', border: '1px solid rgba(155,170,130,0.22)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #B8C99A, #9AB07A, #7A9560)', boxShadow: '0 6px 16px rgba(120,140,90,0.30)' }}>
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </div>
                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
-                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                  <svg className="w-3 h-3" fill="#7A9560" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                 </div>
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
+                  <h4 className="font-bold text-base" style={{ color: '#5A6B4A' }}>Nikahtaysan Anı Paylaş</h4>
                   <span className="text-base">✨</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
+                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#7A9560' }}>♥</span></p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#5A6B4A', border: '1.5px solid rgba(155,170,130,0.40)', boxShadow: '0 4px 14px rgba(120,140,90,0.14)' }}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
@@ -1384,7 +1384,7 @@ export default function WatchPage() {
           </div>
 
           {/* ORTA + SAĞ PANEL WRAPPER */}
-          <div className="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
+          <div className="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-stretch gap-4 lg:gap-5">
           {/* ORTA ALAN - Video (%55) */}
           <div className="flex-1 min-w-0">
             <div className={`bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
@@ -1780,7 +1780,7 @@ export default function WatchPage() {
           </div>
 
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
-          <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:self-start">
+          <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3">
             {/* Video Tebrik - warm cream */}
             <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
@@ -1821,14 +1821,16 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yapraklı dekor background */}
-            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'url(/album-bg.png) center/cover no-repeat, #FFFFFF', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ background: 'url(/album-bg.png) center/cover no-repeat, #FFFFFF', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Centered header — siteyle uyumlu */}
+              {/* Centered header — serif elegant */}
               <div className="text-center mb-1 relative z-10">
-                <h3 className="text-base font-bold" style={{ color: '#1A1A2E' }}>
-                  <span style={{ color: '#D4AF7A' }}>✨</span> Nikah Albümü <span style={{ color: '#D4AF7A' }}>✨</span>
+                <h3 className="text-2xl flex items-center justify-center gap-2" style={{ color: '#2A1F15', fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, letterSpacing: '0.3px' }}>
+                  <span style={{ color: '#D4A845', fontSize: '0.65em' }}>✨</span>
+                  Nikah Albümü
+                  <span style={{ color: '#D4A845', fontSize: '0.65em' }}>✨</span>
                 </h3>
-                <p className="text-[11px] text-gray-500 mt-0.5">Nikah gününde çekilen fotoğrafların albümü.</p>
+                <p className="text-[12px] text-gray-500 mt-1">Nikah gününde çekilen fotoğrafların albümü.</p>
               </div>
 
               {/* PHOTO FAN STAGE */}
