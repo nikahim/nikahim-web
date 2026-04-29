@@ -1820,8 +1820,8 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — pembe gül background tasarım */}
-            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ background: 'url(/album-bg-2.png) center/cover no-repeat', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            {/* Nikah Albümü — temiz pembe gül background */}
+            <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ background: 'url(/album-bg-3.png) center/cover no-repeat', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Centered header — 3-tier + iki yan pembe gül */}
               <div className="text-center relative z-10">
@@ -1861,22 +1861,22 @@ export default function WatchPage() {
                   </div>
                 ) : (
                   <>
-                    {/* Sol fotoğraf */}
-                    <div onClick={() => setPhotoLightboxIndex((galleryIndex + 0) % slideshowPhotos.length)} className="absolute top-1/2 left-0 cursor-pointer transition-transform hover:scale-[1.04]" style={{ transform: 'translateY(-50%) rotate(-7deg)', zIndex: 1 }}>
+                    {/* Sol fotoğraf — float animasyonlu */}
+                    <div onClick={() => setPhotoLightboxIndex((galleryIndex + 0) % slideshowPhotos.length)} className="absolute top-1/2 left-1 cursor-pointer" style={{ animation: 'albumFloatLeft 4.5s ease-in-out infinite alternate', zIndex: 1 }}>
                       <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.08)' }}>
                         <img key={`left-${(galleryIndex + 0) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 0) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'polaroidPop 0.55s ease-out' }} />
                       </div>
                     </div>
 
-                    {/* Sağ fotoğraf */}
-                    <div onClick={() => setPhotoLightboxIndex((galleryIndex + 2) % slideshowPhotos.length)} className="absolute top-1/2 right-0 cursor-pointer transition-transform hover:scale-[1.04]" style={{ transform: 'translateY(-50%) rotate(7deg)', zIndex: 1 }}>
+                    {/* Sağ fotoğraf — float animasyonlu */}
+                    <div onClick={() => setPhotoLightboxIndex((galleryIndex + 2) % slideshowPhotos.length)} className="absolute top-1/2 right-1 cursor-pointer" style={{ animation: 'albumFloatRight 5s ease-in-out infinite alternate', zIndex: 1 }}>
                       <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 8px 18px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.08)' }}>
                         <img key={`right-${(galleryIndex + 2) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 2) % slideshowPhotos.length]} alt="" className="block object-cover rounded-md" style={{ width: 84, height: 110, animation: 'polaroidPop 0.55s ease-out' }} />
                       </div>
                     </div>
 
-                    {/* Orta fotoğraf - öne (pill aşağı taşındı) */}
-                    <div className="absolute top-1/2 left-1/2 cursor-pointer" style={{ transform: 'translate(-50%, -50%) rotate(2deg)', zIndex: 3 }} onClick={() => setPhotoLightboxIndex((galleryIndex + 1) % slideshowPhotos.length)}>
+                    {/* Orta fotoğraf - öne, float animasyonlu */}
+                    <div className="absolute top-1/2 left-1/2 cursor-pointer" style={{ animation: 'albumFloatCenter 4.2s ease-in-out infinite alternate', zIndex: 3 }} onClick={() => setPhotoLightboxIndex((galleryIndex + 1) % slideshowPhotos.length)}>
                       <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 14px 28px rgba(60,40,20,0.30), 0 4px 10px rgba(0,0,0,0.10)' }}>
                         <img key={`center-${(galleryIndex + 1) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 1) % slideshowPhotos.length]} alt="" className="block object-cover rounded-lg" style={{ width: 130, height: 145, animation: 'polaroidPop 0.55s ease-out' }} />
                       </div>

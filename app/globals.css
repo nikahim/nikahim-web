@@ -114,6 +114,19 @@ html, body {
   100% { opacity: 1; transform: scale(1); }
 }
 
+@keyframes albumFloatLeft {
+  0%   { transform: translateY(-50%) rotate(-7deg); }
+  100% { transform: translateY(-53%) rotate(-9deg); }
+}
+@keyframes albumFloatRight {
+  0%   { transform: translateY(-50%) rotate(7deg); }
+  100% { transform: translateY(-47%) rotate(9deg); }
+}
+@keyframes albumFloatCenter {
+  0%   { transform: translate(-50%, -50%) rotate(2deg); }
+  100% { transform: translate(-50%, -53%) rotate(4deg); }
+}
+
 @keyframes notificationSlide {
   0% { opacity: 0; transform: translateY(12px) scale(0.95); }
   8% { opacity: 1; transform: translateY(0) scale(1); }
