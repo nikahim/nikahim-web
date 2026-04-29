@@ -901,11 +901,11 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
-          <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[82px] w-auto object-contain -mt-5" />
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        <div className="bg-white rounded-3xl shadow-xl pt-12 px-8 pb-8 max-w-md w-full text-center relative">
+          {/* Logo - sol üst */}
+          <div className="absolute top-3 left-4 cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={42} height={42} className="h-[42px] w-auto object-contain" />
           </div>
 
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
@@ -1052,13 +1052,13 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative" style={{ marginTop: -40 }}>
-          <div className="flex flex-col items-center mb-4 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[82px] w-auto object-contain -mt-5" />
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        <div className="bg-white rounded-3xl shadow-xl pt-12 px-8 pb-8 max-w-md w-full text-center relative" style={{ marginTop: -40 }}>
+          {/* Logo - sol üst */}
+          <div className="absolute top-3 left-4 cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={42} height={42} className="h-[42px] w-auto object-contain" />
           </div>
-          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-6 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
+          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
           <h1 className="text-2xl font-bold text-gray-900 mb-2">
             {event.bride_full_name} & {event.groom_full_name}
@@ -1605,8 +1605,8 @@ export default function WatchPage() {
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
                   <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
                   <div className="relative z-10 flex flex-col items-center">
-                    {/* Couple photo with rose ring */}
-                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '3px', boxShadow: '0 0 45px rgba(200,104,110,0.38), 0 0 22px rgba(232,165,169,0.25), 0 8px 32px rgba(0,0,0,0.50)' }}>
+                    {/* Couple photo with thin rose ring */}
+                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '1.5px', boxShadow: '0 0 45px rgba(200,104,110,0.38), 0 0 22px rgba(232,165,169,0.25), 0 8px 32px rgba(0,0,0,0.50)' }}>
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
                     </div>
 
@@ -1832,18 +1832,18 @@ export default function WatchPage() {
             {/* Nikah Albümü — premium white + depth shadow */}
             <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FAF7F2 100%)', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
               {/* Beyaz gül + dal görseli - sağ üst (multiply ile gri zemin yok olur) */}
-              <img src="/nikah-cicek.png" alt="" className="absolute -top-3 -right-3 w-32 pointer-events-none select-none z-0" style={{ mixBlendMode: 'multiply', opacity: 0.95 }} />
+              <img src="/nikah-cicek.png" alt="" className="absolute top-1 -right-2 w-32 pointer-events-none select-none z-0" style={{ mixBlendMode: 'multiply', opacity: 0.95 }} />
 
-              {/* Centered header */}
+              {/* Centered header — siteyle uyumlu */}
               <div className="text-center mb-1 relative z-10">
-                <h3 className="text-lg" style={{ color: '#3A2D20', fontFamily: 'Georgia, "Playfair Display", serif', letterSpacing: '0.3px', fontWeight: 500 }}>
-                  Nikah Albümü <span style={{ color: '#D4AF7A' }}>✨</span>
+                <h3 className="text-base font-bold" style={{ color: '#1A1A2E' }}>
+                  <span style={{ color: '#D4AF7A' }}>✨</span> Nikah Albümü <span style={{ color: '#D4AF7A' }}>✨</span>
                 </h3>
                 <p className="text-[11px] text-gray-500 mt-0.5">Nikah gününde çekilen fotoğrafların albümü.</p>
               </div>
 
               {/* PHOTO FAN STAGE */}
-              <div className="relative w-full mb-3 mt-3" style={{ aspectRatio: '16 / 11' }}>
+              <div className="relative w-full mb-3 mt-1" style={{ aspectRatio: '16 / 11' }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl" style={{ background: 'rgba(255,255,255,0.4)' }}>
                     <svg className="w-10 h-10 text-gray-400 mb-2 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
@@ -1871,10 +1871,10 @@ export default function WatchPage() {
                         <img key={`center-${(galleryIndex + 1) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 1) % slideshowPhotos.length]} alt="" className="block object-cover rounded-lg" style={{ width: 130, height: 145, animation: 'polaroidPop 0.55s ease-out' }} />
 
                         {/* Albümü Görüntüle pill */}
-                        <button onClick={(e) => { e.stopPropagation(); setShowPhotoGallery(true); }} className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-white text-[10px] font-semibold whitespace-nowrap transition-all hover:scale-105" style={{ background: 'rgba(20,15,12,0.88)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', boxShadow: '0 4px 10px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <button onClick={(e) => { e.stopPropagation(); setShowPhotoGallery(true); }} className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3.5 py-2 rounded-full text-white text-[11px] font-semibold whitespace-nowrap transition-all hover:scale-105" style={{ background: 'rgba(20,15,12,0.88)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', boxShadow: '0 4px 10px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                           Albümü Görüntüle
-                          <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                         </button>
                       </div>
                     </div>
@@ -1888,6 +1888,18 @@ export default function WatchPage() {
                   <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M12 4v16m8-8H4" /></svg>
                 </span>
                 Fotoğraf Ekle
+              </button>
+            </div>
+
+            {/* Mobilde "Sende nikahını..." CTA - sadece mobilde göster */}
+            <div className="lg:hidden rounded-2xl p-5 flex flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <p className="text-sm font-semibold leading-snug">
+                <span className="text-gray-800">Sende nikahını </span>
+                <span style={{ color: '#C8686E' }}>canlı yayınlamak</span>
+                <span className="text-gray-800"> ister misin?</span>
+              </p>
+              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.9)' }}>
+                Hemen Başla
               </button>
             </div>
 
