@@ -1342,7 +1342,7 @@ export default function WatchPage() {
       </header>
 
       {/* 3 PANEL LAYOUT */}
-      <div className="max-w-[1600px] mx-auto p-3 lg:p-5">
+      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-1 lg:p-5">
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
