@@ -942,26 +942,26 @@ export default function WatchPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — sage/leafy konsept */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FBFCF7 0%, #F2F4EA 100%)', border: '1px solid rgba(155,170,130,0.22)' }}>
+          {/* Anı Paylaş kartı — neredeyse beyaz rose */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFEFE 0%, #FFF8F9 100%)', border: '1px solid rgba(200,104,110,0.12)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #B8C99A, #9AB07A, #7A9560)', boxShadow: '0 6px 16px rgba(120,140,90,0.30)' }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </div>
                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
-                  <svg className="w-3 h-3" fill="#7A9560" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                 </div>
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <h4 className="font-bold text-base" style={{ color: '#5A6B4A' }}>Nikahtaysan Anı Paylaş</h4>
+                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
                   <span className="text-base">✨</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#7A9560' }}>♥</span></p>
+                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#5A6B4A', border: '1.5px solid rgba(155,170,130,0.40)', boxShadow: '0 4px 14px rgba(120,140,90,0.14)' }}>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
@@ -1115,26 +1115,26 @@ export default function WatchPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — sage/leafy konsept */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FBFCF7 0%, #F2F4EA 100%)', border: '1px solid rgba(155,170,130,0.22)' }}>
+          {/* Anı Paylaş kartı — neredeyse beyaz rose */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFEFE 0%, #FFF8F9 100%)', border: '1px solid rgba(200,104,110,0.12)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #B8C99A, #9AB07A, #7A9560)', boxShadow: '0 6px 16px rgba(120,140,90,0.30)' }}>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
                   <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </div>
                 <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
-                  <svg className="w-3 h-3" fill="#7A9560" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                 </div>
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <h4 className="font-bold text-base" style={{ color: '#5A6B4A' }}>Nikahtaysan Anı Paylaş</h4>
+                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
                   <span className="text-base">✨</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#7A9560' }}>♥</span></p>
+                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#5A6B4A', border: '1.5px solid rgba(155,170,130,0.40)', boxShadow: '0 4px 14px rgba(120,140,90,0.14)' }}>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
@@ -1823,14 +1823,17 @@ export default function WatchPage() {
             {/* Nikah Albümü — yapraklı dekor background */}
             <div className="rounded-2xl px-4 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ background: 'url(/album-bg.png) center/cover no-repeat, #FFFFFF', boxShadow: '0 16px 44px rgba(60,40,20,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Centered header — serif elegant */}
-              <div className="text-center mb-1 relative z-10">
-                <h3 className="text-2xl flex items-center justify-center gap-2" style={{ color: '#2A1F15', fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, letterSpacing: '0.3px' }}>
-                  <span style={{ color: '#D4A845', fontSize: '0.65em' }}>✨</span>
+              {/* Centered header — premium 3-tier typography */}
+              <div className="text-center relative z-10">
+                <p className="uppercase" style={{ color: '#C5A46D', fontSize: '11px', fontWeight: 500, letterSpacing: '2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                  Özel Anlar
+                </p>
+                <h3 className="mt-1.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '28px', letterSpacing: '0.5px', lineHeight: 1.2 }}>
                   Nikah Albümü
-                  <span style={{ color: '#D4A845', fontSize: '0.65em' }}>✨</span>
                 </h3>
-                <p className="text-[12px] text-gray-500 mt-1">Nikah gününde çekilen fotoğrafların albümü.</p>
+                <p className="mt-2" style={{ color: '#8A8A8A', fontSize: '13px', fontWeight: 400, lineHeight: 1.5, fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                  Hayatınızın en özel anlarından kareleri keşfedin.
+                </p>
               </div>
 
               {/* PHOTO FAN STAGE */}
@@ -1856,22 +1859,22 @@ export default function WatchPage() {
                       </div>
                     </div>
 
-                    {/* Orta fotoğraf - öne, Albümü Görüntüle pill ile */}
+                    {/* Orta fotoğraf - öne (pill aşağı taşındı) */}
                     <div className="absolute top-1/2 left-1/2 cursor-pointer" style={{ transform: 'translate(-50%, -50%) rotate(2deg)', zIndex: 3 }} onClick={() => setPhotoLightboxIndex((galleryIndex + 1) % slideshowPhotos.length)}>
                       <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 14px 28px rgba(60,40,20,0.30), 0 4px 10px rgba(0,0,0,0.10)' }}>
                         <img key={`center-${(galleryIndex + 1) % slideshowPhotos.length}`} src={slideshowPhotos[(galleryIndex + 1) % slideshowPhotos.length]} alt="" className="block object-cover rounded-lg" style={{ width: 130, height: 145, animation: 'polaroidPop 0.55s ease-out' }} />
-
-                        {/* Albümü Görüntüle pill */}
-                        <button onClick={(e) => { e.stopPropagation(); setShowPhotoGallery(true); }} className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3.5 py-2 rounded-full text-white text-[11px] font-semibold whitespace-nowrap transition-all hover:scale-105" style={{ background: 'rgba(20,15,12,0.88)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', boxShadow: '0 4px 10px rgba(0,0,0,0.35)', border: '1px solid rgba(255,255,255,0.08)' }}>
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                          Albümü Görüntüle
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                        </button>
                       </div>
                     </div>
                   </>
                 )}
               </div>
+
+              {/* Albümü Görüntüle pill — Fotoğraf Ekle üzerinde */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="w-full mb-2 flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-full text-white text-[12px] font-semibold transition-all hover:scale-[1.01] relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: 'rgba(20,15,12,0.88)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', boxShadow: '0 4px 10px rgba(0,0,0,0.25)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                Albümü Görüntüle
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+              </button>
 
               {/* Fotoğraf Ekle — leafy konsept uyumlu */}
               <button onClick={() => setShowPhotoUpload(true)} className="w-full py-2.5 rounded-xl flex items-center justify-center gap-2 font-semibold text-sm transition-all hover:scale-[1.01] relative z-10" style={{ color: '#5A6B4A', background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(6px)', border: '1px solid rgba(155,170,130,0.35)', boxShadow: '0 2px 10px rgba(120,140,90,0.10), inset 0 1px 0 rgba(255,255,255,0.6)' }}>

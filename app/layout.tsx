@@ -17,7 +17,7 @@ const geistMono = localFont({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
-  weight: ["400", "700", "900"],
+  weight: ["400", "500", "600", "700", "900"],
 });
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
