@@ -119,6 +119,22 @@ html, body {
   100% { opacity: 1; }
 }
 
+@keyframes albumSlideFromLeft {
+  0%   { opacity: 0; transform: translateX(-28px) scale(0.94); }
+  60%  { opacity: 1; transform: translateX(4px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes albumSlideFromRight {
+  0%   { opacity: 0; transform: translateX(28px) scale(0.94); }
+  60%  { opacity: 1; transform: translateX(-4px) scale(1.01); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes albumSlideFromBottom {
+  0%   { opacity: 0; transform: translateY(22px) scale(0.92); }
+  60%  { opacity: 1; transform: translateY(-3px) scale(1.02); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @keyframes albumFloatLeft {
   0%   { transform: translateY(-50%) rotate(-7deg); }
   100% { transform: translateY(-53%) rotate(-9deg); }
