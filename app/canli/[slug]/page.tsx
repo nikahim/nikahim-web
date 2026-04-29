@@ -1836,12 +1836,27 @@ export default function WatchPage() {
                 </p>
               </div>
 
-              {/* PHOTO COVERFLOW — 3D premium carousel */}
-              <div className="relative w-full mt-5 mb-4" style={{ height: 165, perspective: '900px' }}>
+              {/* PHOTO COVERFLOW — orbital 3D premium carousel */}
+              <div className="relative w-full mt-5 mb-4" style={{ height: 175, perspective: '1000px' }}>
                 {slideshowPhotos.length === 0 ? (
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <svg className="w-9 h-9 text-gray-400 mb-1.5 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                    <span className="text-[11px] text-gray-500">Henüz fotoğraf yok</span>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    {/* Boş durum — 3 ghost kart */}
+                    <div className="relative w-full h-full flex items-center justify-center">
+                      <div className="absolute" style={{ transform: 'translateX(-72px) translateZ(-40px) rotateY(32deg)', opacity: 0.4 }}>
+                        <div className="bg-white/70 p-1.5 rounded-lg border border-rose-200/50" style={{ width: 100, height: 116, boxShadow: '0 4px 10px rgba(80,60,40,0.08)' }}>
+                          <div className="w-full h-full rounded-md" style={{ background: 'linear-gradient(135deg, #FBE5E7, #F5D5D8)' }} />
+                        </div>
+                      </div>
+                      <div className="absolute" style={{ transform: 'translateX(72px) translateZ(-40px) rotateY(-32deg)', opacity: 0.4 }}>
+                        <div className="bg-white/70 p-1.5 rounded-lg border border-rose-200/50" style={{ width: 100, height: 116, boxShadow: '0 4px 10px rgba(80,60,40,0.08)' }}>
+                          <div className="w-full h-full rounded-md" style={{ background: 'linear-gradient(135deg, #FBE5E7, #F5D5D8)' }} />
+                        </div>
+                      </div>
+                      <div className="absolute z-10 bg-white/85 p-1.5 rounded-lg border border-rose-200/60 flex flex-col items-center justify-center" style={{ width: 120, height: 140, boxShadow: '0 10px 24px rgba(80,60,40,0.16)' }}>
+                        <svg className="w-8 h-8 mb-1" style={{ color: '#D17075', opacity: 0.5 }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                        <p className="text-[9px] text-center px-1.5 leading-tight" style={{ color: '#9F4F58', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Çift yakında<br/>fotoğraf paylaşacak</p>
+                      </div>
+                    </div>
                   </div>
                 ) : (
                   slideshowPhotos.map((url, i) => {
@@ -1850,26 +1865,26 @@ export default function WatchPage() {
                     const isCenter = offset === 0;
                     const isRight = offset === 1 && slideshowPhotos.length > 1;
                     const isVisible = isLeft || isCenter || isRight;
-                    let transform = 'translate(-50%, -50%) scale(0.5)';
+                    let transform = 'translate(-50%, -50%) translateZ(-200px) scale(0.5) rotateY(0deg)';
                     let zIndex = 0;
                     let opacity = 0;
                     if (isCenter) {
-                      transform = 'translate(-50%, -50%) translateZ(60px) rotateY(0deg)';
-                      zIndex = 3;
+                      transform = 'translate(-50%, -50%) translateZ(80px) rotateY(0deg)';
+                      zIndex = 5;
                       opacity = 1;
                     } else if (isRight) {
-                      transform = 'translate(-50%, -50%) translateX(72px) translateZ(0) rotateY(-32deg)';
+                      transform = 'translate(-50%, -50%) translateX(78px) translateY(8px) translateZ(-30px) rotateY(-38deg)';
                       zIndex = 2;
                       opacity = 0.85;
                     } else if (isLeft) {
-                      transform = 'translate(-50%, -50%) translateX(-72px) translateZ(0) rotateY(32deg)';
+                      transform = 'translate(-50%, -50%) translateX(-78px) translateY(8px) translateZ(-30px) rotateY(38deg)';
                       zIndex = 2;
                       opacity = 0.85;
                     }
                     return (
-                      <div key={i} onClick={() => isVisible && setPhotoLightboxIndex(i)} className="absolute top-1/2 left-1/2 transition-all duration-1000 ease-in-out" style={{ transform, zIndex, opacity, transformStyle: 'preserve-3d', cursor: isVisible ? 'pointer' : 'default', pointerEvents: isVisible ? 'auto' : 'none' }}>
-                        <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 14px 32px rgba(80,60,40,0.28), 0 4px 10px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={url} alt="" className="block object-cover rounded-md" style={{ width: isCenter ? 112 : 92, height: isCenter ? 132 : 108 }} />
+                      <div key={i} onClick={() => isVisible && setPhotoLightboxIndex(i)} className="absolute top-1/2 left-1/2" style={{ transform, zIndex, opacity, transformStyle: 'preserve-3d', cursor: isVisible ? 'pointer' : 'default', pointerEvents: isVisible ? 'auto' : 'none', transition: 'transform 1.2s cubic-bezier(0.65, 0.05, 0.35, 1), opacity 0.8s ease' }}>
+                        <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                          <img src={url} alt="" className="block object-cover rounded-md" style={{ width: isCenter ? 116 : 96, height: isCenter ? 136 : 112 }} />
                         </div>
                       </div>
                     );
@@ -1910,9 +1925,11 @@ export default function WatchPage() {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             <div className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                <h3 className="font-bold text-lg" style={{ color: '#C8686E' }}>Nikah Gününden Kareler</h3>
+              <div className="flex items-center mb-4">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-[13px]" style={{ color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', boxShadow: '0 4px 14px rgba(200,104,110,0.14), 0 1px 4px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Nikah Albümü</span>
+                </div>
               </div>
               {slideshowPhotos.length > 0 ? (
                 <div className="grid grid-cols-3 gap-3">
