@@ -902,10 +902,10 @@ export default function WatchPage() {
   if (showReturningModal && isReturningViewer) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl shadow-xl pt-12 px-8 pb-8 max-w-md w-full text-center relative">
+        <div className="bg-white rounded-3xl shadow-xl pt-16 px-8 pb-10 max-w-md w-full text-center relative">
           {/* Logo - sol üst */}
-          <div className="absolute top-3 left-4 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={42} height={42} className="h-[42px] w-auto object-contain" />
+          <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
@@ -928,22 +928,22 @@ export default function WatchPage() {
 
           <button
             onClick={handleReturningContinue}
-            className="w-full text-white py-3.5 rounded-2xl font-semibold transition-all hover:shadow-xl flex items-center justify-center gap-2 text-base"
-            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.35)' }}
+            className="w-full text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5"
+            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}
           >
-            <span className="w-7 h-7 rounded-full bg-white/25 flex items-center justify-center"><svg className="w-3.5 h-3.5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-            Devam Et
+            <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            Yayına Devam Et
           </button>
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-[10px] font-semibold text-gray-400 tracking-wider">veya</span>
+            <span className="text-xs font-semibold text-gray-400 tracking-wider">veya</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — afilli */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+          {/* Anı Paylaş kartı — daha açık */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFBFB 0%, #FFF3F4 100%)', border: '1px solid rgba(200,104,110,0.14)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
@@ -961,8 +961,8 @@ export default function WatchPage() {
                 <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
           </div>
@@ -1053,10 +1053,10 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl shadow-xl pt-12 px-8 pb-8 max-w-md w-full text-center relative" style={{ marginTop: -40 }}>
+        <div className="bg-white rounded-3xl shadow-xl pt-16 px-8 pb-10 max-w-md w-full text-center relative" style={{ marginTop: -40 }}>
           {/* Logo - sol üst */}
-          <div className="absolute top-3 left-4 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={42} height={42} className="h-[42px] w-auto object-contain" />
+          <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
@@ -1101,22 +1101,22 @@ export default function WatchPage() {
           <button
             onClick={handleNameSubmit}
             disabled={!viewerName.trim()}
-            className="w-full disabled:bg-gray-300 text-white py-3.5 rounded-2xl font-semibold transition-all hover:shadow-xl flex items-center justify-center gap-2 text-base"
-            style={{ background: viewerName.trim() ? 'linear-gradient(135deg, #D17075, #C8686E, #C06068)' : undefined, boxShadow: viewerName.trim() ? '0 8px 24px rgba(200,104,110,0.35)' : undefined }}
+            className="w-full disabled:bg-gray-300 text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 disabled:hover:scale-100"
+            style={{ background: viewerName.trim() ? 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)' : undefined, boxShadow: viewerName.trim() ? '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' : undefined }}
           >
-            <span className="w-7 h-7 rounded-full bg-white/25 flex items-center justify-center"><svg className="w-3.5 h-3.5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
-            Devam Et
+            <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            Yayına Devam Et
           </button>
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-5">
             <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-[10px] font-semibold text-gray-400 tracking-wider">veya</span>
+            <span className="text-xs font-semibold text-gray-400 tracking-wider">veya</span>
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — afilli */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFF5F6 0%, #FCE8EA 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+          {/* Anı Paylaş kartı — daha açık */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFBFB 0%, #FFF3F4 100%)', border: '1px solid rgba(200,104,110,0.14)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
@@ -1134,8 +1134,8 @@ export default function WatchPage() {
                 <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 text-white px-10 py-4 rounded-2xl font-semibold text-[17px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="white" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
           </div>
@@ -1604,25 +1604,16 @@ export default function WatchPage() {
                   <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'blur(4px) brightness(0.7)', objectPosition: 'center top', animation: 'slowZoom 20s ease-in-out infinite alternate' }}><source src="/wedding-bg-video.mp4" type="video/mp4" /></video>
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
                   <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
-                  <div className="relative z-10 flex flex-col items-center">
+                  <div className="relative z-10 flex flex-col items-center pt-6 lg:pt-10">
                     {/* Couple photo with thin rose ring */}
                     <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '1.5px', boxShadow: '0 0 45px rgba(200,104,110,0.38), 0 0 22px rgba(232,165,169,0.25), 0 8px 32px rgba(0,0,0,0.50)' }}>
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
                     </div>
 
                     {/* Couple names — serif premium */}
-                    <h3 className="text-white text-2xl lg:text-4xl mb-2 lg:mb-3" style={{ fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, textShadow: '0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(200,104,110,0.22)', letterSpacing: '0.5px' }}>
+                    <h3 className="text-white text-2xl lg:text-4xl mb-4 lg:mb-6" style={{ fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, textShadow: '0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(200,104,110,0.22)', letterSpacing: '0.5px' }}>
                       {event.bride_first_name} & {event.groom_first_name}
                     </h3>
-
-                    {/* Decorative line + heart (rose) */}
-                    <div className="flex items-center gap-3 mb-4 lg:mb-6 w-[280px] lg:w-[420px]">
-                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.65) 50%, transparent)' }} />
-                      <svg className="w-3 h-3 lg:w-3.5 lg:h-3.5" viewBox="0 0 24 24" fill="#C8686E" style={{ filter: 'drop-shadow(0 0 5px rgba(200,104,110,0.65))' }}>
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                      </svg>
-                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.65) 50%, transparent)' }} />
-                    </div>
 
                     {/* Countdown boxes — eski beyaz/gri soft blur */}
                     <div className="flex gap-2 lg:gap-3">
