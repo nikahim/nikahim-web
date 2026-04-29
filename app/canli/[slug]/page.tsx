@@ -1605,23 +1605,23 @@ export default function WatchPage() {
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
                   <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
                   <div className="relative z-10 flex flex-col items-center">
-                    {/* Couple photo with shiny gold ring */}
-                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #FFE070 0%, #F5C940 25%, #B8860B 55%, #F5C940 80%, #FFE070 100%)', padding: '3px', boxShadow: '0 0 45px rgba(245,200,80,0.40), 0 0 22px rgba(255,225,140,0.25), 0 8px 32px rgba(0,0,0,0.55)' }}>
+                    {/* Couple photo with rose ring */}
+                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '3px', boxShadow: '0 0 45px rgba(200,104,110,0.38), 0 0 22px rgba(232,165,169,0.25), 0 8px 32px rgba(0,0,0,0.50)' }}>
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
                     </div>
 
                     {/* Couple names — serif premium */}
-                    <h3 className="text-white text-2xl lg:text-4xl mb-2 lg:mb-3" style={{ fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, textShadow: '0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(212,175,55,0.18)', letterSpacing: '0.5px' }}>
+                    <h3 className="text-white text-2xl lg:text-4xl mb-2 lg:mb-3" style={{ fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, textShadow: '0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(200,104,110,0.22)', letterSpacing: '0.5px' }}>
                       {event.bride_first_name} & {event.groom_first_name}
                     </h3>
 
-                    {/* Decorative line + heart */}
+                    {/* Decorative line + heart (rose) */}
                     <div className="flex items-center gap-3 mb-4 lg:mb-6 w-[280px] lg:w-[420px]">
-                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.65) 50%, transparent)' }} />
-                      <svg className="w-3 h-3 lg:w-3.5 lg:h-3.5" viewBox="0 0 24 24" fill="#D4AF37" style={{ filter: 'drop-shadow(0 0 4px rgba(212,175,55,0.6))' }}>
+                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.65) 50%, transparent)' }} />
+                      <svg className="w-3 h-3 lg:w-3.5 lg:h-3.5" viewBox="0 0 24 24" fill="#C8686E" style={{ filter: 'drop-shadow(0 0 5px rgba(200,104,110,0.65))' }}>
                         <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                       </svg>
-                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.65) 50%, transparent)' }} />
+                      <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.65) 50%, transparent)' }} />
                     </div>
 
                     {/* Countdown boxes — eski beyaz/gri soft blur */}
