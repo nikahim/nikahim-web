@@ -1828,8 +1828,8 @@ export default function WatchPage() {
 
               {/* Editorial Luxury header — 2 katmanlı premium */}
               <div className="text-center relative z-10 mt-3">
-                <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '10px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '30px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '12px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '28px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   Albümü
                 </h3>
                 <div className="mx-auto mt-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
@@ -1895,7 +1895,7 @@ export default function WatchPage() {
               </div>
 
               {/* Albümü Görüntüle — sol alt, tek satır, daha kompakt */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap flex items-center justify-center gap-1.5 px-4 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: '55%', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: '48%', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
                 <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
                 <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>

@@ -241,8 +241,8 @@ export default function Home() {
             <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
               {/* Editorial Luxury Title - 2 katmanlı premium */}
               <div className="mb-4 text-center">
-                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '12px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '36px' }}>Albümü</span><span className="hidden md:inline" style={{ fontSize: '46px' }}>Albümü</span></h3>
+                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '14px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Albümü</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Albümü</span></h3>
                 <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
               <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 195 }}>
