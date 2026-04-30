@@ -1342,7 +1342,7 @@ export default function WatchPage() {
       </header>
 
       {/* 3 PANEL LAYOUT */}
-      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-1 lg:p-5">
+      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-6 lg:p-5">
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
@@ -1826,12 +1826,14 @@ export default function WatchPage() {
             {/* Nikah Albümü — pembe sulu boya gül background (yatayda hafif stretch ile çizgiler yok) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Centered header — Cormorant italic premium */}
+              {/* Editorial Luxury header — 2 katmanlı premium */}
               <div className="text-center relative z-10 mt-3">
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-script), "Cormorant Garamond", Georgia, serif', fontWeight: 600, fontSize: '32px', letterSpacing: '0.5px', lineHeight: 1.1, fontStyle: 'italic' }}>
-                  Nikah Albümü
+                <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '10px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '30px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                  Albümü
                 </h3>
-                <p className="mt-1.5" style={{ color: '#8A7A7A', fontSize: '12px', fontWeight: 400, lineHeight: 1.5, fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                <div className="mx-auto mt-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
+                <p className="mt-2" style={{ color: '#8A7A7A', fontSize: '11px', fontWeight: 400, lineHeight: 1.5, fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                   Çiftin Nikah Gününden Mutlu Kareler
                 </p>
               </div>
