@@ -238,22 +238,22 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/nikah-albumu-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/nikah-albumu-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            <div className="relative px-8 pt-16 pb-12 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
-              <h3 className="mb-5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px', lineHeight: 1.2 }}><span className="md:hidden" style={{ fontSize: '26px' }}>Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '32px' }}>Nikah Albümü</span></h3>
-              <div className="relative w-full flex items-center justify-center mb-6" style={{ perspective: '1000px', height: 165 }}>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-62px) translateY(6px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
+            <div className="relative px-8 pt-24 pb-16 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
+              <h3 className="mb-6" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px', lineHeight: 1.2 }}><span className="md:hidden" style={{ fontSize: '28px' }}>Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '32px' }}>Nikah Albümü</span></h3>
+              <div className="relative w-full flex items-center justify-center mb-7" style={{ perspective: '1000px', height: 195 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-72px) translateY(7px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[78px] h-[94px] md:w-[96px] md:h-[112px]" />
+                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[90px] h-[108px] md:w-[96px] md:h-[112px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(62px) translateY(6px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(72px) translateY(7px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[78px] h-[94px] md:w-[96px] md:h-[112px]" />
+                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[90px] h-[108px] md:w-[96px] md:h-[112px]" />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateZ(60px)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[100px] h-[120px] md:w-[120px] md:h-[140px]" />
+                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[115px] h-[138px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
               </div>
