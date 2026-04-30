@@ -210,7 +210,7 @@ export default function Home() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
           {/* Altınlarınızı Online Toplayın - kart */}
-          <div className="relative rounded-3xl overflow-hidden" style={{ backgroundImage: 'url(/altin-toplama-bg.png)', backgroundSize: 'cover', backgroundPosition: 'left center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="relative rounded-3xl overflow-hidden bg-[url(/altin-toplama-mobil.png)] md:bg-[url(/altin-toplama-masaustu.png)]" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[300px] md:min-h-[300px]">
               <div className="hidden md:block" />
               <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[300px] md:min-h-[280px]">
@@ -233,7 +233,7 @@ export default function Home() {
           </div>
 
           {/* Nikah Albümü - kart (dikey, 1 sütun) */}
-          <div className="relative rounded-3xl overflow-hidden" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: 'cover', backgroundPosition: 'top left', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="relative rounded-3xl overflow-hidden bg-[url(/nikah-albumu-mobil.png)] md:bg-[url(/nikah-albumu-masaustu.png)]" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="px-6 pt-12 pb-8 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
               <h3 className="mb-5 self-center" style={{ color: '#5c4632', fontFamily: 'var(--font-script), cursive', fontWeight: 600, fontSize: '30px', letterSpacing: '1px', lineHeight: 1.1, textShadow: '0 2px 6px rgba(60,40,20,0.15), 0 1px 2px rgba(0,0,0,0.08)', paddingLeft: '10%' }}><span className="md:hidden">Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '34px' }}>Nikah Albümü</span></h3>
               <div className="relative w-full flex items-center justify-center mb-6" style={{ perspective: '1000px', height: 175 }}>
