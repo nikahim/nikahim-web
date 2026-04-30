@@ -210,14 +210,16 @@ export default function Home() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
           {/* Altınlarınızı Online Toplayın - kart */}
-          <div className="relative rounded-3xl overflow-hidden bg-[url(/altin-toplama-mobil.png)] md:bg-[url(/altin-toplama-masaustu.png)]" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[300px] md:min-h-[300px]">
+          <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
+            <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
+            <div className="relative grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[300px] md:min-h-[280px]">
+              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 text-right md:text-left">
-                  <h3 className="text-[22px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
-                  <h3 className="text-[22px] md:text-[40px] italic mb-2 md:mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
-                  <p className="text-[12px] md:text-[15px] leading-relaxed pl-[15%] md:pl-0" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
+                  <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
+                  <h3 className="text-[26px] md:text-[40px] italic mb-4 md:mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
+                  <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
                 </div>
                 <div className="flex gap-2 flex-nowrap justify-end md:justify-start mt-5 md:mt-0">
                   {[
@@ -233,8 +235,10 @@ export default function Home() {
           </div>
 
           {/* Nikah Albümü - kart (dikey, 1 sütun) */}
-          <div className="relative rounded-3xl overflow-hidden bg-[url(/nikah-albumu-mobil.png)] md:bg-[url(/nikah-albumu-masaustu.png)]" style={{ backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="px-6 pt-12 pb-8 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
+          <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <img src="/nikah-albumu-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
+            <img src="/nikah-albumu-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
+            <div className="relative px-6 pt-12 pb-8 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
               <h3 className="mb-5 self-center" style={{ color: '#5c4632', fontFamily: 'var(--font-script), cursive', fontWeight: 600, fontSize: '30px', letterSpacing: '1px', lineHeight: 1.1, textShadow: '0 2px 6px rgba(60,40,20,0.15), 0 1px 2px rgba(0,0,0,0.08)', paddingLeft: '10%' }}><span className="md:hidden">Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '34px' }}>Nikah Albümü</span></h3>
               <div className="relative w-full flex items-center justify-center mb-6" style={{ perspective: '1000px', height: 175 }}>
                 <div className="absolute" style={{ transform: 'translateX(-78px) translateY(8px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
