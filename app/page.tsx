@@ -216,9 +216,9 @@ export default function Home() {
             <div className="relative grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
               <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
-                <div className="pl-[44%] md:pl-0 text-right md:text-left">
+                <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
-                  <h3 className="text-[26px] md:text-[40px] italic mb-4 md:mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
+                  <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
                   <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
                 </div>
                 <div className="flex gap-2 flex-nowrap justify-end md:justify-start mt-5 md:mt-0">
@@ -238,9 +238,9 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/nikah-albumu-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/nikah-albumu-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            <div className="relative px-8 pt-24 pb-16 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
-              <h3 className="mb-6" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px', lineHeight: 1.2 }}><span className="md:hidden" style={{ fontSize: '28px' }}>Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '32px' }}>Nikah Albümü</span></h3>
-              <div className="relative w-full flex items-center justify-center mb-7" style={{ perspective: '1000px', height: 195 }}>
+            <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
+              <h3 className="mb-4" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px', lineHeight: 1.2 }}><span className="md:hidden" style={{ fontSize: '28px' }}>Nikah Albümü</span><span className="hidden md:inline" style={{ fontSize: '32px' }}>Nikah Albümü</span></h3>
+              <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 195 }}>
                 <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-72px) translateY(7px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[90px] h-[108px] md:w-[96px] md:h-[112px]" />
@@ -257,13 +257,14 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <p className="text-[13px] md:text-[15px] leading-relaxed mb-4 max-w-2xl" style={{ color: '#6E5A5A' }}>Online Nikah albümünüzü oluşturun, siz veya nikahtaki sevdikleriniz fotoğraflarını yüklesin. Tüm nikah fotoğraflarınızı tek bir yerde toplayın.</p>
-              <div className="flex flex-wrap justify-center gap-2">
+              <p className="text-[13px] md:text-[15px] leading-relaxed mb-6 max-w-2xl" style={{ color: '#6E5A5A' }}>Online Nikah albümünüzü oluşturun, siz veya nikahtaki sevdikleriniz fotoğraflarını yüklesin. Tüm nikah fotoğraflarınızı tek bir yerde toplayın.</p>
+              {/* Badges sol alta dikey stack — Altın Toplama badge stili */}
+              <div className="flex flex-col items-start gap-2 self-start">
                 {[
                   { label: 'Birlikte Yükleyin', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
                   { label: 'Tek Yerde Toplayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-semibold" style={{ background: 'rgba(255,255,255,0.85)', color: '#9F4F58', border: '1px solid rgba(232,165,169,0.40)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -328,7 +329,7 @@ export default function Home() {
               { step: '02', title: 'Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
               { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
             ].map((item, i) => (
-              <div key={item.step} className="premium-card group relative bg-white rounded-3xl p-10 border border-gray-100/80 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+              <div key={item.step} className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2" style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.18), 0 8px 24px rgba(0,0,0,0.08)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; }}>
                 <div className="flex items-center justify-between mb-8">
                   <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>{item.icon}</div>
                   <span className="text-6xl font-bold text-gray-100 select-none">{item.step}</span>
@@ -385,9 +386,15 @@ export default function Home() {
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
-                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`relative rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'scale-[1.04] border-2' : 'border border-gray-100/80 hover:-translate-y-2'}`} style={isSelected ? { borderColor: '#C8686E', background: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(20px)', boxShadow: '0 20px 60px rgba(200,104,110,0.15), 0 8px 24px rgba(0,0,0,0.08)' } : { background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(16px)', boxShadow: '0 8px 32px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)' }}>
-                  {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-6 py-1.5 rounded-full text-sm font-bold shadow-lg" style={{ background: 'linear-gradient(135deg, #D97070, #C8686E)', boxShadow: '0 4px 16px rgba(200,104,110,0.3)' }}>{pkg.badge}</div>}
-                  <div className="absolute top-5 right-5 px-3 py-1 rounded-full text-xs font-bold text-white" style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)', boxShadow: '0 4px 12px rgba(239,68,68,0.25)' }}>{pkg.discountLabel}</div>
+                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`relative rounded-3xl p-9 transition-all duration-500 cursor-pointer overflow-hidden ${isSelected ? 'scale-[1.04]' : 'hover:-translate-y-2'}`} style={isSelected ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,245,243,0.96) 100%)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 80px rgba(200,104,110,0.22), 0 12px 32px rgba(200,104,110,0.10), 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1.5px solid rgba(200,104,110,0.45)' } : { background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(252,250,248,0.94) 100%)', backdropFilter: 'blur(20px)', boxShadow: '0 16px 50px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)', border: '1px solid rgba(200,104,110,0.10)' }}>
+                  {/* Premium subtle gold shimmer accent */}
+                  {isSelected && <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(200,104,110,0.10), transparent 70%)' }} />}
+                  {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-7 py-2 rounded-full text-[13px] font-semibold tracking-wide" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.4), 0 2px 8px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-sans)', letterSpacing: '0.5px' }}>{pkg.badge}</div>}
+                  {/* Premium discount badge - elegant ribbon style */}
+                  <div className="absolute top-5 right-5 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold whitespace-nowrap" style={{ color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,243,243,0.95) 0%, rgba(253,232,232,0.90) 100%)', border: '1px solid rgba(200,104,110,0.30)', boxShadow: '0 2px 8px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)' }}>
+                    <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z" /></svg>
+                    {pkg.discountLabel}
+                  </div>
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{pkg.name}</h3>
                     <p className="text-sm text-gray-400">{pkg.sub}</p>

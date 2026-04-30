@@ -1757,7 +1757,7 @@ export default function WatchPage() {
               <div className="px-5 pt-4 pb-3">
                 {/* Merkezi başlık */}
                 <div className="text-center mb-3">
-                  <h2 className="flex items-center justify-center gap-5 text-[28px] mb-1" style={{ color: '#3A2D20', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
+                  <h2 className="flex items-center justify-center gap-5 text-[30px] mb-1" style={{ color: '#5c4632', fontFamily: 'var(--font-script), "Cormorant Garamond", Georgia, serif', fontWeight: 600, letterSpacing: '1px', textShadow: '0 2px 6px rgba(60,40,20,0.2), 0 1px 2px rgba(0,0,0,0.1)' }}>
                     <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, #d4af37, transparent)', opacity: 0.6 }} />
                     <span>Mutlu Çifte <span className="gold-title-shimmer" style={{ fontWeight: 700, color: '#C4A020' }}>Altın Tak</span></span>
                     <span className="flex-1 h-[1px]" style={{ background: 'linear-gradient(to right, transparent, #d4af37, transparent)', opacity: 0.6 }} />
@@ -1826,9 +1826,9 @@ export default function WatchPage() {
             {/* Nikah Albümü — pembe sulu boya gül background (yatayda hafif stretch ile çizgiler yok) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Centered header — Playfair elegant (önceki sürüm) */}
+              {/* Centered header — Cormorant italic premium */}
               <div className="text-center relative z-10 mt-3">
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '28px', letterSpacing: '0.5px', lineHeight: 1.2 }}>
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-script), "Cormorant Garamond", Georgia, serif', fontWeight: 600, fontSize: '32px', letterSpacing: '0.5px', lineHeight: 1.1, fontStyle: 'italic' }}>
                   Nikah Albümü
                 </h3>
                 <p className="mt-1.5" style={{ color: '#8A7A7A', fontSize: '12px', fontWeight: 400, lineHeight: 1.5, fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
