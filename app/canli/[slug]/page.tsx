@@ -917,7 +917,7 @@ export default function WatchPage() {
           </h1>
 
           <p className="text-gray-700 text-xl mb-1">
-            🎉 Tekrar Hoş Geldin!
+            Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
           </p>
           <p className="text-gray-800 font-semibold text-lg mb-3">
             {viewerName}
@@ -1272,8 +1272,9 @@ export default function WatchPage() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
-            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            <h3 className="text-2xl font-bold text-gray-900 text-center mb-2">Nikahım</h3>
+            <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
+            {/* Nikahim text logo (yazı stili) — düz siyah yazı yerine */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[42px] w-auto mx-auto object-contain mb-2" />
             <p className="text-gray-400 text-center text-sm mb-8">Nikahınızı canlı yayınlayın ve sevdiklerinizle paylaşın</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>

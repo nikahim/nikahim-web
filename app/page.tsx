@@ -99,7 +99,9 @@ export default function Home() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
-            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
+            <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
+            {/* Nikahim text logo (yazı stili) */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[42px] w-auto mx-auto object-contain mb-2" />
             <p className="text-gray-500 text-center text-sm mb-8">Uygulamayı indirin ve nikahınızı planlayın</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
@@ -162,8 +164,10 @@ export default function Home() {
                 Türkiye&apos;nin İlk Düğün ve Nikah Canlı Yayın Platformu
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
-              <h1 className="text-[2.7rem] lg:text-[3.8rem] leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
-                <span className="font-black text-gray-900">Bu Mutlu Günü</span><br /><span className="gradient-text-hero animate-glow font-bold">Canlı Yayınlayın</span>
+              <h1 className="leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
+                <span className="font-black text-gray-900 text-[2.7rem] lg:text-[3.8rem]">Bu Mutlu Günü</span>
+                <br />
+                <span className="gradient-text-hero animate-glow font-bold text-[3.2rem] lg:text-[4.5rem]">Canlı Yayınlayın</span>
               </h1>
               {/* Item 26: yeni açıklama */}
               <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Fotoğraf Albümü, Online Altın Takma, Videolu Tebrik mesajları ve çok daha fazlası tek platformda!</p>
@@ -173,7 +177,7 @@ export default function Home() {
                   <span className="block italic font-light text-[12px] lg:text-[14px] opacity-90">Ücretsiz</span>
                   <span className="block">Hesap Oluştur</span>
                 </button>
-                <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}><span className="lg:hidden">Canlı İzle</span><span className="hidden lg:inline">Canlı Nikah İzle</span></button>
+                <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı İzle</button>
               </div>
               {/* Item 27: Örnek Canlı Yayın sayfası kart */}
               <a href="#" className="inline-flex items-center gap-2 mb-12 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.05)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.15)' }}>
@@ -225,12 +229,11 @@ export default function Home() {
           {/* Altınlarınızı Online Toplayın - kart */}
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
-            {/* Masaüstü: görseli hafif küçült + sola yasla (yazı sığsın diye) */}
-            <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none md:scale-90 md:origin-left" />
-            {/* Masaüstünde sol kolon %32 → %44 (yazı sağa ~2cm) */}
-            <div className="relative grid grid-cols-1 md:grid-cols-[44%_1fr] min-h-[320px] md:min-h-[300px]">
+            <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
+            {/* Masaüstü sol kolon %38 (32-44 arası orta), pl-10 (12'den hafif sola) */}
+            <div className="relative grid grid-cols-1 md:grid-cols-[38%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-12 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
+              <div className="p-5 md:py-10 md:pr-10 md:pl-10 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
                   <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
@@ -256,23 +259,23 @@ export default function Home() {
             <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
               {/* Editorial Luxury Title — sade (açıklama resimlerin altına taşındı) */}
               <div className="mb-4 text-center">
-                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '14px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
+                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '17px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
                 <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
                 <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
-              {/* Resimler: mobilde %15 büyük, masaüstünde %25 büyük */}
+              {/* Resimler: mobilde %15 büyük, masaüstünde %25 büyük — vertical daha yukarı */}
               <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 230 }}>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(7px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(-12px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(7px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(-12px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateZ(60px)', zIndex: 3 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateY(-18px) translateZ(60px)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                     <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[132px] h-[159px] md:w-[150px] md:h-[175px]" />
                   </div>
@@ -300,7 +303,7 @@ export default function Home() {
       <section id="nikah-ara" className="py-28">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın arayın</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
             <p className="text-lg text-gray-400 max-w-xl mx-auto">Gelin veya Damat adı ile arayarak katılmak istediğiniz Düğün veya Nikahı bulabilirsiniz.</p>
           </div>
           <div className="relative max-w-2xl mx-auto">
