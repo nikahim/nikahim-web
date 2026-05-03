@@ -162,7 +162,7 @@ export default function Home() {
                 Türkiye&apos;nin İlk Düğün ve Nikah Canlı Yayın Platformu
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
-              <h1 className="text-[3.2rem] lg:text-[4.5rem] leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
+              <h1 className="text-[2.7rem] lg:text-[3.8rem] leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
                 <span className="font-black text-gray-900">Bu Mutlu Günü</span><br /><span className="gradient-text-hero animate-glow font-bold">Canlı Yayınlayın</span>
               </h1>
               {/* Item 26: yeni açıklama */}
@@ -180,7 +180,7 @@ export default function Home() {
                 <span>Örnek Canlı Yayın sayfası incele</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </a>
-              <div className="mb-16" />
+              <div className="mb-8" />
               <div className="flex gap-5">
                 {[
                   { num: '500', suffix: '+', label: 'Mutlu Çift', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
@@ -225,10 +225,12 @@ export default function Home() {
           {/* Altınlarınızı Online Toplayın - kart */}
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
-            <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            <div className="relative grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[320px] md:min-h-[300px]">
+            {/* Masaüstü: görseli hafif küçült + sola yasla (yazı sığsın diye) */}
+            <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none md:scale-90 md:origin-left" />
+            {/* Masaüstünde sol kolon %32 → %44 (yazı sağa ~2cm) */}
+            <div className="relative grid grid-cols-1 md:grid-cols-[44%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
+              <div className="p-5 md:py-10 md:pr-10 md:pl-12 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
                   <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
@@ -252,36 +254,36 @@ export default function Home() {
             <img src="/nikah-albumu-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/nikah-albumu-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
             <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
-              {/* Editorial Luxury Title - 2 katmanlı premium */}
-              {/* Item 28: Nikah Albümü → MUTLU Kareler */}
+              {/* Editorial Luxury Title — sade (açıklama resimlerin altına taşındı) */}
               <div className="mb-4 text-center">
                 <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '14px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
                 <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
                 <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
-                <p className="mt-3 max-w-md mx-auto text-[12px] md:text-[14px] leading-relaxed" style={{ color: '#6E5A5A' }}>
-                  Online Fotoğraf albümünüzü oluşturun, siz veya bu özel günde yanınızdaki sevdikleriniz fotoğraflarını yüklesin. Tüm Fotoğraflarınızı kolayca tek bir yerde toplayın tek tıkla hepsini indirin!
-                </p>
               </div>
-              <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 195 }}>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-72px) translateY(7px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
+              {/* Resimler: mobilde %15 büyük, masaüstünde %25 büyük */}
+              <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 230 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(7px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[90px] h-[108px] md:w-[96px] md:h-[112px]" />
+                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(72px) translateY(7px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(7px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[90px] h-[108px] md:w-[96px] md:h-[112px]" />
+                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
                 <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateZ(60px)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[115px] h-[138px] md:w-[120px] md:h-[140px]" />
+                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[132px] h-[159px] md:w-[150px] md:h-[175px]" />
                   </div>
                 </div>
               </div>
-              <p className="text-[13px] md:text-[15px] leading-relaxed mb-6 max-w-2xl" style={{ color: '#6E5A5A' }}>Online Nikah albümünüzü oluşturun, siz veya nikahtaki sevdikleriniz fotoğraflarını yüklesin. Tüm nikah fotoğraflarınızı tek bir yerde toplayın.</p>
-              {/* Badges sol alta dikey stack — Altın Toplama badge stili */}
-              <div className="flex flex-col items-start gap-2 self-start">
+              {/* Açıklama resimlerin altında */}
+              <p className="text-[13px] md:text-[15px] leading-relaxed mb-6 max-w-2xl text-center" style={{ color: '#6E5A5A' }}>
+                Online Fotoğraf Albümünüzü oluşturun, siz veya bu özel günde yanınızdaki sevdikleriniz fotoğraflarını yüklesin. Tüm Fotoğraflarınızı kolayca tek bir yerde toplayın tek tıkla hepsini indirin!
+              </p>
+              {/* Badges: mobilde sol alt dikey, masaüstünde ortada yan yana */}
+              <div className="flex flex-col items-start md:flex-row md:items-center md:justify-center gap-2 self-start md:self-auto">
                 {[
                   { label: 'Birlikte Yükleyin', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
                   { label: 'Tek Yerde Toplayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg> },
@@ -298,8 +300,8 @@ export default function Home() {
       <section id="nikah-ara" className="py-28">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Nikah Arayın</span></h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto">Gelin veya Damat adı ile arayarak katılmak istediğiniz nikahı bulabilirsiniz</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın arayın</span></h2>
+            <p className="text-lg text-gray-400 max-w-xl mx-auto">Gelin veya Damat adı ile arayarak katılmak istediğiniz Düğün veya Nikahı bulabilirsiniz.</p>
           </div>
           <div className="relative max-w-2xl mx-auto">
             <div className="relative group">
@@ -342,8 +344,7 @@ export default function Home() {
       <section id="nasil-calisir" className="py-28" style={{ background: 'linear-gradient(180deg, #F8F9FC 0%, #FFFFFF 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto">Nikahınızı canlı yayınlamak hiç bu kadar kolay olmamıştı</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
           </div>
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[

@@ -909,35 +909,24 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Avatar — premium glow halkası */}
-          <div className="relative inline-block mx-auto mb-4">
-            <div className="absolute inset-0 rounded-full" style={{ boxShadow: '0 0 0 6px rgba(255,255,255,0.7), 0 14px 34px rgba(217,92,114,0.28)' }} />
-            <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="relative rounded-full object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/25" />
-          </div>
+          {/* Çift fotoğrafı — eski sade halka */}
+          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
-          <h1 className="text-2xl mb-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, color: '#1F2430', letterSpacing: '0.5px' }}>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
 
-          <p className="text-[18px] mb-1" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#3A2E32' }}>
-            Bu özel ana hoş geldin 💍
+          <p className="text-gray-700 text-xl mb-1">
+            🎉 Tekrar Hoş Geldin!
           </p>
-          <p className="text-gray-800 font-semibold text-[17px] mb-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
+          <p className="text-gray-800 font-semibold text-lg mb-3">
             {viewerName}
           </p>
-          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-4">
+          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
             <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
             <span className="text-gray-200">|</span>
             <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
           </div>
-
-          {/* Live status pill — psikolojik nudge */}
-          {streamData?.status === 'active' && (
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-[12px] font-semibold" style={{ background: 'rgba(220,38,38,0.10)', color: '#DC2626', border: '1px solid rgba(220,38,38,0.20)' }}>
-              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#DC2626' }} />
-              🎥 Canlı yayın şu an devam ediyor
-            </div>
-          )}
 
           <button
             onClick={handleReturningContinue}
@@ -948,10 +937,14 @@ export default function WatchPage() {
             Canlı Yayına Katıl
           </button>
 
-          {/* Küçük yardım metni */}
-          <p className="text-[12px] text-gray-400 mt-3 mb-4">Nikah salonundaysan aşağıdan fotoğraf paylaşabilirsin</p>
+          {/* Divider — eskisi gibi */}
+          <div className="flex items-center gap-3 my-5">
+            <div className="flex-1 h-px bg-gray-200" />
+            <span className="text-xs font-semibold text-gray-400 tracking-wider">veya</span>
+            <div className="flex-1 h-px bg-gray-200" />
+          </div>
 
-          {/* Anı Paylaş kartı — secondary, daha soft */}
+          {/* Anı Paylaş kartı — Nikah/Düğün dinamik */}
           <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 25px rgba(200,100,120,0.08)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
@@ -961,10 +954,10 @@ export default function WatchPage() {
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-0.5">
-                  <h4 className="font-bold text-[14px]" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
+                  <h4 className="font-bold text-[14px]" style={{ color: '#C8686E' }}>{event.event_type === 'dugun' ? 'Düğündeysen Anı Paylaş' : 'Nikahtaysan Anı Paylaş'}</h4>
                   <span className="text-sm">✨</span>
                 </div>
-                <p className="text-[11.5px] text-gray-600 leading-snug">Çiftin albümüne fotoğraf ekle</p>
+                <p className="text-[11.5px] text-gray-600 leading-snug">{event.event_type === 'dugun' ? 'Düğünden Fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin.' : 'Nikahtan Fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin.'}</p>
               </div>
             </div>
             <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 text-[13px] transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.10)' }}>
@@ -1301,9 +1294,9 @@ export default function WatchPage() {
 
           {/* Ortada CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <span className="text-sm font-semibold"><span className="text-gray-800">Sende nikahını </span><span style={{ color: '#C8686E' }}>canlı yayınlamak</span><span className="text-gray-800"> ister misin?</span></span>
+            <span className="text-sm font-semibold"><span className="text-gray-800">Sende bu mutlu gününü </span><span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span><span className="text-gray-800"> ister misin?</span></span>
             <button onClick={() => setShowAppPopup(true)} className="px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-105 border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.8)' }}>
-              Hemen Başla
+              Hemen Başla !
             </button>
           </div>
 
@@ -1831,16 +1824,13 @@ export default function WatchPage() {
             {/* Nikah Albümü — pembe sulu boya gül background (yatayda hafif stretch ile çizgiler yok) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Editorial Luxury header — 2 katmanlı premium */}
+              {/* Editorial Luxury header — Mutlu Kareler */}
               <div className="text-center relative z-10 mt-3">
-                <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '12px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
+                <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '12px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
                 <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '28px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                  Albümü
+                  Kareler
                 </h3>
-                <div className="mx-auto mt-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
-                <p className="mt-2" style={{ color: '#8A7A7A', fontSize: '11px', fontWeight: 400, lineHeight: 1.5, fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                  Çiftin Nikah Gününden Mutlu Kareler
-                </p>
+                <div className="mx-auto mt-2 mb-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
 
               {/* PHOTO COVERFLOW — orbital 3D premium carousel */}
@@ -1867,29 +1857,38 @@ export default function WatchPage() {
                   </div>
                 ) : (
                   slideshowPhotos.map((url, i) => {
-                    const offset = ((i - galleryIndex) % slideshowPhotos.length + slideshowPhotos.length) % slideshowPhotos.length;
-                    const isLeft = offset === slideshowPhotos.length - 1 && slideshowPhotos.length > 1;
-                    const isCenter = offset === 0;
-                    const isRight = offset === 1 && slideshowPhotos.length > 1;
+                    // Tüm fotolar yörüngede pozisyon alır (-2, -1, 0, +1, +2). Smooth dairesel dönüş.
+                    const N = slideshowPhotos.length;
+                    let rel = ((i - galleryIndex) % N + N) % N;
+                    if (rel > N / 2) rel -= N; // -N/2..N/2 aralığına normalize
+                    const isCenter = rel === 0;
+                    const isLeft = rel === -1;
+                    const isRight = rel === 1;
+                    const isFarLeft = rel === -2 || (rel < -2);
+                    const isFarRight = rel === 2 || (rel > 2);
                     const isVisible = isLeft || isCenter || isRight;
-                    let transform = 'translate(-50%, -50%) translateZ(-200px) scale(0.5) rotateY(0deg)';
+                    let transform = 'translate(-50%, -50%) translateZ(-260px) rotateY(0deg)';
                     let zIndex = 0;
                     let opacity = 0;
                     if (isCenter) {
                       transform = 'translate(-50%, -50%) translateZ(80px) rotateY(0deg)';
-                      zIndex = 5;
-                      opacity = 1;
+                      zIndex = 5; opacity = 1;
                     } else if (isRight) {
                       transform = 'translate(-50%, -50%) translateX(78px) translateY(8px) translateZ(-30px) rotateY(-38deg)';
-                      zIndex = 2;
-                      opacity = 0.85;
+                      zIndex = 2; opacity = 0.85;
                     } else if (isLeft) {
                       transform = 'translate(-50%, -50%) translateX(-78px) translateY(8px) translateZ(-30px) rotateY(38deg)';
-                      zIndex = 2;
-                      opacity = 0.85;
+                      zIndex = 2; opacity = 0.85;
+                    } else if (isFarRight) {
+                      // Yörünge içinden gelen — sağdan kayar
+                      transform = 'translate(-50%, -50%) translateX(160px) translateY(20px) translateZ(-180px) rotateY(-65deg)';
+                      zIndex = 1; opacity = 0;
+                    } else if (isFarLeft) {
+                      transform = 'translate(-50%, -50%) translateX(-160px) translateY(20px) translateZ(-180px) rotateY(65deg)';
+                      zIndex = 1; opacity = 0;
                     }
                     return (
-                      <div key={i} onClick={() => isVisible && setPhotoLightboxIndex(i)} className="absolute top-1/2 left-1/2" style={{ transform, zIndex, opacity, transformStyle: 'preserve-3d', cursor: isVisible ? 'pointer' : 'default', pointerEvents: isVisible ? 'auto' : 'none', transition: 'transform 1.2s cubic-bezier(0.65, 0.05, 0.35, 1), opacity 0.8s ease' }}>
+                      <div key={i} onClick={() => isVisible && setPhotoLightboxIndex(i)} className="absolute top-1/2 left-1/2" style={{ transform, zIndex, opacity, transformStyle: 'preserve-3d', cursor: isVisible ? 'pointer' : 'default', pointerEvents: isVisible ? 'auto' : 'none', transition: 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1)' }}>
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={url} alt="" className="block object-cover rounded-md" style={{ width: isCenter ? 116 : 96, height: isCenter ? 136 : 112 }} />
                         </div>
@@ -1899,27 +1898,23 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Albümü Görüntüle — sol alt, tek satır, daha kompakt */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: '48%', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+              {/* Albümü Görüntüle — auto width (içerik kaymaması için) */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
                 <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
                 <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
               </button>
             </div>
 
-            {/* Mobilde "Sen de nikahını canlı yayınla" CTA — premium polish */}
-            <div className="lg:hidden rounded-[28px] p-6 flex flex-col items-center text-center gap-4" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(253,243,243,0.95) 100%)', backdropFilter: 'blur(14px)', boxShadow: '0 18px 45px rgba(180,120,120,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.30)' }}>
-              <h3 className="text-[19px] leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#2B2B2B', fontWeight: 600, letterSpacing: '0.2px' }}>
-                Sen de nikahını <span style={{ color: '#C8686E' }}>canlı yayınla</span>
-              </h3>
-              <p className="text-[13px] leading-relaxed" style={{ color: '#6E5A5A' }}>
-                Uzakta kalan sevdiklerin bu özel ana ortak olsun.
+            {/* Mobilde "Sende bu mutlu gününü..." CTA — compact (masaüstü tarzı) */}
+            <div className="lg:hidden rounded-2xl p-5 flex flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <p className="text-sm font-semibold leading-snug">
+                <span className="text-gray-800">Sende bu mutlu gününü </span>
+                <span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span>
+                <span className="text-gray-800"> ister misin?</span>
               </p>
-              <p className="text-[11px] leading-relaxed" style={{ color: '#9C8585', letterSpacing: '0.3px' }}>
-                Canlı yayın · Altın takı · Video tebrik · Nikah albümü
-              </p>
-              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-3.5 rounded-2xl font-semibold text-[14px] transition-all hover:scale-[1.02]" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', color: '#fff', boxShadow: '0 12px 28px rgba(213,91,113,0.28), 0 4px 12px rgba(0,0,0,0.08)' }}>
-                Ücretsiz Yayın Sayfası Oluştur
+              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.9)' }}>
+                Hemen Başla !
               </button>
             </div>
 
