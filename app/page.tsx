@@ -149,8 +149,8 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
           <div className="flex items-center justify-between h-[80px]">
             <div className="flex items-center gap-0 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={280} height={80} className="h-[79px] w-auto object-contain -ml-2" />
+              <Image src="/navbar-icon.png" alt="Nikahım" width={58} height={58} className="h-[57px] w-auto object-contain" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={92} className="h-[91px] w-auto object-contain -ml-2" />
             </div>
             <nav className="hidden lg:flex items-center gap-8">
               {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
@@ -269,10 +269,10 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            {/* Masaüstü: yazıyı 2cm daha sağa (pl-12 → pl-24, çiçek tamamen açık) */}
-            <div className="relative grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[320px] md:min-h-[300px]">
+            {/* Masaüstü: yazı daha sağa (pl-24 → pl-32, çiçek üstünü kapatmasın) */}
+            <div className="relative grid grid-cols-1 md:grid-cols-[36%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-24 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
+              <div className="p-5 md:py-10 md:pr-10 md:pl-32 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
                   <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
