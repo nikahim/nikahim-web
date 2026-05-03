@@ -264,12 +264,20 @@ export default function Home() {
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
-          {/* MOBIL-ONLY: Canlı Yayın Kart — Altın Toplayın ile aynı width (px-6 nötrleştirildi) */}
+          {/* MOBIL-ONLY: Canlı Yayın Kart (kare) */}
           <div
             className="lg:hidden cursor-pointer transition-transform hover:scale-[1.01] -mx-3"
             onClick={() => setShowAppPopup(true)}
           >
             <Image src="/canli-yayin-kart-mobil.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" width={1024} height={1024} className="w-full h-auto block" priority />
+          </div>
+
+          {/* MASAÜSTÜ-ONLY: Canlı Yayın Kart (yatay banner) */}
+          <div
+            className="hidden lg:block cursor-pointer transition-transform hover:scale-[1.005]"
+            onClick={() => setShowAppPopup(true)}
+          >
+            <Image src="/canli-yayin-kart-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" width={2400} height={900} className="w-full h-auto block" priority />
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart */}
