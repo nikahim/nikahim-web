@@ -264,6 +264,15 @@ export default function Home() {
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
+          {/* MOBIL-ONLY: Canlı Yayın Kart (Altın Toplayın'ın üstünde, lg:hidden) */}
+          <div
+            className="lg:hidden rounded-3xl overflow-hidden cursor-pointer transition-transform hover:scale-[1.01]"
+            style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}
+            onClick={() => setShowAppPopup(true)}
+          >
+            <Image src="/canli-yayin-kart-mobil.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" width={1024} height={1024} className="w-full h-auto block" priority />
+          </div>
+
           {/* Altınlarınızı Online Toplayın - kart */}
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
