@@ -143,7 +143,7 @@ export default function OnayPage() {
       <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}>
 
         {isBusiness ? (
-          <Image src="/nikah-dunyasi-icon.png" alt="Nikah Dünyası" width={80} height={80} className="mx-auto mb-4 object-contain" style={{ width: 80, height: 80 }} />
+          <Image src="/nikahim-carsi-icon.png" alt="Nikahım Çarşı" width={80} height={80} className="mx-auto mb-4 object-contain" style={{ width: 80, height: 80 }} />
         ) : (
           <Image src="/logo.png" alt="Nikahim.com" width={70} height={70} className="mx-auto rounded-full mb-4" />
         )}

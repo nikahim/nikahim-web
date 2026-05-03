@@ -909,61 +909,66 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
+          {/* Avatar — premium glow halkası */}
+          <div className="relative inline-block mx-auto mb-4">
+            <div className="absolute inset-0 rounded-full" style={{ boxShadow: '0 0 0 6px rgba(255,255,255,0.7), 0 14px 34px rgba(217,92,114,0.28)' }} />
+            <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="relative rounded-full object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/25" />
+          </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl mb-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, color: '#1F2430', letterSpacing: '0.5px' }}>
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
 
-          <p className="text-gray-700 text-xl mb-1">
-            🎉 Tekrar Hoş Geldin
+          <p className="text-[18px] mb-1" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#3A2E32' }}>
+            Bu özel ana hoş geldin 💍
           </p>
-          <p className="text-gray-800 font-semibold text-lg mb-3">
+          <p className="text-gray-800 font-semibold text-[17px] mb-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
             {viewerName}
           </p>
-          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
+          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-4">
             <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
             <span className="text-gray-200">|</span>
             <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
           </div>
 
+          {/* Live status pill — psikolojik nudge */}
+          {streamData?.status === 'active' && (
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-[12px] font-semibold" style={{ background: 'rgba(220,38,38,0.10)', color: '#DC2626', border: '1px solid rgba(220,38,38,0.20)' }}>
+              <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#DC2626' }} />
+              🎥 Canlı yayın şu an devam ediyor
+            </div>
+          )}
+
           <button
             onClick={handleReturningContinue}
-            className="w-full text-white px-8 py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5"
-            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 24px rgba(200,104,110,0.28), 0 3px 10px rgba(0,0,0,0.08)' }}
+            className="w-full text-white px-8 py-4 rounded-2xl font-semibold text-[16px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5"
+            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 20px 50px rgba(217,92,114,0.35), 0 4px 14px rgba(0,0,0,0.08)' }}
           >
-            <svg className="w-4 h-4" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-            Yayına Devam Et
+            <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            Canlı Yayına Katıl
           </button>
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs font-semibold text-gray-400 tracking-wider">veya</span>
-            <div className="flex-1 h-px bg-gray-200" />
-          </div>
+          {/* Küçük yardım metni */}
+          <p className="text-[12px] text-gray-400 mt-3 mb-4">Nikah salonundaysan aşağıdan fotoğraf paylaşabilirsin</p>
 
-          {/* Anı Paylaş kartı — neredeyse beyaz rose */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFEFE 0%, #FFF8F9 100%)', border: '1px solid rgba(200,104,110,0.12)' }}>
+          {/* Anı Paylaş kartı — secondary, daha soft */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 25px rgba(200,100,120,0.08)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
-                  <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                </div>
-                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
-                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 4px 12px rgba(200,104,110,0.25)' }}>
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 </div>
               </div>
               <div className="flex-1 text-left">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
-                  <span className="text-base">✨</span>
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <h4 className="font-bold text-[14px]" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
+                  <span className="text-sm">✨</span>
                 </div>
-                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
+                <p className="text-[11.5px] text-gray-600 leading-snug">Çiftin albümüne fotoğraf ekle</p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 text-[13px] transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.10)' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
               Fotoğraf Yükle
             </button>
           </div>
@@ -1902,15 +1907,19 @@ export default function WatchPage() {
               </button>
             </div>
 
-            {/* Mobilde "Sende nikahını..." CTA - sadece mobilde göster */}
-            <div className="lg:hidden rounded-2xl p-5 flex flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
-              <p className="text-sm font-semibold leading-snug">
-                <span className="text-gray-800">Sende nikahını </span>
-                <span style={{ color: '#C8686E' }}>canlı yayınlamak</span>
-                <span className="text-gray-800"> ister misin?</span>
+            {/* Mobilde "Sen de nikahını canlı yayınla" CTA — premium polish */}
+            <div className="lg:hidden rounded-[28px] p-6 flex flex-col items-center text-center gap-4" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(253,243,243,0.95) 100%)', backdropFilter: 'blur(14px)', boxShadow: '0 18px 45px rgba(180,120,120,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.30)' }}>
+              <h3 className="text-[19px] leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#2B2B2B', fontWeight: 600, letterSpacing: '0.2px' }}>
+                Sen de nikahını <span style={{ color: '#C8686E' }}>canlı yayınla</span>
+              </h3>
+              <p className="text-[13px] leading-relaxed" style={{ color: '#6E5A5A' }}>
+                Uzakta kalan sevdiklerin bu özel ana ortak olsun.
               </p>
-              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.9)' }}>
-                Hemen Başla
+              <p className="text-[11px] leading-relaxed" style={{ color: '#9C8585', letterSpacing: '0.3px' }}>
+                Canlı yayın · Altın takı · Video tebrik · Nikah albümü
+              </p>
+              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-3.5 rounded-2xl font-semibold text-[14px] transition-all hover:scale-[1.02]" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', color: '#fff', boxShadow: '0 12px 28px rgba(213,91,113,0.28), 0 4px 12px rgba(0,0,0,0.08)' }}>
+                Ücretsiz Yayın Sayfası Oluştur
               </button>
             </div>
 

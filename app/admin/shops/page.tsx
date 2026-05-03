@@ -104,7 +104,7 @@ export default function AdminShopsPage() {
     // setSelectedShop'u önce kapat ki büyük modal kalksın, sonra confirmDialog açılsın
     setConfirmDialog({
       title: 'Mağazayı Onayla',
-      message: `"${shop.name}" mağazasını onaylamak istediğinize emin misiniz? Onaylanan mağaza Nikah Dünyası'nda görünür olacak.`,
+      message: `"${shop.name}" mağazasını onaylamak istediğinize emin misiniz? Onaylanan mağaza Nikahım Çarşı'da görünür olacak.`,
       onConfirm: () => doApprove(shop),
     });
   };

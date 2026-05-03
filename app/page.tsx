@@ -156,18 +156,31 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="animate-fade-in-up">
-              <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full text-[12px] lg:text-sm font-medium mb-6 mt-4 lg:mt-6 whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
+              {/* Item 24: slogan — telefonda biraz daha geniş (yan kenardan -mx-2) */}
+              <div className="inline-flex items-center gap-2.5 px-4 lg:px-5 py-2.5 -mx-2 lg:mx-0 rounded-full text-[12px] lg:text-sm font-medium mb-6 mt-4 lg:mt-6 whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse flex-shrink-0" style={{ background: '#C8686E' }} />
-                Türkiye&apos;nin İlk Nikah Canlı Yayın Platformu
+                Türkiye&apos;nin İlk Düğün ve Nikah Canlı Yayın Platformu
               </div>
+              {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
               <h1 className="text-[3.2rem] lg:text-[4.5rem] leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
-                <span className="font-black text-gray-900">Nikahınızı</span><br /><span className="gradient-text-hero animate-glow font-bold">Canlı Yayınlayın</span>
+                <span className="font-black text-gray-900">Bu Mutlu Günü</span><br /><span className="gradient-text-hero animate-glow font-bold">Canlı Yayınlayın</span>
               </h1>
-              <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Nikah Albümü, Online Altın Takma, Videolu Tebrik mesajları ve daha fazlası tek platformda!</p>
-              <div className="flex flex-row gap-3 lg:gap-4 mb-16">
-                <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>Nikah Oluştur</button>
+              {/* Item 26: yeni açıklama */}
+              <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Fotoğraf Albümü, Online Altın Takma, Videolu Tebrik mesajları ve çok daha fazlası tek platformda!</p>
+              <div className="flex flex-row gap-3 lg:gap-4 mb-6">
+                {/* Item 27: 'Nikah Oluştur' → italic 'Ücretsiz' + 'Hesap Oluştur' */}
+                <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+                  <span className="block italic font-light text-[12px] lg:text-[14px] opacity-90">Ücretsiz</span>
+                  <span className="block">Hesap Oluştur</span>
+                </button>
                 <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}><span className="lg:hidden">Canlı İzle</span><span className="hidden lg:inline">Canlı Nikah İzle</span></button>
               </div>
+              {/* Item 27: Örnek Canlı Yayın sayfası kart */}
+              <a href="#" className="inline-flex items-center gap-2 mb-12 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.05)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.15)' }}>
+                <span>Örnek Canlı Yayın sayfası incele</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              </a>
+              <div className="mb-16" />
               <div className="flex gap-5">
                 {[
                   { num: '500', suffix: '+', label: 'Mutlu Çift', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
@@ -240,10 +253,14 @@ export default function Home() {
             <img src="/nikah-albumu-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
             <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
               {/* Editorial Luxury Title - 2 katmanlı premium */}
+              {/* Item 28: Nikah Albümü → MUTLU Kareler */}
               <div className="mb-4 text-center">
-                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '14px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>Nikah</p>
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Albümü</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Albümü</span></h3>
+                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '14px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
                 <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
+                <p className="mt-3 max-w-md mx-auto text-[12px] md:text-[14px] leading-relaxed" style={{ color: '#6E5A5A' }}>
+                  Online Fotoğraf albümünüzü oluşturun, siz veya bu özel günde yanınızdaki sevdikleriniz fotoğraflarını yüklesin. Tüm Fotoğraflarınızı kolayca tek bir yerde toplayın tek tıkla hepsini indirin!
+                </p>
               </div>
               <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 195 }}>
                 <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-72px) translateY(7px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
@@ -331,7 +348,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[
               { step: '01', title: 'Uygulamayı İndirin', desc: 'App Store veya Google Play\'den Nikahım uygulamasını ücretsiz indirin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
-              { step: '02', title: 'Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
+              { step: '02', title: 'Düğününüzü/Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
               { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
             ].map((item, i) => (
               <div key={item.step} className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2" style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.18), 0 8px 24px rgba(0,0,0,0.08)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; }}>
@@ -356,12 +373,16 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { title: 'Size Özel Yayın Sayfası', desc: 'Sadece size ait bir yayın sayfası! Hem de dilerseniz nikahınızı herkese kapalı olarak ayarlayın ve sadece davetiyeli kişiler nikahınıza katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
-              { title: 'Tek Tıkla Katılım', desc: 'Davetlileriniz için üyelik gerekmez, uygulama indirmek gerekmez! Davetlileriniz link üzerinden tek tıkla nikahınıza katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> },
-              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma. Tüm ödemeler direk sizin hesabınıza.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
+              /* Item 30 */
+              { title: 'Size Özel Yayın Sayfası', desc: 'Sadece size ait bir yayın sayfası! Hem de dilerseniz Canlı Yayını herkese kapalı olarak ayarlayın bu sayede sadece davetiyeli kişiler yayına katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
+              /* Item 31 */
+              { title: 'Tek Tıkla Katılım', desc: 'Davetlileriniz için üyelik gerekmez, uygulama indirmek gerekmez! Davetlileiriniz link üzerinden tek tıkla Canlı Yayınınıza katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> },
+              /* Item 32 */
+              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Tüm ödemeler direk olarak davetlileriniz tarafından sizin banka hesabınıza yapılır. Aracı yok! Komisyon Yok!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
               { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
               { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
-              { title: 'Nikah Albümü', desc: 'Nikah Albümünüze hem siz hem de nikahta yanınızda olan sevdikleriniz fotoğraf yükleyebilir. Nikah boyunca çekilen tüm fotoğrafları tek bir yerde toplayabilirsiniz!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+              /* Item 33 */
+              { title: 'Fotoğraf Albümü', desc: 'Fotoğraf albümünüze hem siz hem de bu mutlu günde yanınızda olan sevdikleriniz fotoğraf yükleyebilir. Gün boyunca çekilen tüm fotoğrafları tek bir yerde toplayabilir tek tıkla hepsini indirebilirsiniz!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
             ].map((feature, i) => (
               <div key={i} className="premium-card group p-8 rounded-3xl border border-gray-100 bg-white">
                 <div className="flex gap-2 mb-6">
@@ -473,7 +494,8 @@ export default function Home() {
               <a href="mailto:destek@nikahim.com" className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#C8686E' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>destek@nikahim.com</a>
               <button onClick={() => window.dispatchEvent(new Event('nikahim:open-chat'))} className="flex items-center gap-2 text-sm font-medium transition-colors hover:opacity-70" style={{ color: '#C8686E' }}>
                 <span className="w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)' }}>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m-3 0h6M9 11V5a3 3 0 116 0v6a3 3 0 11-6 0z" /></svg>
+                  {/* Item 34: mikrofon → kulaklıklı destek ikonu */}
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}><path d="M3 14v-2a9 9 0 0118 0v2" /><path d="M21 14v3a2 2 0 01-2 2h-2v-7h2a2 2 0 012 2z" /><path d="M3 14v3a2 2 0 002 2h2v-7H5a2 2 0 00-2 2z" /><path d="M17 19v1a3 3 0 01-3 3h-2" /></svg>
                 </span>
                 Canlı Destek
               </button>
@@ -486,7 +508,8 @@ export default function Home() {
       <section className="py-24 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #C8686E, #A85359)' }}>
         <div className="absolute inset-0 opacity-10" style={{ background: 'radial-gradient(circle at 30% 50%, #fff, transparent 50%), radial-gradient(circle at 70% 50%, #fff, transparent 50%)' }} />
         <div className="relative max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-5">Nikahınızı canlı yayınlamaya hazır mısınız?</h2>
+          {/* Item 35 */}
+          <h2 className="text-3xl lg:text-5xl font-bold text-white mb-5">Bu mutlu günü Canlı Yayınlamaya hazır mısınız?</h2>
           <p className="text-white/60 mb-12 text-lg max-w-lg mx-auto">Hemen uygulamayı indirin ve özel gününüzü planlayın</p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Image src="/appstore.png" alt="App Store" width={160} height={50} className="h-14 w-auto cursor-pointer hover:opacity-80 transition-opacity hover:scale-105" onClick={() => setShowAppPopup(true)} />
@@ -498,8 +521,8 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-12 mb-12">
-            <div><div className="flex items-center gap-0 mb-4"><Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" /><Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[78px] w-auto object-contain -ml-3" /></div><p className="text-gray-400 text-sm leading-relaxed">Sevdikleriniz uzakta olsa bile özel gününüzde yanınızda olsun.</p></div>
+          {/* Item 35: logo + text + slogan kaldırıldı, sadece Keşfet + Sosyal kaldı */}
+          <div className="grid md:grid-cols-2 gap-12 mb-12 max-w-3xl mx-auto">
             <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4><div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">{['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => { const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss']; return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>; })}</div></div>
             <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Bizi Takip Edin</h4><a href="https://instagram.com/nikahim.co" target="_blank" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"><Image src="/instagram.png" alt="Instagram" width={24} height={24} className="w-6 h-6 rounded" />@nikahim.co</a></div>
           </div>
