@@ -1353,7 +1353,8 @@ export default function WatchPage() {
         <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-1 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[78px] w-auto object-contain -ml-3" />
+            {/* DENEME 2: Nikahim Yeni Logo */}
+            <Image src="/nikahim-logo-yeni-2.png" alt="Nikahım" width={200} height={50} className="h-[40px] w-auto object-contain ml-1" />
           </div>
 
           {/* Ortada CTA */}
