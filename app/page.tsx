@@ -122,17 +122,17 @@ export default function Home() {
                 </div>
               ))}
             </div>
-            {/* App Store + Google Play yan yana (alan kazandık) */}
-            <div className="flex gap-2.5 mb-4 justify-center">
-              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
-              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
-            </div>
-            {/* Trust badge */}
-            <div className="flex items-center justify-center gap-2 mb-5 text-[12px] text-gray-500">
+            {/* Trust badge — store butonlarının ÜSTÜNDE (1 punto büyük + yeni metin) */}
+            <div className="flex items-center justify-center gap-2 mb-3 text-[13px] text-gray-500">
               <span className="inline-flex items-center justify-center w-5 h-5 rounded-full" style={{ background: 'rgba(200,104,110,0.10)' }}>
                 <svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </span>
-              <span><span className="font-semibold text-gray-700">Ücretsiz indir</span> · Kolay ve güvenli</span>
+              <span><span className="font-semibold text-gray-700">Uygulamamızı Ücretsiz indir</span> · Hemen Başla</span>
+            </div>
+            {/* App Store + Google Play yan yana */}
+            <div className="flex gap-2.5 mb-5 justify-center">
+              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
+              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
             </div>
             {/* Kapat */}
             <button onClick={() => setShowAppPopup(false)} className="w-full py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
