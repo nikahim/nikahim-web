@@ -111,12 +111,20 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
     setState('uploading');
 
     try {
-      const fileName = `${eventId}/${Date.now()}_${senderName.replace(/\s/g, '_')}.webm`;
+      // Defansif: eventId/senderName eksikse net hata
+      if (!eventId) throw new Error('eventId yok — sayfa düzgün yüklenmemiş olabilir');
+      const safeName = (senderName || 'Misafir').replace(/[^a-zA-Z0-9_-]/g, '_');
+      const fileName = `${eventId}/${Date.now()}_${safeName}.webm`;
+      console.log('[VoiceRecorder] uploading', { fileName, blobSize: recordedBlob.size, type: recordedBlob.type });
+
       const { error: uploadError } = await supabase.storage
         .from('voice-messages')
-        .upload(fileName, recordedBlob, { contentType: 'audio/webm' });
+        .upload(fileName, recordedBlob, { contentType: recordedBlob.type || 'audio/webm' });
 
-      if (uploadError) throw uploadError;
+      if (uploadError) {
+        console.error('[VoiceRecorder] storage upload error:', uploadError);
+        throw new Error(`Storage: ${uploadError.message}`);
+      }
 
       const { data: urlData } = supabase.storage
         .from('voice-messages')
@@ -124,22 +132,26 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
 
       const { error: dbError } = await supabase.from('voice_messages').insert({
         event_id: eventId,
-        sender_name: senderName,
+        sender_name: senderName || 'Misafir',
         audio_url: urlData.publicUrl,
         duration_seconds: duration,
         status: 'ready',
       });
 
-      if (dbError) console.error('DB hatası:', dbError);
+      if (dbError) {
+        console.error('[VoiceRecorder] DB insert error:', dbError);
+        throw new Error(`DB: ${dbError.message}`);
+      }
 
       setState('success');
       setTimeout(() => {
         cleanup();
         onSuccess();
       }, 2000);
-    } catch (err) {
-      console.error('Upload hatası:', err);
-      setErrorMessage('Ses yüklenirken bir hata oluştu. Lütfen tekrar deneyin.');
+    } catch (err: any) {
+      console.error('[VoiceRecorder] upload exception:', err);
+      const detail = err?.message || String(err);
+      setErrorMessage(`Hata: ${detail}`);
       setState('error');
     }
   };
