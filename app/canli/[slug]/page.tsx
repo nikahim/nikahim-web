@@ -1896,7 +1896,7 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-sm">Video Tebrik</h3>
+                <h3 className="font-bold text-gray-900 text-sm whitespace-nowrap">Video Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">30 sn video mesaj</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
@@ -1909,7 +1909,7 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-sm">Sesli Tebrik</h3>
+                <h3 className="font-bold text-gray-900 text-sm whitespace-nowrap">Sesli Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
@@ -1922,7 +1922,7 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-sm">Mesaj Tebrik</h3>
+                <h3 className="font-bold text-gray-900 text-sm whitespace-nowrap">Mesaj Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">Yazılı tebrik bırakın</p>
               </div>
               <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
@@ -1932,8 +1932,8 @@ export default function WatchPage() {
             {/* Nikah Albümü — pembe sulu boya gül background (yatayda hafif stretch ile çizgiler yok) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/album-bg-4.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Editorial Luxury header — Mutlu Kareler */}
-              <div className="text-center relative z-10 mt-3">
+              {/* Editorial Luxury header — Mutlu Kareler — masaüstünde hafif aşağı */}
+              <div className="text-center relative z-10 mt-3 lg:mt-6">
                 <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '12px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
                 <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '28px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   Kareler
