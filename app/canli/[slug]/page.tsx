@@ -90,6 +90,9 @@ export default function WatchPage() {
   const [eventPackage, setEventPackage] = useState<Package | null>(null);
   const [loading, setLoading] = useState(true);
   const [viewerName, setViewerName] = useState("");
+  // Realtime subscription closure'ları için stale-free ref (kendi mesajlarımı skip etmek üzere)
+  const viewerNameRef = useRef("");
+  useEffect(() => { viewerNameRef.current = viewerName; }, [viewerName]);
   const [viewerFirstName, setViewerFirstName] = useState("");
   const [viewerLastName, setViewerLastName] = useState("");
   const [isNameEntered, setIsNameEntered] = useState(false);
@@ -602,6 +605,15 @@ export default function WatchPage() {
           time: new Date(newMsg.created_at).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }),
         };
         setMessages(prev => [...prev, formattedMsg]);
+        // Cross-device notification — kendi mesajını skip (lokal handler zaten gösterdi)
+        if (newMsg.sender_name !== viewerNameRef.current) {
+          const txt = (newMsg.message || '').trim();
+          setVideoNotification({
+            text: `${newMsg.sender_name}: ${txt.substring(0, 40)}${txt.length > 40 ? '...' : ''}`,
+            type: 'message',
+          });
+          setTimeout(() => setVideoNotification(null), 8000);
+        }
       })
       .subscribe();
 
@@ -609,6 +621,49 @@ export default function WatchPage() {
       supabase.removeChannel(channel);
     };
   }, [event?.id]);
+
+  // Gold realtime — gift_payments status pending → completed olunca cross-device notification
+  useEffect(() => {
+    if (!event?.id) return;
+    const GOLD_NAMES: Record<string, string> = {
+      gram_altin: 'Gram Altın', ceyrek_altin: 'Çeyrek Altın',
+      yarim_altin: 'Yarım Altın', tam_altin: 'Tam Altın',
+      ata_altin: 'Ata Altın', nakit: 'Nakit',
+    };
+    const hideGoldNames = !!event.hide_gold_names;
+    const channel = supabase
+      .channel(`gold-${event.id}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'gift_payments',
+        filter: `event_id=eq.${event.id}`,
+      }, (payload) => {
+        const newRow = payload.new as { sender_name: string; gift_type: string; status: string; anonymous: boolean };
+        const oldRow = payload.old as { status: string };
+        // Sadece status pending → completed olduğunda
+        if (newRow.status !== 'completed' || oldRow?.status === 'completed') return;
+        // Kendi cihazımdan gelen ise skip (lokal handlePaymentComplete zaten gösterdi)
+        if (newRow.sender_name && newRow.sender_name === viewerNameRef.current) return;
+
+        const goldName = GOLD_NAMES[newRow.gift_type] || newRow.gift_type;
+        const isAnon = !!newRow.anonymous || hideGoldNames;
+        if (isAnon) {
+          setVideoNotification({ text: `Bir ziyaretçi ${goldName} taktı!`, type: 'gold' });
+        } else {
+          setVideoNotification({ text: `${newRow.sender_name} ${goldName} gönderdi!`, type: 'gold' });
+          // Sağ üst akışa da ekle
+          if (!hideGoldNames) {
+            const parts = (newRow.sender_name || '').split(' ');
+            const shortName = parts[0] + (parts[1] ? ' ' + parts[1].charAt(0) + '.' : '');
+            setGoldHistory(prev => [{ name: shortName, type: goldName }, ...prev].slice(0, 10));
+          }
+        }
+        setTimeout(() => setVideoNotification(null), 8000);
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [event?.id, event?.hide_gold_names]);
 
   useEffect(() => {
     if (!event) return;
