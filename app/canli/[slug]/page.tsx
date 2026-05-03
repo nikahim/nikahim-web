@@ -1697,9 +1697,13 @@ export default function WatchPage() {
                   </div>
                 </div>
               )}
-              {/* Video notification popup - Premium (sol üst — geri sayım/büyüt'ü kapatmasın) */}
+              {/* Video notification popup - Premium (sol üst — mobil non-fullscreen %50 küçük) */}
               {videoNotification && (
-                <div className="absolute top-5 left-5 z-30 max-w-[380px] min-w-[260px] video-notification">
+                <div
+                  className={`absolute top-5 left-5 z-30 max-w-[380px] min-w-[260px] video-notification origin-top-left transition-transform ${
+                    isFullscreen ? 'scale-100' : 'scale-50 lg:scale-100'
+                  }`}
+                >
                   <div className={`rounded-2xl px-4 py-3 flex items-center gap-3 relative ${videoNotification.type === 'gold' ? 'notif-gold' : ''}`} style={{
                     background: videoNotification.type === 'gold'
                       ? 'rgba(40,30,15,0.75)'
