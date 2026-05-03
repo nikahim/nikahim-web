@@ -1330,23 +1330,23 @@ export default function WatchPage() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
-            {/* Üst — kalpli logo + Nikahim text logo (kompakt) */}
+            {/* Üst — kalpli logo %50 büyük, Nikahim text %100 büyük */}
             <div className="flex flex-col items-center gap-1 mb-5">
-              <Image src="/navbar-icon.png" alt="Nikahım" width={64} height={64} className="w-16 h-16 object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={300} height={75} className="h-[58px] w-auto object-contain -mt-1" />
+              <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 object-contain" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[116px] w-auto object-contain -mt-3" />
             </div>
             {/* Title + subtitle */}
             <h3 className="text-center text-[17px] lg:text-[18px] font-bold text-gray-900 mb-1">En özel anlar, birlikte yaşanır!</h3>
             <p className="text-gray-500 text-center text-sm mb-7">Sende bu mutlu günü sevdiklerinle paylaş!</p>
-            {/* 3 feature columns */}
+            {/* 3 feature columns — büyük iconlar */}
             <div className="grid grid-cols-3 gap-3 mb-7">
               {[
-                { title: 'Canlı Yayınla', desc: 'Sevdiklerin anbean seninle olsun.', icon: <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                { title: 'Anılarını Paylaş', desc: 'Fotoğraf ve videoları kolayca yükle.', icon: <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-                { title: 'Tüm Hatıraların Tek Yerde', desc: 'Özel gününü ömür boyu sakla.', icon: <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 4l1 1.5L14.5 7 13 8.5 12 10l-1-1.5L9.5 7 11 5.5z" /></svg> },
+                { title: 'Canlı Yayınla', desc: 'Sevdiklerin uzaktan izlesin.', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
+                { title: 'Albüm Oluştur', desc: 'Fotoğraflarınızı yükleyin ve paylaşın.', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+                { title: 'Tebrikleri Kabul et', desc: 'Davetlileriniz Tebrik mesajlarını iletsin.', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
                   <h4 className="text-[12px] font-bold text-gray-900 leading-tight mb-1">{f.title}</h4>
@@ -1354,10 +1354,10 @@ export default function WatchPage() {
                 </div>
               ))}
             </div>
-            {/* App Store + Google Play */}
-            <div className="space-y-2.5 mb-4">
-              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
-              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
+            {/* App Store + Google Play yan yana */}
+            <div className="flex gap-2.5 mb-4 justify-center">
+              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
+              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
             </div>
             {/* Trust badge */}
             <div className="flex items-center justify-center gap-2 mb-5 text-[12px] text-gray-500">
@@ -1890,8 +1890,8 @@ export default function WatchPage() {
 
           {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
           <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:min-h-0">
-            {/* Video Tebrik - warm cream */}
-            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
+            {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
+            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px]" style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -1899,12 +1899,12 @@ export default function WatchPage() {
                 <h3 className="font-bold text-gray-900 text-sm">Video Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">30 sn video mesaj</p>
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
+              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
               <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #E8A8AE, #D4757E, #C25A65)', boxShadow: '0 6px 16px rgba(196,90,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Sesli Tebrik - soft blue */}
-            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
+            {/* Sesli Tebrik - soft blue — sabit yükseklik */}
+            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px]" style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
@@ -1912,12 +1912,12 @@ export default function WatchPage() {
                 <h3 className="font-bold text-gray-900 text-sm">Sesli Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
+              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
               <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #B5DAEA, #85C4DE, #6FAFCF)', boxShadow: '0 6px 16px rgba(111,175,207,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Mesaj Tebrik - soft green */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer" style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
+            {/* Mesaj Tebrik - soft green — sabit yükseklik (sayı 2 hane olunca taşmasın) */}
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px]" style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
@@ -1925,7 +1925,7 @@ export default function WatchPage() {
                 <h3 className="font-bold text-gray-900 text-sm">Mesaj Tebrik</h3>
                 <p className="text-gray-400 text-[10px]">Yazılı tebrik bırakın</p>
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
+              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
