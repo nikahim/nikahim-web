@@ -98,18 +98,45 @@ export default function Home() {
 
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
-          <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
-            {/* Standart kalpli logo (uygulama icon yerine) */}
-            <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 mx-auto mb-1 object-contain" />
-            {/* Nikahim text logo */}
-            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-2 mb-0" />
-            {/* Açıklama yukarı çekildi (-mt-2) */}
-            <p className="text-gray-500 text-center text-sm mb-8 -mt-2">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
-            <div className="space-y-3">
-              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
-              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
+          <div className="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
+            {/* Üst — kalpli logo + Nikahim text logo (kompakt) */}
+            <div className="flex flex-col items-center gap-1 mb-5">
+              <Image src="/navbar-icon.png" alt="Nikahım" width={64} height={64} className="w-16 h-16 object-contain" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={300} height={75} className="h-[58px] w-auto object-contain -mt-1" />
             </div>
-            <button onClick={() => setShowAppPopup(false)} className="w-full mt-6 py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
+            {/* Title + subtitle */}
+            <h3 className="text-center text-[17px] lg:text-[18px] font-bold text-gray-900 mb-1">En özel anlar, birlikte yaşanır!</h3>
+            <p className="text-gray-500 text-center text-sm mb-7">Sende bu mutlu günü sevdiklerinle paylaş!</p>
+            {/* 3 feature columns */}
+            <div className="grid grid-cols-3 gap-3 mb-7">
+              {[
+                { title: 'Canlı Yayınla', desc: 'Sevdiklerin anbean seninle olsun.', icon: <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                { title: 'Anılarını Paylaş', desc: 'Fotoğraf ve videoları kolayca yükle.', icon: <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+                { title: 'Tüm Hatıraların Tek Yerde', desc: 'Özel gününü ömür boyu sakla.', icon: <svg className="w-5 h-5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 4l1 1.5L14.5 7 13 8.5 12 10l-1-1.5L9.5 7 11 5.5z" /></svg> },
+              ].map((f, i) => (
+                <div key={i} className="flex flex-col items-center text-center">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
+                    {f.icon}
+                  </div>
+                  <h4 className="text-[12px] font-bold text-gray-900 leading-tight mb-1">{f.title}</h4>
+                  <p className="text-[10.5px] text-gray-400 leading-snug">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+            {/* App Store + Google Play */}
+            <div className="space-y-2.5 mb-4">
+              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
+              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
+            </div>
+            {/* Trust badge */}
+            <div className="flex items-center justify-center gap-2 mb-5 text-[12px] text-gray-500">
+              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full" style={{ background: 'rgba(200,104,110,0.10)' }}>
+                <svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </span>
+              <span><span className="font-semibold text-gray-700">Ücretsiz indir</span> · Kolay ve güvenli</span>
+            </div>
+            {/* Kapat */}
+            <button onClick={() => setShowAppPopup(false)} className="w-full py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" /></svg>
               Kapat
             </button>
@@ -123,8 +150,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-[80px]">
             <div className="flex items-center gap-0 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
-              {/* DENEME 2: Nikahim Yeni Logo */}
-              <Image src="/nikahim-logo-yeni-2.png" alt="Nikahım" width={280} height={80} className="h-[44px] w-auto object-contain ml-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={280} height={80} className="h-[79px] w-auto object-contain -ml-2" />
             </div>
             <nav className="hidden lg:flex items-center gap-8">
               {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
