@@ -949,18 +949,18 @@ export default function WatchPage() {
           <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 25px rgba(200,100,120,0.08)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 4px 12px rgba(200,104,110,0.25)' }}>
-                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                </div>
+                {/* Custom 'Resim ekle' icon (yuvarlak SVG yerine) */}
+                <Image src="/resim-ekle-icon-2.png" alt="" width={56} height={56} className="w-14 h-14 object-contain" />
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <h4 className="font-bold text-[14px]" style={{ color: '#C8686E' }}>{event.event_type === 'dugun' ? 'Düğündeysen Anı Paylaş' : 'Nikahtaysan Anı Paylaş'}</h4>
-                  {/* Foto + paylaş ikonları (yıldız yerine) */}
+                  {/* Foto (kamera) + Paylaş (Web Share / iOS share) ikonları */}
                   <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3.2" /></svg>
-                  <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4m0 0L8 6m4-4v13" /></svg>
+                  {/* iOS-style share icon (üç nokta-arrow) */}
+                  <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
                 </div>
-                <p className="text-[11.5px] text-gray-600 leading-snug">{event.event_type === 'dugun' ? 'Düğünden Fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin.' : 'Nikahtan Fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin.'}</p>
+                <p className="text-[11.5px] text-gray-600 leading-snug">{event.event_type === 'dugun' ? 'Düğünden Fotoğrafların varsa buradan kolayca çiftin albümüne yükleyebilirsin.' : 'Nikahtan Fotoğrafların varsa buradan kolayca çiftin albümüne yükleyebilirsin.'}</p>
               </div>
             </div>
             <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 text-[13px] transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.10)' }}>
@@ -1414,7 +1414,8 @@ export default function WatchPage() {
                   <div style={{ transform: `translateY(-${goldDisplayIndex * 30}px)`, transition: goldTransition ? 'transform 0.7s ease-in-out' : 'none' }}>
                     {goldHistory.map((g, i) => (
                       <div key={i} className="flex items-center gap-1.5 h-[30px] px-2.5 rounded-lg" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(6px)' }}>
-                        <Image src="/altintak.png" alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain flex-shrink-0" />
+                        {/* Masaüstünde altın PNG yazıyla hizalı değil — hafif aşağı (translate-y) */}
+                        <Image src="/altintak.png" alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain flex-shrink-0 lg:translate-y-[2px]" />
                         <span className="text-white/90 text-[11px] font-semibold truncate">{g.type}</span>
                         <span className="text-white/50 text-[11px] truncate">{g.name}</span>
                       </div>
@@ -1927,8 +1928,8 @@ export default function WatchPage() {
                         }}
                       >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          {/* Mobilde %10 küçük, masaüstünde aynı */}
-                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[104px] h-[122px] lg:w-[116px] lg:h-[136px]' : 'w-[86px] h-[101px] lg:w-[96px] lg:h-[112px]'}`} />
+                          {/* Mobilde %15 küçük (104→88 / 86→73), masaüstünde aynı */}
+                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[88px] h-[104px] lg:w-[116px] lg:h-[136px]' : 'w-[73px] h-[86px] lg:w-[96px] lg:h-[112px]'}`} />
                         </div>
                       </motion.div>
                     );
@@ -1936,9 +1937,9 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Albümü Görüntüle — masaüstünde sol-yukarı kayar (lg:-translate) */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 lg:-translate-x-2 lg:-translate-y-2" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
-                <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              {/* Albümü Görüntüle — masaüstünde küçük + yatay kısa + sol-yukarı */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap inline-flex items-center justify-center gap-2 lg:gap-1.5 px-4 lg:px-3 py-2 lg:py-1.5 rounded-full font-semibold text-[12px] lg:text-[11px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 lg:-translate-x-2 lg:-translate-y-2" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+                <svg className="w-3.5 h-3.5 lg:w-3 lg:h-3 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
                 <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
               </button>

@@ -240,10 +240,10 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            {/* Masaüstü: yazıyı sağa kaydır (çiçeği aç) — pl-8 → pl-12 */}
+            {/* Masaüstü: yazıyı 2cm daha sağa (pl-12 → pl-24, çiçek tamamen açık) */}
             <div className="relative grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-12 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
+              <div className="p-5 md:py-10 md:pr-10 md:pl-24 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
                   <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
