@@ -11,6 +11,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.89.0",
     "@vercel/og": "^0.11.1",
+    "framer-motion": "^12.38.0",
     "hls.js": "^1.6.15",
     "next": "14.2.35",
     "react": "^18",

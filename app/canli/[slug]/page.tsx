@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
+import { motion } from "framer-motion";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
 import VideoRecorder from '@/components/VideoRecorder';
 import VoiceRecorder from '@/components/VoiceRecorder';
@@ -1858,42 +1859,67 @@ export default function WatchPage() {
                   </div>
                 ) : (
                   slideshowPhotos.map((url, i) => {
-                    // Tüm fotolar yörüngede pozisyon alır (-2, -1, 0, +1, +2). Smooth dairesel dönüş.
+                    // Tüm fotolar yörüngede pozisyon alır. Framer Motion spring physics ile smooth.
                     const N = slideshowPhotos.length;
                     let rel = ((i - galleryIndex) % N + N) % N;
                     if (rel > N / 2) rel -= N; // -N/2..N/2 aralığına normalize
                     const isCenter = rel === 0;
                     const isLeft = rel === -1;
                     const isRight = rel === 1;
-                    const isFarLeft = rel === -2 || (rel < -2);
-                    const isFarRight = rel === 2 || (rel > 2);
                     const isVisible = isLeft || isCenter || isRight;
-                    let transform = 'translate(-50%, -50%) translateZ(-260px) rotateY(0deg)';
-                    let zIndex = 0;
-                    let opacity = 0;
+
+                    // Hedef pozisyon — her foto için
+                    let target = {
+                      x: 0, y: 0, z: -260, rotateY: 0, scale: 0.8,
+                      opacity: 0, zIndex: 0,
+                    };
                     if (isCenter) {
-                      transform = 'translate(-50%, -50%) translateZ(80px) rotateY(0deg)';
-                      zIndex = 5; opacity = 1;
+                      target = { x: 0, y: 0, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
                     } else if (isRight) {
-                      transform = 'translate(-50%, -50%) translateX(78px) translateY(8px) translateZ(-30px) rotateY(-38deg)';
-                      zIndex = 2; opacity = 0.85;
+                      target = { x: 78, y: 8, z: -30, rotateY: -38, scale: 0.92, opacity: 0.85, zIndex: 2 };
                     } else if (isLeft) {
-                      transform = 'translate(-50%, -50%) translateX(-78px) translateY(8px) translateZ(-30px) rotateY(38deg)';
-                      zIndex = 2; opacity = 0.85;
-                    } else if (isFarRight) {
-                      // Yörünge içinden gelen — sağdan kayar
-                      transform = 'translate(-50%, -50%) translateX(160px) translateY(20px) translateZ(-180px) rotateY(-65deg)';
-                      zIndex = 1; opacity = 0;
-                    } else if (isFarLeft) {
-                      transform = 'translate(-50%, -50%) translateX(-160px) translateY(20px) translateZ(-180px) rotateY(65deg)';
-                      zIndex = 1; opacity = 0;
+                      target = { x: -78, y: 8, z: -30, rotateY: 38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                    } else if (rel > 0) {
+                      // Yörünge dışı — sağdan girer
+                      target = { x: 200, y: 20, z: -180, rotateY: -65, scale: 0.7, opacity: 0, zIndex: 1 };
+                    } else {
+                      // Yörünge dışı — soldan girer
+                      target = { x: -200, y: 20, z: -180, rotateY: 65, scale: 0.7, opacity: 0, zIndex: 1 };
                     }
+
                     return (
-                      <div key={i} onClick={() => isVisible && setPhotoLightboxIndex(i)} className="absolute top-1/2 left-1/2" style={{ transform, zIndex, opacity, transformStyle: 'preserve-3d', cursor: isVisible ? 'pointer' : 'default', pointerEvents: isVisible ? 'auto' : 'none', transition: 'transform 1.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 1.0s cubic-bezier(0.4, 0, 0.2, 1)' }}>
+                      <motion.div
+                        key={i}
+                        onClick={() => isVisible && setPhotoLightboxIndex(i)}
+                        className="absolute top-1/2 left-1/2"
+                        style={{
+                          transformStyle: 'preserve-3d',
+                          cursor: isVisible ? 'pointer' : 'default',
+                          pointerEvents: isVisible ? 'auto' : 'none',
+                          translateX: '-50%',
+                          translateY: '-50%',
+                        }}
+                        animate={{
+                          x: target.x,
+                          y: target.y,
+                          z: target.z,
+                          rotateY: target.rotateY,
+                          scale: target.scale,
+                          opacity: target.opacity,
+                          zIndex: target.zIndex,
+                        }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 60,
+                          damping: 16,
+                          mass: 1.1,
+                          opacity: { duration: 0.7, ease: 'easeOut' },
+                        }}
+                      >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={url} alt="" className="block object-cover rounded-md" style={{ width: isCenter ? 116 : 96, height: isCenter ? 136 : 112 }} />
                         </div>
-                      </div>
+                      </motion.div>
                     );
                   })
                 )}
