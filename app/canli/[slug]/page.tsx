@@ -1330,27 +1330,26 @@ export default function WatchPage() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
-            {/* Üst — kalpli logo %50 büyük, Nikahim text %100 büyük */}
-            <div className="flex flex-col items-center gap-1 mb-5">
+            {/* Üst — kalpli logo + Nikahim text yakın */}
+            <div className="flex flex-col items-center mb-3">
               <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[116px] w-auto object-contain -mt-3" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[116px] w-auto object-contain -mt-5" />
             </div>
-            {/* Title + subtitle */}
+            {/* Title + subtitle — hafif yukarı */}
             <h3 className="text-center text-[17px] lg:text-[18px] font-bold text-gray-900 mb-1">En özel anlar, birlikte yaşanır!</h3>
-            <p className="text-gray-500 text-center text-sm mb-7">Sende bu mutlu günü sevdiklerinle paylaş!</p>
-            {/* 3 feature columns — büyük iconlar */}
-            <div className="grid grid-cols-3 gap-3 mb-7">
+            <p className="text-gray-500 text-center text-sm mb-4">Sende bu mutlu günü sevdiklerinle paylaş!</p>
+            {/* 3 feature columns — sadece icon + title */}
+            <div className="grid grid-cols-3 gap-3 mb-5">
               {[
-                { title: 'Canlı Yayınla', desc: 'Sevdiklerin uzaktan izlesin.', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
-                { title: 'Albüm Oluştur', desc: 'Fotoğraflarınızı yükleyin ve paylaşın.', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-                { title: 'Tebrikleri Kabul et', desc: 'Davetlileriniz Tebrik mesajlarını iletsin.', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+                { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
+                { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+                { title: 'Herkesle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
                   <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
-                  <h4 className="text-[12px] font-bold text-gray-900 leading-tight mb-1">{f.title}</h4>
-                  <p className="text-[10.5px] text-gray-400 leading-snug">{f.desc}</p>
+                  <h4 className="text-[12px] font-bold text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>
