@@ -272,12 +272,12 @@ export default function Home() {
             <Image src="/canli-yayin-kart-mobil.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" width={1024} height={1024} className="w-full h-auto block" priority />
           </div>
 
-          {/* MASAÜSTÜ-ONLY: Canlı Yayın Kart (yatay banner) */}
+          {/* MASAÜSTÜ-ONLY: Canlı Yayın Kart (yatay banner) — Altın kart ile aynı width */}
           <div
-            className="hidden lg:block cursor-pointer transition-transform hover:scale-[1.005]"
+            className="hidden lg:block w-full cursor-pointer transition-transform hover:scale-[1.005]"
             onClick={() => setShowAppPopup(true)}
           >
-            <Image src="/canli-yayin-kart-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" width={2400} height={900} className="w-full h-auto block" priority />
+            <img src="/canli-yayin-kart-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="w-full h-auto block" />
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart */}
