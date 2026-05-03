@@ -1703,7 +1703,7 @@ export default function WatchPage() {
                   Mobil non-fullscreen %50 küçük, fullscreen ya da masaüstü full size. */}
               {videoNotification && (
                 <div
-                  className={`absolute top-5 left-5 z-30 origin-top-left ${
+                  className={`absolute top-3 left-5 z-30 origin-top-left ${
                     isFullscreen ? 'scale-100' : 'scale-50 lg:scale-100'
                   }`}
                 >
