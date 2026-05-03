@@ -99,14 +99,14 @@ export default function Home() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
-            {/* Üst — logo bloğu (sonraki içeriği yukarı çekmek için mb az) */}
-            <div className="flex flex-col items-center mb-2">
+            {/* Üst — logo bloğu (h3'e daha yakın) */}
+            <div className="flex flex-col items-center mb-1">
               <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 object-contain" />
               <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[116px] w-auto object-contain -mt-5" />
             </div>
-            {/* Title + subtitle */}
+            {/* Title + subtitle — features'tan ayrı dursun (mb-3 → mb-6) */}
             <h3 className="text-center text-[17px] lg:text-[18px] font-bold text-gray-900 mb-1">En özel anlar, birlikte yaşanır!</h3>
-            <p className="text-gray-500 text-center text-sm mb-3">Sende bu mutlu günü sevdiklerinle paylaş!</p>
+            <p className="text-gray-500 text-center text-sm mb-6">Sende bu mutlu günü sevdiklerinle paylaş!</p>
             {/* 3 feature columns — store sabit, features yukarı çekildi (mb-5 → mb-7) */}
             <div className="grid grid-cols-3 gap-3 mb-7">
               {[
