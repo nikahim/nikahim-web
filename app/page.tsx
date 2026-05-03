@@ -161,8 +161,8 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
             <div className="animate-fade-in-up">
-              {/* Item 24: slogan — telefonda biraz daha geniş (yan kenardan -mx-2) */}
-              <div className="inline-flex items-center gap-2.5 px-4 lg:px-5 py-2.5 -mx-2 lg:mx-0 rounded-full text-[12px] lg:text-sm font-medium mb-6 mt-4 lg:mt-6 whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
+              {/* Slogan — masaüstünde daha aşağı (header'dan uzak) */}
+              <div className="inline-flex items-center gap-2.5 px-4 lg:px-5 py-2.5 -mx-2 lg:mx-0 rounded-full text-[12px] lg:text-sm font-medium mb-6 mt-4 lg:mt-16 whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse flex-shrink-0" style={{ background: '#C8686E' }} />
                 Türkiye&apos;nin İlk Düğün ve Nikah Canlı Yayın Platformu
               </div>
@@ -189,12 +189,12 @@ export default function Home() {
                 </button>
                 <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı İzle</button>
               </div>
-              {/* Item 27: Örnek Canlı Yayın sayfası kart */}
-              <a href="#" className="inline-flex items-center gap-2 mb-12 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.05)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.15)' }}>
+              {/* Örnek Canlı Yayın link — daha kompakt (mobil + masaüstü kısaldı) */}
+              <a href="#" className="inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.05)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.15)' }}>
                 <span>Örnek Canlı Yayın sayfası incele</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </a>
-              <div className="mb-3" />
+              <div className="mb-1 lg:mb-3" />
               <div className="flex gap-5">
                 {[
                   { num: '500', suffix: '+', label: 'Mutlu Çift', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
@@ -240,10 +240,10 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            {/* Masaüstü orijinal layout — img tam kart kapsar, yazı sol-sağ orijinal pozisyonunda */}
+            {/* Masaüstü: yazıyı sağa kaydır (çiçeği aç) — pl-8 → pl-12 */}
             <div className="relative grid grid-cols-1 md:grid-cols-[32%_1fr] min-h-[320px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
+              <div className="p-5 md:py-10 md:pr-10 md:pl-12 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
                   <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
@@ -273,25 +273,25 @@ export default function Home() {
                 <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.05, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
                 <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
-              {/* Resimler: mb-2 (foto-açıklama yakın), Y -22 / -28 (hafif aşağı) */}
-              <div className="relative w-full flex items-center justify-center mb-2" style={{ perspective: '1000px', height: 230 }}>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(-22px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
+              {/* Resimler: hafif daha aşağı (Y -22 → -8 / -28 → -16) + açıklama yakın */}
+              <div className="relative w-full flex items-center justify-center mb-1" style={{ perspective: '1000px', height: 230 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(-8px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(-22px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(-8px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateY(-28px) translateZ(60px)', zIndex: 3 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateY(-16px) translateZ(60px)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                     <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[132px] h-[159px] md:w-[150px] md:h-[175px]" />
                   </div>
                 </div>
               </div>
-              {/* Açıklama resimlerin altında — yukarı çekmek için mb-3 (eski mb-6) */}
+              {/* Açıklama resimlerin altında — yakın */}
               <p className="text-[13px] md:text-[15px] leading-relaxed mb-3 max-w-2xl text-center" style={{ color: '#6E5A5A' }}>
                 Online Fotoğraf Albümünüzü oluşturun, siz veya bu özel günde yanınızdaki sevdikleriniz fotoğraflarını yüklesin. Tüm Fotoğraflarınızı kolayca tek bir yerde toplayın tek tıkla hepsini indirin!
               </p>

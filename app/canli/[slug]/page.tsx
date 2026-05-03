@@ -918,7 +918,7 @@ export default function WatchPage() {
           </h1>
 
           <p className="text-gray-700 text-xl mb-1">
-            <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin !
+            <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
           </p>
           <p className="text-gray-800 font-semibold text-lg mb-3">
             {viewerName}
@@ -956,7 +956,9 @@ export default function WatchPage() {
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-0.5">
                   <h4 className="font-bold text-[14px]" style={{ color: '#C8686E' }}>{event.event_type === 'dugun' ? 'Düğündeysen Anı Paylaş' : 'Nikahtaysan Anı Paylaş'}</h4>
-                  <span className="text-sm">✨</span>
+                  {/* Foto + paylaş ikonları (yıldız yerine) */}
+                  <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3.2" /></svg>
+                  <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4m0 0L8 6m4-4v13" /></svg>
                 </div>
                 <p className="text-[11.5px] text-gray-600 leading-snug">{event.event_type === 'dugun' ? 'Düğünden Fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin.' : 'Nikahtan Fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin.'}</p>
               </div>
@@ -1401,11 +1403,11 @@ export default function WatchPage() {
                 )}
               </button>
 
-              {/* Altın listesi - sağ üst — masaüstü 2x, fullscreen'de mobil 2x / masaüstü 4x */}
+              {/* Altın listesi - sağ üst — yarıya: normal 1x (her ekran), fullscreen mobil 1x / masaüstü 2x */}
               {goldHistory.length > 0 && !event?.hide_gold_names && (
                 <div
                   className={`absolute top-3 right-5 z-30 overflow-hidden origin-top-right transition-transform ${
-                    isFullscreen ? 'scale-[2] lg:scale-[4]' : 'scale-[1] lg:scale-[2]'
+                    isFullscreen ? 'scale-[1] lg:scale-[2]' : 'scale-[1] lg:scale-[1]'
                   }`}
                   style={{ height: 30 }}
                 >
@@ -1882,11 +1884,11 @@ export default function WatchPage() {
                       opacity: 0, zIndex: 0,
                     };
                     if (isCenter) {
-                      target = { x: 0, y: -10, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
+                      target = { x: 0, y: -22, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
                     } else if (isRight) {
-                      target = { x: 78, y: -2, z: -30, rotateY: -38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                      target = { x: 78, y: -14, z: -30, rotateY: -38, scale: 0.92, opacity: 0.85, zIndex: 2 };
                     } else if (isLeft) {
-                      target = { x: -78, y: -2, z: -30, rotateY: 38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                      target = { x: -78, y: -14, z: -30, rotateY: 38, scale: 0.92, opacity: 0.85, zIndex: 2 };
                     } else if (rel > 0) {
                       // Yörünge dışı — sağdan girer
                       target = { x: 200, y: 20, z: -180, rotateY: -65, scale: 0.7, opacity: 0, zIndex: 1 };
@@ -1925,7 +1927,8 @@ export default function WatchPage() {
                         }}
                       >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={url} alt="" className="block object-cover rounded-md" style={{ width: isCenter ? 116 : 96, height: isCenter ? 136 : 112 }} />
+                          {/* Mobilde %10 küçük, masaüstünde aynı */}
+                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[104px] h-[122px] lg:w-[116px] lg:h-[136px]' : 'w-[86px] h-[101px] lg:w-[96px] lg:h-[112px]'}`} />
                         </div>
                       </motion.div>
                     );
@@ -1933,8 +1936,8 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Albümü Görüntüle — auto width (içerik kaymaması için) */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+              {/* Albümü Görüntüle — masaüstünde sol-yukarı kayar (lg:-translate) */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full font-semibold text-[12px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 lg:-translate-x-2 lg:-translate-y-2" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
                 <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
                 <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
