@@ -123,8 +123,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-[80px]">
             <div className="flex items-center gap-0 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[52px] w-auto object-contain" />
-              {/* DENEME: yeni Nikahim logo (kalpli i) */}
-              <Image src="/nikahim-logo-yeni.png" alt="Nikahım" width={280} height={80} className="h-[44px] w-auto object-contain ml-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={280} height={80} className="h-[79px] w-auto object-contain -ml-2" />
             </div>
             <nav className="hidden lg:flex items-center gap-8">
               {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
