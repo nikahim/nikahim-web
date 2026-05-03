@@ -1274,9 +1274,9 @@ export default function WatchPage() {
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
             <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            {/* Nikahim text logo (yazı stili) — düz siyah yazı yerine */}
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[42px] w-auto mx-auto object-contain mb-2" />
-            <p className="text-gray-400 text-center text-sm mb-8">Nikahınızı canlı yayınlayın ve sevdiklerinizle paylaşın</p>
+            {/* Nikahim text logo — %150 büyük (42→63px) */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={300} height={75} className="h-[63px] w-auto mx-auto object-contain mb-3" />
+            <p className="text-gray-400 text-center text-sm mb-8">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
               <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
@@ -1499,7 +1499,7 @@ export default function WatchPage() {
                   </button>
                   {/* 6 altın butonu */}
                   {goldOptions.map((gold) => (
-                    <button key={gold.id} onClick={() => { handleGoldSelect(gold.id); }} className="group flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-2xl transition-all duration-300 hover:scale-[1.1] hover:-translate-y-1 relative" style={{ background: gold.id === 'nakit' ? 'linear-gradient(165deg, rgba(180,160,130,0.15), rgba(150,135,110,0.1))' : 'linear-gradient(165deg, rgba(255,253,248,0.08), rgba(248,242,232,0.05))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.25), 0 4px 12px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.12)'; }}>
+                    <button key={gold.id} onClick={() => { handleGoldSelect(gold.id); }} className="group flex flex-col items-center gap-1.5 px-3 py-2.5 rounded-2xl transition-all duration-300 hover:scale-[1.1] hover:-translate-y-1 relative" style={{ background: gold.id === 'nakit' ? 'linear-gradient(165deg, rgba(252,247,236,0.12), rgba(244,236,216,0.10))' : 'linear-gradient(165deg, rgba(255,253,248,0.08), rgba(248,242,232,0.05))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.25), 0 4px 12px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.12)'; }}>
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.15), transparent 70%)' }} />
                       <div className="relative w-11 h-11 group-hover:scale-110 transition-transform duration-300">
                         <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" />
@@ -1767,13 +1767,13 @@ export default function WatchPage() {
                 {/* Altın kartları */}
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                   {goldOptions.map((gold) => (
-                    <button key={gold.id} onClick={() => handleGoldSelect(gold.id)} className="group rounded-2xl p-4 text-center transition-all duration-300 hover:scale-[1.05] hover:-translate-y-1 relative overflow-hidden" style={{ background: gold.id === 'nakit' ? 'linear-gradient(165deg, #F0EBE3, #E8E2D8)' : 'linear-gradient(165deg, #FFFDF8, #F8F2E8)', boxShadow: '0 4px 16px rgba(150,130,100,0.08), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,180,150,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.15), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,130,100,0.08), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.border = '1px solid rgba(200,180,150,0.15)'; }}>
+                    <button key={gold.id} onClick={() => handleGoldSelect(gold.id)} className="group rounded-2xl p-4 text-center transition-all duration-300 hover:scale-[1.05] hover:-translate-y-1 relative overflow-hidden" style={{ background: gold.id === 'nakit' ? 'linear-gradient(165deg, #FCF7EC, #F4ECD8)' : 'linear-gradient(165deg, #FFFDF8, #F8F2E8)', boxShadow: '0 4px 16px rgba(150,130,100,0.08), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,180,150,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.15), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,130,100,0.08), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.border = '1px solid rgba(200,180,150,0.15)'; }}>
                       {/* Hover glow */}
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.1), transparent 70%)' }} />
                       {gold.id === 'ceyrek_altin' && <div className="absolute top-1.5 left-1/2 -translate-x-1/2 text-[8px] font-bold px-2.5 py-0.5 rounded-full text-white z-10" style={{ background: 'linear-gradient(135deg, #B8860B, #96700A)', boxShadow: '0 2px 6px rgba(184,134,11,0.3)' }}>Popular</div>}
                       <div className="relative w-14 h-14 mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300"><Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" /></div>
                       <div className="text-[14px] font-semibold leading-tight" style={{ color: '#4A3C28' }}>{gold.name}</div>
-                      {gold.price > 0 ? (<div className="text-[13px] font-bold mt-1" style={{ color: '#8B6914' }}>₺{gold.price.toLocaleString()}</div>) : (<div className="text-[13px] mt-1" style={{ color: 'rgba(120,100,70,0.4)' }}>Serbest</div>)}
+                      {gold.price > 0 ? (<div className="text-[13px] font-bold mt-1" style={{ color: '#8B6914' }}>₺{gold.price.toLocaleString()}</div>) : (<div className="text-[13px] mt-1" style={{ color: '#A88A30' }}>Serbest</div>)}
                     </button>
                   ))}
                 </div>
@@ -1909,11 +1909,11 @@ export default function WatchPage() {
                           zIndex: target.zIndex,
                         }}
                         transition={{
-                          type: 'spring',
-                          stiffness: 60,
-                          damping: 16,
-                          mass: 1.1,
-                          opacity: { duration: 0.7, ease: 'easeOut' },
+                          // Tween ile daha uzun, daha lineer akış — "yavaşça yer değiştiriyorlar" hissi
+                          duration: 2.0,
+                          ease: [0.45, 0.05, 0.25, 1],  // smooth s-curve
+                          opacity: { duration: 1.2, ease: 'easeInOut' },
+                          zIndex: { duration: 0 },       // anında değişsin (z-fight olmasın)
                         }}
                       >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
