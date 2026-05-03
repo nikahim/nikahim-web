@@ -1697,12 +1697,18 @@ export default function WatchPage() {
                   </div>
                 </div>
               )}
-              {/* Video notification popup - Premium (sol üst — mobil non-fullscreen %50 küçük) */}
+              {/* Video notification popup - Premium
+                  Wrapper: scale (outer, animation YOK - .video-notification içerideki div'de)
+                  Inner: animation + sizing
+                  Mobil non-fullscreen %50 küçük, fullscreen ya da masaüstü full size. */}
               {videoNotification && (
                 <div
-                  className={`absolute top-5 left-5 z-30 max-w-[380px] min-w-[260px] video-notification origin-top-left transition-transform ${
+                  className={`absolute top-5 left-5 z-30 origin-top-left ${
                     isFullscreen ? 'scale-100' : 'scale-50 lg:scale-100'
                   }`}
+                >
+                <div
+                  className="max-w-[380px] min-w-[260px] video-notification"
                 >
                   <div className={`rounded-2xl px-4 py-3 flex items-center gap-3 relative ${videoNotification.type === 'gold' ? 'notif-gold' : ''}`} style={{
                     background: videoNotification.type === 'gold'
@@ -1755,6 +1761,7 @@ export default function WatchPage() {
                       </div>
                     )}
                   </div>
+                </div>
                 </div>
               )}
               {/* Live overlay - üst */}
