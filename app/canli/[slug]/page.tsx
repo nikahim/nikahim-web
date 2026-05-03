@@ -918,7 +918,7 @@ export default function WatchPage() {
           </h1>
 
           <p className="text-gray-700 text-xl mb-1">
-            Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
+            <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin !
           </p>
           <p className="text-gray-800 font-semibold text-lg mb-3">
             {viewerName}
@@ -1274,14 +1274,17 @@ export default function WatchPage() {
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
             <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            {/* Nikahim text logo — %150 büyük (42→63px) */}
-            <Image src="/navbar-text.png" alt="Nikahım" width={300} height={75} className="h-[63px] w-auto mx-auto object-contain mb-3" />
+            {/* Nikahim text logo — %100 daha büyük (63→126px) */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-4 mb-1" />
             <p className="text-gray-400 text-center text-sm mb-8">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
               <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
             </div>
-            <button onClick={() => setShowAppPopup(false)} className="w-full mt-8 py-3 text-gray-400 hover:text-gray-600 font-medium text-sm transition-colors">Kapat</button>
+            <button onClick={() => setShowAppPopup(false)} className="w-full mt-6 py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" /></svg>
+              Kapat
+            </button>
           </div>
         </div>
       )}
@@ -1398,9 +1401,14 @@ export default function WatchPage() {
                 )}
               </button>
 
-              {/* Altın listesi - sağ üst (hide_gold_names aktifse gösterme) */}
+              {/* Altın listesi - sağ üst — masaüstü 2x, fullscreen'de mobil 2x / masaüstü 4x */}
               {goldHistory.length > 0 && !event?.hide_gold_names && (
-                <div className="absolute top-3 right-5 z-30 overflow-hidden" style={{ height: 30 }}>
+                <div
+                  className={`absolute top-3 right-5 z-30 overflow-hidden origin-top-right transition-transform ${
+                    isFullscreen ? 'scale-[2] lg:scale-[4]' : 'scale-[1] lg:scale-[2]'
+                  }`}
+                  style={{ height: 30 }}
+                >
                   <div style={{ transform: `translateY(-${goldDisplayIndex * 30}px)`, transition: goldTransition ? 'transform 0.7s ease-in-out' : 'none' }}>
                     {goldHistory.map((g, i) => (
                       <div key={i} className="flex items-center gap-1.5 h-[30px] px-2.5 rounded-lg" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(6px)' }}>
@@ -1697,8 +1705,8 @@ export default function WatchPage() {
                   </div>
                 </div>
               )}
-              {/* Live overlay - alt bilgi */}
-              {streamData?.status === 'active' && (
+              {/* Live overlay - alt bilgi (fullscreen'de gizli — kullanıcı isteği) */}
+              {streamData?.status === 'active' && !isFullscreen && (
                 <div className="absolute bottom-0 left-0 right-0 z-20 p-4" style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%)' }}>
                   <div className="flex items-end justify-between">
                     <div className="flex items-center gap-3">
@@ -1835,8 +1843,8 @@ export default function WatchPage() {
                 <div className="mx-auto mt-2 mb-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
 
-              {/* PHOTO COVERFLOW — orbital 3D premium carousel */}
-              <div className="relative w-full mt-5 mb-4" style={{ height: 175, perspective: '1000px' }}>
+              {/* PHOTO COVERFLOW — orbital 3D premium carousel (mt azaltıldı, yukarı çekildi) */}
+              <div className="relative w-full mt-0 mb-2" style={{ height: 175, perspective: '1000px' }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -1874,11 +1882,11 @@ export default function WatchPage() {
                       opacity: 0, zIndex: 0,
                     };
                     if (isCenter) {
-                      target = { x: 0, y: 0, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
+                      target = { x: 0, y: -10, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
                     } else if (isRight) {
-                      target = { x: 78, y: 8, z: -30, rotateY: -38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                      target = { x: 78, y: -2, z: -30, rotateY: -38, scale: 0.92, opacity: 0.85, zIndex: 2 };
                     } else if (isLeft) {
-                      target = { x: -78, y: 8, z: -30, rotateY: 38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                      target = { x: -78, y: -2, z: -30, rotateY: 38, scale: 0.92, opacity: 0.85, zIndex: 2 };
                     } else if (rel > 0) {
                       // Yörünge dışı — sağdan girer
                       target = { x: 200, y: 20, z: -180, rotateY: -65, scale: 0.7, opacity: 0, zIndex: 1 };
@@ -2081,7 +2089,7 @@ export default function WatchPage() {
                 {selectedGold === "nakit" && !pendingPaymentId && (
                   <div className="mb-6">
                     <label className="block text-gray-500 mb-2 font-medium text-xs">Göndermek istediğiniz miktar</label>
-                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="₺0" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center" style={{ border: '1.5px solid rgba(212,175,55,0.15)', background: 'rgba(255,255,255,0.6)' }} />
+                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktar Girin" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center placeholder:text-gray-300 placeholder:font-medium placeholder:text-base" style={{ border: '1.5px solid rgba(212,175,55,0.15)', background: 'rgba(255,255,255,0.6)' }} />
                   </div>
                 )}
 

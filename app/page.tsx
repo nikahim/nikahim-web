@@ -100,14 +100,17 @@ export default function Home() {
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
             <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            {/* Nikahim text logo — %150 büyük (42→63px) */}
-            <Image src="/navbar-text.png" alt="Nikahım" width={300} height={75} className="h-[63px] w-auto mx-auto object-contain mb-3" />
+            {/* Nikahim text logo — %100 daha büyük (63→126px) */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-4 mb-1" />
             <p className="text-gray-500 text-center text-sm mb-8">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
               <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
             </div>
-            <button onClick={() => setShowAppPopup(false)} className="w-full mt-8 py-3 text-gray-400 hover:text-gray-600 font-medium text-sm transition-colors">Kapat</button>
+            <button onClick={() => setShowAppPopup(false)} className="w-full mt-6 py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" /></svg>
+              Kapat
+            </button>
           </div>
         </div>
       )}
@@ -172,19 +175,26 @@ export default function Home() {
               {/* Item 26: yeni açıklama */}
               <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Fotoğraf Albümü, Online Altın Takma, Videolu Tebrik mesajları ve çok daha fazlası tek platformda!</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-6">
-                {/* Item 27: 'Nikah Oluştur' → italic 'Ücretsiz' + 'Hesap Oluştur' */}
-                <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
-                  <span className="block italic font-light text-[12px] lg:text-[14px] opacity-90">Ücretsiz</span>
-                  <span className="block">Hesap Oluştur</span>
+                {/* Ücretsiz Hesap Oluştur — masaüstünde Canlı İzle ile aynı boy (tek satır + küçük italik) */}
+                <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+                  {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
+                  <span className="lg:hidden flex flex-col leading-tight">
+                    <span className="italic font-light text-[12px] opacity-90">Ücretsiz</span>
+                    <span>Hesap Oluştur</span>
+                  </span>
+                  <span className="hidden lg:inline">
+                    <span className="italic font-light opacity-90 mr-1.5">Ücretsiz</span>
+                    Hesap Oluştur
+                  </span>
                 </button>
-                <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı İzle</button>
+                <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı İzle</button>
               </div>
               {/* Item 27: Örnek Canlı Yayın sayfası kart */}
               <a href="#" className="inline-flex items-center gap-2 mb-12 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.05)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.15)' }}>
                 <span>Örnek Canlı Yayın sayfası incele</span>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
               </a>
-              <div className="mb-8" />
+              <div className="mb-3" />
               <div className="flex gap-5">
                 {[
                   { num: '500', suffix: '+', label: 'Mutlu Çift', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
@@ -259,30 +269,30 @@ export default function Home() {
             <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
               {/* Editorial Luxury Title — sade (açıklama resimlerin altına taşındı) */}
               <div className="mb-4 text-center">
-                <p className="uppercase mb-1" style={{ color: '#C97C82', fontSize: '21px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
+                <p className="uppercase" style={{ color: '#C97C82', fontSize: '19px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', marginBottom: '-2px' }}>MUTLU</p>
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.05, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
                 <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
-              {/* Resimler: mobilde %15 büyük, masaüstünde %25 büyük — vertical daha yukarı */}
-              <div className="relative w-full flex items-center justify-center mb-5" style={{ perspective: '1000px', height: 230 }}>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(-32px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
+              {/* Resimler: mb-2 (foto-açıklama yakın), Y -22 / -28 (hafif aşağı) */}
+              <div className="relative w-full flex items-center justify-center mb-2" style={{ perspective: '1000px', height: 230 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(-22px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(-32px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(-22px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
                     <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
                   </div>
                 </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateY(-38px) translateZ(60px)', zIndex: 3 }}>
+                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateY(-28px) translateZ(60px)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                     <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[132px] h-[159px] md:w-[150px] md:h-[175px]" />
                   </div>
                 </div>
               </div>
-              {/* Açıklama resimlerin altında */}
-              <p className="text-[13px] md:text-[15px] leading-relaxed mb-6 max-w-2xl text-center" style={{ color: '#6E5A5A' }}>
+              {/* Açıklama resimlerin altında — yukarı çekmek için mb-3 (eski mb-6) */}
+              <p className="text-[13px] md:text-[15px] leading-relaxed mb-3 max-w-2xl text-center" style={{ color: '#6E5A5A' }}>
                 Online Fotoğraf Albümünüzü oluşturun, siz veya bu özel günde yanınızdaki sevdikleriniz fotoğraflarını yüklesin. Tüm Fotoğraflarınızı kolayca tek bir yerde toplayın tek tıkla hepsini indirin!
               </p>
               {/* Badges: mobilde sol alt dikey, masaüstünde ortada yan yana */}
@@ -352,7 +362,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[
               { step: '01', title: 'Uygulamayı İndirin', desc: 'App Store veya Google Play\'den Nikahım uygulamasını ücretsiz indirin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
-              { step: '02', title: 'Düğününüzü/Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
+              { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
               { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
             ].map((item, i) => (
               <div key={item.step} className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2" style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.18), 0 8px 24px rgba(0,0,0,0.08)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; }}>
@@ -408,7 +418,7 @@ export default function Home() {
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
             <p className="text-lg text-gray-400">Tek seferlik ödeme, gizli masraf yok</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
+          <div className="grid md:grid-cols-3 gap-14 md:gap-8 max-w-5xl mx-auto items-start">
             {[
               { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺499', oldPrice: '₺599', discountLabel: '%20 İndirim', badge: null, features: ['15 Dakika Canlı Yayın', '25 İzleyici', '720p HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik'], disabled: ['Yayın Kaydı ve İndirme'] },
               { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺599', oldPrice: '₺799', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['30 Dakika Canlı Yayın', '50 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
@@ -446,7 +456,7 @@ export default function Home() {
               );
             })}
           </div>
-          <p className="text-center text-gray-300 text-sm mt-10">* Canlı yayın çözünürlük kalitesi internet bağlantınıza bağlıdır.</p>
+          <p className="text-center text-gray-600 text-sm mt-10">* Canlı yayın çözünürlük kalitesi internet bağlantınıza bağlıdır.</p>
         </div>
       </section>
 
