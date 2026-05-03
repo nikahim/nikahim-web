@@ -99,10 +99,12 @@ export default function Home() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
-            <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            {/* Nikahim text logo — %100 daha büyük (63→126px) */}
-            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-4 mb-1" />
-            <p className="text-gray-500 text-center text-sm mb-8">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
+            {/* Standart kalpli logo (uygulama icon yerine) */}
+            <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 mx-auto mb-1 object-contain" />
+            {/* Nikahim text logo */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-2 mb-0" />
+            {/* Açıklama yukarı çekildi (-mt-2) */}
+            <p className="text-gray-500 text-center text-sm mb-8 -mt-2">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
               <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>

@@ -1004,8 +1004,8 @@ export default function WatchPage() {
           <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 25px rgba(200,100,120,0.08)' }}>
             <div className="flex items-start gap-3">
               <div className="relative flex-shrink-0">
-                {/* Custom 'Resim ekle' icon (yuvarlak SVG yerine) */}
-                <Image src="/resim-ekle-icon-2.png" alt="" width={56} height={56} className="w-14 h-14 object-contain" />
+                {/* Custom 'Resim ekle' icon 3 (kullanıcı yeni versiyon istedi) */}
+                <Image src="/resim-ekle-icon-3.png" alt="" width={56} height={56} className="w-14 h-14 object-contain" />
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-0.5">
@@ -1330,10 +1330,12 @@ export default function WatchPage() {
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
           <div className="bg-white rounded-3xl p-10 max-w-sm w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
-            <div className="w-20 h-20 mx-auto mb-3 rounded-2xl overflow-hidden shadow-lg"><Image src="/icon.png" alt="Nikahım" width={80} height={80} className="w-full h-full object-cover" /></div>
-            {/* Nikahim text logo — %100 daha büyük (63→126px) */}
-            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-4 mb-1" />
-            <p className="text-gray-400 text-center text-sm mb-8">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
+            {/* Standart kalpli logo (uygulama icon yerine) */}
+            <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 mx-auto mb-1 object-contain" />
+            {/* Nikahim text logo */}
+            <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[126px] w-auto mx-auto object-contain -mt-2 mb-0" />
+            {/* Açıklama yukarı çekildi */}
+            <p className="text-gray-400 text-center text-sm mb-8 -mt-2">En özel anlar, birlikte yaşanır!{' '}<br />Sende bu mutlu günü sevdiklerinle paylaş!</p>
             <div className="space-y-3">
               <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
               <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-14 w-auto mx-auto hover:opacity-80 transition-opacity" /></a>
@@ -1695,9 +1697,9 @@ export default function WatchPage() {
                   </div>
                 </div>
               )}
-              {/* Video notification popup - Premium */}
+              {/* Video notification popup - Premium (sol üst — geri sayım/büyüt'ü kapatmasın) */}
               {videoNotification && (
-                <div className="absolute bottom-5 right-5 z-30 max-w-[380px] min-w-[300px] video-notification">
+                <div className="absolute top-5 left-5 z-30 max-w-[380px] min-w-[260px] video-notification">
                   <div className={`rounded-2xl px-4 py-3 flex items-center gap-3 relative ${videoNotification.type === 'gold' ? 'notif-gold' : ''}`} style={{
                     background: videoNotification.type === 'gold'
                       ? 'rgba(40,30,15,0.75)'
@@ -2319,7 +2321,7 @@ export default function WatchPage() {
                   <div className="w-5 h-5 rounded-md border-2 border-gray-300 peer-checked:bg-[#C8686E] peer-checked:border-[#C8686E] flex items-center justify-center transition-all">
                     {anonymousGold && <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                   </div>
-                  <span className="text-[12px] text-gray-500">Taktığım Altın ve İsmim Canlı Yayında gösterilmesin</span>
+                  <span className="text-[12px] text-gray-500">İsmim Canlı Yayında gösterilmesin</span>
                 </label>
 
                 {/* Green confirm CTA - disabled for 10 seconds */}
