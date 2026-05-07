@@ -1000,28 +1000,28 @@ export default function WatchPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — Nikah/Düğün dinamik */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 25px rgba(200,100,120,0.08)' }}>
+          {/* Anı Paylaş kartı — referans tasarım (gölge + dashed buton + lock disclaimer) */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFF5F4 0%, #FFEEEC 100%)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 28px rgba(200,104,110,0.12), 0 3px 10px rgba(200,104,110,0.08)' }}>
             <div className="flex items-start gap-3">
-              <div className="relative flex-shrink-0">
-                {/* Custom 'Resim ekle' icon 3 (kullanıcı yeni versiyon istedi) */}
-                <Image src="/resim-ekle-icon-3.png" alt="" width={56} height={56} className="w-14 h-14 object-contain" />
+              <div className="relative flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F8C4C2, #ECA1A5)', boxShadow: '0 6px 14px rgba(200,104,110,0.20)' }}>
+                <Image src="/resim-ekle-icon-3.png" alt="" width={42} height={42} className="object-contain" />
               </div>
               <div className="flex-1 text-left">
-                <div className="flex items-center gap-1.5 mb-0.5">
-                  <h4 className="font-bold text-[14px]" style={{ color: '#C8686E' }}>{event.event_type === 'dugun' ? 'Düğündeysen Anı Paylaş' : 'Nikahtaysan Anı Paylaş'}</h4>
-                  {/* Foto (kamera) + Paylaş (Web Share / iOS share) ikonları */}
-                  <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3.2" /></svg>
-                  {/* iOS-style share icon (üç nokta-arrow) */}
-                  <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+                <div className="flex items-center gap-1.5 mb-1">
+                  <h4 className="font-bold text-[15px]" style={{ color: '#C8686E' }}>Bu Günden Bir Kare Paylaş</h4>
+                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>
                 </div>
-                <p className="text-[11.5px] text-gray-600 leading-snug">{event.event_type === 'dugun' ? 'Düğünden Fotoğrafların varsa buradan kolayca çiftin albümüne yükleyebilirsin.' : 'Nikahtan Fotoğrafların varsa buradan kolayca çiftin albümüne yükleyebilirsin.'}</p>
+                <p className="text-[12.5px] leading-snug" style={{ color: '#6B5A5A' }}>{event.event_type === 'dugun' ? 'Düğündeysen' : 'Nikahtaysan'} çektiğin fotoğrafları çiftin özel albümüne ekleyebilirsin.</p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-2.5 rounded-xl font-semibold flex items-center justify-center gap-2 text-[13px] transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.10)' }}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3.5 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-[14px] transition-all hover:scale-[1.01]" style={{ background: 'rgba(255,250,250,0.7)', color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
               Fotoğraf Yükle
             </button>
+            <div className="flex items-center justify-center gap-1.5 mt-2.5">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="#5A4F4F" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+              <span className="text-[11.5px]" style={{ color: '#5A4F4F' }}>Yüklenen fotoğraflar çiftin özel albümüne eklenir.</span>
+            </div>
           </div>
         </div>
 
@@ -1172,29 +1172,28 @@ export default function WatchPage() {
             <div className="flex-1 h-px bg-gray-200" />
           </div>
 
-          {/* Anı Paylaş kartı — neredeyse beyaz rose */}
-          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(165deg, #FFFEFE 0%, #FFF8F9 100%)', border: '1px solid rgba(200,104,110,0.12)' }}>
+          {/* Anı Paylaş kartı — referans tasarım (gölge + dashed buton + lock disclaimer) */}
+          <div className="rounded-2xl p-4 relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFF5F4 0%, #FFEEEC 100%)', border: '1px solid rgba(220,150,160,0.20)', boxShadow: '0 10px 28px rgba(200,104,110,0.12), 0 3px 10px rgba(200,104,110,0.08)' }}>
             <div className="flex items-start gap-3">
-              <div className="relative flex-shrink-0">
-                <div className="w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C86068)', boxShadow: '0 6px 16px rgba(200,104,110,0.3)' }}>
-                  <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                </div>
-                <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-white flex items-center justify-center shadow-md">
-                  <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-                </div>
+              <div className="relative flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F8C4C2, #ECA1A5)', boxShadow: '0 6px 14px rgba(200,104,110,0.20)' }}>
+                <Image src="/resim-ekle-icon-3.png" alt="" width={42} height={42} className="object-contain" />
               </div>
               <div className="flex-1 text-left">
                 <div className="flex items-center gap-1.5 mb-1">
-                  <h4 className="font-bold text-base" style={{ color: '#C8686E' }}>Nikahtaysan Anı Paylaş</h4>
-                  <span className="text-base">✨</span>
+                  <h4 className="font-bold text-[15px]" style={{ color: '#C8686E' }}>Bu Günden Bir Kare Paylaş</h4>
+                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>
                 </div>
-                <p className="text-xs text-gray-600 leading-snug">Nikahtan fotoğrafların varsa buradan çiftin albümüne yükleyebilirsin <span style={{ color: '#C8686E' }}>♥</span></p>
+                <p className="text-[12.5px] leading-snug" style={{ color: '#6B5A5A' }}>{event.event_type === 'dugun' ? 'Düğündeysen' : 'Nikahtaysan'} çektiğin fotoğrafları çiftin özel albümüne ekleyebilirsin.</p>
               </div>
             </div>
-            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-sm transition-all hover:scale-[1.01]" style={{ background: '#fff', color: '#C8686E', border: '1.5px solid rgba(200,104,110,0.25)', boxShadow: '0 4px 14px rgba(200,104,110,0.12)' }}>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+            <button onClick={() => setShowPhotoUpload(true)} className="w-full mt-3.5 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 text-[14px] transition-all hover:scale-[1.01]" style={{ background: 'rgba(255,250,250,0.7)', color: '#C8686E', border: '1.5px dashed rgba(200,104,110,0.45)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
               Fotoğraf Yükle
             </button>
+            <div className="flex items-center justify-center gap-1.5 mt-2.5">
+              <svg className="w-3.5 h-3.5" fill="none" stroke="#5A4F4F" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+              <span className="text-[11.5px]" style={{ color: '#5A4F4F' }}>Yüklenen fotoğraflar çiftin özel albümüne eklenir.</span>
+            </div>
           </div>
         </div>
 

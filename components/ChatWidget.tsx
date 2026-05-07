@@ -376,17 +376,17 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {!open && (
         <div
           className="fixed right-0 flex items-stretch z-[9999]"
-          style={{ bottom: 36, background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 14px 34px rgba(200,104,110,0.48)", borderTopLeftRadius: 16, borderBottomLeftRadius: 16 }}
+          style={{ bottom: 36, background: "#fff", boxShadow: "0 14px 36px rgba(60,40,40,0.14), 0 4px 14px rgba(200,104,110,0.10)", borderTopLeftRadius: 999, borderBottomLeftRadius: 999, border: '1px solid rgba(255,200,200,0.30)' }}
           aria-label="Canlı destek"
         >
           {/* Arrow tab — solda, her zaman görünür */}
           <button
             onClick={() => setIsCollapsed(c => !c)}
-            className="flex items-center justify-center text-white"
-            style={{ width: 25, paddingLeft: 5, paddingRight: 2 }}
+            className="flex items-center justify-center"
+            style={{ width: 22, paddingLeft: 8, paddingRight: 2, color: '#C8686E' }}
             aria-label={isCollapsed ? "Canlı Destek aç" : "Kapat"}
           >
-            <svg className={`w-[18px] h-[18px] transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-[16px] h-[16px] transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
@@ -394,21 +394,21 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           {/* Full button — slide collapse (sağa kapanır) */}
           <div
             className="overflow-hidden transition-all duration-500 ease-out"
-            style={{ maxWidth: isCollapsed ? 0 : 196, opacity: isCollapsed ? 0 : 1 }}
+            style={{ maxWidth: isCollapsed ? 0 : 200, opacity: isCollapsed ? 0 : 1 }}
           >
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-2 pl-1 pr-3.5 py-2 text-white whitespace-nowrap"
+              className="flex items-center gap-2.5 pl-1.5 pr-4 py-1.5 whitespace-nowrap"
             >
               <span className="relative">
-                <span className="block w-[46px] h-[46px] rounded-xl overflow-hidden border-2 border-white/70 bg-white">
+                <span className="block w-[44px] h-[44px] rounded-full overflow-hidden bg-white" style={{ boxShadow: '0 2px 8px rgba(200,104,110,0.18)' }}>
                   <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
                 </span>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+                <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
               </span>
-              <span className="flex flex-col items-start leading-[1.05]">
-                <span className="text-[15px] font-bold">Canlı</span>
-                <span className="text-[15px] font-bold">Destek</span>
+              <span className="flex items-center gap-1.5">
+                <span className="text-[15px] font-bold" style={{ color: '#2B2B2B' }}>Canlı Destek</span>
+                <svg className="w-4 h-4" fill="none" stroke="#9A8585" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
               </span>
             </button>
           </div>

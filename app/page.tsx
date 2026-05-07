@@ -264,39 +264,59 @@ export default function Home() {
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
-          {/* Canlı Yayın - reklam kartı (hibrit: PNG bg + HTML overlay) */}
-          <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            {/* Mobil: kare bg (görsel sol, krem alan sağ) */}
-            <img src="/bg-canli-yayin.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
-            {/* Masaüstü: aynı bg, soldan görsel + sağa doğru krem alan uzayacak (object-left) */}
-            <img src="/bg-canli-yayin.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" style={{ objectPosition: 'left center' }} />
+          {/* Canlı Yayın - reklam kartı (kare bg + sadece yazı overlay) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <img src="/bg-canli-yayin.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
-            <div className="relative grid grid-cols-1 md:grid-cols-[44%_1fr] min-h-[360px] md:min-h-[300px]">
-              <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[360px] md:min-h-[280px]">
-                <div className="pl-[46%] md:pl-0 pt-3 md:pt-1 text-right md:text-left">
-                  {/* CANLI pill */}
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] md:text-[11px] font-bold mb-3 md:mb-4" style={{ background: '#C8686E', color: '#fff', boxShadow: '0 2px 6px rgba(200,104,110,0.35)' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#fff', boxShadow: '0 0 0 3px rgba(255,255,255,0.35)' }} />
-                    CANLI
-                  </span>
-                  <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Canlı Yayın</h3>
-                  <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>ile mutluluğunuzu paylaşın!</h3>
-                  <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0 mb-3 md:mb-5" style={{ color: '#6E5A5A' }}>Düğününüzü veya Nikahınızı canlı yayınlayın, bu anı kimse kaçırmasın.</p>
+            {/* Heading + açıklama - sol üst (CANLI pill bg'de var) */}
+            <div className="absolute" style={{ top: '17%', left: '5.5%', width: '52%' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Canlı Yayın</h3>
+              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
+              <p className="mt-3 leading-[1.55]" style={{ color: '#6E5A5A', fontSize: 'clamp(11px, 2.2vw, 16px)' }}>Düğününüzü veya Nikahınızı canlı yayınlayın, bu anı kimse kaçırmasın!</p>
+            </div>
+
+            {/* 3 badge yazıları - alt sıra (icon'lar bg'de baked) */}
+            <div className="absolute" style={{ bottom: '8.5%', left: '4.5%', right: '4.5%', height: '14%' }}>
+              <div className="grid grid-cols-3 gap-[2.5%] h-full">
+                <div className="flex items-center" style={{ paddingLeft: '32%' }}>
+                  <span className="font-semibold leading-[1.2]" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Yüksek<br/>Kalite Yayın*</span>
                 </div>
-                <div>
-                  <div className="flex gap-1.5 md:gap-2 flex-wrap justify-end md:justify-start">
-                    {[
-                      { label: 'HD Yüksek Kalite*', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                      { label: 'Tek tıkla Yayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
-                      { label: 'Uygulama Gerekmez', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                    ].map((b, i) => (
-                      <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[9px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
-                    ))}
-                  </div>
-                  <p className="text-[9px] md:text-[10px] mt-2 md:mt-3 text-right md:text-left italic" style={{ color: '#9A8585' }}>*Yayın kalitesi internet bağlantı hızınıza bağlıdır.</p>
+                <div className="flex items-center" style={{ paddingLeft: '32%' }}>
+                  <span className="font-semibold leading-[1.2]" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Tek tıkla<br/>Yayına Geç</span>
+                </div>
+                <div className="flex items-center" style={{ paddingLeft: '30%' }}>
+                  <span className="font-semibold leading-[1.18]" style={{ color: '#5A4848', fontSize: 'clamp(8px, 1.65vw, 12px)' }}>Davetlilerin<br/>uygulama indirmesi<br/>gerekmez</span>
                 </div>
               </div>
+            </div>
+
+            {/* Disclaimer - en alt */}
+            <div className="absolute" style={{ bottom: '2.2%', left: 0, right: 0 }}>
+              <p className="text-center italic" style={{ color: '#9A8585', fontSize: 'clamp(8px, 1.55vw, 11px)' }}>*Yayın kalitesi internet bağlantı hızınıza bağlıdır.</p>
+            </div>
+          </div>
+
+          {/* Tebrik Mesajları - reklam kartı (kare bg + sadece yazı overlay) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <img src="/bg-tebrik.png" alt="Tebrik mesajlarınızı kabul edin" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+
+            {/* Sol alan: zarf ikonu + heading + açıklama */}
+            <div className="absolute" style={{ top: '8%', left: '6%', width: '50%' }}>
+              {/* Zarf ikonu (beyaz daire) */}
+              <div className="flex items-center justify-center mb-3" style={{ width: 'clamp(36px, 9vw, 64px)', height: 'clamp(36px, 9vw, 64px)', background: '#fff', borderRadius: '999px', boxShadow: '0 4px 12px rgba(200,104,110,0.12)' }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeLinecap="round" strokeLinejoin="round" style={{ width: 'clamp(18px, 4.5vw, 32px)', height: 'clamp(18px, 4.5vw, 32px)', strokeWidth: 1.8 }}>
+                  <rect x="3" y="6" width="18" height="13" rx="2" />
+                  <path d="M3 7l9 7 9-7" />
+                  <path d="M12 13.5c-.6-.7-1.6-.7-2 0-.5.7 0 1.6 1 2.2.7-.4 1.4-1.1 1.4-1.8 0-.3-.2-.6-.4-.4z" fill="#C8686E" stroke="none" />
+                </svg>
+              </div>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
+              <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#E26B72', borderRadius: '2px' }} />
+              <p className="leading-[1.6]" style={{ color: '#7A6B6B', fontSize: 'clamp(11px, 2.1vw, 15px)' }}>
+                Canlı yayınınızı izleyen davetliler Video Kaydı, Ses kaydı veya Yazılı Mesaj yöntemlerinden biri ile size tebrik mesajı iletsin.
+              </p>
             </div>
           </div>
 
@@ -326,47 +346,37 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Nikah Albümü - kart (dikey, 1 sütun) */}
-          <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.16), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <img src="/nikah-albumu-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
-            <img src="/nikah-albumu-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
-            <div className="relative px-8 pt-14 pb-10 md:px-10 md:pt-14 md:pb-10 flex flex-col items-center text-center">
-              {/* Editorial Luxury Title — sade (açıklama resimlerin altına taşındı) */}
-              <div className="mb-4 text-center">
-                <p className="uppercase" style={{ color: '#C97C82', fontSize: '19px', fontWeight: 500, letterSpacing: '4px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', marginBottom: '-2px' }}>MUTLU</p>
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.05, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}><span className="md:hidden" style={{ fontSize: '34px' }}>Kareler</span><span className="hidden md:inline" style={{ fontSize: '44px' }}>Kareler</span></h3>
-                <div className="mx-auto mt-3" style={{ width: 60, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
-              </div>
-              {/* Resimler: hafif daha aşağı (Y -22 → -8 / -28 → -16) + açıklama yakın */}
-              <div className="relative w-full flex items-center justify-center mb-1" style={{ perspective: '1000px', height: 230 }}>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(-82px) translateY(-8px) translateZ(-30px) rotateY(38deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
-                  </div>
-                </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateX(82px) translateY(-8px) translateZ(-30px) rotateY(-38deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.18)' }}>
-                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md w-[103px] h-[124px] md:w-[120px] md:h-[140px]" />
-                  </div>
-                </div>
-                <div className="absolute top-1/2 left-1/2" style={{ transform: 'translate(-50%, -50%) translateY(-16px) translateZ(60px)', zIndex: 3 }}>
-                  <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-md w-[132px] h-[159px] md:w-[150px] md:h-[175px]" />
-                  </div>
-                </div>
-              </div>
-              {/* Açıklama resimlerin altında — yakın */}
-              <p className="text-[13px] md:text-[15px] leading-relaxed mb-3 max-w-2xl text-center" style={{ color: '#6E5A5A' }}>
-                Online Fotoğraf Albümünüzü oluşturun, siz veya bu özel günde yanınızdaki sevdikleriniz fotoğraflarını yüklesin. Tüm Fotoğraflarınızı kolayca tek bir yerde toplayın tek tıkla hepsini indirin!
+          {/* Fotoğraf Albümü - reklam kartı (kare bg + sadece yazı overlay) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+
+            {/* Heading - üst orta */}
+            <div className="absolute" style={{ top: '11%', left: '0', right: '0', textAlign: 'center' }}>
+              <h3 className="leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(20px, 4.6vw, 38px)' }}>
+                <span style={{ color: '#C8686E' }}>Fotoğraf</span>{' '}
+                <span style={{ color: '#1F1F1F' }}>albümü oluşturun</span>
+              </h3>
+            </div>
+
+            {/* Açıklama - resimlerin altında, ortalanmış */}
+            <div className="absolute" style={{ top: '63%', left: '8%', right: '8%', textAlign: 'center' }}>
+              <p className="leading-[1.6]" style={{ color: '#6E5A5A', fontSize: 'clamp(10px, 2vw, 15px)' }}>
+                Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin. Tüm fotoğraflarınızı tek bir yerde toplayın ve uygulama üzerinden kolayca indirin.
               </p>
-              {/* Badges: mobilde sol alt dikey, masaüstünde ortada yan yana */}
-              <div className="flex flex-col items-start md:flex-row md:items-center md:justify-center gap-2 self-start md:self-auto">
-                {[
-                  { label: 'Birlikte Yükleyin', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-                  { label: 'Tek Yerde Toplayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg> },
-                ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
-                ))}
+            </div>
+
+            {/* 3 badge yazıları - alt sıra (icon'lar bg'de baked) */}
+            <div className="absolute" style={{ bottom: '5%', left: '4%', right: '4%', height: '10%' }}>
+              <div className="grid grid-cols-3 gap-[2.5%] h-full">
+                <div className="flex items-center" style={{ paddingLeft: '24%' }}>
+                  <span className="font-medium leading-[1.2]" style={{ color: '#2B2B2B', fontSize: 'clamp(10px, 2.05vw, 16px)' }}>Birlikte yükleyin</span>
+                </div>
+                <div className="flex items-center" style={{ paddingLeft: '24%' }}>
+                  <span className="font-medium leading-[1.2]" style={{ color: '#2B2B2B', fontSize: 'clamp(10px, 2.05vw, 16px)' }}>Tek yerde toplayın</span>
+                </div>
+                <div className="flex items-center" style={{ paddingLeft: '24%' }}>
+                  <span className="font-medium leading-[1.2]" style={{ color: '#2B2B2B', fontSize: 'clamp(10px, 2.05vw, 16px)' }}>Kolayca indirin</span>
+                </div>
               </div>
             </div>
           </div>
