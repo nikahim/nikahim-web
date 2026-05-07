@@ -269,22 +269,26 @@ export default function Home() {
             <img src="/bg-canli-yayin.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading + açıklama - sol üst (CANLI pill bg'de var) */}
-            <div className="absolute" style={{ top: '17%', left: '5.5%', width: '52%' }}>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Canlı Yayın</h3>
+            <div className="absolute" style={{ top: '17%', left: '5.5%', width: '54%' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 5.9vw, 48px)' }}>Canlı Yayın</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
-              <p className="mt-3 leading-[1.55]" style={{ color: '#6E5A5A', fontSize: 'clamp(11px, 2.2vw, 16px)' }}>Düğününüzü veya Nikahınızı canlı yayınlayın, bu anı kimse kaçırmasın!</p>
+              <p className="mt-6 leading-[1.55]" style={{ color: '#6E5A5A', fontSize: 'clamp(11px, 2.2vw, 16px)' }}>
+                Düğününüzü veya Nikahınızı<br />
+                Canlı Yayınlayın, bu anı kimse<br />
+                kaçırmasın !
+              </p>
             </div>
 
             {/* 3 badge yazıları - alt sıra (icon'lar bg'de baked) */}
-            <div className="absolute" style={{ bottom: '8.5%', left: '4.5%', right: '4.5%', height: '14%' }}>
+            <div className="absolute" style={{ bottom: '9.5%', left: '4.5%', right: '4.5%', height: '13%' }}>
               <div className="grid grid-cols-3 gap-[2.5%] h-full">
-                <div className="flex items-center" style={{ paddingLeft: '32%' }}>
-                  <span className="font-semibold leading-[1.2]" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Yüksek<br/>Kalite Yayın*</span>
+                <div className="flex items-center justify-end pr-[6%]">
+                  <span className="font-semibold leading-[1.2] text-left" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Yüksek<br/>Kalite Yayın*</span>
                 </div>
-                <div className="flex items-center" style={{ paddingLeft: '32%' }}>
+                <div className="flex items-center" style={{ paddingLeft: '36%' }}>
                   <span className="font-semibold leading-[1.2]" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Tek tıkla<br/>Yayına Geç</span>
                 </div>
-                <div className="flex items-center" style={{ paddingLeft: '30%' }}>
+                <div className="flex items-center" style={{ paddingLeft: '26%' }}>
                   <span className="font-semibold leading-[1.18]" style={{ color: '#5A4848', fontSize: 'clamp(8px, 1.65vw, 12px)' }}>Davetlilerin<br/>uygulama indirmesi<br/>gerekmez</span>
                 </div>
               </div>
@@ -301,10 +305,10 @@ export default function Home() {
             <img src="/bg-tebrik.png" alt="Tebrik mesajlarınızı kabul edin" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Sol alan: zarf ikonu + heading + açıklama */}
-            <div className="absolute" style={{ top: '8%', left: '6%', width: '50%' }}>
-              {/* Zarf ikonu (beyaz daire) */}
-              <div className="flex items-center justify-center mb-3" style={{ width: 'clamp(36px, 9vw, 64px)', height: 'clamp(36px, 9vw, 64px)', background: '#fff', borderRadius: '999px', boxShadow: '0 4px 12px rgba(200,104,110,0.12)' }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeLinecap="round" strokeLinejoin="round" style={{ width: 'clamp(18px, 4.5vw, 32px)', height: 'clamp(18px, 4.5vw, 32px)', strokeWidth: 1.8 }}>
+            <div className="absolute" style={{ top: '5%', left: '6%', width: '52%' }}>
+              {/* Zarf ikonu (beyaz daire YOK, sadece ikon — %100 büyütüldü) */}
+              <div className="mb-3">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeLinecap="round" strokeLinejoin="round" style={{ width: 'clamp(36px, 9vw, 64px)', height: 'clamp(36px, 9vw, 64px)', strokeWidth: 1.8 }}>
                   <rect x="3" y="6" width="18" height="13" rx="2" />
                   <path d="M3 7l9 7 9-7" />
                   <path d="M12 13.5c-.6-.7-1.6-.7-2 0-.5.7 0 1.6 1 2.2.7-.4 1.4-1.1 1.4-1.8 0-.3-.2-.6-.4-.4z" fill="#C8686E" stroke="none" />
@@ -314,8 +318,12 @@ export default function Home() {
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
               <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#E26B72', borderRadius: '2px' }} />
-              <p className="leading-[1.6]" style={{ color: '#7A6B6B', fontSize: 'clamp(11px, 2.1vw, 15px)' }}>
-                Canlı yayınınızı izleyen davetliler Video Kaydı, Ses kaydı veya Yazılı Mesaj yöntemlerinden biri ile size tebrik mesajı iletsin.
+              <p className="leading-[1.6]" style={{ color: '#7A6B6B', fontSize: 'clamp(10px, 1.95vw, 14px)' }}>
+                Canlı Yayınınızı izleyen<br />
+                davetliler Video Kaydı, Ses Kaydı<br />
+                veya Yazılı Mesaj yöntemlerinden<br />
+                biri ile size tebrik mesajı<br />
+                iletsin!
               </p>
             </div>
           </div>
@@ -350,32 +358,30 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
-            {/* Heading - üst orta */}
-            <div className="absolute" style={{ top: '11%', left: '0', right: '0', textAlign: 'center' }}>
-              <h3 className="leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(20px, 4.6vw, 38px)' }}>
-                <span style={{ color: '#C8686E' }}>Fotoğraf</span>{' '}
-                <span style={{ color: '#1F1F1F' }}>albümü oluşturun</span>
-              </h3>
+            {/* Heading - üst orta, 2 satır */}
+            <div className="absolute" style={{ top: '8%', left: '0', right: '0', textAlign: 'center' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#C8686E' }}>Fotoğraf</h3>
+              <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>
 
-            {/* Açıklama - resimlerin altında, ortalanmış */}
-            <div className="absolute" style={{ top: '63%', left: '8%', right: '8%', textAlign: 'center' }}>
-              <p className="leading-[1.6]" style={{ color: '#6E5A5A', fontSize: 'clamp(10px, 2vw, 15px)' }}>
+            {/* Açıklama - resimlerin altında, ortalanmış (resimleri kapatmasın diye daha aşağıda) */}
+            <div className="absolute" style={{ top: '70%', left: '9%', right: '9%', textAlign: 'center' }}>
+              <p className="leading-[1.55]" style={{ color: '#6E5A5A', fontSize: 'clamp(9px, 1.85vw, 14px)' }}>
                 Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin. Tüm fotoğraflarınızı tek bir yerde toplayın ve uygulama üzerinden kolayca indirin.
               </p>
             </div>
 
             {/* 3 badge yazıları - alt sıra (icon'lar bg'de baked) */}
-            <div className="absolute" style={{ bottom: '5%', left: '4%', right: '4%', height: '10%' }}>
+            <div className="absolute" style={{ bottom: '5.5%', left: '4%', right: '4%', height: '10%' }}>
               <div className="grid grid-cols-3 gap-[2.5%] h-full">
-                <div className="flex items-center" style={{ paddingLeft: '24%' }}>
-                  <span className="font-medium leading-[1.2]" style={{ color: '#2B2B2B', fontSize: 'clamp(10px, 2.05vw, 16px)' }}>Birlikte yükleyin</span>
+                <div className="flex items-center" style={{ paddingLeft: '32%' }}>
+                  <span className="font-medium leading-[1.15] text-left" style={{ color: '#2B2B2B', fontSize: 'clamp(9px, 1.85vw, 14px)' }}>Birlikte<br/>yükleyin</span>
                 </div>
-                <div className="flex items-center" style={{ paddingLeft: '24%' }}>
-                  <span className="font-medium leading-[1.2]" style={{ color: '#2B2B2B', fontSize: 'clamp(10px, 2.05vw, 16px)' }}>Tek yerde toplayın</span>
+                <div className="flex items-center" style={{ paddingLeft: '32%', paddingBottom: '4%' }}>
+                  <span className="font-medium leading-[1.15] text-left whitespace-nowrap" style={{ color: '#2B2B2B', fontSize: 'clamp(9px, 1.8vw, 13px)' }}>Tek yerde toplayın</span>
                 </div>
-                <div className="flex items-center" style={{ paddingLeft: '24%' }}>
-                  <span className="font-medium leading-[1.2]" style={{ color: '#2B2B2B', fontSize: 'clamp(10px, 2.05vw, 16px)' }}>Kolayca indirin</span>
+                <div className="flex items-center justify-center" style={{ paddingLeft: '28%' }}>
+                  <span className="font-medium leading-[1.15] text-center" style={{ color: '#2B2B2B', fontSize: 'clamp(9px, 1.85vw, 14px)' }}>Kolayca<br/>indirin</span>
                 </div>
               </div>
             </div>
