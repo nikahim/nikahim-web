@@ -1874,7 +1874,7 @@ export default function WatchPage() {
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.1), transparent 70%)' }} />
                       {gold.id === 'ceyrek_altin' && <div className="absolute top-1.5 left-1/2 -translate-x-1/2 text-[8px] font-bold px-2.5 py-0.5 rounded-full text-white z-10" style={{ background: 'linear-gradient(135deg, #B8860B, #96700A)', boxShadow: '0 2px 6px rgba(184,134,11,0.3)' }}>Popular</div>}
                       <div className="relative w-14 h-14 mx-auto mb-2.5 group-hover:scale-110 transition-transform duration-300"><Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" /></div>
-                      <div className="text-[14px] font-semibold leading-tight" style={{ color: '#4A3C28' }}>{gold.name}</div>
+                      <div className="text-[13px] sm:text-[14px] font-semibold leading-tight whitespace-nowrap" style={{ color: '#4A3C28' }}>{gold.name}</div>
                       {gold.price > 0 ? (<div className="text-[13px] font-bold mt-1" style={{ color: '#8B6914' }}>₺{gold.price.toLocaleString()}</div>) : (<div className="text-[13px] mt-1" style={{ color: '#A88A30' }}>Serbest</div>)}
                     </button>
                   ))}
