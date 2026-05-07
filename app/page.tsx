@@ -271,27 +271,60 @@ export default function Home() {
             {/* Masaüstü: aynı bg, soldan görsel + sağa doğru krem alan uzayacak (object-left) */}
             <img src="/bg-canli-yayin.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" style={{ objectPosition: 'left center' }} />
 
-            <div className="relative grid grid-cols-1 md:grid-cols-[44%_1fr] min-h-[360px] md:min-h-[300px]">
+            {/* CANLI pill - sağ üst köşe (absolute) */}
+            <span className="absolute top-3 right-3 md:top-4 md:right-5 z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] md:text-[12px] font-bold" style={{ background: '#C8686E', color: '#fff', boxShadow: '0 2px 8px rgba(200,104,110,0.4)' }}>
+              <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#fff', boxShadow: '0 0 0 3px rgba(255,255,255,0.35)' }} />
+              CANLI
+            </span>
+
+            <div className="relative grid grid-cols-1 md:grid-cols-[36%_1fr] min-h-[360px] md:min-h-[300px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[360px] md:min-h-[280px]">
-                <div className="pl-[46%] md:pl-0 pt-3 md:pt-1 text-right md:text-left">
-                  {/* CANLI pill */}
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] md:text-[11px] font-bold mb-3 md:mb-4" style={{ background: '#C8686E', color: '#fff', boxShadow: '0 2px 6px rgba(200,104,110,0.35)' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#fff', boxShadow: '0 0 0 3px rgba(255,255,255,0.35)' }} />
-                    CANLI
-                  </span>
-                  <h3 className="text-[22px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Canlı Yayın</h3>
-                  <h3 className="text-[18px] md:text-[28px] mb-2 md:mb-3 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 500 }}>ile mutluluğunuzu paylaşın!</h3>
-                  <p className="text-[12px] md:text-[14px] leading-relaxed pl-[6%] md:pl-0 mb-3 md:mb-5" style={{ color: '#6E5A5A' }}>Düğününüzü veya Nikahınızı canlı yayınlayın, bu anı kimse kaçırmasın.</p>
+              <div className="p-5 md:py-10 md:pr-10 md:pl-32 flex flex-col justify-between min-h-[360px] md:min-h-[280px]">
+                <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
+                  <h3 className="text-[27px] md:text-[41px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Canlı Yayın</h3>
+                  <h3 className="text-[27px] md:text-[41px] mb-4 md:mb-4 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>ile mutluluğunuzu paylaşın!</h3>
+                  <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0" style={{ color: '#6E5A5A' }}>Düğününüzü veya Nikahınızı canlı yayınlayın, bu anı kimse kaçırmasın.</p>
                 </div>
-                <div>
-                  <div className="flex gap-1.5 md:gap-2 flex-wrap justify-end md:justify-start">
+                <div className="mt-5 md:mt-8">
+                  <div className="grid grid-cols-3 gap-2 md:gap-3">
                     {[
-                      { label: 'HD Yüksek Kalite*', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                      { label: 'Tek tıkla Yayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
-                      { label: 'Uygulama Gerekmez', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                      {
+                        title: 'Full HD Yayın',
+                        icon: (
+                          <svg viewBox="0 0 32 32" className="w-6 h-6 md:w-7 md:h-7">
+                            <rect x="2" y="7" width="28" height="18" rx="4" fill="#FFF1EE" stroke="#C8686E" strokeWidth="1.8" />
+                            <text x="16" y="20.5" textAnchor="middle" fontSize="9.5" fontWeight="800" fill="#C8686E" fontFamily="system-ui, sans-serif">HD</text>
+                            <circle cx="26" cy="9" r="2.2" fill="#C8686E" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        title: 'Tek Tıkla Yayın',
+                        icon: (
+                          <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8686E" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M9 11V6.5a2 2 0 014 0V11" />
+                            <path d="M13 9.5a1.8 1.8 0 013.5 0V14" />
+                            <path d="M16.5 11.5a1.8 1.8 0 013.5 0v4.5a5 5 0 01-5 5h-2.5a4 4 0 01-2.83-1.17l-3.34-3.34a1.8 1.8 0 012.55-2.55L10 15.5V8a1.5 1.5 0 00-3 0V14" />
+                          </svg>
+                        ),
+                      },
+                      {
+                        title: 'Uygulama Gerekmez',
+                        icon: (
+                          <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8686E" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="6" y="2.5" width="11" height="19" rx="2.2" />
+                            <line x1="11.5" y1="18.5" x2="11.5" y2="18.5" strokeWidth="2.5" />
+                            <circle cx="18.5" cy="5.5" r="3.2" fill="#fff" stroke="#C8686E" strokeWidth="1.5" />
+                            <line x1="17" y1="4" x2="20" y2="7" strokeWidth="1.5" />
+                            <line x1="20" y1="4" x2="17" y2="7" strokeWidth="1.5" />
+                          </svg>
+                        ),
+                      },
                     ].map((b, i) => (
-                      <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[9px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                      <div key={i} className="flex flex-col items-center justify-center gap-1.5 md:gap-2 p-2.5 md:p-4 rounded-2xl text-center" style={{ background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(200,104,110,0.15)', boxShadow: '0 4px 12px rgba(200,104,110,0.06)' }}>
+                        {b.icon}
+                        <div className="text-[10px] md:text-[12px] font-semibold leading-[1.2]" style={{ color: '#5A4848' }}>{b.title}</div>
+                      </div>
                     ))}
                   </div>
                   <p className="text-[9px] md:text-[10px] mt-2 md:mt-3 text-right md:text-left italic" style={{ color: '#9A8585' }}>*Yayın kalitesi internet bağlantı hızınıza bağlıdır.</p>
