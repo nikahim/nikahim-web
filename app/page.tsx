@@ -371,20 +371,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 3 badge yazıları - alt sıra (icon'lar bg'de baked) */}
-            <div className="absolute" style={{ bottom: '5.5%', left: '4%', right: '4%', height: '10%' }}>
-              <div className="grid grid-cols-3 gap-[2.5%] h-full">
-                <div className="flex items-center" style={{ paddingLeft: '32%' }}>
-                  <span className="font-medium leading-[1.15] text-left" style={{ color: '#2B2B2B', fontSize: 'clamp(9px, 1.85vw, 14px)' }}>Birlikte<br/>yükleyin</span>
-                </div>
-                <div className="flex items-center" style={{ paddingLeft: '32%', paddingBottom: '4%' }}>
-                  <span className="font-medium leading-[1.15] text-left whitespace-nowrap" style={{ color: '#2B2B2B', fontSize: 'clamp(9px, 1.8vw, 13px)' }}>Tek yerde toplayın</span>
-                </div>
-                <div className="flex items-center justify-center" style={{ paddingLeft: '28%' }}>
-                  <span className="font-medium leading-[1.15] text-center" style={{ color: '#2B2B2B', fontSize: 'clamp(9px, 1.85vw, 14px)' }}>Kolayca<br/>indirin</span>
-                </div>
-              </div>
-            </div>
+            {/* Badge yazıları artık bg PNG'sinde baked-in (HTML overlay yok) */}
           </div>
         </div>
       </section>
