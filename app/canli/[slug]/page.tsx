@@ -959,7 +959,7 @@ export default function WatchPage() {
   if (showReturningModal && isReturningViewer) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl pt-16 px-8 pb-10 max-w-md w-full text-center relative" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
+        <div className="bg-white rounded-3xl pt-12 px-8 pb-10 max-w-md w-full text-center relative" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
           {/* Logo - sol üst */}
           <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
@@ -976,13 +976,13 @@ export default function WatchPage() {
           {(event.bride_father_name || event.bride_mother_name || event.groom_father_name || event.groom_mother_name) && (
             <div className="flex items-stretch gap-3 mb-4 px-2">
               <div className="flex-1 min-w-0 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-[13px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[14px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
               </div>
               <div className="w-px self-stretch" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
               <div className="flex-1 min-w-0 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-[13px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[14px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
               </div>
             </div>
           )}
@@ -1136,13 +1136,13 @@ export default function WatchPage() {
           {(event.bride_father_name || event.bride_mother_name || event.groom_father_name || event.groom_mother_name) && (
             <div className="flex items-stretch gap-3 mb-3 px-2">
               <div className="flex-1 min-w-0 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-[13px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[14px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
               </div>
               <div className="w-px self-stretch" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
               <div className="flex-1 min-w-0 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-[13px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[14px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
               </div>
             </div>
           )}
@@ -1398,10 +1398,10 @@ export default function WatchPage() {
 
       {/* NAVBAR */}
       <header className="sticky top-0 z-50 border-b border-gray-100/50" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
-        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-1 flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-0.5 lg:py-1 flex items-center justify-between">
           <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[78px] w-auto object-contain -ml-3" />
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[40px] lg:h-[47px] w-auto object-contain" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[64px] lg:h-[78px] w-auto object-contain -ml-3" />
           </div>
 
           {/* Ortada CTA */}

@@ -274,8 +274,8 @@ export default function Home() {
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
               <p className="mt-7 leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#6E5A5A' }}>
                 Düğününüzü veya Nikahınızı<br />
-                Canlı Yayınlayın, bu anı kimse<br />
-                kaçırmasın !
+                Canlı Yayınlayın, bu anı<br />
+                kimse kaçırmasın!
               </p>
             </div>
 
@@ -313,7 +313,7 @@ export default function Home() {
             <img src="/bg-tebrik.png" alt="Tebrik mesajlarınızı kabul edin" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Premium zarf ikonu — sol üst köşe (kalpsiz, sade wax seal) */}
-            <div className="absolute" style={{ top: '5%', left: '5%' }}>
+            <div className="absolute" style={{ top: '2.5%', left: '5%' }}>
               <svg viewBox="0 0 64 64" fill="none" style={{ width: 'clamp(40px, 10vw, 72px)', height: 'clamp(40px, 10vw, 72px)' }}>
                 {/* Envelope body */}
                 <rect x="6" y="14" width="52" height="38" rx="3" fill="#FFFBFA" stroke="#C8686E" strokeWidth="2" strokeLinejoin="round" />
@@ -336,8 +336,9 @@ export default function Home() {
               <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#E26B72', borderRadius: '2px' }} />
               <p className="leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#7A6B6B' }}>
                 Canlı Yayınınızı izleyen<br />
-                davetliler Video Kaydı, Ses Kaydı<br />
-                veya Yazılı Mesaj yöntemlerinden<br />
+                davetliler Video Kaydı,<br />
+                Ses Kaydı veya Yazılı<br />
+                Mesaj yöntemlerinden<br />
                 biri ile size tebrik mesajı<br />
                 iletsin!
               </p>
@@ -348,16 +349,16 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
-            {/* Heading - üst orta, 2 satır (resime temas etmemesi için yukarı alındı) */}
-            <div className="absolute" style={{ top: '4%', left: '0', right: '0', textAlign: 'center' }}>
+            {/* Heading - üst orta, 2 satır */}
+            <div className="absolute" style={{ top: '6%', left: '0', right: '0', textAlign: 'center' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#C8686E' }}>Fotoğraf</h3>
               <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>
 
             {/* Açıklama - resimlerin altında, ortalanmış */}
-            <div className="absolute" style={{ top: '70%', left: '9%', right: '9%', textAlign: 'center' }}>
+            <div className="absolute" style={{ top: '67%', left: '9%', right: '9%', textAlign: 'center' }}>
               <p className="leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#6E5A5A' }}>
-                Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin. Tüm fotoğraflarınızı tek bir yerde toplayın ve uygulama üzerinden kolayca indirin.
+                Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin.
               </p>
             </div>
 
