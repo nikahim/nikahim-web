@@ -279,25 +279,7 @@ export default function Home() {
               </p>
             </div>
 
-            {/* 3 badge yazıları - alt sıra (icon'lar bg'de baked) */}
-            <div className="absolute" style={{ bottom: '9.5%', left: '4.5%', right: '4.5%', height: '13%' }}>
-              <div className="grid grid-cols-3 gap-[2.5%] h-full">
-                <div className="flex items-center justify-end pr-[6%]">
-                  <span className="font-semibold leading-[1.2] text-left" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Yüksek<br/>Kalite Yayın*</span>
-                </div>
-                <div className="flex items-center" style={{ paddingLeft: '36%' }}>
-                  <span className="font-semibold leading-[1.2]" style={{ color: '#5A4848', fontSize: 'clamp(9px, 1.9vw, 14px)' }}>Tek tıkla<br/>Yayına Geç</span>
-                </div>
-                <div className="flex items-center" style={{ paddingLeft: '26%' }}>
-                  <span className="font-semibold leading-[1.18]" style={{ color: '#5A4848', fontSize: 'clamp(8px, 1.65vw, 12px)' }}>Davetlilerin<br/>uygulama indirmesi<br/>gerekmez</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Disclaimer - en alt */}
-            <div className="absolute" style={{ bottom: '2.2%', left: 0, right: 0 }}>
-              <p className="text-center italic" style={{ color: '#9A8585', fontSize: 'clamp(8px, 1.55vw, 11px)' }}>*Yayın kalitesi internet bağlantı hızınıza bağlıdır.</p>
-            </div>
+            {/* Badge yazıları artık bg PNG'sinde baked-in (HTML overlay yok) */}
           </div>
 
           {/* Tebrik Mesajları - reklam kartı (kare bg + sadece yazı overlay) */}
