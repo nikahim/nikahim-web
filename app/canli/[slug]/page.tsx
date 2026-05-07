@@ -968,9 +968,24 @@ export default function WatchPage() {
           {/* Çift fotoğrafı — eski sade halka */}
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
+
+          {/* Aile bilgisi — çift isminin altında */}
+          {(event.bride_father_name || event.bride_mother_name || event.groom_father_name || event.groom_mother_name) && (
+            <div className="flex items-stretch gap-3 mb-4 px-2">
+              <div className="flex-1 min-w-0 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[13px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+              </div>
+              <div className="w-px self-stretch" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
+              <div className="flex-1 min-w-0 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[13px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+              </div>
+            </div>
+          )}
 
           <p className="text-gray-700 text-xl mb-1">
             <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
@@ -1018,10 +1033,6 @@ export default function WatchPage() {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
               Fotoğraf Yükle
             </button>
-            <div className="flex items-center justify-center gap-1.5 mt-2.5">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="#5A4F4F" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
-              <span className="text-[11.5px]" style={{ color: '#5A4F4F' }}>Yüklenen fotoğraflar çiftin özel albümüne eklenir.</span>
-            </div>
           </div>
         </div>
 
@@ -1117,9 +1128,25 @@ export default function WatchPage() {
           </div>
           <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">
             {event.bride_full_name} & {event.groom_full_name}
           </h1>
+
+          {/* Aile bilgisi — çift isminin altında */}
+          {(event.bride_father_name || event.bride_mother_name || event.groom_father_name || event.groom_mother_name) && (
+            <div className="flex items-stretch gap-3 mb-3 px-2">
+              <div className="flex-1 min-w-0 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[13px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+              </div>
+              <div className="w-px self-stretch" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
+              <div className="flex-1 min-w-0 text-center">
+                <p className="text-[10px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[13px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+              </div>
+            </div>
+          )}
+
           <p className="text-gray-500 mb-1">
             {event.event_type === 'dugun' ? 'Düğün Canlı Yayını' : 'Nikah Töreni Canlı Yayını'}
           </p>
@@ -1190,10 +1217,6 @@ export default function WatchPage() {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>
               Fotoğraf Yükle
             </button>
-            <div className="flex items-center justify-center gap-1.5 mt-2.5">
-              <svg className="w-3.5 h-3.5" fill="none" stroke="#5A4F4F" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
-              <span className="text-[11.5px]" style={{ color: '#5A4F4F' }}>Yüklenen fotoğraflar çiftin özel albümüne eklenir.</span>
-            </div>
           </div>
         </div>
 
@@ -1823,32 +1846,7 @@ export default function WatchPage() {
               )}
             </div>
 
-            {/* Mobil: Çift bilgisi + Aile */}
-            <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-sm border border-gray-100/80">
-              <div className="flex items-center gap-3 mb-3">
-                {event.couple_photo_url ? (
-                  <img src={event.couple_photo_url} alt="Çift" className="w-12 h-12 rounded-full object-cover border border-gray-200" />
-                ) : (
-                  <img src="/couple-icon.png" alt="Çift" className="w-12 h-12 rounded-full object-cover" />
-                )}
-                <div>
-                  <h2 className="text-gray-900 font-bold text-[17px]">{event.bride_first_name} & {event.groom_first_name}</h2>
-                  <p className="text-gray-400 text-sm">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'} · {eventDate}</p>
-                </div>
-              </div>
-              <div className="flex pt-3 border-t border-gray-50 relative" style={{ paddingLeft: 60 }}>
-                <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                  <p className="text-gray-600 text-sm">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
-                </div>
-                {/* Faded vertical divider */}
-                <div className="w-px self-stretch mx-1" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
-                <div className="flex-1 min-w-0 pl-4">
-                  <p className="text-xs font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                  <p className="text-gray-600 text-sm">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
-                </div>
-              </div>
-            </div>
+            {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Premium */}
             <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, rgba(248,240,224,0.85), rgba(240,230,210,0.8), rgba(232,220,202,0.85))', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', boxShadow: '0 8px 40px rgba(180,155,120,0.12), 0 2px 10px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.5)', border: '1px solid rgba(212,175,55,0.12)' }}>
