@@ -264,20 +264,40 @@ export default function Home() {
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-8">
-          {/* MOBIL-ONLY: Canlı Yayın Kart (kare) */}
-          <div
-            className="lg:hidden cursor-pointer transition-transform hover:scale-[1.01] -mx-3"
-            onClick={() => setShowAppPopup(true)}
-          >
-            <Image src="/canli-yayin-kart-mobil.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" width={1024} height={1024} className="w-full h-auto block" priority />
-          </div>
+          {/* Canlı Yayın - reklam kartı (hibrit: PNG bg + HTML overlay) */}
+          <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            {/* Mobil: kare bg (görsel sol, krem alan sağ) */}
+            <img src="/bg-canli-yayin.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
+            {/* Masaüstü: aynı bg, soldan görsel + sağa doğru krem alan uzayacak (object-left) */}
+            <img src="/bg-canli-yayin.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" style={{ objectPosition: 'left center' }} />
 
-          {/* MASAÜSTÜ-ONLY: Canlı Yayın Kart — köşeler yuvarlatıldı (rounded-3xl overflow-hidden) */}
-          <div
-            className="hidden lg:block rounded-3xl overflow-hidden cursor-pointer transition-transform hover:scale-[1.005]"
-            onClick={() => setShowAppPopup(true)}
-          >
-            <img src="/canli-yayin-kart-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="w-full h-auto block" />
+            <div className="relative grid grid-cols-1 md:grid-cols-[44%_1fr] min-h-[360px] md:min-h-[300px]">
+              <div className="hidden md:block" />
+              <div className="p-5 md:py-10 md:pr-10 md:pl-8 flex flex-col justify-between min-h-[360px] md:min-h-[280px]">
+                <div className="pl-[46%] md:pl-0 pt-3 md:pt-1 text-right md:text-left">
+                  {/* CANLI pill */}
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] md:text-[11px] font-bold mb-3 md:mb-4" style={{ background: '#C8686E', color: '#fff', boxShadow: '0 2px 6px rgba(200,104,110,0.35)' }}>
+                    <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#fff', boxShadow: '0 0 0 3px rgba(255,255,255,0.35)' }} />
+                    CANLI
+                  </span>
+                  <h3 className="text-[22px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Canlı Yayın</h3>
+                  <h3 className="text-[18px] md:text-[28px] mb-2 md:mb-3 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 500 }}>ile mutluluğunuzu paylaşın!</h3>
+                  <p className="text-[12px] md:text-[14px] leading-relaxed pl-[6%] md:pl-0 mb-3 md:mb-5" style={{ color: '#6E5A5A' }}>Düğününüzü veya Nikahınızı canlı yayınlayın, bu anı kimse kaçırmasın.</p>
+                </div>
+                <div>
+                  <div className="flex gap-1.5 md:gap-2 flex-wrap justify-end md:justify-start">
+                    {[
+                      { label: 'HD Yüksek Kalite*', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                      { label: 'Tek tıkla Yayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+                      { label: 'Uygulama Gerekmez', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                    ].map((b, i) => (
+                      <span key={i} className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[9px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                    ))}
+                  </div>
+                  <p className="text-[9px] md:text-[10px] mt-2 md:mt-3 text-right md:text-left italic" style={{ color: '#9A8585' }}>*Yayın kalitesi internet bağlantı hızınıza bağlıdır.</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart */}
