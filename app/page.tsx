@@ -269,10 +269,10 @@ export default function Home() {
             <img src="/bg-canli-yayin.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading + açıklama - sol üst (CANLI pill bg'de var) */}
-            <div className="absolute" style={{ top: '17%', left: '5.5%', width: '54%' }}>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 5.9vw, 48px)' }}>Canlı Yayın</h3>
+            <div className="absolute" style={{ top: '22%', left: '5.5%', width: '54%' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Canlı Yayın</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
-              <p className="mt-6 leading-[1.55]" style={{ color: '#6E5A5A', fontSize: 'clamp(11px, 2.2vw, 16px)' }}>
+              <p className="mt-10 leading-[1.55]" style={{ color: '#6E5A5A', fontSize: 'clamp(11px, 2.2vw, 16px)' }}>
                 Düğününüzü veya Nikahınızı<br />
                 Canlı Yayınlayın, bu anı kimse<br />
                 kaçırmasın !
@@ -280,34 +280,6 @@ export default function Home() {
             </div>
 
             {/* Badge yazıları artık bg PNG'sinde baked-in (HTML overlay yok) */}
-          </div>
-
-          {/* Tebrik Mesajları - reklam kartı (kare bg + sadece yazı overlay) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <img src="/bg-tebrik.png" alt="Tebrik mesajlarınızı kabul edin" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-
-            {/* Sol alan: zarf ikonu + heading + açıklama */}
-            <div className="absolute" style={{ top: '5%', left: '6%', width: '52%' }}>
-              {/* Zarf ikonu (beyaz daire YOK, sadece ikon — %100 büyütüldü) */}
-              <div className="mb-3">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeLinecap="round" strokeLinejoin="round" style={{ width: 'clamp(36px, 9vw, 64px)', height: 'clamp(36px, 9vw, 64px)', strokeWidth: 1.8 }}>
-                  <rect x="3" y="6" width="18" height="13" rx="2" />
-                  <path d="M3 7l9 7 9-7" />
-                  <path d="M12 13.5c-.6-.7-1.6-.7-2 0-.5.7 0 1.6 1 2.2.7-.4 1.4-1.1 1.4-1.8 0-.3-.2-.6-.4-.4z" fill="#C8686E" stroke="none" />
-                </svg>
-              </div>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
-              <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#E26B72', borderRadius: '2px' }} />
-              <p className="leading-[1.6]" style={{ color: '#7A6B6B', fontSize: 'clamp(10px, 1.95vw, 14px)' }}>
-                Canlı Yayınınızı izleyen<br />
-                davetliler Video Kaydı, Ses Kaydı<br />
-                veya Yazılı Mesaj yöntemlerinden<br />
-                biri ile size tebrik mesajı<br />
-                iletsin!
-              </p>
-            </div>
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart */}
@@ -336,13 +308,50 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Tebrik Mesajları - reklam kartı (kare bg + sadece yazı overlay) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <img src="/bg-tebrik.png" alt="Tebrik mesajlarınızı kabul edin" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+
+            {/* Sol alan: zarf ikonu + heading + açıklama */}
+            <div className="absolute" style={{ top: '13%', left: '6%', width: '52%' }}>
+              {/* Premium zarf ikonu — wax seal + kalp */}
+              <div className="mb-3">
+                <svg viewBox="0 0 64 64" fill="none" style={{ width: 'clamp(40px, 10vw, 72px)', height: 'clamp(40px, 10vw, 72px)' }}>
+                  {/* Envelope body */}
+                  <rect x="6" y="14" width="52" height="38" rx="3" fill="#FFFBFA" stroke="#C8686E" strokeWidth="2" strokeLinejoin="round" />
+                  {/* V flap */}
+                  <path d="M6 17 L32 36 L58 17" stroke="#C8686E" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  {/* Side fold lines */}
+                  <path d="M6 50 L24 36" stroke="#C8686E" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
+                  <path d="M58 50 L40 36" stroke="#C8686E" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
+                  {/* Wax seal */}
+                  <circle cx="32" cy="40" r="9" fill="#E26B72" />
+                  <circle cx="32" cy="40" r="9" fill="none" stroke="#fff" strokeWidth="1.5" opacity="0.55" />
+                  {/* Heart on seal */}
+                  <path d="M28 39c0-1.4 1.1-2.4 2.5-2.4.7 0 1.3.3 1.5.7.2-.4.8-.7 1.5-.7 1.4 0 2.5 1 2.5 2.4 0 2.4-4 4.4-4 4.4s-4-2-4-4.4z" fill="#fff" />
+                </svg>
+              </div>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
+              <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#E26B72', borderRadius: '2px' }} />
+              <p className="leading-[1.6]" style={{ color: '#7A6B6B', fontSize: 'clamp(10px, 1.95vw, 14px)' }}>
+                Canlı Yayınınızı izleyen<br />
+                davetliler Video Kaydı, Ses Kaydı<br />
+                veya Yazılı Mesaj yöntemlerinden<br />
+                biri ile size tebrik mesajı<br />
+                iletsin!
+              </p>
+            </div>
+          </div>
+
           {/* Fotoğraf Albümü - reklam kartı (kare bg + sadece yazı overlay) */}
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading - üst orta, 2 satır */}
             <div className="absolute" style={{ top: '8%', left: '0', right: '0', textAlign: 'center' }}>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#C8686E' }}>Fotoğraf</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#C8686E' }}>Fotoğraf</h3>
               <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>
 
