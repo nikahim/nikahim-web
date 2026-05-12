@@ -336,56 +336,44 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Fotoğraf Albümü — yeni tasarım: Mutlu Kareler ♡ + 3 statik foto + filmstrip + buton */}
+          {/* Fotoğraf Albümü — başlık + 3 statik foto (15% küçük, play yok) + açıklama + filmstrip + 2 rose badge */}
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="px-5 md:px-7 pt-7 pb-6">
-              {/* Header — Mutlu Kareler ♡ */}
+              {/* Header — Fotoğraf Albümü (kalp yok) */}
               <div className="text-center mb-3">
                 <h3 className="flex items-center justify-center gap-3 md:gap-4"
                     style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(28px, 5vw, 38px)', letterSpacing: '0.3px', lineHeight: 1.1 }}>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #D4A852, transparent)' }} />
                   <span>
-                    <span style={{ color: '#B85258' }}>Mutlu </span>
-                    <span style={{ color: '#2B2B2B' }}>Kareler</span>
+                    <span style={{ color: '#B85258' }}>Fotoğraf </span>
+                    <span style={{ color: '#2B2B2B' }}>Albümü</span>
                   </span>
-                  <svg viewBox="0 0 40 32" className="flex-shrink-0" style={{ width: 'clamp(28px, 5vw, 36px)', height: 'clamp(22px, 4vw, 28px)' }} fill="none">
-                    <path d="M5 11C5 7 8 4 11.5 4c2.5 0 4.5 1.5 5.5 3.5 1-2 3-3.5 5.5-3.5 3.5 0 6.5 3 6.5 7 0 8-13 15-13 15S5 19 5 11z"
-                          fill="#FCDDE0" stroke="#B85258" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #D4A852, transparent)' }} />
                 </h3>
               </div>
 
-              {/* 3 statik foto */}
-              <div className="relative w-full flex items-center justify-center" style={{ height: 'clamp(220px, 36vw, 320px)' }}>
+              {/* 3 statik foto — %15 küçültüldü, sağdaki play overlay kaldırıldı */}
+              <div className="relative w-full flex items-center justify-center" style={{ height: 'clamp(187px, 30.6vw, 272px)' }}>
                 {/* Sol foto */}
-                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-90px, -16vw, -130px)) rotate(-7deg)', zIndex: 1 }}>
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-76px, -13.6vw, -110px)) rotate(-7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(100px, 17vw, 145px)', height: 'clamp(120px, 20vw, 175px)' }} />
+                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(85px, 14.5vw, 123px)', height: 'clamp(102px, 17vw, 149px)' }} />
                   </div>
                 </div>
 
-                {/* Sağ foto + play */}
-                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(90px, 16vw, 130px)) rotate(7deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1 rounded-lg relative" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(100px, 17vw, 145px)', height: 'clamp(120px, 20vw, 175px)' }} />
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="rounded-full flex items-center justify-center"
-                           style={{ width: 'clamp(38px, 6vw, 48px)', height: 'clamp(38px, 6vw, 48px)', background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                        <svg style={{ width: 'clamp(14px, 2.3vw, 18px)', height: 'clamp(14px, 2.3vw, 18px)', marginLeft: '2px' }} fill="#1F1F1F" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                      </div>
-                    </div>
+                {/* Sağ foto (play kaldırıldı) */}
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(76px, 13.6vw, 110px)) rotate(7deg)', zIndex: 1 }}>
+                  <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(85px, 14.5vw, 123px)', height: 'clamp(102px, 17vw, 149px)' }} />
                   </div>
                 </div>
 
                 {/* Orta foto + 128+ badge */}
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-4px)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(125px, 21vw, 175px)', height: 'clamp(150px, 25vw, 210px)' }} />
+                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(106px, 17.85vw, 149px)', height: 'clamp(127px, 21.25vw, 179px)' }} />
                     <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
                          style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                       <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
@@ -398,6 +386,11 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
+              {/* Gri açıklama — altın kartındaki açıklama gibi */}
+              <p className="text-[13px] md:text-[15px] leading-relaxed text-center max-w-[560px] mx-auto mt-3" style={{ color: '#6E5A5A' }}>
+                Online Fotoğraf albümünüzü oluşturun, ister siz isterseniz de bu mutlu gününde yanınızda bulunanlar gün boyunca çekilen fotoğrafları eklesin. Tüm fotoğraflarınızı tek bir yerde toplayın, kolayca indirin!
+              </p>
 
               {/* Filmstrip — sağdan sola otomatik kayan */}
               <div className="overflow-hidden mt-4 mb-4 relative" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
@@ -423,26 +416,16 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Albümü Görüntüle butonu */}
-              <div className="flex justify-center">
-                <button className="inline-flex items-center justify-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold transition-all hover:scale-[1.02]"
-                        style={{
-                          color: '#9F4F58',
-                          background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,243,243,0.98) 100%)',
-                          backdropFilter: 'blur(12px)',
-                          boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)',
-                          border: '1px solid rgba(232,165,169,0.45)',
-                          fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
-                          fontSize: 'clamp(13px, 1.6vw, 15px)',
-                        }}>
-                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>Albümü Görüntüle</span>
-                  <svg className="w-3 h-3" fill="none" stroke="#C8686E" strokeWidth="2.5" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
+              {/* 2 rose badge — Altınlarınızı Online Toplayın kartındaki badge tasarımıyla aynı */}
+              <div className="flex gap-2 flex-wrap justify-center">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
+                  Birlikte Yükleyin
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg>
+                  Kolayca İndirin
+                </span>
               </div>
             </div>
           </div>

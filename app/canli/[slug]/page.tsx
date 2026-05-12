@@ -965,10 +965,10 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında, isim foto altından devam edebilir */}
-          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end', minHeight: '140px' }}>
-            {/* Gelin Ailesi — sol, etiket foto'nun %90 hizasında, isim altına taşabilir */}
-            <div className="text-center min-w-0">
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında (her iki taraf TAM aynı Y'de) */}
+          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'start', minHeight: '140px' }}>
+            {/* Gelin Ailesi — sol, paddingTop sabit (mobilde simetri garanti) */}
+            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
@@ -982,10 +982,10 @@ export default function WatchPage() {
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg self-start"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
             {/* Damat Ailesi — sağ, simetrik */}
-            <div className="text-center min-w-0">
+            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
@@ -997,8 +997,8 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — sol yarı (Gelin ad/soyad) | & ortada | sağ yarı (Damat ad/soyad) */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
+          {/* İsimler — sol yarı (Gelin ad/soyad) | & ortada SİYAH | sağ yarı (Damat ad/soyad) */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-4 mb-5">
             <div className="text-center min-w-0">
               <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
                 {event.bride_first_name}
@@ -1007,7 +1007,7 @@ export default function WatchPage() {
                 {event.bride_last_name}
               </h1>
             </div>
-            <p className="text-gray-400 font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)' }}>&</p>
+            <p className="font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)', color: '#1F1F1F' }}>&</p>
             <div className="text-center min-w-0">
               <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
                 {event.groom_first_name}
@@ -1018,10 +1018,10 @@ export default function WatchPage() {
             </div>
           </div>
 
-          <p className="text-gray-700 text-xl mb-1">
+          <p className="text-gray-700 text-xl mb-1 mt-2">
             <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
           </p>
-          <p className="text-gray-800 font-semibold text-lg mb-3">
+          <p className="text-gray-800 font-semibold text-lg mb-4">
             {viewerName}
           </p>
           <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
@@ -1158,10 +1158,10 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında */}
-          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end', minHeight: '140px' }}>
-            {/* Gelin Ailesi — sol */}
-            <div className="text-center min-w-0">
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında (her iki taraf TAM aynı Y'de) */}
+          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'start', minHeight: '140px' }}>
+            {/* Gelin Ailesi — sol, etiket foto'nun alt %10 hizasında (paddingTop sabit, mobilde her iki taraf eşit) */}
+            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
@@ -1175,10 +1175,10 @@ export default function WatchPage() {
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg self-start"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
-            {/* Damat Ailesi — sağ, simetrik */}
-            <div className="text-center min-w-0">
+            {/* Damat Ailesi — sağ, simetrik (aynı paddingTop) */}
+            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
@@ -1191,7 +1191,7 @@ export default function WatchPage() {
           </div>
 
           {/* İsimler — sol yarı (Gelin) | & ortada SİYAH | sağ yarı (Damat), biraz aşağıda */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2 mb-3">
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-4 mb-3">
             <div className="text-center min-w-0">
               <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
                 {event.bride_first_name}
@@ -1970,7 +1970,7 @@ export default function WatchPage() {
                              style={{ background: 'rgba(200,160,80,0.12)' }}>
                           {b.icon}
                         </div>
-                        <span className="text-[12px] md:text-[14px] font-bold leading-[1.1] text-center" style={{ color: '#3B2F1E' }}>
+                        <span className="text-[12px] md:text-[14px] font-normal leading-[1.1] text-center" style={{ color: '#3B2F1E' }}>
                           {b.title.split('\n').map((line, idx) => (
                             <span key={idx} className="block">{line}</span>
                           ))}
@@ -2052,9 +2052,9 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — biraz ortalı (text-left → text-center) */}
+                      {/* Başlık — biraz ortalı, tek satır (gram altın gibi) */}
                       <div className="flex-1 min-w-0 text-center pr-2">
-                        <div className="text-[14px] md:text-[16px] font-bold" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                        <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                           {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                         </div>
                       </div>
@@ -2110,7 +2110,7 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Header — Mutlu Kareler ♡ (referans tasarım: rose + siyah + kalp + gold dash) */}
+              {/* Header — Fotoğraf Albümü (rose + siyah + gold dash, kalp kaldırıldı) */}
               <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">
                 <h3 className="flex items-center justify-center gap-2 md:gap-3"
                     style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(26px, 5.8vw, 32px)', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
@@ -2118,14 +2118,9 @@ export default function WatchPage() {
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(20px, 6vw, 36px)', background: 'linear-gradient(to right, transparent, #D4A852, transparent)' }} />
                   <span>
-                    <span style={{ color: '#B85258' }}>Mutlu </span>
-                    <span style={{ color: '#2B2B2B' }}>Kareler</span>
+                    <span style={{ color: '#B85258' }}>Fotoğraf </span>
+                    <span style={{ color: '#2B2B2B' }}>Albümü</span>
                   </span>
-                  {/* Kalp ikonu — outlined rose stroke + light blush fill (daha zarif) */}
-                  <svg viewBox="0 0 40 32" className="w-7 h-6 md:w-8 md:h-7 flex-shrink-0" fill="none">
-                    <path d="M5 11C5 7 8 4 11.5 4c2.5 0 4.5 1.5 5.5 3.5 1-2 3-3.5 5.5-3.5 3.5 0 6.5 3 6.5 7 0 8-13 15-13 15S5 19 5 11z"
-                          fill="#FCDDE0" stroke="#B85258" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
                   {/* Sağ gold dash */}
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(20px, 6vw, 36px)', background: 'linear-gradient(to left, transparent, #D4A852, transparent)' }} />
@@ -2167,21 +2162,13 @@ export default function WatchPage() {
                       </div>
                     )}
 
-                    {/* Sağ foto — sağa eğri, play overlay, ince beyaz çerçeve */}
+                    {/* Sağ foto — sağa eğri (play overlay kaldırıldı, video yok) */}
                     {slideshowPhotos[2] && (
                       <div onClick={() => setPhotoLightboxIndex(2)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
-                        <div className="bg-white p-1 rounded-lg relative" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                        <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
-                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center"
-                                 style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
-                              <svg className="w-4 h-4 lg:w-5 lg:h-5 ml-0.5" fill="#1F1F1F" viewBox="0 0 24 24">
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          </div>
                         </div>
                       </div>
                     )}
