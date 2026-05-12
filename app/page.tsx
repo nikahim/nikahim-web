@@ -279,8 +279,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Badge yazıları bg PNG'sinde baked-in. Yıldız notu badge'lerin hemen altında */}
-            <div className="absolute" style={{ bottom: '5.5%', left: 0, right: 0 }}>
+            {/* Badge yazıları bg PNG'sinde baked-in. Yıldız notu altta */}
+            <div className="absolute" style={{ bottom: '3%', left: 0, right: 0 }}>
               <p className="text-center" style={{ color: '#8A7878', fontSize: 'clamp(8px, 1.3vw, 11px)', fontWeight: 500 }}>
                 * Canlı yayın kalitesi ve çözünürlüğü internet bağlantı hızınıza bağlıdır.
               </p>
@@ -341,13 +341,13 @@ export default function Home() {
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading - üst orta, 2 satır */}
-            <div className="absolute" style={{ top: '3.5%', left: '0', right: '0', textAlign: 'center' }}>
+            <div className="absolute" style={{ top: '5%', left: '0', right: '0', textAlign: 'center' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#C8686E' }}>Fotoğraf</h3>
               <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>
 
             {/* Açıklama - resimlerin altında, ortalanmış */}
-            <div className="absolute" style={{ top: '67%', left: '9%', right: '9%', textAlign: 'center' }}>
+            <div className="absolute" style={{ top: '64%', left: '9%', right: '9%', textAlign: 'center' }}>
               <p className="leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#6E5A5A' }}>
                 Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin.
               </p>

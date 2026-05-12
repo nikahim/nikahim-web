@@ -959,33 +959,45 @@ export default function WatchPage() {
   if (showReturningModal && isReturningViewer) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl pt-12 px-8 pb-10 max-w-md w-full text-center relative" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
+        <div className="bg-white rounded-3xl pt-10 px-8 pb-10 max-w-md w-full text-center relative" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
           {/* Logo - sol üst */}
           <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Çift fotoğrafı — eski sade halka */}
-          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
-
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">
-            {event.bride_full_name} & {event.groom_full_name}
-          </h1>
-
-          {/* Aile bilgisi — çift isminin altında */}
-          {(event.bride_father_name || event.bride_mother_name || event.groom_father_name || event.groom_mother_name) && (
-            <div className="flex items-stretch gap-3 mb-4 px-2">
-              <div className="flex-1 min-w-0 text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-[14px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+          {/* Çift fotoğrafı (küçülttü) + Aile bilgileri sol-alt ve sağ-alt çaprazlarda */}
+          <div className="relative mx-auto mb-3" style={{ width: '100%', height: 130 }}>
+            <img
+              src={event.couple_photo_url || "/couple-icon.png"}
+              alt="Çift Fotoğrafı"
+              className="mx-auto rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg block"
+            />
+            {/* Gelin Ailesi — sol-alt çapraz */}
+            {(event.bride_father_name || event.bride_mother_name) && (
+              <div className="absolute" style={{ left: '2%', top: '70%', maxWidth: '32%', textAlign: 'right' }}>
+                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
+                  {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
+                </p>
               </div>
-              <div className="w-px self-stretch" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
-              <div className="flex-1 min-w-0 text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-[14px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+            )}
+            {/* Damat Ailesi — sağ-alt çapraz */}
+            {(event.groom_father_name || event.groom_mother_name) && (
+              <div className="absolute" style={{ right: '2%', top: '70%', maxWidth: '32%', textAlign: 'left' }}>
+                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
+                  {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
+                </p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
+
+          {/* İsimler — 3 satır, & tam ortada */}
+          <div className="mb-3 leading-tight">
+            <h1 className="text-xl font-bold text-gray-900">{event.bride_full_name}</h1>
+            <p className="text-base text-gray-400 my-0.5" style={{ fontWeight: 500 }}>&</p>
+            <h1 className="text-xl font-bold text-gray-900">{event.groom_full_name}</h1>
+          </div>
 
           <p className="text-gray-700 text-xl mb-1">
             <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
@@ -1848,46 +1860,45 @@ export default function WatchPage() {
 
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
-            {/* Altın Tak - Yeni tasarım (referans görsele birebir) */}
-            <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FFF9F0 0%, #FDF4E7 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
+            <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <div className="px-5 md:px-7 pt-6 pb-6">
-                {/* Başlık — sade serif + dash'lar */}
-                <div className="text-center mb-5 md:mb-6">
+                {/* Başlık */}
+                <div className="text-center mb-5">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, letterSpacing: '0.5px' }}>
-                    <span className="w-6 md:w-10 h-[2px]" style={{ background: '#C8A050', opacity: 0.6 }} />
-                    <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
+                    <span className="w-7 md:w-10 h-[2px]" style={{ background: '#D4A852', opacity: 0.7 }} />
+                    <span className="text-[26px] md:text-[32px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
                       Mutlu Çifte{' '}
                       <span style={{ color: '#C8A050', fontWeight: 700 }}>Altın Tak</span>
                     </span>
-                    <span className="w-6 md:w-10 h-[2px]" style={{ background: '#C8A050', opacity: 0.6 }} />
+                    <span className="w-7 md:w-10 h-[2px]" style={{ background: '#D4A852', opacity: 0.7 }} />
                   </h2>
                 </div>
 
-                {/* 3 Trust Badge satırı */}
-                <div className="grid grid-cols-3 gap-2.5 md:gap-3 mb-5 md:mb-6">
+                {/* 3 Trust Badge - başlık + alt-açıklama */}
+                <div className="grid grid-cols-3 gap-2.5 md:gap-3 mb-5">
                   {[
                     {
-                      label: 'Güvenli',
+                      title: 'Güvenli', subtitle: '%100 Güvenli',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="#E26B72" stroke="#E26B72" strokeWidth="0.8">
-                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fillOpacity="0.18" />
-                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="none" />
-                          <path d="M9 12l2 2 4-4" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
+                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                         </svg>
                       ),
                     },
                     {
-                      label: 'Anında',
+                      title: 'Anında', subtitle: 'Hızlı Gönderim',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="#F5B400">
+                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
                           <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
                         </svg>
                       ),
                     },
                     {
-                      label: 'Banka Transferi',
+                      title: 'Banka Transferi', subtitle: 'Tüm Bankalar',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#4A7AB7" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 10L12 4l9 6" />
                           <path d="M5 10v9M9 10v9M15 10v9M19 10v9" />
                           <path d="M3 21h18" />
@@ -1895,39 +1906,111 @@ export default function WatchPage() {
                       ),
                     },
                   ].map((b, i) => (
-                    <div key={i} className="rounded-2xl px-3 md:px-4 py-3 flex items-center justify-center gap-2 md:gap-2.5"
-                         style={{ background: '#FFFFFF', boxShadow: '0 2px 8px rgba(140,110,70,0.06), 0 1px 3px rgba(0,0,0,0.03)' }}>
-                      {b.icon}
-                      <span className="text-[12px] md:text-[14px] font-semibold whitespace-nowrap" style={{ color: '#3B2F1E' }}>{b.label}</span>
+                    <div key={i} className="rounded-full px-3 md:px-4 py-2.5 flex items-center justify-center gap-2 md:gap-2.5"
+                         style={{ background: 'rgba(255,255,255,0.7)', boxShadow: '0 1px 4px rgba(140,110,70,0.06)', border: '1px solid rgba(220,200,170,0.30)' }}>
+                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(200,160,80,0.10)' }}>
+                        {b.icon}
+                      </div>
+                      <div className="flex flex-col text-left leading-tight min-w-0">
+                        <span className="text-[12px] md:text-[14px] font-bold whitespace-nowrap" style={{ color: '#3B2F1E' }}>{b.title}</span>
+                        <span className="text-[10px] md:text-[11px] whitespace-nowrap" style={{ color: '#8A7A5E' }}>{b.subtitle}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
 
-                {/* Altın kartları — 3 sütun (3×2 = 6 kart) */}
-                <div className="grid grid-cols-3 gap-3 md:gap-4">
-                  {goldOptions.map((gold) => (
+                {/* Üst sıra: 3 büyük kart (Çeyrek, Yarım+Popüler, Ata) */}
+                {(() => {
+                  const topItems = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'ata_altin'].includes(g.id));
+                  return (
+                    <div className="grid grid-cols-3 gap-3 md:gap-4 mb-3 md:mb-4">
+                      {topItems.map((gold) => {
+                        const isHighlight = gold.id === 'yarim_altin';
+                        return (
+                          <div key={gold.id} className="relative">
+                            {isHighlight && (
+                              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-[10px] md:text-[12px] font-bold px-4 py-1 rounded-full text-white whitespace-nowrap"
+                                   style={{ background: 'linear-gradient(135deg, #D4A852, #B8860B)', boxShadow: '0 3px 10px rgba(184,134,11,0.35)', letterSpacing: '0.3px' }}>
+                                Popüler
+                              </div>
+                            )}
+                            <button onClick={() => handleGoldSelect(gold.id)}
+                                    className="w-full group rounded-2xl px-3 pt-5 pb-4 md:px-4 md:pt-6 md:pb-5 text-center transition-all duration-300 hover:-translate-y-0.5 relative"
+                                    style={{
+                                      background: '#FFFFFF',
+                                      boxShadow: isHighlight
+                                        ? '0 8px 24px rgba(200,160,80,0.20), 0 2px 8px rgba(0,0,0,0.04)'
+                                        : '0 3px 10px rgba(150,120,80,0.08), 0 1px 3px rgba(0,0,0,0.03)',
+                                      border: isHighlight ? '1.5px solid rgba(200,160,80,0.60)' : '1px solid rgba(220,200,170,0.25)',
+                                    }}>
+                              {/* İsim */}
+                              <div className="text-[14px] md:text-[18px] font-semibold mb-2 md:mb-3 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif' }}>{gold.name}</div>
+                              {/* Görsel */}
+                              <div className="relative w-16 h-16 md:w-24 md:h-24 mx-auto mb-2 md:mb-3 group-hover:scale-105 transition-transform duration-300">
+                                <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" />
+                              </div>
+                              {/* Fiyat */}
+                              <div className="text-[14px] md:text-[18px] font-bold mb-3 md:mb-4" style={{ color: '#B8860B', letterSpacing: '0.2px' }}>
+                                ₺{gold.price.toLocaleString()}
+                              </div>
+                              {/* Gönder button */}
+                              <div className={`w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 md:py-2.5 rounded-full font-semibold text-[12px] md:text-[14px] transition-all`}
+                                   style={isHighlight
+                                     ? { background: 'linear-gradient(135deg, #D4A852, #B8860B)', color: '#FFFFFF', boxShadow: '0 3px 10px rgba(184,134,11,0.30)' }
+                                     : { background: '#FFFFFF', color: '#B8860B', border: '1.5px solid rgba(200,160,80,0.55)' }
+                                   }>
+                                {/* Gift icon */}
+                                <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-4 md:h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                  <rect x="3" y="8" width="18" height="13" rx="1.5" />
+                                  <path d="M12 8v13" />
+                                  <path d="M3 12h18" />
+                                  <path d="M12 8c-2 0-4-1.5-4-3.5S10 2 12 4c2-2 4-1.5 4 .5S14 8 12 8z" />
+                                </svg>
+                                Gönder
+                              </div>
+                            </button>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+
+                {/* Alt sıra: 2 yatay kart (Gram Altın, Özel Miktar) */}
+                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                  {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className="group rounded-2xl px-3 pt-4 pb-3 md:px-4 md:pt-5 md:pb-4 text-center transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 relative"
-                            style={{ background: '#FFFFFF', boxShadow: '0 4px 12px rgba(150,120,80,0.08), 0 1px 3px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.18)' }}>
-                      {/* Populer badge - sadece Çeyrek Altın */}
-                      {gold.id === 'ceyrek_altin' && (
-                        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[9px] md:text-[10px] font-bold px-3 py-0.5 rounded-full text-white z-10"
-                             style={{ background: 'linear-gradient(135deg, #B8860B, #96700A)', boxShadow: '0 2px 6px rgba(184,134,11,0.30)', letterSpacing: '0.3px' }}>
-                          Populer
-                        </div>
-                      )}
-                      {/* İsim */}
-                      <div className="text-[13px] md:text-[15px] font-semibold mb-2 md:mb-3 whitespace-nowrap" style={{ color: '#2B2B2B' }}>{gold.name}</div>
-                      {/* Görsel */}
-                      <div className="relative w-14 h-14 md:w-20 md:h-20 mx-auto mb-2 md:mb-3 group-hover:scale-105 transition-transform duration-300">
-                        <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-md" />
+                            className="group rounded-2xl px-3 py-3 md:px-4 md:py-4 transition-all duration-300 hover:-translate-y-0.5 flex items-center gap-3"
+                            style={{ background: '#FFFFFF', boxShadow: '0 3px 10px rgba(150,120,80,0.08), 0 1px 3px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.25)' }}>
+                      {/* İkon — sol */}
+                      <div className="flex-shrink-0">
+                        {gold.id === 'gram_altin' ? (
+                          /* Gram altın bar ikonu — basit altın bar */
+                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,160,80,0.10)' }}>
+                            <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="none">
+                              <path d="M5 9L7 6h10l2 3v9H5V9z" fill="#E8C57A" stroke="#B8860B" strokeWidth="1.2" strokeLinejoin="round" />
+                              <path d="M5 9h14M9 12h2M13 14h2" stroke="#B8860B" strokeWidth="1" strokeLinecap="round" />
+                            </svg>
+                          </div>
+                        ) : (
+                          /* Özel miktar — TL hexagon */
+                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,160,80,0.10)' }}>
+                            <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="none">
+                              <path d="M12 2L20 7v10l-8 5-8-5V7l8-5z" stroke="#C8A050" strokeWidth="1.5" strokeLinejoin="round" />
+                              <path d="M10 8v9M9 11l4-2M9 13l5-2.5" stroke="#B8860B" strokeWidth="1.6" strokeLinecap="round" />
+                            </svg>
+                          </div>
+                        )}
                       </div>
-                      {/* Fiyat / Serbest */}
-                      {gold.price > 0 ? (
-                        <div className="text-[14px] md:text-[18px] font-bold" style={{ color: '#8B6914', letterSpacing: '0.2px' }}>₺{gold.price.toLocaleString()}</div>
-                      ) : (
-                        <div className="text-[13px] md:text-[15px] font-medium" style={{ color: '#A88A30' }}>Serbest</div>
-                      )}
+                      {/* Başlık + açıklama — sağ */}
+                      <div className="flex-1 min-w-0 text-left">
+                        <div className="text-[14px] md:text-[16px] font-bold mb-0.5" style={{ color: '#2B2B2B' }}>
+                          {gold.id === 'nakit' ? 'Özel Miktar (TL)' : gold.name}
+                        </div>
+                        <div className="text-[11px] md:text-[12.5px] leading-snug" style={{ color: '#7A6B53' }}>
+                          {gold.id === 'gram_altin' ? 'Gram cinsinden gönder' : 'Dilediğiniz tutarda gönderin'}
+                        </div>
+                      </div>
                     </button>
                   ))}
                 </div>
@@ -1980,17 +2063,16 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Editorial Luxury header — Mutlu Kareler — masaüstünde hafif aşağı */}
-              <div className="text-center relative z-10 mt-3 lg:mt-6">
-                <p className="uppercase mb-0.5" style={{ color: '#C97C82', fontSize: '12px', fontWeight: 500, letterSpacing: '3.5px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>MUTLU</p>
-                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '28px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                  Kareler
+              {/* Editorial Luxury header — Fotoğraf Albümü — yukarı alındı */}
+              <div className="text-center relative z-10 mt-1 lg:mt-3">
+                <h3 style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '26px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                  Fotoğraf Albümü
                 </h3>
                 <div className="mx-auto mt-2 mb-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
 
-              {/* PHOTO COVERFLOW — orbital 3D premium carousel (mt azaltıldı, yukarı çekildi) */}
-              <div className="relative w-full mt-0 mb-2" style={{ height: 175, perspective: '1000px' }}>
+              {/* PHOTO COVERFLOW — resimler %20 büyütüldü, height arttı, biraz aşağı kaydırıldı */}
+              <div className="relative w-full mt-2 mb-2" style={{ height: 210, perspective: '1000px' }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2071,8 +2153,8 @@ export default function WatchPage() {
                         }}
                       >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          {/* Mobilde %15 küçük (104→88 / 86→73), masaüstünde aynı */}
-                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[88px] h-[104px] lg:w-[116px] lg:h-[136px]' : 'w-[73px] h-[86px] lg:w-[96px] lg:h-[112px]'}`} />
+                          {/* Resimler %20 büyütüldü (88→106 / 73→88, lg: 116→140 / 96→115) */}
+                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[106px] h-[125px] lg:w-[140px] lg:h-[163px]' : 'w-[88px] h-[103px] lg:w-[115px] lg:h-[134px]'}`} />
                         </div>
                       </motion.div>
                     );
@@ -2080,8 +2162,8 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Albümü Görüntüle — masaüstünde küçük + yatay kısa + sol-yukarı */}
-              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-start whitespace-nowrap inline-flex items-center justify-center gap-2 lg:gap-1.5 px-4 lg:px-3 py-2 lg:py-1.5 rounded-full font-semibold text-[12px] lg:text-[11px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 lg:-translate-x-2 lg:-translate-y-2" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
+              {/* Albümü Görüntüle — ortalanmış */}
+              <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-center whitespace-nowrap inline-flex items-center justify-center gap-2 lg:gap-1.5 px-4 lg:px-3 py-2 lg:py-1.5 rounded-full font-semibold text-[12px] lg:text-[11px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
                 <svg className="w-3.5 h-3.5 lg:w-3 lg:h-3 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
                 <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>

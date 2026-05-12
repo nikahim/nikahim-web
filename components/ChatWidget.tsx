@@ -244,12 +244,12 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
       {/* Pre-chat start screen */}
       {!hasStarted ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-6" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
+        <div className="flex-1 flex flex-col items-center justify-start pt-6 p-6" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
           <div className="w-24 h-24 rounded-full overflow-hidden mb-2" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
             <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
           </div>
-          <div className="text-base font-bold mb-4" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
-          <div className="text-center mb-5">
+          <div className="text-base font-bold mb-3" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
+          <div className="text-center mb-4">
             <div className="text-lg font-bold text-gray-900 mb-1">Hoş geldiniz!</div>
             <div className="text-sm text-gray-600 leading-relaxed">
               Size daha iyi yardımcı olabilmemiz için<br />
@@ -379,7 +379,6 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           style={{
             bottom: 36,
             background: "#fff",
-            // Yumuşak derinlik gölgesi (kalın çerçeve yerine)
             boxShadow: "0 20px 40px rgba(60,40,40,0.16), 0 6px 16px rgba(200,104,110,0.16), 0 2px 6px rgba(0,0,0,0.04)",
             borderTopLeftRadius: 999,
             borderBottomLeftRadius: 999,
@@ -387,16 +386,30 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           }}
           aria-label="Canlı destek"
         >
-          {/* Arrow tab — solda */}
+          {/* Sol — KAPALIYKEN: kulaklık ikonu (tek başına aç); AÇIKKEN: collapse oku */}
           <button
-            onClick={() => setIsCollapsed(c => !c)}
+            onClick={() => isCollapsed ? setOpen(true) : setIsCollapsed(true)}
             className="flex items-center justify-center"
-            style={{ width: 40, paddingLeft: 12, paddingRight: 6, color: '#C8686E' }}
-            aria-label={isCollapsed ? "Canlı Destek aç" : "Kapat"}
+            style={{
+              width: isCollapsed ? 50 : 40,
+              paddingLeft: isCollapsed ? 14 : 12,
+              paddingRight: isCollapsed ? 14 : 6,
+              color: '#C8686E',
+            }}
+            aria-label={isCollapsed ? "Canlı Destek aç" : "Daralt"}
           >
-            <svg className={`w-[20px] h-[20px] transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-            </svg>
+            {isCollapsed ? (
+              /* Kulaklıklı mikrofon — destek anlamı */
+              <svg viewBox="0 0 24 24" className="w-[22px] h-[22px]" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 14v-2a8 8 0 0116 0v2" />
+                <path d="M4 14h3v6H4v-6zM17 14h3v6h-3v-6z" />
+                <path d="M17 20v.5a2.5 2.5 0 01-2.5 2.5H12" />
+              </svg>
+            ) : (
+              <svg className="w-[20px] h-[20px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            )}
           </button>
 
           {/* Full button — slide collapse */}
