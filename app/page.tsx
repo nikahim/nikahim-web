@@ -127,7 +127,7 @@ export default function Home() {
             </button>
 
             {/* Üst — logo + slogan, etrafında soft glow */}
-            <div className="relative flex flex-col items-center mb-8">
+            <div className="relative flex flex-col items-center mb-5">
               {/* Logo arkası soft rose halo */}
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
@@ -135,17 +135,17 @@ export default function Home() {
                 <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
                 <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[100px] w-auto object-contain -mt-4" />
               </div>
-              {/* Premium slogan — ince serif italic (1pt büyütüldü) */}
+              {/* Premium slogan — ince serif italic (1pt daha büyütüldü) */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
-                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14.5px', color: '#9F4F58' }}>
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
                 En özel anlar, sevdiklerinizle yaşanır.
               </p>
               {/* Gold dash ayraç */}
-              <div className="mt-5 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
+              <div className="mt-4 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
             {/* 3 feature — eşit ağırlık, biraz daha nefes */}
-            <div className="grid grid-cols-3 gap-4 mb-9">
+            <div className="grid grid-cols-3 gap-4 mb-6">
               {[
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
                 { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
@@ -160,12 +160,9 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Duygusal CTA başlığı */}
-            <div className="text-center mb-4">
-              <h3 className="font-bold tracking-[0.2px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontSize: 'clamp(18px, 4.4vw, 21px)', lineHeight: 1.25 }}>
-                Sevdikleriniz uzakta kalmasın
-              </h3>
-              <p className="mt-1.5 text-[13px]" style={{ color: '#7A6B6B' }}>
+            {/* CTA alt yazı — başlık silindi */}
+            <div className="text-center mb-3">
+              <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
                 Uygulamayı ücretsiz indirin, hemen başlayın !
               </p>
             </div>
@@ -465,7 +462,7 @@ export default function Home() {
 
               {/* Gri açıklama — biraz daha yukarıda (mt-3 → mt-1) */}
               <p className="text-[13px] md:text-[15px] leading-relaxed text-center max-w-[560px] mx-auto mt-1" style={{ color: '#6E5A5A' }}>
-                Online Fotoğraf albümünüzü oluşturun, ister siz isterseniz de bu mutlu gününde yanınızda bulunanlar gün boyunca çekilen fotoğrafları eklesin. Tüm fotoğraflarınızı tek bir yerde toplayın, kolayca indirin!
+                Online Fotoğraf albümünüzü oluşturun, ister siz isterseniz de bu mutlu günde yanınızda bulunanlar gün boyunca çekilen fotoğrafları eklesin. Tüm fotoğraflarınızı tek bir yerde toplayın, kolayca indirin!
               </p>
 
               {/* Filmstrip — sağdan sola otomatik kayan */}

@@ -1001,13 +1001,13 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — hero, site genel font (geist sans), büyük */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3 relative">
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+          {/* İsimler — birbirine yakın (& işaretinin hemen sağı/solunda), & ile aynı renkte */}
+          <div className="flex items-center justify-center gap-2 mb-3 relative">
+            <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(22px, 6vw, 30px)' }}>
               {event.bride_first_name}
             </h1>
-            <p className="font-medium" style={{ fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+            <p className="font-medium text-gray-900" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1 }}>&</p>
+            <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(22px, 6vw, 30px)' }}>
               {event.groom_first_name}
             </h1>
           </div>
@@ -1232,13 +1232,13 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — hero, site genel font (geist sans), büyük */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3 relative">
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+          {/* İsimler — birbirine yakın (& işaretinin hemen sağı/solunda), & ile aynı renkte */}
+          <div className="flex items-center justify-center gap-2 mb-3 relative">
+            <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(22px, 6vw, 30px)' }}>
               {event.bride_first_name}
             </h1>
-            <p className="font-medium" style={{ fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+            <p className="font-medium text-gray-900" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1 }}>&</p>
+            <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(22px, 6vw, 30px)' }}>
               {event.groom_first_name}
             </h1>
           </div>
@@ -2059,7 +2059,7 @@ export default function WatchPage() {
               `}</style>
               <div className="px-5 md:px-7 pt-6 pb-6">
                 {/* Başlık — ultra ince çift katmanlı gold gradient + hafif shine */}
-                <div className="text-center mb-5">
+                <div className="text-center mb-3">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
@@ -2197,13 +2197,13 @@ export default function WatchPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className="group relative rounded-2xl px-3 py-2 md:px-4 md:py-2.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center cursor-pointer overflow-hidden gold-card"
+                            className="group relative rounded-2xl px-3 py-3 md:px-4 md:py-3.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card"
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — absolute sol (text'in gerçek-ortalanmasını engellemesin) */}
+                      {/* İkon — absolute sol (text gerçek-ortalı görünsün) */}
                       <div className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
@@ -2215,9 +2215,13 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — flex justify-center ile gerçek kart-ortalı */}
+                      {/* Başlık — gerçek kart-ortalı */}
                       <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
+                      </div>
+                      {/* Fiyat / Belirleyin — küçük, non-bold, gold renkte */}
+                      <div className="text-[11px] md:text-[13px] font-medium mt-0.5 whitespace-nowrap" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                        {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
                       </div>
                     </button>
                   ))}
@@ -2288,8 +2292,8 @@ export default function WatchPage() {
                 </h3>
               </div>
 
-              {/* Statik 3-foto layout — yukarı çekildi (mt-3→mt-1), çerçeveler inceltildi */}
-              <div className="relative w-full mt-1 mb-2 flex items-center justify-center" style={{ height: 240 }}>
+              {/* Statik 3-foto layout — başlığa daha yakın (mt-1→-mt-1), kısaltıldı (240→210) */}
+              <div className="relative w-full -mt-1 mb-1 flex items-center justify-center" style={{ height: 210 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2358,9 +2362,9 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Filmstrip — kare resimler %10 büyük, biraz daha yukarıda (mt-2→mt-0) */}
+              {/* Filmstrip — 3 fotoğrafa yakın (mt-0→-mt-2), kareler +%10 (62→68, 70→77) */}
               {slideshowPhotos.length > 0 && (
-                <div className="overflow-hidden mt-0 mb-3 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
+                <div className="overflow-hidden -mt-2 mb-3 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
                   <style>{`
                     @keyframes albumFilmstripRTL {
                       0% { transform: translateX(0); }
@@ -2371,7 +2375,7 @@ export default function WatchPage() {
                     {[...slideshowPhotos, ...slideshowPhotos].map((url, i) => (
                       <div key={i}
                            onClick={() => setPhotoLightboxIndex(i % slideshowPhotos.length)}
-                           className="w-[62px] h-[62px] lg:w-[70px] lg:h-[70px] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                           className="w-[68px] h-[68px] lg:w-[77px] lg:h-[77px] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
                            style={{ boxShadow: '0 2px 6px rgba(80,60,40,0.12)', border: '1px solid rgba(255,255,255,0.6)' }}>
                         <img src={url} alt="" className="w-full h-full object-cover" />
                       </div>
