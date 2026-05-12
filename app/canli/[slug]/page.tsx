@@ -959,81 +959,129 @@ export default function WatchPage() {
   if (showReturningModal && isReturningViewer) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl pt-10 px-8 pb-10 max-w-md w-full text-center relative" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
-          {/* Logo - sol üst */}
-          <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
+        <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
+             style={{
+               background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
+               boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)',
+               border: '1px solid rgba(232,180,170,0.30)',
+             }}>
+          {/* Köşe soft glow'lar — Apple onboarding hissi */}
+          <div className="absolute top-[-60px] right-[-50px] w-[220px] h-[220px] rounded-full pointer-events-none"
+               style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.14) 0%, transparent 70%)' }} />
+          <div className="absolute bottom-[-80px] left-[-60px] w-[250px] h-[250px] rounded-full pointer-events-none"
+               style={{ background: 'radial-gradient(circle, rgba(253,232,224,0.45) 0%, transparent 70%)' }} />
+
+          {/* Logo - sol üst, küçük yumuşak imza */}
+          <div className="absolute top-3 left-4 cursor-pointer z-10 group" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-[40px] w-auto object-contain opacity-85 transition-opacity group-hover:opacity-100" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında (her iki taraf TAM aynı Y'de) */}
-          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'start', minHeight: '140px' }}>
-            {/* Gelin Ailesi — sol, paddingTop sabit (mobilde simetri garanti) */}
-            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
-              {(event.bride_father_name || event.bride_mother_name) && (
-                <>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
-                  <p className="text-gray-600 text-[14px] leading-[1.25]">
-                    {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
-                  </p>
-                </>
-              )}
+          {/* CANLI badge — sadece active iken sağ üstte */}
+          {streamData?.status === 'active' && (
+            <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white z-10"
+                 style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)', boxShadow: '0 3px 10px rgba(220,38,38,0.35), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+              <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              CANLI
             </div>
-            {/* Foto — orta, üste hizalı */}
-            <img
-              src={event.couple_photo_url || "/couple-icon.png"}
-              alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
-            />
-            {/* Damat Ailesi — sağ, simetrik */}
-            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
-              {(event.groom_father_name || event.groom_mother_name) && (
-                <>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
-                  <p className="text-gray-600 text-[14px] leading-[1.25]">
-                    {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
-                  </p>
-                </>
-              )}
+          )}
+
+          {/* Hero — Çift fotoğrafı, büyük, soft halo + glass border */}
+          <div className="relative flex items-center justify-center mt-4 mb-5">
+            {/* Arkada soft rose halo */}
+            <div className="absolute w-[200px] h-[200px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 65%)', filter: 'blur(12px)' }} />
+            <div className="relative rounded-full p-[3px]"
+                 style={{
+                   background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,180,170,0.55))',
+                   boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 }}>
+              <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
+                   className="rounded-full object-cover w-[150px] h-[150px] block"
+                   style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
             </div>
           </div>
 
-          {/* İsimler — sadece adlar (soyadlar kaldırıldı): Gelin Adı & Damat Adı */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mt-4 mb-5">
-            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+          {/* İsimler — hero, Playfair, büyük */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3 relative">
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.bride_first_name}
             </h1>
-            <p className="font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)', color: '#1F1F1F' }}>&</p>
-            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+            <p className="font-medium" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.groom_first_name}
             </h1>
           </div>
 
-          <p className="text-gray-700 text-xl mb-1 mt-2">
-            <span style={{ color: '#F5C518' }}>✨</span> Tekrar Hoş Geldin <span style={{ color: '#F5C518' }}>✨</span>
-          </p>
-          <p className="text-gray-800 font-semibold text-lg mb-4">
-            {viewerName}
-          </p>
-          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
-            <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
-            <span className="text-gray-200">|</span>
-            <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
+          {/* Gold dash ayraç */}
+          <div className="flex justify-center mb-3.5 relative">
+            <div className="h-[1px] rounded-full" style={{ width: '50px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
           </div>
 
+          {/* Aile etiketleri — tek satır minimal */}
+          <div className="space-y-1 mb-4 relative">
+            {(event.bride_father_name || event.bride_mother_name) && (
+              <p className="text-[12.5px]">
+                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Gelin Ailesi</span>
+                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
+                <span style={{ color: '#5A4A4A' }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}</span>
+              </p>
+            )}
+            {(event.groom_father_name || event.groom_mother_name) && (
+              <p className="text-[12.5px]">
+                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Damat Ailesi</span>
+                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
+                <span style={{ color: '#5A4A4A' }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}</span>
+              </p>
+            )}
+          </div>
+
+          {/* Date/time — minimal, gold diamond ayraç */}
+          <div className="flex items-center justify-center gap-3 mb-5 text-[12.5px] relative" style={{ color: '#9A8989' }}>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              {eventDate}
+            </span>
+            <span style={{ color: '#D4A852', fontSize: '6px' }}>◆</span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              {eventTime}
+            </span>
+          </div>
+
+          {/* Premium hoşgeldin copy */}
+          <div className="mb-5 relative">
+            <p className="font-semibold text-[16px]" style={{ color: '#1F1F1F' }}>
+              {viewerName},
+            </p>
+            <p className="italic mt-0.5 text-[13.5px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
+              sizi yeniden aramızda görmek güzel.
+            </p>
+          </div>
+
+          {/* Premium glass-shine CTA */}
           <button
             onClick={handleReturningContinue}
-            className="w-full text-white px-8 py-4 rounded-2xl font-semibold text-[16px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5"
-            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 20px 50px rgba(217,92,114,0.35), 0 4px 14px rgba(0,0,0,0.08)' }}
+            className="w-full relative text-white px-8 py-4 rounded-2xl font-semibold text-[15.5px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 overflow-hidden tracking-[0.2px]"
+            style={{
+              background: 'linear-gradient(135deg, #D88488 0%, #C8686E 45%, #B85258 100%)',
+              boxShadow: '0 20px 50px rgba(217,92,114,0.28), 0 6px 16px rgba(160,80,90,0.18), inset 0 1px 0 rgba(255,255,255,0.35)',
+            }}
           >
-            <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-            Canlı Yayına Katıl
+            {/* Hafif shine layer */}
+            <span className="absolute inset-0 pointer-events-none"
+                  style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 50%)' }} />
+            <span className="relative inline-flex items-center justify-center w-7 h-7 rounded-full"
+                  style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(6px)' }}>
+              <svg className="w-3.5 h-3.5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            </span>
+            <span className="relative">Canlı Yayına Katıl</span>
           </button>
 
-          {/* Divider — eskisi gibi */}
-          <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px bg-gray-200" />
-            <span className="text-xs font-semibold text-gray-400 tracking-wider">veya</span>
-            <div className="flex-1 h-px bg-gray-200" />
+          {/* Divider — soft gold gradient */}
+          <div className="flex items-center gap-3 my-5 relative">
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.20), transparent)' }} />
+            <span className="text-xs font-semibold tracking-wider" style={{ color: '#B5A8A8' }}>veya</span>
+            <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.20), transparent)' }} />
           </div>
 
           {/* Anı Paylaş kartı — referans tasarım (gölge + dashed buton + lock disclaimer) */}
@@ -1142,60 +1190,100 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl pt-12 px-8 pb-10 max-w-md w-full text-center relative" style={{ marginTop: -40, boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
-          {/* Logo - sol üst */}
-          <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
+        <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
+             style={{
+               marginTop: -40,
+               background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
+               boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)',
+               border: '1px solid rgba(232,180,170,0.30)',
+             }}>
+          {/* Köşe soft glow'lar */}
+          <div className="absolute top-[-60px] right-[-50px] w-[220px] h-[220px] rounded-full pointer-events-none"
+               style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.14) 0%, transparent 70%)' }} />
+          <div className="absolute bottom-[-80px] left-[-60px] w-[250px] h-[250px] rounded-full pointer-events-none"
+               style={{ background: 'radial-gradient(circle, rgba(253,232,224,0.45) 0%, transparent 70%)' }} />
+
+          {/* Logo - sol üst, küçük yumuşak imza */}
+          <div className="absolute top-3 left-4 cursor-pointer z-10 group" onClick={() => window.location.href = '/'}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-[40px] w-auto object-contain opacity-85 transition-opacity group-hover:opacity-100" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto altında biraz aşağıda, isimler tek satır */}
-          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'start', minHeight: '160px' }}>
-            {/* Gelin Ailesi — sol, paddingTop sabit, isimler tek satır */}
-            <div className="text-center min-w-0" style={{ paddingTop: '120px' }}>
-              {(event.bride_father_name || event.bride_mother_name) && (
-                <>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
-                  <p className="text-gray-600 text-[13px] leading-[1.25] whitespace-nowrap">
-                    {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
-                  </p>
-                </>
-              )}
+          {/* CANLI badge — sadece active iken */}
+          {streamData?.status === 'active' && (
+            <div className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white z-10"
+                 style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)', boxShadow: '0 3px 10px rgba(220,38,38,0.35), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+              <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+              CANLI
             </div>
-            {/* Foto — orta, üste hizalı */}
-            <img
-              src={event.couple_photo_url || "/couple-icon.png"}
-              alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
-            />
-            {/* Damat Ailesi — sağ, simetrik */}
-            <div className="text-center min-w-0" style={{ paddingTop: '120px' }}>
-              {(event.groom_father_name || event.groom_mother_name) && (
-                <>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
-                  <p className="text-gray-600 text-[13px] leading-[1.25] whitespace-nowrap">
-                    {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
-                  </p>
-                </>
-              )}
+          )}
+
+          {/* Hero — Çift fotoğrafı, büyük, halo + glass border */}
+          <div className="relative flex items-center justify-center mt-4 mb-5">
+            <div className="absolute w-[200px] h-[200px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 65%)', filter: 'blur(12px)' }} />
+            <div className="relative rounded-full p-[3px]"
+                 style={{
+                   background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,180,170,0.55))',
+                   boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 }}>
+              <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
+                   className="rounded-full object-cover w-[150px] h-[150px] block"
+                   style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
             </div>
           </div>
 
-          {/* İsimler — sadece adlar: Gelin Adı & Damat Adı */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mt-4 mb-3">
-            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+          {/* İsimler — hero, Playfair, büyük */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3 relative">
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.bride_first_name}
             </h1>
-            <p className="font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)', color: '#1F1F1F' }}>&</p>
-            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+            <p className="font-medium" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.groom_first_name}
             </h1>
           </div>
 
-          {/* Düğün/Nikah Canlı Yayını yazısı kaldırıldı */}
-          <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
-            <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
-            <span className="text-gray-200">|</span>
-            <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
+          {/* Gold dash ayraç */}
+          <div className="flex justify-center mb-3.5 relative">
+            <div className="h-[1px] rounded-full" style={{ width: '50px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
+          </div>
+
+          {/* Aile etiketleri — tek satır minimal */}
+          <div className="space-y-1 mb-4 relative">
+            {(event.bride_father_name || event.bride_mother_name) && (
+              <p className="text-[12.5px]">
+                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Gelin Ailesi</span>
+                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
+                <span style={{ color: '#5A4A4A' }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}</span>
+              </p>
+            )}
+            {(event.groom_father_name || event.groom_mother_name) && (
+              <p className="text-[12.5px]">
+                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Damat Ailesi</span>
+                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
+                <span style={{ color: '#5A4A4A' }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}</span>
+              </p>
+            )}
+          </div>
+
+          {/* Date/time — minimal, gold diamond ayraç */}
+          <div className="flex items-center justify-center gap-3 mb-5 text-[12.5px] relative" style={{ color: '#9A8989' }}>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              {eventDate}
+            </span>
+            <span style={{ color: '#D4A852', fontSize: '6px' }}>◆</span>
+            <span className="flex items-center gap-1.5">
+              <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              {eventTime}
+            </span>
+          </div>
+
+          {/* Premium karşılama copy */}
+          <div className="mb-5 relative">
+            <p className="italic text-[14px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
+              Bu özel anı birlikte yaşamak için aramızdasınız.
+            </p>
           </div>
 
           <div className="mb-6">
@@ -1227,11 +1315,21 @@ export default function WatchPage() {
           <button
             onClick={handleNameSubmit}
             disabled={!viewerFirstName.trim() || !viewerLastName.trim()}
-            className="w-full disabled:bg-gray-300 text-white px-8 py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 disabled:hover:scale-100"
-            style={{ background: (viewerFirstName.trim() && viewerLastName.trim()) ? 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)' : undefined, boxShadow: (viewerFirstName.trim() && viewerLastName.trim()) ? '0 8px 24px rgba(200,104,110,0.28), 0 3px 10px rgba(0,0,0,0.08)' : undefined }}
+            className="w-full relative disabled:bg-gray-300 text-white px-8 py-4 rounded-2xl font-semibold text-[15.5px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 overflow-hidden tracking-[0.2px] disabled:hover:scale-100"
+            style={{
+              background: (viewerFirstName.trim() && viewerLastName.trim()) ? 'linear-gradient(135deg, #D88488 0%, #C8686E 45%, #B85258 100%)' : undefined,
+              boxShadow: (viewerFirstName.trim() && viewerLastName.trim()) ? '0 20px 50px rgba(217,92,114,0.28), 0 6px 16px rgba(160,80,90,0.18), inset 0 1px 0 rgba(255,255,255,0.35)' : undefined,
+            }}
           >
-            <svg className="w-4 h-4" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-            Yayına Devam Et
+            {(viewerFirstName.trim() && viewerLastName.trim()) && (
+              <span className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 50%)' }} />
+            )}
+            <span className="relative inline-flex items-center justify-center w-7 h-7 rounded-full"
+                  style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(6px)' }}>
+              <svg className="w-3.5 h-3.5" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+            </span>
+            <span className="relative">Yayına Devam Et</span>
           </button>
 
           {/* Divider */}
@@ -1438,56 +1536,100 @@ export default function WatchPage() {
         </div>
       )}
 
-      {/* NAVBAR */}
-      <header className="sticky top-0 z-50 border-b border-gray-100/50" style={{ background: 'rgba(255,255,255,0.92)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
-        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 py-0.5 lg:py-1 flex items-center justify-between">
-          <div className="flex items-center cursor-pointer" onClick={() => window.location.href = '/' } style={{ gap: '0px' }}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-[40px] lg:h-[47px] w-auto object-contain" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={200} height={50} className="h-[64px] lg:h-[78px] w-auto object-contain -ml-3" />
+      {/* NAVBAR — premium luxury: cream gradient + sol marka + sağ glass action area (status / müzik / izleyici) */}
+      <header className="sticky top-0 z-50 relative"
+              style={{
+                background: 'linear-gradient(180deg, rgba(253,247,243,0.94) 0%, rgba(255,251,248,0.90) 100%)',
+                backdropFilter: 'blur(28px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+                borderBottom: '1px solid rgba(200,104,110,0.08)',
+                boxShadow: '0 4px 18px rgba(200,104,110,0.05)',
+              }}>
+        {/* Alt kenar — pearl/rose glow çizgisi */}
+        <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+             style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(200,104,110,0.18) 20%, rgba(212,168,82,0.16) 50%, rgba(200,104,110,0.18) 80%, transparent 100%)' }} />
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 flex items-center justify-between h-[60px] lg:h-[68px]">
+          {/* SOL — Marka */}
+          <div className="flex items-center cursor-pointer group" onClick={() => window.location.href = '/'} style={{ gap: '0px' }}>
+            <Image src="/navbar-icon.png" alt="Nikahım" width={60} height={60} className="h-[48px] lg:h-[54px] w-auto object-contain transition-transform group-hover:scale-[1.04]" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[74px] lg:h-[90px] w-auto object-contain -ml-3" />
           </div>
 
-          {/* Ortada CTA */}
-          <div className="hidden md:flex items-center gap-4">
-            <span className="text-sm font-semibold"><span className="text-gray-800">Sende bu mutlu gününü </span><span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span><span className="text-gray-800"> ister misin?</span></span>
-            <button onClick={() => setShowAppPopup(true)} className="px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-105 border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.8)' }}>
-              Hemen Başla !
-            </button>
-          </div>
-
-          <div className="flex items-center gap-2">
+          {/* SAĞ — Glass action area: status pill + müzik + izleyici */}
+          <div className="flex items-center gap-2 lg:gap-2.5">
+            {/* Stream status pill */}
             {streamData?.status === 'active' && (
-              <span className="flex items-center gap-1.5 bg-red-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm">
+              <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
+                    style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)', boxShadow: '0 3px 10px rgba(220,38,38,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI
               </span>
             )}
             {streamData?.status === 'starting' && (
-              <span className={`flex items-center gap-1.5 ${streamData?.isTest ? 'bg-amber-500' : 'bg-yellow-500'} text-white px-2.5 py-1 rounded-full text-[11px] font-bold`}>
+              <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
+                    style={{ background: streamData?.isTest ? 'linear-gradient(135deg, #F59E0B, #D97706)' : 'linear-gradient(135deg, #EAB308, #CA8A04)', boxShadow: '0 3px 10px rgba(202,138,4,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
                 {streamData?.isTest ? 'TEST' : 'BAŞLIYOR'}
               </span>
             )}
             {streamData?.status === 'ended' && showEndedScreen && (
-              <span className="flex items-center gap-1.5 bg-green-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold">
+              <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
+                    style={{ background: 'linear-gradient(135deg, #22C55E, #16A34A)', boxShadow: '0 3px 10px rgba(22,163,74,0.28), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />İŞLENİYOR
               </span>
             )}
             {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && (
-              <span className="flex items-center gap-1.5 bg-gray-500 text-white px-2.5 py-1 rounded-full text-[11px] font-bold">▶ KAYIT</span>
+              <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
+                    style={{ background: 'linear-gradient(135deg, #6B7280, #4B5563)', boxShadow: '0 3px 10px rgba(75,85,99,0.25), inset 0 1px 0 rgba(255,255,255,0.20)' }}>▶ KAYIT</span>
             )}
+
+            {/* Müzik açma/kapama — glass button */}
             {hasMusicSelected && isNameEntered && (!streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest)) && (
               isMusicPlaying ? (
-                <button onClick={toggleMusicMute} className="flex items-center gap-1.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 px-3 py-1.5 rounded-xl text-xs font-medium transition-colors shadow-sm">
-                  {musicMuted ? (<><span>🎵</span> Müzik Çal</>) : (<><span>🔇</span> Sessiz</>)}
+                <button onClick={toggleMusicMute}
+                        className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold transition-all hover:scale-[1.04] active:scale-[0.97]"
+                        style={{
+                          color: musicMuted ? '#9F4F58' : '#6B5A5A',
+                          background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
+                          backdropFilter: 'blur(14px)',
+                          border: '1px solid rgba(200,104,110,0.18)',
+                          boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                        }}>
+                  {musicMuted ? (
+                    <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-3c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" /></svg>Müzik Aç</>
+                  ) : (
+                    <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 9l4 4m0-4l-4 4" /></svg>Sessiz</>
+                  )}
                 </button>
               ) : (
-                <button onClick={startMusic} className="flex items-center gap-1.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-600 px-3 py-1.5 rounded-xl text-xs font-medium transition-colors shadow-sm">
-                  <span>🎵</span> Müzik Çal
+                <button onClick={startMusic}
+                        className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold transition-all hover:scale-[1.04] active:scale-[0.97]"
+                        style={{
+                          color: '#9F4F58',
+                          background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
+                          backdropFilter: 'blur(14px)',
+                          border: '1px solid rgba(200,104,110,0.18)',
+                          boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                        }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-3c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" /></svg>
+                  Müzik Çal
                 </button>
               )
             )}
-            <span className="text-gray-400 text-xs flex items-center gap-1.5">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
-              {viewerCount} izleyen
+
+            {/* İzleyici sayısı — glass pill */}
+            <span className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold"
+                  style={{
+                    color: '#6B5A5A',
+                    background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
+                    backdropFilter: 'blur(14px)',
+                    border: '1px solid rgba(200,104,110,0.18)',
+                    boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                  }}>
+              <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              <span className="tabular-nums">{viewerCount}</span>
+              <span className="hidden sm:inline">izleyen</span>
             </span>
           </div>
         </div>
@@ -2090,7 +2232,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-v7.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf Albümü (rose + siyah + gold dash, kalp kaldırıldı) */}
               <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">

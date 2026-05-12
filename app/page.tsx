@@ -97,84 +97,166 @@ export default function Home() {
     <main className="min-h-screen overflow-x-hidden" style={{ background: '#FAF7F5' }}>
 
       {showAppPopup && (
-        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
-          <div className="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full shadow-2xl animate-scale-in" onClick={(e) => e.stopPropagation()}>
-            {/* Üst — logo bloğu (h3'e daha yakın) */}
-            <div className="flex flex-col items-center mb-1">
-              <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[116px] w-auto object-contain -mt-5" />
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-10 pb-9 lg:pt-12 lg:pb-10 max-w-md w-full animate-scale-in overflow-hidden"
+               onClick={(e) => e.stopPropagation()}
+               style={{
+                 background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
+                 boxShadow: '0 40px 100px rgba(60,40,40,0.22), 0 16px 40px rgba(200,104,110,0.16), 0 4px 14px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 border: '1px solid rgba(232,180,170,0.30)',
+               }}>
+            {/* Köşe soft rose glow'ları — Apple onboarding hissi */}
+            <div className="absolute top-[-80px] right-[-60px] w-[260px] h-[260px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
+            <div className="absolute bottom-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(253,232,224,0.55) 0%, transparent 70%)' }} />
+            <div className="absolute top-[40%] left-[-50px] w-[180px] h-[180px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(212,168,82,0.08) 0%, transparent 70%)' }} />
+
+            {/* Minimal X — sağ üst */}
+            <button onClick={() => setShowAppPopup(false)}
+                    aria-label="Kapat"
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-[1.08] active:scale-[0.94] z-10"
+                    style={{
+                      background: 'rgba(255,255,255,0.70)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(200,104,110,0.12)',
+                      boxShadow: '0 2px 8px rgba(160,80,90,0.06)',
+                    }}>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
+            {/* Üst — logo + slogan, etrafında soft glow */}
+            <div className="relative flex flex-col items-center mb-8">
+              {/* Logo arkası soft rose halo */}
+              <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
+                   style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
+              <div className="relative flex flex-col items-center">
+                <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[100px] w-auto object-contain -mt-4" />
+              </div>
+              {/* Premium slogan — ince serif italic */}
+              <p className="mt-1 text-center italic tracking-[0.3px]"
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '13.5px', color: '#9F4F58' }}>
+                En özel anlar, sevdiklerinizle yaşanır.
+              </p>
+              {/* Gold dash ayraç */}
+              <div className="mt-5 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
-            {/* Title + subtitle — features'tan ayrı dursun (mb-3 → mb-6) */}
-            <h3 className="text-center text-[17px] lg:text-[18px] font-bold text-gray-900 mb-1">En özel anlar, birlikte yaşanır!</h3>
-            <p className="text-gray-500 text-center text-sm mb-6">Sende bu mutlu günü sevdiklerinle paylaş!</p>
-            {/* 3 feature columns — store sabit, features yukarı çekildi (mb-5 → mb-7) */}
-            <div className="grid grid-cols-3 gap-3 mb-7">
+
+            {/* 3 feature — eşit ağırlık, biraz daha nefes */}
+            <div className="grid grid-cols-3 gap-4 mb-9">
               {[
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
                 { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
                 { title: 'Herkesle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
                   <h4 className="text-[12px] font-bold text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>
-            {/* Trust badge — store butonlarının ÜSTÜNDE (1 punto büyük + yeni metin) */}
-            <div className="flex items-center justify-center gap-2 mb-3 text-[13px] text-gray-500">
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full" style={{ background: 'rgba(200,104,110,0.10)' }}>
-                <svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              </span>
-              <span><span className="font-semibold text-gray-700">Uygulamamızı Ücretsiz indir</span> · Hemen Başla</span>
+
+            {/* Duygusal CTA başlığı */}
+            <div className="text-center mb-4">
+              <h3 className="font-bold tracking-[0.2px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontSize: 'clamp(18px, 4.4vw, 21px)', lineHeight: 1.25 }}>
+                Sevdikleriniz uzakta kalmasın
+              </h3>
+              <p className="mt-1.5 text-[13px]" style={{ color: '#7A6B6B' }}>
+                Uygulamayı ücretsiz indir, hemen başla.
+              </p>
             </div>
+
             {/* App Store + Google Play yan yana */}
-            <div className="flex gap-2.5 mb-5 justify-center">
-              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
-              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
+            <div className="flex gap-2.5 mb-7 justify-center">
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto" /></a>
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto" /></a>
             </div>
-            {/* Kapat */}
-            <button onClick={() => setShowAppPopup(false)} className="w-full py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" /></svg>
-              Kapat
+
+            {/* Alt — minimal text "Daha sonra" */}
+            <button onClick={() => setShowAppPopup(false)} className="block mx-auto text-[13px] font-medium transition-colors hover:text-gray-700" style={{ color: '#9CA3AF' }}>
+              Daha sonra
             </button>
           </div>
         </div>
       )}
 
-      {/* NAVBAR */}
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-sm' : ''}`} style={{ background: scrolled ? 'rgba(255,255,255,0.92)' : 'rgba(255,255,255,0.6)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)' }}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-10">
-          <div className="flex items-center justify-between h-[80px]">
-            <div className="flex items-center gap-0 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/navbar-icon.png" alt="Nikahım" width={58} height={58} className="h-[57px] w-auto object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={92} className="h-[91px] w-auto object-contain -ml-2" />
+      {/* NAVBAR — premium luxury: cream gradient + sol marka (logo +15%) + glass hamburger + ince rose glow */}
+      <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+              style={{
+                background: scrolled
+                  ? 'linear-gradient(180deg, rgba(253,247,243,0.96) 0%, rgba(255,251,248,0.94) 100%)'
+                  : 'linear-gradient(180deg, rgba(253,247,243,0.82) 0%, rgba(255,251,248,0.74) 100%)',
+                backdropFilter: 'blur(28px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+                borderBottom: scrolled ? '1px solid rgba(200,104,110,0.10)' : '1px solid rgba(200,104,110,0.04)',
+                boxShadow: scrolled
+                  ? '0 6px 24px rgba(200,104,110,0.07), 0 1px 0 rgba(255,250,247,0.6) inset'
+                  : '0 2px 12px rgba(200,104,110,0.03)',
+              }}>
+        {/* Alt kenar — pearl/rose glow çizgisi */}
+        <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
+             style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(200,104,110,0.18) 20%, rgba(212,168,82,0.16) 50%, rgba(200,104,110,0.18) 80%, transparent 100%)' }} />
+        <div className="max-w-7xl mx-auto px-5 lg:px-10">
+          <div className="flex items-center justify-between h-[72px] lg:h-[80px] relative">
+            {/* SOL — Marka (logo + wordmark, +%15) */}
+            <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+              <Image src="/navbar-icon.png" alt="Nikahım" width={66} height={66} className="h-[65px] lg:h-[66px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.04]" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[104px] lg:h-[105px] w-auto object-contain -ml-2 transition-opacity duration-300 group-hover:opacity-90" />
             </div>
-            <nav className="hidden lg:flex items-center gap-8">
+
+            {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}
+            <nav className="hidden lg:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
               {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
-                <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-gray-500 hover:text-gray-900 font-medium text-[15px] transition-colors relative group">
+                <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-gray-600 hover:text-gray-900 font-medium text-[14px] tracking-[0.2px] transition-colors relative group">
                   {item.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 rounded-full group-hover:w-full transition-all duration-300" style={{ background: '#C8686E' }} />
+                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-[1.5px] rounded-full group-hover:w-full transition-all duration-300" style={{ background: 'linear-gradient(90deg, transparent, #C8686E, transparent)' }} />
                 </button>
               ))}
             </nav>
-            <div className="hidden lg:flex items-center gap-3">
-              <button onClick={() => setShowAppPopup(true)} className="text-white px-6 py-2.5 rounded-full font-semibold text-sm transition-all hover:shadow-lg hover:scale-105 btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 4px 16px rgba(200,104,110,0.25)' }}>Uygulamayı İndir</button>
+
+            {/* SAĞ — Desktop CTA + Mobile glass hamburger */}
+            <div className="flex items-center gap-3">
+              {/* Desktop CTA — premium glass solid rose */}
+              <button onClick={() => setShowAppPopup(true)}
+                      className="hidden lg:inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03] btn-press"
+                      style={{
+                        background: 'linear-gradient(135deg, #D88488 0%, #C8686E 50%, #B85258 100%)',
+                        boxShadow: '0 4px 14px rgba(200,104,110,0.25), 0 1px 4px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.30)',
+                      }}>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                Uygulamayı İndir
+              </button>
+
+              {/* Mobile glass hamburger — encapsulated, soft shadow */}
+              <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                      className="lg:hidden w-11 h-11 rounded-full flex items-center justify-center transition-all hover:scale-[1.04] active:scale-[0.96]"
+                      aria-label="Menü"
+                      style={{
+                        background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
+                        backdropFilter: 'blur(14px)',
+                        WebkitBackdropFilter: 'blur(14px)',
+                        border: '1px solid rgba(200,104,110,0.18)',
+                        boxShadow: '0 4px 14px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)',
+                      }}>
+                <svg className="w-[18px] h-[18px]" fill="none" stroke="#9F4F58" strokeWidth="2" viewBox="0 0 24 24">
+                  {mobileMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />}
+                </svg>
+              </button>
             </div>
-            <button className="lg:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {mobileMenuOpen ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /> : <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />}
-              </svg>
-            </button>
           </div>
+
+          {/* Mobile menu dropdown */}
           {mobileMenuOpen && (
-            <div className="lg:hidden py-6 border-t border-gray-100 animate-fade-in">
+            <div className="lg:hidden py-5 animate-fade-in" style={{ borderTop: '1px solid rgba(200,104,110,0.08)' }}>
               <div className="flex flex-col gap-1">
                 {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
-                  <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-gray-600 py-3 text-left font-medium hover:text-gray-900 transition-colors px-2 rounded-xl hover:bg-gray-50">{item.label}</button>
+                  <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-gray-700 py-3 text-left font-medium hover:text-gray-900 transition-colors px-3 rounded-xl hover:bg-rose-50/40">{item.label}</button>
                 ))}
-                <button onClick={() => setShowAppPopup(true)} className="text-white py-3.5 rounded-2xl font-semibold mt-4 btn-press" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Uygulamayı İndir</button>
+                <button onClick={() => setShowAppPopup(true)} className="text-white py-3.5 rounded-2xl font-semibold mt-3 btn-press" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
               </div>
             </div>
           )}
@@ -337,7 +419,7 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — başlık + 3 statik foto (15% küçük, play yok) + açıklama + filmstrip + 2 rose badge */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-v7.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="px-5 md:px-7 pt-7 pb-6">
               {/* Header — "Fotoğraf" / "Albümü Oluşturun" iki satır */}
               <div className="text-center mb-3">
