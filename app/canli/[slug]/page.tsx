@@ -1158,10 +1158,10 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto'nun ALT YARISINA hizalı (items-end + mb-2 ile yukarı çek) */}
-          <div className="grid mb-3" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end' }}>
-            {/* Gelin Ailesi — sol, foto alt yarısına hizalı */}
-            <div className="text-center min-w-0 pb-2">
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında */}
+          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end', minHeight: '140px' }}>
+            {/* Gelin Ailesi — sol */}
+            <div className="text-center min-w-0">
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
@@ -1171,14 +1171,14 @@ export default function WatchPage() {
                 </>
               )}
             </div>
-            {/* Foto — orta */}
+            {/* Foto — orta, üste hizalı */}
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg self-start"
             />
-            {/* Damat Ailesi — sağ, foto alt yarısına hizalı */}
-            <div className="text-center min-w-0 pb-2">
+            {/* Damat Ailesi — sağ, simetrik */}
+            <div className="text-center min-w-0">
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
@@ -1927,7 +1927,7 @@ export default function WatchPage() {
                   </h2>
                 </div>
 
-                {/* 3 Trust Badge — TEK KART, aralarda ince gold ayraç (premium) */}
+                {/* 3 Trust Badge — TEK KART, sadece başlık (alt-açıklama kaldırıldı), Banka Transferi 2 satır */}
                 <div className="rounded-2xl flex items-center mb-5"
                      style={{
                        background: 'linear-gradient(135deg, #FFFFFF 0%, #FFFBF0 100%)',
@@ -1936,7 +1936,7 @@ export default function WatchPage() {
                      }}>
                   {[
                     {
-                      title: 'Güvenli', subtitle: '%100 Güvenli Ödeme',
+                      title: 'Güvenli',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
@@ -1946,7 +1946,7 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Anında', subtitle: 'Hızlı Gönderim',
+                      title: 'Anında',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
                           <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
@@ -1954,7 +1954,7 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Banka Transferi', subtitle: 'Kolay & Güvenli',
+                      title: 'Banka\nTransferi',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 10L12 4l9 6" />
@@ -1970,10 +1970,11 @@ export default function WatchPage() {
                              style={{ background: 'rgba(200,160,80,0.12)' }}>
                           {b.icon}
                         </div>
-                        <div className="flex flex-col items-start leading-[1.15] min-w-0">
-                          <span className="text-[12px] md:text-[14px] font-bold whitespace-nowrap" style={{ color: '#3B2F1E' }}>{b.title}</span>
-                          <span className="text-[9px] md:text-[10.5px] whitespace-nowrap" style={{ color: '#8A7A5E' }}>{b.subtitle}</span>
-                        </div>
+                        <span className="text-[12px] md:text-[14px] font-bold leading-[1.1] text-center" style={{ color: '#3B2F1E' }}>
+                          {b.title.split('\n').map((line, idx) => (
+                            <span key={idx} className="block">{line}</span>
+                          ))}
+                        </span>
                       </div>
                       {/* İnce gold ayraç — sadece son badge'den sonra YOK */}
                       {i < arr.length - 1 && (
@@ -2039,20 +2040,20 @@ export default function WatchPage() {
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — sol (Gram %15 küçük, TL %10 büyük) */}
+                      {/* İkon — sol (TL %10 daha büyük) */}
                       <div className="flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
                           </div>
                         ) : (
-                          <div className="relative w-12 h-12 md:w-[54px] md:h-[54px] group-hover:scale-105 transition-transform">
+                          <div className="relative w-14 h-14 md:w-[60px] md:h-[60px] group-hover:scale-105 transition-transform">
                             <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-md" />
                           </div>
                         )}
                       </div>
-                      {/* Sadece başlık — 1pt küçültüldü */}
-                      <div className="flex-1 min-w-0 text-left">
+                      {/* Başlık — biraz ortalı (text-left → text-center) */}
+                      <div className="flex-1 min-w-0 text-center pr-2">
                         <div className="text-[14px] md:text-[16px] font-bold" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                           {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                         </div>
@@ -2120,9 +2121,10 @@ export default function WatchPage() {
                     <span style={{ color: '#B85258' }}>Mutlu </span>
                     <span style={{ color: '#2B2B2B' }}>Kareler</span>
                   </span>
-                  {/* Kalp ikonu — rose */}
-                  <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 flex-shrink-0" fill="#B85258">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  {/* Kalp ikonu — outlined rose stroke + light blush fill (daha zarif) */}
+                  <svg viewBox="0 0 40 32" className="w-7 h-6 md:w-8 md:h-7 flex-shrink-0" fill="none">
+                    <path d="M5 11C5 7 8 4 11.5 4c2.5 0 4.5 1.5 5.5 3.5 1-2 3-3.5 5.5-3.5 3.5 0 6.5 3 6.5 7 0 8-13 15-13 15S5 19 5 11z"
+                          fill="#FCDDE0" stroke="#B85258" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   {/* Sağ gold dash */}
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
@@ -2154,25 +2156,24 @@ export default function WatchPage() {
                   </div>
                 ) : (
                   <>
-                    {/* Sol foto — sola eğri, arka katman */}
+                    {/* Sol foto — sola eğri, arka katman, ince beyaz çerçeve */}
                     {slideshowPhotos[1] && (
                       <div onClick={() => setPhotoLightboxIndex(1)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
-                        <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                        <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
                         </div>
                       </div>
                     )}
 
-                    {/* Sağ foto — sağa eğri, play overlay */}
+                    {/* Sağ foto — sağa eğri, play overlay, ince beyaz çerçeve */}
                     {slideshowPhotos[2] && (
                       <div onClick={() => setPhotoLightboxIndex(2)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
-                        <div className="bg-white p-1.5 rounded-lg relative" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                        <div className="bg-white p-1 rounded-lg relative" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
-                          {/* Play overlay — yarı saydam beyaz daire */}
                           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                             <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center"
                                  style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
@@ -2185,12 +2186,12 @@ export default function WatchPage() {
                       </div>
                     )}
 
-                    {/* Orta foto — büyük, ön katman, 128+ badge */}
+                    {/* Orta foto — büyük, ön katman, 128+ badge, ince beyaz çerçeve */}
                     {slideshowPhotos[0] && (
                       <div onClick={() => setPhotoLightboxIndex(0)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-6px)', zIndex: 3 }}>
-                        <div className="bg-white p-2 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
+                        <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                           <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[129px] h-[152px] lg:w-[169px] lg:h-[197px]" />
                           {/* Fotoğraf sayısı badge */}
                           <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"

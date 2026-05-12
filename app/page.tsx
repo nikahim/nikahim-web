@@ -336,24 +336,115 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Fotoğraf Albümü - reklam kartı (kare bg + sadece yazı overlay) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+          {/* Fotoğraf Albümü — yeni tasarım: Mutlu Kareler ♡ + 3 statik foto + filmstrip + buton */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <div className="px-5 md:px-7 pt-7 pb-6">
+              {/* Header — Mutlu Kareler ♡ */}
+              <div className="text-center mb-3">
+                <h3 className="flex items-center justify-center gap-3 md:gap-4"
+                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(28px, 5vw, 38px)', letterSpacing: '0.3px', lineHeight: 1.1 }}>
+                  <span className="flex-shrink-0 h-[1.5px] rounded-full"
+                        style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #D4A852, transparent)' }} />
+                  <span>
+                    <span style={{ color: '#B85258' }}>Mutlu </span>
+                    <span style={{ color: '#2B2B2B' }}>Kareler</span>
+                  </span>
+                  <svg viewBox="0 0 40 32" className="flex-shrink-0" style={{ width: 'clamp(28px, 5vw, 36px)', height: 'clamp(22px, 4vw, 28px)' }} fill="none">
+                    <path d="M5 11C5 7 8 4 11.5 4c2.5 0 4.5 1.5 5.5 3.5 1-2 3-3.5 5.5-3.5 3.5 0 6.5 3 6.5 7 0 8-13 15-13 15S5 19 5 11z"
+                          fill="#FCDDE0" stroke="#B85258" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                  <span className="flex-shrink-0 h-[1.5px] rounded-full"
+                        style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #D4A852, transparent)' }} />
+                </h3>
+              </div>
 
-            {/* Heading - üst orta, 2 satır (Fotoğraf koyu rose, Albümü Oluşturun siyah) */}
-            <div className="absolute" style={{ top: '5%', left: '0', right: '0', textAlign: 'center' }}>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#B85258' }}>Fotoğraf</h3>
-              <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
+              {/* 3 statik foto */}
+              <div className="relative w-full flex items-center justify-center" style={{ height: 'clamp(220px, 36vw, 320px)' }}>
+                {/* Sol foto */}
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-90px, -16vw, -130px)) rotate(-7deg)', zIndex: 1 }}>
+                  <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(100px, 17vw, 145px)', height: 'clamp(120px, 20vw, 175px)' }} />
+                  </div>
+                </div>
+
+                {/* Sağ foto + play */}
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(90px, 16vw, 130px)) rotate(7deg)', zIndex: 1 }}>
+                  <div className="bg-white p-1 rounded-lg relative" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(100px, 17vw, 145px)', height: 'clamp(120px, 20vw, 175px)' }} />
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="rounded-full flex items-center justify-center"
+                           style={{ width: 'clamp(38px, 6vw, 48px)', height: 'clamp(38px, 6vw, 48px)', background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                        <svg style={{ width: 'clamp(14px, 2.3vw, 18px)', height: 'clamp(14px, 2.3vw, 18px)', marginLeft: '2px' }} fill="#1F1F1F" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Orta foto + 128+ badge */}
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-4px)', zIndex: 3 }}>
+                  <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
+                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(125px, 21vw, 175px)', height: 'clamp(150px, 25vw, 210px)' }} />
+                    <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                         style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+                      <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="18" height="18" rx="2" />
+                        <circle cx="8.5" cy="8.5" r="1.5" fill="white" stroke="none" />
+                        <path d="M21 15l-5-5L5 21" />
+                      </svg>
+                      <span className="text-[11px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Filmstrip — sağdan sola otomatik kayan */}
+              <div className="overflow-hidden mt-4 mb-4 relative" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
+                <style>{`
+                  @keyframes albumFilmstripRTL2 {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(-50%); }
+                  }
+                `}</style>
+                <div style={{ display: 'flex', gap: '10px', width: 'fit-content', animation: 'albumFilmstripRTL2 28s linear infinite' }}>
+                  {[...Array(2)].map((_, dup) => (
+                    [
+                      '/wedding1.jpg', '/wedding2.jpg', '/wedding3.jpg',
+                      '/wedding1.jpg', '/wedding2.jpg', '/wedding3.jpg',
+                    ].map((url, i) => (
+                      <div key={`${dup}-${i}`}
+                           className="flex-shrink-0 rounded-lg overflow-hidden"
+                           style={{ width: 'clamp(58px, 9vw, 78px)', height: 'clamp(58px, 9vw, 78px)', boxShadow: '0 2px 6px rgba(80,60,40,0.12)', border: '1px solid rgba(255,255,255,0.6)' }}>
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ))
+                  ))}
+                </div>
+              </div>
+
+              {/* Albümü Görüntüle butonu */}
+              <div className="flex justify-center">
+                <button className="inline-flex items-center justify-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold transition-all hover:scale-[1.02]"
+                        style={{
+                          color: '#9F4F58',
+                          background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,243,243,0.98) 100%)',
+                          backdropFilter: 'blur(12px)',
+                          boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)',
+                          border: '1px solid rgba(232,165,169,0.45)',
+                          fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
+                          fontSize: 'clamp(13px, 1.6vw, 15px)',
+                        }}>
+                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span>Albümü Görüntüle</span>
+                  <svg className="w-3 h-3" fill="none" stroke="#C8686E" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
-
-            {/* Açıklama - resimlerin altında, ortalanmış */}
-            <div className="absolute" style={{ top: '66%', left: '9%', right: '9%', textAlign: 'center' }}>
-              <p className="leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#6E5A5A' }}>
-                Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin.
-              </p>
-            </div>
-
-            {/* Badge yazıları artık bg PNG'sinde baked-in (HTML overlay yok) */}
           </div>
         </div>
       </section>
