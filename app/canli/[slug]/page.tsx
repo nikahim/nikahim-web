@@ -1139,10 +1139,10 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid ile garantili 3 eşit kolon (sol aile / foto 120px / sağ aile) */}
-          <div className="grid items-center mb-3" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px' }}>
-            {/* Gelin Ailesi — kartın sol kenarı ile fotonun arası, ortalanmış */}
-            <div className="text-center min-w-0">
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto'nun ALT YARISINA hizalı (items-end + mb-2 ile yukarı çek) */}
+          <div className="grid mb-3" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end' }}>
+            {/* Gelin Ailesi — sol, foto alt yarısına hizalı */}
+            <div className="text-center min-w-0 pb-2">
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
@@ -1158,8 +1158,8 @@ export default function WatchPage() {
               alt="Çift Fotoğrafı"
               className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
-            {/* Damat Ailesi — kartın sağ kenarı ile fotonun arası, ortalanmış */}
-            <div className="text-center min-w-0">
+            {/* Damat Ailesi — sağ, foto alt yarısına hizalı */}
+            <div className="text-center min-w-0 pb-2">
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
@@ -1898,13 +1898,13 @@ export default function WatchPage() {
                 <div className="text-center mb-5">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
                     <span className="flex-shrink-0 h-[1.5px] rounded-full"
-                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to right, transparent 0%, #B8860B 50%, transparent 100%)' }} />
+                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to right, transparent 0%, #B8860B 50%, transparent 100%)', transform: 'translateY(4px)' }} />
                     <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
                       Mutlu Çifte{' '}
                       <span style={{ color: '#B8860B', fontWeight: 600 }}>Altın Tak</span>
                     </span>
                     <span className="flex-shrink-0 h-[1.5px] rounded-full"
-                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to left, transparent 0%, #B8860B 50%, transparent 100%)' }} />
+                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to left, transparent 0%, #B8860B 50%, transparent 100%)', transform: 'translateY(4px)' }} />
                   </h2>
                 </div>
 
@@ -1950,7 +1950,7 @@ export default function WatchPage() {
                            style={{ background: 'rgba(200,160,80,0.10)' }}>
                         {b.icon}
                       </div>
-                      <span className="text-[11px] md:text-[13px] font-semibold leading-[1.1] text-left" style={{ color: '#3B2F1E' }}>
+                      <span className="text-[11px] md:text-[13px] font-semibold leading-[1.1] text-center" style={{ color: '#3B2F1E' }}>
                         {b.title.split('\n').map((line, idx) => (
                           <span key={idx} className="block">{line}</span>
                         ))}
@@ -2003,37 +2003,32 @@ export default function WatchPage() {
                   );
                 })()}
 
-                {/* Alt sıra: 2 yatay kart (Gram Altın, Özel Miktar) — premium emboss */}
+                {/* Alt sıra: 2 yatay kart — dikey küçültüldü, gri açıklama kaldırıldı, sadece başlık */}
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className="group rounded-2xl px-3 py-3.5 md:px-4 md:py-4 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-3 cursor-pointer"
+                            className="group rounded-2xl px-3 py-2 md:px-4 md:py-2.5 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-3 cursor-pointer"
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — sol (büyütüldü) */}
+                      {/* İkon — sol */}
                       <div className="flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
-                          /* Gram altın — orijinal görsel büyütüldü */
-                          <div className="relative w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition-transform">
-                            <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-lg" />
+                          <div className="relative w-11 h-11 md:w-12 md:h-12 group-hover:scale-105 transition-transform">
+                            <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
                           </div>
                         ) : (
-                          /* Özel miktar — yeni TL ikon görseli */
-                          <div className="relative w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition-transform">
-                            <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-lg" />
+                          <div className="relative w-11 h-11 md:w-12 md:h-12 group-hover:scale-105 transition-transform">
+                            <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-md" />
                           </div>
                         )}
                       </div>
-                      {/* Başlık + açıklama — sağ */}
+                      {/* Sadece başlık — gri açıklama kaldırıldı */}
                       <div className="flex-1 min-w-0 text-left">
-                        <div className="text-[15px] md:text-[17px] font-bold mb-0.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                        <div className="text-[15px] md:text-[17px] font-bold" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                           {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
-                        </div>
-                        <div className="text-[11.5px] md:text-[13px] leading-snug" style={{ color: '#7A6B53' }}>
-                          {gold.id === 'gram_altin' ? 'Gram cinsinden gönder' : 'Dilediğiniz tutarda gönderin'}
                         </div>
                       </div>
                     </button>
@@ -2088,19 +2083,19 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Editorial Luxury header — Fotoğraf (+1pt rose) + Albümü (+2pt siyah) 2 satır */}
+              {/* Editorial Luxury header — Fotoğraf 27px (rose) + Albümü 30px (siyah, daha büyük) */}
               <div className="text-center relative z-10 mt-1 lg:mt-3">
-                <h3 style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '25px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                <h3 style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '27px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   Fotoğraf
                 </h3>
-                <h3 className="mt-0.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '27px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                <h3 className="mt-0.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '30px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   Albümü
                 </h3>
                 <div className="mx-auto mt-2 mb-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
 
-              {/* PHOTO COVERFLOW — resimler %10 daha büyük + biraz aşağı (mt-4) */}
-              <div className="relative w-full mt-4 mb-2" style={{ height: 230, perspective: '1000px' }}>
+              {/* PHOTO COVERFLOW — resimler %10 daha büyük, daha geniş yatay yayılım */}
+              <div className="relative w-full mt-4 mb-2" style={{ height: 250, perspective: '1100px' }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2140,15 +2135,15 @@ export default function WatchPage() {
                     if (isCenter) {
                       target = { x: 0, y: -22, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
                     } else if (isRight) {
-                      target = { x: 78, y: -14, z: -30, rotateY: -38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                      target = { x: 110, y: -14, z: -20, rotateY: -28, scale: 0.94, opacity: 0.95, zIndex: 2 };
                     } else if (isLeft) {
-                      target = { x: -78, y: -14, z: -30, rotateY: 38, scale: 0.92, opacity: 0.85, zIndex: 2 };
+                      target = { x: -110, y: -14, z: -20, rotateY: 28, scale: 0.94, opacity: 0.95, zIndex: 2 };
                     } else if (rel > 0) {
                       // Yörünge dışı — sağdan girer
-                      target = { x: 200, y: 20, z: -180, rotateY: -65, scale: 0.7, opacity: 0, zIndex: 1 };
+                      target = { x: 240, y: 20, z: -180, rotateY: -55, scale: 0.7, opacity: 0, zIndex: 1 };
                     } else {
                       // Yörünge dışı — soldan girer
-                      target = { x: -200, y: 20, z: -180, rotateY: 65, scale: 0.7, opacity: 0, zIndex: 1 };
+                      target = { x: -240, y: 20, z: -180, rotateY: 55, scale: 0.7, opacity: 0, zIndex: 1 };
                     }
 
                     return (
@@ -2181,8 +2176,8 @@ export default function WatchPage() {
                         }}
                       >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          {/* %10 daha büyütüldü (106→117, 125→138, lg: 140→154, 163→179) */}
-                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[117px] h-[138px] lg:w-[154px] lg:h-[179px]' : 'w-[97px] h-[113px] lg:w-[127px] lg:h-[147px]'}`} />
+                          {/* %10 daha büyütüldü (117→129, 138→152, lg: 154→169, 179→197) */}
+                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[129px] h-[152px] lg:w-[169px] lg:h-[197px]' : 'w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]'}`} />
                         </div>
                       </motion.div>
                     );
