@@ -1133,35 +1133,45 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
-        <div className="bg-white rounded-3xl pt-16 px-8 pb-10 max-w-md w-full text-center relative" style={{ marginTop: -40, boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
+        <div className="bg-white rounded-3xl pt-12 px-8 pb-10 max-w-md w-full text-center relative" style={{ marginTop: -40, boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)', border: '1px solid rgba(255,255,255,0.8)' }}>
           {/* Logo - sol üst */}
           <div className="absolute top-4 left-5 cursor-pointer" onClick={() => window.location.href = '/'}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
-          <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı" className="mx-auto rounded-full mb-4 object-cover w-[140px] h-[140px] border-4 border-[#C8686E]/20 shadow-lg" />
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-3">
-            {event.bride_full_name} & {event.groom_full_name}
-          </h1>
-
-          {/* Aile bilgisi — çift isminin altında */}
-          {(event.bride_father_name || event.bride_mother_name || event.groom_father_name || event.groom_mother_name) && (
-            <div className="flex items-stretch gap-3 mb-3 px-2">
-              <div className="flex-1 min-w-0 text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-[14px] leading-snug">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
+          {/* Çift fotoğrafı (küçültüldü) + Aile bilgileri sol-alt ve sağ-alt çaprazlarda */}
+          <div className="relative mx-auto mb-3" style={{ width: '100%', height: 130 }}>
+            <img
+              src={event.couple_photo_url || "/couple-icon.png"}
+              alt="Çift Fotoğrafı"
+              className="mx-auto rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg block"
+            />
+            {(event.bride_father_name || event.bride_mother_name) && (
+              <div className="absolute" style={{ left: '2%', top: '70%', maxWidth: '32%', textAlign: 'right' }}>
+                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Gelin Ailesi</p>
+                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
+                  {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
+                </p>
               </div>
-              <div className="w-px self-stretch" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.10) 30%, rgba(0,0,0,0.10) 70%, transparent 100%)' }} />
-              <div className="flex-1 min-w-0 text-center">
-                <p className="text-[11px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-[14px] leading-snug">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+            )}
+            {(event.groom_father_name || event.groom_mother_name) && (
+              <div className="absolute" style={{ right: '2%', top: '70%', maxWidth: '32%', textAlign: 'left' }}>
+                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Damat Ailesi</p>
+                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
+                  {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
+                </p>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          <p className="text-gray-500 mb-1">
-            {event.event_type === 'dugun' ? 'Düğün Canlı Yayını' : 'Nikah Töreni Canlı Yayını'}
-          </p>
+          {/* İsimler — 3 satır, & tam ortada */}
+          <div className="mb-3 leading-tight">
+            <h1 className="text-xl font-bold text-gray-900">{event.bride_full_name}</h1>
+            <p className="text-base text-gray-400 my-0.5" style={{ fontWeight: 500 }}>&</p>
+            <h1 className="text-xl font-bold text-gray-900">{event.groom_full_name}</h1>
+          </div>
+
+          {/* Düğün/Nikah Canlı Yayını yazısı kaldırıldı */}
           <div className="flex items-center justify-center gap-4 text-gray-400 text-sm mb-6">
             <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
             <span className="text-gray-200">|</span>
@@ -1176,7 +1186,7 @@ export default function WatchPage() {
                   type="text"
                   value={viewerFirstName}
                   onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
-                  placeholder="Fatma"
+                  placeholder=""
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
                 />
               </div>
@@ -1186,9 +1196,9 @@ export default function WatchPage() {
                   type="text"
                   value={viewerLastName}
                   onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
-                  placeholder="Yılmaz"
+                  placeholder=""
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
-                  onKeyPress={(e) => e.key === "Enter" && handleNameSubmit()}
+                  onKeyPress={(e) => e.key === "Enter" && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()}
                 />
               </div>
             </div>
@@ -1196,9 +1206,9 @@ export default function WatchPage() {
 
           <button
             onClick={handleNameSubmit}
-            disabled={!viewerName.trim()}
+            disabled={!viewerFirstName.trim() || !viewerLastName.trim()}
             className="w-full disabled:bg-gray-300 text-white px-8 py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 disabled:hover:scale-100"
-            style={{ background: viewerName.trim() ? 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)' : undefined, boxShadow: viewerName.trim() ? '0 8px 24px rgba(200,104,110,0.28), 0 3px 10px rgba(0,0,0,0.08)' : undefined }}
+            style={{ background: (viewerFirstName.trim() && viewerLastName.trim()) ? 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)' : undefined, boxShadow: (viewerFirstName.trim() && viewerLastName.trim()) ? '0 8px 24px rgba(200,104,110,0.28), 0 3px 10px rgba(0,0,0,0.08)' : undefined }}
           >
             <svg className="w-4 h-4" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
             Yayına Devam Et
