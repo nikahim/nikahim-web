@@ -135,9 +135,9 @@ export default function Home() {
                 <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
                 <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[100px] w-auto object-contain -mt-4" />
               </div>
-              {/* Premium slogan — ince serif italic */}
+              {/* Premium slogan — ince serif italic (1pt büyütüldü) */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
-                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '13.5px', color: '#9F4F58' }}>
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14.5px', color: '#9F4F58' }}>
                 En özel anlar, sevdiklerinizle yaşanır.
               </p>
               {/* Gold dash ayraç */}
@@ -149,7 +149,7 @@ export default function Home() {
               {[
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
                 { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-                { title: 'Herkesle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
+                { title: 'Hemen Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
                   <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
@@ -166,20 +166,15 @@ export default function Home() {
                 Sevdikleriniz uzakta kalmasın
               </h3>
               <p className="mt-1.5 text-[13px]" style={{ color: '#7A6B6B' }}>
-                Uygulamayı ücretsiz indir, hemen başla.
+                Uygulamayı ücretsiz indirin, hemen başlayın !
               </p>
             </div>
 
             {/* App Store + Google Play yan yana */}
-            <div className="flex gap-2.5 mb-7 justify-center">
+            <div className="flex gap-2.5 justify-center">
               <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto" /></a>
               <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto" /></a>
             </div>
-
-            {/* Alt — minimal text "Daha sonra" */}
-            <button onClick={() => setShowAppPopup(false)} className="block mx-auto text-[13px] font-medium transition-colors hover:text-gray-700" style={{ color: '#9CA3AF' }}>
-              Daha sonra
-            </button>
           </div>
         </div>
       )}
@@ -205,7 +200,7 @@ export default function Home() {
             {/* SOL — Marka (logo + wordmark, +%15) */}
             <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <Image src="/navbar-icon.png" alt="Nikahım" width={66} height={66} className="h-[65px] lg:h-[66px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.04]" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[104px] lg:h-[105px] w-auto object-contain -ml-2 transition-opacity duration-300 group-hover:opacity-90" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[104px] lg:h-[105px] w-auto object-contain -ml-4 mt-1 transition-opacity duration-300 group-hover:opacity-90" />
             </div>
 
             {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}
@@ -421,41 +416,40 @@ export default function Home() {
           {/* Fotoğraf Albümü — başlık + 3 statik foto (15% küçük, play yok) + açıklama + filmstrip + 2 rose badge */}
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="px-5 md:px-7 pt-7 pb-6">
-              {/* Header — "Fotoğraf" / "Albümü Oluşturun" iki satır */}
-              <div className="text-center mb-3">
-                <h3 className="flex items-center justify-center gap-3 md:gap-4"
-                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(26px, 4.6vw, 36px)', letterSpacing: '0.3px', lineHeight: 1.15 }}>
+              {/* Header — "Fotoğraf" / dash "Albümü Oluşturun" dash (dashes rose) */}
+              <div className="text-center mb-3"
+                   style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
+                <div style={{ color: '#B85258', fontSize: 'clamp(26px, 4.6vw, 36px)' }}>Fotoğraf</div>
+                <div className="flex items-center justify-center gap-3 md:gap-4 mt-0.5"
+                     style={{ fontSize: 'clamp(26px, 4.6vw, 36px)' }}>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
-                        style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #D4A852, transparent)' }} />
-                  <span className="flex flex-col items-center">
-                    <span style={{ color: '#B85258' }}>Fotoğraf</span>
-                    <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
-                  </span>
+                        style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
+                  <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
-                        style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #D4A852, transparent)' }} />
-                </h3>
+                        style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
+                </div>
               </div>
 
-              {/* 3 statik foto — %15 küçültüldü, sağdaki play overlay kaldırıldı */}
-              <div className="relative w-full flex items-center justify-center" style={{ height: 'clamp(187px, 30.6vw, 272px)' }}>
+              {/* 3 statik foto — %10 büyütüldü, çerçeveler ince (p-1→p-0.5, p-1.5→p-1) */}
+              <div className="relative w-full flex items-center justify-center" style={{ height: 'clamp(205px, 33.7vw, 300px)' }}>
                 {/* Sol foto */}
-                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-76px, -13.6vw, -110px)) rotate(-7deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(85px, 14.5vw, 123px)', height: 'clamp(102px, 17vw, 149px)' }} />
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-84px, -15vw, -120px)) rotate(-7deg)', zIndex: 1 }}>
+                  <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                    <img src="/wedding1.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(94px, 16vw, 135px)', height: 'clamp(112px, 18.7vw, 164px)' }} />
                   </div>
                 </div>
 
                 {/* Sağ foto (play kaldırıldı) */}
-                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(76px, 13.6vw, 110px)) rotate(7deg)', zIndex: 1 }}>
-                  <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(85px, 14.5vw, 123px)', height: 'clamp(102px, 17vw, 149px)' }} />
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(84px, 15vw, 120px)) rotate(7deg)', zIndex: 1 }}>
+                  <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                    <img src="/wedding3.jpg" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(94px, 16vw, 135px)', height: 'clamp(112px, 18.7vw, 164px)' }} />
                   </div>
                 </div>
 
                 {/* Orta foto + 128+ badge */}
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-4px)', zIndex: 3 }}>
-                  <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(106px, 17.85vw, 149px)', height: 'clamp(127px, 21.25vw, 179px)' }} />
+                  <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
+                    <img src="/wedding2.jpg" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(117px, 19.6vw, 164px)', height: 'clamp(140px, 23.4vw, 197px)' }} />
                     <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
                          style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                       <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
@@ -469,8 +463,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Gri açıklama — altın kartındaki açıklama gibi */}
-              <p className="text-[13px] md:text-[15px] leading-relaxed text-center max-w-[560px] mx-auto mt-3" style={{ color: '#6E5A5A' }}>
+              {/* Gri açıklama — biraz daha yukarıda (mt-3 → mt-1) */}
+              <p className="text-[13px] md:text-[15px] leading-relaxed text-center max-w-[560px] mx-auto mt-1" style={{ color: '#6E5A5A' }}>
                 Online Fotoğraf albümünüzü oluşturun, ister siz isterseniz de bu mutlu gününde yanınızda bulunanlar gün boyunca çekilen fotoğrafları eklesin. Tüm fotoğraflarınızı tek bir yerde toplayın, kolayca indirin!
               </p>
 

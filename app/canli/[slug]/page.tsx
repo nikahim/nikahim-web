@@ -1001,13 +1001,13 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — hero, Playfair, büyük */}
+          {/* İsimler — hero, site genel font (geist sans), büyük */}
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3 relative">
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.bride_first_name}
             </h1>
-            <p className="font-medium" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+            <p className="font-medium" style={{ fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.groom_first_name}
             </h1>
           </div>
@@ -1017,22 +1017,22 @@ export default function WatchPage() {
             <div className="h-[1px] rounded-full" style={{ width: '50px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
           </div>
 
-          {/* Aile etiketleri — tek satır minimal */}
-          <div className="space-y-1 mb-4 relative">
-            {(event.bride_father_name || event.bride_mother_name) && (
-              <p className="text-[12.5px]">
-                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Gelin Ailesi</span>
-                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
-                <span style={{ color: '#5A4A4A' }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}</span>
-              </p>
-            )}
-            {(event.groom_father_name || event.groom_mother_name) && (
-              <p className="text-[12.5px]">
-                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Damat Ailesi</span>
-                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
-                <span style={{ color: '#5A4A4A' }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}</span>
-              </p>
-            )}
+          {/* Aile etiketleri — Gelin/Damat Ailesi başlıkları AYNI hizadan başlar (grid ile sabit kolon) */}
+          <div className="flex justify-center mb-4 relative">
+            <div className="grid items-baseline gap-x-3 gap-y-1 text-left" style={{ gridTemplateColumns: 'auto auto' }}>
+              {(event.bride_father_name || event.bride_mother_name) && (
+                <>
+                  <span className="font-semibold uppercase whitespace-nowrap" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Gelin Ailesi</span>
+                  <span className="text-[12.5px]" style={{ color: '#5A4A4A' }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}</span>
+                </>
+              )}
+              {(event.groom_father_name || event.groom_mother_name) && (
+                <>
+                  <span className="font-semibold uppercase whitespace-nowrap" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Damat Ailesi</span>
+                  <span className="text-[12.5px]" style={{ color: '#5A4A4A' }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}</span>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Date/time — minimal, gold diamond ayraç */}
@@ -1051,9 +1051,9 @@ export default function WatchPage() {
           {/* Premium hoşgeldin copy */}
           <div className="mb-5 relative">
             <p className="font-semibold text-[16px]" style={{ color: '#1F1F1F' }}>
-              {viewerName},
+              Sn. {viewerName},
             </p>
-            <p className="italic mt-0.5 text-[13.5px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
+            <p className="italic mt-0.5 text-[14.5px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
               sizi yeniden aramızda görmek güzel.
             </p>
           </div>
@@ -1232,13 +1232,13 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — hero, Playfair, büyük */}
+          {/* İsimler — hero, site genel font (geist sans), büyük */}
           <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3 relative">
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.bride_first_name}
             </h1>
-            <p className="font-medium" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
-            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
+            <p className="font-medium" style={{ fontSize: 'clamp(22px, 6vw, 30px)', color: '#9F4F58', lineHeight: 1 }}>&</p>
+            <h1 className="font-bold text-gray-900 text-center min-w-0" style={{ fontSize: 'clamp(22px, 6vw, 30px)', lineHeight: 1.1 }}>
               {event.groom_first_name}
             </h1>
           </div>
@@ -1248,22 +1248,22 @@ export default function WatchPage() {
             <div className="h-[1px] rounded-full" style={{ width: '50px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
           </div>
 
-          {/* Aile etiketleri — tek satır minimal */}
-          <div className="space-y-1 mb-4 relative">
-            {(event.bride_father_name || event.bride_mother_name) && (
-              <p className="text-[12.5px]">
-                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Gelin Ailesi</span>
-                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
-                <span style={{ color: '#5A4A4A' }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}</span>
-              </p>
-            )}
-            {(event.groom_father_name || event.groom_mother_name) && (
-              <p className="text-[12.5px]">
-                <span className="font-semibold uppercase" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Damat Ailesi</span>
-                <span className="mx-2" style={{ color: '#D4A852' }}>•</span>
-                <span style={{ color: '#5A4A4A' }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}</span>
-              </p>
-            )}
+          {/* Aile etiketleri — Gelin/Damat Ailesi başlıkları AYNI hizadan başlar (grid ile sabit kolon) */}
+          <div className="flex justify-center mb-4 relative">
+            <div className="grid items-baseline gap-x-3 gap-y-1 text-left" style={{ gridTemplateColumns: 'auto auto' }}>
+              {(event.bride_father_name || event.bride_mother_name) && (
+                <>
+                  <span className="font-semibold uppercase whitespace-nowrap" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Gelin Ailesi</span>
+                  <span className="text-[12.5px]" style={{ color: '#5A4A4A' }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}</span>
+                </>
+              )}
+              {(event.groom_father_name || event.groom_mother_name) && (
+                <>
+                  <span className="font-semibold uppercase whitespace-nowrap" style={{ color: '#C8686E', letterSpacing: '0.5px', fontSize: '11px' }}>Damat Ailesi</span>
+                  <span className="text-[12.5px]" style={{ color: '#5A4A4A' }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}</span>
+                </>
+              )}
+            </div>
           </div>
 
           {/* Date/time — minimal, gold diamond ayraç */}
@@ -1552,7 +1552,7 @@ export default function WatchPage() {
           {/* SOL — Marka */}
           <div className="flex items-center cursor-pointer group" onClick={() => window.location.href = '/'} style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={60} height={60} className="h-[48px] lg:h-[54px] w-auto object-contain transition-transform group-hover:scale-[1.04]" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[74px] lg:h-[90px] w-auto object-contain -ml-3" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[74px] lg:h-[90px] w-auto object-contain -ml-5 mt-1" />
           </div>
 
           {/* SAĞ — Glass action area: status pill + müzik + izleyici */}
@@ -2034,18 +2034,45 @@ export default function WatchPage() {
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
             <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+              <style>{`
+                .gold-card:hover {
+                  box-shadow:
+                    0 14px 34px rgba(200,104,110,0.16),
+                    0 5px 16px rgba(184,134,11,0.18),
+                    inset 0 1px 0 rgba(255,255,255,1),
+                    inset 0 -1px 0 rgba(184,134,11,0.12),
+                    inset 0 12px 28px rgba(212,168,82,0.10),
+                    0 0 0 1px rgba(200,104,110,0.14) !important;
+                }
+                .gold-card[data-highlight="true"]:hover {
+                  box-shadow:
+                    0 18px 42px rgba(184,134,11,0.26),
+                    0 6px 20px rgba(200,104,110,0.18),
+                    inset 0 1px 0 rgba(255,255,255,1),
+                    inset 0 -1px 0 rgba(184,134,11,0.15),
+                    inset 0 14px 32px rgba(212,168,82,0.14),
+                    0 0 0 1px rgba(200,104,110,0.18) !important;
+                }
+                .gold-card:active {
+                  transform: translateY(0) !important;
+                }
+              `}</style>
               <div className="px-5 md:px-7 pt-6 pb-6">
-                {/* Başlık — tek satır premium gradient ayraç (title ile tam vertical center) */}
+                {/* Başlık — ultra ince çift katmanlı gold gradient + hafif shine */}
                 <div className="text-center mb-5">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
-                    <span className="flex-shrink-0 h-[1.5px] rounded-full"
-                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to right, transparent 0%, #B8860B 50%, transparent 100%)', transform: 'translateY(4px)' }} />
+                    <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
+                      <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
+                      <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
+                    </span>
                     <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
                       Mutlu Çifte{' '}
                       <span style={{ color: '#B8860B', fontWeight: 600 }}>Altın Tak</span>
                     </span>
-                    <span className="flex-shrink-0 h-[1.5px] rounded-full"
-                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to left, transparent 0%, #B8860B 50%, transparent 100%)', transform: 'translateY(4px)' }} />
+                    <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
+                      <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
+                      <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
+                    </span>
                   </h2>
                 </div>
 
@@ -2098,10 +2125,10 @@ export default function WatchPage() {
                           ))}
                         </span>
                       </div>
-                      {/* İnce gold ayraç — sadece son badge'den sonra YOK */}
+                      {/* Soft blur fade gold ayraç — sadece son badge'den sonra YOK */}
                       {i < arr.length - 1 && (
-                        <div className="self-stretch py-2.5 flex-shrink-0">
-                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.40) 30%, rgba(200,160,80,0.40) 70%, transparent 100%)' }} />
+                        <div className="self-stretch py-3 flex-shrink-0">
+                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.20) 20%, rgba(200,160,80,0.30) 50%, rgba(200,160,80,0.20) 80%, transparent 100%)', filter: 'blur(0.4px)' }} />
                         </div>
                       )}
                     </Fragment>
@@ -2118,22 +2145,36 @@ export default function WatchPage() {
                         return (
                           <div key={gold.id} className="relative">
                             {isHighlight && (
-                              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10 text-[10px] md:text-[12px] font-bold px-4 py-1 rounded-full text-white whitespace-nowrap"
-                                   style={{ background: 'linear-gradient(135deg, #D4A852, #B8860B)', boxShadow: '0 3px 10px rgba(184,134,11,0.35)', letterSpacing: '0.3px' }}>
+                              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[9.5px] md:text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap"
+                                   style={{
+                                     background: 'linear-gradient(135deg, #C8A050 0%, #B8893C 100%)',
+                                     boxShadow: '0 6px 18px rgba(184,134,11,0.22), 0 2px 6px rgba(160,120,40,0.10), inset 0 1px 0 rgba(255,255,255,0.25)',
+                                     letterSpacing: '0.5px',
+                                     textShadow: '0 1px 1px rgba(120,80,20,0.20)',
+                                   }}>
                                 Popüler
                               </div>
                             )}
                             <button onClick={() => handleGoldSelect(gold.id)}
-                                    className="w-full group rounded-2xl px-2.5 pt-3.5 pb-3 md:px-3.5 md:pt-4 md:pb-3.5 text-center transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 relative cursor-pointer"
+                                    className="w-full group rounded-2xl px-2.5 pt-3.5 pb-3 md:px-3.5 md:pt-4 md:pb-3.5 text-center transition-all duration-300 hover:-translate-y-1 active:translate-y-0 relative cursor-pointer overflow-hidden gold-card"
+                                    data-highlight={isHighlight}
                                     style={{
                                       background: isHighlight
                                         ? 'linear-gradient(180deg, #FFFEFA 0%, #FFFAEF 100%)'
                                         : 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                                       boxShadow: isHighlight
-                                        ? '0 10px 28px rgba(184,134,11,0.20), 0 3px 10px rgba(184,134,11,0.10), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(184,134,11,0.10)'
-                                        : '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
+                                        ? '0 10px 28px rgba(184,134,11,0.20), 0 3px 10px rgba(184,134,11,0.10), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(184,134,11,0.10), inset 0 12px 28px rgba(212,168,82,0.10), inset 0 -8px 24px rgba(212,168,82,0.08)'
+                                        : '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                                       border: isHighlight ? '1.5px solid rgba(200,160,80,0.55)' : '1px solid rgba(220,200,170,0.30)',
                                     }}>
+                              {/* Soft top warm glow — özellikle Popüler kartta belirgin */}
+                              <div aria-hidden="true" className="absolute top-0 left-0 right-0 pointer-events-none"
+                                   style={{
+                                     height: '50%',
+                                     background: isHighlight
+                                       ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.18) 0%, transparent 70%)'
+                                       : 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.10) 0%, transparent 70%)',
+                                   }} />
                               {/* İsim — daraltıldı */}
                               <div className="text-[13px] md:text-[16px] font-bold mb-2 md:mb-2.5 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>{gold.name}</div>
                               {/* Görsel — daraltıldı */}
@@ -2156,14 +2197,14 @@ export default function WatchPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className="group rounded-2xl px-3 py-2 md:px-4 md:py-2.5 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 grid grid-cols-[auto_1fr_auto] items-center gap-2 cursor-pointer"
+                            className="group relative rounded-2xl px-3 py-2 md:px-4 md:py-2.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center justify-center cursor-pointer overflow-hidden gold-card"
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
-                              boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
+                              boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — sol kolon */}
-                      <div className="flex-shrink-0">
+                      {/* İkon — absolute sol (text'in gerçek-ortalanmasını engellemesin) */}
+                      <div className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
@@ -2174,14 +2215,10 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — orta kolon, gerçek ortalama */}
-                      <div className="text-center min-w-0">
-                        <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                          {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
-                        </div>
+                      {/* Başlık — flex justify-center ile gerçek kart-ortalı */}
+                      <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                        {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
-                      {/* Sağ kolon — ikona simetrik boş alan (text gerçek ortada görünsün) */}
-                      <div aria-hidden="true" className={gold.id === 'gram_altin' ? 'w-9 md:w-10' : 'w-14 md:w-[60px]'} />
                     </button>
                   ))}
                 </div>
@@ -2251,8 +2288,8 @@ export default function WatchPage() {
                 </h3>
               </div>
 
-              {/* Statik 3-foto layout — referans tasarıma birebir */}
-              <div className="relative w-full mt-3 mb-2 flex items-center justify-center" style={{ height: 240 }}>
+              {/* Statik 3-foto layout — yukarı çekildi (mt-3→mt-1), çerçeveler inceltildi */}
+              <div className="relative w-full mt-1 mb-2 flex items-center justify-center" style={{ height: 240 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2275,34 +2312,34 @@ export default function WatchPage() {
                   </div>
                 ) : (
                   <>
-                    {/* Sol foto — sola eğri, arka katman, ince beyaz çerçeve */}
+                    {/* Sol foto — sola eğri, arka katman, daha ince beyaz çerçeve (p-1→p-0.5) */}
                     {slideshowPhotos[1] && (
                       <div onClick={() => setPhotoLightboxIndex(1)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
-                        <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                        <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
                         </div>
                       </div>
                     )}
 
-                    {/* Sağ foto — sağa eğri (play overlay kaldırıldı, video yok) */}
+                    {/* Sağ foto — sağa eğri (play overlay kaldırıldı, video yok), daha ince çerçeve */}
                     {slideshowPhotos[2] && (
                       <div onClick={() => setPhotoLightboxIndex(2)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
-                        <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                        <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                           <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
                         </div>
                       </div>
                     )}
 
-                    {/* Orta foto — büyük, ön katman, 128+ badge, ince beyaz çerçeve */}
+                    {/* Orta foto — büyük, ön katman, 128+ badge, daha ince beyaz çerçeve (p-1.5→p-1) */}
                     {slideshowPhotos[0] && (
                       <div onClick={() => setPhotoLightboxIndex(0)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-6px)', zIndex: 3 }}>
-                        <div className="bg-white p-1.5 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
+                        <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                           <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[129px] h-[152px] lg:w-[169px] lg:h-[197px]" />
                           {/* Fotoğraf sayısı badge */}
                           <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
@@ -2321,9 +2358,9 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Filmstrip — küçük kare resimler, sağdan sola otomatik kayan animasyon */}
+              {/* Filmstrip — kare resimler %10 büyük, biraz daha yukarıda (mt-2→mt-0) */}
               {slideshowPhotos.length > 0 && (
-                <div className="overflow-hidden mt-2 mb-3 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
+                <div className="overflow-hidden mt-0 mb-3 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
                   <style>{`
                     @keyframes albumFilmstripRTL {
                       0% { transform: translateX(0); }
@@ -2334,7 +2371,7 @@ export default function WatchPage() {
                     {[...slideshowPhotos, ...slideshowPhotos].map((url, i) => (
                       <div key={i}
                            onClick={() => setPhotoLightboxIndex(i % slideshowPhotos.length)}
-                           className="w-14 h-14 lg:w-16 lg:h-16 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                           className="w-[62px] h-[62px] lg:w-[70px] lg:h-[70px] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
                            style={{ boxShadow: '0 2px 6px rgba(80,60,40,0.12)', border: '1px solid rgba(255,255,255,0.6)' }}>
                         <img src={url} alt="" className="w-full h-full object-cover" />
                       </div>
