@@ -297,8 +297,8 @@ export default function Home() {
               <div className="p-5 md:py-10 md:pr-10 md:pl-32 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
                 <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
                   <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
-                  <h3 className="text-[26px] md:text-[40px] mb-4 md:mb-4 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
-                  <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
+                  <h3 className="text-[26px] md:text-[40px] mb-5 md:mb-6 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
+                  <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0 mt-1" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
                 </div>
                 <div className="flex gap-2 flex-nowrap justify-end md:justify-start mt-5 md:mt-0">
                   {[
@@ -341,13 +341,13 @@ export default function Home() {
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading - üst orta, 2 satır (Fotoğraf koyu rose, Albümü Oluşturun siyah) */}
-            <div className="absolute" style={{ top: '3%', left: '0', right: '0', textAlign: 'center' }}>
+            <div className="absolute" style={{ top: '5%', left: '0', right: '0', textAlign: 'center' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#B85258' }}>Fotoğraf</h3>
               <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>
 
             {/* Açıklama - resimlerin altında, ortalanmış */}
-            <div className="absolute" style={{ top: '64%', left: '9%', right: '9%', textAlign: 'center' }}>
+            <div className="absolute" style={{ top: '66%', left: '9%', right: '9%', textAlign: 'center' }}>
               <p className="leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#6E5A5A' }}>
                 Online oluşturacağınız fotoğraf albümünüze ister siz, isterseniz yanınızdaki davetlileriniz gün boyu çekilen fotoğrafları yüklesin.
               </p>
