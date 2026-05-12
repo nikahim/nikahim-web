@@ -266,7 +266,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 space-y-14 md:space-y-16">
           {/* Canlı Yayın - reklam kartı (kare bg + sadece yazı overlay) */}
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <img src="/bg-canli-yayin.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/bg-canli-yayin-s2.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading + açıklama - sol üst (CANLI pill bg'de var) */}
             <div className="absolute" style={{ top: '22%', left: '5.5%', width: '54%' }}>
@@ -337,7 +337,7 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — başlık + 3 statik foto (15% küçük, play yok) + açıklama + filmstrip + 2 rose badge */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-v7.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="px-5 md:px-7 pt-7 pb-6">
               {/* Header — "Fotoğraf" / "Albümü Oluşturun" iki satır */}
               <div className="text-center mb-3">
@@ -517,9 +517,10 @@ export default function Home() {
               /* Item 32 */
               { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Tüm ödemeler direk olarak davetlileriniz tarafından sizin banka hesabınıza yapılır. Aracı yok! Komisyon Yok!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
               { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
-              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
-              /* Item 33 */
+              /* Item 33 — Fotoğraf Albümü (Özel Davetiye'den önce) */
               { title: 'Fotoğraf Albümü', desc: 'Fotoğraf albümünüze hem siz hem de bu mutlu günde yanınızda olan sevdikleriniz fotoğraf yükleyebilir. Gün boyunca çekilen tüm fotoğrafları tek bir yerde toplayabilir tek tıkla hepsini indirebilirsiniz!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+              /* Item 34 — Özel Davetiye (en sonda) */
+              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
             ].map((feature, i) => (
               <div key={i} className="premium-card group p-8 rounded-3xl border border-gray-100 bg-white">
                 <div className="flex gap-2 mb-6">
@@ -543,9 +544,9 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-14 md:gap-8 max-w-5xl mx-auto items-start">
             {[
-              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺499', oldPrice: '₺599', discountLabel: '%20 İndirim', badge: null, features: ['15 Dakika Canlı Yayın', '25 İzleyici', '720p HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik'], disabled: ['Yayın Kaydı ve İndirme'] },
-              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺599', oldPrice: '₺799', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['30 Dakika Canlı Yayın', '50 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺999', oldPrice: '₺1.299', discountLabel: '%30 İndirim', badge: null, features: ['60 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺999', oldPrice: '₺1.249', discountLabel: '%20 İndirim', badge: null, features: ['30 Dakika Canlı Yayın', '30 İzleyici', '1080p*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺2.499', oldPrice: '₺3.339', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['60 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺4.999', oldPrice: '₺7.139', discountLabel: '%30 İndirim', badge: null, features: ['180 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
@@ -567,7 +568,7 @@ export default function Home() {
                     </div>
                   </div>
                   <ul className="space-y-4 mb-9">
-                    {pkg.features.map((f, i) => (<li key={i} className="flex items-center gap-3 text-sm text-gray-600"><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `rgba(200,104,110,${isSelected ? '0.15' : '0.1'})` }}><svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>{f}</li>))}
+                    {pkg.features.map((f, i) => (<li key={i} className={`flex items-center gap-3 text-sm ${i < 3 ? 'font-bold text-gray-900' : 'text-gray-600'}`}><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `rgba(200,104,110,${isSelected ? '0.15' : '0.1'})` }}><svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>{f}</li>))}
                     {pkg.disabled.map((f, i) => (<li key={`d-${i}`} className="flex items-center gap-3 text-sm text-gray-300"><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"><svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>{f}</li>))}
                   </ul>
                   {isSelected ? (
