@@ -1139,36 +1139,57 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Çift fotoğrafı (küçültüldü) + Aile bilgileri sol-alt ve sağ-alt çaprazlarda */}
-          <div className="relative mx-auto mb-3" style={{ width: '100%', height: 130 }}>
+          {/* Foto + Aile bilgileri (3 sütun grid: sol aile | foto | sağ aile) */}
+          <div className="grid grid-cols-[1fr_120px_1fr] items-center gap-2 mb-3">
+            {/* Gelin Ailesi — sol */}
+            <div className="text-center">
+              {(event.bride_father_name || event.bride_mother_name) && (
+                <>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
+                  <p className="text-gray-600 text-[12.5px] leading-[1.25]">
+                    {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
+                  </p>
+                </>
+              )}
+            </div>
+            {/* Foto — orta */}
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="mx-auto rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg block"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
-            {(event.bride_father_name || event.bride_mother_name) && (
-              <div className="absolute" style={{ left: '2%', top: '70%', maxWidth: '32%', textAlign: 'right' }}>
-                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
-                  {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
-                </p>
-              </div>
-            )}
-            {(event.groom_father_name || event.groom_mother_name) && (
-              <div className="absolute" style={{ right: '2%', top: '70%', maxWidth: '32%', textAlign: 'left' }}>
-                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
-                  {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
-                </p>
-              </div>
-            )}
+            {/* Damat Ailesi — sağ */}
+            <div className="text-center">
+              {(event.groom_father_name || event.groom_mother_name) && (
+                <>
+                  <p className="text-[10px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
+                  <p className="text-gray-600 text-[12.5px] leading-[1.25]">
+                    {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
+                  </p>
+                </>
+              )}
+            </div>
           </div>
 
-          {/* İsimler — 3 satır, & tam ortada */}
-          <div className="mb-3 leading-tight">
-            <h1 className="text-xl font-bold text-gray-900">{event.bride_full_name}</h1>
-            <p className="text-base text-gray-400 my-0.5" style={{ fontWeight: 500 }}>&</p>
-            <h1 className="text-xl font-bold text-gray-900">{event.groom_full_name}</h1>
+          {/* İsimler — 3 sütun: Gelin (ad/soyad) | & | Damat (ad/soyad), auto-shrink font */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mb-3">
+            <div className="text-right min-w-0">
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(14px, 4.2vw, 20px)' }}>
+                {event.bride_first_name}
+              </h1>
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(14px, 4.2vw, 20px)' }}>
+                {event.bride_last_name}
+              </h1>
+            </div>
+            <p className="text-gray-400 font-medium" style={{ fontSize: 'clamp(20px, 5vw, 26px)' }}>&</p>
+            <div className="text-left min-w-0">
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(14px, 4.2vw, 20px)' }}>
+                {event.groom_first_name}
+              </h1>
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(14px, 4.2vw, 20px)' }}>
+                {event.groom_last_name}
+              </h1>
+            </div>
           </div>
 
           {/* Düğün/Nikah Canlı Yayını yazısı kaldırıldı */}
@@ -1885,30 +1906,30 @@ export default function WatchPage() {
                   </h2>
                 </div>
 
-                {/* 3 Trust Badge - başlık + alt-açıklama */}
+                {/* 3 Trust Badge — dikey, sadece başlık (alt-açıklamalar kaldırıldı) */}
                 <div className="grid grid-cols-3 gap-2.5 md:gap-3 mb-5">
                   {[
                     {
-                      title: 'Güvenli', subtitle: '%100 Güvenli',
+                      title: 'Güvenli', lines: 1,
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                         </svg>
                       ),
                     },
                     {
-                      title: 'Anında', subtitle: 'Hızlı Gönderim',
+                      title: 'Anında', lines: 1,
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
+                        <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
                           <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
                         </svg>
                       ),
                     },
                     {
-                      title: 'Banka Transferi', subtitle: 'Tüm Bankalar',
+                      title: 'Banka\nTransferi', lines: 2,
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 10L12 4l9 6" />
                           <path d="M5 10v9M9 10v9M15 10v9M19 10v9" />
                           <path d="M3 21h18" />
@@ -1916,15 +1937,14 @@ export default function WatchPage() {
                       ),
                     },
                   ].map((b, i) => (
-                    <div key={i} className="rounded-full px-3 md:px-4 py-2.5 flex items-center justify-center gap-2 md:gap-2.5"
-                         style={{ background: 'rgba(255,255,255,0.7)', boxShadow: '0 1px 4px rgba(140,110,70,0.06)', border: '1px solid rgba(220,200,170,0.30)' }}>
-                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(200,160,80,0.10)' }}>
-                        {b.icon}
-                      </div>
-                      <div className="flex flex-col text-left leading-tight min-w-0">
-                        <span className="text-[12px] md:text-[14px] font-bold whitespace-nowrap" style={{ color: '#3B2F1E' }}>{b.title}</span>
-                        <span className="text-[10px] md:text-[11px] whitespace-nowrap" style={{ color: '#8A7A5E' }}>{b.subtitle}</span>
-                      </div>
+                    <div key={i} className="rounded-2xl px-2 py-3 flex flex-col items-center justify-center gap-1.5"
+                         style={{ background: 'rgba(255,255,255,0.85)', boxShadow: '0 1px 4px rgba(140,110,70,0.06)', border: '1px solid rgba(220,200,170,0.30)' }}>
+                      {b.icon}
+                      <span className="text-[12px] md:text-[14px] font-bold leading-tight text-center" style={{ color: '#3B2F1E' }}>
+                        {b.title.split('\n').map((line, idx) => (
+                          <span key={idx} className="block">{line}</span>
+                        ))}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -1963,20 +1983,28 @@ export default function WatchPage() {
                               <div className="text-[14px] md:text-[18px] font-bold mb-3 md:mb-4" style={{ color: '#B8860B', letterSpacing: '0.2px' }}>
                                 ₺{gold.price.toLocaleString()}
                               </div>
-                              {/* Gönder button */}
-                              <div className={`w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 md:py-2.5 rounded-full font-semibold text-[12px] md:text-[14px] transition-all`}
+                              {/* Sadece hediye ikonu — yazısız, premium */}
+                              <div className="w-full inline-flex items-center justify-center px-3 py-2.5 md:py-3 rounded-full transition-all"
                                    style={isHighlight
-                                     ? { background: 'linear-gradient(135deg, #D4A852, #B8860B)', color: '#FFFFFF', boxShadow: '0 3px 10px rgba(184,134,11,0.30)' }
-                                     : { background: '#FFFFFF', color: '#B8860B', border: '1.5px solid rgba(200,160,80,0.55)' }
+                                     ? {
+                                         background: 'linear-gradient(135deg, #F8DC8B 0%, #D4A852 40%, #B8860B 100%)',
+                                         color: '#FFFFFF',
+                                         boxShadow: '0 6px 18px rgba(184,134,11,0.40), 0 2px 6px rgba(184,134,11,0.20), inset 0 1px 0 rgba(255,255,255,0.45)',
+                                         border: '1px solid rgba(184,134,11,0.30)',
+                                       }
+                                     : {
+                                         background: 'linear-gradient(135deg, #FFFFFF 0%, #FFF8E8 100%)',
+                                         color: '#B8860B',
+                                         boxShadow: '0 4px 12px rgba(200,160,80,0.18), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
+                                         border: '1.5px solid rgba(200,160,80,0.55)',
+                                       }
                                    }>
-                                {/* Gift icon */}
-                                <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-4 md:h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                                <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-5 md:h-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                                   <rect x="3" y="8" width="18" height="13" rx="1.5" />
                                   <path d="M12 8v13" />
                                   <path d="M3 12h18" />
                                   <path d="M12 8c-2 0-4-1.5-4-3.5S10 2 12 4c2-2 4-1.5 4 .5S14 8 12 8z" />
                                 </svg>
-                                Gönder
                               </div>
                             </button>
                           </div>
@@ -1995,27 +2023,35 @@ export default function WatchPage() {
                       {/* İkon — sol */}
                       <div className="flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
-                          /* Gram altın bar ikonu — basit altın bar */
-                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,160,80,0.10)' }}>
-                            <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="none">
-                              <path d="M5 9L7 6h10l2 3v9H5V9z" fill="#E8C57A" stroke="#B8860B" strokeWidth="1.2" strokeLinejoin="round" />
-                              <path d="M5 9h14M9 12h2M13 14h2" stroke="#B8860B" strokeWidth="1" strokeLinecap="round" />
-                            </svg>
+                          /* Gram altın — orijinal görsel */
+                          <div className="relative w-12 h-12 md:w-14 md:h-14">
+                            <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
                           </div>
                         ) : (
-                          /* Özel miktar — TL hexagon */
-                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,160,80,0.10)' }}>
-                            <svg viewBox="0 0 24 24" className="w-7 h-7 md:w-8 md:h-8" fill="none">
-                              <path d="M12 2L20 7v10l-8 5-8-5V7l8-5z" stroke="#C8A050" strokeWidth="1.5" strokeLinejoin="round" />
-                              <path d="M10 8v9M9 11l4-2M9 13l5-2.5" stroke="#B8860B" strokeWidth="1.6" strokeLinecap="round" />
-                            </svg>
+                          /* Özel miktar — premium altın TL sembolü (hexagon içinde) */
+                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center"
+                               style={{
+                                 background: 'linear-gradient(135deg, #FFEEC2 0%, #F1D27A 50%, #D4A852 100%)',
+                                 boxShadow: '0 4px 12px rgba(200,160,80,0.30), inset 0 1px 0 rgba(255,255,255,0.55)',
+                                 border: '1px solid rgba(184,134,11,0.35)',
+                               }}>
+                            {/* Türk Lirası sembolü ₺ */}
+                            <span className="font-bold leading-none"
+                                  style={{
+                                    fontSize: '22px',
+                                    color: '#7A4F0A',
+                                    fontFamily: 'Georgia, serif',
+                                    textShadow: '0 1px 0 rgba(255,255,255,0.5), 0 1px 2px rgba(122,79,10,0.20)',
+                                  }}>
+                              ₺
+                            </span>
                           </div>
                         )}
                       </div>
                       {/* Başlık + açıklama — sağ */}
                       <div className="flex-1 min-w-0 text-left">
                         <div className="text-[14px] md:text-[16px] font-bold mb-0.5" style={{ color: '#2B2B2B' }}>
-                          {gold.id === 'nakit' ? 'Özel Miktar (TL)' : gold.name}
+                          {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                         </div>
                         <div className="text-[11px] md:text-[12.5px] leading-snug" style={{ color: '#7A6B53' }}>
                           {gold.id === 'gram_altin' ? 'Gram cinsinden gönder' : 'Dilediğiniz tutarda gönderin'}

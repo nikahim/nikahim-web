@@ -244,12 +244,12 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
       {/* Pre-chat start screen */}
       {!hasStarted ? (
-        <div className="flex-1 flex flex-col items-center justify-start pt-6 p-6" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-2" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
+        <div className="flex-1 flex flex-col items-center justify-start pt-8 p-6 overflow-y-auto" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-3" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
             <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
           </div>
-          <div className="text-base font-bold mb-3" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
-          <div className="text-center mb-4">
+          <div className="text-base font-bold mb-8" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
+          <div className="text-center mb-5">
             <div className="text-lg font-bold text-gray-900 mb-1">Hoş geldiniz!</div>
             <div className="text-sm text-gray-600 leading-relaxed">
               Size daha iyi yardımcı olabilmemiz için<br />
@@ -262,6 +262,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               placeholder="Ad Soyad"
               value={guestName}
               onChange={(e) => setGuestName(e.target.value)}
+              onFocus={(e) => setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)}
               className="w-full px-4 py-3 rounded-xl bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
               style={{ border: "1.5px solid rgba(200,104,110,0.2)" }}
             />
@@ -270,6 +271,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               placeholder="E-posta adresi"
               value={guestEmail}
               onChange={(e) => setGuestEmail(e.target.value)}
+              onFocus={(e) => setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)}
               className="w-full px-4 py-3 rounded-xl bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
               style={{ border: "1.5px solid rgba(200,104,110,0.2)" }}
             />

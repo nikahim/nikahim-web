@@ -340,9 +340,9 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
-            {/* Heading - üst orta, 2 satır */}
-            <div className="absolute" style={{ top: '5%', left: '0', right: '0', textAlign: 'center' }}>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#C8686E' }}>Fotoğraf</h3>
+            {/* Heading - üst orta, 2 satır (Fotoğraf koyu rose, Albümü Oluşturun siyah) */}
+            <div className="absolute" style={{ top: '3%', left: '0', right: '0', textAlign: 'center' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#B85258' }}>Fotoğraf</h3>
               <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>
 
