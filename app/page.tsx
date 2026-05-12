@@ -279,9 +279,9 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Badge yazıları bg PNG'sinde baked-in. Sadece yıldız notu altta */}
-            <div className="absolute" style={{ bottom: '2%', left: 0, right: 0 }}>
-              <p className="text-center" style={{ color: '#4A3F3F', fontSize: 'clamp(8px, 1.3vw, 11px)', fontWeight: 500 }}>
+            {/* Badge yazıları bg PNG'sinde baked-in. Yıldız notu badge'lerin hemen altında */}
+            <div className="absolute" style={{ bottom: '5.5%', left: 0, right: 0 }}>
+              <p className="text-center" style={{ color: '#8A7878', fontSize: 'clamp(8px, 1.3vw, 11px)', fontWeight: 500 }}>
                 * Canlı yayın kalitesi ve çözünürlüğü internet bağlantı hızınıza bağlıdır.
               </p>
             </div>
@@ -319,8 +319,8 @@ export default function Home() {
 
             {/* Zarf ikonu kaldırıldı — kullanıcı isteği */}
 
-            {/* Sol alan: heading + açıklama (zarf gittiği için yukarı alındı) */}
-            <div className="absolute" style={{ top: '8%', left: '6%', width: '52%' }}>
+            {/* Sol alan: heading + açıklama */}
+            <div className="absolute" style={{ top: '14%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
@@ -341,7 +341,7 @@ export default function Home() {
             <img src="/bg-album.png" alt="Fotoğraf albümü oluşturun" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Heading - üst orta, 2 satır */}
-            <div className="absolute" style={{ top: '6%', left: '0', right: '0', textAlign: 'center' }}>
+            <div className="absolute" style={{ top: '3.5%', left: '0', right: '0', textAlign: 'center' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(24px, 5.7vw, 46px)', color: '#C8686E' }}>Fotoğraf</h3>
               <h3 className="leading-[1.05] mt-1" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)', color: '#1F1F1F' }}>Albümü Oluşturun</h3>
             </div>

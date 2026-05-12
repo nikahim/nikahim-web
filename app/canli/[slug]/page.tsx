@@ -1977,8 +1977,8 @@ export default function WatchPage() {
               <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
             </div>
 
-            {/* Nikah Albümü — yeni album kart v2 background */}
-            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
+            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Editorial Luxury header — Mutlu Kareler — masaüstünde hafif aşağı */}
               <div className="text-center relative z-10 mt-3 lg:mt-6">

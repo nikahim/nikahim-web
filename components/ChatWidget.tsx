@@ -376,39 +376,47 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {!open && (
         <div
           className="fixed right-0 flex items-stretch z-[9999]"
-          style={{ bottom: 36, background: "#fff", boxShadow: "0 14px 36px rgba(60,40,40,0.14), 0 4px 14px rgba(200,104,110,0.14)", borderTopLeftRadius: 999, borderBottomLeftRadius: 999, border: '2.5px solid rgba(200,104,110,0.55)' }}
+          style={{
+            bottom: 36,
+            background: "#fff",
+            // Yumuşak derinlik gölgesi (kalın çerçeve yerine)
+            boxShadow: "0 20px 40px rgba(60,40,40,0.16), 0 6px 16px rgba(200,104,110,0.16), 0 2px 6px rgba(0,0,0,0.04)",
+            borderTopLeftRadius: 999,
+            borderBottomLeftRadius: 999,
+            border: '1px solid rgba(200,104,110,0.25)',
+          }}
           aria-label="Canlı destek"
         >
-          {/* Arrow tab — solda, her zaman geniş ve tıklanır */}
+          {/* Arrow tab — solda */}
           <button
             onClick={() => setIsCollapsed(c => !c)}
             className="flex items-center justify-center"
-            style={{ width: 44, paddingLeft: 14, paddingRight: 6, color: '#C8686E' }}
+            style={{ width: 40, paddingLeft: 12, paddingRight: 6, color: '#C8686E' }}
             aria-label={isCollapsed ? "Canlı Destek aç" : "Kapat"}
           >
-            <svg className={`w-[22px] h-[22px] transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className={`w-[20px] h-[20px] transition-transform duration-300 ${isCollapsed ? '' : 'rotate-180'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
-          {/* Full button — slide collapse (sağa kapanır) */}
+          {/* Full button — slide collapse */}
           <div
             className="overflow-hidden transition-all duration-500 ease-out"
-            style={{ maxWidth: isCollapsed ? 0 : 180, opacity: isCollapsed ? 0 : 1 }}
+            style={{ maxWidth: isCollapsed ? 0 : 162, opacity: isCollapsed ? 0 : 1 }}
           >
             <button
               onClick={() => setOpen(true)}
-              className="flex items-center gap-2.5 pl-1 pr-4 py-1.5 whitespace-nowrap"
+              className="flex items-center gap-2 pl-1 pr-3.5 py-1.5 whitespace-nowrap"
             >
               <span className="relative">
-                <span className="block w-[44px] h-[44px] rounded-full overflow-hidden bg-white" style={{ boxShadow: '0 2px 8px rgba(200,104,110,0.18)' }}>
+                <span className="block w-[40px] h-[40px] rounded-full overflow-hidden bg-white" style={{ boxShadow: '0 2px 8px rgba(200,104,110,0.18)' }}>
                   <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
                 </span>
-                <span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white" />
+                <span className="absolute -top-0.5 -right-0.5 w-[10px] h-[10px] bg-green-500 rounded-full border-2 border-white" />
               </span>
               <span className="flex flex-col items-start leading-[1.05]" style={{ color: '#2B2B2B' }}>
-                <span className="text-[15px] font-bold">Canlı</span>
-                <span className="text-[15px] font-bold">Destek</span>
+                <span className="text-[13.5px] font-bold">Canlı</span>
+                <span className="text-[13.5px] font-bold">Destek</span>
               </span>
             </button>
           </div>
