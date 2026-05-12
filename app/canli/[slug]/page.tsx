@@ -143,6 +143,7 @@ export default function WatchPage() {
   const [showAppPopup, setShowAppPopup] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('altin');
   const [fsTebrikMenu, setFsTebrikMenu] = useState(false);
   const [fsTebrikPanel, setFsTebrikPanel] = useState<'video' | 'voice' | 'message' | null>(null);
   const [fsGoldMode, setFsGoldMode] = useState(false);
@@ -1490,48 +1491,81 @@ export default function WatchPage() {
     <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]" style={{ background: '#FAF7F5' }}>
       {/* App İndir Popup */}
       {showAppPopup && (
-        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)}>
-          <div className="bg-white rounded-3xl p-8 lg:p-10 max-w-md w-full shadow-2xl" onClick={(e) => e.stopPropagation()} style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.12)' }}>
-            {/* Üst — logo bloğu (h3'e daha yakın) */}
-            <div className="flex flex-col items-center mb-1">
-              <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-24 h-24 object-contain" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[116px] w-auto object-contain -mt-5" />
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-10 lg:pt-9 lg:pb-12 max-w-md w-full overflow-hidden"
+               onClick={(e) => e.stopPropagation()}
+               style={{
+                 background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
+                 boxShadow: '0 40px 100px rgba(60,40,40,0.22), 0 16px 40px rgba(200,104,110,0.16), 0 4px 14px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 border: '1px solid rgba(232,180,170,0.30)',
+               }}>
+            {/* Köşe soft rose glow'ları — Apple onboarding hissi */}
+            <div className="absolute top-[-80px] right-[-60px] w-[260px] h-[260px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
+            <div className="absolute bottom-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(253,232,224,0.55) 0%, transparent 70%)' }} />
+            <div className="absolute top-[40%] left-[-50px] w-[180px] h-[180px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(212,168,82,0.08) 0%, transparent 70%)' }} />
+
+            {/* Minimal X — sağ üst */}
+            <button onClick={() => setShowAppPopup(false)}
+                    aria-label="Kapat"
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-[1.08] active:scale-[0.94] z-10"
+                    style={{
+                      background: 'rgba(255,255,255,0.70)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(200,104,110,0.12)',
+                      boxShadow: '0 2px 8px rgba(160,80,90,0.06)',
+                    }}>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
+            {/* Üst — logo + slogan, etrafında soft glow */}
+            <div className="relative flex flex-col items-center mb-3">
+              {/* Logo arkası soft rose halo */}
+              <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
+                   style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
+              <div className="relative flex flex-col items-center">
+                <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[100px] w-auto object-contain -mt-4" />
+              </div>
+              {/* Premium slogan — ince serif italic */}
+              <p className="mt-1 text-center italic tracking-[0.3px]"
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
+                En mutlu anlar, birlikte güzel.
+              </p>
+              {/* Gold dash ayraç */}
+              <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
-            {/* Title + subtitle — features'tan ayrı dursun */}
-            <h3 className="text-center text-[17px] lg:text-[18px] font-bold text-gray-900 mb-1">En özel anlar, birlikte yaşanır!</h3>
-            <p className="text-gray-500 text-center text-sm mb-6">Sende bu mutlu günü sevdiklerinle paylaş!</p>
-            {/* 3 feature columns — store sabit, features yukarı çekildi */}
-            <div className="grid grid-cols-3 gap-3 mb-7">
+
+            {/* 3 feature — eşit ağırlık, biraz daha nefes */}
+            <div className="grid grid-cols-3 gap-4 mb-4">
               {[
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
                 { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-                { title: 'Herkesle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
+                { title: 'Hemen Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
                   <h4 className="text-[12px] font-bold text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>
-            {/* Trust badge — store ÜSTÜNDE, yeni metin */}
-            <div className="flex items-center justify-center gap-2 mb-3 text-[13px] text-gray-500">
-              <span className="inline-flex items-center justify-center w-5 h-5 rounded-full" style={{ background: 'rgba(200,104,110,0.10)' }}>
-                <svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              </span>
-              <span><span className="font-semibold text-gray-700">Uygulamamızı Ücretsiz indir</span> · Hemen Başla</span>
+
+            {/* CTA alt yazı */}
+            <div className="text-center mb-2">
+              <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
+                Uygulamayı ücretsiz indirin, hemen başlayın !
+              </p>
             </div>
+
             {/* App Store + Google Play yan yana */}
-            <div className="flex gap-2.5 mb-5 justify-center">
-              <a href="#" className="block"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
-              <a href="#" className="block"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto hover:opacity-80 transition-opacity" /></a>
+            <div className="flex gap-2.5 justify-center">
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto" /></a>
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto" /></a>
             </div>
-            {/* Kapat */}
-            <button onClick={() => setShowAppPopup(false)} className="w-full py-3 inline-flex items-center justify-center gap-2 rounded-xl border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 font-semibold text-sm transition-all">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" /></svg>
-              Kapat
-            </button>
           </div>
         </div>
       )}
@@ -1636,7 +1670,7 @@ export default function WatchPage() {
       </header>
 
       {/* 3 PANEL LAYOUT */}
-      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-6 lg:p-5">
+      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-24 lg:p-5">
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
@@ -1680,9 +1714,10 @@ export default function WatchPage() {
 
           {/* ORTA + SAĞ PANEL WRAPPER */}
           <div className="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-stretch gap-4 lg:gap-5">
-          {/* ORTA ALAN - Video (%55) */}
-          <div className="flex-1 min-w-0">
-            <div className={`bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
+          {/* ORTA ALAN - Video (%55) — mobilde display:contents, masaüstünde normal block */}
+          <div className="contents lg:block lg:flex-1 lg:min-w-0">
+            {/* Video container — mobilde sticky top:60px, masaüstünde normal */}
+            <div className={`max-lg:sticky max-lg:top-[60px] max-lg:z-30 bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
               {/* Fullscreen toggle button */}
               <button onClick={async () => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { await document.documentElement.requestFullscreen?.(); (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { document.exitFullscreen?.(); (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
@@ -1695,7 +1730,7 @@ export default function WatchPage() {
               {/* Altın listesi - sağ üst — yarıya: normal 1x (her ekran), fullscreen mobil 1x / masaüstü 2x */}
               {goldHistory.length > 0 && !event?.hide_gold_names && (
                 <div
-                  className={`absolute top-3 right-5 z-30 overflow-hidden origin-top-right transition-transform ${
+                  className={`absolute top-3 right-2 lg:right-3 z-30 overflow-hidden origin-top-right transition-transform ${
                     isFullscreen ? 'scale-[1] lg:scale-[2]' : 'scale-[1] lg:scale-[1]'
                   }`}
                   style={{ height: 30 }}
@@ -1901,7 +1936,7 @@ export default function WatchPage() {
               )}
               {/* Waiting with countdown — sinematik premium */}
               {((streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest) || ((!streamData?.status || streamData?.status === 'idle') && !isLive)) && (
-                <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+                <div className={`absolute inset-0 flex flex-col items-center p-4 ${isFullscreen ? 'justify-start pt-8 lg:pt-14' : 'justify-center'}`}>
                   {/* Subtle pulse animation — couple ring */}
                   <style>{`
                     @keyframes ringBreath {
@@ -1923,23 +1958,23 @@ export default function WatchPage() {
                   {/* Layer 4: warm rose radial center (sıcak ışık) */}
                   <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(232,165,169,0.16) 0%, rgba(200,104,110,0.06) 30%, transparent 70%)' }} />
 
-                  <div className="relative z-10 flex flex-col items-center pt-6 lg:pt-10">
+                  <div className={`relative z-10 flex flex-col items-center ${isFullscreen ? 'pt-0' : 'pt-6 lg:pt-10'}`}>
                     {/* Çift fotoğrafı — +%20 büyük, breathing glow ring */}
                     <div className="relative mb-3 lg:mb-5 rounded-full couple-ring-breath" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '2px' }}>
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
                     </div>
 
-                    {/* Çift isimleri — daha büyük, premium serif */}
-                    <h3 className="text-white text-3xl lg:text-[44px] mb-1 lg:mb-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, textShadow: '0 2px 14px rgba(0,0,0,0.78), 0 0 26px rgba(200,104,110,0.22)', letterSpacing: '0.5px', lineHeight: 1.1 }}>
+                    {/* Çift isimleri — site default font (geist sans) */}
+                    <h3 className="text-white text-3xl lg:text-[44px] font-bold mb-1 lg:mb-2" style={{ textShadow: '0 2px 14px rgba(0,0,0,0.78), 0 0 26px rgba(200,104,110,0.22)', letterSpacing: '0.3px', lineHeight: 1.1 }}>
                       {event.bride_first_name} & {event.groom_first_name}
                     </h3>
 
-                    {/* Subtitle — ince italic */}
-                    <p className="italic text-white/70 text-[12px] lg:text-[14px] mb-5 lg:mb-7 tracking-[0.4px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
-                      Birlikte kutlamanın yeni yolu
+                    {/* Subtitle — ince italic (Playfair kalsın) */}
+                    <p className="italic text-white/70 text-[12px] lg:text-[14px] mb-3 lg:mb-4 tracking-[0.4px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+                      En mutlu anlar, birlikte güzel
                     </p>
 
-                    {/* Countdown boxes — glass + üst ışık + alt glow + daha fazla boşluk */}
+                    {/* Countdown boxes — site default font + yukarı çekildi */}
                     <div className="flex gap-3 lg:gap-4">
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
                         <div key={i} className="relative backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[54px] lg:min-w-[68px] transition-transform hover:scale-[1.04] overflow-hidden"
@@ -1950,7 +1985,7 @@ export default function WatchPage() {
                              }}>
                           {/* Üst ışık layer */}
                           <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: '40%', background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%)' }} />
-                          <div className="relative text-2xl lg:text-4xl text-white drop-shadow-lg tabular-nums" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, letterSpacing: '0.5px' }}>{c.v}</div>
+                          <div className="relative text-2xl lg:text-4xl font-bold text-white drop-shadow-lg tabular-nums" style={{ letterSpacing: '0.5px' }}>{c.v}</div>
                           <div className="relative text-[9px] lg:text-[10px] text-white/55 uppercase tracking-[1.2px] mt-1">{c.l}</div>
                         </div>
                       ))}
@@ -2063,7 +2098,7 @@ export default function WatchPage() {
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card:hover {
                   box-shadow:
@@ -2087,7 +2122,7 @@ export default function WatchPage() {
                   transform: translateY(0) !important;
                 }
               `}</style>
-              <div className="px-5 md:px-7 pt-6 pb-6">
+              <div className="px-5 md:px-7 pt-3 pb-6">
                 {/* Başlık — ultra ince çift katmanlı gold gradient + hafif shine */}
                 <div className="text-center mb-3">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
@@ -2139,6 +2174,7 @@ export default function WatchPage() {
                           <path d="M3 10L12 4l9 6" />
                           <path d="M5 10v9M19 10v9" />
                           <path d="M3 21h18" />
+                          <text x="12" y="18" fontSize="9" fontWeight="700" textAnchor="middle" fill="#C8A050" stroke="none" fontFamily="var(--font-geist-sans), Inter, sans-serif">B</text>
                         </svg>
                       ),
                     },
@@ -2233,8 +2269,8 @@ export default function WatchPage() {
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — kartın soluna yapışık (left-1.5 md:left-2) */}
-                      <div className="absolute left-1.5 md:left-2 top-1/2 -translate-y-1/2 flex-shrink-0">
+                      {/* İkon — Gram: hafif sağda (left-3), Özel: sola yapışık (left-1.5) */}
+                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-3 md:left-3.5' : 'left-1.5 md:left-2'}`}>
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
@@ -2261,10 +2297,10 @@ export default function WatchPage() {
 
           </div>
 
-          {/* SAĞ PANEL - Tebrik Kartları + Galeri */}
-          <div ref={rightPanelRef} className="w-full lg:w-[320px] flex-shrink-0 flex flex-col gap-3 lg:min-h-0">
+          {/* SAĞ PANEL - Tebrik Kartları + Galeri — mobilde display:contents, masaüstünde 320px column */}
+          <div ref={rightPanelRef} className="contents lg:flex lg:w-[320px] lg:flex-shrink-0 lg:flex-col lg:gap-3 lg:min-h-0">
             {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
-            <div onClick={() => setShowVideoRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px]" style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -2277,7 +2313,7 @@ export default function WatchPage() {
             </div>
 
             {/* Sesli Tebrik - soft blue — sabit yükseklik */}
-            <div onClick={() => setShowVoiceRecorder(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px]" style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className={`rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
@@ -2290,7 +2326,7 @@ export default function WatchPage() {
             </div>
 
             {/* Mesaj Tebrik - soft green — sabit yükseklik (sayı 2 hane olunca taşmasın) */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className="rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px]" style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
@@ -2303,7 +2339,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf Albümü (rose + siyah + gold dash, kalp kaldırıldı) */}
               <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">
@@ -2422,8 +2458,8 @@ export default function WatchPage() {
               </button>
             </div>
 
-            {/* Mobilde "Sende bu mutlu gününü..." CTA — compact (masaüstü tarzı) */}
-            <div className="lg:hidden rounded-2xl p-5 flex flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+            {/* "Sende bu mutlu gününü..." CTA — sadece masaüstü (mobilde tab bar var) */}
+            <div className="hidden lg:flex rounded-2xl p-5 flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
               <p className="text-sm font-semibold leading-snug">
                 <span className="text-gray-800">Sende bu mutlu gününü </span>
                 <span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span>
@@ -2438,6 +2474,66 @@ export default function WatchPage() {
           </div>{/* end ORTA + SAĞ PANEL WRAPPER */}
         </div>
       </div>
+
+      {/* MOBİL BOTTOM TAB NAV — Altın Tak / Tebrik Et / Albüm (icon yanda, premium) */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pb-3 pt-2"
+           style={{
+             background: 'linear-gradient(180deg, rgba(255,251,248,0.92) 0%, rgba(253,247,243,0.97) 100%)',
+             backdropFilter: 'blur(20px)',
+             WebkitBackdropFilter: 'blur(20px)',
+             borderTop: '1px solid rgba(200,104,110,0.10)',
+             boxShadow: '0 -6px 24px rgba(200,104,110,0.06), 0 -1px 0 rgba(255,250,247,0.5)',
+           }}>
+        <div className="flex items-center justify-around gap-1.5">
+          {[
+            { id: 'altin' as const, label: 'Altın Tak', icon: (
+              <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                {/* Kurdele (ribbon) */}
+                <path d="M8 8L6 4.5h2.5L10 2.5 11.5 4l1-1.5L14 4.5l1.5-2H18L16 8" />
+                {/* Madeni */}
+                <circle cx="12" cy="14.5" r="5.5" />
+                {/* Merkez nokta */}
+                <circle cx="12" cy="14.5" r="1" fill="currentColor" stroke="none" />
+              </svg>
+            ) },
+            { id: 'tebrik' as const, label: 'Tebrik Et', icon: (
+              <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                {/* Konuşma balonu */}
+                <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
+                {/* İçinde kalp (dolu) */}
+                <path d="M12 14.5s-3-1.7-3-3.7c0-1 0.9-1.8 1.9-1.8 0.6 0 1.1 0.3 1.1 0.3s0.5-0.3 1.1-0.3c1 0 1.9 0.8 1.9 1.8 0 2-3 3.7-3 3.7z" fill="currentColor" stroke="none" />
+              </svg>
+            ) },
+            { id: 'album' as const, label: 'Albüm', icon: (
+              <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                {/* Arka foto */}
+                <rect x="7" y="3.5" width="13.5" height="13.5" rx="2" />
+                {/* Ön foto */}
+                <rect x="3.5" y="7" width="13.5" height="13.5" rx="2" fill="currentColor" fillOpacity="0.08" />
+                {/* Güneş + dağ */}
+                <circle cx="7.5" cy="11.5" r="1.3" />
+                <path d="M3.5 18l3.5-3.5 2.5 2.5 3-3 4.5 4.5" />
+              </svg>
+            ) },
+          ].map((tab) => {
+            const isActive = activeMobileTab === tab.id;
+            return (
+              <button key={tab.id}
+                      onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-2xl transition-all active:scale-[0.96]"
+                      style={{
+                        color: isActive ? '#9F4F58' : '#9A8989',
+                        background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.94) 100%)' : 'transparent',
+                        boxShadow: isActive ? '0 4px 14px rgba(200,104,110,0.14), 0 1px 3px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)' : 'none',
+                        border: isActive ? '1px solid rgba(232,165,169,0.45)' : '1px solid transparent',
+                      }}>
+                {tab.icon}
+                <span className="text-[11.5px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </nav>
 
       {/* Photo Gallery Popup */}
       {showPhotoGallery && (
