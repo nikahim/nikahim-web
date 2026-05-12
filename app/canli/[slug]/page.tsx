@@ -1055,7 +1055,7 @@ export default function WatchPage() {
               Sn. {viewerName},
             </p>
             <p className="italic mt-0.5 text-[14.5px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
-              sizi yeniden aramızda görmek güzel.
+              sizi yeniden aramızda görmek çok güzel
             </p>
           </div>
 
@@ -1492,7 +1492,7 @@ export default function WatchPage() {
       {/* App İndir Popup */}
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-10 lg:pt-9 lg:pb-12 max-w-md w-full overflow-hidden"
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-6 pb-14 lg:pt-7 lg:pb-16 max-w-md w-full overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
                  background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
@@ -1554,8 +1554,8 @@ export default function WatchPage() {
               ))}
             </div>
 
-            {/* CTA alt yazı */}
-            <div className="text-center mb-2">
+            {/* CTA alt yazı — store butonlarına mesafe */}
+            <div className="text-center mb-6 lg:mb-7">
               <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
                 Uygulamayı ücretsiz indirin, hemen başlayın !
               </p>
@@ -1964,13 +1964,13 @@ export default function WatchPage() {
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
                     </div>
 
-                    {/* Çift isimleri — site default font (geist sans) */}
-                    <h3 className="text-white text-3xl lg:text-[44px] font-bold mb-1 lg:mb-2" style={{ textShadow: '0 2px 14px rgba(0,0,0,0.78), 0 0 26px rgba(200,104,110,0.22)', letterSpacing: '0.3px', lineHeight: 1.1 }}>
+                    {/* Çift isimleri — daha zarif: ince + bir tık küçük */}
+                    <h3 className="text-white text-2xl lg:text-[34px] font-medium mb-0.5 lg:mb-1" style={{ textShadow: '0 2px 14px rgba(0,0,0,0.78), 0 0 26px rgba(200,104,110,0.22)', letterSpacing: '0.5px', lineHeight: 1.1 }}>
                       {event.bride_first_name} & {event.groom_first_name}
                     </h3>
 
                     {/* Subtitle — ince italic (Playfair kalsın) */}
-                    <p className="italic text-white/70 text-[12px] lg:text-[14px] mb-3 lg:mb-4 tracking-[0.4px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+                    <p className="italic text-white/70 text-[12px] lg:text-[14px] mb-2 lg:mb-3 tracking-[0.4px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
                       En mutlu anlar, birlikte güzel
                     </p>
 
@@ -2098,7 +2098,7 @@ export default function WatchPage() {
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`mt-2 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card:hover {
                   box-shadow:
@@ -2180,8 +2180,8 @@ export default function WatchPage() {
                     },
                   ].map((b, i, arr) => (
                     <Fragment key={i}>
-                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-2.5 md:py-3">
-                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2">
+                        <div className="w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center flex-shrink-0"
                              style={{ background: 'rgba(200,160,80,0.12)' }}>
                           {b.icon}
                         </div>
@@ -2339,7 +2339,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf Albümü (rose + siyah + gold dash, kalp kaldırıldı) */}
               <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">
@@ -2358,8 +2358,8 @@ export default function WatchPage() {
                 </h3>
               </div>
 
-              {/* Statik 3-foto layout — başlığa daha yakın (mt-1→-mt-1), kısaltıldı (240→210) */}
-              <div className="relative w-full -mt-1 mb-1 flex items-center justify-center" style={{ height: 210 }}>
+              {/* Statik 3-foto layout — %15 küçültüldü (210→180), başlığa yakın */}
+              <div className="relative w-full -mt-1 mb-1 flex items-center justify-center" style={{ height: 180 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2386,9 +2386,9 @@ export default function WatchPage() {
                     {slideshowPhotos[1] && (
                       <div onClick={() => setPhotoLightboxIndex(1)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
-                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
+                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-85px) rotate(-7deg)', zIndex: 1 }}>
                         <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
+                          <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[91px] h-[105px] lg:w-[119px] lg:h-[138px]" />
                         </div>
                       </div>
                     )}
@@ -2397,9 +2397,9 @@ export default function WatchPage() {
                     {slideshowPhotos[2] && (
                       <div onClick={() => setPhotoLightboxIndex(2)}
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
-                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
+                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(85px) rotate(7deg)', zIndex: 1 }}>
                         <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
+                          <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[91px] h-[105px] lg:w-[119px] lg:h-[138px]" />
                         </div>
                       </div>
                     )}
@@ -2410,7 +2410,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-6px)', zIndex: 3 }}>
                         <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                          <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[129px] h-[152px] lg:w-[169px] lg:h-[197px]" />
+                          <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[110px] h-[129px] lg:w-[144px] lg:h-[167px]" />
                           {/* Fotoğraf sayısı badge */}
                           <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
                                style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
@@ -2902,10 +2902,10 @@ export default function WatchPage() {
         </div>
       )}
 
-      {/* Mesaj Tebrik Modal */}
+      {/* Mesaj Tebrik Modal — mobilde alta dock olur, klavye açılınca üstüne çıkar */}
       {showMessageModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowMessageModal(false)} style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
-          <div className="rounded-3xl max-w-md w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(245,252,247,0.96), rgba(238,248,240,0.94))', backdropFilter: 'blur(40px)', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(76,175,80,0.1)' }}>
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4" onClick={() => setShowMessageModal(false)} style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+          <div className="rounded-3xl max-w-md w-full overflow-hidden relative max-h-[88vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(245,252,247,0.96), rgba(238,248,240,0.94))', backdropFilter: 'blur(40px)', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(76,175,80,0.1)' }}>
             <button onClick={() => setShowMessageModal(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 transition-all" style={{ background: 'rgba(0,0,0,0.05)' }}>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
@@ -2921,7 +2921,7 @@ export default function WatchPage() {
               </div>
 
               <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(76,175,80,0.1)' }}>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'Georgia, serif' }} />
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'Georgia, serif' }} />
                 <div className="flex items-center gap-1 px-3 py-2" style={{ borderTop: '1px solid rgba(76,175,80,0.06)' }}>
                   <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className={`transition-colors text-lg ${showEmojiPicker ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}>😊</button>
                 </div>

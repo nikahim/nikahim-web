@@ -98,7 +98,7 @@ export default function Home() {
 
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-10 lg:pt-9 lg:pb-12 max-w-md w-full animate-scale-in overflow-hidden"
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-6 pb-14 lg:pt-7 lg:pb-16 max-w-md w-full animate-scale-in overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
                  background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
@@ -160,8 +160,8 @@ export default function Home() {
               ))}
             </div>
 
-            {/* CTA alt yazı — başlık silindi */}
-            <div className="text-center mb-2">
+            {/* CTA alt yazı — başlık silindi (store butonlarına biraz mesafe) */}
+            <div className="text-center mb-6 lg:mb-7">
               <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
                 Uygulamayı ücretsiz indirin, hemen başlayın !
               </p>
