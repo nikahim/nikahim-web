@@ -279,7 +279,12 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Badge yazıları artık bg PNG'sinde baked-in (HTML overlay yok) */}
+            {/* Badge yazıları bg PNG'sinde baked-in. Sadece yıldız notu altta */}
+            <div className="absolute" style={{ bottom: '2%', left: 0, right: 0 }}>
+              <p className="text-center" style={{ color: '#4A3F3F', fontSize: 'clamp(8px, 1.3vw, 11px)', fontWeight: 500 }}>
+                * Canlı yayın kalitesi ve çözünürlüğü internet bağlantı hızınıza bağlıdır.
+              </p>
+            </div>
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart */}
@@ -312,24 +317,10 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-tebrik.png" alt="Tebrik mesajlarınızı kabul edin" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
-            {/* Premium zarf ikonu — sol üst köşe (kalpsiz, sade wax seal) */}
-            <div className="absolute" style={{ top: '2.5%', left: '5%' }}>
-              <svg viewBox="0 0 64 64" fill="none" style={{ width: 'clamp(40px, 10vw, 72px)', height: 'clamp(40px, 10vw, 72px)' }}>
-                {/* Envelope body */}
-                <rect x="6" y="14" width="52" height="38" rx="3" fill="#FFFBFA" stroke="#C8686E" strokeWidth="2" strokeLinejoin="round" />
-                {/* V flap */}
-                <path d="M6 17 L32 36 L58 17" stroke="#C8686E" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-                {/* Side fold lines */}
-                <path d="M6 50 L24 36" stroke="#C8686E" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
-                <path d="M58 50 L40 36" stroke="#C8686E" strokeWidth="1.5" fill="none" strokeLinecap="round" opacity="0.5" />
-                {/* Wax seal — sade, kalpsiz */}
-                <circle cx="32" cy="40" r="7" fill="#E26B72" />
-                <circle cx="32" cy="40" r="7" fill="none" stroke="#fff" strokeWidth="1.5" opacity="0.55" />
-              </svg>
-            </div>
+            {/* Zarf ikonu kaldırıldı — kullanıcı isteği */}
 
-            {/* Sol alan: heading + açıklama */}
-            <div className="absolute" style={{ top: '20%', left: '6%', width: '52%' }}>
+            {/* Sol alan: heading + açıklama (zarf gittiği için yukarı alındı) */}
+            <div className="absolute" style={{ top: '8%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
