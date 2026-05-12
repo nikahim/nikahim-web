@@ -959,7 +959,7 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-4 py-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-12 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1190,7 +1190,7 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex items-center justify-center p-4 py-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-12 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -2097,7 +2097,7 @@ export default function WatchPage() {
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`mt-1 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`-mt-1 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card:hover {
                   box-shadow:
@@ -2167,15 +2167,14 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Direk\nÇifte',
+                      title: 'FAST',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                          {/* Ok — sol tarafa */}
-                          <path d="M3 12h7" />
-                          <path d="M7 9l3 3-3 3" />
-                          {/* Kalp — sağ tarafa, gold gradient fill */}
-                          <path d="M19 6c-1.4 0-2.5 0.7-3.2 1.8C15.1 6.7 14 6 12.6 6c-2.3 0-3.6 1.8-3.6 4 0 3.6 3.6 5.8 6.8 8 3.2-2.2 6.8-4.4 6.8-8 0-2.2-1.3-4-3.6-4z" fill="#C8A050" fillOpacity="0.18" />
-                          <path d="M19 6c-1.4 0-2.5 0.7-3.2 1.8C15.1 6.7 14 6 12.6 6c-2.3 0-3.6 1.8-3.6 4 0 3.6 3.6 5.8 6.8 8 3.2-2.2 6.8-4.4 6.8-8 0-2.2-1.3-4-3.6-4z" />
+                          <g transform="translate(0,-1.5)">
+                            <path d="M3 10L12 4l9 6" />
+                            <path d="M5 10v9M19 10v9" />
+                            <path d="M3 21h18" />
+                          </g>
                         </svg>
                       ),
                     },
@@ -2270,8 +2269,8 @@ export default function WatchPage() {
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — daha kompakt, küçültüldü */}
-                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-2 md:left-2.5' : 'left-1.5 md:left-2'}`}>
+                      {/* İkon — Gram hafif sağda, Özel sola yapışık */}
+                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-3 md:left-3.5' : 'left-1.5 md:left-2'}`}>
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-7 h-7 md:w-8 md:h-8 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
@@ -2282,8 +2281,8 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık */}
-                      <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap leading-tight" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      {/* Başlık — gri ama bold */}
+                      <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap leading-tight" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
                       {/* Fiyat / Belirleyin */}
