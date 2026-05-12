@@ -965,10 +965,10 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto'nun ALT YARISINA hizalı */}
-          <div className="grid mb-3" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end' }}>
-            {/* Gelin Ailesi — sol, foto alt yarısına hizalı */}
-            <div className="text-center min-w-0 pb-2">
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında, isim foto altından devam edebilir */}
+          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end', minHeight: '140px' }}>
+            {/* Gelin Ailesi — sol, etiket foto'nun %90 hizasında, isim altına taşabilir */}
+            <div className="text-center min-w-0">
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
@@ -978,14 +978,14 @@ export default function WatchPage() {
                 </>
               )}
             </div>
-            {/* Foto — orta */}
+            {/* Foto — orta, üste hizalı */}
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg self-start"
             />
-            {/* Damat Ailesi — sağ, foto alt yarısına hizalı */}
-            <div className="text-center min-w-0 pb-2">
+            {/* Damat Ailesi — sağ, simetrik */}
+            <div className="text-center min-w-0">
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
@@ -1190,8 +1190,8 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — sol yarı (Gelin) | & ortada | sağ yarı (Damat), her ikisi de halflerinde ortalanmış */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
+          {/* İsimler — sol yarı (Gelin) | & ortada SİYAH | sağ yarı (Damat), biraz aşağıda */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-2 mb-3">
             <div className="text-center min-w-0">
               <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
                 {event.bride_first_name}
@@ -1200,7 +1200,7 @@ export default function WatchPage() {
                 {event.bride_last_name}
               </h1>
             </div>
-            <p className="text-gray-400 font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)' }}>&</p>
+            <p className="font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)', color: '#1F1F1F' }}>&</p>
             <div className="text-center min-w-0">
               <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
                 {event.groom_first_name}
@@ -2032,21 +2032,21 @@ export default function WatchPage() {
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — sol */}
+                      {/* İkon — sol (Gram %15 küçük, TL %10 büyük) */}
                       <div className="flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
-                          <div className="relative w-11 h-11 md:w-12 md:h-12 group-hover:scale-105 transition-transform">
+                          <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
                           </div>
                         ) : (
-                          <div className="relative w-11 h-11 md:w-12 md:h-12 group-hover:scale-105 transition-transform">
+                          <div className="relative w-12 h-12 md:w-[54px] md:h-[54px] group-hover:scale-105 transition-transform">
                             <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-md" />
                           </div>
                         )}
                       </div>
-                      {/* Sadece başlık — gri açıklama kaldırıldı */}
+                      {/* Sadece başlık — 1pt küçültüldü */}
                       <div className="flex-1 min-w-0 text-left">
-                        <div className="text-[15px] md:text-[17px] font-bold" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                        <div className="text-[14px] md:text-[16px] font-bold" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                           {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                         </div>
                       </div>
@@ -2203,6 +2203,28 @@ export default function WatchPage() {
                   })
                 )}
               </div>
+
+              {/* Filmstrip — küçük kare resimler, sağdan sola otomatik kayan animasyon */}
+              {slideshowPhotos.length > 0 && (
+                <div className="overflow-hidden mt-2 mb-3 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
+                  <style>{`
+                    @keyframes albumFilmstripRTL {
+                      0% { transform: translateX(0); }
+                      100% { transform: translateX(-50%); }
+                    }
+                  `}</style>
+                  <div style={{ display: 'flex', gap: '8px', width: 'fit-content', animation: 'albumFilmstripRTL 28s linear infinite' }}>
+                    {[...slideshowPhotos, ...slideshowPhotos].map((url, i) => (
+                      <div key={i}
+                           onClick={() => setPhotoLightboxIndex(i % slideshowPhotos.length)}
+                           className="w-14 h-14 lg:w-16 lg:h-16 flex-shrink-0 rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                           style={{ boxShadow: '0 2px 6px rgba(80,60,40,0.12)', border: '1px solid rgba(255,255,255,0.6)' }}>
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Albümü Görüntüle — ortalanmış */}
               <button onClick={() => setShowPhotoGallery(true)} disabled={slideshowPhotos.length === 0} className="self-center whitespace-nowrap inline-flex items-center justify-center gap-2 lg:gap-1.5 px-4 lg:px-3 py-2 lg:py-1.5 rounded-full font-semibold text-[12px] lg:text-[11px] transition-all hover:scale-[1.02] btn-press relative z-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ width: 'auto', color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(200,104,110,0.16), 0 2px 6px rgba(160,80,90,0.08), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
