@@ -965,38 +965,57 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Çift fotoğrafı (küçülttü) + Aile bilgileri sol-alt ve sağ-alt çaprazlarda */}
-          <div className="relative mx-auto mb-3" style={{ width: '100%', height: 130 }}>
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto'nun ALT YARISINA hizalı */}
+          <div className="grid mb-3" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'end' }}>
+            {/* Gelin Ailesi — sol, foto alt yarısına hizalı */}
+            <div className="text-center min-w-0 pb-2">
+              {(event.bride_father_name || event.bride_mother_name) && (
+                <>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
+                  <p className="text-gray-600 text-[14px] leading-[1.25]">
+                    {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
+                  </p>
+                </>
+              )}
+            </div>
+            {/* Foto — orta */}
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="mx-auto rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg block"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
-            {/* Gelin Ailesi — sol-alt çapraz */}
-            {(event.bride_father_name || event.bride_mother_name) && (
-              <div className="absolute" style={{ left: '2%', top: '70%', maxWidth: '32%', textAlign: 'right' }}>
-                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Gelin Ailesi</p>
-                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
-                  {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
-                </p>
-              </div>
-            )}
-            {/* Damat Ailesi — sağ-alt çapraz */}
-            {(event.groom_father_name || event.groom_mother_name) && (
-              <div className="absolute" style={{ right: '2%', top: '70%', maxWidth: '32%', textAlign: 'left' }}>
-                <p className="text-[9px] font-semibold uppercase tracking-wider mb-0.5" style={{ color: '#C8686E', letterSpacing: '0.5px' }}>Damat Ailesi</p>
-                <p className="text-gray-600 text-[11.5px] leading-[1.2]">
-                  {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
-                </p>
-              </div>
-            )}
+            {/* Damat Ailesi — sağ, foto alt yarısına hizalı */}
+            <div className="text-center min-w-0 pb-2">
+              {(event.groom_father_name || event.groom_mother_name) && (
+                <>
+                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
+                  <p className="text-gray-600 text-[14px] leading-[1.25]">
+                    {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
+                  </p>
+                </>
+              )}
+            </div>
           </div>
 
-          {/* İsimler — 3 satır, & tam ortada */}
-          <div className="mb-3 leading-tight">
-            <h1 className="text-xl font-bold text-gray-900">{event.bride_full_name}</h1>
-            <p className="text-base text-gray-400 my-0.5" style={{ fontWeight: 500 }}>&</p>
-            <h1 className="text-xl font-bold text-gray-900">{event.groom_full_name}</h1>
+          {/* İsimler — sol yarı (Gelin ad/soyad) | & ortada | sağ yarı (Damat ad/soyad) */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mb-3">
+            <div className="text-center min-w-0">
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
+                {event.bride_first_name}
+              </h1>
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
+                {event.bride_last_name}
+              </h1>
+            </div>
+            <p className="text-gray-400 font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)' }}>&</p>
+            <div className="text-center min-w-0">
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
+                {event.groom_first_name}
+              </h1>
+              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
+                {event.groom_last_name}
+              </h1>
+            </div>
           </div>
 
           <p className="text-gray-700 text-xl mb-1">
