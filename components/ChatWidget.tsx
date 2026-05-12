@@ -408,8 +408,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
                 <path d="M17 20v.5a2.5 2.5 0 01-2.5 2.5H12" />
               </svg>
             ) : (
+              /* Sağ chevron — kapatma yönünü gösterir (widget sağa kapanır) */
               <svg className="w-[20px] h-[20px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
             )}
           </button>

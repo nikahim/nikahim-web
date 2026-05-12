@@ -1139,10 +1139,10 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri (3 eşit alan: sol aile yan boşlukta ortalı / foto orta / sağ aile yan boşlukta ortalı) */}
-          <div className="flex items-center justify-between mb-3 gap-1">
+          {/* Foto + Aile bilgileri — grid ile garantili 3 eşit kolon (sol aile / foto 120px / sağ aile) */}
+          <div className="grid items-center mb-3" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px' }}>
             {/* Gelin Ailesi — kartın sol kenarı ile fotonun arası, ortalanmış */}
-            <div className="flex-1 text-center min-w-0">
+            <div className="text-center min-w-0">
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
@@ -1156,10 +1156,10 @@ export default function WatchPage() {
             <img
               src={event.couple_photo_url || "/couple-icon.png"}
               alt="Çift Fotoğrafı"
-              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg flex-shrink-0"
+              className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
             {/* Damat Ailesi — kartın sağ kenarı ile fotonun arası, ortalanmış */}
-            <div className="flex-1 text-center min-w-0">
+            <div className="text-center min-w-0">
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
@@ -1894,23 +1894,17 @@ export default function WatchPage() {
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
             <div id="gold-section" className="mt-4 rounded-[20px] relative overflow-hidden" style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <div className="px-5 md:px-7 pt-6 pb-6">
-                {/* Başlık — premium ince serif + nazik double-line ayraç */}
+                {/* Başlık — tek satır premium gradient ayraç (title ile tam vertical center) */}
                 <div className="text-center mb-5">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
-                    {/* Sol ayraç — premium incelen-kalınlaşan ikili çizgi */}
-                    <span className="flex flex-col items-center flex-shrink-0" style={{ width: 'clamp(28px, 8vw, 56px)' }}>
-                      <span className="w-full h-[1px]" style={{ background: 'linear-gradient(to right, transparent 0%, #C8A050 40%, #B8860B 100%)' }} />
-                      <span className="w-[55%] h-[0.5px] mt-[3px]" style={{ background: 'linear-gradient(to right, transparent, #D4A852 60%, transparent)', opacity: 0.7 }} />
-                    </span>
+                    <span className="flex-shrink-0 h-[1.5px] rounded-full"
+                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to right, transparent 0%, #B8860B 50%, transparent 100%)' }} />
                     <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
                       Mutlu Çifte{' '}
                       <span style={{ color: '#B8860B', fontWeight: 600 }}>Altın Tak</span>
                     </span>
-                    {/* Sağ ayraç — sol simetrik */}
-                    <span className="flex flex-col items-center flex-shrink-0" style={{ width: 'clamp(28px, 8vw, 56px)' }}>
-                      <span className="w-full h-[1px]" style={{ background: 'linear-gradient(to left, transparent 0%, #C8A050 40%, #B8860B 100%)' }} />
-                      <span className="w-[55%] h-[0.5px] mt-[3px]" style={{ background: 'linear-gradient(to left, transparent, #D4A852 60%, transparent)', opacity: 0.7 }} />
-                    </span>
+                    <span className="flex-shrink-0 h-[1.5px] rounded-full"
+                          style={{ width: 'clamp(32px, 9vw, 64px)', background: 'linear-gradient(to left, transparent 0%, #B8860B 50%, transparent 100%)' }} />
                   </h2>
                 </div>
 
@@ -1946,17 +1940,17 @@ export default function WatchPage() {
                       ),
                     },
                   ].map((b, i) => (
-                    <div key={i} className="rounded-2xl px-2 md:px-3 py-2.5 flex items-center justify-center gap-2"
+                    <div key={i} className="rounded-2xl px-2 md:px-3 py-1.5 flex items-center justify-center gap-2"
                          style={{
                            background: 'linear-gradient(135deg, #FFFFFF 0%, #FFFBF0 100%)',
                            boxShadow: '0 3px 10px rgba(180,140,80,0.12), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
                            border: '1px solid rgba(220,200,170,0.35)',
                          }}>
-                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                      <div className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center flex-shrink-0"
                            style={{ background: 'rgba(200,160,80,0.10)' }}>
                         {b.icon}
                       </div>
-                      <span className="text-[11px] md:text-[13px] font-semibold leading-[1.15] text-left" style={{ color: '#3B2F1E' }}>
+                      <span className="text-[11px] md:text-[13px] font-semibold leading-[1.1] text-left" style={{ color: '#3B2F1E' }}>
                         {b.title.split('\n').map((line, idx) => (
                           <span key={idx} className="block">{line}</span>
                         ))}
@@ -1981,7 +1975,7 @@ export default function WatchPage() {
                               </div>
                             )}
                             <button onClick={() => handleGoldSelect(gold.id)}
-                                    className="w-full group rounded-2xl px-3 pt-5 pb-4 md:px-4 md:pt-6 md:pb-5 text-center transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 relative cursor-pointer"
+                                    className="w-full group rounded-2xl px-2.5 pt-3.5 pb-3 md:px-3.5 md:pt-4 md:pb-3.5 text-center transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 relative cursor-pointer"
                                     style={{
                                       background: isHighlight
                                         ? 'linear-gradient(180deg, #FFFEFA 0%, #FFFAEF 100%)'
@@ -1991,14 +1985,14 @@ export default function WatchPage() {
                                         : '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
                                       border: isHighlight ? '1.5px solid rgba(200,160,80,0.55)' : '1px solid rgba(220,200,170,0.30)',
                                     }}>
-                              {/* İsim — site fontu (geist-sans / Inter) */}
-                              <div className="text-[14px] md:text-[18px] font-bold mb-3 md:mb-4 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>{gold.name}</div>
-                              {/* Görsel — daha büyük */}
-                              <div className="relative w-20 h-20 md:w-28 md:h-28 mx-auto mb-3 md:mb-4 group-hover:scale-105 transition-transform duration-300">
+                              {/* İsim — daraltıldı */}
+                              <div className="text-[13px] md:text-[16px] font-bold mb-2 md:mb-2.5 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>{gold.name}</div>
+                              {/* Görsel — daraltıldı */}
+                              <div className="relative w-16 h-16 md:w-[88px] md:h-[88px] mx-auto mb-2 md:mb-2.5 group-hover:scale-105 transition-transform duration-300">
                                 <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-lg" />
                               </div>
-                              {/* Fiyat — buton yok */}
-                              <div className="text-[15px] md:text-[20px] font-bold" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                              {/* Fiyat — daraltıldı */}
+                              <div className="text-[14px] md:text-[17px] font-bold" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                                 ₺{gold.price.toLocaleString()}
                               </div>
                             </button>
@@ -2027,24 +2021,9 @@ export default function WatchPage() {
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-lg" />
                           </div>
                         ) : (
-                          /* Özel miktar — büyük premium altın daire içinde ₺ */
-                          <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl flex items-center justify-center group-hover:scale-105 transition-transform"
-                               style={{
-                                 background: 'linear-gradient(135deg, #FFEEC2 0%, #F1D27A 45%, #D4A852 90%)',
-                                 boxShadow: '0 6px 16px rgba(200,160,80,0.35), inset 0 2px 4px rgba(255,255,255,0.6), inset 0 -2px 4px rgba(122,79,10,0.15)',
-                                 border: '1.5px solid rgba(184,134,11,0.40)',
-                               }}>
-                            {/* Düzgün ₺ sembolü — daha belirgin, derin gölge */}
-                            <span className="leading-none"
-                                  style={{
-                                    fontSize: 'clamp(34px, 8vw, 44px)',
-                                    fontWeight: 700,
-                                    color: '#6B3F08',
-                                    fontFamily: 'Georgia, "Times New Roman", serif',
-                                    textShadow: '0 1px 0 rgba(255,235,180,0.7), 0 -1px 1px rgba(60,30,5,0.15), 0 2px 4px rgba(122,79,10,0.25)',
-                                  }}>
-                              ₺
-                            </span>
+                          /* Özel miktar — yeni TL ikon görseli */
+                          <div className="relative w-16 h-16 md:w-20 md:h-20 group-hover:scale-105 transition-transform">
+                            <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-lg" />
                           </div>
                         )}
                       </div>
@@ -2109,19 +2088,19 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Editorial Luxury header — Fotoğraf (rose) + Albümü (siyah) 2 satır */}
+              {/* Editorial Luxury header — Fotoğraf (+1pt rose) + Albümü (+2pt siyah) 2 satır */}
               <div className="text-center relative z-10 mt-1 lg:mt-3">
-                <h3 style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '24px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                <h3 style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '25px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   Fotoğraf
                 </h3>
-                <h3 className="mt-0.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '24px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                <h3 className="mt-0.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '27px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
                   Albümü
                 </h3>
                 <div className="mx-auto mt-2 mb-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
 
-              {/* PHOTO COVERFLOW — resimler %20 büyütüldü, height arttı, biraz aşağı kaydırıldı */}
-              <div className="relative w-full mt-2 mb-2" style={{ height: 210, perspective: '1000px' }}>
+              {/* PHOTO COVERFLOW — resimler %10 daha büyük + biraz aşağı (mt-4) */}
+              <div className="relative w-full mt-4 mb-2" style={{ height: 230, perspective: '1000px' }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2202,8 +2181,8 @@ export default function WatchPage() {
                         }}
                       >
                         <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          {/* Resimler %20 büyütüldü (88→106 / 73→88, lg: 116→140 / 96→115) */}
-                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[106px] h-[125px] lg:w-[140px] lg:h-[163px]' : 'w-[88px] h-[103px] lg:w-[115px] lg:h-[134px]'}`} />
+                          {/* %10 daha büyütüldü (106→117, 125→138, lg: 140→154, 163→179) */}
+                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[117px] h-[138px] lg:w-[154px] lg:h-[179px]' : 'w-[97px] h-[113px] lg:w-[127px] lg:h-[147px]'}`} />
                         </div>
                       </motion.div>
                     );
