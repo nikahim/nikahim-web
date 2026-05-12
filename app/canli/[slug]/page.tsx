@@ -2,7 +2,7 @@
 
 import { supabase } from '@/lib/supabase';
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
@@ -1927,13 +1927,18 @@ export default function WatchPage() {
                   </h2>
                 </div>
 
-                {/* 3 Trust Badge — yatay (ikon sol + yazı sağ), premium */}
-                <div className="grid grid-cols-3 gap-2 md:gap-3 mb-5">
+                {/* 3 Trust Badge — TEK KART, aralarda ince gold ayraç (premium) */}
+                <div className="rounded-2xl flex items-center mb-5"
+                     style={{
+                       background: 'linear-gradient(135deg, #FFFFFF 0%, #FFFBF0 100%)',
+                       boxShadow: '0 4px 14px rgba(180,140,80,0.12), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
+                       border: '1px solid rgba(220,200,170,0.35)',
+                     }}>
                   {[
                     {
-                      title: 'Güvenli', multiline: false,
+                      title: 'Güvenli', subtitle: '%100 Güvenli Ödeme',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                           <path d="M8.5 12l2.5 2.5L15.5 10" strokeWidth="2" />
@@ -1941,40 +1946,42 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Anında', multiline: false,
+                      title: 'Anında', subtitle: 'Hızlı Gönderim',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
+                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
                           <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
                         </svg>
                       ),
                     },
                     {
-                      title: 'Banka\nTransferi', multiline: true,
+                      title: 'Banka Transferi', subtitle: 'Kolay & Güvenli',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 10L12 4l9 6" />
                           <path d="M5 10v9M9 10v9M15 10v9M19 10v9" />
                           <path d="M3 21h18" />
                         </svg>
                       ),
                     },
-                  ].map((b, i) => (
-                    <div key={i} className="rounded-2xl px-2 md:px-3 py-1.5 flex items-center justify-center gap-2"
-                         style={{
-                           background: 'linear-gradient(135deg, #FFFFFF 0%, #FFFBF0 100%)',
-                           boxShadow: '0 3px 10px rgba(180,140,80,0.12), 0 1px 3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
-                           border: '1px solid rgba(220,200,170,0.35)',
-                         }}>
-                      <div className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                           style={{ background: 'rgba(200,160,80,0.10)' }}>
-                        {b.icon}
+                  ].map((b, i, arr) => (
+                    <Fragment key={i}>
+                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-2.5 md:py-3">
+                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0"
+                             style={{ background: 'rgba(200,160,80,0.12)' }}>
+                          {b.icon}
+                        </div>
+                        <div className="flex flex-col items-start leading-[1.15] min-w-0">
+                          <span className="text-[12px] md:text-[14px] font-bold whitespace-nowrap" style={{ color: '#3B2F1E' }}>{b.title}</span>
+                          <span className="text-[9px] md:text-[10.5px] whitespace-nowrap" style={{ color: '#8A7A5E' }}>{b.subtitle}</span>
+                        </div>
                       </div>
-                      <span className="text-[11px] md:text-[13px] font-semibold leading-[1.1] text-center" style={{ color: '#3B2F1E' }}>
-                        {b.title.split('\n').map((line, idx) => (
-                          <span key={idx} className="block">{line}</span>
-                        ))}
-                      </span>
-                    </div>
+                      {/* İnce gold ayraç — sadece son badge'den sonra YOK */}
+                      {i < arr.length - 1 && (
+                        <div className="self-stretch py-2.5 flex-shrink-0">
+                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.40) 30%, rgba(200,160,80,0.40) 70%, transparent 100%)' }} />
+                        </div>
+                      )}
+                    </Fragment>
                   ))}
                 </div>
 
@@ -2102,29 +2109,39 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className="rounded-2xl px-5 pt-6 pb-5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between" style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Editorial Luxury header — Fotoğraf 27px (rose) + Albümü 30px (siyah, daha büyük) */}
-              <div className="text-center relative z-10 mt-1 lg:mt-3">
-                <h3 style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '27px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                  Fotoğraf
+              {/* Header — Mutlu Kareler ♡ (referans tasarım: rose + siyah + kalp + gold dash) */}
+              <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">
+                <h3 className="flex items-center justify-center gap-2 md:gap-3"
+                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(26px, 5.8vw, 32px)', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                  {/* Sol gold dash */}
+                  <span className="flex-shrink-0 h-[1.5px] rounded-full"
+                        style={{ width: 'clamp(20px, 6vw, 36px)', background: 'linear-gradient(to right, transparent, #D4A852, transparent)' }} />
+                  <span>
+                    <span style={{ color: '#B85258' }}>Mutlu </span>
+                    <span style={{ color: '#2B2B2B' }}>Kareler</span>
+                  </span>
+                  {/* Kalp ikonu — rose */}
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 flex-shrink-0" fill="#B85258">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                  </svg>
+                  {/* Sağ gold dash */}
+                  <span className="flex-shrink-0 h-[1.5px] rounded-full"
+                        style={{ width: 'clamp(20px, 6vw, 36px)', background: 'linear-gradient(to left, transparent, #D4A852, transparent)' }} />
                 </h3>
-                <h3 className="mt-0.5" style={{ color: '#2B2B2B', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: '30px', letterSpacing: '0.3px', lineHeight: 1.1, textShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
-                  Albümü
-                </h3>
-                <div className="mx-auto mt-2 mb-2" style={{ width: 50, height: 1, background: 'linear-gradient(90deg, transparent, #E8B4B8, transparent)' }} />
               </div>
 
-              {/* PHOTO COVERFLOW — resimler %10 daha büyük, daha geniş yatay yayılım */}
-              <div className="relative w-full mt-4 mb-2" style={{ height: 250, perspective: '1100px' }}>
+              {/* Statik 3-foto layout — referans tasarıma birebir */}
+              <div className="relative w-full mt-3 mb-2 flex items-center justify-center" style={{ height: 240 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
                     <div className="relative w-full h-full flex items-center justify-center">
-                      <div className="absolute" style={{ transform: 'translateX(-72px) translateZ(-40px) rotateY(32deg)', opacity: 0.4 }}>
+                      <div className="absolute" style={{ transform: 'translateX(-100px) rotate(-7deg)', opacity: 0.4 }}>
                         <div className="bg-white/70 p-1.5 rounded-lg border border-rose-200/50" style={{ width: 100, height: 116, boxShadow: '0 4px 10px rgba(80,60,40,0.08)' }}>
                           <div className="w-full h-full rounded-md" style={{ background: 'linear-gradient(135deg, #FBE5E7, #F5D5D8)' }} />
                         </div>
                       </div>
-                      <div className="absolute" style={{ transform: 'translateX(72px) translateZ(-40px) rotateY(-32deg)', opacity: 0.4 }}>
+                      <div className="absolute" style={{ transform: 'translateX(100px) rotate(7deg)', opacity: 0.4 }}>
                         <div className="bg-white/70 p-1.5 rounded-lg border border-rose-200/50" style={{ width: 100, height: 116, boxShadow: '0 4px 10px rgba(80,60,40,0.08)' }}>
                           <div className="w-full h-full rounded-md" style={{ background: 'linear-gradient(135deg, #FBE5E7, #F5D5D8)' }} />
                         </div>
@@ -2136,71 +2153,59 @@ export default function WatchPage() {
                     </div>
                   </div>
                 ) : (
-                  slideshowPhotos.map((url, i) => {
-                    // Tüm fotolar yörüngede pozisyon alır. Framer Motion spring physics ile smooth.
-                    const N = slideshowPhotos.length;
-                    let rel = ((i - galleryIndex) % N + N) % N;
-                    if (rel > N / 2) rel -= N; // -N/2..N/2 aralığına normalize
-                    const isCenter = rel === 0;
-                    const isLeft = rel === -1;
-                    const isRight = rel === 1;
-                    const isVisible = isLeft || isCenter || isRight;
-
-                    // Hedef pozisyon — her foto için
-                    let target = {
-                      x: 0, y: 0, z: -260, rotateY: 0, scale: 0.8,
-                      opacity: 0, zIndex: 0,
-                    };
-                    if (isCenter) {
-                      target = { x: 0, y: -22, z: 80, rotateY: 0, scale: 1, opacity: 1, zIndex: 5 };
-                    } else if (isRight) {
-                      target = { x: 110, y: -14, z: -20, rotateY: -28, scale: 0.94, opacity: 0.95, zIndex: 2 };
-                    } else if (isLeft) {
-                      target = { x: -110, y: -14, z: -20, rotateY: 28, scale: 0.94, opacity: 0.95, zIndex: 2 };
-                    } else if (rel > 0) {
-                      // Yörünge dışı — sağdan girer
-                      target = { x: 240, y: 20, z: -180, rotateY: -55, scale: 0.7, opacity: 0, zIndex: 1 };
-                    } else {
-                      // Yörünge dışı — soldan girer
-                      target = { x: -240, y: 20, z: -180, rotateY: 55, scale: 0.7, opacity: 0, zIndex: 1 };
-                    }
-
-                    return (
-                      <motion.div
-                        key={i}
-                        onClick={() => isVisible && setPhotoLightboxIndex(i)}
-                        className="absolute top-1/2 left-1/2"
-                        style={{
-                          transformStyle: 'preserve-3d',
-                          cursor: isVisible ? 'pointer' : 'default',
-                          pointerEvents: isVisible ? 'auto' : 'none',
-                          translateX: '-50%',
-                          translateY: '-50%',
-                        }}
-                        animate={{
-                          x: target.x,
-                          y: target.y,
-                          z: target.z,
-                          rotateY: target.rotateY,
-                          scale: target.scale,
-                          opacity: target.opacity,
-                          zIndex: target.zIndex,
-                        }}
-                        transition={{
-                          // Tween ile daha uzun, daha lineer akış — "yavaşça yer değiştiriyorlar" hissi
-                          duration: 2.0,
-                          ease: [0.45, 0.05, 0.25, 1],  // smooth s-curve
-                          opacity: { duration: 1.2, ease: 'easeInOut' },
-                          zIndex: { duration: 0 },       // anında değişsin (z-fight olmasın)
-                        }}
-                      >
-                        <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: isCenter ? '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' : '0 6px 16px rgba(80,60,40,0.18), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          {/* %10 daha büyütüldü (117→129, 138→152, lg: 154→169, 179→197) */}
-                          <img src={url} alt="" className={`block object-cover rounded-md ${isCenter ? 'w-[129px] h-[152px] lg:w-[169px] lg:h-[197px]' : 'w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]'}`} />
+                  <>
+                    {/* Sol foto — sola eğri, arka katman */}
+                    {slideshowPhotos[1] && (
+                      <div onClick={() => setPhotoLightboxIndex(1)}
+                           className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
+                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
+                        <div className="bg-white p-1.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                          <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
                         </div>
-                      </motion.div>
-                    );
-                  })
+                      </div>
+                    )}
+
+                    {/* Sağ foto — sağa eğri, play overlay */}
+                    {slideshowPhotos[2] && (
+                      <div onClick={() => setPhotoLightboxIndex(2)}
+                           className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
+                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
+                        <div className="bg-white p-1.5 rounded-lg relative" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
+                          <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[107px] h-[124px] lg:w-[140px] lg:h-[162px]" />
+                          {/* Play overlay — yarı saydam beyaz daire */}
+                          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                            <div className="w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center"
+                                 style={{ background: 'rgba(255,255,255,0.55)', backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)', border: '1.5px solid rgba(255,255,255,0.9)', boxShadow: '0 2px 8px rgba(0,0,0,0.15)' }}>
+                              <svg className="w-4 h-4 lg:w-5 lg:h-5 ml-0.5" fill="#1F1F1F" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Orta foto — büyük, ön katman, 128+ badge */}
+                    {slideshowPhotos[0] && (
+                      <div onClick={() => setPhotoLightboxIndex(0)}
+                           className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
+                           style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-6px)', zIndex: 3 }}>
+                        <div className="bg-white p-2 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
+                          <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[129px] h-[152px] lg:w-[169px] lg:h-[197px]" />
+                          {/* Fotoğraf sayısı badge */}
+                          <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                               style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+                            <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                              <rect x="3" y="3" width="18" height="18" rx="2" />
+                              <circle cx="8.5" cy="8.5" r="1.5" fill="white" stroke="none" />
+                              <path d="M21 15l-5-5L5 21" />
+                            </svg>
+                            <span className="text-[11px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>{slideshowPhotos.length}+</span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
 
