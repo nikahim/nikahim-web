@@ -2167,15 +2167,15 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'FAST',
+                      title: 'Direk\nÇifte',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                          <g transform="translate(0,-1.5)">
-                            <path d="M3 10L12 4l9 6" />
-                            <path d="M5 10v9M19 10v9" />
-                            <path d="M3 21h18" />
-                            <text x="12" y="18" fontSize="9" fontWeight="700" textAnchor="middle" fill="#C8A050" stroke="none" fontFamily="var(--font-geist-sans), Inter, sans-serif">B</text>
-                          </g>
+                          {/* Ok — sol tarafa */}
+                          <path d="M3 12h7" />
+                          <path d="M7 9l3 3-3 3" />
+                          {/* Kalp — sağ tarafa, gold gradient fill */}
+                          <path d="M19 6c-1.4 0-2.5 0.7-3.2 1.8C15.1 6.7 14 6 12.6 6c-2.3 0-3.6 1.8-3.6 4 0 3.6 3.6 5.8 6.8 8 3.2-2.2 6.8-4.4 6.8-8 0-2.2-1.3-4-3.6-4z" fill="#C8A050" fillOpacity="0.18" />
+                          <path d="M19 6c-1.4 0-2.5 0.7-3.2 1.8C15.1 6.7 14 6 12.6 6c-2.3 0-3.6 1.8-3.6 4 0 3.6 3.6 5.8 6.8 8 3.2-2.2 6.8-4.4 6.8-8 0-2.2-1.3-4-3.6-4z" />
                         </svg>
                       ),
                     },
@@ -2264,30 +2264,30 @@ export default function WatchPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className={`group relative rounded-2xl pr-3 py-1.5 md:py-2 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card ${gold.id === 'gram_altin' ? 'pl-10 md:pl-12' : 'pl-[52px] md:pl-[58px]'}`}
+                            className={`group relative rounded-2xl pr-2.5 py-1 md:py-1.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card ${gold.id === 'gram_altin' ? 'pl-9 md:pl-10' : 'pl-[44px] md:pl-[50px]'}`}
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — Gram hafif sağda, Özel sola yapışık (ikonlar küçültüldü) */}
-                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-2.5 md:left-3' : 'left-1.5 md:left-2'}`}>
+                      {/* İkon — daha kompakt, küçültüldü */}
+                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-2 md:left-2.5' : 'left-1.5 md:left-2'}`}>
                         {gold.id === 'gram_altin' ? (
-                          <div className="relative w-8 h-8 md:w-9 md:h-9 group-hover:scale-105 transition-transform">
+                          <div className="relative w-7 h-7 md:w-8 md:h-8 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
                           </div>
                         ) : (
-                          <div className="relative w-12 h-12 md:w-[52px] md:h-[52px] group-hover:scale-105 transition-transform">
+                          <div className="relative w-10 h-10 md:w-12 md:h-12 group-hover:scale-105 transition-transform">
                             <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-md" />
                           </div>
                         )}
                       </div>
-                      {/* Başlık — sağa kaymış, resimle çakışmıyor */}
-                      <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      {/* Başlık */}
+                      <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap leading-tight" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
-                      {/* Fiyat / Belirleyin — 1pt büyütüldü (12/14), non-bold, gold renkte */}
-                      <div className="text-[12px] md:text-[14px] font-medium mt-0.5 whitespace-nowrap" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      {/* Fiyat / Belirleyin */}
+                      <div className="text-[12px] md:text-[14px] font-medium whitespace-nowrap leading-tight" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                         {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
                       </div>
                     </button>
@@ -2905,7 +2905,7 @@ export default function WatchPage() {
 
       {/* Mesaj Tebrik Modal — mobilde alta dock olur, klavye açılınca üstüne çıkar */}
       {showMessageModal && (
-        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4" onClick={() => setShowMessageModal(false)} style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" onClick={() => setShowMessageModal(false)} style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
           <div className="rounded-3xl max-w-md w-full overflow-hidden relative max-h-[88vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(245,252,247,0.96), rgba(238,248,240,0.94))', backdropFilter: 'blur(40px)', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(76,175,80,0.1)' }}>
             <button onClick={() => setShowMessageModal(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 transition-all" style={{ background: 'rgba(0,0,0,0.05)' }}>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
