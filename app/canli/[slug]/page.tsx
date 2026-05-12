@@ -997,25 +997,15 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — sol yarı (Gelin ad/soyad) | & ortada SİYAH | sağ yarı (Damat ad/soyad) */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-4 mb-5">
-            <div className="text-center min-w-0">
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.bride_first_name}
-              </h1>
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.bride_last_name}
-              </h1>
-            </div>
+          {/* İsimler — sadece adlar (soyadlar kaldırıldı): Gelin Adı & Damat Adı */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mt-4 mb-5">
+            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+              {event.bride_first_name}
+            </h1>
             <p className="font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)', color: '#1F1F1F' }}>&</p>
-            <div className="text-center min-w-0">
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.groom_first_name}
-              </h1>
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.groom_last_name}
-              </h1>
-            </div>
+            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+              {event.groom_first_name}
+            </h1>
           </div>
 
           <p className="text-gray-700 text-xl mb-1 mt-2">
@@ -1158,14 +1148,14 @@ export default function WatchPage() {
             <Image src="/navbar-icon.png" alt="Nikahım" width={63} height={63} className="h-[63px] w-auto object-contain" />
           </div>
 
-          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto alt %10 hizasında (her iki taraf TAM aynı Y'de) */}
-          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'start', minHeight: '140px' }}>
-            {/* Gelin Ailesi — sol, etiket foto'nun alt %10 hizasında (paddingTop sabit, mobilde her iki taraf eşit) */}
-            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
+          {/* Foto + Aile bilgileri — grid 3 eşit kolon; aileler foto altında biraz aşağıda, isimler tek satır */}
+          <div className="grid mb-4" style={{ gridTemplateColumns: 'minmax(0, 1fr) 120px minmax(0, 1fr)', gap: '4px', alignItems: 'start', minHeight: '160px' }}>
+            {/* Gelin Ailesi — sol, paddingTop sabit, isimler tek satır */}
+            <div className="text-center min-w-0" style={{ paddingTop: '120px' }}>
               {(event.bride_father_name || event.bride_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Gelin Ailesi</p>
-                  <p className="text-gray-600 text-[14px] leading-[1.25]">
+                  <p className="text-gray-600 text-[13px] leading-[1.25] whitespace-nowrap">
                     {event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name}
                   </p>
                 </>
@@ -1177,12 +1167,12 @@ export default function WatchPage() {
               alt="Çift Fotoğrafı"
               className="rounded-full object-cover w-[120px] h-[120px] border-4 border-[#C8686E]/20 shadow-lg"
             />
-            {/* Damat Ailesi — sağ, simetrik (aynı paddingTop) */}
-            <div className="text-center min-w-0" style={{ paddingTop: '102px' }}>
+            {/* Damat Ailesi — sağ, simetrik */}
+            <div className="text-center min-w-0" style={{ paddingTop: '120px' }}>
               {(event.groom_father_name || event.groom_mother_name) && (
                 <>
                   <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E', letterSpacing: '0.6px' }}>Damat Ailesi</p>
-                  <p className="text-gray-600 text-[14px] leading-[1.25]">
+                  <p className="text-gray-600 text-[13px] leading-[1.25] whitespace-nowrap">
                     {event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name}
                   </p>
                 </>
@@ -1190,25 +1180,15 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İsimler — sol yarı (Gelin) | & ortada SİYAH | sağ yarı (Damat), biraz aşağıda */}
-          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 mt-4 mb-3">
-            <div className="text-center min-w-0">
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.bride_first_name}
-              </h1>
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.bride_last_name}
-              </h1>
-            </div>
+          {/* İsimler — sadece adlar: Gelin Adı & Damat Adı */}
+          <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 mt-4 mb-3">
+            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+              {event.bride_first_name}
+            </h1>
             <p className="font-medium" style={{ fontSize: 'clamp(22px, 5.5vw, 28px)', color: '#1F1F1F' }}>&</p>
-            <div className="text-center min-w-0">
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.groom_first_name}
-              </h1>
-              <h1 className="font-bold text-gray-900 leading-tight" style={{ fontSize: 'clamp(16px, 4.6vw, 22px)' }}>
-                {event.groom_last_name}
-              </h1>
-            </div>
+            <h1 className="font-bold text-gray-900 leading-tight text-center min-w-0" style={{ fontSize: 'clamp(18px, 5.2vw, 26px)' }}>
+              {event.groom_first_name}
+            </h1>
           </div>
 
           {/* Düğün/Nikah Canlı Yayını yazısı kaldırıldı */}
@@ -2034,13 +2014,13 @@ export default function WatchPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className="group rounded-2xl px-3 py-2 md:px-4 md:py-2.5 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-3 cursor-pointer"
+                            className="group rounded-2xl px-3 py-2 md:px-4 md:py-2.5 transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 grid grid-cols-[auto_1fr_auto] items-center gap-2 cursor-pointer"
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — sol (TL %10 daha büyük) */}
+                      {/* İkon — sol kolon */}
                       <div className="flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
@@ -2052,12 +2032,14 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — biraz ortalı, tek satır (gram altın gibi) */}
-                      <div className="flex-1 min-w-0 text-center pr-2">
+                      {/* Başlık — orta kolon, gerçek ortalama */}
+                      <div className="text-center min-w-0">
                         <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                           {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                         </div>
                       </div>
+                      {/* Sağ kolon — ikona simetrik boş alan (text gerçek ortada görünsün) */}
+                      <div aria-hidden="true" className={gold.id === 'gram_altin' ? 'w-9 md:w-10' : 'w-14 md:w-[60px]'} />
                     </button>
                   ))}
                 </div>

@@ -263,7 +263,7 @@ export default function Home() {
 
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
-        <div className="max-w-7xl mx-auto px-6 space-y-8">
+        <div className="max-w-7xl mx-auto px-6 space-y-14 md:space-y-16">
           {/* Canlı Yayın - reklam kartı (kare bg + sadece yazı overlay) */}
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ aspectRatio: '1 / 1', maxWidth: '720px', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-canli-yayin.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
@@ -339,15 +339,15 @@ export default function Home() {
           {/* Fotoğraf Albümü — başlık + 3 statik foto (15% küçük, play yok) + açıklama + filmstrip + 2 rose badge */}
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="px-5 md:px-7 pt-7 pb-6">
-              {/* Header — Fotoğraf Albümü (kalp yok) */}
+              {/* Header — "Fotoğraf" / "Albümü Oluşturun" iki satır */}
               <div className="text-center mb-3">
                 <h3 className="flex items-center justify-center gap-3 md:gap-4"
-                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(28px, 5vw, 38px)', letterSpacing: '0.3px', lineHeight: 1.1 }}>
+                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, fontSize: 'clamp(26px, 4.6vw, 36px)', letterSpacing: '0.3px', lineHeight: 1.15 }}>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #D4A852, transparent)' }} />
-                  <span>
-                    <span style={{ color: '#B85258' }}>Fotoğraf </span>
-                    <span style={{ color: '#2B2B2B' }}>Albümü</span>
+                  <span className="flex flex-col items-center">
+                    <span style={{ color: '#B85258' }}>Fotoğraf</span>
+                    <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
                   </span>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #D4A852, transparent)' }} />
