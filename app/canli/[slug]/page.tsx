@@ -959,7 +959,7 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-center justify-center p-4 py-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1190,10 +1190,9 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-3 sm:pt-3" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-center justify-center p-4 py-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
-               marginTop: -40,
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
                boxShadow: '0 30px 80px rgba(60,40,40,0.18), 0 12px 32px rgba(200,104,110,0.14), 0 4px 12px rgba(0,0,0,0.06)',
                border: '1px solid rgba(232,180,170,0.30)',
@@ -2098,7 +2097,7 @@ export default function WatchPage() {
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`mt-2 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`mt-1 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card:hover {
                   box-shadow:
@@ -2168,13 +2167,15 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Banka\nTransferi',
+                      title: 'FAST',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M3 10L12 4l9 6" />
-                          <path d="M5 10v9M19 10v9" />
-                          <path d="M3 21h18" />
-                          <text x="12" y="18" fontSize="9" fontWeight="700" textAnchor="middle" fill="#C8A050" stroke="none" fontFamily="var(--font-geist-sans), Inter, sans-serif">B</text>
+                          <g transform="translate(0,-1.5)">
+                            <path d="M3 10L12 4l9 6" />
+                            <path d="M5 10v9M19 10v9" />
+                            <path d="M3 21h18" />
+                            <text x="12" y="18" fontSize="9" fontWeight="700" textAnchor="middle" fill="#C8A050" stroke="none" fontFamily="var(--font-geist-sans), Inter, sans-serif">B</text>
+                          </g>
                         </svg>
                       ),
                     },
@@ -2263,20 +2264,20 @@ export default function WatchPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className={`group relative rounded-2xl pr-3 py-3 md:py-3.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card ${gold.id === 'gram_altin' ? 'pl-12 md:pl-14' : 'pl-[60px] md:pl-[68px]'}`}
+                            className={`group relative rounded-2xl pr-3 py-1.5 md:py-2 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card ${gold.id === 'gram_altin' ? 'pl-10 md:pl-12' : 'pl-[52px] md:pl-[58px]'}`}
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — Gram: hafif sağda (left-3), Özel: sola yapışık (left-1.5) */}
-                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-3 md:left-3.5' : 'left-1.5 md:left-2'}`}>
+                      {/* İkon — Gram hafif sağda, Özel sola yapışık (ikonlar küçültüldü) */}
+                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-2.5 md:left-3' : 'left-1.5 md:left-2'}`}>
                         {gold.id === 'gram_altin' ? (
-                          <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
+                          <div className="relative w-8 h-8 md:w-9 md:h-9 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
                           </div>
                         ) : (
-                          <div className="relative w-14 h-14 md:w-[60px] md:h-[60px] group-hover:scale-105 transition-transform">
+                          <div className="relative w-12 h-12 md:w-[52px] md:h-[52px] group-hover:scale-105 transition-transform">
                             <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-md" />
                           </div>
                         )}
