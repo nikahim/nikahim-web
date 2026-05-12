@@ -1899,29 +1899,59 @@ export default function WatchPage() {
               {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && streamData?.playbackId && (
                 <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={false} isRecording={true} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
               )}
-              {/* Waiting with countdown */}
+              {/* Waiting with countdown — sinematik premium */}
               {((streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest) || ((!streamData?.status || streamData?.status === 'idle') && !isLive)) && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-                  <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'blur(4px) brightness(0.7)', objectPosition: 'center top', animation: 'slowZoom 20s ease-in-out infinite alternate' }}><source src="/wedding-bg-video.mp4" type="video/mp4" /></video>
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.2) 60%, rgba(0,0,0,0.55) 100%)' }} />
-                  <div className="absolute inset-0" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(200,104,110,0.08), transparent 60%)' }} />
+                  {/* Subtle pulse animation — couple ring */}
+                  <style>{`
+                    @keyframes ringBreath {
+                      0%, 100% { box-shadow: 0 0 45px rgba(200,104,110,0.38), 0 0 22px rgba(232,165,169,0.25), 0 8px 32px rgba(0,0,0,0.50); }
+                      50% { box-shadow: 0 0 60px rgba(200,104,110,0.48), 0 0 32px rgba(232,165,169,0.32), 0 8px 32px rgba(0,0,0,0.50); }
+                    }
+                    .couple-ring-breath { animation: ringBreath 4.5s ease-in-out infinite; }
+                  `}</style>
+
+                  {/* Layer 1: blurred background video */}
+                  <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'blur(4px) brightness(0.65)', objectPosition: 'center top', animation: 'slowZoom 20s ease-in-out infinite alternate' }}><source src="/wedding-bg-video.mp4" type="video/mp4" /></video>
+
+                  {/* Layer 2: vertical gradient (top→bottom darker corners) */}
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.12) 40%, rgba(0,0,0,0.18) 60%, rgba(0,0,0,0.62) 100%)' }} />
+
+                  {/* Layer 3: vignette — köşeler koyu (sinematik) */}
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at center, transparent 35%, rgba(0,0,0,0.55) 100%)' }} />
+
+                  {/* Layer 4: warm rose radial center (sıcak ışık) */}
+                  <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 40%, rgba(232,165,169,0.16) 0%, rgba(200,104,110,0.06) 30%, transparent 70%)' }} />
+
                   <div className="relative z-10 flex flex-col items-center pt-6 lg:pt-10">
-                    {/* Couple photo with thin rose ring */}
-                    <div className="relative mb-3 lg:mb-5 rounded-full" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '1.5px', boxShadow: '0 0 45px rgba(200,104,110,0.38), 0 0 22px rgba(232,165,169,0.25), 0 8px 32px rgba(0,0,0,0.50)' }}>
-                      <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[80px] h-[80px] lg:w-[160px] lg:h-[160px]" />
+                    {/* Çift fotoğrafı — +%20 büyük, breathing glow ring */}
+                    <div className="relative mb-3 lg:mb-5 rounded-full couple-ring-breath" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '2px' }}>
+                      <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
                     </div>
 
-                    {/* Couple names — serif premium */}
-                    <h3 className="text-white text-2xl lg:text-4xl mb-4 lg:mb-6" style={{ fontFamily: 'Georgia, "Playfair Display", serif', fontWeight: 600, textShadow: '0 2px 12px rgba(0,0,0,0.75), 0 0 24px rgba(200,104,110,0.22)', letterSpacing: '0.5px' }}>
+                    {/* Çift isimleri — daha büyük, premium serif */}
+                    <h3 className="text-white text-3xl lg:text-[44px] mb-1 lg:mb-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, textShadow: '0 2px 14px rgba(0,0,0,0.78), 0 0 26px rgba(200,104,110,0.22)', letterSpacing: '0.5px', lineHeight: 1.1 }}>
                       {event.bride_first_name} & {event.groom_first_name}
                     </h3>
 
-                    {/* Countdown boxes — eski beyaz/gri soft blur */}
-                    <div className="flex gap-2 lg:gap-3">
+                    {/* Subtitle — ince italic */}
+                    <p className="italic text-white/70 text-[12px] lg:text-[14px] mb-5 lg:mb-7 tracking-[0.4px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
+                      Birlikte kutlamanın yeni yolu
+                    </p>
+
+                    {/* Countdown boxes — glass + üst ışık + alt glow + daha fazla boşluk */}
+                    <div className="flex gap-3 lg:gap-4">
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
-                        <div key={i} className="backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[48px] lg:min-w-[60px] transition-transform hover:scale-105" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.15)', boxShadow: 'inset 0 0 20px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.15)' }}>
-                          <div className="text-xl lg:text-3xl font-bold text-white drop-shadow-lg">{c.v}</div>
-                          <div className="text-[9px] lg:text-[10px] text-white/50 uppercase tracking-wider mt-1">{c.l}</div>
+                        <div key={i} className="relative backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[54px] lg:min-w-[68px] transition-transform hover:scale-[1.04] overflow-hidden"
+                             style={{
+                               background: 'linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%)',
+                               border: '1px solid rgba(255,255,255,0.18)',
+                               boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.20), inset 0 0 20px rgba(200,104,110,0.08), 0 8px 24px rgba(0,0,0,0.30), 0 0 18px rgba(200,104,110,0.10)',
+                             }}>
+                          {/* Üst ışık layer */}
+                          <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: '40%', background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%)' }} />
+                          <div className="relative text-2xl lg:text-4xl text-white drop-shadow-lg tabular-nums" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 600, letterSpacing: '0.5px' }}>{c.v}</div>
+                          <div className="relative text-[9px] lg:text-[10px] text-white/55 uppercase tracking-[1.2px] mt-1">{c.l}</div>
                         </div>
                       ))}
                     </div>
@@ -2107,7 +2137,7 @@ export default function WatchPage() {
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 10L12 4l9 6" />
-                          <path d="M5 10v9M9 10v9M15 10v9M19 10v9" />
+                          <path d="M5 10v9M19 10v9" />
                           <path d="M3 21h18" />
                         </svg>
                       ),
@@ -2197,14 +2227,14 @@ export default function WatchPage() {
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className="group relative rounded-2xl px-3 py-3 md:px-4 md:py-3.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card"
+                            className={`group relative rounded-2xl pr-3 py-3 md:py-3.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card ${gold.id === 'gram_altin' ? 'pl-12 md:pl-14' : 'pl-[60px] md:pl-[68px]'}`}
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — absolute sol (text gerçek-ortalı görünsün) */}
-                      <div className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 flex-shrink-0">
+                      {/* İkon — kartın soluna yapışık (left-1.5 md:left-2) */}
+                      <div className="absolute left-1.5 md:left-2 top-1/2 -translate-y-1/2 flex-shrink-0">
                         {gold.id === 'gram_altin' ? (
                           <div className="relative w-9 h-9 md:w-10 md:h-10 group-hover:scale-105 transition-transform">
                             <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
@@ -2215,12 +2245,12 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — gerçek kart-ortalı */}
+                      {/* Başlık — sağa kaymış, resimle çakışmıyor */}
                       <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
-                      {/* Fiyat / Belirleyin — küçük, non-bold, gold renkte */}
-                      <div className="text-[11px] md:text-[13px] font-medium mt-0.5 whitespace-nowrap" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      {/* Fiyat / Belirleyin — 1pt büyütüldü (12/14), non-bold, gold renkte */}
+                      <div className="text-[12px] md:text-[14px] font-medium mt-0.5 whitespace-nowrap" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                         {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
                       </div>
                     </button>
@@ -2420,7 +2450,7 @@ export default function WatchPage() {
               <div className="flex items-center mb-4">
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-[13px]" style={{ color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', boxShadow: '0 4px 14px rgba(200,104,110,0.14), 0 1px 4px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
                   <svg className="w-4 h-4" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Nikah Albümü</span>
+                  <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Fotoğraf Albümü</span>
                 </div>
               </div>
               {slideshowPhotos.length > 0 ? (
