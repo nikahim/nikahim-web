@@ -2157,43 +2157,104 @@ export default function WatchPage() {
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`-mt-1 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`mt-2 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
+                .gold-card { transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 420ms ease; }
                 .gold-card:hover {
                   box-shadow:
-                    0 14px 34px rgba(200,104,110,0.16),
-                    0 5px 16px rgba(184,134,11,0.18),
+                    0 18px 40px rgba(200,104,110,0.18),
+                    0 6px 18px rgba(184,134,11,0.20),
                     inset 0 1px 0 rgba(255,255,255,1),
-                    inset 0 -1px 0 rgba(184,134,11,0.12),
-                    inset 0 12px 28px rgba(212,168,82,0.10),
-                    0 0 0 1px rgba(200,104,110,0.14) !important;
+                    inset 0 -1px 0 rgba(184,134,11,0.14),
+                    inset 0 14px 32px rgba(212,168,82,0.12),
+                    0 0 0 1px rgba(200,104,110,0.16) !important;
                 }
                 .gold-card[data-highlight="true"]:hover {
                   box-shadow:
-                    0 18px 42px rgba(184,134,11,0.26),
-                    0 6px 20px rgba(200,104,110,0.18),
+                    0 22px 50px rgba(184,134,11,0.30),
+                    0 8px 24px rgba(200,104,110,0.20),
                     inset 0 1px 0 rgba(255,255,255,1),
-                    inset 0 -1px 0 rgba(184,134,11,0.15),
-                    inset 0 14px 32px rgba(212,168,82,0.14),
-                    0 0 0 1px rgba(200,104,110,0.18) !important;
+                    inset 0 -1px 0 rgba(184,134,11,0.18),
+                    inset 0 16px 36px rgba(212,168,82,0.18),
+                    0 0 0 1px rgba(200,104,110,0.22) !important;
                 }
-                .gold-card:active {
-                  transform: translateY(0) !important;
+                .gold-card:active { transform: translateY(0) scale(0.985) !important; }
+                /* Specular highlight — üstten ışık vuruyor hissi */
+                .gold-card::before {
+                  content: '';
+                  position: absolute;
+                  top: 0; left: 0; right: 0;
+                  height: 38%;
+                  pointer-events: none;
+                  background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.12) 60%, transparent 100%);
+                  border-radius: 16px 16px 0 0;
+                  z-index: 1;
+                }
+                /* Subtle noise grain — Apple/Stripe-tier texture */
+                .gold-card::after {
+                  content: '';
+                  position: absolute;
+                  inset: 0;
+                  pointer-events: none;
+                  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='gn'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' seed='5'/><feColorMatrix values='0 0 0 0 0.7  0 0 0 0 0.55  0 0 0 0 0.25  0 0 0 0.55 0'/></filter><rect width='140' height='140' filter='url(%23gn)'/></svg>");
+                  background-size: 140px 140px;
+                  opacity: 0.045;
+                  mix-blend-mode: multiply;
+                  border-radius: inherit;
+                  z-index: 2;
+                }
+                .gold-card > * { position: relative; z-index: 3; }
+                /* Coin soft float — yavaş, neredeyse fark edilmeyen */
+                @keyframes coinFloat {
+                  0%, 100% { transform: translateY(0); }
+                  50% { transform: translateY(-2.5px); }
+                }
+                .coin-float { animation: coinFloat 4.2s ease-in-out infinite; will-change: transform; }
+                .coin-float-delay-1 { animation-delay: 0.6s; }
+                .coin-float-delay-2 { animation-delay: 1.2s; }
+                /* Stagger fade-in for cards */
+                @keyframes cardEnter {
+                  from { opacity: 0; transform: translateY(8px); }
+                  to { opacity: 1; transform: translateY(0); }
+                }
+                .card-enter { animation: cardEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+                .card-enter-1 { animation-delay: 60ms; }
+                .card-enter-2 { animation-delay: 120ms; }
+                .card-enter-3 { animation-delay: 180ms; }
+                .card-enter-4 { animation-delay: 260ms; }
+                .card-enter-5 { animation-delay: 320ms; }
+                /* Title shimmer — çok subtle */
+                @keyframes goldShimmer {
+                  0%, 100% { background-position: 0% 50%; }
+                  50% { background-position: 100% 50%; }
                 }
               `}</style>
-              <div className="px-5 md:px-7 pt-3 pb-6">
-                {/* Başlık — italic geri alındı, Adım 120 öncesi hali */}
-                <div className="text-center mb-3">
-                  <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
-                    <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
+              <div className="px-5 md:px-7 pt-5 pb-7">
+                {/* Başlık — premium typography: "Mutlu Çifte" ince italic gri + "Altın Tak" gold gradient */}
+                <div className="text-center mb-5">
+                  <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
+                    <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
                     </span>
-                    <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
-                      Mutlu Çifte{' '}
-                      <span style={{ color: '#B8860B', fontWeight: 600 }}>Altın Tak</span>
+                    <span className="text-[22px] md:text-[28px] whitespace-nowrap leading-none">
+                      <span style={{ fontStyle: 'italic', fontWeight: 300, color: '#7A6E5F', letterSpacing: '1.2px' }}>
+                        Mutlu Çifte
+                      </span>
+                      <span style={{ display: 'inline-block', width: '0.45em' }} />
+                      <span style={{
+                        fontWeight: 500,
+                        letterSpacing: '1.6px',
+                        background: 'linear-gradient(180deg, #D4A852 0%, #B8860B 55%, #9A6E08 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        textShadow: '0 1px 0 rgba(255,245,210,0.4)',
+                      }}>
+                        Altın Tak
+                      </span>
                     </span>
-                    <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
+                    <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
                     </span>
@@ -2204,11 +2265,12 @@ export default function WatchPage() {
                 {(() => {
                   const topItems = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'tam_altin'].includes(g.id));
                   return (
-                    <div className="grid grid-cols-3 gap-3 md:gap-4 mb-3 md:mb-4">
-                      {topItems.map((gold) => {
+                    <div className="grid grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-5">
+                      {topItems.map((gold, topIdx) => {
                         const isHighlight = gold.id === 'yarim_altin';
                         return (
-                          <div key={gold.id} className="relative">
+                          <div key={gold.id} className={`relative card-enter card-enter-${topIdx + 1}`}>
+
                             {isHighlight && (
                               <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[9.5px] md:text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap"
                                    style={{
@@ -2252,12 +2314,26 @@ export default function WatchPage() {
                               )}
                               {/* İsim — semibold + letter-spacing (premium boutique label hissi) */}
                               <div className="text-[13px] md:text-[16px] font-semibold mb-2 md:mb-2.5 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>{gold.name}</div>
-                              {/* Görsel — daraltıldı */}
-                              <div className="relative w-16 h-16 md:w-[88px] md:h-[88px] mx-auto mb-2 md:mb-2.5 group-hover:scale-105 transition-transform duration-300">
-                                <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-lg" />
+                              {/* Görsel — coin float + warm rim shadow */}
+                              <div className={`relative w-16 h-16 md:w-[88px] md:h-[88px] mx-auto mb-2 md:mb-2.5 group-hover:scale-110 transition-transform duration-500 coin-float coin-float-delay-${topIdx}`}>
+                                {/* Warm rim glow under coin */}
+                                <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
+                                     style={{
+                                       background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.32) 0%, rgba(212,168,82,0.10) 35%, transparent 60%)',
+                                       filter: 'blur(6px)',
+                                       transform: 'translateY(8%) scale(0.85)',
+                                     }} />
+                                <Image src={gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))' }} />
                               </div>
-                              {/* Fiyat — normal weight (kullanıcı denemek istedi) */}
-                              <div className="text-[14px] md:text-[17px] font-normal" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                              {/* Fiyat — gold gradient text */}
+                              <div className="text-[14px] md:text-[17px] font-medium" style={{
+                                letterSpacing: '0.3px',
+                                fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
+                                background: 'linear-gradient(180deg, #C89540 0%, #B8860B 100%)',
+                                WebkitBackgroundClip: 'text',
+                                WebkitTextFillColor: 'transparent',
+                                backgroundClip: 'text',
+                              }}>
                                 ₺{gold.price.toLocaleString()}
                               </div>
                             </button>
@@ -2270,9 +2346,9 @@ export default function WatchPage() {
 
                 {/* Alt sıra: 2 yatay kart — dikey küçültüldü, gri açıklama kaldırıldı, sadece başlık */}
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
-                  {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold) => (
+                  {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold, botIdx) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className={`group relative rounded-2xl pr-2.5 py-1 md:py-1.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card ${gold.id === 'gram_altin' ? 'pl-9 md:pl-10' : 'pl-[44px] md:pl-[50px]'}`}
+                            className={`group relative rounded-2xl pr-3 py-1.5 md:py-2 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card card-enter card-enter-${botIdx + 4} ${gold.id === 'gram_altin' ? 'pl-10 md:pl-11' : 'pl-[46px] md:pl-[52px]'}`}
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
@@ -2281,12 +2357,16 @@ export default function WatchPage() {
                       {/* İkon — Gram hafif sağda, Özel sola yapışık */}
                       <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-3 md:left-3.5' : 'left-1.5 md:left-2'}`}>
                         {gold.id === 'gram_altin' ? (
-                          <div className="relative w-7 h-7 md:w-8 md:h-8 group-hover:scale-105 transition-transform">
-                            <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain drop-shadow-md" />
+                          <div className="relative w-7 h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-500 coin-float coin-float-delay-1">
+                            <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
+                                 style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.30) 0%, transparent 60%)', filter: 'blur(4px)', transform: 'translateY(6%) scale(0.9)' }} />
+                            <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.26)) drop-shadow(0 1px 2px rgba(100,70,20,0.15))' }} />
                           </div>
                         ) : (
-                          <div className="relative w-10 h-10 md:w-12 md:h-12 group-hover:scale-105 transition-transform">
-                            <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain drop-shadow-md" />
+                          <div className="relative w-10 h-10 md:w-12 md:h-12 group-hover:scale-110 transition-transform duration-500 coin-float coin-float-delay-2">
+                            <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
+                                 style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.28) 0%, transparent 60%)', filter: 'blur(5px)', transform: 'translateY(6%) scale(0.9)' }} />
+                            <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.24)) drop-shadow(0 1px 2px rgba(100,70,20,0.14))' }} />
                           </div>
                         )}
                       </div>
@@ -2294,8 +2374,15 @@ export default function WatchPage() {
                       <div className="text-[14px] md:text-[16px] font-medium whitespace-nowrap leading-tight" style={{ color: '#8A8A8A', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.3px' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
-                      {/* Fiyat / Belirleyin */}
-                      <div className="text-[12px] md:text-[14px] font-medium whitespace-nowrap leading-tight" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      {/* Fiyat / Belirleyin — gold gradient text */}
+                      <div className="text-[12px] md:text-[14px] font-medium whitespace-nowrap leading-tight" style={{
+                        letterSpacing: '0.25px',
+                        fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
+                        background: 'linear-gradient(180deg, #C89540 0%, #B8860B 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}>
                         {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
                       </div>
                     </button>
@@ -2303,7 +2390,7 @@ export default function WatchPage() {
                 </div>
 
                 {/* 3 Trust Badge — kart sonunda, supporting info olarak (önem hiyerarşisi: cards first, trust second) */}
-                <div className="rounded-2xl flex items-center mt-4"
+                <div className="rounded-2xl flex items-center mt-5"
                      style={{
                        background: 'linear-gradient(135deg, rgba(255,253,247,0.65) 0%, rgba(253,247,235,0.55) 100%)',
                        backdropFilter: 'blur(10px)',
@@ -2729,16 +2816,27 @@ export default function WatchPage() {
             0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
             50% { opacity: 0.85; transform: translateX(-50%) scale(1.08); }
           }
+          @keyframes dockSliderShimmer {
+            0%, 100% { opacity: 0.85; }
+            50% { opacity: 1; }
+          }
           .dock-gold-halo { animation: dockGoldBreath 3.4s ease-in-out infinite; }
-          .dock-tab { transition: color 380ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-          .dock-tab:active { transform: scale(0.96); }
+          .dock-tab { transition: color 380ms ease, transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+          .dock-tab:active { transform: scale(0.94); }
           .dock-tab[data-mid="true"] { transform: translateY(-5px) scale(1.05); }
-          .dock-tab[data-mid="true"]:active { transform: translateY(-5px) scale(1.01); }
-          .dock-tab-icon { transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1), color 380ms ease; }
-          .dock-tab[data-active="true"] .dock-tab-icon { transform: scale(1.10); }
+          .dock-tab[data-mid="true"]:active { transform: translateY(-5px) scale(1.00); }
+          .dock-tab-icon { transition: transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1), color 380ms ease; }
+          .dock-tab[data-active="true"] .dock-tab-icon { transform: scale(1.12); }
           .dock-slider {
             transition: left 520ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 380ms ease;
+            animation: dockSliderShimmer 2.6s ease-in-out infinite;
           }
+          /* Top viewer pill entrance */
+          @keyframes pillFadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .pill-enter { animation: pillFadeIn 540ms cubic-bezier(0.22, 1, 0.36, 1) both; }
         `}</style>
 
         <div className="relative max-w-[400px] mx-auto pointer-events-auto" style={{ overflow: 'visible' }}>
