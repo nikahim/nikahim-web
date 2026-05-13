@@ -576,10 +576,15 @@ export default function WatchPage() {
       setLiveViewerCount(0);
       return;
     }
-    const channel = supabase.channel(`live-viewers-${event.id}`);
+    // Key = isim (cross-device aynı kişi = aynı key altında gruplanır, tek sayılır)
+    const presenceKey = (viewerName || `anon-${Math.random()}`).trim().toLowerCase();
+    const channel = supabase.channel(`live-viewers-${event.id}`, {
+      config: { presence: { key: presenceKey } },
+    });
     channel
       .on('presence', { event: 'sync' }, () => {
         const state = channel.presenceState();
+        // Object.keys = unique key count (aynı isim farklı cihazdan = 1 sayılır)
         setLiveViewerCount(Object.keys(state).length);
       })
       .subscribe(async (status) => {
@@ -736,15 +741,25 @@ export default function WatchPage() {
       }
       
       localStorage.setItem(`nikahim_viewer_${slug}`, viewerName.trim());
-      
-      await supabase.from('viewers').insert({
-        event_id: event.id,
-        full_name: viewerName,
-        first_name: viewerFirstName.trim() || null,
-        last_name: viewerLastName.trim() || null,
-      });
-      
-      setViewerCount(prev => prev + 1);
+
+      // Soft auto-merge: aynı full_name daha önce bu event'e kaydedildiyse
+      // yeni satır ekleme (cross-device aynı kişi varsayımı). Davetli akışında
+      // aynı-isimli iki farklı kişi olma riski çok düşük.
+      const { count: existingCount } = await supabase
+        .from('viewers')
+        .select('*', { count: 'exact', head: true })
+        .eq('event_id', event.id)
+        .eq('full_name', viewerName.trim());
+
+      if (!existingCount) {
+        await supabase.from('viewers').insert({
+          event_id: event.id,
+          full_name: viewerName,
+          first_name: viewerFirstName.trim() || null,
+          last_name: viewerLastName.trim() || null,
+        });
+        setViewerCount(prev => prev + 1);
+      }
       setShowWelcomeModal(true);
       
       if (event?.background_music && event.background_music !== 'none') {
