@@ -377,7 +377,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {open && chatBox}
       {!open && (
         <div
-          className="fixed flex items-stretch z-[9999] bottom-[53px] lg:bottom-9 right-[-6px] lg:right-0"
+          className="fixed flex items-stretch z-[9999] bottom-[85px] lg:bottom-9 right-[-6px] lg:right-0"
           style={{
             background: "#fff",
             boxShadow: "0 20px 40px rgba(60,40,40,0.16), 0 6px 16px rgba(200,104,110,0.16), 0 2px 6px rgba(0,0,0,0.04)",
@@ -392,23 +392,23 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
             onClick={() => isCollapsed ? setOpen(true) : setIsCollapsed(true)}
             className="flex items-center justify-center"
             style={{
-              width: isCollapsed ? 42 : 36,
-              paddingLeft: isCollapsed ? 11 : 10,
-              paddingRight: isCollapsed ? 17 : 6,
+              width: isCollapsed ? 54 : 38,
+              paddingLeft: isCollapsed ? 8 : 10,
+              paddingRight: isCollapsed ? 18 : 6,
               color: '#C8686E',
             }}
             aria-label={isCollapsed ? "Canlı Destek aç" : "Daralt"}
           >
             {isCollapsed ? (
-              /* Kulaklıklı mikrofon — destek anlamı */
-              <svg viewBox="0 0 24 24" className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+              /* Kulaklıklı mikrofon — destek anlamı (büyütüldü) */
+              <svg viewBox="0 0 24 24" className="w-[28px] h-[28px]" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 14v-2a8 8 0 0116 0v2" />
                 <path d="M4 14h3v6H4v-6zM17 14h3v6h-3v-6z" />
                 <path d="M17 20v.5a2.5 2.5 0 01-2.5 2.5H12" />
               </svg>
             ) : (
               /* Sağ chevron — kapatma yönünü gösterir (widget sağa kapanır) */
-              <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-[20px] h-[20px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
               </svg>
             )}

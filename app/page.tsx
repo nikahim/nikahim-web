@@ -98,7 +98,7 @@ export default function Home() {
 
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-          <div className="relative rounded-[28px] px-8 lg:px-10 pt-6 pb-14 lg:pt-7 lg:pb-16 max-w-md w-full animate-scale-in overflow-hidden"
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-16 lg:pt-9 lg:pb-20 max-w-md w-full animate-scale-in overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
                  background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
@@ -127,7 +127,7 @@ export default function Home() {
             </button>
 
             {/* Üst — logo + slogan, etrafında soft glow */}
-            <div className="relative flex flex-col items-center mb-3">
+            <div className="relative flex flex-col items-center mb-5">
               {/* Logo arkası soft rose halo */}
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
@@ -145,7 +145,7 @@ export default function Home() {
             </div>
 
             {/* 3 feature — eşit ağırlık, biraz daha nefes */}
-            <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="grid grid-cols-3 gap-4 mb-7 lg:mb-8">
               {[
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
                 { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },

@@ -959,7 +959,7 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-12 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-2 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1190,7 +1190,7 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-12 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-2 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1491,7 +1491,7 @@ export default function WatchPage() {
       {/* App İndir Popup */}
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-          <div className="relative rounded-[28px] px-8 lg:px-10 pt-6 pb-14 lg:pt-7 lg:pb-16 max-w-md w-full overflow-hidden"
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-16 lg:pt-9 lg:pb-20 max-w-md w-full overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
                  background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
@@ -1520,7 +1520,7 @@ export default function WatchPage() {
             </button>
 
             {/* Üst — logo + slogan, etrafında soft glow */}
-            <div className="relative flex flex-col items-center mb-3">
+            <div className="relative flex flex-col items-center mb-5">
               {/* Logo arkası soft rose halo */}
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
@@ -1538,7 +1538,7 @@ export default function WatchPage() {
             </div>
 
             {/* 3 feature — eşit ağırlık, biraz daha nefes */}
-            <div className="grid grid-cols-3 gap-4 mb-4">
+            <div className="grid grid-cols-3 gap-4 mb-7 lg:mb-8">
               {[
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
                 { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
@@ -2140,18 +2140,20 @@ export default function WatchPage() {
                   </h2>
                 </div>
 
-                {/* 3 Trust Badge — TEK KART, sadece başlık (alt-açıklama kaldırıldı), Banka Transferi 2 satır */}
-                <div className="rounded-2xl flex items-center mb-5"
+                {/* 3 Trust Badge — TEK KART, daha kompakt cream-glass, ince font */}
+                <div className="rounded-2xl flex items-center mb-4"
                      style={{
-                       background: 'linear-gradient(135deg, #FFFFFF 0%, #FFFBF0 100%)',
-                       boxShadow: '0 4px 14px rgba(180,140,80,0.12), 0 1px 4px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)',
-                       border: '1px solid rgba(220,200,170,0.35)',
+                       background: 'linear-gradient(135deg, rgba(255,253,247,0.65) 0%, rgba(253,247,235,0.55) 100%)',
+                       backdropFilter: 'blur(10px)',
+                       WebkitBackdropFilter: 'blur(10px)',
+                       boxShadow: '0 2px 10px rgba(180,140,80,0.08), inset 0 1px 0 rgba(255,255,255,0.7)',
+                       border: '1px solid rgba(220,200,170,0.28)',
                      }}>
                   {[
                     {
                       title: 'Güvenli',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                           <path d="M8.5 12l2.5 2.5L15.5 10" strokeWidth="2" />
@@ -2161,15 +2163,15 @@ export default function WatchPage() {
                     {
                       title: 'Anında',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
                           <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
                         </svg>
                       ),
                     },
                     {
-                      title: 'FAST',
+                      title: 'Banka\nTransferi',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <g transform="translate(0,-1.5)">
                             <path d="M3 10L12 4l9 6" />
                             <path d="M5 10v9M19 10v9" />
@@ -2180,12 +2182,12 @@ export default function WatchPage() {
                     },
                   ].map((b, i, arr) => (
                     <Fragment key={i}>
-                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1.5 md:py-2">
-                        <div className="w-7 h-7 md:w-9 md:h-9 rounded-full flex items-center justify-center flex-shrink-0"
-                             style={{ background: 'rgba(200,160,80,0.12)' }}>
+                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5">
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                             style={{ background: 'rgba(200,160,80,0.10)' }}>
                           {b.icon}
                         </div>
-                        <span className="text-[12px] md:text-[14px] font-normal leading-[1.1] text-center" style={{ color: '#3B2F1E' }}>
+                        <span className="text-[11px] md:text-[13px] font-light leading-[1.15] text-center tracking-[0.2px]" style={{ color: '#4A3E2B' }}>
                           {b.title.split('\n').map((line, idx) => (
                             <span key={idx} className="block">{line}</span>
                           ))}
@@ -2241,8 +2243,8 @@ export default function WatchPage() {
                                        ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.18) 0%, transparent 70%)'
                                        : 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.10) 0%, transparent 70%)',
                                    }} />
-                              {/* İsim — daraltıldı */}
-                              <div className="text-[13px] md:text-[16px] font-bold mb-2 md:mb-2.5 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>{gold.name}</div>
+                              {/* İsim — semibold + letter-spacing (premium boutique label hissi) */}
+                              <div className="text-[13px] md:text-[16px] font-semibold mb-2 md:mb-2.5 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>{gold.name}</div>
                               {/* Görsel — daraltıldı */}
                               <div className="relative w-16 h-16 md:w-[88px] md:h-[88px] mx-auto mb-2 md:mb-2.5 group-hover:scale-105 transition-transform duration-300">
                                 <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-lg" />
@@ -2281,8 +2283,8 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — gri ama bold */}
-                      <div className="text-[14px] md:text-[16px] font-bold whitespace-nowrap leading-tight" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      {/* Başlık — semibold + letter-spacing (üst sıra ile uyumlu) */}
+                      <div className="text-[14px] md:text-[16px] font-semibold whitespace-nowrap leading-tight" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
                       {/* Fiyat / Belirleyin */}
@@ -2475,15 +2477,18 @@ export default function WatchPage() {
         </div>
       </div>
 
-      {/* MOBİL BOTTOM TAB NAV — Altın Tak / Tebrik Et / Albüm (icon yanda, premium) */}
+      {/* MOBİL BOTTOM TAB NAV — daha cam/transparan + üst rose glow (Apple iOS tabbar hissi) */}
       <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pb-3 pt-2"
            style={{
-             background: 'linear-gradient(180deg, rgba(255,251,248,0.92) 0%, rgba(253,247,243,0.97) 100%)',
-             backdropFilter: 'blur(20px)',
-             WebkitBackdropFilter: 'blur(20px)',
-             borderTop: '1px solid rgba(200,104,110,0.10)',
-             boxShadow: '0 -6px 24px rgba(200,104,110,0.06), 0 -1px 0 rgba(255,250,247,0.5)',
+             background: 'linear-gradient(180deg, rgba(255,251,248,0.72) 0%, rgba(253,247,243,0.82) 100%)',
+             backdropFilter: 'blur(28px) saturate(180%)',
+             WebkitBackdropFilter: 'blur(28px) saturate(180%)',
+             borderTop: '1px solid rgba(200,104,110,0.14)',
+             boxShadow: '0 -8px 28px rgba(200,104,110,0.08), 0 -1px 0 rgba(255,250,247,0.6)',
            }}>
+        {/* Üst kenar — pearl/rose glow accent çizgisi */}
+        <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+             style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(200,104,110,0.30) 30%, rgba(212,168,82,0.22) 50%, rgba(200,104,110,0.30) 70%, transparent 100%)' }} />
         <div className="flex items-center justify-around gap-1.5">
           {[
             { id: 'altin' as const, label: 'Altın Tak', icon: (
@@ -2520,13 +2525,18 @@ export default function WatchPage() {
             return (
               <button key={tab.id}
                       onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-2xl transition-all active:scale-[0.96]"
+                      className="relative flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-2xl transition-all active:scale-[0.96]"
                       style={{
                         color: isActive ? '#9F4F58' : '#9A8989',
                         background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.94) 100%)' : 'transparent',
                         boxShadow: isActive ? '0 4px 14px rgba(200,104,110,0.14), 0 1px 3px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)' : 'none',
                         border: isActive ? '1px solid rgba(232,165,169,0.45)' : '1px solid transparent',
                       }}>
+                {/* iOS17 style top mini-bar indicator — sadece aktif tab'da */}
+                {isActive && (
+                  <span aria-hidden="true" className="absolute -top-[7px] left-1/2 -translate-x-1/2 w-7 h-[3px] rounded-full"
+                        style={{ background: 'linear-gradient(90deg, transparent, #C8686E 30%, #C8686E 70%, transparent)', boxShadow: '0 0 6px rgba(200,104,110,0.45)' }} />
+                )}
                 {tab.icon}
                 <span className="text-[11.5px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
               </button>
