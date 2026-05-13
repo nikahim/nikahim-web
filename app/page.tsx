@@ -380,10 +380,9 @@ export default function Home() {
                         border: '1px solid rgba(200,104,110,0.18)',
                         boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                       }}>
-                <svg className="w-[18px] h-[18px]" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="9.5" strokeWidth="1.5" />
-                  <path d="M9.5 9c0-1.5 1.2-2.5 2.5-2.5s2.5 1 2.5 2.5c0 1.2-1 1.8-1.8 2.2-0.5 0.3-0.7 0.7-0.7 1.3" />
-                  <circle cx="12" cy="16.5" r="0.6" fill="#9F4F58" stroke="none" />
+                <svg className="w-[22px] h-[22px]" fill="none" stroke="#9F4F58" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <path d="M8.5 9c0-2 1.6-3.5 3.5-3.5s3.5 1.5 3.5 3.5c0 1.6-1.2 2.4-2.3 3-0.7 0.4-1.2 0.9-1.2 1.8v0.7" />
+                  <circle cx="12" cy="18" r="1.1" fill="#9F4F58" stroke="none" />
                 </svg>
               </button>
 

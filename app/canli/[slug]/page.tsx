@@ -382,7 +382,6 @@ export default function WatchPage() {
     { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/altintak.png" },
     { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/altintak.png" },
     { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/altintak.png" },
-    { id: "ata_altin", name: "Ata Altın", price: getGoldPrice('ata'), image: "/altintak.png" },
     { id: "nakit", name: "Özel Miktar", price: 0, image: "/altintaklira.png" },
   ];
 
@@ -1677,10 +1676,9 @@ export default function WatchPage() {
                 border: '1px solid rgba(200,104,110,0.18)',
                 boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
               }}>
-              <svg className="w-4 h-4" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="9.5" strokeWidth="1.5" />
-                <path d="M9.5 9c0-1.5 1.2-2.5 2.5-2.5s2.5 1 2.5 2.5c0 1.2-1 1.8-1.8 2.2-0.5 0.3-0.7 0.7-0.7 1.3" />
-                <circle cx="12" cy="16.5" r="0.6" fill="#9F4F58" stroke="none" />
+              <svg className="w-[20px] h-[20px]" fill="none" stroke="#9F4F58" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M8.5 9c0-2 1.6-3.5 3.5-3.5s3.5 1.5 3.5 3.5c0 1.6-1.2 2.4-2.3 3-0.7 0.4-1.2 0.9-1.2 1.8v0.7" />
+                <circle cx="12" cy="18" r="1.1" fill="#9F4F58" stroke="none" />
               </svg>
             </button>
           </div>
@@ -2224,7 +2222,7 @@ export default function WatchPage() {
 
                 {/* Üst sıra: 3 kart (Çeyrek, Yarım+Popüler, Ata) — premium emboss, butonsuz */}
                 {(() => {
-                  const topItems = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'ata_altin'].includes(g.id));
+                  const topItems = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'tam_altin'].includes(g.id));
                   return (
                     <div className="grid grid-cols-3 gap-3 md:gap-4 mb-3 md:mb-4">
                       {topItems.map((gold) => {
@@ -2549,15 +2547,10 @@ export default function WatchPage() {
               </svg>
             </button>
 
-            {/* Mini header — Concierge marka hissi */}
-            <div className="px-7 pt-12 pb-6"
+            {/* Mini header — wordmark logo + Concierge */}
+            <div className="px-7 pt-10 pb-6"
                  style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-1 h-5 rounded-full" style={{ background: 'linear-gradient(180deg, #C8686E, #D4A852)' }} />
-                <p className="text-[10.5px] font-semibold uppercase tracking-[1.5px]" style={{ color: '#9F4F58' }}>
-                  Nikahım
-                </p>
-              </div>
+              <Image src="/navbar-text.png" alt="Nikahım" width={160} height={48} className="h-[40px] w-auto object-contain -ml-1 mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Concierge
               </h2>
@@ -2569,7 +2562,7 @@ export default function WatchPage() {
 
             {/* Soru — sakin başlık */}
             <p className="px-7 pt-6 pb-3 text-[13px]" style={{ color: '#6B5A5A' }}>
-              Size nasıl yardımcı olalım?
+              Size nasıl yardımcı olabiliriz?
             </p>
 
             {/* 3 öğe */}
