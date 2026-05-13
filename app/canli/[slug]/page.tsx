@@ -1631,7 +1631,7 @@ export default function WatchPage() {
           {/* SOL — Marka */}
           <div className="flex items-center cursor-pointer group" onClick={() => window.location.href = '/'} style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={60} height={60} className="h-[48px] lg:h-[54px] w-auto object-contain transition-transform group-hover:scale-[1.04]" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[30px] lg:h-[34px] w-auto object-contain ml-1" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[30px] lg:h-[34px] w-auto object-contain -ml-0.5" />
           </div>
 
           {/* SAĞ — Glass action area: status pill + müzik + izleyici */}
@@ -2246,9 +2246,9 @@ export default function WatchPage() {
                   50% { background-position: 100% 50%; }
                 }
               `}</style>
-              <div className="px-5 md:px-7 pt-5 pb-7">
+              <div className="px-5 md:px-7 pt-4 pb-4">
                 {/* Başlık — premium typography: "Mutlu Çifte" ince italic gri + "Altın Tak" gold gradient */}
-                <div className="text-center mb-5">
+                <div className="text-center mb-4">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
@@ -2371,15 +2371,15 @@ export default function WatchPage() {
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — flex-item, SOL SABİT (artık text üstüne binmez) */}
+                      {/* İkon — flex-item, SOL SABİT. Gram -%10 / TL +%10 (görsel denge) */}
                       {gold.id === 'gram_altin' ? (
-                        <div className="relative w-9 h-9 md:w-10 md:h-10 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                        <div className="relative w-8 h-8 md:w-9 md:h-9 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
                           <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
                                style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.28) 0%, transparent 60%)', filter: 'blur(4px)', transform: 'translateY(6%) scale(0.9)' }} />
                           <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.24)) drop-shadow(0 1px 2px rgba(100,70,20,0.14))' }} />
                         </div>
                       ) : (
-                        <div className="relative w-9 h-9 md:w-11 md:h-11 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                        <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
                           <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
                                style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.26) 0%, transparent 60%)', filter: 'blur(5px)', transform: 'translateY(6%) scale(0.9)' }} />
                           <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.22)) drop-shadow(0 1px 2px rgba(100,70,20,0.12))' }} />
@@ -2406,7 +2406,7 @@ export default function WatchPage() {
                 </div>
 
                 {/* Trust line — minimal Apple-style: tek satır, mono ikonlar, ince yazı, supporting info (öne çıkmaz) */}
-                <div className="mt-5 flex items-center justify-center gap-3 md:gap-5 px-1 flex-wrap">
+                <div className="mt-3 flex items-center justify-center gap-3 md:gap-5 px-1 flex-wrap">
                   {[
                     {
                       title: 'Güvenli Ödeme',
@@ -2960,13 +2960,13 @@ export default function WatchPage() {
             <div className="relative h-full flex items-stretch gap-0">
               {[
                 { id: 'tebrik' as const, label: 'Tebrik', isMid: false, icon: (
-                  <svg className="dock-tab-icon w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
                     <path d="M12 14.5s-2.8-1.6-2.8-3.5c0-0.95 0.85-1.7 1.8-1.7 0.55 0 1 0.3 1 0.3s0.45-0.3 1-0.3c0.95 0 1.8 0.75 1.8 1.7 0 1.9-2.8 3.5-2.8 3.5z" fill="currentColor" stroke="none" />
                   </svg>
                 ) },
                 { id: 'altin' as const, label: 'Altın Tak', isMid: true, icon: (
-                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <svg className="dock-tab-icon w-[27px] h-[27px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     {/* Kurdele */}
                     <path d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" />
                     {/* Madeni */}
@@ -2976,7 +2976,7 @@ export default function WatchPage() {
                   </svg>
                 ) },
                 { id: 'album' as const, label: 'Albüm', isMid: false, icon: (
-                  <svg className="dock-tab-icon w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     <rect x="3" y="5" width="18" height="15" rx="2.5" />
                     <circle cx="8.5" cy="10.5" r="1.5" />
                     <path d="M3 17l5-5 3.5 3.5L15 12l6 6" />
@@ -2996,7 +2996,7 @@ export default function WatchPage() {
                             opacity: isActive ? 1 : 0.88,
                           }}>
                     <span className="relative z-10">{tab.icon}</span>
-                    <span className="relative z-10 text-[9.5px] font-semibold uppercase whitespace-nowrap"
+                    <span className="relative z-10 text-[10.5px] font-semibold uppercase whitespace-nowrap"
                           style={{ letterSpacing: '0.7px' }}>
                       {tab.label}
                     </span>
