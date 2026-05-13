@@ -151,6 +151,9 @@ export default function WatchPage() {
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  // Foto like state — counts per photoUrl + my liked set
+  const [photoLikes, setPhotoLikes] = useState<Record<string, number>>({});
+  const [likedByMe, setLikedByMe] = useState<Set<string>>(new Set());
   const conciergeFaqs = [
     { q: 'Nikahım platformu nasıl işler?', a: "Nikahım platformunda çiftler, Nikahım uygulamasını indirdikten sonra nikahlarını veya düğünlerini canlı yayınlayabilecekleri kendilerine özel bir internet sayfası oluştururlar. Nikahım'ın onlarca tasarımı arasından seçtikleri online davetiyelerini arkadaşlarına, akrabalarına ve sevdiklerine göndererek nikahlarına katılamayan kişilerin online olarak nikahlarına katılmalarını sağlarlar. Nikahım platformunun altın takma ve tebrik mesajı özellikleri sayesinde nikahlarını canlı izleyen kişiler, çifte takmak istedikleri altın miktarı kadar TL'yi çiftin hesabına direkt olarak Havale/EFT veya Crypto ile gönderebilir; isterlerse video, sesli veya yazılı tebrik mesajı gönderebilirler." },
     { q: 'Online nikah sayfasında hangi özellikler var?', a: 'Çiftlerin uygulamamız üzerinden oluşturduğu kendilerine özel canlı yayın sayfasında nikahlarını canlı yayınlayabilir, nikah gününden fotoğraflarını bu sayfada davetlileri ile paylaşabilir, altın takma özelliği ile davetlilerden ödeme kabul edebilir, tebrik bölümünde 3 yol ile (video, sesli ve yazılı) tebrik mesajlarını kabul edebilirler.' },
@@ -739,6 +742,84 @@ export default function WatchPage() {
     }, 4500);
     return () => clearInterval(interval);
   }, [slideshowPhotos.length]);
+
+  // Per-device viewer key — localStorage UUID (anonymous, dedup için)
+  const getViewerKey = () => {
+    if (typeof window === 'undefined') return 'ssr';
+    const KEY = 'nikahim_viewer_key';
+    let v = localStorage.getItem(KEY);
+    if (!v) {
+      v = (crypto.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`);
+      localStorage.setItem(KEY, v);
+    }
+    return v;
+  };
+
+  // Foto like'ları yükle + realtime dinle
+  useEffect(() => {
+    if (!event?.id || slideshowPhotos.length === 0) return;
+    const viewerKey = getViewerKey();
+    let mounted = true;
+
+    const load = async () => {
+      const { data } = await supabase
+        .from('photo_likes')
+        .select('photo_url, viewer_key')
+        .eq('event_id', event.id)
+        .in('photo_url', slideshowPhotos);
+      if (!mounted || !data) return;
+      const counts: Record<string, number> = {};
+      const liked = new Set<string>();
+      data.forEach((row: { photo_url: string; viewer_key: string }) => {
+        counts[row.photo_url] = (counts[row.photo_url] || 0) + 1;
+        if (row.viewer_key === viewerKey) liked.add(row.photo_url);
+      });
+      setPhotoLikes(counts);
+      setLikedByMe(liked);
+    };
+    load();
+
+    // Realtime — like olduğunda anlık sayaç güncelle (kendi like'larım optimistic zaten güncel)
+    const channel = supabase
+      .channel(`photo-likes-${event.id}`)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'photo_likes', filter: `event_id=eq.${event.id}` }, (payload) => {
+        const url = (payload.new as { photo_url?: string })?.photo_url;
+        if (!url || !mounted) return;
+        setPhotoLikes(prev => ({ ...prev, [url]: (prev[url] || 0) + 1 }));
+      })
+      .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'photo_likes', filter: `event_id=eq.${event.id}` }, (payload) => {
+        const url = (payload.old as { photo_url?: string })?.photo_url;
+        if (!url || !mounted) return;
+        setPhotoLikes(prev => ({ ...prev, [url]: Math.max(0, (prev[url] || 0) - 1) }));
+      })
+      .subscribe();
+
+    return () => { mounted = false; supabase.removeChannel(channel); };
+  }, [event?.id, slideshowPhotos.join(',')]);
+
+  // Like toggle — optimistic update + Supabase insert/delete
+  const togglePhotoLike = async (photoUrl: string) => {
+    if (!event?.id) return;
+    const viewerKey = getViewerKey();
+    const isLiked = likedByMe.has(photoUrl);
+
+    // Optimistic
+    setLikedByMe(prev => {
+      const next = new Set(prev);
+      if (isLiked) next.delete(photoUrl); else next.add(photoUrl);
+      return next;
+    });
+    setPhotoLikes(prev => ({ ...prev, [photoUrl]: Math.max(0, (prev[photoUrl] || 0) + (isLiked ? -1 : 1)) }));
+
+    if (isLiked) {
+      await supabase.from('photo_likes').delete()
+        .eq('event_id', event.id).eq('photo_url', photoUrl).eq('viewer_key', viewerKey);
+    } else {
+      await supabase.from('photo_likes').insert({
+        event_id: event.id, photo_url: photoUrl, viewer_key: viewerKey, viewer_name: viewerName?.trim() || null,
+      });
+    }
+  };
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
@@ -2456,6 +2537,39 @@ export default function WatchPage() {
 
           {/* SAĞ PANEL - Tebrik Kartları + Galeri — mobilde display:contents, masaüstünde 320px column */}
           <div ref={rightPanelRef} className="contents lg:flex lg:w-[320px] lg:flex-shrink-0 lg:flex-col lg:gap-3 lg:min-h-0">
+            {/* Mobil-only başlık — Mutlu Çifte Altın Tak / Fotoğraf Albümü ile aynı dilde (tab geçişlerinde dikey hiza smooth) */}
+            <div className={`lg:hidden mb-3 ${activeMobileTab !== 'tebrik' ? 'hidden' : ''}`}>
+              <div className="text-center pt-2">
+                <h2 className="flex items-center justify-center gap-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
+                  <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,220,222,0.7) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
+                  </span>
+                  <span className="text-[22px] whitespace-nowrap leading-none">
+                    <span style={{ fontStyle: 'italic', fontWeight: 300, color: '#7A6E5F', letterSpacing: '1.2px' }}>
+                      Tebrik
+                    </span>
+                    <span style={{ display: 'inline-block', width: '0.45em' }} />
+                    <span style={{
+                      fontWeight: 500,
+                      letterSpacing: '1.6px',
+                      background: 'linear-gradient(180deg, #D87880 0%, #C8686E 55%, #A84A52 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      textShadow: '0 1px 0 rgba(255,230,232,0.4)',
+                    }}>
+                      Mesajları
+                    </span>
+                  </span>
+                  <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 30%, rgba(255,220,222,0.7) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
+                  </span>
+                </h2>
+              </div>
+            </div>
+
             {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
             <div onClick={() => setShowVideoRecorder(true)} className={`rounded-2xl p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
@@ -2498,8 +2612,8 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className={`rounded-2xl px-5 pt-4 pb-2.5 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE */}
-              <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">
+              {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
+              <div className="text-center relative z-10 mb-4 lg:mt-2">
                 <h3 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                     <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
@@ -3024,11 +3138,23 @@ export default function WatchPage() {
               </div>
               {slideshowPhotos.length > 0 ? (
                 <div className="grid grid-cols-3 gap-3">
-                  {slideshowPhotos.map((url, i) => (
-                    <div key={i} onClick={() => setPhotoLightboxIndex(i)} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer" style={{ border: '1px solid rgba(200,104,110,0.1)' }}>
-                      <img src={url} alt="" className="w-full h-full object-cover" />
-                    </div>
-                  ))}
+                  {slideshowPhotos.map((url, i) => {
+                    const liked = likedByMe.has(url);
+                    const count = photoLikes[url] || 0;
+                    return (
+                      <div key={i} onClick={() => setPhotoLightboxIndex(i)} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer relative" style={{ border: '1px solid rgba(200,104,110,0.1)' }}>
+                        <img src={url} alt="" className="w-full h-full object-cover" />
+                        {count > 0 && (
+                          <div className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)' }}>
+                            <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill={liked ? '#E26B72' : 'white'} stroke={liked ? '#E26B72' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                            </svg>
+                            <span className="text-white text-[10px] font-semibold tabular-nums">{count}</span>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="text-center py-8">
@@ -3072,6 +3198,26 @@ export default function WatchPage() {
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-white text-sm font-semibold" style={{ background: 'rgba(0,0,0,0.5)' }}>
             {photoLightboxIndex + 1} / {slideshowPhotos.length}
           </div>
+          {/* Like butonu — sol alt, alt sayaç ile dengeli */}
+          {(() => {
+            const url = slideshowPhotos[photoLightboxIndex];
+            const liked = likedByMe.has(url);
+            const count = photoLikes[url] || 0;
+            return (
+              <button onClick={(e) => { e.stopPropagation(); togglePhotoLike(url); }}
+                      aria-label={liked ? 'Beğenildi' : 'Beğen'}
+                      className="absolute bottom-8 left-6 inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full transition-all hover:scale-105 active:scale-95"
+                      style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
+                <svg className="w-5 h-5 transition-all duration-300" viewBox="0 0 24 24"
+                     fill={liked ? '#E26B72' : 'none'}
+                     stroke={liked ? '#E26B72' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                     style={{ filter: liked ? 'drop-shadow(0 0 6px rgba(226,107,114,0.45))' : 'none', transform: liked ? 'scale(1.08)' : 'scale(1)' }}>
+                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                </svg>
+                <span className="text-white text-sm font-semibold tabular-nums">{count}</span>
+              </button>
+            );
+          })()}
         </div>
       )}
 

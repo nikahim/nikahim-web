@@ -15,6 +15,7 @@ export default function AdminEventDetailPage() {
   const [messages, setMessages] = useState<any[]>([]);
   const [gifts, setGifts] = useState<any[]>([]);
   const [photos, setPhotos] = useState<any[]>([]);
+  const [photoLikeCounts, setPhotoLikeCounts] = useState<Record<string, number>>({});
   const [tab, setTab] = useState<'info' | 'messages' | 'gifts' | 'photos' | 'video'>('info');
 
   useEffect(() => { fetchAll(); }, [eventId]);
@@ -32,6 +33,16 @@ export default function AdminEventDetailPage() {
 
     const { data: phs } = await supabase.from('photo_requests').select('*').eq('event_id', eventId).order('created_at', { ascending: false });
     setPhotos(phs || []);
+
+    // Like sayılarını çek (photo_url -> count)
+    const { data: likes } = await supabase.from('photo_likes').select('photo_url').eq('event_id', eventId);
+    if (likes) {
+      const counts: Record<string, number> = {};
+      likes.forEach((row: { photo_url: string }) => {
+        counts[row.photo_url] = (counts[row.photo_url] || 0) + 1;
+      });
+      setPhotoLikeCounts(counts);
+    }
 
     setLoading(false);
   };
@@ -169,20 +180,46 @@ export default function AdminEventDetailPage() {
 
       {tab === 'photos' && (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {photos.length === 0 ? <p className="col-span-full p-8 text-center text-gray-400">Fotoğraf yok</p> : photos.map(p => (
-            <div key={p.id} className="bg-white rounded-2xl border border-gray-100 p-3">
-              {p.photo_urls && p.photo_urls.length > 0 && (
-                <div className="grid grid-cols-2 gap-1 mb-2">
-                  {p.photo_urls.slice(0, 4).map((url: string, i: number) => (
-                    <img key={i} src={url} alt="" className="w-full h-20 object-cover rounded-lg" />
-                  ))}
+          {photos.length === 0 ? <p className="col-span-full p-8 text-center text-gray-400">Fotoğraf yok</p> : photos.map(p => {
+            const totalLikes = (p.photo_urls || []).reduce((sum: number, url: string) => sum + (photoLikeCounts[url] || 0), 0);
+            return (
+              <div key={p.id} className="bg-white rounded-2xl border border-gray-100 p-3">
+                {p.photo_urls && p.photo_urls.length > 0 && (
+                  <div className="grid grid-cols-2 gap-1 mb-2">
+                    {p.photo_urls.slice(0, 4).map((url: string, i: number) => {
+                      const count = photoLikeCounts[url] || 0;
+                      return (
+                        <div key={i} className="relative">
+                          <img src={url} alt="" className="w-full h-20 object-cover rounded-lg" />
+                          {count > 0 && (
+                            <div className="absolute bottom-1 left-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.6)' }}>
+                              <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="#E26B72" stroke="#E26B72" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                              </svg>
+                              <span className="text-white text-[9px] font-semibold tabular-nums">{count}</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-xs font-semibold text-gray-700 truncate flex-1">{p.sender_name}</p>
+                  {totalLikes > 0 && (
+                    <span className="inline-flex items-center gap-0.5 text-[10px] font-bold flex-shrink-0" style={{ color: '#E26B72' }}>
+                      <svg className="w-3 h-3" viewBox="0 0 24 24" fill="#E26B72" stroke="#E26B72" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+                      </svg>
+                      {totalLikes}
+                    </span>
+                  )}
                 </div>
-              )}
-              <p className="text-xs font-semibold text-gray-700">{p.sender_name}</p>
-              <p className="text-xs text-gray-400">{p.status} · {formatDate(p.created_at)}</p>
-              <button onClick={() => deletePhotoRequest(p.id)} className="mt-2 w-full text-xs text-red-500 font-semibold py-1 rounded-full border border-red-200 hover:bg-red-50">Sil</button>
-            </div>
-          ))}
+                <p className="text-xs text-gray-400">{p.status} · {formatDate(p.created_at)}</p>
+                <button onClick={() => deletePhotoRequest(p.id)} className="mt-2 w-full text-xs text-red-500 font-semibold py-1 rounded-full border border-red-200 hover:bg-red-50">Sil</button>
+              </div>
+            );
+          })}
         </div>
       )}
 
