@@ -285,8 +285,8 @@ export default function Home() {
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[44px] w-auto object-contain mt-1" />
+                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[104px] h-[104px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[34px] w-auto object-contain -mt-1" />
               </div>
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
@@ -349,7 +349,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-[72px] lg:h-[80px] relative">
             {/* SOL — Marka (logo + wordmark, +%15) */}
             <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/navbar-icon.png" alt="Nikahım" width={66} height={66} className="h-[65px] lg:h-[66px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.04]" />
+              <Image src="/navbar-icon.png" alt="Nikahım" width={66} height={66} className="h-[58px] lg:h-[60px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.04]" />
               <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[36px] lg:h-[40px] w-auto object-contain -ml-1 transition-opacity duration-300 group-hover:opacity-90" />
             </div>
 
