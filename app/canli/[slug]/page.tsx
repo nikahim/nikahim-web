@@ -2626,10 +2626,10 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-4 pb-3 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
-              <div className="text-center relative z-10 mb-3 lg:mt-2">
+              <div className="text-center relative z-10 mb-2 lg:mt-2">
                 <h3 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                     <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
@@ -2659,8 +2659,8 @@ export default function WatchPage() {
                 </h3>
               </div>
 
-              {/* Statik 3-foto layout — altın tak ile dengeli boy */}
-              <div className="relative w-full mt-0 mb-0 flex items-center justify-center" style={{ height: 168 }}>
+              {/* Statik 3-foto layout — altın tak ile dengeli boy, başlığa yakın */}
+              <div className="relative w-full -mt-1 mb-0 flex items-center justify-center" style={{ height: 158 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
