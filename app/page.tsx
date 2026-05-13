@@ -148,7 +148,7 @@ export default function Home() {
             </button>
 
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[80px] w-auto object-contain -ml-2 -mb-2" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[40px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>
@@ -286,7 +286,7 @@ export default function Home() {
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
                 <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[100px] w-auto object-contain -mt-4" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[44px] w-auto object-contain mt-1" />
               </div>
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
@@ -350,7 +350,7 @@ export default function Home() {
             {/* SOL — Marka (logo + wordmark, +%15) */}
             <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <Image src="/navbar-icon.png" alt="Nikahım" width={66} height={66} className="h-[65px] lg:h-[66px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.04]" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[104px] lg:h-[105px] w-auto object-contain -ml-4 mt-1 transition-opacity duration-300 group-hover:opacity-90" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[36px] lg:h-[40px] w-auto object-contain -ml-1 transition-opacity duration-300 group-hover:opacity-90" />
             </div>
 
             {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}

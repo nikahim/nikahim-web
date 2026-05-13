@@ -1562,7 +1562,7 @@ export default function WatchPage() {
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
                 <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[100px] w-auto object-contain -mt-4" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[44px] w-auto object-contain mt-1" />
               </div>
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
@@ -1621,7 +1621,7 @@ export default function WatchPage() {
           {/* SOL — Marka */}
           <div className="flex items-center cursor-pointer group" onClick={() => window.location.href = '/'} style={{ gap: '0px' }}>
             <Image src="/navbar-icon.png" alt="Nikahım" width={60} height={60} className="h-[48px] lg:h-[54px] w-auto object-contain transition-transform group-hover:scale-[1.04]" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[74px] lg:h-[90px] w-auto object-contain -ml-5 mt-1" />
+            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[30px] lg:h-[34px] w-auto object-contain ml-1.5" />
           </div>
 
           {/* SAĞ — Glass action area: status pill + müzik + izleyici */}
@@ -2692,7 +2692,7 @@ export default function WatchPage() {
             {/* Mini header — wordmark logo + Destek */}
             <div className="px-7 pt-6 pb-6"
                  style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[80px] w-auto object-contain -ml-2 -mb-2" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[40px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>
