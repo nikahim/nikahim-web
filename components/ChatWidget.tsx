@@ -377,7 +377,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {open && chatBox}
       {!open && (
         <div
-          className="fixed flex items-stretch z-[9999] bottom-[85px] lg:bottom-9 right-[-6px] lg:right-0"
+          className="fixed flex items-stretch z-[9999] bottom-[75px] lg:bottom-9 right-[-6px] lg:right-0"
           style={{
             background: "#fff",
             boxShadow: "0 20px 40px rgba(60,40,40,0.16), 0 6px 16px rgba(200,104,110,0.16), 0 2px 6px rgba(0,0,0,0.04)",

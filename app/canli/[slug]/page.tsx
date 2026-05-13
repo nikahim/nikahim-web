@@ -1669,7 +1669,7 @@ export default function WatchPage() {
       </header>
 
       {/* 3 PANEL LAYOUT */}
-      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-24 lg:p-5">
+      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-28 lg:p-5">
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
@@ -2477,14 +2477,15 @@ export default function WatchPage() {
         </div>
       </div>
 
-      {/* MOBİL BOTTOM TAB NAV — daha cam/transparan + üst rose glow (Apple iOS tabbar hissi) */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pb-3 pt-2"
+      {/* MOBİL BOTTOM TAB NAV — daha cam/transparan + üst rose glow + safe-area boşluk */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-3"
            style={{
              background: 'linear-gradient(180deg, rgba(255,251,248,0.72) 0%, rgba(253,247,243,0.82) 100%)',
              backdropFilter: 'blur(28px) saturate(180%)',
              WebkitBackdropFilter: 'blur(28px) saturate(180%)',
              borderTop: '1px solid rgba(200,104,110,0.14)',
              boxShadow: '0 -8px 28px rgba(200,104,110,0.08), 0 -1px 0 rgba(255,250,247,0.6)',
+             paddingBottom: 'max(16px, env(safe-area-inset-bottom))',
            }}>
         {/* Üst kenar — pearl/rose glow accent çizgisi */}
         <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
@@ -2492,7 +2493,7 @@ export default function WatchPage() {
         <div className="flex items-center justify-around gap-1.5">
           {[
             { id: 'altin' as const, label: 'Altın Tak', icon: (
-              <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <svg className="w-[21px] h-[21px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 {/* Kurdele (ribbon) */}
                 <path d="M8 8L6 4.5h2.5L10 2.5 11.5 4l1-1.5L14 4.5l1.5-2H18L16 8" />
                 {/* Madeni */}
@@ -2502,7 +2503,7 @@ export default function WatchPage() {
               </svg>
             ) },
             { id: 'tebrik' as const, label: 'Tebrik Et', icon: (
-              <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <svg className="w-[21px] h-[21px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 {/* Konuşma balonu */}
                 <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
                 {/* İçinde kalp (dolu) */}
@@ -2510,7 +2511,7 @@ export default function WatchPage() {
               </svg>
             ) },
             { id: 'album' as const, label: 'Albüm', icon: (
-              <svg className="w-[18px] h-[18px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <svg className="w-[21px] h-[21px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 {/* Arka foto */}
                 <rect x="7" y="3.5" width="13.5" height="13.5" rx="2" />
                 {/* Ön foto */}
@@ -2525,20 +2526,22 @@ export default function WatchPage() {
             return (
               <button key={tab.id}
                       onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                      className="relative flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-2xl transition-all active:scale-[0.96]"
+                      className="relative flex-1 inline-flex items-center justify-center gap-1.5 py-3.5 px-2 rounded-2xl transition-all active:scale-[0.96]"
                       style={{
                         color: isActive ? '#9F4F58' : '#9A8989',
-                        background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.94) 100%)' : 'transparent',
-                        boxShadow: isActive ? '0 4px 14px rgba(200,104,110,0.14), 0 1px 3px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)' : 'none',
-                        border: isActive ? '1px solid rgba(232,165,169,0.45)' : '1px solid transparent',
+                        background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(253,243,243,0.90) 100%)' : 'transparent',
+                        boxShadow: isActive
+                          ? '0 8px 22px rgba(200,104,110,0.13), 0 2px 6px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 0 1px rgba(200,104,110,0.10)'
+                          : 'none',
+                        border: isActive ? '1px solid rgba(232,165,169,0.40)' : '1px solid transparent',
                       }}>
                 {/* iOS17 style top mini-bar indicator — sadece aktif tab'da */}
                 {isActive && (
-                  <span aria-hidden="true" className="absolute -top-[7px] left-1/2 -translate-x-1/2 w-7 h-[3px] rounded-full"
-                        style={{ background: 'linear-gradient(90deg, transparent, #C8686E 30%, #C8686E 70%, transparent)', boxShadow: '0 0 6px rgba(200,104,110,0.45)' }} />
+                  <span aria-hidden="true" className="absolute -top-[8px] left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-full"
+                        style={{ background: 'linear-gradient(90deg, transparent, #C8686E 30%, #C8686E 70%, transparent)', boxShadow: '0 0 8px rgba(200,104,110,0.55)' }} />
                 )}
                 {tab.icon}
-                <span className="text-[11.5px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
+                <span className="text-[12px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
               </button>
             );
           })}
