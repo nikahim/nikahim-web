@@ -2164,7 +2164,7 @@ export default function WatchPage() {
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`mt-2 lg:mt-4 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`-mt-1 lg:mt-3 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card { transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 420ms ease; }
                 .gold-card:hover {
@@ -2351,46 +2351,45 @@ export default function WatchPage() {
                   );
                 })()}
 
-                {/* Alt sıra: 2 yatay kart — kompakt, gram + özel miktar coin SABİT (float yok), padding sıkı */}
+                {/* Alt sıra: 2 yatay kart — flex-row clean: ikon SOLDA sabit, text SAĞDA flex-1 dikey ortalı */}
                 <div className="grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold, botIdx) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
-                            className={`group relative rounded-2xl pr-2.5 py-1 md:py-1.5 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex flex-col items-center justify-center cursor-pointer overflow-hidden gold-card card-enter card-enter-${botIdx + 4} ${gold.id === 'gram_altin' ? 'pl-9 md:pl-10' : 'pl-[44px] md:pl-[50px]'}`}
+                            className={`group relative rounded-2xl py-1.5 md:py-2 pl-2.5 pr-3 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center gap-2 md:gap-2.5 cursor-pointer overflow-hidden gold-card card-enter card-enter-${botIdx + 4}`}
                             style={{
                               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                               boxShadow: '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                               border: '1px solid rgba(220,200,170,0.30)',
                             }}>
-                      {/* İkon — sabit, float yok (sadece üst sıra coinler hareket eder) */}
-                      <div className={`absolute top-1/2 -translate-y-1/2 flex-shrink-0 ${gold.id === 'gram_altin' ? 'left-3 md:left-3.5' : 'left-1.5 md:left-2'}`}>
-                        {gold.id === 'gram_altin' ? (
-                          <div className="relative w-7 h-7 md:w-8 md:h-8 group-hover:scale-110 transition-transform duration-500">
-                            <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
-                                 style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.28) 0%, transparent 60%)', filter: 'blur(4px)', transform: 'translateY(6%) scale(0.9)' }} />
-                            <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.24)) drop-shadow(0 1px 2px rgba(100,70,20,0.14))' }} />
-                          </div>
-                        ) : (
-                          <div className="relative w-10 h-10 md:w-12 md:h-12 group-hover:scale-110 transition-transform duration-500">
-                            <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
-                                 style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.26) 0%, transparent 60%)', filter: 'blur(5px)', transform: 'translateY(6%) scale(0.9)' }} />
-                            <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.22)) drop-shadow(0 1px 2px rgba(100,70,20,0.12))' }} />
-                          </div>
-                        )}
-                      </div>
-                      {/* Başlık — daha hafif (font-medium + açık gri, üst sıradan daha az baskın) */}
-                      <div className="text-[14px] md:text-[16px] font-medium whitespace-nowrap leading-tight" style={{ color: '#8A8A8A', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.3px' }}>
-                        {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
-                      </div>
-                      {/* Fiyat / Belirleyin — gold gradient text */}
-                      <div className="text-[12px] md:text-[14px] font-medium whitespace-nowrap leading-tight" style={{
-                        letterSpacing: '0.25px',
-                        fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
-                        background: 'linear-gradient(180deg, #C89540 0%, #B8860B 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}>
-                        {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
+                      {/* İkon — flex-item, SOL SABİT (artık text üstüne binmez) */}
+                      {gold.id === 'gram_altin' ? (
+                        <div className="relative w-9 h-9 md:w-10 md:h-10 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                          <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
+                               style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.28) 0%, transparent 60%)', filter: 'blur(4px)', transform: 'translateY(6%) scale(0.9)' }} />
+                          <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.24)) drop-shadow(0 1px 2px rgba(100,70,20,0.14))' }} />
+                        </div>
+                      ) : (
+                        <div className="relative w-9 h-9 md:w-11 md:h-11 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                          <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
+                               style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.26) 0%, transparent 60%)', filter: 'blur(5px)', transform: 'translateY(6%) scale(0.9)' }} />
+                          <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.22)) drop-shadow(0 1px 2px rgba(100,70,20,0.12))' }} />
+                        </div>
+                      )}
+                      {/* Text bloğu — sağ flex-1 dikey ortalı, sola hizalı (icon ile yan yana) */}
+                      <div className="flex-1 flex flex-col items-start min-w-0">
+                        <div className="text-[13px] md:text-[15px] font-medium whitespace-nowrap leading-tight" style={{ color: '#8A8A8A', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.3px' }}>
+                          {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
+                        </div>
+                        <div className="text-[11px] md:text-[13px] font-medium whitespace-nowrap leading-tight mt-0.5" style={{
+                          letterSpacing: '0.25px',
+                          fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
+                          background: 'linear-gradient(180deg, #C89540 0%, #B8860B 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        }}>
+                          {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
+                        </div>
                       </div>
                     </button>
                   ))}
@@ -2400,7 +2399,7 @@ export default function WatchPage() {
                 <div className="mt-5 flex items-center justify-center gap-3 md:gap-5 px-1 flex-wrap">
                   {[
                     {
-                      title: 'Güvenli ödeme',
+                      title: 'Güvenli Ödeme',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-[13px] h-[13px] md:w-[14px] md:h-[14px]" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
@@ -2409,7 +2408,7 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Anında transfer',
+                      title: 'Anında',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-[13px] h-[13px] md:w-[14px] md:h-[14px]" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
@@ -2417,7 +2416,7 @@ export default function WatchPage() {
                       ),
                     },
                     {
-                      title: 'Banka onaylı',
+                      title: 'Banka Transferi',
                       icon: (
                         <svg viewBox="0 0 24 24" className="w-[13px] h-[13px] md:w-[14px] md:h-[14px]" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M3 10L12 4l9 6" />
@@ -2489,12 +2488,12 @@ export default function WatchPage() {
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
             <div className={`rounded-2xl px-5 pt-4 pb-4 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
-              {/* Header — Fotoğraf Albümü ("Altın Tak" başlığı ile birebir stil: italic ince + gold gradient) */}
+              {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE */}
               <div className="text-center relative z-10 mt-1 lg:mt-3 mb-1">
                 <h3 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
-                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
-                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,220,222,0.7) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
                   </span>
                   <span className="text-[22px] md:text-[28px] whitespace-nowrap leading-none">
                     <span style={{ fontStyle: 'italic', fontWeight: 300, color: '#7A6E5F', letterSpacing: '1.2px' }}>
@@ -2504,18 +2503,18 @@ export default function WatchPage() {
                     <span style={{
                       fontWeight: 500,
                       letterSpacing: '1.6px',
-                      background: 'linear-gradient(180deg, #D4A852 0%, #B8860B 55%, #9A6E08 100%)',
+                      background: 'linear-gradient(180deg, #D87880 0%, #C8686E 55%, #A84A52 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
-                      textShadow: '0 1px 0 rgba(255,245,210,0.4)',
+                      textShadow: '0 1px 0 rgba(255,230,232,0.4)',
                     }}>
                       Albümü
                     </span>
                   </span>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
-                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
-                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
+                    <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 30%, rgba(255,220,222,0.7) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
                   </span>
                 </h3>
               </div>
