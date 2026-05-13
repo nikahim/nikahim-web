@@ -565,9 +565,9 @@ export default function Home() {
             {/* Sol alan: heading + açıklama */}
             <div className="absolute" style={{ top: '14%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#E26B72', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
-              <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#E26B72', borderRadius: '2px' }} />
+              <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
               <p className="leading-relaxed text-[13px] md:text-[15px]" style={{ color: '#7A6B6B' }}>
                 Canlı Yayınınızı izleyen<br />
                 davetliler Video Kaydı,<br />
@@ -585,7 +585,7 @@ export default function Home() {
               {/* Header — "Fotoğraf" / dash "Albümü Oluşturun" dash (dashes rose) */}
               <div className="text-center mb-3"
                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
-                <div style={{ color: '#B85258', fontSize: 'clamp(26px, 4.6vw, 36px)' }}>Fotoğraf</div>
+                <div style={{ color: '#C8686E', fontSize: 'clamp(26px, 4.6vw, 36px)' }}>Fotoğraf</div>
                 <div className="flex items-center justify-center gap-3 md:gap-4 mt-0.5"
                      style={{ fontSize: 'clamp(26px, 4.6vw, 36px)' }}>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"

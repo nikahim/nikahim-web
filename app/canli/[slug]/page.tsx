@@ -2182,16 +2182,16 @@ export default function WatchPage() {
                 }
               `}</style>
               <div className="px-5 md:px-7 pt-3 pb-6">
-                {/* Başlık — Mutlu Çifte italic 400 + Altın Tak gold weight 600 + letter-spacing 1px */}
+                {/* Başlık — italic geri alındı, Adım 120 öncesi hali */}
                 <div className="text-center mb-3">
-                  <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
+                  <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
                     </span>
-                    <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B', fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.3px' }}>
+                    <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
                       Mutlu Çifte{' '}
-                      <span style={{ color: '#B8860B', fontWeight: 600, fontStyle: 'normal', letterSpacing: '1px' }}>Altın Tak</span>
+                      <span style={{ color: '#B8860B', fontWeight: 600 }}>Altın Tak</span>
                     </span>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
@@ -2200,70 +2200,7 @@ export default function WatchPage() {
                   </h2>
                 </div>
 
-                {/* 3 Trust Badge — TEK KART, daha kompakt cream-glass, ince font */}
-                <div className="rounded-2xl flex items-center mb-4"
-                     style={{
-                       background: 'linear-gradient(135deg, rgba(255,253,247,0.65) 0%, rgba(253,247,235,0.55) 100%)',
-                       backdropFilter: 'blur(10px)',
-                       WebkitBackdropFilter: 'blur(10px)',
-                       boxShadow: '0 2px 10px rgba(180,140,80,0.08), inset 0 1px 0 rgba(255,255,255,0.7)',
-                       border: '1px solid rgba(220,200,170,0.28)',
-                     }}>
-                  {[
-                    {
-                      title: 'Güvenli',
-                      icon: (
-                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
-                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
-                          <path d="M8.5 12l2.5 2.5L15.5 10" strokeWidth="1.7" />
-                        </svg>
-                      ),
-                    },
-                    {
-                      title: 'Anında',
-                      icon: (
-                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
-                          <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
-                        </svg>
-                      ),
-                    },
-                    {
-                      title: 'Banka\nTransferi',
-                      icon: (
-                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
-                          <g transform="translate(0,-1.5)">
-                            <path d="M3 10L12 4l9 6" />
-                            <path d="M5 10v9M19 10v9" />
-                            <path d="M3 21h18" />
-                          </g>
-                        </svg>
-                      ),
-                    },
-                  ].map((b, i, arr) => (
-                    <Fragment key={i}>
-                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5">
-                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                             style={{ background: 'rgba(200,160,80,0.10)' }}>
-                          {b.icon}
-                        </div>
-                        <span className="text-[11px] md:text-[13px] font-light leading-[1.15] text-center tracking-[0.2px]" style={{ color: '#4A3E2B' }}>
-                          {b.title.split('\n').map((line, idx) => (
-                            <span key={idx} className="block">{line}</span>
-                          ))}
-                        </span>
-                      </div>
-                      {/* Soft blur fade gold ayraç — daha şeffaf, daha sakin */}
-                      {i < arr.length - 1 && (
-                        <div className="self-stretch py-3 flex-shrink-0">
-                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.12) 25%, rgba(200,160,80,0.20) 50%, rgba(200,160,80,0.12) 75%, transparent 100%)', filter: 'blur(0.5px)' }} />
-                        </div>
-                      )}
-                    </Fragment>
-                  ))}
-                </div>
-
-                {/* Üst sıra: 3 kart (Çeyrek, Yarım+Popüler, Ata) — premium emboss, butonsuz */}
+                {/* Üst sıra: 3 kart (Çeyrek, Yarım+Popüler, Tam) — premium emboss, butonsuz */}
                 {(() => {
                   const topItems = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'tam_altin'].includes(g.id));
                   return (
@@ -2353,8 +2290,8 @@ export default function WatchPage() {
                           </div>
                         )}
                       </div>
-                      {/* Başlık — semibold + letter-spacing (üst sıra ile uyumlu) */}
-                      <div className="text-[14px] md:text-[16px] font-semibold whitespace-nowrap leading-tight" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>
+                      {/* Başlık — daha hafif (font-medium + açık gri, üst sıradan daha az baskın) */}
+                      <div className="text-[14px] md:text-[16px] font-medium whitespace-nowrap leading-tight" style={{ color: '#8A8A8A', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.3px' }}>
                         {gold.id === 'nakit' ? 'Özel Miktar' : gold.name}
                       </div>
                       {/* Fiyat / Belirleyin */}
@@ -2362,6 +2299,68 @@ export default function WatchPage() {
                         {gold.id === 'nakit' ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
                       </div>
                     </button>
+                  ))}
+                </div>
+
+                {/* 3 Trust Badge — kart sonunda, supporting info olarak (önem hiyerarşisi: cards first, trust second) */}
+                <div className="rounded-2xl flex items-center mt-4"
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(255,253,247,0.65) 0%, rgba(253,247,235,0.55) 100%)',
+                       backdropFilter: 'blur(10px)',
+                       WebkitBackdropFilter: 'blur(10px)',
+                       boxShadow: '0 2px 10px rgba(180,140,80,0.08), inset 0 1px 0 rgba(255,255,255,0.7)',
+                       border: '1px solid rgba(220,200,170,0.28)',
+                     }}>
+                  {[
+                    {
+                      title: 'Güvenli',
+                      icon: (
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
+                          <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
+                          <path d="M8.5 12l2.5 2.5L15.5 10" strokeWidth="1.7" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      title: 'Anında',
+                      icon: (
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="#C8A050" stroke="#C8A050" strokeWidth="0.5">
+                          <path d="M13 2L4.5 13.5h6L9 22l8.5-11.5h-6L13 2z" />
+                        </svg>
+                      ),
+                    },
+                    {
+                      title: 'Banka\nTransferi',
+                      icon: (
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
+                          <g transform="translate(0,-1.5)">
+                            <path d="M3 10L12 4l9 6" />
+                            <path d="M5 10v9M19 10v9" />
+                            <path d="M3 21h18" />
+                          </g>
+                        </svg>
+                      ),
+                    },
+                  ].map((b, i, arr) => (
+                    <Fragment key={i}>
+                      <div className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5">
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center flex-shrink-0"
+                             style={{ background: 'rgba(200,160,80,0.10)' }}>
+                          {b.icon}
+                        </div>
+                        <span className="text-[11px] md:text-[13px] font-light leading-[1.15] text-center tracking-[0.2px]" style={{ color: '#4A3E2B' }}>
+                          {b.title.split('\n').map((line, idx) => (
+                            <span key={idx} className="block">{line}</span>
+                          ))}
+                        </span>
+                      </div>
+                      {i < arr.length - 1 && (
+                        <div className="self-stretch py-3 flex-shrink-0">
+                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.12) 25%, rgba(200,160,80,0.20) 50%, rgba(200,160,80,0.12) 75%, transparent 100%)', filter: 'blur(0.5px)' }} />
+                        </div>
+                      )}
+                    </Fragment>
                   ))}
                 </div>
               </div>
@@ -2430,8 +2429,8 @@ export default function WatchPage() {
                 </h3>
               </div>
 
-              {/* Statik 3-foto layout — %15 küçültüldü (210→180), başlığa yakın */}
-              <div className="relative w-full -mt-1 mb-1 flex items-center justify-center" style={{ height: 180 }}>
+              {/* Statik 3-foto layout — toplam -%10 daha (180→162), başlığa yakın */}
+              <div className="relative w-full -mt-1 mb-0 flex items-center justify-center" style={{ height: 162 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
@@ -2460,7 +2459,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-85px) rotate(-7deg)', zIndex: 1 }}>
                         <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[91px] h-[105px] lg:w-[119px] lg:h-[138px]" />
+                          <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[82px] h-[94px] lg:w-[107px] lg:h-[124px]" />
                         </div>
                       </div>
                     )}
@@ -2471,7 +2470,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(85px) rotate(7deg)', zIndex: 1 }}>
                         <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[91px] h-[105px] lg:w-[119px] lg:h-[138px]" />
+                          <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[82px] h-[94px] lg:w-[107px] lg:h-[124px]" />
                         </div>
                       </div>
                     )}
@@ -2482,7 +2481,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-6px)', zIndex: 3 }}>
                         <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                          <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[110px] h-[129px] lg:w-[144px] lg:h-[167px]" />
+                          <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[99px] h-[116px] lg:w-[130px] lg:h-[150px]" />
                           {/* Fotoğraf sayısı badge */}
                           <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
                                style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
@@ -2500,9 +2499,9 @@ export default function WatchPage() {
                 )}
               </div>
 
-              {/* Filmstrip — 3 fotoğrafa yakın (mt-0→-mt-2), kareler +%10 (62→68, 70→77) */}
+              {/* Filmstrip — 3 fotoğrafa daha yakın (-mt-2 → -mt-3), alt margin azaltıldı */}
               {slideshowPhotos.length > 0 && (
-                <div className="overflow-hidden -mt-2 mb-3 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
+                <div className="overflow-hidden -mt-3 mb-2 relative z-10" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
                   <style>{`
                     @keyframes albumFilmstripRTL {
                       0% { transform: translateX(0); }
