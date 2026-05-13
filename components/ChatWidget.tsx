@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -43,6 +44,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   const [guestEmail, setGuestEmail] = useState(userEmail);
   const [hasStarted, setHasStarted] = useState(!!userEmail);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const pathname = usePathname();
+  // Concierge sheet kullanan sayfalarda bubble gizli (ana sayfa + canlı yayın)
+  const hideBubble = pathname === '/' || (pathname?.startsWith('/canli/') ?? false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -375,7 +379,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   return (
     <>
       {open && chatBox}
-      {!open && (
+      {!open && !hideBubble && (
         <div
           className="fixed flex items-stretch z-[9999] bottom-[75px] lg:bottom-9 right-[-6px] lg:right-0"
           style={{

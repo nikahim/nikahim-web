@@ -144,6 +144,7 @@ export default function WatchPage() {
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('altin');
+  const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [fsTebrikMenu, setFsTebrikMenu] = useState(false);
   const [fsTebrikPanel, setFsTebrikPanel] = useState<'video' | 'voice' | 'message' | null>(null);
   const [fsGoldMode, setFsGoldMode] = useState(false);
@@ -1664,6 +1665,24 @@ export default function WatchPage() {
               <span className="tabular-nums">{viewerCount}</span>
               <span className="hidden sm:inline">izleyen</span>
             </span>
+
+            {/* Concierge "?" trigger — minimal premium yardım tetikleyici */}
+            <button
+              onClick={() => setShowConciergeSheet(true)}
+              aria-label="Yardım"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-full transition-all hover:scale-[1.06] active:scale-[0.94]"
+              style={{
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
+                backdropFilter: 'blur(14px)',
+                border: '1px solid rgba(200,104,110,0.18)',
+                boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+              }}>
+              <svg className="w-4 h-4" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9.5" strokeWidth="1.5" />
+                <path d="M9.5 9c0-1.5 1.2-2.5 2.5-2.5s2.5 1 2.5 2.5c0 1.2-1 1.8-1.8 2.2-0.5 0.3-0.7 0.7-0.7 1.3" />
+                <circle cx="12" cy="16.5" r="0.6" fill="#9F4F58" stroke="none" />
+              </svg>
+            </button>
           </div>
         </div>
       </header>
@@ -2476,6 +2495,186 @@ export default function WatchPage() {
           </div>{/* end ORTA + SAĞ PANEL WRAPPER */}
         </div>
       </div>
+
+      {/* CONCIERGE SHEET — sağdan kayar premium yardım paneli */}
+      {showConciergeSheet && (
+        <div className="fixed inset-0 z-[9998] flex justify-end"
+             onClick={() => setShowConciergeSheet(false)}
+             style={{
+               background: 'rgba(20,15,12,0.32)',
+               backdropFilter: 'blur(8px)',
+               WebkitBackdropFilter: 'blur(8px)',
+               animation: 'conciergeFade 320ms ease',
+             }}>
+          <style>{`
+            @keyframes conciergeFade { from { opacity: 0; } to { opacity: 1; } }
+            @keyframes conciergeSlide {
+              from { transform: translateX(100%); opacity: 0; }
+              to { transform: translateX(0); opacity: 1; }
+            }
+            .concierge-sheet { animation: conciergeSlide 460ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+            .concierge-item {
+              transition: transform 220ms ease, background 280ms ease;
+            }
+            .concierge-item:active { transform: scale(0.98); }
+            .concierge-item:hover {
+              background: linear-gradient(180deg, rgba(255,251,247,0.98) 0%, rgba(253,243,243,0.95) 100%) !important;
+            }
+          `}</style>
+          <div
+            className="concierge-sheet relative h-full overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: '82%',
+              maxWidth: '380px',
+              background: 'linear-gradient(180deg, rgba(255,252,249,0.97) 0%, rgba(253,245,240,0.97) 100%)',
+              backdropFilter: 'blur(32px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(32px) saturate(180%)',
+              boxShadow: '-24px 0 60px rgba(60,40,40,0.20), -8px 0 18px rgba(160,80,90,0.10), inset 1px 0 0 rgba(255,255,255,0.95)',
+              borderLeft: '1px solid rgba(232,180,170,0.30)',
+            }}>
+            {/* Üst sol — küçük X kapatma */}
+            <button
+              onClick={() => setShowConciergeSheet(false)}
+              aria-label="Kapat"
+              className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-[1.08] active:scale-[0.94]"
+              style={{
+                background: 'rgba(255,255,255,0.70)',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(200,104,110,0.14)',
+                boxShadow: '0 2px 8px rgba(160,80,90,0.06)',
+              }}>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Mini header — Concierge marka hissi */}
+            <div className="px-7 pt-12 pb-6"
+                 style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
+              <div className="flex items-center gap-2 mb-2">
+                <div className="w-1 h-5 rounded-full" style={{ background: 'linear-gradient(180deg, #C8686E, #D4A852)' }} />
+                <p className="text-[10.5px] font-semibold uppercase tracking-[1.5px]" style={{ color: '#9F4F58' }}>
+                  Nikahım
+                </p>
+              </div>
+              <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
+                Concierge
+              </h2>
+              <p className="mt-2 text-[12.5px] flex items-center gap-1.5" style={{ color: '#7A6B6B' }}>
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                Ortalama yanıt süresi: <span className="font-semibold" style={{ color: '#4A3E2B' }}>~2 dk</span>
+              </p>
+            </div>
+
+            {/* Soru — sakin başlık */}
+            <p className="px-7 pt-6 pb-3 text-[13px]" style={{ color: '#6B5A5A' }}>
+              Size nasıl yardımcı olalım?
+            </p>
+
+            {/* 3 öğe */}
+            <div className="px-5 pb-8 space-y-2.5">
+              {/* Canlı Destek */}
+              <button
+                onClick={() => {
+                  setShowConciergeSheet(false);
+                  setTimeout(() => {
+                    window.dispatchEvent(new CustomEvent('nikahim:open-chat'));
+                  }, 200);
+                }}
+                className="concierge-item w-full flex items-center gap-3.5 p-4 rounded-2xl text-left"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255,251,247,0.85) 0%, rgba(253,243,243,0.80) 100%)',
+                  border: '1px solid rgba(232,180,170,0.25)',
+                  boxShadow: '0 2px 10px rgba(200,104,110,0.06), inset 0 1px 0 rgba(255,255,255,0.85)',
+                }}>
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(232,165,169,0.35), rgba(200,104,110,0.20))',
+                       boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)',
+                     }}>
+                  <svg className="w-5 h-5" fill="none" stroke="#9F4F58" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
+                  </svg>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Anlık sohbet ile yardım al</p>
+                </div>
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+
+              {/* E-mail */}
+              <a
+                href="mailto:destek@nikahim.com?subject=Yardım%20Talebi"
+                onClick={() => setShowConciergeSheet(false)}
+                className="concierge-item w-full flex items-center gap-3.5 p-4 rounded-2xl text-left"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255,251,247,0.85) 0%, rgba(253,243,243,0.80) 100%)',
+                  border: '1px solid rgba(232,180,170,0.25)',
+                  boxShadow: '0 2px 10px rgba(200,104,110,0.06), inset 0 1px 0 rgba(255,255,255,0.85)',
+                }}>
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(245,225,200,0.40), rgba(212,168,82,0.20))',
+                       boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)',
+                     }}>
+                  <svg className="w-5 h-5" fill="none" stroke="#A0782E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <rect x="3" y="5" width="18" height="14" rx="2.5" />
+                    <path d="M3 7l9 6 9-6" />
+                  </svg>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-mail</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>destek@nikahim.com</p>
+                </div>
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+
+              {/* SSS */}
+              <a
+                href="/#sss"
+                onClick={() => setShowConciergeSheet(false)}
+                className="concierge-item w-full flex items-center gap-3.5 p-4 rounded-2xl text-left"
+                style={{
+                  background: 'linear-gradient(180deg, rgba(255,251,247,0.85) 0%, rgba(253,243,243,0.80) 100%)',
+                  border: '1px solid rgba(232,180,170,0.25)',
+                  boxShadow: '0 2px 10px rgba(200,104,110,0.06), inset 0 1px 0 rgba(255,255,255,0.85)',
+                }}>
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
+                     style={{
+                       background: 'linear-gradient(135deg, rgba(220,210,235,0.45), rgba(160,140,200,0.18))',
+                       boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)',
+                     }}>
+                  <svg className="w-5 h-5" fill="none" stroke="#6B5BA5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9.5" strokeWidth="1.5" />
+                    <path d="M9.5 9c0-1.5 1.2-2.5 2.5-2.5s2.5 1 2.5 2.5c0 1.2-1 1.8-1.8 2.2-0.5 0.3-0.7 0.7-0.7 1.3" />
+                    <circle cx="12" cy="16.5" r="0.6" fill="#6B5BA5" stroke="none" />
+                  </svg>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Sık Sorulan Sorular</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Hemen cevap bul</p>
+                </div>
+                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </a>
+            </div>
+
+            {/* Alt watermark — sakin marka imzası */}
+            <div className="absolute bottom-5 left-0 right-0 text-center pointer-events-none">
+              <p className="text-[10.5px] tracking-[0.5px]" style={{ color: '#B5A8A8' }}>
+                Burada size yardımcı olmak için varız.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* MOBİL FLOATING LUXURY DOCK — pill capsule + sliding rose glow + elevated middle (Altın Tak) + noise grain */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pointer-events-none"
