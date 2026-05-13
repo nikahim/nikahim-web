@@ -176,6 +176,8 @@ export default function WatchPage() {
   const leftPanelRef = useRef<HTMLDivElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const lightboxTouchStartRef = useRef<number>(0);
+  // Like aksiyonu sonrasi 3sn boyunca realtime event'i ignore et (kendi optimistic update'imiz cifte saymasin)
+  const recentLikeByMeRef = useRef<Set<string>>(new Set());
 
   const [countdown, setCountdown] = useState({
     days: 0,
@@ -782,17 +784,24 @@ export default function WatchPage() {
     };
     load();
 
-    // Realtime — like olduğunda anlık sayaç güncelle (kendi like'larım optimistic zaten güncel)
+    // Realtime — sadece BAŞKA kullanıcıların aksiyonlarını dinle (kendi optimistic update'i cifte saymasin)
     const channel = supabase
       .channel(`photo-likes-${event.id}`)
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'photo_likes', filter: `event_id=eq.${event.id}` }, (payload) => {
-        const url = (payload.new as { photo_url?: string })?.photo_url;
+        const row = payload.new as { photo_url?: string; viewer_key?: string };
+        const url = row?.photo_url;
         if (!url || !mounted) return;
+        // Kendi like'imiz mi? viewer_key eşleşiyorsa veya son 3sn içinde biz tıkladıysak ignore
+        if (row.viewer_key === viewerKey) return;
+        if (recentLikeByMeRef.current.has(url)) return;
         setPhotoLikes(prev => ({ ...prev, [url]: (prev[url] || 0) + 1 }));
       })
       .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'photo_likes', filter: `event_id=eq.${event.id}` }, (payload) => {
-        const url = (payload.old as { photo_url?: string })?.photo_url;
+        const row = payload.old as { photo_url?: string; viewer_key?: string };
+        const url = row?.photo_url;
         if (!url || !mounted) return;
+        if (row.viewer_key === viewerKey) return;
+        if (recentLikeByMeRef.current.has(url)) return;
         setPhotoLikes(prev => ({ ...prev, [url]: Math.max(0, (prev[url] || 0) - 1) }));
       })
       .subscribe();
@@ -805,6 +814,10 @@ export default function WatchPage() {
     if (!event?.id) return;
     const viewerKey = getViewerKey();
     const isLiked = likedByMe.has(photoUrl);
+
+    // Bu URL'i kısa süreliğine "kendi aksiyonum" olarak işaretle — realtime double-count engellenir
+    recentLikeByMeRef.current.add(photoUrl);
+    setTimeout(() => recentLikeByMeRef.current.delete(photoUrl), 3000);
 
     // Optimistic
     setLikedByMe(prev => {
@@ -2574,7 +2587,7 @@ export default function WatchPage() {
             </div>
 
             {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`rounded-2xl p-3.5 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBF3EE, #F4E5DC)', boxShadow: '0 4px 16px rgba(150,110,90,0.08)', border: '1px solid rgba(180,70,80,0.1)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -2587,7 +2600,7 @@ export default function WatchPage() {
             </div>
 
             {/* Sesli Tebrik - soft blue — sabit yükseklik */}
-            <div onClick={() => setShowVoiceRecorder(true)} className={`rounded-2xl p-3.5 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className={`rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #F4F9FC, #E5EFF6)', boxShadow: '0 4px 16px rgba(111,175,207,0.10)', border: '1px solid rgba(111,175,207,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
               </div>
@@ -2600,7 +2613,7 @@ export default function WatchPage() {
             </div>
 
             {/* Mesaj Tebrik - soft green — sabit yükseklik (sayı 2 hane olunca taşmasın) */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`rounded-2xl p-3.5 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #F4FAF5, #E5F0E5)', boxShadow: '0 4px 16px rgba(91,168,101,0.10)', border: '1px solid rgba(76,175,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
               </div>
@@ -2613,10 +2626,10 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-4 pb-1 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-3 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
-              <div className="text-center relative z-10 mb-1 lg:mt-2">
+              <div className="text-center relative z-10 mb-3 lg:mt-2">
                 <h3 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                     <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(200,104,110,0.85) 50%, transparent 100%)' }} />
@@ -2646,8 +2659,8 @@ export default function WatchPage() {
                 </h3>
               </div>
 
-              {/* Statik 3-foto layout — daha kompakt (148px) ve başlığa daha yakın */}
-              <div className="relative w-full -mt-2 mb-0 flex items-center justify-center" style={{ height: 148 }}>
+              {/* Statik 3-foto layout — altın tak ile dengeli boy */}
+              <div className="relative w-full mt-0 mb-0 flex items-center justify-center" style={{ height: 168 }}>
                 {slideshowPhotos.length === 0 ? (
                   <div className="absolute inset-0 flex items-center justify-center">
                     {/* Boş durum — 3 ghost kart */}
