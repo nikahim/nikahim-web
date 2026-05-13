@@ -2477,102 +2477,133 @@ export default function WatchPage() {
         </div>
       </div>
 
-      {/* MOBİL BOTTOM TAB NAV — premium: sliding indicator + breath + smooth color transition */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2.5"
-           style={{
-             background: 'linear-gradient(180deg, rgba(255,251,248,0.72) 0%, rgba(253,247,243,0.82) 100%)',
-             backdropFilter: 'blur(28px) saturate(180%)',
-             WebkitBackdropFilter: 'blur(28px) saturate(180%)',
-             borderTop: '1px solid rgba(200,104,110,0.14)',
-             boxShadow: '0 -8px 28px rgba(200,104,110,0.08), 0 -1px 0 rgba(255,250,247,0.6)',
-             paddingBottom: 'max(14px, env(safe-area-inset-bottom))',
-           }}>
+      {/* MOBİL FLOATING LUXURY DOCK — pill capsule + sliding rose glow + elevated middle (Altın Tak) + noise grain */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pointer-events-none"
+           style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
         <style>{`
-          @keyframes navBarBreath {
-            0%, 100% {
-              box-shadow: 0 0 6px rgba(200,104,110,0.40);
-              opacity: 0.92;
-            }
-            50% {
-              box-shadow: 0 0 12px rgba(200,104,110,0.60);
-              opacity: 1;
-            }
+          @keyframes dockGoldBreath {
+            0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.85; transform: translateX(-50%) scale(1.08); }
           }
-          .nav-bar-breath { animation: navBarBreath 3s ease-in-out infinite; }
-          .nav-tab { transition: color 350ms ease, background 350ms ease, box-shadow 350ms ease, transform 200ms ease; }
-          .nav-tab:active { transform: scale(0.94); }
-          .nav-tab-icon { transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-          .nav-tab[data-active="true"] .nav-tab-icon { transform: scale(1.08); }
-          .nav-slider {
-            transition: left 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+          .dock-gold-halo { animation: dockGoldBreath 3.4s ease-in-out infinite; }
+          .dock-tab { transition: color 380ms ease, transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+          .dock-tab:active { transform: scale(0.96); }
+          .dock-tab[data-mid="true"] { transform: translateY(-5px) scale(1.05); }
+          .dock-tab[data-mid="true"]:active { transform: translateY(-5px) scale(1.01); }
+          .dock-tab-icon { transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1), color 380ms ease; }
+          .dock-tab[data-active="true"] .dock-tab-icon { transform: scale(1.10); }
+          .dock-slider {
+            transition: left 520ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 380ms ease;
           }
         `}</style>
 
-        {/* Üst kenar — pearl/rose glow accent çizgisi */}
-        <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-             style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(200,104,110,0.30) 30%, rgba(212,168,82,0.22) 50%, rgba(200,104,110,0.30) 70%, transparent 100%)' }} />
+        <div className="relative max-w-[400px] mx-auto pointer-events-auto" style={{ overflow: 'visible' }}>
+          {/* Permanent gold halo under middle (Altın Tak) — luxury "primary action" signal */}
+          <div className="dock-gold-halo absolute left-1/2 -bottom-2 w-[120px] h-8 pointer-events-none rounded-full"
+               style={{
+                 background: 'radial-gradient(ellipse at center, rgba(212,168,82,0.32) 0%, rgba(212,168,82,0.10) 40%, transparent 75%)',
+                 filter: 'blur(12px)',
+               }} />
 
-        {/* Sliding indicator — tek mini-bar, tab değişiminde kayar */}
-        {(() => {
-          const tabIds: Array<'altin' | 'tebrik' | 'album'> = ['altin', 'tebrik', 'album'];
-          const idx = tabIds.indexOf(activeMobileTab);
-          return (
-            <span aria-hidden="true"
-                  className="nav-slider nav-bar-breath absolute top-0 h-[3px] w-8 rounded-full pointer-events-none"
-                  style={{
-                    left: `calc(${idx * (100 / 3)}% + ${100 / 6}% - 16px)`,
-                    background: 'linear-gradient(90deg, transparent, #C8686E 30%, #C8686E 70%, transparent)',
-                    marginLeft: '12px',
-                    marginRight: '12px',
-                  }} />
-          );
-        })()}
+          <nav className="relative pointer-events-auto"
+               style={{
+                 background: 'linear-gradient(180deg, rgba(255,251,247,0.78) 0%, rgba(253,245,240,0.85) 100%)',
+                 backdropFilter: 'blur(36px) saturate(180%)',
+                 WebkitBackdropFilter: 'blur(36px) saturate(180%)',
+                 borderRadius: '34px',
+                 padding: '7px',
+                 height: '74px',
+                 boxShadow: `
+                   0 22px 50px rgba(160,80,90,0.16),
+                   0 8px 18px rgba(160,80,90,0.10),
+                   0 2px 6px rgba(0,0,0,0.04),
+                   inset 0 1px 0 rgba(255,255,255,0.95),
+                   inset 0 0 0 1px rgba(232,180,170,0.20)
+                 `,
+                 border: '1px solid rgba(232,180,170,0.30)',
+                 overflow: 'visible',
+               }}>
+            {/* Clipped layer — noise + sliding glow indicator (rounded mask) */}
+            <div className="absolute inset-0 pointer-events-none" style={{ borderRadius: '34px', overflow: 'hidden' }}>
+              {/* Subtle noise/grain — Apple/Stripe-tier premium texture */}
+              <div className="absolute inset-0 pointer-events-none"
+                   style={{
+                     backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.7  0 0 0 0.6 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>\")",
+                     backgroundSize: '160px 160px',
+                     opacity: 0.035,
+                     mixBlendMode: 'multiply',
+                   }} />
 
-        <div className="flex items-center justify-around gap-1.5">
-          {[
-            { id: 'altin' as const, label: 'Altın Tak', icon: (
-              <svg className="nav-tab-icon w-[19px] h-[19px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M8 8L6 4.5h2.5L10 2.5 11.5 4l1-1.5L14 4.5l1.5-2H18L16 8" />
-                <circle cx="12" cy="14.5" r="5.5" />
-                <circle cx="12" cy="14.5" r="1" fill="currentColor" stroke="none" />
-              </svg>
-            ) },
-            { id: 'tebrik' as const, label: 'Tebrik Et', icon: (
-              <svg className="nav-tab-icon w-[19px] h-[19px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
-                <path d="M12 14.5s-3-1.7-3-3.7c0-1 0.9-1.8 1.9-1.8 0.6 0 1.1 0.3 1.1 0.3s0.5-0.3 1.1-0.3c1 0 1.9 0.8 1.9 1.8 0 2-3 3.7-3 3.7z" fill="currentColor" stroke="none" />
-              </svg>
-            ) },
-            { id: 'album' as const, label: 'Albüm', icon: (
-              <svg className="nav-tab-icon w-[19px] h-[19px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <rect x="7" y="3.5" width="13.5" height="13.5" rx="2" />
-                <rect x="3.5" y="7" width="13.5" height="13.5" rx="2" fill="currentColor" fillOpacity="0.08" />
-                <circle cx="7.5" cy="11.5" r="1.3" />
-                <path d="M3.5 18l3.5-3.5 2.5 2.5 3-3 4.5 4.5" />
-              </svg>
-            ) },
-          ].map((tab) => {
-            const isActive = activeMobileTab === tab.id;
-            return (
-              <button key={tab.id}
-                      data-active={isActive}
-                      onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                      className="nav-tab relative flex-1 inline-flex items-center justify-center gap-1.5 py-3 px-2 rounded-2xl"
-                      style={{
-                        color: isActive ? '#9F4F58' : '#9A8989',
-                        background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(253,243,243,0.88) 100%)' : 'transparent',
-                        boxShadow: isActive
-                          ? '0 8px 22px rgba(200,104,110,0.13), 0 2px 6px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 0 1px rgba(200,104,110,0.10)'
-                          : 'none',
-                        border: isActive ? '1px solid rgba(232,165,169,0.40)' : '1px solid transparent',
-                      }}>
-                {tab.icon}
-                <span className="text-[11.5px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
-              </button>
-            );
-          })}
+              {/* Sliding rose glow indicator — soft halo, tab değişiminde kayar */}
+              {(() => {
+                const order: Array<'tebrik' | 'altin' | 'album'> = ['tebrik', 'altin', 'album'];
+                const idx = order.indexOf(activeMobileTab);
+                return (
+                  <div className="dock-slider absolute top-1 bottom-1 pointer-events-none rounded-[26px]"
+                       style={{
+                         left: `calc(${idx * 33.333}% + 6px)`,
+                         width: 'calc(33.333% - 12px)',
+                         background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.22) 0%, rgba(200,104,110,0.12) 45%, transparent 80%)',
+                         filter: 'blur(10px)',
+                       }} />
+                );
+              })()}
+            </div>
+
+            {/* Top gold accent line */}
+            <div className="absolute -top-px left-16 right-16 h-px pointer-events-none"
+                 style={{ background: 'linear-gradient(90deg, transparent, rgba(212,168,82,0.55) 50%, transparent)' }} />
+
+            {/* Tabs container */}
+            <div className="relative h-full flex items-stretch gap-0">
+              {[
+                { id: 'tebrik' as const, label: 'Tebrik', isMid: false, icon: (
+                  <svg className="dock-tab-icon w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
+                    <path d="M12 14.5s-2.8-1.6-2.8-3.5c0-0.95 0.85-1.7 1.8-1.7 0.55 0 1 0.3 1 0.3s0.45-0.3 1-0.3c0.95 0 1.8 0.75 1.8 1.7 0 1.9-2.8 3.5-2.8 3.5z" fill="currentColor" stroke="none" />
+                  </svg>
+                ) },
+                { id: 'altin' as const, label: 'Altın Tak', isMid: true, icon: (
+                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    {/* Kurdele */}
+                    <path d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" />
+                    {/* Madeni */}
+                    <circle cx="12" cy="14.5" r="5.5" />
+                    {/* Yıldız vurgu (luxury accent, içte) */}
+                    <path d="M12 12.2l0.55 1.1 1.2 0.17-0.87 0.84 0.2 1.19L12 14.93l-1.07 0.57 0.2-1.19-0.87-0.84 1.2-0.17z" fill="currentColor" stroke="none" />
+                  </svg>
+                ) },
+                { id: 'album' as const, label: 'Albüm', isMid: false, icon: (
+                  <svg className="dock-tab-icon w-[22px] h-[22px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <rect x="3" y="5" width="18" height="15" rx="2.5" />
+                    <circle cx="8.5" cy="10.5" r="1.5" />
+                    <path d="M3 17l5-5 3.5 3.5L15 12l6 6" />
+                  </svg>
+                ) },
+              ].map((tab) => {
+                const isActive = activeMobileTab === tab.id;
+                return (
+                  <button key={tab.id}
+                          data-active={isActive}
+                          data-mid={tab.isMid}
+                          onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                          aria-label={tab.label}
+                          className="dock-tab relative flex-1 flex flex-col items-center justify-center gap-0.5 rounded-[26px]"
+                          style={{
+                            color: isActive ? '#9F4F58' : (tab.isMid ? '#8F5A3D' : '#9A8989'),
+                          }}>
+                    <span className="relative z-10">{tab.icon}</span>
+                    <span className="relative z-10 text-[9.5px] font-semibold uppercase whitespace-nowrap"
+                          style={{ letterSpacing: '0.7px' }}>
+                      {tab.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
         </div>
-      </nav>
+      </div>
 
       {/* Photo Gallery Popup */}
       {showPhotoGallery && (
