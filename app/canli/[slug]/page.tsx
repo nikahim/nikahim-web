@@ -107,6 +107,10 @@ export default function WatchPage() {
   const [showEndedScreen, setShowEndedScreen] = useState(false);
   const [endedCountdown, setEndedCountdown] = useState(10);
   const [viewerCount, setViewerCount] = useState(0);
+  // Yayın aktif iken Supabase Presence ile gerçekten izleyen kişi sayısı
+  const [liveViewerCount, setLiveViewerCount] = useState(0);
+  // Gizli sert kapasite — api.video maliyet koruması (paket-bağımsız, hepsi için 200)
+  const MAX_LIVE_VIEWERS = 200;
   const [viewerLimitReached, setViewerLimitReached] = useState(false);
   const [streamData, setStreamData] = useState<{
     status: string;
@@ -563,6 +567,33 @@ export default function WatchPage() {
     return () => clearInterval(interval);
   }, [event?.id]);
 
+  // ─── PRESENCE: gerçek "izleyen" sayımı (stream aktif veya kayıt oynarken) ───
+  useEffect(() => {
+    if (!event?.id) return;
+    const isWatching = streamData?.status === 'active'
+      || (streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest);
+    if (!isWatching) {
+      setLiveViewerCount(0);
+      return;
+    }
+    const channel = supabase.channel(`live-viewers-${event.id}`);
+    channel
+      .on('presence', { event: 'sync' }, () => {
+        const state = channel.presenceState();
+        setLiveViewerCount(Object.keys(state).length);
+      })
+      .subscribe(async (status) => {
+        if (status === 'SUBSCRIBED' && isNameEntered && viewerName) {
+          // Sadece isim girmiş ve sayfada olan kişi "watcher" olarak track edilir
+          await channel.track({
+            name: viewerName,
+            joined_at: new Date().toISOString(),
+          });
+        }
+      });
+    return () => { channel.unsubscribe(); };
+  }, [event?.id, streamData?.status, streamData?.isTest, showEndedScreen, isNameEntered, viewerName]);
+
   useEffect(() => {
     if (!event?.id) return;
 
@@ -696,15 +727,9 @@ export default function WatchPage() {
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
-      // Limit kontrolü SADECE yayın aktifken — pre-stream'de herkes girebilir
+      // Limit kontrolü SADECE yayın aktifken — gerçek "izleyen" sayısı (presence) üzerinden
       if (streamData?.status === 'active') {
-        const maxViewers = eventPackage?.max_viewers || 50;
-        const { count } = await supabase
-          .from('viewers')
-          .select('*', { count: 'exact', head: true })
-          .eq('event_id', event.id);
-        const currentCount = count || 0;
-        if (currentCount >= maxViewers) {
+        if (liveViewerCount >= MAX_LIVE_VIEWERS) {
           setViewerLimitReached(true);
           return;
         }
@@ -943,11 +968,11 @@ export default function WatchPage() {
           
           <div className="bg-rose-50/50 rounded-xl p-4 mb-6">
             <p className="text-[#C8686E] text-sm">
-              👥 Maksimum {eventPackage?.max_viewers || 50} izleyici kapasitesine ulaşıldı.
+              👥 Şu an çok yoğun izleniyor, kapasite geçici olarak doldu.
             </p>
           </div>
-          
-          <p className="text-gray-400 text-sm">Daha sonra tekrar deneyebilirsiniz.</p>
+
+          <p className="text-gray-400 text-sm">Birkaç dakika sonra tekrar deneyebilirsiniz.</p>
         </div>
       </main>
     );
@@ -1664,8 +1689,8 @@ export default function WatchPage() {
                         style={{ background: '#22C55E', boxShadow: '0 0 4px rgba(34,197,94,0.6)' }} />
                 )}
               </span>
-              <span className="tabular-nums">{viewerCount}</span>
-              <span className="hidden sm:inline">izleyen</span>
+              <span className="tabular-nums">{streamData?.status === 'active' ? liveViewerCount : viewerCount}</span>
+              <span className="hidden sm:inline">{streamData?.status === 'active' ? 'izliyor' : 'davetli'}</span>
             </span>
 
             {/* Concierge "?" trigger — minimal premium yardım tetikleyici */}
@@ -2269,8 +2294,8 @@ export default function WatchPage() {
                               <div className="relative w-16 h-16 md:w-[88px] md:h-[88px] mx-auto mb-2 md:mb-2.5 group-hover:scale-105 transition-transform duration-300">
                                 <Image src={gold.image} alt={gold.name} fill className="object-contain drop-shadow-lg" />
                               </div>
-                              {/* Fiyat — daraltıldı */}
-                              <div className="text-[14px] md:text-[17px] font-bold" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                              {/* Fiyat — normal weight (kullanıcı denemek istedi) */}
+                              <div className="text-[14px] md:text-[17px] font-normal" style={{ color: '#B8860B', letterSpacing: '0.2px', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                                 ₺{gold.price.toLocaleString()}
                               </div>
                             </button>
@@ -2550,12 +2575,12 @@ export default function WatchPage() {
               </svg>
             </button>
 
-            {/* Mini header — wordmark logo + Concierge */}
-            <div className="px-7 pt-10 pb-6"
+            {/* Mini header — wordmark logo + Destek */}
+            <div className="px-7 pt-6 pb-6"
                  style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={160} height={48} className="h-[40px] w-auto object-contain -ml-1 mb-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[80px] w-auto object-contain -ml-2 -mb-2" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
-                Concierge
+                Destek
               </h2>
               <p className="mt-2 text-[12.5px] flex items-center gap-1.5" style={{ color: '#7A6B6B' }}>
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />

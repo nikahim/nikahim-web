@@ -147,15 +147,10 @@ export default function Home() {
               </svg>
             </button>
 
-            <div className="px-7 pt-12 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-1 h-5 rounded-full" style={{ background: 'linear-gradient(180deg, #C8686E, #D4A852)' }} />
-                <p className="text-[10.5px] font-semibold uppercase tracking-[1.5px]" style={{ color: '#9F4F58' }}>
-                  Nikahım
-                </p>
-              </div>
+            <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[80px] w-auto object-contain -ml-2 -mb-2" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
-                Concierge
+                Destek
               </h2>
               <p className="mt-2 text-[12.5px] flex items-center gap-1.5" style={{ color: '#7A6B6B' }}>
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
@@ -791,8 +786,8 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-14 md:gap-8 max-w-5xl mx-auto items-start">
             {[
-              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺999', oldPrice: '₺1.249', discountLabel: '%20 İndirim', badge: null, features: ['30 Dakika Canlı Yayın', '30 İzleyici', '1080p*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺2.499', oldPrice: '₺3.339', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['60 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺999', oldPrice: '₺1.249', discountLabel: '%20 İndirim', badge: null, features: ['30 Dakika Canlı Yayın', '200 İzleyici', '1080p*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺2.499', oldPrice: '₺3.339', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['60 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
               { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺4.999', oldPrice: '₺7.139', discountLabel: '%30 İndirim', badge: null, features: ['180 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Video Tebrik', 'Sesli Tebrik', 'Mesajlı Tebrik', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
