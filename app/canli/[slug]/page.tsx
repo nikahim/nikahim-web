@@ -544,28 +544,24 @@ export default function WatchPage() {
   }, [messages]);
 
   useEffect(() => {
+    // Pre-stream'de limit uygulanmaz, polling sadece görsel sayacı günceller.
+    // Limit kontrolü handleNameSubmit'te streamData?.status === 'active' iken yapılır.
     const fetchViewerCount = async () => {
       if (event?.id) {
         const { count } = await supabase
           .from('viewers')
           .select('*', { count: 'exact', head: true })
           .eq('event_id', event.id);
-        
-        const currentCount = count || 0;
-        setViewerCount(currentCount);
-        
-        const maxViewers = eventPackage?.max_viewers || 50;
-        if (currentCount >= maxViewers) {
-          setViewerLimitReached(true);
-        }
+
+        setViewerCount(count || 0);
       }
     };
 
     fetchViewerCount();
-    
+
     const interval = setInterval(fetchViewerCount, 30000);
     return () => clearInterval(interval);
-  }, [event?.id, eventPackage?.max_viewers]);
+  }, [event?.id]);
 
   useEffect(() => {
     if (!event?.id) return;
@@ -700,18 +696,18 @@ export default function WatchPage() {
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
-      const maxViewers = eventPackage?.max_viewers || 50;
-      
-      const { count } = await supabase
-        .from('viewers')
-        .select('*', { count: 'exact', head: true })
-        .eq('event_id', event.id);
-      
-      const currentCount = count || 0;
-      
-      if (currentCount >= maxViewers) {
-        setViewerLimitReached(true);
-        return;
+      // Limit kontrolü SADECE yayın aktifken — pre-stream'de herkes girebilir
+      if (streamData?.status === 'active') {
+        const maxViewers = eventPackage?.max_viewers || 50;
+        const { count } = await supabase
+          .from('viewers')
+          .select('*', { count: 'exact', head: true })
+          .eq('event_id', event.id);
+        const currentCount = count || 0;
+        if (currentCount >= maxViewers) {
+          setViewerLimitReached(true);
+          return;
+        }
       }
       
       localStorage.setItem(`nikahim_viewer_${slug}`, viewerName.trim());
@@ -1649,7 +1645,7 @@ export default function WatchPage() {
               )
             )}
 
-            {/* İzleyici sayısı — glass pill */}
+            {/* İzleyici sayısı — glass pill (stream aktif iken yeşil çevrimiçi nokta) */}
             <span className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold"
                   style={{
                     color: '#6B5A5A',
@@ -1658,9 +1654,16 @@ export default function WatchPage() {
                     border: '1px solid rgba(200,104,110,0.18)',
                     boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                   }}>
-              <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+              <span className="relative inline-flex">
+                <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                {streamData?.status === 'active' && (
+                  <span aria-label="Çevrimiçi"
+                        className="absolute -top-0.5 -right-0.5 w-[7px] h-[7px] rounded-full ring-[1.5px] ring-white animate-pulse"
+                        style={{ background: '#22C55E', boxShadow: '0 0 4px rgba(34,197,94,0.6)' }} />
+                )}
+              </span>
               <span className="tabular-nums">{viewerCount}</span>
               <span className="hidden sm:inline">izleyen</span>
             </span>
