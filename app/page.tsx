@@ -20,6 +20,16 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState(1);
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
+  const [faqView, setFaqView] = useState(false);
+  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const conciergeFaqs = [
+    { q: 'Nikahım platformu nasıl işler?', a: "Nikahım platformunda çiftler, Nikahım uygulamasını indirdikten sonra nikahlarını veya düğünlerini canlı yayınlayabilecekleri kendilerine özel bir internet sayfası oluştururlar. Nikahım'ın onlarca tasarımı arasından seçtikleri online davetiyelerini arkadaşlarına, akrabalarına ve sevdiklerine göndererek nikahlarına katılamayan kişilerin online olarak nikahlarına katılmalarını sağlarlar. Nikahım platformunun altın takma ve tebrik mesajı özellikleri sayesinde nikahlarını canlı izleyen kişiler, çifte takmak istedikleri altın miktarı kadar TL'yi çiftin hesabına direkt olarak Havale/EFT veya Crypto ile gönderebilir; isterlerse video, sesli veya yazılı tebrik mesajı gönderebilirler." },
+    { q: 'Online nikah sayfasında hangi özellikler var?', a: 'Çiftlerin uygulamamız üzerinden oluşturduğu kendilerine özel canlı yayın sayfasında nikahlarını canlı yayınlayabilir, nikah gününden fotoğraflarını bu sayfada davetlileri ile paylaşabilir, altın takma özelliği ile davetlilerden ödeme kabul edebilir, tebrik bölümünde 3 yol ile (video, sesli ve yazılı) tebrik mesajlarını kabul edebilirler.' },
+    { q: 'Nikahım platformu güvenilir mi?', a: 'Nikahım.com kurulduğu günden beri çiftlerin mutluluğunu birinci önceliği olarak benimseyen bir aile kuruluşudur. Yapılan tüm maddi, görsel ve yazılı paylaşımlar sadece davetliler ve çift arasındadır. Nikahım kesinlikle bu bilgileri 3. şahıs veya kuruluşlarla paylaşmamaktadır. Nikahım platformunda davetliler tarafından yapılan tüm ödemeler direkt olarak çiftin kendi TL hesaplarına yapılmaktadır. Bu noktada Nikahım bir aracılık yapmamaktadır.' },
+    { q: 'Altın takma sistemi nasıl çalışır?', a: 'Altın takma bölümünde Nikahım platformu güncel altın fiyatlarını günlük olarak çeker ve çiftin canlı yayın sayfasında bu değerleri gösterir. Davetli kişi çifte altın takmak istediğinde altın türünü seçer ve buna denk gelen TL miktarı davetliye gösterilir. Davetli kişi Havale/EFT veya Crypto yöntemlerinden biri ile çiftin direkt hesabına kendi bankacılık uygulaması üzerinden para transferi yapar. Ardından canlı yayın sayfasına tekrar gelerek bu gönderimi onaylar. Bu onaylanan gönderimler çiftin uygulama sayfasında takılan altın olarak kayıt altına alınır.' },
+    { q: 'Yayın kayıt ediliyor mu?', a: 'Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir.' },
+    { q: 'Kaç kişi aynı anda izleyebilir?', a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir." },
+  ];
 
   interface Event {
     id: string;
@@ -100,7 +110,7 @@ export default function Home() {
       {/* CONCIERGE SHEET — sağdan kayar premium yardım paneli */}
       {showConciergeSheet && (
         <div className="fixed inset-0 z-[9998] flex justify-end"
-             onClick={() => setShowConciergeSheet(false)}
+             onClick={() => { setShowConciergeSheet(false); setFaqView(false); setOpenFaqIdx(null); }}
              style={{
                background: 'rgba(20,15,12,0.32)',
                backdropFilter: 'blur(8px)',
@@ -133,7 +143,7 @@ export default function Home() {
               borderLeft: '1px solid rgba(232,180,170,0.30)',
             }}>
             <button
-              onClick={() => setShowConciergeSheet(false)}
+              onClick={() => { setShowConciergeSheet(false); setFaqView(false); setOpenFaqIdx(null); }}
               aria-label="Kapat"
               className="absolute top-5 right-5 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-[1.08] active:scale-[0.94]"
               style={{
@@ -158,6 +168,8 @@ export default function Home() {
               </p>
             </div>
 
+            {!faqView && (
+            <>
             <p className="px-7 pt-6 pb-3 text-[13px]" style={{ color: '#6B5A5A' }}>
               Size nasıl yardımcı olalım?
             </p>
@@ -215,7 +227,7 @@ export default function Home() {
               </a>
 
               <button
-                onClick={() => { setShowConciergeSheet(false); scrollToSection('sss'); }}
+                onClick={() => setFaqView(true)}
                 className="concierge-item w-full flex items-center gap-3.5 p-4 rounded-2xl text-left"
                 style={{
                   background: 'linear-gradient(180deg, rgba(255,251,247,0.85) 0%, rgba(253,243,243,0.80) 100%)',
@@ -239,12 +251,58 @@ export default function Home() {
                 </svg>
               </button>
             </div>
+            </>
+            )}
 
+            {/* FAQ inline view — ana sayfadan ayrılmadan 6 soru/cevap accordion */}
+            {faqView && (
+              <div className="px-5 pt-5 pb-10">
+                <button onClick={() => { setFaqView(false); setOpenFaqIdx(null); }}
+                        className="inline-flex items-center gap-1.5 mb-4 text-[12.5px] font-medium px-3 py-1.5 rounded-full transition-all hover:scale-[1.03]"
+                        style={{ color: '#9F4F58', background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(232,180,170,0.30)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                  Destek menüsü
+                </button>
+                <h3 className="font-bold text-[20px] mb-4" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
+                  Sık Sorulan Sorular
+                </h3>
+                <div className="space-y-2">
+                  {conciergeFaqs.map((faq, idx) => {
+                    const open = openFaqIdx === idx;
+                    return (
+                      <div key={idx} className="rounded-2xl overflow-hidden transition-colors"
+                           style={{
+                             background: open ? 'rgba(255,251,247,0.95)' : 'rgba(255,251,247,0.55)',
+                             border: '1px solid rgba(232,180,170,0.30)',
+                             boxShadow: open ? '0 4px 14px rgba(200,104,110,0.10)' : 'none',
+                           }}>
+                        <button onClick={() => setOpenFaqIdx(open ? null : idx)}
+                                className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+                          <span className="text-[13px] font-semibold leading-snug" style={{ color: '#2B2B2B' }}>{faq.q}</span>
+                          <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+                                style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>▼</span>
+                        </button>
+                        {open && (
+                          <div className="px-4 pb-4 pt-0 text-[12.5px] leading-relaxed" style={{ color: '#6B5A5A' }}>
+                            {faq.a}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+
+            {!faqView && (
             <div className="absolute bottom-5 left-0 right-0 text-center pointer-events-none">
               <p className="text-[10.5px] tracking-[0.5px]" style={{ color: '#B5A8A8' }}>
                 Burada size yardımcı olmak için varız.
               </p>
             </div>
+            )}
           </div>
         </div>
       )}
@@ -308,7 +366,7 @@ export default function Home() {
                     <path d="M10.5 16.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5c0-1-1.5-2-1.5-2s-1.5 1-1.5 2z" fill="currentColor" stroke="none" opacity="0.65" />
                   </svg>
                 ) },
-                { title: 'Hemen Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
+                { title: 'Sevdiklerinle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
