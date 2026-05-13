@@ -959,7 +959,7 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-2 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1190,7 +1190,7 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-2 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+      <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1669,7 +1669,7 @@ export default function WatchPage() {
       </header>
 
       {/* 3 PANEL LAYOUT */}
-      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-28 lg:p-5">
+      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-24 lg:p-5">
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
@@ -2477,46 +2477,76 @@ export default function WatchPage() {
         </div>
       </div>
 
-      {/* MOBİL BOTTOM TAB NAV — daha cam/transparan + üst rose glow + safe-area boşluk */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-3"
+      {/* MOBİL BOTTOM TAB NAV — premium: sliding indicator + breath + smooth color transition */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-2.5"
            style={{
              background: 'linear-gradient(180deg, rgba(255,251,248,0.72) 0%, rgba(253,247,243,0.82) 100%)',
              backdropFilter: 'blur(28px) saturate(180%)',
              WebkitBackdropFilter: 'blur(28px) saturate(180%)',
              borderTop: '1px solid rgba(200,104,110,0.14)',
              boxShadow: '0 -8px 28px rgba(200,104,110,0.08), 0 -1px 0 rgba(255,250,247,0.6)',
-             paddingBottom: 'max(16px, env(safe-area-inset-bottom))',
+             paddingBottom: 'max(14px, env(safe-area-inset-bottom))',
            }}>
+        <style>{`
+          @keyframes navBarBreath {
+            0%, 100% {
+              box-shadow: 0 0 6px rgba(200,104,110,0.40);
+              opacity: 0.92;
+            }
+            50% {
+              box-shadow: 0 0 12px rgba(200,104,110,0.60);
+              opacity: 1;
+            }
+          }
+          .nav-bar-breath { animation: navBarBreath 3s ease-in-out infinite; }
+          .nav-tab { transition: color 350ms ease, background 350ms ease, box-shadow 350ms ease, transform 200ms ease; }
+          .nav-tab:active { transform: scale(0.94); }
+          .nav-tab-icon { transition: transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+          .nav-tab[data-active="true"] .nav-tab-icon { transform: scale(1.08); }
+          .nav-slider {
+            transition: left 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+          }
+        `}</style>
+
         {/* Üst kenar — pearl/rose glow accent çizgisi */}
         <div className="absolute top-0 left-0 right-0 h-px pointer-events-none"
              style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(200,104,110,0.30) 30%, rgba(212,168,82,0.22) 50%, rgba(200,104,110,0.30) 70%, transparent 100%)' }} />
+
+        {/* Sliding indicator — tek mini-bar, tab değişiminde kayar */}
+        {(() => {
+          const tabIds: Array<'altin' | 'tebrik' | 'album'> = ['altin', 'tebrik', 'album'];
+          const idx = tabIds.indexOf(activeMobileTab);
+          return (
+            <span aria-hidden="true"
+                  className="nav-slider nav-bar-breath absolute top-0 h-[3px] w-8 rounded-full pointer-events-none"
+                  style={{
+                    left: `calc(${idx * (100 / 3)}% + ${100 / 6}% - 16px)`,
+                    background: 'linear-gradient(90deg, transparent, #C8686E 30%, #C8686E 70%, transparent)',
+                    marginLeft: '12px',
+                    marginRight: '12px',
+                  }} />
+          );
+        })()}
+
         <div className="flex items-center justify-around gap-1.5">
           {[
             { id: 'altin' as const, label: 'Altın Tak', icon: (
-              <svg className="w-[21px] h-[21px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                {/* Kurdele (ribbon) */}
+              <svg className="nav-tab-icon w-[19px] h-[19px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M8 8L6 4.5h2.5L10 2.5 11.5 4l1-1.5L14 4.5l1.5-2H18L16 8" />
-                {/* Madeni */}
                 <circle cx="12" cy="14.5" r="5.5" />
-                {/* Merkez nokta */}
                 <circle cx="12" cy="14.5" r="1" fill="currentColor" stroke="none" />
               </svg>
             ) },
             { id: 'tebrik' as const, label: 'Tebrik Et', icon: (
-              <svg className="w-[21px] h-[21px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                {/* Konuşma balonu */}
+              <svg className="nav-tab-icon w-[19px] h-[19px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
-                {/* İçinde kalp (dolu) */}
                 <path d="M12 14.5s-3-1.7-3-3.7c0-1 0.9-1.8 1.9-1.8 0.6 0 1.1 0.3 1.1 0.3s0.5-0.3 1.1-0.3c1 0 1.9 0.8 1.9 1.8 0 2-3 3.7-3 3.7z" fill="currentColor" stroke="none" />
               </svg>
             ) },
             { id: 'album' as const, label: 'Albüm', icon: (
-              <svg className="w-[21px] h-[21px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                {/* Arka foto */}
+              <svg className="nav-tab-icon w-[19px] h-[19px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <rect x="7" y="3.5" width="13.5" height="13.5" rx="2" />
-                {/* Ön foto */}
                 <rect x="3.5" y="7" width="13.5" height="13.5" rx="2" fill="currentColor" fillOpacity="0.08" />
-                {/* Güneş + dağ */}
                 <circle cx="7.5" cy="11.5" r="1.3" />
                 <path d="M3.5 18l3.5-3.5 2.5 2.5 3-3 4.5 4.5" />
               </svg>
@@ -2525,23 +2555,19 @@ export default function WatchPage() {
             const isActive = activeMobileTab === tab.id;
             return (
               <button key={tab.id}
+                      data-active={isActive}
                       onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                      className="relative flex-1 inline-flex items-center justify-center gap-1.5 py-3.5 px-2 rounded-2xl transition-all active:scale-[0.96]"
+                      className="nav-tab relative flex-1 inline-flex items-center justify-center gap-1.5 py-3 px-2 rounded-2xl"
                       style={{
                         color: isActive ? '#9F4F58' : '#9A8989',
-                        background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(253,243,243,0.90) 100%)' : 'transparent',
+                        background: isActive ? 'linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(253,243,243,0.88) 100%)' : 'transparent',
                         boxShadow: isActive
                           ? '0 8px 22px rgba(200,104,110,0.13), 0 2px 6px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95), 0 0 0 1px rgba(200,104,110,0.10)'
                           : 'none',
                         border: isActive ? '1px solid rgba(232,165,169,0.40)' : '1px solid transparent',
                       }}>
-                {/* iOS17 style top mini-bar indicator — sadece aktif tab'da */}
-                {isActive && (
-                  <span aria-hidden="true" className="absolute -top-[8px] left-1/2 -translate-x-1/2 w-8 h-[3px] rounded-full"
-                        style={{ background: 'linear-gradient(90deg, transparent, #C8686E 30%, #C8686E 70%, transparent)', boxShadow: '0 0 8px rgba(200,104,110,0.55)' }} />
-                )}
                 {tab.icon}
-                <span className="text-[12px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
+                <span className="text-[11.5px] font-semibold tracking-[0.2px] whitespace-nowrap">{tab.label}</span>
               </button>
             );
           })}
