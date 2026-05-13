@@ -2182,16 +2182,16 @@ export default function WatchPage() {
                 }
               `}</style>
               <div className="px-5 md:px-7 pt-3 pb-6">
-                {/* Başlık — ultra ince çift katmanlı gold gradient + hafif shine */}
+                {/* Başlık — Mutlu Çifte italic 400 + Altın Tak gold weight 600 + letter-spacing 1px */}
                 <div className="text-center mb-3">
-                  <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.5px' }}>
+                  <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 30%, rgba(255,240,200,0.65) 50%, transparent 70%)', filter: 'blur(0.5px)' }} />
                     </span>
-                    <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B' }}>
+                    <span className="text-[24px] md:text-[30px] whitespace-nowrap" style={{ color: '#2B2B2B', fontWeight: 400, fontStyle: 'italic', letterSpacing: '0.3px' }}>
                       Mutlu Çifte{' '}
-                      <span style={{ color: '#B8860B', fontWeight: 600 }}>Altın Tak</span>
+                      <span style={{ color: '#B8860B', fontWeight: 600, fontStyle: 'normal', letterSpacing: '1px' }}>Altın Tak</span>
                     </span>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(32px, 9vw, 64px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to left, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
@@ -2213,10 +2213,10 @@ export default function WatchPage() {
                     {
                       title: 'Güvenli',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" fill="#C8A050" fillOpacity="0.15" />
                           <path d="M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
-                          <path d="M8.5 12l2.5 2.5L15.5 10" strokeWidth="2" />
+                          <path d="M8.5 12l2.5 2.5L15.5 10" strokeWidth="1.7" />
                         </svg>
                       ),
                     },
@@ -2231,7 +2231,7 @@ export default function WatchPage() {
                     {
                       title: 'Banka\nTransferi',
                       icon: (
-                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                        <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="#C8A050" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
                           <g transform="translate(0,-1.5)">
                             <path d="M3 10L12 4l9 6" />
                             <path d="M5 10v9M19 10v9" />
@@ -2253,10 +2253,10 @@ export default function WatchPage() {
                           ))}
                         </span>
                       </div>
-                      {/* Soft blur fade gold ayraç — sadece son badge'den sonra YOK */}
+                      {/* Soft blur fade gold ayraç — daha şeffaf, daha sakin */}
                       {i < arr.length - 1 && (
                         <div className="self-stretch py-3 flex-shrink-0">
-                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.20) 20%, rgba(200,160,80,0.30) 50%, rgba(200,160,80,0.20) 80%, transparent 100%)', filter: 'blur(0.4px)' }} />
+                          <div className="w-px h-full" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(200,160,80,0.12) 25%, rgba(200,160,80,0.20) 50%, rgba(200,160,80,0.12) 75%, transparent 100%)', filter: 'blur(0.5px)' }} />
                         </div>
                       )}
                     </Fragment>
@@ -2291,18 +2291,28 @@ export default function WatchPage() {
                                         ? 'linear-gradient(180deg, #FFFEFA 0%, #FFFAEF 100%)'
                                         : 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
                                       boxShadow: isHighlight
-                                        ? '0 10px 28px rgba(184,134,11,0.20), 0 3px 10px rgba(184,134,11,0.10), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(184,134,11,0.10), inset 0 12px 28px rgba(212,168,82,0.10), inset 0 -8px 24px rgba(212,168,82,0.08)'
-                                        : '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
+                                        ? '0 14px 38px rgba(212,168,82,0.26), 0 4px 14px rgba(184,134,11,0.14), inset 0 0 0 1px rgba(212,168,82,0.32), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(184,134,11,0.12), inset 0 14px 32px rgba(212,168,82,0.14), inset 0 -10px 28px rgba(212,168,82,0.10)'
+                                        : '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(212,168,82,0.15), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
                                       border: isHighlight ? '1.5px solid rgba(200,160,80,0.55)' : '1px solid rgba(220,200,170,0.30)',
                                     }}>
-                              {/* Soft top warm glow — özellikle Popüler kartta belirgin */}
+                              {/* Soft top warm glow — Popüler kartta daha belirgin */}
                               <div aria-hidden="true" className="absolute top-0 left-0 right-0 pointer-events-none"
                                    style={{
-                                     height: '50%',
+                                     height: '55%',
                                      background: isHighlight
-                                       ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.18) 0%, transparent 70%)'
+                                       ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.24) 0%, transparent 70%)'
                                        : 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.10) 0%, transparent 70%)',
                                    }} />
+                              {/* Bottom subtle gold reflection — sadece Popüler kart (vitrin ışığı hissi) */}
+                              {isHighlight && (
+                                <div aria-hidden="true" className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+                                     style={{
+                                       width: '80%',
+                                       height: '40%',
+                                       background: 'radial-gradient(ellipse at 50% 100%, rgba(212,168,82,0.16) 0%, transparent 60%)',
+                                       filter: 'blur(1px)',
+                                     }} />
+                              )}
                               {/* İsim — semibold + letter-spacing (premium boutique label hissi) */}
                               <div className="text-[13px] md:text-[16px] font-semibold mb-2 md:mb-2.5 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>{gold.name}</div>
                               {/* Görsel — daraltıldı */}
@@ -2826,6 +2836,7 @@ export default function WatchPage() {
                           className="dock-tab relative flex-1 flex flex-col items-center justify-center gap-0.5 rounded-[26px]"
                           style={{
                             color: isActive ? '#9F4F58' : (tab.isMid ? '#8F5A3D' : '#9A8989'),
+                            opacity: isActive ? 1 : 0.88,
                           }}>
                     <span className="relative z-10">{tab.icon}</span>
                     <span className="relative z-10 text-[9.5px] font-semibold uppercase whitespace-nowrap"
