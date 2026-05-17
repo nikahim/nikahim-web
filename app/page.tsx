@@ -572,8 +572,8 @@ export default function Home() {
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-14 md:space-y-16">
-          {/* Canlı Yayın - mobile (1:1 kare) + desktop (1836x857 landscape) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1836/857] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          {/* Canlı Yayın - mobile (1:1 kare) + desktop (1798x875 landscape) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1798/875] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
@@ -632,8 +632,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Tebrik Mesajları - mobile (1:1) + desktop (1835x857 landscape) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1835/857] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          {/* Tebrik Mesajları - mobile (1:1) + desktop (1798x875 landscape) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1798/875] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-tebrik.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
@@ -762,7 +762,7 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (2-col grid, sol heading+badges, sağ 3-foto) */}
-          <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full aspect-[2400/1120]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full aspect-[1798/875]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="absolute inset-0 grid grid-cols-2 gap-8 px-16 lg:px-20 py-10 lg:py-14">
 
               {/* SOL — Heading + açıklama + badges */}
