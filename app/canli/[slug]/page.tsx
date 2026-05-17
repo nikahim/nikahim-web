@@ -1865,7 +1865,7 @@ export default function WatchPage() {
             </div>
 
             {/* Aile Bilgisi */}
-            <div className="rounded-2xl p-5 pb-[60px] space-y-3 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+            <div className="rounded-2xl p-5 space-y-3 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
                 <p className="text-gray-600 text-[13px]">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
@@ -1875,6 +1875,18 @@ export default function WatchPage() {
                 <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
                 <p className="text-gray-600 text-[13px]">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
               </div>
+            </div>
+
+            {/* "Sende bu mutlu gününü..." CTA — sol panel altına alındı */}
+            <div className="rounded-2xl p-5 flex flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <p className="text-sm font-semibold leading-snug">
+                <span className="text-gray-800">Sende bu mutlu gününü </span>
+                <span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span>
+                <span className="text-gray-800"> ister misin?</span>
+              </p>
+              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.9)' }}>
+                Hemen Başla !
+              </button>
             </div>
           </div>
 
@@ -2342,6 +2354,10 @@ export default function WatchPage() {
                   0%, 100% { background-position: 0% 50%; }
                   50% { background-position: 100% 50%; }
                 }
+                /* Masaüstünde altın tak bölümü %20 küçük (kartlar + tüm içerik) */
+                @media (min-width: 1024px) {
+                  #gold-section { zoom: 0.8; }
+                }
               `}</style>
               <div className="px-5 md:px-7 pt-4 pb-4">
                 {/* Başlık — premium typography: "Mutlu Çifte" ince italic gri + "Altın Tak" gold gradient */}
@@ -2756,18 +2772,6 @@ export default function WatchPage() {
                 <svg className="w-3.5 h-3.5 lg:w-3 lg:h-3 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                 <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Albümü Görüntüle</span>
                 <svg className="w-2.5 h-2.5 flex-shrink-0" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-              </button>
-            </div>
-
-            {/* "Sende bu mutlu gününü..." CTA — sadece masaüstü (mobilde tab bar var) */}
-            <div className="hidden lg:flex rounded-2xl p-5 flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
-              <p className="text-sm font-semibold leading-snug">
-                <span className="text-gray-800">Sende bu mutlu gününü </span>
-                <span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span>
-                <span className="text-gray-800"> ister misin?</span>
-              </p>
-              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.9)' }}>
-                Hemen Başla !
               </button>
             </div>
 

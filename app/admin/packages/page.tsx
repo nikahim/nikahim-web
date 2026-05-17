@@ -99,8 +99,13 @@ export default function AdminPackagesPage() {
 
   const handleDelete = async (pkg: Package) => {
     if (!confirm(`"${pkg.name_tr}" paketini silmek istediğinize emin misiniz?`)) return;
-    await supabase.from('packages').delete().eq('id', pkg.id);
-    fetchPackages();
+    const prev = packages;
+    setPackages(prev.filter(p => p.id !== pkg.id));
+    const { error } = await supabase.from('packages').delete().eq('id', pkg.id);
+    if (error) {
+      setPackages(prev);
+      alert('Silme başarısız: ' + error.message);
+    }
   };
 
   return (
