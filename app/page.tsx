@@ -605,10 +605,10 @@ export default function Home() {
             </div>
 
             {/* Masaüstü — Altın stili grid (sol içerik, sağ image alanı) */}
-            <div className="hidden md:grid relative md:grid-cols-[1fr_36%] min-h-[300px]">
-              <div className="py-7 pl-12 pr-4 flex flex-col justify-between min-h-[300px]">
+            <div className="hidden md:grid relative md:grid-cols-[1fr_36%] min-h-[600px]">
+              <div className="py-10 pl-12 pr-4 flex flex-col justify-center min-h-[600px]">
                 <div>
-                  <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(30px, 3vw, 44px)' }}>Canlı Yayın</h3>
+                  <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(38px, 4vw, 60px)' }}>Canlı Yayın</h3>
                   <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 2vw, 28px)' }}>ile mutluluğunuzu paylaşın!</h3>
                   <p className="mt-3 leading-relaxed text-[14px] lg:text-[15px]" style={{ color: '#6E5A5A' }}>
                     Düğününüzü veya Nikahınızı Canlı Yayınlayın,<br />
@@ -639,12 +639,12 @@ export default function Home() {
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="absolute inset-0 w-full h-full object-cover hidden md:block pointer-events-none select-none" />
             {/* Masaüstü: yazı daha sağa (pl-24 → pl-32, çiçek üstünü kapatmasın) */}
-            <div className="relative grid grid-cols-1 md:grid-cols-[36%_1fr] min-h-[320px] md:min-h-[300px]">
+            <div className="relative grid grid-cols-1 md:grid-cols-[36%_1fr] min-h-[320px] md:min-h-[600px]">
               <div className="hidden md:block" />
-              <div className="p-5 md:py-10 md:pr-10 md:pl-32 flex flex-col justify-between min-h-[320px] md:min-h-[280px]">
-                <div className="pl-[44%] md:pl-0 pt-4 md:pt-2 text-right md:text-left">
-                  <h3 className="text-[26px] md:text-[40px] mb-0.5 md:mb-1 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
-                  <h3 className="text-[26px] md:text-[40px] mb-5 md:mb-6 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
+              <div className="p-5 md:py-10 md:pr-10 md:pl-32 flex flex-col justify-center min-h-[320px] md:min-h-[560px]">
+                <div className="pl-[44%] md:pl-0 pt-4 md:pt-0 text-right md:text-left">
+                  <h3 className="text-[26px] md:text-[56px] mb-0.5 md:mb-2 leading-[1.1]" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>Altınlarınızı</h3>
+                  <h3 className="text-[26px] md:text-[56px] mb-5 md:mb-6 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600 }}>Online Toplayın</h3>
                   <p className="text-[13px] md:text-[15px] leading-relaxed pl-[10%] md:pl-0 mt-1" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.</p>
                 </div>
                 <div className="flex gap-2 flex-nowrap justify-end md:justify-start mt-5 md:mt-0">
@@ -682,13 +682,13 @@ export default function Home() {
             </div>
 
             {/* Masaüstü — grid: sol içerik, sağ image alanı */}
-            <div className="hidden md:grid relative md:grid-cols-[1fr_36%] min-h-[300px]">
-              <div className="py-7 pl-12 pr-4 flex flex-col justify-center min-h-[300px]">
-                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.8vw, 40px)' }}>Tebrik</h3>
-                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.8vw, 40px)' }}>mesajlarınızı</h3>
-                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.8vw, 40px)' }}>kabul edin!</h3>
-                <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="leading-relaxed text-[14px] lg:text-[15px]" style={{ color: '#7A6B6B' }}>
+            <div className="hidden md:grid relative md:grid-cols-[1fr_36%] min-h-[600px]">
+              <div className="py-10 pl-12 pr-4 flex flex-col justify-center min-h-[600px]">
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(36px, 3.8vw, 56px)' }}>Tebrik</h3>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(36px, 3.8vw, 56px)' }}>mesajlarınızı</h3>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(36px, 3.8vw, 56px)' }}>kabul edin!</h3>
+                <div className="mt-4 mb-4" style={{ width: '72px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="leading-relaxed text-[15px] lg:text-[17px]" style={{ color: '#7A6B6B' }}>
                   Canlı Yayınınızı izleyen davetliler Video Kaydı, Ses Kaydı<br />
                   veya Yazılı Mesaj yöntemlerinden biri ile size tebrik mesajı iletsin!
                 </p>
@@ -791,57 +791,57 @@ export default function Home() {
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (Altın stili, min-h-300px) */}
           <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="grid grid-cols-2 gap-6 px-12 lg:px-16 py-6 min-h-[300px]">
+            <div className="grid grid-cols-2 gap-6 px-16 lg:px-20 py-12 min-h-[600px]">
 
               {/* SOL — Heading + açıklama + badges */}
               <div className="flex flex-col justify-center">
                 <div style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1 }}>
-                  <div style={{ color: '#C8686E', fontSize: 'clamp(28px, 3vw, 44px)' }}>Fotoğraf</div>
-                  <div className="flex items-center gap-3 mt-1" style={{ fontSize: 'clamp(22px, 2.4vw, 34px)' }}>
-                    <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
+                  <div style={{ color: '#C8686E', fontSize: 'clamp(40px, 4.4vw, 64px)' }}>Fotoğraf</div>
+                  <div className="flex items-center gap-4 mt-2" style={{ fontSize: 'clamp(32px, 3.4vw, 50px)' }}>
+                    <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(40px, 4vw, 64px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
                     <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
                   </div>
                 </div>
-                <p className="leading-relaxed mt-3 text-[13px] lg:text-[14px] max-w-[460px]" style={{ color: '#6E5A5A' }}>
-                  Online Fotoğraf albümünüzü oluşturun, ister siz isterseniz de bu mutlu günde yanınızda bulunanlar gün boyunca çekilen fotoğrafları eklesin.
+                <p className="leading-relaxed mt-6 text-[15px] lg:text-[17px] max-w-[460px]" style={{ color: '#6E5A5A' }}>
+                  Online Fotoğraf albümünüzü oluşturun, ister siz isterseniz de bu mutlu günde yanınızda bulunanlar gün boyunca çekilen fotoğrafları eklesin. Tüm fotoğraflarınızı tek bir yerde toplayın, kolayca indirin!
                 </p>
-                <div className="flex gap-2 mt-3 flex-wrap">
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
+                <div className="flex gap-3 mt-6 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
                     Birlikte Yükleyin
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg>
+                  <span className="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg>
                     Kolayca İndirin
                   </span>
                 </div>
               </div>
 
-              {/* SAĞ — 3 foto eğri arrangement (foto 4 önde, foto 2 sol, foto 3 sağ) */}
+              {/* SAĞ — 3 foto eğri arrangement (foto 4 önde, foto 2 sol, foto 8 sağ) */}
               <div className="relative flex items-center justify-center">
                 {/* Sol foto - foto 2 */}
-                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-90px) rotate(-7deg)', zIndex: 1 }}>
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-130px) rotate(-7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-xl" style={{ boxShadow: '0 8px 20px rgba(80,60,40,0.22), 0 2px 8px rgba(0,0,0,0.06)' }}>
-                    <img src="/foto2.png" alt="" className="block object-cover rounded-lg" style={{ width: '110px', height: '150px' }} />
+                    <img src="/foto2.png" alt="" className="block object-cover rounded-lg" style={{ width: '150px', height: '200px' }} />
                   </div>
                 </div>
                 {/* Sağ foto - foto 8 */}
-                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(90px) rotate(7deg)', zIndex: 1 }}>
+                <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(130px) rotate(7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-xl" style={{ boxShadow: '0 8px 20px rgba(80,60,40,0.22), 0 2px 8px rgba(0,0,0,0.06)' }}>
-                    <img src="/foto8.png" alt="" className="block object-cover rounded-lg" style={{ width: '110px', height: '150px' }} />
+                    <img src="/foto8.png" alt="" className="block object-cover rounded-lg" style={{ width: '150px', height: '200px' }} />
                   </div>
                 </div>
                 {/* Orta foto - foto 4 (önde) + badge */}
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
                   <div className="bg-white p-1.5 rounded-2xl relative" style={{ boxShadow: '0 20px 44px rgba(80,60,40,0.36), 0 6px 16px rgba(0,0,0,0.12)' }}>
-                    <img src="/foto4.png" alt="" className="block object-cover rounded-xl" style={{ width: '140px', height: '190px' }} />
-                    <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 10px rgba(160,80,90,0.42), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
-                      <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                    <img src="/foto4.png" alt="" className="block object-cover rounded-xl" style={{ width: '190px', height: '250px' }} />
+                    <div className="absolute bottom-3 left-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 10px rgba(160,80,90,0.42), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                         <rect x="3" y="3" width="18" height="18" rx="2" />
                         <circle cx="8.5" cy="8.5" r="1.5" fill="white" stroke="none" />
                         <path d="M21 15l-5-5L5 21" />
                       </svg>
-                      <span className="text-[11px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
+                      <span className="text-[13px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
                     </div>
                   </div>
                 </div>
