@@ -714,7 +714,7 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* 3 statik foto — foto 2 sol, foto 3 sağ, foto 4 önde */}
+              {/* 3 statik foto — foto 2 sol, foto 8 sağ, foto 4 önde */}
               <div className="relative w-full flex items-center justify-center" style={{ height: 'clamp(205px, 33.7vw, 300px)' }}>
                 {/* Sol foto - foto 2 */}
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-84px, -15vw, -120px)) rotate(-7deg)', zIndex: 1 }}>
@@ -723,10 +723,10 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Sağ foto - foto 3 */}
+                {/* Sağ foto - foto 8 */}
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(84px, 15vw, 120px)) rotate(7deg)', zIndex: 1 }}>
                   <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/foto3.png" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(94px, 16vw, 135px)', height: 'clamp(112px, 18.7vw, 164px)' }} />
+                    <img src="/foto8.png" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(94px, 16vw, 135px)', height: 'clamp(112px, 18.7vw, 164px)' }} />
                   </div>
                 </div>
 
@@ -825,10 +825,10 @@ export default function Home() {
                     <img src="/foto2.png" alt="" className="block object-cover rounded-lg" style={{ width: '110px', height: '150px' }} />
                   </div>
                 </div>
-                {/* Sağ foto - foto 3 */}
+                {/* Sağ foto - foto 8 */}
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(90px) rotate(7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-xl" style={{ boxShadow: '0 8px 20px rgba(80,60,40,0.22), 0 2px 8px rgba(0,0,0,0.06)' }}>
-                    <img src="/foto3.png" alt="" className="block object-cover rounded-lg" style={{ width: '110px', height: '150px' }} />
+                    <img src="/foto8.png" alt="" className="block object-cover rounded-lg" style={{ width: '110px', height: '150px' }} />
                   </div>
                 </div>
                 {/* Orta foto - foto 4 (önde) + badge */}
@@ -1081,7 +1081,7 @@ export default function Home() {
           {/* Item 35: logo + text + slogan kaldırıldı, sadece Keşfet + Sosyal kaldı */}
           <div className="grid md:grid-cols-2 gap-12 mb-12 max-w-3xl mx-auto">
             <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4><div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">{['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => { const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss']; return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>; })}</div></div>
-            <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Bizi Takip Edin</h4><a href="https://instagram.com/nikahim_" target="_blank" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"><Image src="/instagram.png" alt="Instagram" width={24} height={24} className="w-6 h-6 rounded" />@nikahim_</a></div>
+            <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Bizi Takip Edin</h4><a href="https://instagram.com/nikahim_" target="_blank" className="flex items-center gap-3 text-gray-400 hover:text-white transition-colors"><Image src="/instagram.png" alt="Instagram" width={24} height={24} className="w-6 h-6 rounded" />@nikahım</a></div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">© 2025 Nikahim.com — Tüm hakları saklıdır.</div>
         </div>
