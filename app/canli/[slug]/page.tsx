@@ -147,6 +147,8 @@ export default function WatchPage() {
   const [showAppPopup, setShowAppPopup] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showRotationPrompt, setShowRotationPrompt] = useState(false);
+  const [showPersistentRotation, setShowPersistentRotation] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('altin');
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
@@ -318,6 +320,49 @@ export default function WatchPage() {
       }
     }
   }, [isRecordingOpen]);
+
+  // Fullscreen + portrait detection: ekran döndürme kilidi varsa "yan çevirin" prompt'u
+  useEffect(() => {
+    if (!isFullscreen) {
+      setShowRotationPrompt(false);
+      setShowPersistentRotation(false);
+      return;
+    }
+    const isPortrait = () => window.innerHeight > window.innerWidth;
+    let t1: ReturnType<typeof setTimeout> | null = null;
+    let t2: ReturnType<typeof setTimeout> | null = null;
+
+    const startPrompts = () => {
+      if (isPortrait()) {
+        setShowRotationPrompt(true);
+        setShowPersistentRotation(false);
+        t1 = setTimeout(() => setShowRotationPrompt(false), 3000);
+        t2 = setTimeout(() => {
+          if (window.innerHeight > window.innerWidth) setShowPersistentRotation(true);
+        }, 5000);
+      } else {
+        setShowRotationPrompt(false);
+        setShowPersistentRotation(false);
+      }
+    };
+
+    startPrompts();
+
+    const onOrientation = () => {
+      if (t1) { clearTimeout(t1); t1 = null; }
+      if (t2) { clearTimeout(t2); t2 = null; }
+      startPrompts();
+    };
+
+    window.addEventListener('resize', onOrientation);
+    window.addEventListener('orientationchange', onOrientation);
+    return () => {
+      if (t1) clearTimeout(t1);
+      if (t2) clearTimeout(t2);
+      window.removeEventListener('resize', onOrientation);
+      window.removeEventListener('orientationchange', onOrientation);
+    };
+  }, [isFullscreen]);
 
   const toggleMusicMute = () => {
     if (audioRef.current) {
@@ -1117,7 +1162,7 @@ export default function WatchPage() {
 
           {/* Logo - sol üst, küçük yumuşak imza */}
           <div className="absolute top-3 left-4 cursor-pointer z-10 group" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-[40px] w-auto object-contain opacity-85 transition-opacity group-hover:opacity-100" />
+            <Image src="/navbar-icon.png" alt="Nikahım" width={56} height={56} className="h-[48px] w-auto object-contain opacity-85 transition-opacity group-hover:opacity-100" />
           </div>
 
           {/* CANLI badge — sadece active iken sağ üstte */}
@@ -1194,11 +1239,8 @@ export default function WatchPage() {
 
           {/* Premium hoşgeldin copy */}
           <div className="mb-5 relative">
-            <p className="font-semibold text-[16px]" style={{ color: '#1F1F1F' }}>
-              Sn. {viewerName},
-            </p>
-            <p className="italic mt-0.5 text-[14.5px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
-              sizi yeniden aramızda görmek çok güzel
+            <p className="italic text-[15px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
+              Tekrar Hoş Geldiniz Sn. {viewerName}
             </p>
           </div>
 
@@ -1348,7 +1390,7 @@ export default function WatchPage() {
 
           {/* Logo - sol üst, küçük yumuşak imza */}
           <div className="absolute top-3 left-4 cursor-pointer z-10 group" onClick={() => window.location.href = '/'}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-[40px] w-auto object-contain opacity-85 transition-opacity group-hover:opacity-100" />
+            <Image src="/navbar-icon.png" alt="Nikahım" width={56} height={56} className="h-[48px] w-auto object-contain opacity-85 transition-opacity group-hover:opacity-100" />
           </div>
 
           {/* CANLI badge — sadece active iken */}
@@ -1420,13 +1462,6 @@ export default function WatchPage() {
               <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               {eventTime}
             </span>
-          </div>
-
-          {/* Premium karşılama copy */}
-          <div className="mb-5 relative">
-            <p className="italic text-[14px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
-              Bu özel anı birlikte yaşamak için aramızdasınız.
-            </p>
           </div>
 
           <div className="mb-6">
@@ -1668,8 +1703,8 @@ export default function WatchPage() {
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={96} height={96} className="w-[88px] h-[88px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[44px] w-auto object-contain mt-1" />
+                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[104px] h-[104px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[34px] w-auto object-contain -mt-1" />
               </div>
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
@@ -1680,12 +1715,19 @@ export default function WatchPage() {
               <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
-            {/* 3 feature — eşit ağırlık, biraz daha nefes */}
+            {/* 3 feature — ana sayfa ile aynı: Davetiye → Paylaş → Canlı */}
             <div className="grid grid-cols-3 gap-4 mb-7 lg:mb-8">
               {[
+                { title: 'Davetiye Oluştur', icon: (
+                  <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
+                    <path d="M3.5 8L12 13l8.5-5" />
+                    <path d="M12 13.5v3" />
+                    <path d="M10.5 16.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5c0-1-1.5-2-1.5-2s-1.5 1-1.5 2z" fill="currentColor" stroke="none" opacity="0.65" />
+                  </svg>
+                ) },
+                { title: 'Sevdiklerinle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
                 { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
-                { title: 'Albüm Oluştur', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-                { title: 'Hemen Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
                   <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
@@ -1896,6 +1938,40 @@ export default function WatchPage() {
           <div className="contents lg:block lg:flex-1 lg:min-w-0">
             {/* Video container — mobilde sticky top:60px, masaüstünde normal */}
             <div className={`max-lg:sticky max-lg:top-[60px] max-lg:z-30 bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
+
+              {/* Rotation prompt — fullscreen + portrait olduğunda, 3 saniye sonra fade */}
+              {isFullscreen && showRotationPrompt && (
+                <>
+                  <style>{`
+                    @keyframes rotPromptFade { 0% { opacity: 0; } 8% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+                    @keyframes rotIconSpin { 0%, 100% { transform: rotate(-15deg); } 50% { transform: rotate(75deg); } }
+                  `}</style>
+                  <div className="absolute inset-0 z-[10001] flex items-center justify-center pointer-events-none"
+                       style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)', animation: 'rotPromptFade 3s ease forwards' }}>
+                    <div className="text-center text-white px-8">
+                      <svg className="w-20 h-20 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" style={{ animation: 'rotIconSpin 1.8s ease-in-out infinite' }}>
+                        <rect x="5" y="2" width="14" height="20" rx="2.5" />
+                        <line x1="5" y1="18" x2="19" y2="18" />
+                        <circle cx="12" cy="20" r="0.8" fill="currentColor" />
+                      </svg>
+                      <p className="text-lg font-semibold tracking-wide">Ekranınızı Yan Çevirin</p>
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* Persistent rotation hint — 5s sonra portrait kaldıysa üst sağda kalıcı */}
+              {isFullscreen && showPersistentRotation && !showRotationPrompt && (
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[10000] inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-white text-[11px] pointer-events-none"
+                     style={{ background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.10)' }}>
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <rect x="6" y="3" width="12" height="18" rx="2" />
+                    <line x1="6" y1="17" x2="18" y2="17" />
+                  </svg>
+                  <span>Daha iyi görüntü için ekranı çevirin</span>
+                </div>
+              )}
+
               {/* Fullscreen toggle button */}
               <button onClick={async () => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { await document.documentElement.requestFullscreen?.(); (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { document.exitFullscreen?.(); (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
@@ -2391,11 +2467,13 @@ export default function WatchPage() {
                   </h2>
                 </div>
 
-                {/* Üst sıra: 3 kart (Çeyrek, Yarım+Popüler, Tam) — premium emboss, butonsuz */}
+                {/* Mobil: 3+2 layout. Masaüstü (lg): 5 kart yan yana — aşağıda. */}
+
+                {/* Üst sıra: 3 kart (Çeyrek, Yarım+Popüler, Tam) — sadece mobile */}
                 {(() => {
                   const topItems = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'tam_altin'].includes(g.id));
                   return (
-                    <div className="grid grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-5">
+                    <div className="lg:hidden grid grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-5">
                       {topItems.map((gold, topIdx) => {
                         const isHighlight = gold.id === 'yarim_altin';
                         return (
@@ -2474,8 +2552,8 @@ export default function WatchPage() {
                   );
                 })()}
 
-                {/* Alt sıra: 2 yatay kart — flex-row clean: ikon SOLDA sabit, text SAĞDA flex-1 dikey ortalı */}
-                <div className="grid grid-cols-2 gap-3 md:gap-4">
+                {/* Alt sıra: 2 yatay kart — sadece mobile */}
+                <div className="lg:hidden grid grid-cols-2 gap-3 md:gap-4">
                   {goldOptions.filter(g => ['gram_altin', 'nakit'].includes(g.id)).map((gold, botIdx) => (
                     <button key={gold.id} onClick={() => handleGoldSelect(gold.id)}
                             className={`group relative rounded-2xl py-1.5 md:py-2 pl-2.5 pr-3 transition-all duration-300 hover:-translate-y-1 active:translate-y-0 flex items-center gap-2 md:gap-2.5 cursor-pointer overflow-hidden gold-card card-enter card-enter-${botIdx + 4}`}
@@ -2516,6 +2594,58 @@ export default function WatchPage() {
                       </div>
                     </button>
                   ))}
+                </div>
+
+                {/* Masaüstü 5-kart yan yana — gram, çeyrek, yarım(popüler), tam, nakit */}
+                <div className="hidden lg:grid grid-cols-5 gap-3 mb-3">
+                  {['gram_altin', 'ceyrek_altin', 'yarim_altin', 'tam_altin', 'nakit'].map((id, idx) => {
+                    const gold = goldOptions.find(g => g.id === id);
+                    if (!gold) return null;
+                    const isHighlight = id === 'yarim_altin';
+                    const isNakit = id === 'nakit';
+                    return (
+                      <div key={id} className={`relative card-enter card-enter-${idx + 1}`}>
+                        {isHighlight && (
+                          <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap"
+                               style={{ background: 'linear-gradient(135deg, #C8A050 0%, #B8893C 100%)', boxShadow: '0 6px 18px rgba(184,134,11,0.22), 0 2px 6px rgba(160,120,40,0.10), inset 0 1px 0 rgba(255,255,255,0.25)', letterSpacing: '0.5px', textShadow: '0 1px 1px rgba(120,80,20,0.20)' }}>
+                            Popüler
+                          </div>
+                        )}
+                        <button onClick={() => handleGoldSelect(id)}
+                                className="w-full group rounded-2xl px-2.5 pt-3.5 pb-3 text-center transition-all duration-300 hover:-translate-y-1 active:translate-y-0 relative cursor-pointer overflow-hidden gold-card"
+                                data-highlight={isHighlight}
+                                style={{
+                                  background: isHighlight
+                                    ? 'linear-gradient(180deg, #FFFEFA 0%, #FFFAEF 100%)'
+                                    : 'linear-gradient(180deg, #FFFFFF 0%, #FFFCF5 100%)',
+                                  boxShadow: isHighlight
+                                    ? '0 14px 38px rgba(212,168,82,0.26), 0 4px 14px rgba(184,134,11,0.14), inset 0 0 0 1px rgba(212,168,82,0.32), inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(184,134,11,0.12), inset 0 14px 32px rgba(212,168,82,0.14), inset 0 -10px 28px rgba(212,168,82,0.10)'
+                                    : '0 6px 18px rgba(180,140,80,0.14), 0 2px 6px rgba(0,0,0,0.04), inset 0 0 0 1px rgba(212,168,82,0.15), inset 0 1px 0 rgba(255,255,255,0.95), inset 0 -1px 0 rgba(180,140,80,0.08), inset 0 10px 20px rgba(212,168,82,0.05)',
+                                  border: isHighlight ? '1.5px solid rgba(200,160,80,0.55)' : '1px solid rgba(220,200,170,0.30)',
+                                }}>
+                          <div aria-hidden="true" className="absolute top-0 left-0 right-0 pointer-events-none"
+                               style={{ height: '55%', background: isHighlight ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.24) 0%, transparent 70%)' : 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.10) 0%, transparent 70%)' }} />
+                          <div className="text-[13px] font-semibold mb-2 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>
+                            {isNakit ? 'Özel Miktar' : gold.name}
+                          </div>
+                          <div className="relative w-[64px] h-[64px] mx-auto mb-2 group-hover:scale-110 transition-transform duration-500 coin-float">
+                            <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.32) 0%, transparent 60%)', filter: 'blur(6px)', transform: 'translateY(8%) scale(0.85)' }} />
+                            <Image src={isNakit ? '/tl-icon.png' : gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))' }} />
+                          </div>
+                          <div className="text-[13px] font-medium" style={{
+                            letterSpacing: '0.3px',
+                            fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
+                            background: 'linear-gradient(180deg, #C89540 0%, #B8860B 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                          }}>
+                            {isNakit ? 'Siz Belirleyin' : `₺${gold.price.toLocaleString()}`}
+                          </div>
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* Trust line — minimal Apple-style: tek satır, mono ikonlar, ince yazı, supporting info (öne çıkmaz) */}
@@ -3593,8 +3723,52 @@ export default function WatchPage() {
       )}
 
       {showWelcomeModal && (
-        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-8 max-w-sm w-full text-center">
+        <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4 overflow-hidden">
+          {/* Konfeti animasyonu — site renklerinde, abartısız */}
+          <style>{`
+            @keyframes confetti-fall {
+              0% { transform: translateY(-20vh) rotate(0deg); opacity: 1; }
+              100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+            }
+            .confetti-piece {
+              position: absolute;
+              top: 0;
+              width: 8px;
+              height: 12px;
+              opacity: 0;
+              animation: confetti-fall 3.2s cubic-bezier(0.2, 0.7, 0.5, 1) forwards;
+              pointer-events: none;
+              border-radius: 2px;
+            }
+            @keyframes modal-pop {
+              0% { transform: scale(0.85); opacity: 0; }
+              60% { transform: scale(1.04); opacity: 1; }
+              100% { transform: scale(1); opacity: 1; }
+            }
+            .welcome-modal-pop { animation: modal-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1); }
+          `}</style>
+          {/* 40 parça konfeti — site renklerinde (pembe, gold, krem, beyaz) */}
+          {Array.from({ length: 40 }).map((_, i) => {
+            const colors = ['#C8686E', '#D88488', '#E8A8AE', '#D4A852', '#F5D7CE', '#FFFFFF', '#FCE2DA'];
+            const left = (i * 2.5) % 100;
+            const delay = (i * 0.07) % 1.8;
+            const dur = 2.4 + (i % 4) * 0.3;
+            const color = colors[i % colors.length];
+            return (
+              <span
+                key={i}
+                className="confetti-piece"
+                style={{
+                  left: `${left}%`,
+                  background: color,
+                  animationDelay: `${delay}s`,
+                  animationDuration: `${dur}s`,
+                  transform: `rotate(${(i * 17) % 360}deg)`,
+                }}
+              />
+            );
+          })}
+          <div className="welcome-modal-pop bg-white rounded-2xl p-8 max-w-sm w-full text-center relative z-10" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.20), 0 12px 32px rgba(200,104,110,0.16)' }}>
             <div className="text-6xl mb-4">🎊</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
             <p className="text-gray-600 mb-2">Katılım bilginiz çiftimize iletildi.</p>
