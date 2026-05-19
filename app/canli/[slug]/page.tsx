@@ -1240,7 +1240,7 @@ export default function WatchPage() {
           {/* Premium hoşgeldin copy */}
           <div className="mb-5 relative">
             <p className="italic text-[15px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#7A6B6B' }}>
-              Tekrar Hoş Geldiniz Sn. {viewerName}
+              Tekrar Hoş Geldiniz <span style={{ fontWeight: 700, color: '#1F1F1F' }}>Sn. {viewerName}</span>
             </p>
           </div>
 
@@ -1741,7 +1741,7 @@ export default function WatchPage() {
             {/* CTA alt yazı — store butonlarına mesafe */}
             <div className="text-center mb-6 lg:mb-7">
               <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
-                Uygulamayı ücretsiz indirin, hemen başlayın !
+                Uygulamayı <span style={{ fontWeight: 700, color: '#1F1F1F' }}>ücretsiz indirin</span>, hemen başlayın !
               </p>
             </div>
 
@@ -2437,7 +2437,7 @@ export default function WatchPage() {
               `}</style>
               <div className="px-5 md:px-7 pt-4 pb-4">
                 {/* Başlık — premium typography: "Mutlu Çifte" ince italic gri + "Altın Tak" gold gradient */}
-                <div className="text-center mb-4">
+                <div className="text-center mb-4 lg:mb-7">
                   <h2 className="flex items-center justify-center gap-3 md:gap-5" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                     <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
                       <span className="absolute inset-0 rounded-full" style={{ background: 'linear-gradient(to right, transparent 0%, rgba(184,134,11,0.85) 50%, transparent 100%)' }} />
@@ -2625,14 +2625,14 @@ export default function WatchPage() {
                                 }}>
                           <div aria-hidden="true" className="absolute top-0 left-0 right-0 pointer-events-none"
                                style={{ height: '55%', background: isHighlight ? 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.24) 0%, transparent 70%)' : 'radial-gradient(ellipse at 50% 0%, rgba(212,168,82,0.10) 0%, transparent 70%)' }} />
-                          <div className="text-[13px] font-semibold mb-2 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>
+                          <div className="text-[14px] font-semibold mb-2 whitespace-nowrap" style={{ color: '#2B2B2B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.4px' }}>
                             {isNakit ? 'Özel Miktar' : gold.name}
                           </div>
-                          <div className="relative w-[64px] h-[64px] mx-auto mb-2 group-hover:scale-110 transition-transform duration-500 coin-float">
+                          <div className="relative w-[68px] h-[68px] mx-auto mb-2 group-hover:scale-110 transition-transform duration-500 coin-float">
                             <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.32) 0%, transparent 60%)', filter: 'blur(6px)', transform: 'translateY(8%) scale(0.85)' }} />
                             <Image src={isNakit ? '/tl-icon.png' : gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))' }} />
                           </div>
-                          <div className="text-[13px] font-medium" style={{
+                          <div className="text-[14px] font-medium" style={{
                             letterSpacing: '0.3px',
                             fontFamily: 'var(--font-geist-sans), Inter, sans-serif',
                             background: 'linear-gradient(180deg, #C89540 0%, #B8860B 100%)',
@@ -2772,7 +2772,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: '108% 102%', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
               <div className="text-center relative z-10 mb-2 lg:mt-2">
@@ -3605,12 +3605,6 @@ export default function WatchPage() {
                   <p className="text-xs text-gray-600 leading-relaxed text-center">Şimdi kendi banka uygulamanız üzerinden çiftin hesabına para gönderimini yapın ve ardından bu sayfaya dönerek gönderiminizi onaylayın. Dijital Altınınızı takmış olun!</p>
                 </div>
                 <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
-
-                {/* SSL badge */}
-                <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-300 mb-3">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                  256-bit SSL ile korunur
-                </div>
 
                 {/* Anonim altın seçeneği */}
                 <label className="flex items-center gap-2.5 mb-3 cursor-pointer select-none">
