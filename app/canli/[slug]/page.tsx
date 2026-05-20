@@ -2772,7 +2772,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.32), rgba(255,255,255,0.32)), url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.12), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
               <div className="text-center relative z-10 mb-2 lg:mt-2">
@@ -3391,6 +3391,14 @@ export default function WatchPage() {
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
 
+            {/* Geri Dön button — sadece Step 2'de, sol üst X ile aynı seviyede */}
+            {paymentStep === 2 && (
+              <button onClick={() => { setPaymentStep(1); setPaymentMethod(null); }} className="absolute top-4 left-4 z-10 h-8 inline-flex items-center gap-1 px-2.5 rounded-full transition-all hover:scale-105 text-[12px] font-medium" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
+                Geri Dön
+              </button>
+            )}
+
             {/* Step indicator */}
             {paymentStep < 3 && (
               <div className="px-6 pt-16 pb-1">
@@ -3619,7 +3627,6 @@ export default function WatchPage() {
                 <button onClick={handlePaymentComplete} disabled={confirmTimer > 0} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: confirmTimer > 0 ? '#9ca3af' : 'linear-gradient(135deg, #4ade80, #22c55e)', boxShadow: confirmTimer > 0 ? 'none' : '0 4px 16px rgba(34,197,94,0.25)' }}>
                   {confirmTimer > 0 ? `Ödemeyi Onaylıyorum (${confirmTimer}s)` : '✓ Ödemeyi Onaylıyorum'}
                 </button>
-                <button onClick={() => { setPaymentStep(1); setPaymentMethod(null); }} className="w-full py-2.5 text-gray-400 hover:text-gray-600 text-xs font-medium mt-1">← Ödeme Yöntemine Dön</button>
               </div>
             )}
 
@@ -3697,18 +3704,9 @@ export default function WatchPage() {
 
               <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(76,175,80,0.1)' }}>
                 <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'Georgia, serif' }} />
-                <div className="flex items-center gap-1 px-3 py-2" style={{ borderTop: '1px solid rgba(76,175,80,0.06)' }}>
-                  <button onClick={() => setShowEmojiPicker(!showEmojiPicker)} className={`transition-colors text-lg ${showEmojiPicker ? 'opacity-100' : 'opacity-40 hover:opacity-70'}`}>😊</button>
-                </div>
               </div>
 
-              {showEmojiPicker && (
-                <div className="mt-2 p-2 rounded-xl max-h-24 overflow-y-auto" style={{ background: 'rgba(76,175,80,0.04)', border: '1px solid rgba(76,175,80,0.1)' }}>
-                  <div className="flex flex-wrap gap-1">{emojis.map((emoji, index) => (<button key={index} onClick={() => addEmoji(emoji)} className="text-lg hover:scale-125 transition-transform p-0.5">{emoji}</button>))}</div>
-                </div>
-              )}
-
-              <button onClick={() => { sendMessage(); setShowMessageModal(false); setShowEmojiPicker(false); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
+              <button onClick={() => { sendMessage(); setShowMessageModal(false); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
                 Tebrik Gönder
               </button>
             </div>

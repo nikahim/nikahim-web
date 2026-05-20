@@ -572,8 +572,8 @@ export default function Home() {
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-14 md:space-y-16">
-          {/* Canlı Yayın - mobile (1:1 kare) + desktop (1230x300, image full bg, content overlay sol) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-auto max-w-[720px] md:max-w-none md:min-h-[300px]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          {/* Canlı Yayın - mobile (1:1 kare) + desktop (image aspect 1964/541 ≈ 3.63:1, ~339px) */}
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
@@ -586,7 +586,7 @@ export default function Home() {
                 Canlı Yayınlayın, bu anı<br />
                 kimse kaçırmasın!
               </p>
-              <div className="flex flex-wrap gap-1 mt-5">
+              <div className="flex flex-col items-start gap-2.5 mt-5">
                 {[
                   { label: 'Yüksek Çözünürlük', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Tek Tıkla Yayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
@@ -621,16 +621,18 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:min-h-[300px]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Mobil — heading tek satır üstte, desc kartın sağına yanaşık, badges altta tam ortalı */}
+            {/* Mobil — heading + desc tam ortalanmış, badges altta tam ortalı */}
             <div className="md:hidden relative min-h-[340px]">
-              {/* Heading + desc — sağ tarafta */}
-              <div className="absolute top-5 right-4 max-w-[58%] text-right">
-                <h3 className="leading-[1.15] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(14px, 4.6vw, 20px)' }}>
-                  <span style={{ color: '#2B2B2B' }}>Altınlarınızı</span>
-                  <span style={{ color: '#C8686E' }}> Online Toplayın</span>
+              {/* Heading + desc — ortalanmış (dikeyde merkezde, biraz aşağıda) */}
+              <div className="absolute left-0 right-0 text-center px-5" style={{ top: '48%', transform: 'translateY(-50%)' }}>
+                <h3 className="leading-tight whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(17px, 5vw, 24px)' }}>
+                  <span style={{ color: '#2B2B2B' }}>Altınlarınızı </span>
+                  <span style={{ color: '#C8686E' }}>Online Toplayın</span>
                 </h3>
-                <p className="text-[11.5px] leading-snug mt-3" style={{ color: '#6E5A5A' }}>
-                  Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza ödeme yapsın.
+                <p className="text-[12px] leading-relaxed mt-3" style={{ color: '#6E5A5A' }}>
+                  Davetlileriniz Havale/EFT veya<br />
+                  Crypto ile doğrudan sizin<br />
+                  hesabınıza ödeme yapsın
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
@@ -902,16 +904,34 @@ export default function Home() {
               { step: '01', title: 'Uygulamayı İndirin', desc: 'App Store veya Google Play\'den Nikahım uygulamasını ücretsiz indirin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
               { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
               { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
-            ].map((item, i) => (
-              <div key={item.step} className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2" style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.18), 0 8px 24px rgba(0,0,0,0.08)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; }}>
-                <div className="flex items-center justify-between mb-8">
-                  <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>{item.icon}</div>
-                  <span className="text-6xl font-bold text-gray-100 select-none">{item.step}</span>
+            ].map((item, i) => {
+              const isFirst = i === 0;
+              return (
+                <div
+                  key={item.step}
+                  onClick={isFirst ? () => setShowAppPopup(true) : undefined}
+                  className={`premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2 ${isFirst ? 'cursor-pointer' : ''}`}
+                  style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.18), 0 8px 24px rgba(0,0,0,0.08)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; }}
+                >
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>{item.icon}</div>
+                    <span className="text-6xl font-bold text-gray-100 select-none">{item.step}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+                  <p className="text-gray-400 leading-relaxed">{item.desc}</p>
+                  {isFirst && (
+                    <div className="mt-4 flex justify-end">
+                      <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold" style={{ color: '#C8686E' }}>
+                        Hemen Başla
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                      </span>
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
