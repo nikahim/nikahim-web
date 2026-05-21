@@ -603,7 +603,8 @@ export default function Home() {
               <div>
                 <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(32px, 3vw, 44px)' }}>Canlı Yayın</h3>
                 <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px, 1.7vw, 26px)' }}>ile mutluluğunuzu paylaşın!</h3>
-                <p className="mt-4 leading-snug text-[13px] lg:text-[14px]" style={{ color: '#6E5A5A' }}>
+                <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#6E5A5A' }}>
                   Düğününüzü canlı yayınlayın, uzaktaki<br />
                   sevdikleriniz bu anı kaçırmasın.
                 </p>
@@ -658,10 +659,9 @@ export default function Home() {
             {/* Masaüstü — image full bg, içerik 100px aşağı, badges 100px sağ */}
             <div className="hidden md:flex absolute right-0 top-0 h-full w-[52%] flex-col justify-between pr-14 pl-4 pb-6 pt-[100px]">
               <div>
-                <h3 className="text-[clamp(28px,2.6vw,40px)] mb-5 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>
-                  <span>Altınlarınızı </span>
-                  <span style={{ color: '#C8686E' }}>Online Toplayın</span>
-                </h3>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(28px, 2.6vw, 40px)' }}>Altınlarınızı</h3>
+                <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(28px, 2.6vw, 40px)' }}>Online Toplayın</h3>
+                <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz size doğrudan ödeme gönderir, siz uygulamadan kolayca takip edersiniz.</p>
               </div>
               <div className="flex gap-1.5 flex-nowrap pl-[80px]">
@@ -859,14 +859,9 @@ export default function Home() {
             {/* SAĞ — Heading + açıklama + badges (20px sola: right-[20px], başlık tek satır çift dash) */}
             <div className="absolute right-[20px] top-0 h-full w-[52%] flex flex-col justify-between pr-14 pl-4 pb-6 pt-[100px]">
               <div>
-                <div className="flex items-center gap-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, fontSize: 'clamp(22px, 2.3vw, 32px)' }}>
-                  <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(24px, 2.6vw, 42px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
-                  <span className="whitespace-nowrap">
-                    <span style={{ color: '#C8686E' }}>Fotoğraf </span>
-                    <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
-                  </span>
-                  <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(24px, 2.6vw, 42px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
-                </div>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>Fotoğraf</h3>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>Albümü Oluşturun</h3>
+                <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="leading-snug mt-3 text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>
                   Misafirleriniz gün boyunca fotoğraflarını eklesin, tüm anılar tek albümde toplansın.
                 </p>
@@ -975,15 +970,15 @@ export default function Home() {
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
           </div>
 
-          {/* Güven kartı — shield+tick icon, kart bilgileri paylaşmadan uygulama içi satın alma */}
-          <div className="mb-14 max-w-3xl mx-auto">
-            <div className="flex items-center gap-4 rounded-2xl px-5 py-4" style={{ background: 'rgba(255,250,250,0.85)', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 4px 16px rgba(200,104,110,0.06)' }}>
-              <div className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)', border: '1px solid rgba(200,104,110,0.18)' }}>
-                <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+          {/* Güven kartı — daha kompakt: küçük icon + ince kart */}
+          <div className="mb-14 max-w-2xl mx-auto">
+            <div className="flex items-center gap-3 rounded-xl px-4 py-2.5" style={{ background: 'rgba(255,250,250,0.85)', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 10px rgba(200,104,110,0.05)' }}>
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)', border: '1px solid rgba(200,104,110,0.18)' }}>
+                <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                 </svg>
               </div>
-              <p className="text-[12px] lg:text-[13px] leading-snug text-left whitespace-nowrap" style={{ color: '#3F3F3F' }}>
+              <p className="text-[12px] leading-snug text-left whitespace-nowrap" style={{ color: '#3F3F3F' }}>
                 Paket satın alımlarınızı, kart bilgilerinizi paylaşmadan uygulama içi satın alma ile{' '}
                 <span style={{ color: '#C8686E', fontWeight: 600 }}>güvenle tamamlayın.</span>
               </p>
@@ -1033,17 +1028,25 @@ export default function Home() {
           <div className="mt-14 max-w-5xl mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
               {[
-                { label: 'Kart bilgileriniz saklanmaz', icon: (
+                { label: 'Kart bilgileriniz istenmez', icon: (
                   <svg className="w-4 h-4 md:w-[18px] md:h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" /></svg>
                 ) },
                 { label: 'Ödemeler doğrudan size', icon: (
                   <svg className="w-4 h-4 md:w-[18px] md:h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 12a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V12zm-12 0h.008v.008H6V12z" /></svg>
                 ) },
                 { label: 'Uygulamasız izleme', icon: (
-                  <svg className="w-4 h-4 md:w-[18px] md:h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                  // Telefon + çapraz çizgi (no-app)
+                  <svg className="w-4 h-4 md:w-[18px] md:h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24">
+                    <rect x="7" y="2.5" width="10" height="19" rx="2" />
+                    <line x1="12" y1="18.5" x2="12" y2="18.5" strokeLinecap="round" strokeWidth="2.4" />
+                    <line x1="4" y1="20" x2="20" y2="4" strokeLinecap="round" strokeWidth="2" />
+                  </svg>
                 ) },
-                { label: 'Davetliye özel yayın', icon: (
-                  <svg className="w-4 h-4 md:w-[18px] md:h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-3.75 11.25h16.5a1.5 1.5 0 001.5-1.5v-9a1.5 1.5 0 00-1.5-1.5H3.75a1.5 1.5 0 00-1.5 1.5v9a1.5 1.5 0 001.5 1.5z" /></svg>
+                { label: 'Yayın tekrarı izleme', icon: (
+                  // Refresh / replay icon
+                  <svg className="w-4 h-4 md:w-[18px] md:h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                  </svg>
                 ) },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5" style={{ color: '#9F4F58' }}>
@@ -1058,8 +1061,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NİKAH ARA — Paketler sonrası, SSS öncesi */}
-      <section id="nikah-ara" className="py-28">
+      {/* NİKAH ARA — Paketler sonrası, SSS öncesi (hafif pembe ton ayrım) */}
+      <section id="nikah-ara" className="py-28" style={{ background: 'linear-gradient(180deg, #FFFCFB 0%, #FDF7F5 100%)' }}>
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
