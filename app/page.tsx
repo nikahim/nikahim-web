@@ -642,10 +642,15 @@ export default function Home() {
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading + dash + açıklama — sağda (canlı yayın/tebrik mobil ile aynı yapı) */}
               <div className="absolute" style={{ top: '17%', right: '5.5%', width: '54%' }}>
-                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
-                <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
-                <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="mt-3 leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>
+                <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
+                {/* "Online Toplayın" + dash — sağa yaslı blok, dash O harfi altından başlar */}
+                <div className="flex justify-end">
+                  <div className="inline-block">
+                    <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
+                    <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                  </div>
+                </div>
+                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz size<br />
                   doğrudan para gönderir,<br />
                   siz uygulamadan<br />
