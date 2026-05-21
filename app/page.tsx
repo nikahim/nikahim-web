@@ -695,8 +695,8 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Masaüstü — content sol overlay (50px daha sağa), image full bg */}
-            <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[146px] pr-4">
+            {/* Masaüstü — content sol overlay (50+30=80px daha sağa), image full bg */}
+            <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[176px] pr-4">
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>kabul edin!</h3>
