@@ -569,6 +569,13 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Premium section divider — hairline + diamond ornament */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-14 md:space-y-16">
@@ -629,24 +636,18 @@ export default function Home() {
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sağ içerik tarafı krem, solda image'a fade (text sağda, altın görseli solda) */}
             <div className="hidden md:block absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
-            {/* Mobil — heading albüm tarzı (rose üst + dash siyah alt), desc 6 satır sağda */}
+            {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
-              {/* Heading — üst, albüm kartı tarzı (rose üst kelime + dashes+siyah alt) */}
-              <div className="absolute left-0 right-0 text-center px-4" style={{ top: '20px', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
-                <div style={{ color: '#C8686E', fontSize: 'clamp(26px, 4.6vw, 36px)' }}>Altınlarınızı</div>
-                <div className="flex items-center justify-center gap-3 md:gap-4 mt-0.5" style={{ fontSize: 'clamp(26px, 4.6vw, 36px)' }}>
-                  <span className="flex-shrink-0 h-[1.5px] rounded-full" style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
-                  <span style={{ color: '#2B2B2B' }}>Online Toplayın</span>
-                  <span className="flex-shrink-0 h-[1.5px] rounded-full" style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
-                </div>
-              </div>
-              {/* Açıklama — sağa yapışık */}
-              <div className="absolute right-4 max-w-[55%] text-right" style={{ top: '44%' }}>
-                <p className="text-[12px] leading-relaxed" style={{ color: '#6E5A5A' }}>
+              {/* Heading + dash + açıklama — sağda (canlı yayın/tebrik mobil ile aynı yapı) */}
+              <div className="absolute" style={{ top: '17%', right: '5.5%', width: '54%' }}>
+                <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
+                <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
+                <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz size<br />
                   doğrudan para gönderir,<br />
-                  siz uygulamadan kolayca<br />
-                  takip edersiniz.
+                  siz uygulamadan<br />
+                  kolayca takip edersiniz.
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
@@ -892,8 +893,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Premium section divider */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* NASIL ÇALIŞIR — Tone A (rose-cream) */}
-      <section id="nasil-calisir" className="py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="nasil-calisir" className="py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
@@ -936,8 +944,15 @@ export default function Home() {
       </section>
 
       {/* NEDEN NİKAHIM */}
+      {/* Premium section divider */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* NEDEN NİKAHIM — Tone B (body cream) */}
-      <section id="neden-nikahim" className="py-28" style={{ background: '#FAF7F5' }}>
+      <section id="neden-nikahim" className="py-16 md:py-28" style={{ background: '#FAF7F5' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Neden <span className="gradient-text">Nikahım?</span></h2>
@@ -971,8 +986,15 @@ export default function Home() {
       </section>
 
       {/* PAKETLER */}
+      {/* Premium section divider */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* PAKETLER — Tone A */}
-      <section id="paketler" className="py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="paketler" className="py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
@@ -1069,8 +1091,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Premium section divider */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* NİKAH ARA — Tone B (body cream) */}
-      <section id="nikah-ara" className="py-28" style={{ background: '#FAF7F5' }}>
+      <section id="nikah-ara" className="py-16 md:py-28" style={{ background: '#FAF7F5' }}>
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
@@ -1114,8 +1143,15 @@ export default function Home() {
       </section>
 
       {/* SSS */}
+      {/* Premium section divider */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* SSS — Tone A */}
-      <section id="sss" className="py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="sss" className="py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
@@ -1142,8 +1178,15 @@ export default function Home() {
       </section>
 
       {/* İLETİŞİM */}
+      {/* Premium section divider */}
+      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
+        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
+      </div>
+
       {/* BİZE ULAŞIN — Tone B */}
-      <section id="iletisim" className="py-28" style={{ background: '#FAF7F5' }}>
+      <section id="iletisim" className="py-16 md:py-28" style={{ background: '#FAF7F5' }}>
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
