@@ -147,7 +147,11 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     setMessages(newConvo);
     setInput("");
     setSending(true);
-    setTyping(true);
+
+    const startTime = Date.now();
+    const THINKING_DELAY = 4000; // 4 sn "okuyor / düşünüyor"
+    // "Elif yazıyor" 4 sn sonra görünür (kişi tepki süresi gibi)
+    const typingShowTimer = setTimeout(() => setTyping(true), THINKING_DELAY);
 
     try {
       const apiMessages = newConvo
@@ -171,6 +175,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       const data = await res.json();
 
       if (!res.ok) {
+        clearTimeout(typingShowTimer);
         setTyping(false);
         setSending(false);
         setMessages((prev) => [
@@ -186,9 +191,17 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ticketNumber: data.ticketNumber || undefined,
       };
 
-      // Gerçekçi yazma süresi: kısa 3s, orta 5s, uzun 7s
+      // Gerçekçi insan yazma hızı: ~55ms / karakter (≈ 18 char/sn, hızlı klavye kullanıcısı)
+      // + küçük rastgelelik. Min 1.5 sn, max 8 sn.
       const len = botMsg.content.length;
-      const typingDelay = len < 100 ? 3000 : len < 200 ? 5000 : 7000;
+      const baseTyping = len * 55;
+      const jitter = 200 + Math.random() * 600; // 200-800ms ek
+      const typingDuration = Math.min(8000, Math.max(1500, baseTyping + jitter));
+
+      // Toplam: 4sn düşünme + yazma süresi (API gecikmesi yenebilir)
+      const elapsed = Date.now() - startTime;
+      const totalDelay = Math.max(THINKING_DELAY, elapsed) + typingDuration;
+      const remaining = totalDelay - elapsed;
 
       setTimeout(async () => {
         setTyping(false);
@@ -198,8 +211,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         if (data.escalated && data.ticketNumber) {
           await sendTicketEmail(data.ticketNumber, [...newConvo, botMsg]);
         }
-      }, typingDelay);
+      }, remaining);
     } catch {
+      clearTimeout(typingShowTimer);
       setTyping(false);
       setSending(false);
       setMessages((prev) => [

@@ -1733,7 +1733,7 @@ export default function WatchPage() {
                   <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
-                  <h4 className="text-[12px] font-bold text-gray-900 leading-tight">{f.title}</h4>
+                  <h4 className="text-[12px] font-normal text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>

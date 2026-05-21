@@ -373,7 +373,7 @@ export default function Home() {
                   <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
-                  <h4 className="text-[12px] font-bold text-gray-900 leading-tight">{f.title}</h4>
+                  <h4 className="text-[12px] font-normal text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>
@@ -607,7 +607,7 @@ export default function Home() {
                   bu anı kimse kaçırmasın!
                 </p>
               </div>
-              <div className="flex gap-1.5 flex-wrap">
+              <div className="flex gap-1.5 flex-wrap -ml-[80px]">
                 {[
                   { label: 'Yüksek Çözünürlük', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Tek Tıkla Yayın', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
@@ -623,11 +623,11 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Mobil — heading üstte ortalı, desc sağda (altınların solunu kapatmasın), badges altta ortalı */}
+            {/* Mobil — heading büyük (canlı yayın "ile mutluluğunuzu paylaşın" boyu) + 30px aşağı, desc 5 satır sağda */}
             <div className="md:hidden relative min-h-[340px]">
-              {/* Heading — üst ortalı yatayda */}
-              <div className="absolute top-5 left-0 right-0 text-center px-4">
-                <h3 className="leading-tight whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(17px, 5vw, 24px)' }}>
+              {/* Heading — üst ortalı yatayda, 30px aşağı, canlı yayın sub-heading boyu */}
+              <div className="absolute left-0 right-0 text-center px-4" style={{ top: '50px' }}>
+                <h3 className="leading-tight whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>
                   <span style={{ color: '#2B2B2B' }}>Altınlarınızı </span>
                   <span style={{ color: '#C8686E' }}>Online Toplayın</span>
                 </h3>
@@ -635,9 +635,11 @@ export default function Home() {
               {/* Açıklama — sağa yapışık, soldaki altınları kapatmasın */}
               <div className="absolute right-4 max-w-[55%] text-right" style={{ top: '40%' }}>
                 <p className="text-[12px] leading-relaxed" style={{ color: '#6E5A5A' }}>
-                  Davetlileriniz Havale/EFT veya<br />
-                  Crypto ile doğrudan sizin<br />
-                  hesabınıza ödeme yapsın
+                  Davetlileriniz Havale/EFT<br />
+                  veya Crypto ile doğrudan<br />
+                  sizin hesabınıza para<br />
+                  göndersin. Sizde uygulama<br />
+                  üzerinden kolayca takip edin.
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
@@ -654,13 +656,13 @@ export default function Home() {
             {/* Masaüstü — image full bg, içerik 100px aşağı, badges 100px sağ */}
             <div className="hidden md:flex absolute right-0 top-0 h-full w-[52%] flex-col justify-between pr-14 pl-4 pb-6 pt-[100px]">
               <div>
-                <h3 className="text-[clamp(28px,2.6vw,40px)] mb-2 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>
+                <h3 className="text-[clamp(28px,2.6vw,40px)] mb-5 leading-[1.1] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#2B2B2B', fontWeight: 600 }}>
                   <span>Altınlarınızı </span>
                   <span style={{ color: '#C8686E' }}>Online Toplayın</span>
                 </h3>
                 <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz Havale/EFT veya Crypto ile doğrudan sizin hesabınıza para gönderimi yapsın. Dijital altınlarınızı yayın boyunca toplayın ve daha sonra uygulama üzerinden kim hangi altından ne kadar taktı kolayca takip edin.</p>
               </div>
-              <div className="flex gap-1.5 flex-nowrap pl-[100px]">
+              <div className="flex gap-1.5 flex-nowrap pl-[80px]">
                 {[
                   { label: 'Güvenilir', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Komisyon Yok', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
@@ -801,25 +803,28 @@ export default function Home() {
           <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full md:aspect-[1964/541]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="relative grid grid-cols-2 gap-4 pl-[146px] pr-12 h-full">
 
-              {/* SOL — Heading + açıklama + badges (Fotoğraf +50px sağa, çift dash, hizalı) */}
-              <div className="flex flex-col justify-center py-6">
-                <div className="flex flex-col items-start" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1 }}>
-                  {/* Row 1: "Fotoğraf" - invisible left dash for vertical alignment with row 2 */}
-                  <div className="flex items-center gap-2">
-                    <span className="invisible flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)' }} />
-                    <span style={{ color: '#C8686E', fontSize: 'clamp(28px, 2.9vw, 40px)' }}>Fotoğraf</span>
+              {/* SOL — Heading + açıklama (badges aşağı/altta yer alacak) */}
+              <div className="flex flex-col justify-between py-6">
+                <div>
+                  <div className="flex flex-col items-start" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1 }}>
+                    {/* Row 1: "Fotoğraf" - invisible left dash for vertical alignment with row 2 */}
+                    <div className="flex items-center gap-2">
+                      <span className="invisible flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)' }} />
+                      <span style={{ color: '#C8686E', fontSize: 'clamp(28px, 2.9vw, 40px)' }}>Fotoğraf</span>
+                    </div>
+                    {/* Row 2: çift dash + "Albümü Oluşturun" */}
+                    <div className="flex items-center gap-2 mt-1" style={{ fontSize: 'clamp(22px, 2.3vw, 32px)' }}>
+                      <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
+                      <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
+                      <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
+                    </div>
                   </div>
-                  {/* Row 2: çift dash + "Albümü Oluşturun" */}
-                  <div className="flex items-center gap-2 mt-1" style={{ fontSize: 'clamp(22px, 2.3vw, 32px)' }}>
-                    <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
-                    <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
-                    <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
-                  </div>
+                  <p className="leading-snug mt-3 text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>
+                    Online Fotoğraf albümünüzü oluşturun, davetliler gün boyu çekilen fotoğrafları eklesin.
+                  </p>
                 </div>
-                <p className="leading-snug mt-3 text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>
-                  Online Fotoğraf albümünüzü oluşturun, davetliler gün boyu çekilen fotoğrafları eklesin.
-                </p>
-                <div className="flex gap-1.5 mt-3 flex-wrap">
+                {/* Badges — kartın altına (Canlı Yayın gibi justify-between) */}
+                <div className="flex gap-1.5 flex-wrap">
                   <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
                     Birlikte Yükleyin
@@ -831,20 +836,20 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* SAĞ — 3 foto eğri arrangement (foto +%20 daha büyüdü) + altta filmstrip */}
+              {/* SAĞ — 3 foto +20px aşağı, filmstrip ortadaki fotoyu ortalayacak şekilde */}
               <div className="relative">
-                {/* 3 foto */}
-                <div className="absolute" style={{ left: '50%', top: '38%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
+                {/* 3 foto (top 38% → 44%, ~20px aşağı) */}
+                <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                     <img src="/foto2.png" alt="" className="block object-cover rounded-md" style={{ width: '101px', height: '144px' }} />
                   </div>
                 </div>
-                <div className="absolute" style={{ left: '50%', top: '38%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
+                <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
                     <img src="/foto8.png" alt="" className="block object-cover rounded-md" style={{ width: '101px', height: '144px' }} />
                   </div>
                 </div>
-                <div className="absolute" style={{ left: '50%', top: '38%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
+                <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
                   <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                     <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: '137px', height: '187px' }} />
                     <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
@@ -858,8 +863,8 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Filmstrip altta — kayan, mobildeki gibi */}
-                <div className="absolute bottom-2 left-0 right-0 overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 5%, black 95%, transparent 100%)' }}>
+                {/* Filmstrip — ortalı (3 fotonun ortadakini ortalasın), 10-15px yukarı */}
+                <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '18px', width: '320px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
                   <style>{`
                     @keyframes albumFilmstripDesktop {
                       0% { transform: translateX(0); }
