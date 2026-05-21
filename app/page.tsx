@@ -577,7 +577,7 @@ export default function Home() {
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade (premium hissi) */}
-            <div className="hidden md:block absolute left-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 55%, rgba(255, 248, 240, 0) 100%)' }} />
+            <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
             <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
@@ -628,7 +628,7 @@ export default function Home() {
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sağ içerik tarafı krem, solda image'a fade (text sağda, altın görseli solda) */}
-            <div className="hidden md:block absolute right-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 55%, rgba(255, 248, 240, 0) 100%)' }} />
+            <div className="hidden md:block absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
             {/* Mobil — heading albüm tarzı (rose üst + dash siyah alt), desc 6 satır sağda */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading — üst, albüm kartı tarzı (rose üst kelime + dashes+siyah alt) */}
@@ -644,7 +644,7 @@ export default function Home() {
               <div className="absolute right-4 max-w-[55%] text-right" style={{ top: '44%' }}>
                 <p className="text-[12px] leading-relaxed" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz size<br />
-                  doğrudan ödeme gönderir,<br />
+                  doğrudan para gönderir,<br />
                   siz uygulamadan kolayca<br />
                   takip edersiniz.
                 </p>
@@ -666,7 +666,7 @@ export default function Home() {
                 <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(28px, 2.6vw, 40px)' }}>Altınlarınızı</h3>
                 <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(28px, 2.6vw, 40px)' }}>Online Toplayın</h3>
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz size doğrudan ödeme gönderir, siz uygulamadan kolayca takip edersiniz.</p>
+                <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.</p>
               </div>
               <div className="flex gap-1.5 flex-nowrap pl-[80px]">
                 {[
@@ -685,7 +685,7 @@ export default function Home() {
             <img src="/bg-tebrik.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
-            <div className="hidden md:block absolute left-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 55%, rgba(255, 248, 240, 0) 100%)' }} />
+            <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + açıklama */}
             <div className="md:hidden absolute" style={{ top: '17%', left: '6%', width: '52%' }}>
@@ -952,7 +952,7 @@ export default function Home() {
               { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Tüm ödemeler direk olarak davetlileriniz tarafından sizin banka hesabınıza yapılır. Aracı yok! Komisyon Yok!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
               { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
               /* Item 33 — Fotoğraf Albümü (Özel Davetiye'den önce) */
-              { title: 'Fotoğraf Albümü', desc: 'Fotoğraf albümünüze hem siz hem de bu mutlu günde yanınızda olan sevdikleriniz fotoğraf yükleyebilir. Gün boyunca çekilen tüm fotoğrafları tek bir yerde toplayabilir tek tıkla hepsini indirebilirsiniz!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+              { title: 'Fotoğraf Albümü', desc: 'Fotoğraf albümünüze hem siz hem de bu mutlu günde yanınızda olan sevdikleriniz fotoğraf yükleyebilir. Gün boyunca çekilen tüm fotoğrafları tek bir yerde toplayabilir kolayca hepsini indirebilirsiniz!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
               /* Item 34 — Özel Davetiye (en sonda) */
               { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
             ].map((feature, i) => (
@@ -976,15 +976,15 @@ export default function Home() {
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
           </div>
 
-          {/* Güven kartı — daha kompakt: küçük icon + ince kart */}
-          <div className="mb-14 max-w-2xl mx-auto">
-            <div className="flex items-center gap-3 rounded-xl px-4 py-2.5" style={{ background: 'rgba(255,250,250,0.85)', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 10px rgba(200,104,110,0.05)' }}>
+          {/* Güven kartı — yazı kartı ortalar (fit-content) */}
+          <div className="mb-14 flex justify-center px-4">
+            <div className="inline-flex items-center gap-3 rounded-xl px-4 py-2.5" style={{ background: 'rgba(255,250,250,0.85)', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 10px rgba(200,104,110,0.05)' }}>
               <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)', border: '1px solid rgba(200,104,110,0.18)' }}>
                 <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                 </svg>
               </div>
-              <p className="text-[12px] leading-snug text-left md:whitespace-nowrap" style={{ color: '#3F3F3F' }}>
+              <p className="text-[13px] leading-snug text-left md:whitespace-nowrap" style={{ color: '#3F3F3F' }}>
                 Paket satın alımlarınızı, kart bilgilerinizi paylaşmadan uygulama içi satın alma ile{' '}
                 <span style={{ color: '#C8686E', fontWeight: 600 }}>güvenle tamamlayın.</span>
               </p>
@@ -1126,7 +1126,7 @@ export default function Home() {
               { q: "Yayın kayıt ediliyor mu?", a: "Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir." },
               { q: "Kaç kişi aynı anda izleyebilir?", a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir." },
             ].map((faq, index) => (
-              <div key={index} className="border border-gray-100 rounded-2xl overflow-hidden hover:border-gray-200 transition-colors">
+              <div key={index} className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-gray-300 hover:shadow-md transition-all" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03)' }}>
                 <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full p-6 flex items-center justify-between text-left">
                   <span className="font-semibold text-gray-900 pr-4">{faq.q}</span>
                   <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-300 ${openFaq === index ? 'rotate-180' : ''}`} style={{ background: 'rgba(200,104,110,0.1)', color: '#C8686E' }}>▼</span>
