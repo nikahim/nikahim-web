@@ -627,6 +627,8 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Cream overlay — sağ içerik tarafı krem, solda image'a fade (text sağda, altın görseli solda) */}
+            <div className="hidden md:block absolute right-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 55%, rgba(255, 248, 240, 0) 100%)' }} />
             {/* Mobil — heading albüm tarzı (rose üst + dash siyah alt), desc 6 satır sağda */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading — üst, albüm kartı tarzı (rose üst kelime + dashes+siyah alt) */}
@@ -682,6 +684,8 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-tebrik.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
+            <div className="hidden md:block absolute left-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 55%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + açıklama */}
             <div className="md:hidden absolute" style={{ top: '17%', left: '6%', width: '52%' }}>
