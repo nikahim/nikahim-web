@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { Playfair_Display, Cormorant_Garamond } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
 import "./globals.css";
 import ChatWidget from "@/components/ChatWidget";
 
@@ -19,13 +19,6 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
   weight: ["400", "500", "600", "700", "900"],
 });
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  variable: "--font-script",
-  weight: ["400", "600", "700"],
-  style: ["normal", "italic"],
-});
-
 export const metadata: Metadata = {
   title: "Nikahim.com",
   description: "Nikahınızı canlı yayınlayın, sevdikleriniz uzaktan katılsın",
@@ -48,7 +41,7 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/icon.png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${cormorant.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} antialiased`}
       >
         {children}
         <ChatWidget />
