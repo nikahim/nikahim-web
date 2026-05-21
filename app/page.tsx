@@ -577,11 +577,12 @@ export default function Home() {
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
-            {/* Mobil heading + açıklama + badges (footnote kaldırıldı, badges %15 küçük + biraz aşağıda) */}
+            {/* Mobil heading + dash + açıklama + badges */}
             <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Canlı Yayın</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
-              <p className="mt-4 leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>
+              <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="mt-3 leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>
                 Düğününüzü veya Nikahınızı<br />
                 Canlı Yayınlayın, bu anı<br />
                 kimse kaçırmasın!
@@ -623,23 +624,26 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Mobil — heading büyük (canlı yayın "ile mutluluğunuzu paylaşın" boyu) + 30px aşağı, desc 5 satır sağda */}
+            {/* Mobil — heading albüm tarzı (rose üst + dash siyah alt), desc 6 satır sağda */}
             <div className="md:hidden relative min-h-[340px]">
-              {/* Heading — üst ortalı yatayda, 30px aşağı, canlı yayın sub-heading boyu */}
-              <div className="absolute left-0 right-0 text-center px-4" style={{ top: '50px' }}>
-                <h3 className="leading-tight whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>
-                  <span style={{ color: '#2B2B2B' }}>Altınlarınızı </span>
-                  <span style={{ color: '#C8686E' }}>Online Toplayın</span>
-                </h3>
+              {/* Heading — üst, albüm kartı tarzı (rose üst kelime + dashes+siyah alt) */}
+              <div className="absolute left-0 right-0 text-center px-4" style={{ top: '20px', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
+                <div style={{ color: '#C8686E', fontSize: 'clamp(26px, 4.6vw, 36px)' }}>Altınlarınızı</div>
+                <div className="flex items-center justify-center gap-3 md:gap-4 mt-0.5" style={{ fontSize: 'clamp(26px, 4.6vw, 36px)' }}>
+                  <span className="flex-shrink-0 h-[1.5px] rounded-full" style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
+                  <span style={{ color: '#2B2B2B' }}>Online Toplayın</span>
+                  <span className="flex-shrink-0 h-[1.5px] rounded-full" style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
+                </div>
               </div>
-              {/* Açıklama — sağa yapışık, soldaki altınları kapatmasın */}
-              <div className="absolute right-4 max-w-[55%] text-right" style={{ top: '40%' }}>
+              {/* Açıklama — sağa yapışık, 6 satır */}
+              <div className="absolute right-4 max-w-[55%] text-right" style={{ top: '44%' }}>
                 <p className="text-[12px] leading-relaxed" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz Havale/EFT<br />
                   veya Crypto ile doğrudan<br />
                   sizin hesabınıza para<br />
-                  göndersin. Sizde uygulama<br />
-                  üzerinden kolayca takip edin.
+                  göndersin. Siz de<br />
+                  uygulama üzerinden<br />
+                  kolayca takip edin.
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
