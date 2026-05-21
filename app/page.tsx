@@ -634,16 +634,18 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Full-card hafif krem overlay — pembe rengi yumuşatır */}
+            <div className="hidden md:block absolute inset-0 pointer-events-none" style={{ background: 'rgba(255, 248, 240, 0.12)' }} />
             {/* Cream overlay — sağ içerik tarafı krem, solda image'a fade (text sağda, altın görseli solda) */}
             <div className="hidden md:block absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading + dash + açıklama — sağda (canlı yayın/tebrik mobil ile aynı yapı) */}
               <div className="absolute" style={{ top: '17%', right: '5.5%', width: '54%' }}>
-                <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
-                <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
-                <div className="mt-3 mr-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
+                <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
+                <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="mt-3 leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz size<br />
                   doğrudan para gönderir,<br />
                   siz uygulamadan<br />
@@ -813,6 +815,8 @@ export default function Home() {
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (fotolar SOL, içerik SAĞ — Altın Toplama hizası) */}
           <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full md:aspect-[1964/541]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            {/* Cream overlay — sağ içerik tarafı %50 krem, solda foto tarafına fade */}
+            <div className="absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* SOL — 3 foto + altta kayan filmstrip */}
             <div className="absolute left-0 top-0 h-full w-[48%]">
@@ -916,7 +920,7 @@ export default function Home() {
                 <div
                   key={item.step}
                   onClick={item.action}
-                  className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+                  className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2 cursor-pointer flex flex-col h-full"
                   style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }}
                   onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.20), 0 8px 24px rgba(0,0,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.28)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.10)'; }}
@@ -941,8 +945,8 @@ export default function Home() {
                     </span>
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-400 leading-relaxed mb-5">{item.desc}</p>
-                  <div className="pt-4 border-t flex justify-end" style={{ borderColor: 'rgba(200,104,110,0.10)' }}>
+                  <p className="text-gray-400 leading-relaxed mb-5 flex-1">{item.desc}</p>
+                  <div className="pt-4 border-t flex justify-end mt-auto" style={{ borderColor: 'rgba(200,104,110,0.10)' }}>
                     <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold transition-all duration-300 group-hover:gap-2.5" style={{ color: '#C8686E' }}>
                       {item.cta}
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
@@ -978,10 +982,10 @@ export default function Home() {
             {[
               { title: 'Size Özel Yayın Sayfası', desc: 'Sadece size ait bir yayın sayfası! Dilerseniz Canlı Yayını herkese kapalı yapın, sadece davetiyeli kişiler katılsın.', badges: ['%100 Gizlilik', 'Özel Erişim'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
               { title: 'Tek Tıkla Katılım', desc: 'Davetlileriniz için üyelik gerekmez, uygulama indirmek gerekmez! Link üzerinden tek tıkla katılsın.', badges: ['Üyelik Yok', 'Uygulamasız'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> },
-              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Ödemeler direkt sizin banka hesabınıza, aracı ve komisyon yok.', badges: ['Komisyonsuz', 'Direkt Hesap', 'Hızlı'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
+              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Ödemeler direkt sizin banka hesabınıza, aracı ve komisyon yok.', badges: ['Komisyonsuz', 'Aracı yok', 'Hızlı'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
               { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', badges: ['30 sn Video', '60 sn Ses'], dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
               { title: 'Fotoğraf Albümü', desc: 'Siz ya da misafirleriniz gün boyu çekilen fotoğrafları yükleyin, tüm anılar tek albümde toplansın.', badges: ['Birlikte Yükle', 'Tek Albüm', 'Kolay İndir'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', badges: ['WhatsApp', 'Instagram'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', badges: ['Kolay Paylaşım', 'Tek link'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
             ].map((feature, i) => (
               <div key={i}
                    className="premium-card group p-7 rounded-3xl bg-white transition-all duration-300 hover:-translate-y-1"
@@ -1233,7 +1237,7 @@ export default function Home() {
             {/* Hâlâ sorunuz mu var? — CTA card → ConciergeSheet açar */}
             <div className="rounded-2xl p-5 md:p-6 mt-6 flex items-center gap-4" style={{ background: 'linear-gradient(135deg, #FBEEEC 0%, #FDF5F2 100%)', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 4px 16px rgba(200,104,110,0.08)' }}>
               <div className="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.14)', color: '#C8686E' }}>
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093M12 17h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-bold text-gray-900 text-[15px] md:text-[16px]">Hâlâ sorunuz mu var?</h4>
@@ -1262,7 +1266,7 @@ export default function Home() {
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
-            <p className="text-lg text-gray-400">Sorularınız mı var? Size yardımcı olmaktan mutluluk duyarız</p>
+            <p className="text-lg text-gray-400">Size yardımcı olmaktan mutluluk duyarız</p>
           </div>
           <div className="bg-white rounded-3xl p-10 shadow-sm border border-gray-100">
             {contactSuccess && <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-5 py-4 rounded-2xl text-center font-medium">Mesajınız başarıyla gönderildi!</div>}
