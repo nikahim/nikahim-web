@@ -576,6 +576,8 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade (premium hissi) */}
+            <div className="hidden md:block absolute left-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.85) 0%, rgba(255, 248, 240, 0.85) 55%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
             <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
