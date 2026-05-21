@@ -695,10 +695,12 @@ export default function Home() {
               </p>
             </div>
 
-            {/* Masaüstü — content sol overlay (50+30=80px daha sağa), image full bg */}
-            <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[176px] pr-4">
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>Tebrik</h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>mesajlarınızı</h3>
+            {/* Masaüstü — content sol overlay (+20=196px daha sağa), başlık 2 satır: "Tebrik Mesajlarınızı" üst + "kabul edin!" alt */}
+            <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[196px] pr-4">
+              <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>
+                <span style={{ color: '#1F1F1F' }}>Tebrik </span>
+                <span style={{ color: '#C8686E' }}>Mesajlarınızı</span>
+              </h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>kabul edin!</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
               <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#7A6B6B' }}>
@@ -829,8 +831,8 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Filmstrip — sol kolonda ortalı */}
-              <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '18px', width: '320px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
+              {/* Filmstrip — sol kolonda ortalı, 15px yukarı (18→33) */}
+              <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '33px', width: '320px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
                 <style>{`
                   @keyframes albumFilmstripDesktop {
                     0% { transform: translateX(0); }
@@ -851,21 +853,16 @@ export default function Home() {
               </div>
             </div>
 
-            {/* SAĞ — Heading + açıklama + badges (Altın Toplama hizası: pt-[100px] pr-14 pl-4 pb-6) */}
-            <div className="absolute right-0 top-0 h-full w-[52%] flex flex-col justify-between pr-14 pl-4 pb-6 pt-[100px]">
+            {/* SAĞ — Heading + açıklama + badges (20px sola: right-[20px], başlık tek satır çift dash) */}
+            <div className="absolute right-[20px] top-0 h-full w-[52%] flex flex-col justify-between pr-14 pl-4 pb-6 pt-[100px]">
               <div>
-                <div className="flex flex-col items-start" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1 }}>
-                  {/* Row 1: "Fotoğraf" - invisible left dash for vertical alignment with row 2 */}
-                  <div className="flex items-center gap-2">
-                    <span className="invisible flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)' }} />
-                    <span style={{ color: '#C8686E', fontSize: 'clamp(28px, 2.9vw, 40px)' }}>Fotoğraf</span>
-                  </div>
-                  {/* Row 2: çift dash + "Albümü Oluşturun" */}
-                  <div className="flex items-center gap-2 mt-1" style={{ fontSize: 'clamp(22px, 2.3vw, 32px)' }}>
-                    <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
+                <div className="flex items-center gap-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.1, fontSize: 'clamp(22px, 2.3vw, 32px)' }}>
+                  <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(24px, 2.6vw, 42px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
+                  <span className="whitespace-nowrap">
+                    <span style={{ color: '#C8686E' }}>Fotoğraf </span>
                     <span style={{ color: '#2B2B2B' }}>Albümü Oluşturun</span>
-                    <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(28px, 3vw, 48px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
-                  </div>
+                  </span>
+                  <span className="flex-shrink-0 h-[2px] rounded-full" style={{ width: 'clamp(24px, 2.6vw, 42px)', background: 'linear-gradient(to left, transparent, #C8686E, transparent)' }} />
                 </div>
                 <p className="leading-snug mt-3 text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>
                   Online Fotoğraf albümünüzü oluşturun, davetliler gün boyu çekilen fotoğrafları eklesin.
@@ -883,50 +880,6 @@ export default function Home() {
                 </span>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* NİKAH ARA */}
-      <section id="nikah-ara" className="py-28">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto">Gelin veya Damat adı ile arayarak katılmak istediğiniz Düğün veya Nikahı bulabilirsiniz.</p>
-          </div>
-          <div className="relative max-w-2xl mx-auto">
-            <div className="relative group">
-              <div className="absolute -inset-1 rounded-3xl opacity-0 group-focus-within:opacity-100 transition-opacity blur-lg" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.2), rgba(111,175,207,0.2))' }} />
-              <div className="relative flex items-center">
-                <svg className="absolute left-6 w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" value={searchQuery} onChange={(e) => handleSearch(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300); }} placeholder="Örn: Ahmet, Ayşe, Yılmaz..." className="w-full pl-14 pr-14 py-5 text-lg rounded-2xl outline-none text-gray-900 placeholder:text-gray-300 transition-all shadow-lg border-2 border-transparent focus:border-[#C8686E]/30 focus:shadow-[0_8px_40px_rgba(200,104,110,0.12)]" style={{ background: '#F8F9FC' }} />
-                {searchQuery && <button onClick={() => { setSearchQuery(""); setShowSearchResults(false); }} className="absolute right-5 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-400 hover:bg-gray-300 hover:text-gray-600 transition-colors text-sm">✕</button>}
-              </div>
-            </div>
-            {showSearchResults && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl z-10 overflow-hidden max-h-80 overflow-y-auto border border-gray-100">
-                {searchResults.length > 0 ? (
-                  <div className="divide-y divide-gray-50">
-                    {searchResults.map((event) => (
-                      <button key={event.id} onClick={() => goToWedding(event.event_link)} className="group w-full p-5 flex items-center gap-4 hover:bg-gradient-to-r hover:from-rose-50/50 hover:to-transparent transition-all text-left">
-                        {event.couple_photo_url ? (
-                          <Image src={event.couple_photo_url} alt="Çift" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
-                        ) : (
-                          <Image src="/icon.png" alt="Nikahım" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
-                        )}
-                        <div className="flex-1">
-                          <div className="font-semibold text-gray-900">{event.bride_full_name} & {event.groom_full_name}</div>
-                          <div className="text-sm text-gray-400 mt-0.5">{new Date(event.event_date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                        </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1" style={{ background: 'rgba(200,104,110,0.1)' }}><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg></div>
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-10 text-center text-gray-300"><svg className="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg><p className="font-medium text-gray-400">Sonuç bulunamadı</p><p className="text-sm mt-1">Farklı bir isim deneyin</p></div>
-                )}
-              </div>
-            )}
           </div>
         </div>
       </section>
@@ -1023,7 +976,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                 </svg>
               </div>
-              <p className="text-[14px] lg:text-[15px] leading-snug text-left" style={{ color: '#3F3F3F' }}>
+              <p className="text-[12px] lg:text-[13px] leading-snug text-left whitespace-nowrap" style={{ color: '#3F3F3F' }}>
                 Paket satın alımlarınızı, kart bilgilerinizi paylaşmadan uygulama içi satın alma ile{' '}
                 <span style={{ color: '#C8686E', fontWeight: 600 }}>güvenle tamamlayın.</span>
               </p>
@@ -1067,7 +1020,51 @@ export default function Home() {
               );
             })}
           </div>
-          <p className="text-center text-gray-600 text-sm mt-10">* Canlı yayın çözünürlük kalitesi internet bağlantınıza bağlıdır.</p>
+          <p className="text-center text-gray-600 text-sm mt-10">* Canlı yayın çözünürlük kalitesi sizin internet hızınıza bağlıdır.</p>
+        </div>
+      </section>
+
+      {/* NİKAH ARA — Paketler sonrası, SSS öncesi */}
+      <section id="nikah-ara" className="py-28">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-14">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
+            <p className="text-lg text-gray-400 max-w-xl mx-auto">Gelin veya Damat adı ile arayarak katılmak istediğiniz Düğün veya Nikahı bulabilirsiniz.</p>
+          </div>
+          <div className="relative max-w-2xl mx-auto">
+            <div className="relative group">
+              <div className="absolute -inset-1 rounded-3xl opacity-0 group-focus-within:opacity-100 transition-opacity blur-lg" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.2), rgba(111,175,207,0.2))' }} />
+              <div className="relative flex items-center">
+                <svg className="absolute left-6 w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input type="text" value={searchQuery} onChange={(e) => handleSearch(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300); }} placeholder="Örn: Ahmet, Ayşe, Yılmaz..." className="w-full pl-14 pr-14 py-5 text-lg rounded-2xl outline-none text-gray-900 placeholder:text-gray-300 transition-all shadow-lg border-2 border-transparent focus:border-[#C8686E]/30 focus:shadow-[0_8px_40px_rgba(200,104,110,0.12)]" style={{ background: '#F8F9FC' }} />
+                {searchQuery && <button onClick={() => { setSearchQuery(""); setShowSearchResults(false); }} className="absolute right-5 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-400 hover:bg-gray-300 hover:text-gray-600 transition-colors text-sm">✕</button>}
+              </div>
+            </div>
+            {showSearchResults && (
+              <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl z-10 overflow-hidden max-h-80 overflow-y-auto border border-gray-100">
+                {searchResults.length > 0 ? (
+                  <div className="divide-y divide-gray-50">
+                    {searchResults.map((event) => (
+                      <button key={event.id} onClick={() => goToWedding(event.event_link)} className="group w-full p-5 flex items-center gap-4 hover:bg-gradient-to-r hover:from-rose-50/50 hover:to-transparent transition-all text-left">
+                        {event.couple_photo_url ? (
+                          <Image src={event.couple_photo_url} alt="Çift" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
+                        ) : (
+                          <Image src="/icon.png" alt="Nikahım" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
+                        )}
+                        <div className="flex-1">
+                          <div className="font-semibold text-gray-900">{event.bride_full_name} & {event.groom_full_name}</div>
+                          <div className="text-sm text-gray-400 mt-0.5">{new Date(event.event_date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        </div>
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1" style={{ background: 'rgba(200,104,110,0.1)' }}><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg></div>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="p-10 text-center text-gray-300"><svg className="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg><p className="font-medium text-gray-400">Sonuç bulunamadı</p><p className="text-sm mt-1">Farklı bir isim deneyin</p></div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
