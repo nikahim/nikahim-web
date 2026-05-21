@@ -577,7 +577,7 @@ export default function Home() {
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade (premium hissi) */}
-            <div className="hidden md:block absolute left-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.85) 0%, rgba(255, 248, 240, 0.85) 55%, rgba(255, 248, 240, 0) 100%)' }} />
+            <div className="hidden md:block absolute left-0 top-0 h-full w-[62%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 55%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
             <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
