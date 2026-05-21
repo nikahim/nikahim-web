@@ -30,6 +30,28 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Masaüstü scrollbar — 2x kalın, premium ton */
+@media (min-width: 1024px) {
+  html {
+    scrollbar-width: auto;
+    scrollbar-color: #C8686E #FAF6F0;
+  }
+  ::-webkit-scrollbar {
+    width: 14px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FAF6F0;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #D88488, #C8686E);
+    border-radius: 8px;
+    border: 3px solid #FAF6F0;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #C8686E, #B85258);
+  }
+}
+
 @media (max-width: 1024px) {
   .overflow-y-auto::-webkit-scrollbar {
     display: none;

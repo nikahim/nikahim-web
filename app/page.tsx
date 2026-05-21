@@ -892,8 +892,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NASIL ÇALIŞIR */}
-      <section id="nasil-calisir" className="py-28" style={{ background: 'linear-gradient(180deg, #F8F9FC 0%, #FFFFFF 100%)' }}>
+      {/* NASIL ÇALIŞIR — Tone A (rose-cream) */}
+      <section id="nasil-calisir" className="py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
@@ -936,7 +936,8 @@ export default function Home() {
       </section>
 
       {/* NEDEN NİKAHIM */}
-      <section id="neden-nikahim" className="py-28">
+      {/* NEDEN NİKAHIM — Tone B (body cream) */}
+      <section id="neden-nikahim" className="py-28" style={{ background: '#FAF7F5' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Neden <span className="gradient-text">Nikahım?</span></h2>
@@ -970,7 +971,8 @@ export default function Home() {
       </section>
 
       {/* PAKETLER */}
-      <section id="paketler" className="py-28" style={{ background: 'linear-gradient(180deg, #F8F9FC 0%, #FFFFFF 100%)' }}>
+      {/* PAKETLER — Tone A */}
+      <section id="paketler" className="py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
@@ -1067,8 +1069,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* NİKAH ARA — Paketler sonrası, SSS öncesi (hafif pembe ton ayrım) */}
-      <section id="nikah-ara" className="py-28" style={{ background: 'linear-gradient(180deg, #FFFCFB 0%, #FDF7F5 100%)' }}>
+      {/* NİKAH ARA — Tone B (body cream) */}
+      <section id="nikah-ara" className="py-28" style={{ background: '#FAF7F5' }}>
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
@@ -1112,7 +1114,8 @@ export default function Home() {
       </section>
 
       {/* SSS */}
-      <section id="sss" className="py-28" style={{ background: 'linear-gradient(180deg, #F6F6F7 0%, #F2F2F4 100%)' }}>
+      {/* SSS — Tone A */}
+      <section id="sss" className="py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
@@ -1139,7 +1142,8 @@ export default function Home() {
       </section>
 
       {/* İLETİŞİM */}
-      <section id="iletisim" className="py-28" style={{ background: 'linear-gradient(180deg, #FFFAF3 0%, #FFF5EA 100%)' }}>
+      {/* BİZE ULAŞIN — Tone B */}
+      <section id="iletisim" className="py-28" style={{ background: '#FAF7F5' }}>
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
