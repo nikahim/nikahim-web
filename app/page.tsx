@@ -583,8 +583,8 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade (premium hissi) */}
-            <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
+            {/* Cream overlay — sol içerik tarafı krem (Canlı Yayın için daha ince — rose tonu öne çıksın) */}
+            <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
             <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
@@ -642,7 +642,7 @@ export default function Home() {
               <div className="absolute" style={{ top: '17%', right: '5.5%', width: '54%' }}>
                 <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
                 <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
-                <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <div className="mt-3 mr-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz size<br />
                   doğrudan para gönderir,<br />
@@ -901,41 +901,53 @@ export default function Home() {
       </div>
 
       {/* NASIL ÇALIŞIR — Tone A (rose-cream) */}
-      <section id="nasil-calisir" className="py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="nasil-calisir" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
+          <div className="text-center mb-10 md:mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
           </div>
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[
-              { step: '01', title: 'Uygulamayı İndirin', desc: 'App Store veya Google Play\'den Nikahım uygulamasını ücretsiz indirin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
-              { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
-              { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
-            ].map((item, i) => {
-              const isFirst = i === 0;
+              { step: '01', title: 'Uygulamayı İndirin', desc: 'App Store veya Google Play\'den Nikahım uygulamasını ücretsiz indirin.', cta: 'Uygulamayı İndir', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
+              { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', cta: 'Paketleri Gör', action: () => scrollToSection('paketler'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
+              { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', cta: 'Özellikleri Keşfet', action: () => scrollToSection('neden-nikahim'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
+            ].map((item) => {
               return (
                 <div
                   key={item.step}
-                  onClick={isFirst ? () => setShowAppPopup(true) : undefined}
-                  className={`premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2 ${isFirst ? 'cursor-pointer' : ''}`}
+                  onClick={item.action}
+                  className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2 cursor-pointer"
                   style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }}
-                  onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.18), 0 8px 24px rgba(0,0,0,0.08)'; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; }}
+                  onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.20), 0 8px 24px rgba(0,0,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.28)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.10)'; }}
                 >
                   <div className="flex items-center justify-between mb-8">
-                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>{item.icon}</div>
-                    <span className="text-6xl font-bold text-gray-100 select-none">{item.step}</span>
+                    <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>
+                      <div aria-hidden="true" className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
+                      <div className="relative">{item.icon}</div>
+                    </div>
+                    <span
+                      className="text-7xl font-black select-none leading-none tracking-tight"
+                      style={{
+                        background: 'linear-gradient(180deg, rgba(200,104,110,0.32) 0%, rgba(200,104,110,0.08) 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                        WebkitTextStroke: '1px rgba(200,104,110,0.18)',
+                        fontFamily: 'var(--font-playfair)',
+                      }}
+                    >
+                      {item.step}
+                    </span>
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                  <p className="text-gray-400 leading-relaxed">{item.desc}</p>
-                  {isFirst && (
-                    <div className="mt-4 flex justify-end">
-                      <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold" style={{ color: '#C8686E' }}>
-                        Hemen Başla
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
-                      </span>
-                    </div>
-                  )}
+                  <p className="text-gray-400 leading-relaxed mb-5">{item.desc}</p>
+                  <div className="pt-4 border-t flex justify-end" style={{ borderColor: 'rgba(200,104,110,0.10)' }}>
+                    <span className="inline-flex items-center gap-1.5 text-[13px] font-semibold transition-all duration-300 group-hover:gap-2.5" style={{ color: '#C8686E' }}>
+                      {item.cta}
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    </span>
+                  </div>
                 </div>
               );
             })}
@@ -952,33 +964,53 @@ export default function Home() {
       </div>
 
       {/* NEDEN NİKAHIM — Tone B (body cream) */}
-      <section id="neden-nikahim" className="py-16 md:py-28" style={{ background: '#FAF7F5' }}>
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
+      <section id="neden-nikahim" className="py-16 md:py-14 relative overflow-hidden" style={{ background: '#FAF7F5' }}>
+        {/* Subtle rose radial accent — dikkat dağıtmadan derinlik */}
+        <div aria-hidden="true" className="absolute top-[-150px] right-[-100px] w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.06) 0%, transparent 70%)' }} />
+        <div aria-hidden="true" className="absolute bottom-[-200px] left-[-150px] w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(212,168,82,0.04) 0%, transparent 70%)' }} />
+
+        <div className="relative max-w-7xl mx-auto px-6">
+          <div className="text-center mb-10 md:mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Neden <span className="gradient-text">Nikahım?</span></h2>
             <p className="text-lg text-gray-400 max-w-xl mx-auto">Özel gününüzü daha özel kılan profesyonel özellikler</p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
             {[
-              /* Item 30 */
-              { title: 'Size Özel Yayın Sayfası', desc: 'Sadece size ait bir yayın sayfası! Hem de dilerseniz Canlı Yayını herkese kapalı olarak ayarlayın bu sayede sadece davetiyeli kişiler yayına katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
-              /* Item 31 */
-              { title: 'Tek Tıkla Katılım', desc: 'Davetlileriniz için üyelik gerekmez, uygulama indirmek gerekmez! Davetlileiriniz link üzerinden tek tıkla Canlı Yayınınıza katılsın.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> },
-              /* Item 32 */
-              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Tüm ödemeler direk olarak davetlileriniz tarafından sizin banka hesabınıza yapılır. Aracı yok! Komisyon Yok!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
-              { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
-              /* Item 33 — Fotoğraf Albümü (Özel Davetiye'den önce) */
-              { title: 'Fotoğraf Albümü', desc: 'Fotoğraf albümünüze hem siz hem de bu mutlu günde yanınızda olan sevdikleriniz fotoğraf yükleyebilir. Gün boyunca çekilen tüm fotoğrafları tek bir yerde toplayabilir kolayca hepsini indirebilirsiniz!', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-              /* Item 34 — Özel Davetiye (en sonda) */
-              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+              { title: 'Size Özel Yayın Sayfası', desc: 'Sadece size ait bir yayın sayfası! Dilerseniz Canlı Yayını herkese kapalı yapın, sadece davetiyeli kişiler katılsın.', badges: ['%100 Gizlilik', 'Özel Erişim'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
+              { title: 'Tek Tıkla Katılım', desc: 'Davetlileriniz için üyelik gerekmez, uygulama indirmek gerekmez! Link üzerinden tek tıkla katılsın.', badges: ['Üyelik Yok', 'Uygulamasız'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg> },
+              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Ödemeler direkt sizin banka hesabınıza, aracı ve komisyon yok.', badges: ['Komisyonsuz', 'Direkt Hesap', 'Hızlı'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
+              { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', badges: ['30 sn Video', '60 sn Ses'], dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
+              { title: 'Fotoğraf Albümü', desc: 'Siz ya da misafirleriniz gün boyu çekilen fotoğrafları yükleyin, tüm anılar tek albümde toplansın.', badges: ['Birlikte Yükle', 'Tek Albüm', 'Kolay İndir'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', badges: ['WhatsApp', 'Instagram'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
             ].map((feature, i) => (
-              <div key={i} className="premium-card group p-8 rounded-3xl border border-gray-100 bg-white">
-                <div className="flex gap-2 mb-6">
-                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>{feature.icon}</div>
-                  {(feature as any).icon2 && <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>{(feature as any).icon2}</div>}
+              <div key={i}
+                   className="premium-card group p-7 rounded-3xl bg-white transition-all duration-300 hover:-translate-y-1"
+                   style={{ border: '1px solid rgba(200,104,110,0.10)', boxShadow: '0 2px 12px rgba(60,40,40,0.04), 0 1px 3px rgba(0,0,0,0.02)' }}
+                   onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 18px 40px rgba(200,104,110,0.12), 0 6px 16px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.22)'; }}
+                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 12px rgba(60,40,40,0.04), 0 1px 3px rgba(0,0,0,0.02)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.10)'; }}>
+                <div className="flex gap-2 mb-5">
+                  <div className="relative w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
+                    <div aria-hidden="true" className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
+                    <div className="relative">{feature.icon}</div>
+                  </div>
+                  {(feature as any).icon2 && (
+                    <div className="relative w-12 h-12 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
+                      <div aria-hidden="true" className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
+                      <div className="relative">{(feature as any).icon2}</div>
+                    </div>
+                  )}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-3">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed text-[15px]">{feature.desc}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2.5">{feature.title}</h3>
+                <p className="text-gray-400 leading-relaxed text-[14.5px] mb-4">{feature.desc}</p>
+                {/* Mini check badges */}
+                <div className="flex gap-1.5 flex-wrap pt-3 border-t" style={{ borderColor: 'rgba(200,104,110,0.10)' }}>
+                  {feature.badges.map((b, bi) => (
+                    <span key={bi} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.07)', color: '#9F4F58', border: '1px solid rgba(200,104,110,0.14)' }}>
+                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                      {b}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -994,7 +1026,7 @@ export default function Home() {
       </div>
 
       {/* PAKETLER — Tone A */}
-      <section id="paketler" className="py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="paketler" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
@@ -1099,7 +1131,7 @@ export default function Home() {
       </div>
 
       {/* NİKAH ARA — Tone B (body cream) */}
-      <section id="nikah-ara" className="py-16 md:py-28" style={{ background: '#FAF7F5' }}>
+      <section id="nikah-ara" className="py-16 md:py-14" style={{ background: '#FAF7F5' }}>
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
@@ -1151,28 +1183,68 @@ export default function Home() {
       </div>
 
       {/* SSS — Tone A */}
-      <section id="sss" className="py-16 md:py-28" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="sss" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-3xl mx-auto px-6">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
           </div>
           <div className="space-y-3">
             {[
-              { q: "Nikahım platformu nasıl işler?", a: "Nikahım platformunda çiftler, Nikahım uygulamasını indirdikten sonra nikahlarını veya düğünlerini canlı yayınlayabilecekleri kendilerine özel bir internet sayfası oluştururlar. Nikahım'ın onlarca tasarımı arasından seçtikleri online davetiyelerini arkadaşlarına, akrabalarına ve sevdiklerine göndererek nikahlarına katılamayan kişilerin online olarak nikahlarına katılmalarını sağlarlar. Nikahım platformunun altın takma ve tebrik mesajı özellikleri sayesinde nikahlarını canlı izleyen kişiler, çifte takmak istedikleri altın miktarı kadar TL'yi çiftin hesabına direkt olarak Havale/EFT veya Crypto ile gönderebilir; isterlerse video, sesli veya yazılı tebrik mesajı gönderebilirler." },
-              { q: "Online nikah sayfasında hangi özellikler var?", a: "Çiftlerin uygulamamız üzerinden oluşturduğu kendilerine özel canlı yayın sayfasında nikahlarını canlı yayınlayabilir, nikah gününden fotoğraflarını bu sayfada davetlileri ile paylaşabilir, altın takma özelliği ile davetlilerden ödeme kabul edebilir, tebrik bölümünde 3 yol ile (video, sesli ve yazılı) tebrik mesajlarını kabul edebilirler." },
-              { q: "Nikahım platformu güvenilir mi?", a: "Nikahım.com kurulduğu günden beri çiftlerin mutluluğunu birinci önceliği olarak benimseyen bir aile kuruluşudur. Yapılan tüm maddi, görsel ve yazılı paylaşımlar sadece davetliler ve çift arasındadır. Nikahım kesinlikle bu bilgileri 3. şahıs veya kuruluşlarla paylaşmamaktadır. Nikahım platformunda davetliler tarafından yapılan tüm ödemeler direkt olarak çiftin kendi TL hesaplarına yapılmaktadır. Bu noktada Nikahım bir aracılık yapmamaktadır." },
-              { q: "Altın takma sistemi nasıl çalışır?", a: "Altın takma bölümünde Nikahım platformu güncel altın fiyatlarını günlük olarak çeker ve çiftin canlı yayın sayfasında bu değerleri gösterir. Davetli kişi çifte altın takmak istediğinde altın türünü seçer ve buna denk gelen TL miktarı davetliye gösterilir. Davetli kişi Havale/EFT veya Crypto yöntemlerinden biri ile çiftin direkt hesabına kendi bankacılık uygulaması üzerinden para transferi yapar. Ardından canlı yayın sayfasına tekrar gelerek bu gönderimi onaylar. Bu onaylanan gönderimler çiftin uygulama sayfasında takılan altın olarak kayıt altına alınır." },
-              { q: "Yayın kayıt ediliyor mu?", a: "Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir." },
-              { q: "Kaç kişi aynı anda izleyebilir?", a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir." },
+              { q: "Nikahım platformu nasıl işler?", a: "Nikahım platformunda çiftler, Nikahım uygulamasını indirdikten sonra nikahlarını veya düğünlerini canlı yayınlayabilecekleri kendilerine özel bir internet sayfası oluştururlar. Nikahım'ın onlarca tasarımı arasından seçtikleri online davetiyelerini arkadaşlarına, akrabalarına ve sevdiklerine göndererek nikahlarına katılamayan kişilerin online olarak nikahlarına katılmalarını sağlarlar. Nikahım platformunun altın takma ve tebrik mesajı özellikleri sayesinde nikahlarını canlı izleyen kişiler, çifte takmak istedikleri altın miktarı kadar TL'yi çiftin hesabına direkt olarak Havale/EFT veya Crypto ile gönderebilir; isterlerse video, sesli veya yazılı tebrik mesajı gönderebilirler.", icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
+              ) },
+              { q: "Online nikah sayfasında hangi özellikler var?", a: "Çiftlerin uygulamamız üzerinden oluşturduğu kendilerine özel canlı yayın sayfasında nikahlarını canlı yayınlayabilir, nikah gününden fotoğraflarını bu sayfada davetlileri ile paylaşabilir, altın takma özelliği ile davetlilerden ödeme kabul edebilir, tebrik bölümünde 3 yol ile (video, sesli ve yazılı) tebrik mesajlarını kabul edebilirler.", icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>
+              ) },
+              { q: "Nikahım platformu güvenilir mi?", a: "Nikahım.com kurulduğu günden beri çiftlerin mutluluğunu birinci önceliği olarak benimseyen bir aile kuruluşudur. Yapılan tüm maddi, görsel ve yazılı paylaşımlar sadece davetliler ve çift arasındadır. Nikahım kesinlikle bu bilgileri 3. şahıs veya kuruluşlarla paylaşmamaktadır. Nikahım platformunda davetliler tarafından yapılan tüm ödemeler direkt olarak çiftin kendi TL hesaplarına yapılmaktadır. Bu noktada Nikahım bir aracılık yapmamaktadır.", icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" /></svg>
+              ) },
+              { q: "Altın takma sistemi nasıl çalışır?", a: "Altın takma bölümünde Nikahım platformu güncel altın fiyatlarını günlük olarak çeker ve çiftin canlı yayın sayfasında bu değerleri gösterir. Davetli kişi çifte altın takmak istediğinde altın türünü seçer ve buna denk gelen TL miktarı davetliye gösterilir. Davetli kişi Havale/EFT veya Crypto yöntemlerinden biri ile çiftin direkt hesabına kendi bankacılık uygulaması üzerinden para transferi yapar. Ardından canlı yayın sayfasına tekrar gelerek bu gönderimi onaylar. Bu onaylanan gönderimler çiftin uygulama sayfasında takılan altın olarak kayıt altına alınır.", icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+              ) },
+              { q: "Yayın kayıt ediliyor mu?", a: "Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir.", icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              ) },
+              { q: "Kaç kişi aynı anda izleyebilir?", a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir.", icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
+              ) },
             ].map((faq, index) => (
-              <div key={index} className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-gray-300 hover:shadow-md transition-all" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03)' }}>
-                <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full p-6 flex items-center justify-between text-left">
-                  <span className="font-semibold text-gray-900 pr-4">{faq.q}</span>
-                  <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm transition-all duration-300 ${openFaq === index ? 'rotate-180' : ''}`} style={{ background: 'rgba(200,104,110,0.1)', color: '#C8686E' }}>▼</span>
+              <div key={index}
+                   className="bg-white rounded-2xl overflow-hidden transition-all duration-300"
+                   style={{ border: '1px solid rgba(200,104,110,0.12)', boxShadow: '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03)' }}
+                   onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(200,104,110,0.28)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(200,104,110,0.08), 0 2px 6px rgba(0,0,0,0.04)'; }}
+                   onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(200,104,110,0.12)'; e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.03)'; }}>
+                <button onClick={() => setOpenFaq(openFaq === index ? null : index)} className="w-full p-5 md:p-6 flex items-center gap-4 text-left">
+                  {/* Sol icon */}
+                  <div className="flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
+                    {faq.icon}
+                  </div>
+                  {/* Soru */}
+                  <span className="flex-1 font-semibold text-gray-900">{faq.q}</span>
+                  {/* Chevron */}
+                  <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm transition-transform duration-300 ${openFaq === index ? 'rotate-180' : ''}`} style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </span>
                 </button>
-                {openFaq === index && <div className="px-6 pb-6 text-gray-500 leading-relaxed">{faq.a}</div>}
+                {openFaq === index && <div className="px-5 md:px-6 pb-6 pl-[68px] md:pl-[76px] text-gray-500 leading-relaxed">{faq.a}</div>}
               </div>
             ))}
+
+            {/* Hâlâ sorunuz mu var? — CTA card → ConciergeSheet açar */}
+            <div className="rounded-2xl p-5 md:p-6 mt-6 flex items-center gap-4" style={{ background: 'linear-gradient(135deg, #FBEEEC 0%, #FDF5F2 100%)', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 4px 16px rgba(200,104,110,0.08)' }}>
+              <div className="flex-shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.14)', color: '#C8686E' }}>
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="font-bold text-gray-900 text-[15px] md:text-[16px]">Hâlâ sorunuz mu var?</h4>
+                <p className="text-gray-500 text-[12.5px] md:text-[13px] mt-0.5">Ekibimiz size yardımcı olmaktan mutluluk duyar.</p>
+              </div>
+              <button onClick={() => setShowConciergeSheet(true)} className="flex-shrink-0 inline-flex items-center gap-2 px-4 md:px-5 py-2.5 md:py-3 rounded-full text-white text-[13px] md:text-[14px] font-semibold transition-all hover:scale-[1.03]" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 20px rgba(200,104,110,0.25)' }}>
+                <span className="hidden md:inline">Bizimle İletişime Geçin</span>
+                <span className="md:hidden">İletişim</span>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -1186,7 +1258,7 @@ export default function Home() {
       </div>
 
       {/* BİZE ULAŞIN — Tone B */}
-      <section id="iletisim" className="py-16 md:py-28" style={{ background: '#FAF7F5' }}>
+      <section id="iletisim" className="py-16 md:py-14" style={{ background: '#FAF7F5' }}>
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
