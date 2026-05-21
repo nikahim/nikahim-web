@@ -760,7 +760,7 @@ export default function Home() {
 
               {/* Gri açıklama — biraz daha yukarıda (mt-3 → mt-1) */}
               <p className="text-[13px] md:text-[15px] leading-relaxed text-center max-w-[560px] mx-auto mt-1" style={{ color: '#6E5A5A' }}>
-                Misafirleriniz gün boyunca fotoğraflarını eklesin, tüm anılar tek albümde toplansın.
+                Siz ya da Misafirleriniz gün boyunca çekilen tüm fotoğrafları yükleyin, tüm anılar tek albümde toplansın.
               </p>
 
               {/* Filmstrip — sağdan sola otomatik kayan */}
@@ -863,7 +863,7 @@ export default function Home() {
                 <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>Albümü Oluşturun</h3>
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="leading-snug mt-3 text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>
-                  Misafirleriniz gün boyunca fotoğraflarını eklesin, tüm anılar tek albümde toplansın.
+                  Siz ya da Misafirleriniz gün boyunca çekilen tüm fotoğrafları yükleyin, tüm anılar tek albümde toplansın.
                 </p>
               </div>
               {/* Badges — altta, 3 badge (Canlı Yayın ile simetri) */}
@@ -978,7 +978,7 @@ export default function Home() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" />
                 </svg>
               </div>
-              <p className="text-[12px] leading-snug text-left whitespace-nowrap" style={{ color: '#3F3F3F' }}>
+              <p className="text-[12px] leading-snug text-left md:whitespace-nowrap" style={{ color: '#3F3F3F' }}>
                 Paket satın alımlarınızı, kart bilgilerinizi paylaşmadan uygulama içi satın alma ile{' '}
                 <span style={{ color: '#C8686E', fontWeight: 600 }}>güvenle tamamlayın.</span>
               </p>
@@ -1106,7 +1106,7 @@ export default function Home() {
       </section>
 
       {/* SSS */}
-      <section id="sss" className="py-28">
+      <section id="sss" className="py-28" style={{ background: 'linear-gradient(180deg, #F6F6F7 0%, #F2F2F4 100%)' }}>
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
@@ -1133,7 +1133,7 @@ export default function Home() {
       </section>
 
       {/* İLETİŞİM */}
-      <section id="iletisim" className="py-28" style={{ background: 'linear-gradient(180deg, #F8F9FC 0%, #FFFFFF 100%)' }}>
+      <section id="iletisim" className="py-28" style={{ background: 'linear-gradient(180deg, #FFFAF3 0%, #FFF5EA 100%)' }}>
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
