@@ -643,19 +643,16 @@ export default function Home() {
               {/* Heading + dash + açıklama — sağda (canlı yayın/tebrik mobil ile aynı yapı) */}
               <div className="absolute" style={{ top: '17%', right: '5.5%', width: '54%' }}>
                 <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
-                {/* "Online Toplayın" + dash — sağa yaslı blok, dash O harfi altından başlar */}
+                {/* "Online Toplayın" + dash + açıklama — sağa yaslı blok, dash O altından başlar, açıklama hafif iç */}
                 <div className="flex justify-end">
                   <div className="inline-block">
                     <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
                     <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                    <p className="mt-3 leading-relaxed text-[13px] text-left pl-2" style={{ color: '#6E5A5A' }}>
+                      Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.
+                    </p>
                   </div>
                 </div>
-                <p className="mt-3 leading-relaxed text-[13px] text-left pl-3" style={{ color: '#6E5A5A' }}>
-                  Davetlileriniz size<br />
-                  doğrudan para gönderir,<br />
-                  siz uygulamadan<br />
-                  kolayca takip edersiniz.
-                </p>
               </div>
               {/* Badges — alt tam ortalı */}
               <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3">
@@ -676,7 +673,7 @@ export default function Home() {
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.</p>
               </div>
-              <div className="flex gap-1.5 flex-nowrap pl-[80px]">
+              <div className="flex gap-1.5 flex-nowrap">
                 {[
                   { label: 'Güvenilir', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Komisyon Yok', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
@@ -696,7 +693,7 @@ export default function Home() {
             <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + açıklama */}
-            <div className="md:hidden absolute" style={{ top: '17%', left: '6%', width: '52%' }}>
+            <div className="md:hidden absolute" style={{ top: '26%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
