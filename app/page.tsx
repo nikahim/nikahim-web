@@ -650,7 +650,7 @@ export default function Home() {
                     <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                   </div>
                 </div>
-                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
+                <p className="mt-3 leading-relaxed text-[13px] text-left pl-3" style={{ color: '#6E5A5A' }}>
                   Davetlileriniz size<br />
                   doğrudan para gönderir,<br />
                   siz uygulamadan<br />
