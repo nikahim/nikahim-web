@@ -639,7 +639,7 @@ export default function Home() {
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
-              <div className="absolute" style={{ top: '17%', right: '5%', width: '50%' }}>
+              <div className="absolute" style={{ top: '13%', right: '5%', width: '50%' }}>
                 <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
                 <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
                 <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
@@ -690,7 +690,7 @@ export default function Home() {
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
             <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
-            {/* Mobil heading + açıklama */}
+            {/* Mobil heading + açıklama + badges (alt alta) */}
             <div className="md:hidden absolute" style={{ top: '26%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
@@ -701,31 +701,32 @@ export default function Home() {
                 veya yazılı tebriklerini<br />
                 size kolayca iletsin.
               </p>
+              {/* Badges — açıklama altında alt alta (vertical stack) */}
+              <div className="flex flex-col gap-1.5 mt-4 items-start">
+                {[
+                  { label: 'Kolay Gönderim', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Uygulamadan Takip', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                ].map((b, i) => (
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                ))}
+              </div>
             </div>
 
-            {/* Mobil — badges (alt ortalı, canlı yayın tarzı) */}
-            <div className="md:hidden absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3">
-              {[
-                { label: 'Kolay Gönderim', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                { label: 'Uygulamadan Takip', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-              ].map((b, i) => (
-                <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
-              ))}
-            </div>
-
-            {/* Masaüstü — content sol overlay (+20=196px daha sağa), başlık 2 satır: "Tebrik Mesajlarınızı" üst + "kabul edin!" alt */}
-            <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[196px] pr-4">
-              <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>
-                <span style={{ color: '#1F1F1F' }}>Tebrik </span>
-                <span style={{ color: '#C8686E' }}>Mesajlarınızı</span>
-              </h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>kabul edin!</h3>
-              <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#7A6B6B' }}>
-                Misafirleriniz video, sesli veya yazılı tebriklerini size kolayca iletsin.
-              </p>
-              {/* Masaüstü — badges altta hizalı (başlık + açıklama altında ortalı) */}
-              <div className="flex gap-1.5 flex-wrap mt-4 justify-center">
+            {/* Masaüstü — Altın Tak ile aynı yapı: justify-between, content yukarda, badges altta */}
+            <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[196px] pr-4 pb-6 pt-[100px]">
+              <div>
+                <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>
+                  <span style={{ color: '#1F1F1F' }}>Tebrik </span>
+                  <span style={{ color: '#C8686E' }}>Mesajlarınızı</span>
+                </h3>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>kabul edin!</h3>
+                <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#7A6B6B' }}>
+                  Misafirleriniz video, sesli veya yazılı tebriklerini size kolayca iletsin.
+                </p>
+              </div>
+              {/* Badges — Altın Tak ile aynı hizada (kartın alt kısmında) */}
+              <div className="flex gap-1.5 flex-nowrap">
                 {[
                   { label: 'Kolay Gönderim', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Uygulamadan Takip', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
@@ -1007,7 +1008,7 @@ export default function Home() {
               { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', badges: ['Kolay Paylaşım', 'Tek link'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
             ].map((feature, i) => (
               <div key={i}
-                   className="premium-card group p-7 rounded-3xl bg-white transition-all duration-300 hover:-translate-y-1"
+                   className="premium-card group p-7 rounded-3xl bg-white transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
                    style={{ border: '1px solid rgba(200,104,110,0.10)', boxShadow: '0 2px 12px rgba(60,40,40,0.04), 0 1px 3px rgba(0,0,0,0.02)' }}
                    onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 18px 40px rgba(200,104,110,0.12), 0 6px 16px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.22)'; }}
                    onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 12px rgba(60,40,40,0.04), 0 1px 3px rgba(0,0,0,0.02)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.10)'; }}>
@@ -1024,9 +1025,9 @@ export default function Home() {
                   )}
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2.5">{feature.title}</h3>
-                <p className="text-gray-400 leading-relaxed text-[14.5px] mb-4">{feature.desc}</p>
-                {/* Mini check badges */}
-                <div className="flex gap-1.5 flex-wrap pt-3 border-t" style={{ borderColor: 'rgba(200,104,110,0.10)' }}>
+                <p className="text-gray-400 leading-relaxed text-[14.5px] mb-4 flex-1">{feature.desc}</p>
+                {/* Mini check badges — kartların alt kısmında hizalı (en uzun açıklamaya göre) */}
+                <div className="flex gap-1.5 flex-wrap pt-3 border-t mt-auto" style={{ borderColor: 'rgba(200,104,110,0.10)' }}>
                   {feature.badges.map((b, bi) => (
                     <span key={bi} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.07)', color: '#9F4F58', border: '1px solid rgba(200,104,110,0.14)' }}>
                       <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
