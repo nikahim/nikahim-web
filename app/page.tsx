@@ -634,6 +634,8 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Mobil — Canlı Yayın tonuna yaklaştırmak için hafif krem katman */}
+            <div className="md:hidden absolute inset-0 pointer-events-none" style={{ background: 'rgba(255, 248, 240, 0.18)' }} />
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
@@ -645,7 +647,7 @@ export default function Home() {
                   Davetlileriniz size<br />
                   doğrudan para<br />
                   gönderir sizde<br />
-                  uygulama üzerinden<br />
+                  uygulamadan<br />
                   kolayca takip<br />
                   edebilirsiniz
                 </p>
@@ -701,6 +703,16 @@ export default function Home() {
               </p>
             </div>
 
+            {/* Mobil — badges (alt ortalı, canlı yayın tarzı) */}
+            <div className="md:hidden absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3">
+              {[
+                { label: 'Kolay Gönderim', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                { label: 'Uygulamadan Takip', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+              ].map((b, i) => (
+                <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+              ))}
+            </div>
+
             {/* Masaüstü — content sol overlay (+20=196px daha sağa), başlık 2 satır: "Tebrik Mesajlarınızı" üst + "kabul edin!" alt */}
             <div className="hidden md:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[196px] pr-4">
               <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>
@@ -712,6 +724,15 @@ export default function Home() {
               <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#7A6B6B' }}>
                 Misafirleriniz video, sesli veya yazılı tebriklerini size kolayca iletsin.
               </p>
+              {/* Masaüstü — badges altta hizalı (başlık + açıklama altında ortalı) */}
+              <div className="flex gap-1.5 flex-wrap mt-4 justify-center">
+                {[
+                  { label: 'Kolay Gönderim', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Uygulamadan Takip', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                ].map((b, i) => (
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                ))}
+              </div>
             </div>
           </div>
 
