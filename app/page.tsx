@@ -640,18 +640,14 @@ export default function Home() {
             <div className="hidden md:block absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
-              {/* Heading + dash + açıklama — sağda, sabit genişlikte bir wrapper içinde sol-hizalı */}
-              <div className="absolute" style={{ top: '17%', right: '5.5%', width: '54%' }}>
-                <div className="flex justify-end">
-                  <div style={{ width: 'clamp(180px, 48vw, 360px)' }}>
-                    <h3 className="leading-[1.05] text-left" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
-                    <h3 className="leading-[1.1] mt-1 text-left" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
-                    <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                    <p className="mt-3 leading-relaxed text-[13px] text-left pl-2" style={{ color: '#6E5A5A' }}>
-                      Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.
-                    </p>
-                  </div>
-                </div>
+              {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
+              <div className="absolute" style={{ top: '17%', right: '5%', width: '50%' }}>
+                <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
+                <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
+                <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
+                  Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.
+                </p>
               </div>
               {/* Badges — alt tam ortalı */}
               <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3">
