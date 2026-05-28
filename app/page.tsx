@@ -634,10 +634,6 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Full-card hafif krem overlay — pembe rengi yumuşatır */}
-            <div className="hidden md:block absolute inset-0 pointer-events-none" style={{ background: 'rgba(255, 248, 240, 0.12)' }} />
-            {/* Cream overlay — sağ içerik tarafı krem, solda image'a fade (text sağda, altın görseli solda) */}
-            <div className="hidden md:block absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
@@ -646,7 +642,11 @@ export default function Home() {
                 <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
                 <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
-                  Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.
+                  Davetlileriniz size<br />
+                  doğrudan para gönderir<br />
+                  siz uygulamadan<br />
+                  kolayca takip<br />
+                  edersiniz
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
