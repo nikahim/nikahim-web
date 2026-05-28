@@ -634,8 +634,8 @@ export default function Home() {
           <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Mobil — Canlı Yayın tonuna yaklaştırmak için hafif krem katman */}
-            <div className="md:hidden absolute inset-0 pointer-events-none" style={{ background: 'rgba(255, 248, 240, 0.18)' }} />
+            {/* Mobil — Canlı Yayın tonuna yaklaştırmak için hafif rose katman */}
+            <div className="md:hidden absolute inset-0 pointer-events-none" style={{ background: 'rgba(232, 165, 169, 0.15)' }} />
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
             <div className="md:hidden relative min-h-[340px]">
               {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
