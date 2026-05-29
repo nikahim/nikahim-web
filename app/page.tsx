@@ -646,12 +646,10 @@ export default function Home() {
                 <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
                 <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
-                  Davetlileriniz size<br />
-                  doğrudan para<br />
-                  gönderir sizde<br />
-                  uygulamadan<br />
-                  kolayca takip<br />
-                  edebilirsiniz
+                  Takılan altın<br />
+                  miktarı kadar TL<br />
+                  anında sizin<br />
+                  hesabınızda
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
@@ -671,7 +669,7 @@ export default function Home() {
                 <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(28px, 2.6vw, 40px)' }}>Altınlarınızı</h3>
                 <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(28px, 2.6vw, 40px)' }}>Online Toplayın</h3>
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.</p>
+                <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Takılan altın miktarı kadar TL anında sizin hesabınızda.</p>
               </div>
               <div className="flex gap-1.5 flex-nowrap">
                 {[
