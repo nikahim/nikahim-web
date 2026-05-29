@@ -580,39 +580,29 @@ export default function Home() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6 space-y-14 md:space-y-16">
           {/* Canlı Yayın - mobile (1:1 kare) + desktop (image aspect 1964/541 ≈ 3.63:1, ~339px) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 24px 70px rgba(200,140,140,0.22), 0 10px 28px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.28)' }}>
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem (Canlı Yayın için daha ince — rose tonu öne çıksın) */}
             <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
-            {/* Mobil — premium: kategori badge + heading + dash + açıklama + büyük pill'ler */}
-            <div className="md:hidden absolute" style={{ top: '8%', left: '5.5%', width: '54%' }}>
-              {/* Kategori badge — sol üst */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-2.5" style={{ background: '#fff', boxShadow: '0 6px 16px rgba(200,140,140,0.20), 0 2px 4px rgba(0,0,0,0.06)' }}>
-                <svg className="w-3 h-3" fill="none" stroke="#C8686E" strokeWidth={2.2} viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5" /><path strokeLinecap="round" d="M7 12a5 5 0 0110 0M4 12a8 8 0 0116 0" /></svg>
-                <span className="text-[9px] uppercase font-bold leading-none" style={{ color: '#C8686E', letterSpacing: '1.2px' }}>Canlı Yayın</span>
-              </div>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 6vw, 48px)' }}>Canlı Yayın</h3>
-              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px, 4.4vw, 34px)' }}>ile paylaşın!</h3>
-              <div className="mt-2.5" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-2.5 leading-relaxed text-[12px]" style={{ color: '#6E5A5A' }}>
-                Sevdikleriniz uzaktan<br />
-                canlı ortak olsun.
+            {/* Mobil heading + dash + açıklama + badges */}
+            <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Canlı Yayın</h3>
+              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
+              <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="mt-3 leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>
+                Düğününüzü canlı yayınlayın,<br />
+                uzaktaki sevdikleriniz<br />
+                bu anı kaçırmasın.
               </p>
-              {/* Premium pill'ler — beyaz pill + rose icon dairesi + label */}
-              <div className="flex flex-col items-start gap-1.5 mt-3.5">
+              <div className="flex flex-col items-start gap-2.5 mt-5">
                 {[
-                  { label: 'Yüksek Çözünürlük', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 8V6a2 2 0 012-2h2M4 16v2a2 2 0 002 2h2m8-16h2a2 2 0 012 2v2m-4 12h2a2 2 0 002-2v-2M9 11l2 2 4-4" /></svg> },
-                  { label: 'Tek Tıkla Yayın', icon: <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg> },
-                  { label: 'Güvenli ve Kesintisiz', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg> },
-                ].map((p, i) => (
-                  <div key={i} className="inline-flex items-center gap-2 pl-1 pr-3 py-1 rounded-full" style={{ background: '#fff', boxShadow: '0 4px 12px rgba(200,140,140,0.14), 0 1px 3px rgba(0,0,0,0.05)' }}>
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.22), rgba(200,104,110,0.10))', color: '#C8686E' }}>
-                      {p.icon}
-                    </div>
-                    <span className="text-[11px] font-semibold leading-tight whitespace-nowrap" style={{ color: '#2a1a1a' }}>{p.label}</span>
-                  </div>
+                  { label: 'Yüksek Çözünürlük', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Tek Tıkla Yayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Uygulamasız izleme', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                ].map((b, i) => (
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -641,45 +631,36 @@ export default function Home() {
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart (masaüstü aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 24px 70px rgba(200,140,140,0.22), 0 10px 28px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.28)' }}>
+          <div className="relative rounded-3xl overflow-hidden md:aspect-[1964/541]" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover md:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Mobil — Canlı Yayın tonuna yaklaştırmak için hafif rose katman */}
             <div className="md:hidden absolute inset-0 pointer-events-none" style={{ background: 'rgba(232, 165, 169, 0.15)' }} />
             {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
-            <div className="md:hidden relative min-h-[420px]">
-              {/* Premium: kategori badge + heading + dash + kısa açıklama + büyük pill'ler */}
-              <div className="absolute" style={{ top: '6%', right: '5%', width: '52%' }}>
-                {/* Kategori badge — sağa yaslı */}
-                <div className="flex justify-end mb-2.5">
-                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: '#fff', boxShadow: '0 6px 16px rgba(200,140,140,0.20), 0 2px 4px rgba(0,0,0,0.06)' }}>
-                    <svg className="w-3 h-3" fill="none" stroke="#C8686E" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z" /></svg>
-                    <span className="text-[9px] uppercase font-bold leading-none" style={{ color: '#C8686E', letterSpacing: '1.2px' }}>Altın Hediyesi</span>
-                  </div>
-                </div>
-                <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 6vw, 48px)' }}>Altınlarınızı</h3>
-                <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px, 4.4vw, 34px)' }}>Online Toplayın</h3>
-                <div className="mt-2.5 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="mt-2.5 leading-relaxed text-[12px] text-right" style={{ color: '#6E5A5A' }}>
-                  Davetlileriniz size altın<br />
-                  gönderir, kolayca takip<br />
-                  edebilirsiniz.
+            <div className="md:hidden relative min-h-[340px]">
+              {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
+              <div className="absolute" style={{ top: '13%', right: '5%', width: '50%' }}>
+                <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
+                <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
+                <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
+                  Davetlileriniz size<br />
+                  doğrudan para<br />
+                  gönderir sizde<br />
+                  uygulamadan<br />
+                  kolayca takip<br />
+                  edebilirsiniz
                 </p>
-                {/* Premium pill'ler — sağa yaslı */}
-                <div className="flex flex-col items-end gap-1.5 mt-3.5">
-                  {[
-                    { label: 'Güvenli Sistem', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
-                    { label: 'Komisyon Yok', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l6-6m-5.5 0a.5.5 0 11-1 0 .5.5 0 011 0zm5 5a.5.5 0 11-1 0 .5.5 0 011 0zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
-                    { label: 'Anında Ödeme', icon: <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
-                  ].map((p, i) => (
-                    <div key={i} className="inline-flex items-center gap-2 pl-1 pr-3 py-1 rounded-full" style={{ background: '#fff', boxShadow: '0 4px 12px rgba(200,140,140,0.14), 0 1px 3px rgba(0,0,0,0.05)' }}>
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.22), rgba(200,104,110,0.10))', color: '#C8686E' }}>
-                        {p.icon}
-                      </div>
-                      <span className="text-[11px] font-semibold leading-tight whitespace-nowrap" style={{ color: '#2a1a1a' }}>{p.label}</span>
-                    </div>
-                  ))}
-                </div>
+              </div>
+              {/* Badges — alt tam ortalı */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3">
+                {[
+                  { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+                ].map((b, i) => (
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                ))}
               </div>
             </div>
             {/* Masaüstü — image full bg, içerik 100px aşağı, badges 100px sağ */}
@@ -703,39 +684,30 @@ export default function Home() {
           </div>
 
           {/* Tebrik Mesajları - mobile (1:1) + desktop (aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 24px 70px rgba(200,140,140,0.22), 0 10px 28px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.28)' }}>
+          <div className="relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <img src="/bg-tebrik.png" alt="" className="md:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden md:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
             <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
-            {/* Mobil — premium: kategori badge + heading + dash + açıklama + büyük pill'ler */}
-            <div className="md:hidden absolute" style={{ top: '8%', left: '6%', width: '54%' }}>
-              {/* Kategori badge — sol üst */}
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full mb-2.5" style={{ background: '#fff', boxShadow: '0 6px 16px rgba(200,140,140,0.20), 0 2px 4px rgba(0,0,0,0.06)' }}>
-                <svg className="w-3 h-3" fill="none" stroke="#C8686E" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /></svg>
-                <span className="text-[9px] uppercase font-bold leading-none" style={{ color: '#C8686E', letterSpacing: '1.2px' }}>Tebrik Mesajı</span>
-              </div>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)' }}>Tebrik</h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)' }}>mesajlarınızı</h3>
-              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.2vw, 42px)' }}>kabul edin!</h3>
-              <div className="mt-2.5 mb-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-relaxed text-[12px]" style={{ color: '#7A6B6B' }}>
-                Video, ses veya yazıyla<br />
-                tebriklerini iletsin.
+            {/* Mobil heading + açıklama + badges (alt alta) */}
+            <div className="md:hidden absolute" style={{ top: '26%', left: '6%', width: '52%' }}>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
+              <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
+              <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="leading-relaxed text-[13px]" style={{ color: '#7A6B6B' }}>
+                Misafirleriniz video, sesli<br />
+                veya yazılı tebriklerini<br />
+                size kolayca iletsin.
               </p>
-              {/* Premium pill'ler */}
-              <div className="flex flex-col items-start gap-1.5 mt-3.5">
+              {/* Badges — açıklama altında alt alta (vertical stack) */}
+              <div className="flex flex-col gap-1.5 mt-4 items-start">
                 {[
-                  { label: 'Kolay Gönderim', icon: <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" /></svg> },
-                  { label: 'Uygulamadan Takip', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
-                ].map((p, i) => (
-                  <div key={i} className="inline-flex items-center gap-2 pl-1 pr-3 py-1 rounded-full" style={{ background: '#fff', boxShadow: '0 4px 12px rgba(200,140,140,0.14), 0 1px 3px rgba(0,0,0,0.05)' }}>
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.22), rgba(200,104,110,0.10))', color: '#C8686E' }}>
-                      {p.icon}
-                    </div>
-                    <span className="text-[11px] font-semibold leading-tight whitespace-nowrap" style={{ color: '#2a1a1a' }}>{p.label}</span>
-                  </div>
+                  { label: 'Kolay Gönderim', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                  { label: 'Uygulamadan Takip', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
+                ].map((b, i) => (
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -766,15 +738,8 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — MOBİL kart (content-sized, 1:1 yaklaşık) */}
-          <div className="md:hidden relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 24px 70px rgba(200,140,140,0.22), 0 10px 28px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.28)' }}>
-            <div className="px-5 md:px-7 pt-6 pb-6">
-              {/* Kategori badge — üst ortalı */}
-              <div className="flex justify-center mb-3">
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: '#fff', boxShadow: '0 6px 16px rgba(200,140,140,0.20), 0 2px 4px rgba(0,0,0,0.06)' }}>
-                  <svg className="w-3 h-3" fill="none" stroke="#C8686E" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" /></svg>
-                  <span className="text-[9px] uppercase font-bold leading-none" style={{ color: '#C8686E', letterSpacing: '1.2px' }}>Foto Albümü</span>
-                </div>
-              </div>
+          <div className="md:hidden relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+            <div className="px-5 md:px-7 pt-7 pb-6">
               {/* Header — "Fotoğraf" / dash "Albümü Oluşturun" dash (dashes rose) */}
               <div className="text-center mb-3"
                    style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
@@ -850,26 +815,26 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Premium pill'ler — beyaz pill + rose icon dairesi (Foto Album için yatay) */}
+              {/* 3 rose badge — Altın/Canlı Yayın ile simetri */}
               <div className="flex gap-2 flex-wrap justify-center">
-                {[
-                  { label: 'Birlikte Yükleyin', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
-                  { label: 'Tek Albüm', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-                  { label: 'Kolayca İndirin', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg> },
-                ].map((p, i) => (
-                  <div key={i} className="inline-flex items-center gap-1.5 pl-1 pr-2.5 py-0.5 rounded-full" style={{ background: '#fff', boxShadow: '0 4px 12px rgba(200,140,140,0.14), 0 1px 3px rgba(0,0,0,0.05)' }}>
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.22), rgba(200,104,110,0.10))', color: '#C8686E' }}>
-                      {p.icon}
-                    </div>
-                    <span className="text-[11px] font-semibold leading-tight whitespace-nowrap" style={{ color: '#2a1a1a' }}>{p.label}</span>
-                  </div>
-                ))}
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
+                  Birlikte Yükleyin
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  Tek Albüm
+                </span>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg>
+                  Kolayca İndirin
+                </span>
               </div>
             </div>
           </div>
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (fotolar SOL, içerik SAĞ — Altın Toplama hizası) */}
-          <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full md:aspect-[1964/541]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 24px 70px rgba(200,140,140,0.22), 0 10px 28px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.28)' }}>
+          <div className="hidden md:block relative rounded-3xl overflow-hidden mx-auto w-full md:aspect-[1964/541]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             {/* Cream overlay — sağ içerik tarafı %50 krem, solda foto tarafına fade */}
             <div className="absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
