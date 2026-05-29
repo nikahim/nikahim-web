@@ -296,6 +296,54 @@ html, body {
   background-clip: text;
 }
 
+/* Feature card — desktop hover lift + light sweep
+   Mobil tap'a etki etmesin diye min-width 1024 ile koşulluyoruz */
+@media (min-width: 1024px) {
+  .feature-card-hover {
+    transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1),
+                box-shadow 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .feature-card-hover:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.55),
+      inset 0 -1px 0 rgba(255,255,255,0.15),
+      0 28px 70px rgba(200,140,140,0.24),
+      0 10px 24px rgba(0,0,0,0.08) !important;
+  }
+  .feature-card-hover .card-light-sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .feature-card-hover:hover .card-light-sweep {
+    opacity: 1;
+  }
+  .feature-card-hover .card-light-sweep::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    left: -60%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255,255,255,0.35) 50%,
+      transparent 100%
+    );
+    transform: skewX(-20deg);
+    transition: left 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .feature-card-hover:hover .card-light-sweep::before {
+    left: 120%;
+  }
+}
+
 @keyframes waveBar {
   0% { height: 8px; }
   100% { height: 28px; }
