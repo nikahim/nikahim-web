@@ -603,7 +603,7 @@ export default function Home() {
                   { label: 'Tek Tıkla Yayın', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Uygulamasız izleme', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -625,7 +625,7 @@ export default function Home() {
                   { label: 'Tek Tıkla Yayın', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Uygulamasız izleme', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -659,7 +659,7 @@ export default function Home() {
                   { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -677,7 +677,7 @@ export default function Home() {
                   { label: 'Komisyon Yok', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Anında Ödeme', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -708,7 +708,7 @@ export default function Home() {
                   { label: 'Kolay Gönderim', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Uygulamadan Takip', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -732,7 +732,7 @@ export default function Home() {
                   { label: 'Kolay Gönderim', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                   { label: 'Uygulamadan Takip', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>{b.icon}{b.label}</span>
+                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
                 ))}
               </div>
             </div>
@@ -776,14 +776,14 @@ export default function Home() {
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-4px)', zIndex: 3 }}>
                   <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                     <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(117px, 19.6vw, 164px)', height: 'clamp(140px, 23.4vw, 197px)' }} />
-                    <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                    <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-3 py-1.5 rounded-full"
                          style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
-                      <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                         <rect x="3" y="3" width="18" height="18" rx="2" />
                         <circle cx="8.5" cy="8.5" r="1.5" fill="white" stroke="none" />
                         <path d="M21 15l-5-5L5 21" />
                       </svg>
-                      <span className="text-[11px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
+                      <span className="text-[12.5px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
                     </div>
                   </div>
                 </div>
@@ -819,15 +819,15 @@ export default function Home() {
 
               {/* 3 rose badge — Altın/Canlı Yayın ile simetri */}
               <div className="flex gap-2 flex-wrap justify-center">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
                   Birlikte Yükleyin
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   Tek Albüm
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.18)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] md:text-[12px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg>
                   Kolayca İndirin
                 </span>
@@ -857,13 +857,13 @@ export default function Home() {
               <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
                 <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
                   <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: '137px', height: '187px' }} />
-                  <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
-                    <svg className="w-2.5 h-2.5" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
+                  <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+                    <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                       <rect x="3" y="3" width="18" height="18" rx="2" />
                       <circle cx="8.5" cy="8.5" r="1.5" fill="white" stroke="none" />
                       <path d="M21 15l-5-5L5 21" />
                     </svg>
-                    <span className="text-[10px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
+                    <span className="text-[11.5px] font-bold text-white leading-none" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>128+</span>
                   </div>
                 </div>
               </div>
@@ -902,15 +902,15 @@ export default function Home() {
               </div>
               {/* Badges — altta, 3 badge (Canlı Yayın ile simetri) */}
               <div className="flex gap-1.5 flex-wrap">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
                   Birlikte Yükleyin
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                   Tek Albüm
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.85)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.14)', boxShadow: '0 2px 6px rgba(200,104,110,0.06)' }}>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" /></svg>
                   Kolayca İndirin
                 </span>
