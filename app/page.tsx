@@ -1,8 +1,9 @@
 "use client";
 
 import { supabase } from '@/lib/supabase';
+import { fullFaqCategories } from '@/lib/faq-data';
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -21,16 +22,30 @@ export default function Home() {
   const [selectedPackage, setSelectedPackage] = useState(1);
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
-  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
-  const conciergeFaqs = [
-    { q: 'Nikahım platformu nasıl işler?', a: "Nikahım platformunda çiftler, Nikahım uygulamasını indirdikten sonra nikahlarını veya düğünlerini canlı yayınlayabilecekleri kendilerine özel bir internet sayfası oluştururlar. Nikahım'ın onlarca tasarımı arasından seçtikleri online davetiyelerini arkadaşlarına, akrabalarına ve sevdiklerine göndererek nikahlarına katılamayan kişilerin online olarak nikahlarına katılmalarını sağlarlar. Nikahım platformunun altın takma ve tebrik mesajı özellikleri sayesinde nikahlarını canlı izleyen kişiler, çifte takmak istedikleri altın miktarı kadar TL'yi çiftin hesabına direkt olarak Havale/EFT veya Crypto ile gönderebilir; isterlerse video, sesli veya yazılı tebrik mesajı gönderebilirler." },
-    { q: 'Online nikah sayfasında hangi özellikler var?', a: 'Çiftlerin uygulamamız üzerinden oluşturduğu kendilerine özel canlı yayın sayfasında nikahlarını canlı yayınlayabilir, nikah gününden fotoğraflarını bu sayfada davetlileri ile paylaşabilir, altın takma özelliği ile davetlilerden ödeme kabul edebilir, tebrik bölümünde 3 yol ile (video, sesli ve yazılı) tebrik mesajlarını kabul edebilirler.' },
-    { q: 'Nikahım platformu güvenilir mi?', a: 'Nikahım.com kurulduğu günden beri çiftlerin mutluluğunu birinci önceliği olarak benimseyen bir aile kuruluşudur. Yapılan tüm maddi, görsel ve yazılı paylaşımlar sadece davetliler ve çift arasındadır. Nikahım kesinlikle bu bilgileri 3. şahıs veya kuruluşlarla paylaşmamaktadır. Nikahım platformunda davetliler tarafından yapılan tüm ödemeler direkt olarak çiftin kendi TL hesaplarına yapılmaktadır. Bu noktada Nikahım bir aracılık yapmamaktadır.' },
-    { q: 'Altın takma sistemi nasıl çalışır?', a: 'Altın takma bölümünde Nikahım platformu güncel altın fiyatlarını günlük olarak çeker ve çiftin canlı yayın sayfasında bu değerleri gösterir. Davetli kişi çifte altın takmak istediğinde altın türünü seçer ve buna denk gelen TL miktarı davetliye gösterilir. Davetli kişi Havale/EFT veya Crypto yöntemlerinden biri ile çiftin direkt hesabına kendi bankacılık uygulaması üzerinden para transferi yapar. Ardından canlı yayın sayfasına tekrar gelerek bu gönderimi onaylar. Bu onaylanan gönderimler çiftin uygulama sayfasında takılan altın olarak kayıt altına alınır.' },
-    { q: 'Yayın kayıt ediliyor mu?', a: 'Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir.' },
-    { q: 'Kaç kişi aynı anda izleyebilir?', a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir." },
-  ];
+  const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
+  const [faqSearchQuery, setFaqSearchQuery] = useState('');
 
+  // ConciergeSheet FAQ — Nikahım Çarşı için backend data var ama frontend'de görünmez.
+  // Filter + arama uygula.
+  const filteredFaqCategories = useMemo(() => {
+    const HIDDEN_CATEGORIES = ['Nikahım Çarşı'];
+    const query = faqSearchQuery.trim().toLowerCase();
+    const visible = fullFaqCategories.filter(c => !HIDDEN_CATEGORIES.includes(c.title));
+    if (!query) return visible;
+    return visible
+      .map(cat => ({
+        ...cat,
+        items: cat.items.filter(item =>
+          item.q.toLowerCase().includes(query) || item.a.toLowerCase().includes(query)
+        ),
+      }))
+      .filter(cat => cat.items.length > 0);
+  }, [faqSearchQuery]);
+
+  const totalFaqResults = useMemo(
+    () => filteredFaqCategories.reduce((sum, cat) => sum + cat.items.length, 0),
+    [filteredFaqCategories]
+  );
   interface Event {
     id: string;
     event_link: string;
@@ -171,7 +186,7 @@ export default function Home() {
             {!faqView && (
             <>
             <p className="px-7 pt-6 pb-3 text-[13px]" style={{ color: '#6B5A5A' }}>
-              Size nasıl yardımcı olalım?
+              Size nasıl yardımcı olabiliriz?
             </p>
 
             <div className="px-5 pb-8 space-y-2.5">
@@ -254,10 +269,10 @@ export default function Home() {
             </>
             )}
 
-            {/* FAQ inline view — ana sayfadan ayrılmadan 6 soru/cevap accordion */}
+            {/* FAQ inline view — kategorize accordion + search */}
             {faqView && (
               <div className="px-5 pt-5 pb-10">
-                <button onClick={() => { setFaqView(false); setOpenFaqIdx(null); }}
+                <button onClick={() => { setFaqView(false); setOpenFaqIdx(null); setFaqSearchQuery(''); }}
                         className="inline-flex items-center gap-1.5 mb-4 text-[12.5px] font-medium px-3 py-1.5 rounded-full transition-all hover:scale-[1.03]"
                         style={{ color: '#9F4F58', background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(232,180,170,0.30)' }}>
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -265,34 +280,108 @@ export default function Home() {
                   </svg>
                   Destek menüsü
                 </button>
-                <h3 className="font-bold text-[20px] mb-4" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
+                <h3 className="font-bold text-[20px] mb-3" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>
                   Sık Sorulan Sorular
                 </h3>
-                <div className="space-y-2">
-                  {conciergeFaqs.map((faq, idx) => {
-                    const open = openFaqIdx === idx;
-                    return (
-                      <div key={idx} className="rounded-2xl overflow-hidden transition-colors"
-                           style={{
-                             background: open ? 'rgba(255,251,247,0.95)' : 'rgba(255,251,247,0.55)',
-                             border: '1px solid rgba(232,180,170,0.30)',
-                             boxShadow: open ? '0 4px 14px rgba(200,104,110,0.10)' : 'none',
-                           }}>
-                        <button onClick={() => setOpenFaqIdx(open ? null : idx)}
-                                className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
-                          <span className="text-[13px] font-semibold leading-snug" style={{ color: '#2B2B2B' }}>{faq.q}</span>
-                          <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
-                                style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>▼</span>
-                        </button>
-                        {open && (
-                          <div className="px-4 pb-4 pt-0 text-[12.5px] leading-relaxed" style={{ color: '#6B5A5A' }}>
-                            {faq.a}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+
+                {/* Search input */}
+                <div className="relative mb-4">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" />
+                    <path strokeLinecap="round" d="M20 20l-3.5-3.5" />
+                  </svg>
+                  <input
+                    type="text"
+                    value={faqSearchQuery}
+                    onChange={(e) => { setFaqSearchQuery(e.target.value); setOpenFaqIdx(null); }}
+                    placeholder="Sorunuzu arayın..."
+                    className="w-full pl-9 pr-9 py-2.5 rounded-full text-[13px] outline-none transition-all focus:scale-[1.01]"
+                    style={{
+                      background: 'rgba(255,255,255,0.85)',
+                      border: '1px solid rgba(232,180,170,0.35)',
+                      boxShadow: '0 2px 8px rgba(200,104,110,0.06), inset 0 1px 0 rgba(255,255,255,0.9)',
+                      color: '#2B2B2B',
+                    }}
+                  />
+                  {faqSearchQuery && (
+                    <button onClick={() => setFaqSearchQuery('')}
+                            aria-label="Aramayı temizle"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+                            style={{ background: 'rgba(200,104,110,0.12)', color: '#9F4F58' }}>
+                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
+
+                {/* Sonuç sayısı — sadece arama varken göster */}
+                {faqSearchQuery && (
+                  <p className="text-[11.5px] mb-3" style={{ color: '#8A7878' }}>
+                    {totalFaqResults > 0
+                      ? `${totalFaqResults} sonuç bulundu`
+                      : 'Sonuç bulunamadı'}
+                  </p>
+                )}
+
+                {/* Boş sonuç + canlı destek CTA */}
+                {faqSearchQuery && totalFaqResults === 0 && (
+                  <div className="rounded-2xl p-5 text-center"
+                       style={{ background: 'linear-gradient(135deg, #FBEEEC 0%, #FDF5F2 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+                    <p className="text-[13px] font-semibold mb-1" style={{ color: '#1F1F1F' }}>
+                      Aradığınızı bulamadınız mı?
+                    </p>
+                    <p className="text-[12px] mb-3" style={{ color: '#6B5A5A' }}>
+                      Ekibimiz size yardımcı olmaktan mutluluk duyar.
+                    </p>
+                    <button onClick={() => {
+                              setShowConciergeSheet(false);
+                              setTimeout(() => { window.dispatchEvent(new CustomEvent('nikahim:open-chat')); }, 200);
+                            }}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-white text-[12.5px] font-semibold transition-all hover:scale-[1.03]"
+                            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 4px 14px rgba(200,104,110,0.25)' }}>
+                      Canlı Destek Aç
+                    </button>
+                  </div>
+                )}
+
+                {/* Kategorize FAQ listesi */}
+                {filteredFaqCategories.map((category, ci) => (
+                  <div key={category.title} className={ci === 0 ? '' : 'mt-5'}>
+                    <div className="flex items-center gap-2 mb-2 px-1">
+                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#C8686E' }} />
+                      <h4 className="text-[12px] font-bold uppercase tracking-[0.8px]" style={{ color: '#9F4F58' }}>
+                        {category.title}
+                      </h4>
+                    </div>
+                    <div className="space-y-2">
+                      {category.items.map((item, ii) => {
+                        const key = `${ci}-${ii}`;
+                        const open = openFaqIdx === key;
+                        return (
+                          <div key={key} className="rounded-2xl overflow-hidden transition-colors"
+                               style={{
+                                 background: open ? 'rgba(255,251,247,0.95)' : 'rgba(255,251,247,0.55)',
+                                 border: '1px solid rgba(232,180,170,0.30)',
+                                 boxShadow: open ? '0 4px 14px rgba(200,104,110,0.10)' : 'none',
+                               }}>
+                            <button onClick={() => setOpenFaqIdx(open ? null : key)}
+                                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+                              <span className="text-[13px] font-semibold leading-snug" style={{ color: '#2B2B2B' }}>{item.q}</span>
+                              <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+                                    style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>▼</span>
+                            </button>
+                            {open && (
+                              <div className="px-4 pb-4 pt-0 text-[12.5px] leading-relaxed" style={{ color: '#6B5A5A' }}>
+                                {item.a}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
@@ -1219,22 +1308,79 @@ export default function Home() {
           </div>
           <div className="space-y-3">
             {[
-              { q: "Nikahım platformu nasıl işler?", a: "Nikahım platformunda çiftler, Nikahım uygulamasını indirdikten sonra nikahlarını veya düğünlerini canlı yayınlayabilecekleri kendilerine özel bir internet sayfası oluştururlar. Nikahım'ın onlarca tasarımı arasından seçtikleri online davetiyelerini arkadaşlarına, akrabalarına ve sevdiklerine göndererek nikahlarına katılamayan kişilerin online olarak nikahlarına katılmalarını sağlarlar. Nikahım platformunun altın takma ve tebrik mesajı özellikleri sayesinde nikahlarını canlı izleyen kişiler, çifte takmak istedikleri altın miktarı kadar TL'yi çiftin hesabına direkt olarak Havale/EFT veya Crypto ile gönderebilir; isterlerse video, sesli veya yazılı tebrik mesajı gönderebilirler.", icon: (
+              { q: "Nikahım platformu nasıl çalışır?", a: (
+                <>
+                  <p>Nikahım platformunda çiftler, uygulamamızı App Store veya Google Play üzerinden indirerek kendilerine özel bir canlı yayın sayfası oluşturabilirler. Ardından düğün veya nikah törenlerini canlı yayınlayabilecekleri bu sayfayı, onlarca farklı tasarım seçeneği arasından hazırladıkları online davetiye ile aileleri, arkadaşları ve sevdikleriyle paylaşabilirler.</p>
+                  <p>Nikahım&apos;ın Canlı Yayın, Altın Takma ve Tebrik Mesajları özellikleri sayesinde davetliler, yayını izlerken aynı zamanda çifte altın takabilir, video, sesli veya yazılı tebrik mesajları gönderebilirler. Altın takma işlemlerinde ödemeler doğrudan çiftin kendi hesabına Havale/EFT veya kripto para yöntemleriyle gerçekleştirilir.</p>
+                </>
+              ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
               ) },
-              { q: "Online nikah sayfasında hangi özellikler var?", a: "Çiftlerin uygulamamız üzerinden oluşturduğu kendilerine özel canlı yayın sayfasında nikahlarını canlı yayınlayabilir, nikah gününden fotoğraflarını bu sayfada davetlileri ile paylaşabilir, altın takma özelliği ile davetlilerden ödeme kabul edebilir, tebrik bölümünde 3 yol ile (video, sesli ve yazılı) tebrik mesajlarını kabul edebilirler.", icon: (
+              { q: "Online nikah sayfasında hangi özellikler bulunur?", a: (
+                <>
+                  <p>Nikahım üzerinden oluşturulan kişiye özel canlı yayın sayfasında çiftler;</p>
+                  <ul className="list-disc pl-5 space-y-1.5">
+                    <li>Düğün veya nikah törenlerini canlı yayınlayabilir,</li>
+                    <li>Bu özel güne ait fotoğraflarını davetlileriyle paylaşabilir,</li>
+                    <li>Altın Takma özelliği ile davetlilerden ödeme kabul edebilir,</li>
+                    <li>Video, sesli veya yazılı tebrik mesajları alabilirler.</li>
+                  </ul>
+                  <p>Tüm bu özellikler tek bir sayfa üzerinden kolayca yönetilebilir.</p>
+                </>
+              ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>
               ) },
-              { q: "Nikahım platformu güvenilir mi?", a: "Nikahım.com kurulduğu günden beri çiftlerin mutluluğunu birinci önceliği olarak benimseyen bir aile kuruluşudur. Yapılan tüm maddi, görsel ve yazılı paylaşımlar sadece davetliler ve çift arasındadır. Nikahım kesinlikle bu bilgileri 3. şahıs veya kuruluşlarla paylaşmamaktadır. Nikahım platformunda davetliler tarafından yapılan tüm ödemeler direkt olarak çiftin kendi TL hesaplarına yapılmaktadır. Bu noktada Nikahım bir aracılık yapmamaktadır.", icon: (
+              { q: "Nikahım platformu güvenilir mi?", a: (
+                <>
+                  <p>Nikahım.com, kurulduğu günden bu yana çiftlerin mutluluğunu ve kullanıcı gizliliğini ön planda tutan bir aile girişimidir.</p>
+                  <p>Platform üzerinde paylaşılan video, fotoğraf, yazılı ve sesli içerikler yalnızca çift ve davetlileri arasında kalır. Nikahım, kullanıcı bilgilerini hiçbir şekilde üçüncü şahıslarla veya kuruluşlarla paylaşmaz.</p>
+                  <p>Davetliler tarafından yapılan tüm ödemeler doğrudan çiftin kendi banka hesabına veya kripto para cüzdanına gönderilir. Nikahım bu ödeme sürecinde aracılık yapmaz ve herhangi bir kullanıcı fonunu elinde tutmaz.</p>
+                </>
+              ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" /></svg>
               ) },
-              { q: "Altın takma sistemi nasıl çalışır?", a: "Altın takma bölümünde Nikahım platformu güncel altın fiyatlarını günlük olarak çeker ve çiftin canlı yayın sayfasında bu değerleri gösterir. Davetli kişi çifte altın takmak istediğinde altın türünü seçer ve buna denk gelen TL miktarı davetliye gösterilir. Davetli kişi Havale/EFT veya Crypto yöntemlerinden biri ile çiftin direkt hesabına kendi bankacılık uygulaması üzerinden para transferi yapar. Ardından canlı yayın sayfasına tekrar gelerek bu gönderimi onaylar. Bu onaylanan gönderimler çiftin uygulama sayfasında takılan altın olarak kayıt altına alınır.", icon: (
+              { q: "Altın takma sistemi nasıl çalışır?", a: (
+                <>
+                  <p>Nikahım, altın takma bölümünde güncel altın fiyatlarını düzenli olarak güncelleyerek canlı yayın sayfasında görüntüler.</p>
+                  <p>Çifte altın takmak isteyen davetli, takmak istediği altın türünü seçer ve buna karşılık gelen güncel TL tutarını görüntüler. Ödeme, davetlinin kendi bankacılık uygulaması veya kripto para cüzdanı üzerinden doğrudan çiftin hesabına gönderilir.</p>
+                  <p>Transfer işlemini tamamlayan davetli, canlı yayın sayfasına geri dönerek gönderimini onaylar. Onaylanan işlemler sistemde kayıt altına alınır ve çiftler uygulama üzerinden hangi davetlinin hangi tür altın taktığını görüntüleyebilirler.</p>
+                </>
+              ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
               ) },
-              { q: "Yayın kayıt ediliyor mu?", a: "Nikahım sayfasında yayınlanan tüm canlı yayınlar kayıt altına alınır ve canlı yayın sonlandırıldıktan birkaç dakika sonra video olarak aynı sayfada gösterilmeye devam edilir. Bu videolar 7 gün süre ile sayfada saklanır ve çift bu videoyu uygulamamız üzerinden 7 gün içerisinde indirebilir. 7 gün sonunda tüm video kayıtları otomatik olarak silinir.", icon: (
+              { q: "Fotoğraf albümüne kimler ve nasıl fotoğraf yükleyebilir?", a: (
+                <>
+                  <p>Fotoğraf albümüne hem çiftler uygulama üzerinden hem de davetliler canlı yayın sayfası aracılığıyla fotoğraf yükleyebilirler.</p>
+                  <p>Tek seferde en fazla 20 fotoğraf yüklenebilir ve bir etkinlik için toplamda 500 fotoğrafa kadar yükleme yapılabilir.</p>
+                  <p>Yüklenen tüm fotoğraflar canlı yayın sayfasında otomatik olarak görüntülenir ve etkinlik tarihinden itibaren 14 gün boyunca erişilebilir. Çiftler bu süre içerisinde tüm fotoğrafları uygulama üzerinden kolayca indirebilirler.</p>
+                  <p>14 günlük sürenin sonunda fotoğraflar sistem tarafından otomatik olarak silinir.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              ) },
+              { q: "Davetlilerimin gönderdiği tebrik mesajlarını kimler görebilir?", a: (
+                <>
+                  <p>Gönderilen video, sesli ve yazılı tebrik mesajları yalnızca çift tarafından görüntülenebilir. Mesajlar diğer davetlilerle paylaşılmaz.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+              ) },
+              { q: "Canlı yayınlar kayıt altına alınıyor mu?", a: (
+                <>
+                  <p>Evet. Nikahım üzerinden gerçekleştirilen tüm canlı yayınlar otomatik olarak kayıt altına alınır.</p>
+                  <p>Canlı yayın sona erdikten birkaç dakika sonra yayın kaydı aynı sayfada video olarak izlenmeye devam edilebilir. Kayıtlar 14 gün boyunca erişilebilir durumda kalır ve çiftler bu süre içerisinde videolarını uygulama üzerinden indirebilirler.</p>
+                  <p>14 günlük sürenin sonunda tüm video kayıtları sistemden otomatik olarak silinir.</p>
+                </>
+              ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               ) },
-              { q: "Kaç kişi aynı anda izleyebilir?", a: "Nikahınızı kaç kişinin aynı anda canlı izleyebileceği sizin satın alacağınız pakete bağlıdır. Nikahım'ın en yüksek paketi olan VIP'de 200 davetli aynı anda nikahı izleyebilir. Bunun üzerindeki rakamlar için Nikahım destek ekibi ile iletişime geçmeniz gerekir.", icon: (
+              { q: "Canlı yayını aynı anda kaç kişi izleyebilir?", a: (
+                <>
+                  <p>Canlı yayını aynı anda izleyebilecek davetli sayısı, satın alınan pakete göre belirlenir.</p>
+                  <p>Nikahım&apos;ın en kapsamlı paketi olan VIP Paket kapsamında, canlı yayın veya yayın kaydı toplam 300 davetliye kadar izletilebilir.</p>
+                  <p>Daha fazla katılımcı bekleyen çiftler, paket satın alma aşamasında ek davetli hakkı satın alarak izleyici kapasitelerini artırabilirler.</p>
+                </>
+              ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
               ) },
             ].map((faq, index) => (
@@ -1255,7 +1401,7 @@ export default function Home() {
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </span>
                 </button>
-                {openFaq === index && <div className="px-5 md:px-6 pb-6 pl-[68px] md:pl-[76px] text-gray-500 leading-relaxed">{faq.a}</div>}
+                {openFaq === index && <div className="px-5 md:px-6 pb-6 pl-[68px] md:pl-[76px] text-gray-500 leading-relaxed space-y-3">{faq.a}</div>}
               </div>
             ))}
 
@@ -1265,7 +1411,7 @@ export default function Home() {
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093M12 17h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
               <div className="flex-1 min-w-0">
-                <h4 className="font-bold text-gray-900 text-[15px] md:text-[16px]">Hâlâ sorunuz mu var?</h4>
+                <h4 className="font-bold text-gray-900 text-[15px] md:text-[16px]">Sorunuzun cevabını bulamadınız mı?</h4>
                 <p className="text-gray-500 text-[12.5px] md:text-[13px] mt-0.5">Ekibimiz size yardımcı olmaktan mutluluk duyar.</p>
               </div>
               <button onClick={() => setShowConciergeSheet(true)} className="flex-shrink-0 inline-flex items-center gap-2 px-4 md:px-5 py-2.5 md:py-3 rounded-full text-white text-[13px] md:text-[14px] font-semibold transition-all hover:scale-[1.03]" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 20px rgba(200,104,110,0.25)' }}>
