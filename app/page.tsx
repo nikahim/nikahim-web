@@ -25,6 +25,21 @@ export default function Home() {
   const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
   const [faqSearchQuery, setFaqSearchQuery] = useState('');
 
+  // WhatsApp online durumu — Türkiye saatine göre 08:00–20:00 arası çevrim içi
+  const [waOnline, setWaOnline] = useState(false);
+  useEffect(() => {
+    const check = () => {
+      const istHour = parseInt(
+        new Date().toLocaleString('en-US', { timeZone: 'Europe/Istanbul', hour: 'numeric', hour12: false }),
+        10
+      );
+      setWaOnline(istHour >= 8 && istHour < 20);
+    };
+    check();
+    const t = setInterval(check, 60_000); // her dakika güncelle
+    return () => clearInterval(t);
+  }, []);
+
   // ConciergeSheet FAQ — Nikahım Çarşı için backend data var ama frontend'de görünmez.
   // Filter + arama uygula.
   const filteredFaqCategories = useMemo(() => {
@@ -197,16 +212,18 @@ export default function Home() {
                   border: '1px solid rgba(232,180,170,0.25)',
                   boxShadow: '0 2px 10px rgba(200,104,110,0.06), inset 0 1px 0 rgba(255,255,255,0.85)',
                 }}>
-                <div className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 relative"
-                     style={{ boxShadow: '0 0 0 2px rgba(232,165,169,0.55), 0 2px 8px rgba(200,104,110,0.18)' }}>
-                  <Image src="/elif-avatar.png" alt="Elif" width={44} height={44} className="w-full h-full object-cover" />
+                <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
+                     style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.35), rgba(200,104,110,0.20))', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6)' }}>
+                  <svg className="w-5 h-5" fill="none" stroke="#9F4F58" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
+                  </svg>
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
                   <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Anlık sohbet ile yardım al</p>
                   <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#3FB95A' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500" />
-                    Ortalama yanıt: ~2 dk
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                    Çevrim içi
                   </p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
@@ -233,10 +250,10 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>WhatsApp</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>WhatsApp üzerinden mesaj bırakın</p>
-                  <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#1E8E3E' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#3FB95A' }} />
-                    Ortalama yanıt: ~2 saat
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>WhatsApp üzerinden mesaj bırakın. En kısa sürede size geri dönüş yapalım.</p>
+                  <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: waOnline ? '#1E8E3E' : '#9CA3AF' }}>
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${waOnline ? 'animate-pulse' : ''}`} style={{ background: waOnline ? '#3FB95A' : '#B5B5B5' }} />
+                    {waOnline ? 'Çevrim içi' : 'Çevrim dışı'}
                   </p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
@@ -262,10 +279,9 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-mail</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>destek@nikahim.com</p>
-                  <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#A0782E' }}>
-                    <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#D4A852' }} />
-                    Ortalama yanıt: ~8 saat
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mail yoluyla mesajınızı iletin. En kısa sürede size yardımcı olacağız.</p>
+                  <p className="text-[11px] mt-1 font-medium" style={{ color: '#A0782E' }}>
+                    destek@nikahim.com
                   </p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
@@ -1531,49 +1547,57 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="py-16 bg-gray-900 text-white">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Item 35: logo + text + slogan kaldırıldı, sadece Keşfet + Sosyal kaldı */}
-          <div className="grid md:grid-cols-2 gap-12 mb-12 max-w-3xl mx-auto">
-            <div><h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4><div className="flex flex-wrap gap-x-6 gap-y-3 text-sm">{['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => { const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss']; return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>; })}</div></div>
-            <div>
-              <h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Bizi Takip Edin</h4>
-              <div className="flex items-center gap-3 flex-wrap">
-                {/* Instagram */}
-                <a href="https://www.instagram.com/nikahimcom" target="_blank" rel="noopener noreferrer"
-                   aria-label="Instagram"
-                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                   style={{ background: 'linear-gradient(135deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%)' }}>
-                  <svg className="w-5 h-5" fill="#fff" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                  </svg>
+          {/* Bizi Takip Edin — başlık + açıklama + 4 kart */}
+          <div className="mb-14">
+            <div className="text-center mb-8">
+              <h3 className="font-bold text-3xl md:text-4xl mb-3" style={{ fontFamily: 'var(--font-playfair)', color: '#fff' }}>
+                Nikahım&apos;ı <span className="gradient-text">Takip Edin</span>
+              </h3>
+              <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+                Canlı yayınlanan düğünlerden kesitler, yeni özellikler, duyurular ve mutlu anlar için bizi takip edin.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-3xl mx-auto">
+              {[
+                { name: 'Instagram', href: 'https://www.instagram.com/nikahimcom',
+                  bg: 'linear-gradient(135deg, #feda75 0%, #fa7e1e 25%, #d62976 50%, #962fbf 75%, #4f5bd5 100%)',
+                  icon: <svg viewBox="0 0 24 24" fill="#fff" className="w-7 h-7" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" /></svg> },
+                { name: 'YouTube', href: 'https://www.youtube.com/channel/UCkRXEMbHnOli74_E3ZcIh2A',
+                  bg: '#FF0000',
+                  icon: <svg viewBox="0 0 24 24" fill="#fff" className="w-7 h-7" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg> },
+                { name: 'TikTok', href: 'https://www.tiktok.com/@nikahimcom',
+                  bg: '#000',
+                  icon: <svg viewBox="0 0 24 24" fill="#fff" className="w-7 h-7" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z" /></svg> },
+                { name: 'Pinterest', href: 'https://tr.pinterest.com/nikahimcom/',
+                  bg: '#E60023',
+                  icon: <svg viewBox="0 0 24 24" fill="#fff" className="w-7 h-7" aria-hidden="true"><path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" /></svg> },
+              ].map((s) => (
+                <a key={s.name} href={s.href} target="_blank" rel="noopener noreferrer"
+                   className="group flex flex-col items-center gap-3 p-5 rounded-2xl transition-all hover:-translate-y-1"
+                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center transition-transform group-hover:scale-110"
+                       style={{ background: s.bg, boxShadow: '0 6px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.18)' }}>
+                    {s.icon}
+                  </div>
+                  <p className="text-white font-semibold text-sm">{s.name}</p>
+                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-semibold text-white transition-all"
+                        style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.30)' }}>
+                    Takip Et
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  </span>
                 </a>
-                {/* TikTok */}
-                <a href="https://www.tiktok.com/@nikahimcom" target="_blank" rel="noopener noreferrer"
-                   aria-label="TikTok"
-                   className="w-10 h-10 rounded-full flex items-center justify-center bg-black transition-all hover:scale-110">
-                  <svg className="w-5 h-5" fill="#fff" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.84-.1z" />
-                  </svg>
-                </a>
-                {/* YouTube */}
-                <a href="https://www.youtube.com/channel/UCkRXEMbHnOli74_E3ZcIh2A" target="_blank" rel="noopener noreferrer"
-                   aria-label="YouTube"
-                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                   style={{ background: '#FF0000' }}>
-                  <svg className="w-5 h-5" fill="#fff" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                  </svg>
-                </a>
-                {/* Pinterest */}
-                <a href="https://tr.pinterest.com/nikahimcom/" target="_blank" rel="noopener noreferrer"
-                   aria-label="Pinterest"
-                   className="w-10 h-10 rounded-full flex items-center justify-center transition-all hover:scale-110"
-                   style={{ background: '#E60023' }}>
-                  <svg className="w-5 h-5" fill="#fff" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
-                  </svg>
-                </a>
-              </div>
-              <p className="mt-3 text-gray-400 text-sm">@nikahimcom</p>
+              ))}
+            </div>
+          </div>
+
+          {/* Keşfet */}
+          <div className="text-center mb-12">
+            <h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4>
+            <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm">
+              {['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => {
+                const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss'];
+                return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>;
+              })}
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">© 2025 Nikahim.com — Tüm hakları saklıdır.</div>
