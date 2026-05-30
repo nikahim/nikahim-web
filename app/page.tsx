@@ -193,7 +193,7 @@ export default function Home() {
                 Destek
               </h2>
               <p className="mt-2 text-[13px]" style={{ color: '#6B5A5A' }}>
-                Size nasıl yardımcı olabiliriz?
+                Aklınızdaki tüm sorular için buradayız
               </p>
             </div>
 
@@ -250,7 +250,7 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>WhatsApp</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>WhatsApp üzerinden mesaj bırakın. En kısa sürede size geri dönüş yapalım.</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mesajınızı bırakın, en kısa sürede size geri dönüş yapacağız.</p>
                   <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: waOnline ? '#1E8E3E' : '#9CA3AF' }}>
                     <span className={`inline-block w-1.5 h-1.5 rounded-full ${waOnline ? 'animate-pulse' : ''}`} style={{ background: waOnline ? '#3FB95A' : '#B5B5B5' }} />
                     {waOnline ? 'Çevrim içi' : 'Çevrim dışı'}
@@ -307,7 +307,7 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Sık Sorulan Sorular</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Hemen cevap bul</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>En çok sorulan sorulara göz atın</p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -444,8 +444,11 @@ export default function Home() {
 
             {!faqView && (
             <div className="absolute bottom-5 left-0 right-0 text-center pointer-events-none">
-              <p className="text-[10.5px] tracking-[0.5px]" style={{ color: '#B5A8A8' }}>
-                Burada size yardımcı olmak için varız.
+              <p className="text-[11px] tracking-[0.3px] inline-flex items-center gap-1.5" style={{ color: '#9F4F58' }}>
+                Nikahım ekibi her zaman yanınızda
+                <svg className="w-3 h-3" fill="#9F4F58" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
               </p>
             </div>
             )}
@@ -1554,7 +1557,7 @@ export default function Home() {
                 Nikahım&apos;ı <span className="gradient-text">Takip Edin</span>
               </h3>
               <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Canlı yayınlanan düğünlerden kesitler, yeni özellikler, duyurular ve mutlu anlar için bizi takip edin.
+                Düğün örnekleri izleyin ve yeni özelliklerden haberdar olun.
               </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-3xl mx-auto">
@@ -1580,10 +1583,8 @@ export default function Home() {
                     {s.icon}
                   </div>
                   <p className="text-white font-semibold text-sm">{s.name}</p>
-                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[12px] font-semibold text-white transition-all"
-                        style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.30)' }}>
-                    Takip Et
-                    <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                  <span className="text-[12.5px] font-medium transition-colors text-gray-500 group-hover:text-rose-400">
+                    @nikahimcom
                   </span>
                 </a>
               ))}
