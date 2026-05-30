@@ -649,7 +649,7 @@ export default function Home() {
                   Davetlilerinizin taktığı<br />
                   altın miktarı kadar<br />
                   TL direk onlardan<br />
-                  sizin hesabınızıa<br />
+                  sizin hesabınıza<br />
                   gelsin !
                 </p>
               </div>
@@ -932,7 +932,7 @@ export default function Home() {
       <section id="nasil-calisir" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10 md:mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
           </div>
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[
@@ -1082,7 +1082,8 @@ export default function Home() {
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
-                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`relative rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'scale-[1.04]' : 'hover:-translate-y-2'}`} style={isSelected ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,245,243,0.96) 100%)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 80px rgba(200,104,110,0.22), 0 12px 32px rgba(200,104,110,0.10), 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1.5px solid rgba(200,104,110,0.45)' } : { background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(252,250,248,0.94) 100%)', backdropFilter: 'blur(20px)', boxShadow: '0 16px 50px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)', border: '1px solid rgba(200,104,110,0.10)' }}>
+                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`feature-card-hover relative rounded-3xl p-9 transition-all duration-500 cursor-pointer overflow-hidden ${isSelected ? 'scale-[1.04]' : 'hover:-translate-y-2'}`} style={isSelected ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,245,243,0.96) 100%)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 80px rgba(200,104,110,0.22), 0 12px 32px rgba(200,104,110,0.10), 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1.5px solid rgba(200,104,110,0.45)' } : { background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(252,250,248,0.94) 100%)', backdropFilter: 'blur(20px)', boxShadow: '0 16px 50px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)', border: '1px solid rgba(200,104,110,0.10)' }}>
+                  <div className="card-light-sweep" aria-hidden="true" />
                   {/* Premium subtle gold shimmer accent */}
                   {isSelected && <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(200,104,110,0.10), transparent 70%)' }} />}
                   {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-7 py-2 rounded-full text-[13px] font-semibold tracking-wide" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.4), 0 2px 8px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-sans)', letterSpacing: '0.5px' }}>{pkg.badge}</div>}
@@ -1214,7 +1215,7 @@ export default function Home() {
       <section id="sss" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-10 md:mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
           </div>
           <div className="space-y-3">
             {[
@@ -1289,7 +1290,7 @@ export default function Home() {
       <section id="iletisim" className="py-16 md:py-14" style={{ background: '#FAF7F5' }}>
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
             <p className="text-lg text-gray-400">Size yardımcı olmaktan mutluluk duyarız</p>
           </div>
           <div className="bg-white rounded-3xl p-10 shadow-sm border border-gray-100">
