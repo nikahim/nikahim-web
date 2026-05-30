@@ -250,7 +250,7 @@ export default function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>WhatsApp</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mesajınızı bırakın, en kısa sürede size geri dönüş yapacağız.</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mesaj bırakın, ekibimiz sizinle iletişime geçsin.</p>
                   <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: waOnline ? '#1E8E3E' : '#9CA3AF' }}>
                     <span className={`inline-block w-1.5 h-1.5 rounded-full ${waOnline ? 'animate-pulse' : ''}`} style={{ background: waOnline ? '#3FB95A' : '#B5B5B5' }} />
                     {waOnline ? 'Çevrim içi' : 'Çevrim dışı'}
@@ -278,8 +278,8 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-mail</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mail yoluyla mesajınızı iletin. En kısa sürede size yardımcı olacağız.</p>
+                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-posta</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Sorularınızı e-posta yoluyla iletebilirsiniz.</p>
                   <p className="text-[11px] mt-1 font-medium" style={{ color: '#A0782E' }}>
                     destek@nikahim.com
                   </p>
