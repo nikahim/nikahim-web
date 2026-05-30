@@ -646,11 +646,11 @@ export default function Home() {
                 <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
                 <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
-                  Davetlilerinizin taktığı<br />
-                  altın miktarı kadar<br />
-                  TL direk onlardan<br />
-                  sizin hesabınıza<br />
-                  gelsin !
+                  Davetlilerinizin<br />
+                  taktığı altın miktarı<br />
+                  kadar TL direk<br />
+                  onlardan sizin<br />
+                  hesabınıza gelsin!
                 </p>
               </div>
               {/* Badges — alt tam ortalı */}
@@ -1082,7 +1082,7 @@ export default function Home() {
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
-                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`feature-card-hover relative rounded-3xl p-9 transition-all duration-500 cursor-pointer overflow-hidden ${isSelected ? 'scale-[1.04]' : 'hover:-translate-y-2'}`} style={isSelected ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,245,243,0.96) 100%)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 80px rgba(200,104,110,0.22), 0 12px 32px rgba(200,104,110,0.10), 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1.5px solid rgba(200,104,110,0.45)' } : { background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(252,250,248,0.94) 100%)', backdropFilter: 'blur(20px)', boxShadow: '0 16px 50px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)', border: '1px solid rgba(200,104,110,0.10)' }}>
+                <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`feature-card-hover relative rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'scale-[1.04]' : 'hover:-translate-y-2'}`} style={isSelected ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,245,243,0.96) 100%)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 80px rgba(200,104,110,0.22), 0 12px 32px rgba(200,104,110,0.10), 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1.5px solid rgba(200,104,110,0.45)' } : { background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(252,250,248,0.94) 100%)', backdropFilter: 'blur(20px)', boxShadow: '0 16px 50px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)', border: '1px solid rgba(200,104,110,0.10)' }}>
                   <div className="card-light-sweep" aria-hidden="true" />
                   {/* Premium subtle gold shimmer accent */}
                   {isSelected && <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(200,104,110,0.10), transparent 70%)' }} />}
