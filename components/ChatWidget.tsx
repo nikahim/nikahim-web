@@ -263,7 +263,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {/* Pre-chat start screen */}
       {!hasStarted ? (
         <div className="flex-1 flex flex-col items-center justify-start pt-8 p-6 overflow-y-auto" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-3" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)" }}>
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-3 flex-shrink-0" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)", aspectRatio: '1 / 1' }}>
             <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
           </div>
           <div className="text-base font-bold mb-8" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
