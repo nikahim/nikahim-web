@@ -162,7 +162,7 @@ export default function Home() {
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>
-              <p className="mt-2 text-[12.5px] flex items-center gap-1.5" style={{ color: '#7A6B6B' }}>
+              <p className="mt-2 text-[12.5px] flex items-center gap-1.5" style={{ color: '#6E5A5A' }}>
                 <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                 Ortalama yanıt süresi: <span className="font-semibold" style={{ color: '#4A3E2B' }}>~2 dk</span>
               </p>
@@ -380,7 +380,7 @@ export default function Home() {
 
             {/* CTA alt yazı — başlık silindi (store butonlarına biraz mesafe) */}
             <div className="text-center mb-6 lg:mb-7">
-              <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
+              <p className="text-[13.5px]" style={{ color: '#6E5A5A' }}>
                 Uygulamayı <span style={{ fontWeight: 700, color: '#1F1F1F' }}>ücretsiz indirin</span>, hemen başlayın !
               </p>
             </div>
@@ -698,7 +698,7 @@ export default function Home() {
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
               <div className="mt-3 mb-4" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-relaxed text-[13px]" style={{ color: '#7A6B6B' }}>
+              <p className="leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>
                 Misafirleriniz video, sesli<br />
                 veya yazılı tebriklerini<br />
                 size kolayca iletsin.
@@ -723,7 +723,7 @@ export default function Home() {
                 </h3>
                 <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>kabul edin!</h3>
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#7A6B6B' }}>
+                <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#6E5A5A' }}>
                   Misafirleriniz video, sesli veya yazılı tebriklerini size kolayca iletsin.
                 </p>
               </div>
@@ -745,7 +745,7 @@ export default function Home() {
             <div className="px-5 md:px-7 pt-10 pb-6">
               {/* Header — "Fotoğraf" / dash "Albümü Oluşturun" dash (dashes rose) */}
               <div className="text-center mb-3"
-                   style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
+                   style={{ fontFamily: 'var(--font-playfair)', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
                 <div style={{ color: '#C8686E', fontSize: 'clamp(26px, 4.6vw, 36px)' }}>Fotoğraf</div>
                 <div className="flex items-center justify-center gap-3 md:gap-4 mt-0.5"
                      style={{ fontSize: 'clamp(26px, 4.6vw, 36px)' }}>
