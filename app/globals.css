@@ -62,6 +62,30 @@ html {
   }
 }
 
+/* Search results dropdown — scroll cue: thin rose scrollbar + fade hint */
+.search-results-list {
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(200, 104, 110, 0.45) transparent !important;
+  -ms-overflow-style: auto !important;
+  position: relative;
+  mask-image: linear-gradient(180deg, #000 0%, #000 calc(100% - 18px), transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 calc(100% - 18px), transparent 100%);
+}
+.search-results-list::-webkit-scrollbar {
+  display: block !important;
+  width: 4px !important;
+}
+.search-results-list::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+.search-results-list::-webkit-scrollbar-thumb {
+  background: rgba(200, 104, 110, 0.45) !important;
+  border-radius: 4px !important;
+}
+.search-results-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 104, 110, 0.65) !important;
+}
+
 html, body {
   overflow-x: hidden;
   max-width: 100vw;

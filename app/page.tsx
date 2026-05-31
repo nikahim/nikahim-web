@@ -568,7 +568,7 @@ export default function Home() {
 
       {/* CANLI YAYIN ARA MODAL — uygulama indir modal'ının kardeşi: aynı tasarım, arama içeriği */}
       {showSearchModal && (
-        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in"
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-start lg:items-center justify-center p-4 pt-12 lg:pt-4 animate-fade-in overflow-y-auto"
              onClick={() => { setShowSearchModal(false); setSearchQuery(""); setShowSearchResults(false); }}
              style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
           <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-9 lg:pt-9 lg:pb-11 max-w-md w-full animate-scale-in overflow-hidden"
@@ -642,9 +642,9 @@ export default function Home() {
                 )}
               </div>
               {showSearchResults && (
-                <div className="mt-3 bg-white rounded-2xl shadow-lg overflow-hidden max-h-72 overflow-y-auto border border-gray-100">
+                <div className="mt-3 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                   {searchResults.length > 0 ? (
-                    <div className="divide-y divide-gray-50">
+                    <div className="search-results-list divide-y divide-gray-50 max-h-72 overflow-y-auto">
                       {searchResults.map((event) => (
                         <button key={event.id}
                                 onClick={() => { setShowSearchModal(false); goToWedding(event.event_link); }}
@@ -773,7 +773,7 @@ export default function Home() {
 
           {/* Mobile menu dropdown */}
           {mobileMenuOpen && (
-            <div className="lg:hidden py-5 animate-fade-in" style={{ borderTop: '1px solid rgba(200,104,110,0.08)' }}>
+            <div className="lg:hidden py-5 animate-fade-in overflow-y-auto" style={{ borderTop: '1px solid rgba(200,104,110,0.08)', maxHeight: 'calc(100vh - 72px)' }}>
               <div className="flex flex-col gap-1">
                 {[
                   { label: 'Ana Sayfa', id: 'hero' },
@@ -869,14 +869,30 @@ export default function Home() {
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 40%, rgba(0,0,0,0.15) 100%)' }} />
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-white px-3 py-1.5 rounded-full text-[13px] font-semibold tracking-[0.4px]"
                        style={{
-                         background: 'rgba(216, 124, 132, 0.32)',
-                         backdropFilter: 'blur(16px) saturate(180%)',
-                         WebkitBackdropFilter: 'blur(16px) saturate(180%)',
-                         border: '1px solid rgba(255,255,255,0.35)',
-                         boxShadow: '0 6px 24px rgba(200,104,110,0.22), inset 0 1px 0 rgba(255,255,255,0.28)',
-                         textShadow: '0 1px 2px rgba(0,0,0,0.18)',
+                         background: 'rgba(200, 88, 96, 0.78)',
+                         backdropFilter: 'blur(14px) saturate(180%)',
+                         WebkitBackdropFilter: 'blur(14px) saturate(180%)',
+                         border: '1px solid rgba(255,255,255,0.32)',
+                         boxShadow: '0 6px 24px rgba(200,80,90,0.35), inset 0 1px 0 rgba(255,255,255,0.30)',
+                         textShadow: '0 1px 2px rgba(0,0,0,0.22)',
                        }}>
                     <span className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ boxShadow: '0 0 6px rgba(255,255,255,0.7)' }} />CANLI
+                  </div>
+                  {/* Sağ üst — izleyici sayacı (göz + sayı) */}
+                  <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 text-white px-3 py-1.5 rounded-full text-[13px] font-semibold tracking-[0.4px]"
+                       style={{
+                         background: 'rgba(30, 30, 40, 0.42)',
+                         backdropFilter: 'blur(14px) saturate(180%)',
+                         WebkitBackdropFilter: 'blur(14px) saturate(180%)',
+                         border: '1px solid rgba(255,255,255,0.28)',
+                         boxShadow: '0 6px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.22)',
+                         textShadow: '0 1px 2px rgba(0,0,0,0.30)',
+                       }}>
+                    <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                    56
                   </div>
                 </div>
               </div>
@@ -1245,7 +1261,7 @@ export default function Home() {
       </div>
 
       {/* NASIL ÇALIŞIR — Tone A (rose-cream) */}
-      <section id="nasil-calisir" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="nasil-calisir" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)', scrollMarginTop: '80px' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-10 md:mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>3 Adımda <span className="gradient-text">Başlayın</span></h2>
@@ -1308,7 +1324,7 @@ export default function Home() {
       </div>
 
       {/* NEDEN NİKAHIM — Tone B (body cream) */}
-      <section id="neden-nikahim" className="py-16 md:py-14 relative overflow-hidden" style={{ background: '#FAF7F5' }}>
+      <section id="neden-nikahim" className="py-16 md:py-14 relative overflow-hidden" style={{ background: '#FAF7F5', scrollMarginTop: '80px' }}>
         {/* Subtle rose radial accent — dikkat dağıtmadan derinlik */}
         <div aria-hidden="true" className="absolute top-[-150px] right-[-100px] w-[500px] h-[500px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.06) 0%, transparent 70%)' }} />
         <div aria-hidden="true" className="absolute bottom-[-200px] left-[-150px] w-[600px] h-[600px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(212,168,82,0.04) 0%, transparent 70%)' }} />
@@ -1370,7 +1386,7 @@ export default function Home() {
       </div>
 
       {/* PAKETLER — Tone A */}
-      <section id="paketler" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="paketler" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)', scrollMarginTop: '80px' }}>
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Size Uygun <span className="gradient-text">Paketi Seçin</span></h2>
@@ -1402,7 +1418,7 @@ export default function Home() {
                   <div className="card-light-sweep" aria-hidden="true" />
                   {/* Premium subtle gold shimmer accent */}
                   {isSelected && <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(200,104,110,0.10), transparent 70%)' }} />}
-                  {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-7 py-2 rounded-full text-[13px] font-semibold tracking-wide" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.4), 0 2px 8px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-sans)', letterSpacing: '0.5px' }}>{pkg.badge}</div>}
+                  {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-7 py-2 rounded-full text-[13px] font-semibold tracking-wide whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.4), 0 2px 8px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-sans)', letterSpacing: '0.5px' }}>{pkg.badge}</div>}
                   {/* Premium discount badge - elegant ribbon style */}
                   <div className="absolute top-5 right-5 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold whitespace-nowrap" style={{ color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,243,243,0.95) 0%, rgba(253,232,232,0.90) 100%)', border: '1px solid rgba(200,104,110,0.30)', boxShadow: '0 2px 8px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)' }}>
                     <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z" /></svg>
@@ -1476,7 +1492,7 @@ export default function Home() {
       </div>
 
       {/* SSS — Tone A */}
-      <section id="sss" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
+      <section id="sss" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)', scrollMarginTop: '80px' }}>
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-10 md:mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Sık Sorulan <span className="gradient-text">Sorular</span></h2>
@@ -1608,7 +1624,7 @@ export default function Home() {
       </div>
 
       {/* BİZE ULAŞIN — Tone B */}
-      <section id="iletisim" className="py-16 md:py-14" style={{ background: '#FAF7F5' }}>
+      <section id="iletisim" className="py-16 md:py-14" style={{ background: '#FAF7F5', scrollMarginTop: '80px' }}>
         <div className="max-w-2xl mx-auto px-6">
           <div className="text-center mb-14">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Bize <span className="gradient-text">Ulaşın</span></h2>
