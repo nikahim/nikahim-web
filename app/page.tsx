@@ -697,9 +697,10 @@ export default function Home() {
                 <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı İzle</button>
               </div>
               {/* Örnek Canlı Yayın link — daha kompakt (mobil + masaüstü kısaldı) */}
-              <a href="#" className="inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.05)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.15)' }}>
-                <span>Örnek Canlı Yayın sayfası incele</span>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+              <a href="#" className="live-demo-link inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}>
+                <span className="relative z-10">Örnek Canlı Yayın sayfası incele</span>
+                <svg className="live-demo-arrow w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                <span className="live-demo-shimmer" aria-hidden="true" />
               </a>
               <div className="mb-1 lg:mb-3" />
               <div className="flex gap-5">
