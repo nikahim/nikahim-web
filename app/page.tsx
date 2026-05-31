@@ -713,8 +713,8 @@ export default function Home() {
                       <Image src={s.icon} alt={s.alt} width={72} height={72} className={`${s.iconSize} object-contain`} />
                     </div>
                     <div className="ml-1">
-                      <div className="text-[20px] md:text-[24px] font-semibold text-gray-900 tracking-tight leading-[1.1] whitespace-nowrap">{s.line1}</div>
-                      <div className="text-[20px] md:text-[24px] font-semibold tracking-tight leading-[1.1] whitespace-nowrap mt-0.5" style={{ color: '#C8686E' }}>{s.line2}</div>
+                      <div className="text-gray-600 text-[14px] font-medium leading-tight whitespace-nowrap">{s.line1}</div>
+                      <div className="text-gray-600 text-[14px] font-medium leading-tight whitespace-nowrap mt-0.5">{s.line2}</div>
                     </div>
                   </div>
                 ))}
