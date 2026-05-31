@@ -354,7 +354,7 @@ export default function Home() {
                   Sık Sorulan Sorular
                 </h3>
                 <p className="text-[12.5px] mb-4 leading-relaxed" style={{ color: '#6B5A5A' }}>
-                  Aradığınız cevabı saniyeler içinde bulun. Canlı yayın, davetiye, altın takma ve tebrik mesajları hakkında en sık sorulan sorular burada.
+                  Aradığınız cevabı saniyeler içinde bulun.
                 </p>
 
                 {/* Search input */}
@@ -442,7 +442,7 @@ export default function Home() {
                                onMouseLeave={(e) => { if (!open) e.currentTarget.style.borderColor = 'rgba(232,180,170,0.30)'; }}>
                             <button onClick={() => setOpenFaqIdx(open ? null : key)}
                                     className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left">
-                              <span className="text-[13px] font-semibold leading-snug" style={{ color: '#2B2B2B' }}>{item.q}</span>
+                              <span className="text-[13px] leading-snug" style={{ fontWeight: 600, color: '#2E3445' }}>{item.q}</span>
                               <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
                                     style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -1386,7 +1386,7 @@ export default function Home() {
       <section id="sss" className="py-16 md:py-14" style={{ background: 'linear-gradient(180deg, #FDF7F3 0%, #FAF4F0 100%)' }}>
         <div className="max-w-3xl mx-auto px-6">
           <div className="text-center mb-10 md:mb-12">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Sıkça Sorulan <span className="gradient-text">Sorular</span></h2>
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Sık Sorulan <span className="gradient-text">Sorular</span></h2>
           </div>
           <div className="space-y-3">
             {[
