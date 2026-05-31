@@ -568,10 +568,10 @@ export default function Home() {
 
       {/* CANLI YAYIN ARA MODAL — uygulama indir modal'ının kardeşi: aynı tasarım, arama içeriği */}
       {showSearchModal && (
-        <div className="fixed inset-0 bg-black/60 z-[100] flex items-start lg:items-center justify-center p-4 pt-12 lg:pt-4 animate-fade-in overflow-y-auto"
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-start lg:items-center justify-center p-4 pt-3 lg:pt-4 animate-fade-in overflow-y-auto"
              onClick={() => { setShowSearchModal(false); setSearchQuery(""); setShowSearchResults(false); }}
              style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-9 lg:pt-9 lg:pb-11 max-w-md w-full animate-scale-in overflow-hidden"
+          <div className="search-modal-shell relative rounded-[28px] px-6 lg:px-10 pt-5 pb-7 lg:pt-9 lg:pb-11 max-w-md w-full animate-scale-in overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
                  background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
@@ -599,19 +599,19 @@ export default function Home() {
               <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
 
-            {/* Logo + slogan */}
-            <div className="relative flex flex-col items-center mb-5">
+            {/* Logo + slogan — mobilde kompakt (landscape için) */}
+            <div className="search-modal-header relative flex flex-col items-center mb-4 lg:mb-5">
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[104px] h-[104px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[34px] w-auto object-contain -mt-1" />
+                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="search-modal-logo w-[78px] h-[78px] lg:w-[104px] lg:h-[104px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="search-modal-wordmark h-[26px] lg:h-[34px] w-auto object-contain -mt-1" />
               </div>
-              <p className="mt-1 text-center italic tracking-[0.3px]"
-                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
+              <p className="search-modal-slogan mt-1 text-center italic tracking-[0.3px]"
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14px', color: '#9F4F58' }}>
                 En mutlu anlar, birlikte güzel.
               </p>
-              <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
+              <div className="mt-2.5 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
             {/* Arama başlığı */}
@@ -644,7 +644,7 @@ export default function Home() {
               {showSearchResults && (
                 <div className="mt-3 bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
                   {searchResults.length > 0 ? (
-                    <div className="search-results-list divide-y divide-gray-50 max-h-72 overflow-y-auto">
+                    <div className="search-results-list divide-y divide-gray-50 overflow-y-auto" style={{ maxHeight: 'min(18rem, 35vh)' }}>
                       {searchResults.map((event) => (
                         <button key={event.id}
                                 onClick={() => { setShowSearchModal(false); goToWedding(event.event_link); }}
