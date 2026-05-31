@@ -367,7 +367,7 @@ export default function Home() {
                     type="text"
                     value={faqSearchQuery}
                     onChange={(e) => { setFaqSearchQuery(e.target.value); setOpenFaqIdx(null); }}
-                    placeholder="Sorunuzu arayın..."
+                    placeholder="Anahtar kelime yazın..."
                     className="w-full pl-9 pr-9 py-2.5 rounded-full text-[13px] outline-none transition-all focus:scale-[1.01]"
                     style={{
                       background: 'rgba(255,255,255,0.85)',
@@ -704,19 +704,16 @@ export default function Home() {
               <div className="mb-1 lg:mb-3" />
               <div className="flex gap-5">
                 {[
-                  { num: '500', suffix: '+', label: 'Mutlu Çift', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
-                  { num: '10K', suffix: '+', label: 'İzleyici', icon: '/izleyici-icon-2.png', iconSize: 'w-[78px] h-[78px] -my-3 relative top-[3px]' }
+                  { line1: 'Mutlu', line2: 'Çiftler', alt: 'Mutlu Çiftler', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
+                  { line1: 'Mutlu', line2: 'Misafirler', alt: 'Mutlu Misafirler', icon: '/izleyici-icon-2.png', iconSize: 'w-[78px] h-[78px] -my-3 relative top-[3px]' }
                 ].map((s, i) => (
                   <div key={i} className="group flex items-center gap-1 px-4 py-3 rounded-[16px] transition-all duration-300 hover:-translate-y-1 cursor-default" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(200,180,160,0.12)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(200,104,110,0.1), 0 4px 12px rgba(0,0,0,0.04)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'; }}>
                     <div className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-                      <Image src={s.icon} alt={s.label} width={72} height={72} className={`${s.iconSize} object-contain`} />
+                      <Image src={s.icon} alt={s.alt} width={72} height={72} className={`${s.iconSize} object-contain`} />
                     </div>
-                    <div>
-                      <div className="flex items-baseline gap-0.5">
-                        <span className="text-[28px] md:text-[36px] font-bold text-gray-900 tracking-tight leading-none">{s.num}</span>
-                        <span className="text-[22px] md:text-[28px] font-bold leading-none" style={{ color: '#C8686E' }}>{s.suffix}</span>
-                      </div>
-                      <div className="text-gray-600 text-[14px] mt-1.5 font-medium ml-1 whitespace-nowrap">{s.label}</div>
+                    <div className="ml-1">
+                      <div className="text-[20px] md:text-[24px] font-semibold text-gray-900 tracking-tight leading-[1.1] whitespace-nowrap">{s.line1}</div>
+                      <div className="text-[20px] md:text-[24px] font-semibold tracking-tight leading-[1.1] whitespace-nowrap mt-0.5" style={{ color: '#C8686E' }}>{s.line2}</div>
                     </div>
                   </div>
                 ))}
