@@ -11,6 +11,7 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showAppPopup, setShowAppPopup] = useState(false);
+  const [showSearchModal, setShowSearchModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -565,6 +566,118 @@ export default function Home() {
         </div>
       )}
 
+      {/* CANLI YAYIN ARA MODAL — uygulama indir modal'ının kardeşi: aynı tasarım, arama içeriği */}
+      {showSearchModal && (
+        <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in"
+             onClick={() => { setShowSearchModal(false); setSearchQuery(""); setShowSearchResults(false); }}
+             style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-9 lg:pt-9 lg:pb-11 max-w-md w-full animate-scale-in overflow-hidden"
+               onClick={(e) => e.stopPropagation()}
+               style={{
+                 background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
+                 boxShadow: '0 40px 100px rgba(60,40,40,0.22), 0 16px 40px rgba(200,104,110,0.16), 0 4px 14px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 border: '1px solid rgba(232,180,170,0.30)',
+               }}>
+            {/* Köşe soft rose glow'ları */}
+            <div className="absolute top-[-80px] right-[-60px] w-[260px] h-[260px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
+            <div className="absolute bottom-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(253,232,224,0.55) 0%, transparent 70%)' }} />
+            <div className="absolute top-[40%] left-[-50px] w-[180px] h-[180px] rounded-full pointer-events-none"
+                 style={{ background: 'radial-gradient(circle, rgba(212,168,82,0.08) 0%, transparent 70%)' }} />
+
+            {/* Minimal X */}
+            <button onClick={() => { setShowSearchModal(false); setSearchQuery(""); setShowSearchResults(false); }}
+                    aria-label="Kapat"
+                    className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-[1.08] active:scale-[0.94] z-20"
+                    style={{
+                      background: 'rgba(255,255,255,0.70)',
+                      backdropFilter: 'blur(10px)',
+                      border: '1px solid rgba(200,104,110,0.12)',
+                      boxShadow: '0 2px 8px rgba(160,80,90,0.06)',
+                    }}>
+              <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
+            {/* Logo + slogan */}
+            <div className="relative flex flex-col items-center mb-5">
+              <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
+                   style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
+              <div className="relative flex flex-col items-center">
+                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[104px] h-[104px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[34px] w-auto object-contain -mt-1" />
+              </div>
+              <p className="mt-1 text-center italic tracking-[0.3px]"
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
+                En mutlu anlar, birlikte güzel.
+              </p>
+              <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
+            </div>
+
+            {/* Arama başlığı */}
+            <div className="relative text-center mb-4">
+              <p className="text-[14px]" style={{ color: '#6E5A5A' }}>
+                Gelin veya Damat adıyla arama yapın
+              </p>
+            </div>
+
+            {/* Search box + sonuçlar */}
+            <div className="relative">
+              <div className="relative flex items-center">
+                <svg className="absolute left-5 w-5 h-5 text-gray-300 z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  autoFocus
+                  placeholder="Örn: Ahmet, Ayşe, Yılmaz..."
+                  className="w-full pl-12 pr-12 py-3.5 text-[15px] rounded-2xl outline-none text-gray-900 placeholder:text-gray-300 transition-all border-2 border-transparent focus:border-[#C8686E]/30 focus:shadow-[0_8px_30px_rgba(200,104,110,0.10)]"
+                  style={{ background: '#F8F9FC' }}
+                />
+                {searchQuery && (
+                  <button onClick={() => { setSearchQuery(""); setShowSearchResults(false); }}
+                          className="absolute right-4 w-7 h-7 flex items-center justify-center rounded-full bg-gray-200 text-gray-400 hover:bg-gray-300 hover:text-gray-600 transition-colors text-sm z-10">
+                    ✕
+                  </button>
+                )}
+              </div>
+              {showSearchResults && (
+                <div className="mt-3 bg-white rounded-2xl shadow-lg overflow-hidden max-h-72 overflow-y-auto border border-gray-100">
+                  {searchResults.length > 0 ? (
+                    <div className="divide-y divide-gray-50">
+                      {searchResults.map((event) => (
+                        <button key={event.id}
+                                onClick={() => { setShowSearchModal(false); goToWedding(event.event_link); }}
+                                className="group w-full p-4 flex items-center gap-3 hover:bg-gradient-to-r hover:from-rose-50/50 hover:to-transparent transition-all text-left">
+                          {event.couple_photo_url ? (
+                            <Image src={event.couple_photo_url} alt="Çift" width={44} height={44} className="w-11 h-11 rounded-2xl object-cover shadow-sm" />
+                          ) : (
+                            <Image src="/icon.png" alt="Nikahım" width={44} height={44} className="w-11 h-11 rounded-2xl object-cover shadow-sm" />
+                          )}
+                          <div className="flex-1 min-w-0">
+                            <div className="font-semibold text-gray-900 text-[14px] truncate">{event.bride_full_name} & {event.groom_full_name}</div>
+                            <div className="text-[12px] text-gray-400 mt-0.5">{new Date(event.event_date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                          </div>
+                          <div className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" style={{ background: 'rgba(200,104,110,0.1)' }}>
+                            <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center text-gray-300">
+                      <svg className="w-10 h-10 mx-auto mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                      <p className="font-medium text-gray-400 text-[14px]">Sonuç bulunamadı</p>
+                      <p className="text-[12px] mt-1">Farklı bir isim deneyin</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* NAVBAR — premium luxury: cream gradient + sol marka (logo +15%) + glass hamburger + ince rose glow */}
       <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
               style={{
@@ -591,8 +704,20 @@ export default function Home() {
 
             {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}
             <nav className="hidden lg:flex items-center gap-7 absolute left-1/2 -translate-x-1/2">
-              {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
-                <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-gray-600 hover:text-gray-900 font-medium text-[14px] tracking-[0.2px] transition-colors relative group">
+              {[
+                { label: 'Ana Sayfa', id: 'hero' },
+                { label: 'Özellikler', id: 'ozellikler' },
+                { label: 'Neden Nikahım?', id: 'neden-nikahim' },
+                { label: 'Paketler', id: 'paketler' },
+                { label: 'Yardım Merkezi', action: 'concierge' as const },
+                { label: 'İletişim', id: 'iletisim' },
+              ].map((item) => (
+                <button key={item.label}
+                        onClick={() => {
+                          if (item.action === 'concierge') { setShowConciergeSheet(true); setMobileMenuOpen(false); }
+                          else if (item.id) { scrollToSection(item.id); }
+                        }}
+                        className="text-gray-600 hover:text-gray-900 font-medium text-[14px] tracking-[0.2px] transition-colors relative group">
                   {item.label}
                   <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-0 h-[1.5px] rounded-full group-hover:w-full transition-all duration-300" style={{ background: 'linear-gradient(90deg, transparent, #C8686E, transparent)' }} />
                 </button>
@@ -650,8 +775,22 @@ export default function Home() {
           {mobileMenuOpen && (
             <div className="lg:hidden py-5 animate-fade-in" style={{ borderTop: '1px solid rgba(200,104,110,0.08)' }}>
               <div className="flex flex-col gap-1">
-                {[{ label: 'Ana Sayfa', id: 'hero' }, { label: 'Nikah Ara', id: 'nikah-ara' }, { label: 'Nasıl Çalışır', id: 'nasil-calisir' }, { label: 'Paketler', id: 'paketler' }, { label: 'SSS', id: 'sss' }].map((item) => (
-                  <button key={item.id} onClick={() => scrollToSection(item.id)} className="text-gray-700 py-3 text-left font-medium hover:text-gray-900 transition-colors px-3 rounded-xl hover:bg-rose-50/40">{item.label}</button>
+                {[
+                  { label: 'Ana Sayfa', id: 'hero' },
+                  { label: 'Özellikler', id: 'ozellikler' },
+                  { label: 'Neden Nikahım?', id: 'neden-nikahim' },
+                  { label: 'Paketler', id: 'paketler' },
+                  { label: 'Yardım Merkezi', action: 'concierge' as const },
+                  { label: 'İletişim', id: 'iletisim' },
+                ].map((item) => (
+                  <button key={item.label}
+                          onClick={() => {
+                            if (item.action === 'concierge') { setShowConciergeSheet(true); setMobileMenuOpen(false); }
+                            else if (item.id) { scrollToSection(item.id); }
+                          }}
+                          className="text-gray-700 py-3 text-left font-medium hover:text-gray-900 transition-colors px-3 rounded-xl hover:bg-rose-50/40">
+                    {item.label}
+                  </button>
                 ))}
                 <button onClick={() => setShowAppPopup(true)} className="text-white py-3.5 rounded-2xl font-semibold mt-3 btn-press" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
               </div>
@@ -682,7 +821,7 @@ export default function Home() {
               {/* Item 26: yeni açıklama */}
               <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Fotoğraf Albümü, Online Altın Takma, Videolu Tebrik mesajları ve çok daha fazlası tek platformda!</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-6">
-                {/* Ücretsiz Hesap Oluştur — masaüstünde Canlı İzle ile aynı boy (tek satır + küçük italik) */}
+                {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                   {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
                   <span className="lg:hidden flex flex-col leading-tight">
@@ -694,7 +833,7 @@ export default function Home() {
                     Hesap Oluştur
                   </span>
                 </button>
-                <button onClick={() => scrollToSection("nikah-ara")} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Canlı İzle</button>
+                <button onClick={() => setShowSearchModal(true)} className="flex-1 lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Yayına Katıl</button>
               </div>
               {/* Örnek Canlı Yayın link — daha kompakt (mobil + masaüstü kısaldı) */}
               <a href="#" className="live-demo-link inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]" style={{ background: 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}>
@@ -728,8 +867,16 @@ export default function Home() {
                     <source src="/hero-video.mp4" type="video/mp4" />
                   </video>
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 40%, rgba(0,0,0,0.15) 100%)' }} />
-                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-white px-4 py-2 rounded-full text-sm font-bold shadow-xl" style={{ background: 'linear-gradient(135deg, #ef4444, #dc2626)', boxShadow: '0 4px 20px rgba(239,68,68,0.35)' }}>
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" />CANLI
+                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-white px-3 py-1.5 rounded-full text-[13px] font-semibold tracking-[0.4px]"
+                       style={{
+                         background: 'rgba(216, 124, 132, 0.32)',
+                         backdropFilter: 'blur(16px) saturate(180%)',
+                         WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+                         border: '1px solid rgba(255,255,255,0.35)',
+                         boxShadow: '0 6px 24px rgba(200,104,110,0.22), inset 0 1px 0 rgba(255,255,255,0.28)',
+                         textShadow: '0 1px 2px rgba(0,0,0,0.18)',
+                       }}>
+                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ boxShadow: '0 0 6px rgba(255,255,255,0.7)' }} />CANLI
                   </div>
                 </div>
               </div>
@@ -746,7 +893,7 @@ export default function Home() {
       </div>
 
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
-      <section className="py-16">
+      <section id="ozellikler" className="py-16" style={{ scrollMarginTop: '80px' }}>
         <div className="max-w-7xl mx-auto px-6 space-y-16 md:space-y-20">
           {/* Canlı Yayın - mobile (1:1 kare) + desktop (image aspect 1964/541 ≈ 3.63:1, ~339px) */}
           <div className="feature-card-hover relative rounded-3xl overflow-hidden mx-auto w-full aspect-square md:aspect-[1964/541] max-w-[720px] md:max-w-none" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
@@ -1321,59 +1468,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Premium section divider */}
-      <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
-        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
-        <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
-        <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
-      </div>
-
-      {/* NİKAH ARA — Tone B (body cream) */}
-      <section id="nikah-ara" className="py-16 md:py-14" style={{ background: '#FAF7F5' }}>
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center mb-14">
-            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Katılmak için <span className="gradient-text">Canlı Yayın</span> arayın</h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto">Gelin veya Damat adı ile arayarak katılmak istediğiniz Düğün veya Nikahı bulabilirsiniz.</p>
-          </div>
-          <div className="relative max-w-2xl mx-auto">
-            <div className="relative group">
-              <div className="absolute -inset-1 rounded-3xl opacity-0 group-focus-within:opacity-100 transition-opacity blur-lg" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.2), rgba(111,175,207,0.2))' }} />
-              <div className="relative flex items-center">
-                <svg className="absolute left-6 w-5 h-5 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                <input type="text" value={searchQuery} onChange={(e) => handleSearch(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300); }} placeholder="Örn: Ahmet, Ayşe, Yılmaz..." className="w-full pl-14 pr-14 py-5 text-lg rounded-2xl outline-none text-gray-900 placeholder:text-gray-300 transition-all shadow-lg border-2 border-transparent focus:border-[#C8686E]/30 focus:shadow-[0_8px_40px_rgba(200,104,110,0.12)]" style={{ background: '#F8F9FC' }} />
-                {searchQuery && <button onClick={() => { setSearchQuery(""); setShowSearchResults(false); }} className="absolute right-5 w-8 h-8 flex items-center justify-center rounded-full bg-gray-200 text-gray-400 hover:bg-gray-300 hover:text-gray-600 transition-colors text-sm">✕</button>}
-              </div>
-            </div>
-            {showSearchResults && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-white rounded-2xl shadow-2xl z-10 overflow-hidden max-h-80 overflow-y-auto border border-gray-100">
-                {searchResults.length > 0 ? (
-                  <div className="divide-y divide-gray-50">
-                    {searchResults.map((event) => (
-                      <button key={event.id} onClick={() => goToWedding(event.event_link)} className="group w-full p-5 flex items-center gap-4 hover:bg-gradient-to-r hover:from-rose-50/50 hover:to-transparent transition-all text-left">
-                        {event.couple_photo_url ? (
-                          <Image src={event.couple_photo_url} alt="Çift" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
-                        ) : (
-                          <Image src="/icon.png" alt="Nikahım" width={48} height={48} className="w-12 h-12 rounded-2xl object-cover shadow-sm" />
-                        )}
-                        <div className="flex-1">
-                          <div className="font-semibold text-gray-900">{event.bride_full_name} & {event.groom_full_name}</div>
-                          <div className="text-sm text-gray-400 mt-0.5">{new Date(event.event_date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                        </div>
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1" style={{ background: 'rgba(200,104,110,0.1)' }}><svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg></div>
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="p-10 text-center text-gray-300"><svg className="w-12 h-12 mx-auto mb-3 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg><p className="font-medium text-gray-400">Sonuç bulunamadı</p><p className="text-sm mt-1">Farklı bir isim deneyin</p></div>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* SSS */}
-      {/* Premium section divider */}
+      {/* Premium section divider — paketler → SSS arası */}
       <div aria-hidden="true" className="flex items-center justify-center gap-2.5 py-3 md:py-4">
         <span className="h-px w-14 md:w-20" style={{ background: 'linear-gradient(90deg, transparent, rgba(200,104,110,0.30), transparent)' }} />
         <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(200,104,110,0.45)' }} />
@@ -1615,10 +1710,22 @@ export default function Home() {
           <div className="text-center mb-12">
             <h4 className="font-bold mb-5 text-sm tracking-wider uppercase text-gray-300">Keşfet</h4>
             <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm">
-              {['Nikah Ara', 'Nasıl Çalışır', 'Neden Nikahım', 'Paketler', 'SSS'].map((label, i) => {
-                const ids = ['nikah-ara', 'nasil-calisir', 'neden-nikahim', 'paketler', 'sss'];
-                return <button key={i} onClick={() => scrollToSection(ids[i])} className="text-gray-400 hover:text-white transition-colors">{label}</button>;
-              })}
+              {[
+                { label: 'Özellikler', id: 'ozellikler' },
+                { label: 'Neden Nikahım', id: 'neden-nikahim' },
+                { label: 'Paketler', id: 'paketler' },
+                { label: 'Yardım Merkezi', action: 'concierge' as const },
+                { label: 'İletişim', id: 'iletisim' },
+              ].map((item) => (
+                <button key={item.label}
+                        onClick={() => {
+                          if (item.action === 'concierge') setShowConciergeSheet(true);
+                          else if (item.id) scrollToSection(item.id);
+                        }}
+                        className="text-gray-400 hover:text-white transition-colors">
+                  {item.label}
+                </button>
+              ))}
             </div>
           </div>
           <div className="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">© 2025 Nikahim.com — Tüm hakları saklıdır.</div>
