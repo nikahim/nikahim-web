@@ -700,9 +700,8 @@ export default function WatchPage() {
         setMessages(prev => [...prev, formattedMsg]);
         // Cross-device notification — kendi mesajını skip (lokal handler zaten gösterdi)
         if (newMsg.sender_name !== viewerNameRef.current) {
-          const txt = (newMsg.message || '').trim();
           setVideoNotification({
-            text: `${newMsg.sender_name}: ${txt.substring(0, 40)}${txt.length > 40 ? '...' : ''}`,
+            text: `${newMsg.sender_name} tebrik mesajı gönderdi!`,
             type: 'message',
           });
           setTimeout(() => setVideoNotification(null), 8000);
@@ -946,7 +945,7 @@ export default function WatchPage() {
 
       setMessage("");
       setShowEmojiPicker(false);
-      setVideoNotification({ text: `${viewerName}: ${message.trim().substring(0, 40)}${message.trim().length > 40 ? '...' : ''}`, type: 'message' });
+      setVideoNotification({ text: `${viewerName} tebrik mesajı gönderdi!`, type: 'message' });
       setTimeout(() => setVideoNotification(null), 8000);
     }
   };
@@ -2144,7 +2143,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={3} className="w-full px-3 py-2.5 rounded-xl outline-none text-[13px] text-white placeholder:text-white/25 resize-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'Georgia, serif' }} />
+                    <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={3} className="w-full px-3 py-2.5 rounded-xl outline-none text-[13px] text-white placeholder:text-white/25 resize-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'inherit' }} />
                     <button onClick={() => { sendMessage(); setFsTebrikPanel(null); }} disabled={!message.trim()} className="w-full mt-2.5 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.25)' }}>
                       Gönder
                     </button>
@@ -3703,7 +3702,7 @@ export default function WatchPage() {
               </div>
 
               <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(76,175,80,0.1)' }}>
-                <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'Georgia, serif' }} />
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'inherit' }} />
               </div>
 
               <button onClick={() => { sendMessage(); setShowMessageModal(false); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
