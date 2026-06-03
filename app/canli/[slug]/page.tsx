@@ -107,6 +107,22 @@ export default function WatchPage() {
     setDemoBlockMsg('Bu Örnek sayfa olduğundan işleminizi gerçekleştiremiyorum');
     setTimeout(() => setDemoBlockMsg(null), 3500);
   };
+  // Toast 2 retry: kullanıcı X ile kapatırsa 30sn sonra tekrar, ikincide 60sn, toplam 3 kez
+  const demoToast2CountRef = useRef(0);
+  const demoToast2TimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const closeDemoToast2WithRetry = () => {
+    setShowDemoToast2(false);
+    demoToast2CountRef.current += 1;
+    if (demoToast2CountRef.current >= 3) return;  // 3 kez gösterildi, dur
+    const delay = demoToast2CountRef.current === 1 ? 30000 : 60000;
+    if (demoToast2TimerRef.current) clearTimeout(demoToast2TimerRef.current);
+    demoToast2TimerRef.current = setTimeout(() => setShowDemoToast2(true), delay);
+  };
+  const closeDemoToast2NoRetry = () => {
+    setShowDemoToast2(false);
+    if (demoToast2TimerRef.current) clearTimeout(demoToast2TimerRef.current);
+    demoToast2CountRef.current = 3;  // user took action, retry gerekmez
+  };
   const [isReturningViewer, setIsReturningViewer] = useState(false);
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -256,7 +272,7 @@ export default function WatchPage() {
                boxShadow: '0 18px 42px rgba(80,60,40,0.16), 0 4px 12px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                border: '1px solid rgba(232,180,170,0.40)',
              }}>
-          <button onClick={() => { setShowDemoToast1(false); setShowDemoToast2(false); }}
+          <button onClick={() => { if (show1) setShowDemoToast1(false); else closeDemoToast2WithRetry(); }}
                   aria-label="Kapat"
                   className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full transition-colors hover:bg-rose-50">
             <svg className="w-4 h-4" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 18"/></svg>
@@ -293,12 +309,12 @@ export default function WatchPage() {
               </div>
               {/* Alt: sol-buton + sağ-link (swap) */}
               <div className="mt-2 flex items-center justify-between gap-3 pl-[52px] lg:pl-[56px]">
-                <button onClick={() => { setShowDemoToast2(false); setShowAppPopup(true); }}
+                <button onClick={() => { closeDemoToast2NoRetry(); setShowAppPopup(true); }}
                         className="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-[12px] lg:text-[12.5px] font-semibold text-white transition-transform hover:scale-[1.03] btn-press"
                         style={{ background: 'linear-gradient(135deg, #E08284, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.28)' }}>
                   Hemen Başla
                 </button>
-                <button onClick={() => { setShowDemoToast2(false); router.push('/'); }}
+                <button onClick={() => { closeDemoToast2NoRetry(); router.push('/'); }}
                         className="inline-flex items-center gap-1 text-[12px] lg:text-[12.5px] font-semibold transition-all hover:gap-1.5"
                         style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                   Ana Sayfaya Dön
@@ -1440,8 +1456,8 @@ export default function WatchPage() {
                     </div>
                   </div>
                   <div className="p-6 pt-2">
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız</label>
-                    <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="Adınızı yazın" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız Soyadınız</label>
+                    <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
                     <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
@@ -1488,6 +1504,7 @@ export default function WatchPage() {
                       </div>
                     )}
                     <button onClick={async () => {
+                      if (isDemoEvent) { showDemoBlock(); return; }
                       const name = photoUploaderName || viewerName;
                       if (!name.trim() || photoUploadFiles.length === 0 || !event) return;
                       setUploadingGuestPhotos(true);
@@ -1735,8 +1752,8 @@ export default function WatchPage() {
 
                   <div className="p-6 pt-2">
                     {/* İsim */}
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız</label>
-                    <input type="text" value={photoUploaderName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="Adınızı yazın" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız Soyadınız</label>
+                    <input type="text" value={photoUploaderName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
 
                     {/* Fotoğraf Seç */}
                     <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
@@ -1795,6 +1812,7 @@ export default function WatchPage() {
                     {/* Gönder */}
                     <button
                       onClick={async () => {
+                        if (isDemoEvent) { showDemoBlock(); return; }
                         if (!photoUploaderName.trim() || photoUploadFiles.length === 0 || !event) return;
                         setUploadingGuestPhotos(true);
                         setGuestUploadProgress({ current: 0, total: photoUploadFiles.length });
@@ -4045,8 +4063,8 @@ export default function WatchPage() {
                   </div>
                 </div>
                 <div className="p-6 pt-2">
-                  <label className="block text-sm font-medium text-gray-600 mb-2">Adınız</label>
-                  <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="Adınızı yazın" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
+                  <label className="block text-sm font-medium text-gray-600 mb-2">Adınız Soyadınız</label>
+                  <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
                   <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
                   <div className="grid grid-cols-3 gap-2 mb-4">
                     {photoUploadPreviews.map((prev, i) => (
@@ -4070,6 +4088,7 @@ export default function WatchPage() {
                     )}
                   </div>
                   <button onClick={async () => {
+                    if (isDemoEvent) { showDemoBlock(); return; }
                     const name = photoUploaderName || viewerName;
                     if (!name.trim() || photoUploadFiles.length === 0 || !event) return;
                     setUploadingGuestPhotos(true);
