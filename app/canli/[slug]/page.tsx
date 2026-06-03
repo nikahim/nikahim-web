@@ -3770,8 +3770,30 @@ export default function WatchPage() {
         <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
+      {/* Ödeme modalı açıkken telefon yan dönerse — dik tutmaya yönlendir */}
       {showPaymentModal && selectedGold && (
-        <div className="fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+        <style>{`
+          @media (orientation: landscape) and (max-height: 600px) {
+            .nikahim-payment-landscape-lock { display: flex !important; }
+            .nikahim-payment-modal-content { display: none !important; }
+          }
+        `}</style>
+      )}
+      {showPaymentModal && selectedGold && (
+        <div className="nikahim-payment-landscape-lock fixed inset-0 items-center justify-center p-6 text-center" style={{ display: 'none', zIndex: 10001, background: 'rgba(30,25,15,0.85)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
+          <div className="rounded-3xl px-6 py-8 max-w-sm" style={{ background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)', boxShadow: '0 24px 60px rgba(60,40,40,0.30)', border: '1px solid rgba(232,180,170,0.50)' }}>
+            <svg className="w-14 h-14 mx-auto mb-3" fill="none" stroke="#C8686E" strokeWidth="1.6" viewBox="0 0 24 24">
+              <rect x="7" y="2" width="10" height="20" rx="2" />
+              <path d="M11 18h2" strokeLinecap="round" />
+            </svg>
+            <p className="text-[15px] font-semibold mb-1" style={{ color: '#1F1F1F' }}>Telefonunuzu dik tutun</p>
+            <p className="text-[12.5px]" style={{ color: '#6B5A5A' }}>Ödeme ekranı dikey konumda en iyi şekilde görüntülenir.</p>
+          </div>
+        </div>
+      )}
+
+      {showPaymentModal && selectedGold && (
+        <div className="nikahim-payment-modal-content fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
           <div className="rounded-[24px] max-w-[420px] w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(255,252,245,0.95), rgba(248,243,232,0.92))', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', boxShadow: '0 30px 90px rgba(0,0,0,0.25), 0 0 0 1px rgba(212,175,55,0.08) inset, 0 1px 0 rgba(255,255,255,0.5) inset' }}>
             {/* Decorative shimmer */}
             <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }} />

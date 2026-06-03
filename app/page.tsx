@@ -960,7 +960,7 @@ export default function Home() {
             <div className="hidden md:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
-            <div className="md:hidden absolute" style={{ top: '20%', left: '5.5%', width: '54%' }}>
+            <div className="md:hidden absolute" style={{ top: '12%', left: '5.5%', width: '54%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Canlı Yayın</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>ile mutluluğunuzu paylaşın!</h3>
               <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
