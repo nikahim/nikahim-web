@@ -349,7 +349,7 @@ export default function WatchPage() {
                 <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#4B5563', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                   Davetlileriniz linke tıkladıklarında ilk olarak bu sayfada karşılanırlar
                 </p>
-                <button onClick={() => { setShowDemoToast1(false); setIsNameEntered(true); }}
+                <button onClick={() => { setShowDemoToast1(false); setShowPhotoUpload(false); setIsNameEntered(true); }}
                         className="mt-1.5 inline-flex items-center gap-1 text-[12.5px] lg:text-[13px] font-semibold transition-all hover:gap-1.5"
                         style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                   Örnek Canlı Yayına Devam et
@@ -1737,7 +1737,7 @@ export default function WatchPage() {
           </div>
 
           <button
-            onClick={() => { if (isDemoEvent) { setIsNameEntered(true); } else { handleNameSubmit(); } }}
+            onClick={() => { if (isDemoEvent) { setShowPhotoUpload(false); setIsNameEntered(true); } else { handleNameSubmit(); } }}
             disabled={!isDemoEvent && (!viewerFirstName.trim() || !viewerLastName.trim())}
             className="w-full relative disabled:bg-gray-300 text-white px-8 py-4 rounded-2xl font-semibold text-[15.5px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 overflow-hidden tracking-[0.2px] disabled:hover:scale-100"
             style={{

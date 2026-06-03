@@ -314,7 +314,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
                   }}
                 >
                   <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
-                  <span className="text-[11px] font-bold text-white tracking-[0.4px]">REC {countdown}s</span>
+                  <span className="text-[11px] font-bold text-white tracking-[0.4px]">{countdown}s</span>
                 </div>
               )}
 
