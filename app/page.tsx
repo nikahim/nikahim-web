@@ -1004,7 +1004,7 @@ export default function Home() {
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart (masaüstü aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="feature-card-hover relative rounded-3xl overflow-hidden landscape:aspect-[2/1] lg:aspect-[1964/541]" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="feature-card-hover relative rounded-3xl overflow-hidden lg:aspect-[1964/541]" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="card-light-sweep" aria-hidden="true" />
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover lg:hidden pointer-events-none select-none" />
             <img src="/altin-toplama-masaustu.png" alt="" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
@@ -1017,16 +1017,26 @@ export default function Home() {
                 <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
                 <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(20px, 4.8vw, 38px)' }}>Online Toplayın</h3>
                 <div className="mt-3 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>
+                <p className="mt-3 leading-relaxed text-[13px] landscape:text-[15px] text-right" style={{ color: '#6E5A5A' }}>
                   Davetlilerinizin<br />
                   taktığı altın miktarı<br />
                   kadar TL direk<br />
                   onlardan sizin<br />
                   hesabınıza gelsin!
                 </p>
+                {/* Landscape — badgeler açıklamanın altında sağda alt alta */}
+                <div className="hidden landscape:flex flex-col items-end gap-1.5 mt-3">
+                  {[
+                    { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
+                    { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
+                    { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+                  ].map((b, i) => (
+                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
+                  ))}
+                </div>
               </div>
-              {/* Badges — alt tam ortalı */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3">
+              {/* Badges — alt tam ortalı (sadece portrait) */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3 landscape:hidden">
                 {[
                   { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
                   { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
@@ -1057,15 +1067,18 @@ export default function Home() {
           </div>
 
           {/* Tebrik Mesajları - mobile (1:1) + desktop (aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="feature-card-hover relative rounded-3xl overflow-hidden mx-auto w-full aspect-square landscape:aspect-[2/1] lg:aspect-[1964/541] max-w-[720px] lg:max-w-none" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
+          <div className="feature-card-hover relative rounded-3xl overflow-hidden mx-auto w-full aspect-square portrait:aspect-square landscape:aspect-[1964/541] lg:aspect-[1964/541] max-w-[720px] landscape:max-w-none lg:max-w-none" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="card-light-sweep" aria-hidden="true" />
-            <img src="/bg-tebrik.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/bg-tebrik.png" alt="" className="lg:hidden landscape:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block landscape:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
             <div className="hidden lg:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
-            {/* Mobil heading + açıklama + badges (alt alta) */}
-            <div className="lg:hidden absolute" style={{ top: '20%', left: '6%', width: '52%' }}>
+            {/* Cream overlay landscape (telefon yatay) için de aktif */}
+            <div className="hidden landscape:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
+
+            {/* Mobil heading + açıklama + badges (alt alta) — sadece portrait */}
+            <div className="lg:hidden landscape:hidden absolute" style={{ top: '20%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
@@ -1087,7 +1100,7 @@ export default function Home() {
             </div>
 
             {/* Masaüstü — Altın Tak ile aynı yapı: justify-between, content yukarda, badges altta */}
-            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[196px] pr-4 pb-6 pt-[100px]">
+            <div className="hidden lg:flex landscape:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[196px] pr-4 pb-6 pt-[100px]">
               <div>
                 <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>
                   <span style={{ color: '#1F1F1F' }}>Tebrik </span>
