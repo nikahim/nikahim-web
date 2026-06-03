@@ -2524,7 +2524,7 @@ export default function WatchPage() {
 
                   <div className={`relative z-10 flex flex-col items-center ${isFullscreen ? 'pt-0' : 'pt-6 lg:pt-10'}`}>
                     {/* Çift fotoğrafı — +%20 büyük, breathing glow ring */}
-                    <div className="relative mb-3 lg:mb-5 rounded-full couple-ring-breath" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '2px' }}>
+                    <div className="relative mb-3 lg:mb-5 rounded-full couple-ring-breath" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '1px' }}>
                       <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
                     </div>
 
