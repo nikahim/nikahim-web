@@ -17,7 +17,8 @@ const SUPABASE_URL = 'https://haeifluvvazdealsofle.supabase.co';
 const optimizeImg = (url: string | null | undefined, width: number, quality = 80): string => {
   if (!url) return '';
   if (!url.includes('/storage/v1/object/public/')) return url;
-  return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + `?width=${width}&quality=${quality}&resize=cover`;
+  // resize=cover'ı kaldırdık — sadece width, orijinal en-boy oranı korunur
+  return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + `?width=${width}&quality=${quality}`;
 };
 
 // Müzik dosyaları mapping
