@@ -9,11 +9,13 @@ interface VoiceRecorderProps {
   onSuccess: () => void;
   onClose: () => void;
   embedded?: boolean;
+  // Demo örnek sayfasında gerçek upload yerine block mesajı göster
+  onDemoBlock?: () => void;
 }
 
 type RecordingState = 'idle' | 'recording' | 'recorded' | 'uploading' | 'success' | 'error';
 
-export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose, embedded }: VoiceRecorderProps) {
+export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose, embedded, onDemoBlock }: VoiceRecorderProps) {
   const [state, setState] = useState<RecordingState>('idle');
   const [duration, setDuration] = useState(0);
   const [maxDuration] = useState(60);
@@ -108,6 +110,7 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
 
   const uploadVoice = async () => {
     if (!recordedBlob) return;
+    if (onDemoBlock) { onDemoBlock(); return; }
     setState('uploading');
 
     try {

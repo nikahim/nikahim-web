@@ -11,11 +11,13 @@ interface VideoRecorderProps {
   onSuccess: () => void;
   onClose: () => void;
   embedded?: boolean;
+  // Demo örnek sayfasında gerçek upload yerine block mesajı göster
+  onDemoBlock?: () => void;
 }
 
 type RecordingState = 'idle' | 'preview' | 'recording' | 'recorded' | 'uploading' | 'success' | 'error';
 
-export default function VideoRecorder({ eventId, senderName, onSuccess, onClose, embedded }: VideoRecorderProps) {
+export default function VideoRecorder({ eventId, senderName, onSuccess, onClose, embedded, onDemoBlock }: VideoRecorderProps) {
   const [state, setState] = useState<RecordingState>('idle');
   const [countdown, setCountdown] = useState(30);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
@@ -127,6 +129,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
   // Upload et
   const uploadVideo = async () => {
     if (!recordedBlob) return;
+    if (onDemoBlock) { onDemoBlock(); return; }
 
     setState('uploading');
     setUploadProgress(0);
