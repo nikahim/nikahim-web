@@ -218,11 +218,10 @@ export default function WatchPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Demo event: isim girme adımını atla + tanıtım toast'larını zamanla
+  // Demo event: tanıtım toast'larını zamanla
+  // (Welcome/isim girme akışı aynı kalır — sadece isim girme ZORUNLU değil aşağıdaki Yayına Devam Et butonunda)
   useEffect(() => {
     if (!isDemoEvent) return;
-    setIsNameEntered(true);
-    setShowWelcomeModal(false);
     // Toast 1 sayfa açıldıktan 3sn sonra, Toast 2 sayfa açıldıktan 7sn sonra (Toast 1'i değiştirir)
     const t1 = setTimeout(() => setShowDemoToast1(true), 3000);
     const t2 = setTimeout(() => {
@@ -1559,15 +1558,15 @@ export default function WatchPage() {
           </div>
 
           <button
-            onClick={handleNameSubmit}
-            disabled={!viewerFirstName.trim() || !viewerLastName.trim()}
+            onClick={() => { if (isDemoEvent) { setIsNameEntered(true); } else { handleNameSubmit(); } }}
+            disabled={!isDemoEvent && (!viewerFirstName.trim() || !viewerLastName.trim())}
             className="w-full relative disabled:bg-gray-300 text-white px-8 py-4 rounded-2xl font-semibold text-[15.5px] transition-all hover:scale-[1.02] btn-press flex items-center justify-center gap-2.5 overflow-hidden tracking-[0.2px] disabled:hover:scale-100"
             style={{
-              background: (viewerFirstName.trim() && viewerLastName.trim()) ? 'linear-gradient(135deg, #D88488 0%, #C8686E 45%, #B85258 100%)' : undefined,
-              boxShadow: (viewerFirstName.trim() && viewerLastName.trim()) ? '0 20px 50px rgba(217,92,114,0.28), 0 6px 16px rgba(160,80,90,0.18), inset 0 1px 0 rgba(255,255,255,0.35)' : undefined,
+              background: (isDemoEvent || (viewerFirstName.trim() && viewerLastName.trim())) ? 'linear-gradient(135deg, #D88488 0%, #C8686E 45%, #B85258 100%)' : undefined,
+              boxShadow: (isDemoEvent || (viewerFirstName.trim() && viewerLastName.trim())) ? '0 20px 50px rgba(217,92,114,0.28), 0 6px 16px rgba(160,80,90,0.18), inset 0 1px 0 rgba(255,255,255,0.35)' : undefined,
             }}
           >
-            {(viewerFirstName.trim() && viewerLastName.trim()) && (
+            {(isDemoEvent || (viewerFirstName.trim() && viewerLastName.trim())) && (
               <span className="absolute inset-0 pointer-events-none"
                     style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 50%)' }} />
             )}
@@ -1765,8 +1764,9 @@ export default function WatchPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]" style={{ background: '#FAF7F5' }}>
-      {/* DEMO Toast — sadece mertbasar@hotmail.com hesabının düğünlerinde görünür */}
-      {isDemoEvent && (showDemoToast1 || showDemoToast2) && (
+      {/* DEMO Toast — sadece mertbasar@hotmail.com hesabının düğünlerinde görünür
+          Toast 1 sadece welcome modal'da (isim girme), Toast 2 sadece stream view'da */}
+      {isDemoEvent && ((showDemoToast1 && !isNameEntered) || (showDemoToast2 && isNameEntered)) && (
         <div className="fixed top-4 lg:top-6 left-1/2 -translate-x-1/2 z-[120] w-[92%] max-w-[480px] animate-fade-in">
           <div className="relative rounded-2xl px-4 py-3.5 lg:px-5 lg:py-4"
                style={{
@@ -1786,12 +1786,12 @@ export default function WatchPage() {
               <Image src="/logo-small.png" alt="Nikahım" width={44} height={44} className="flex-shrink-0 w-10 h-10 lg:w-11 lg:h-11" />
 
               <div className="flex-1 min-w-0">
-                {showDemoToast1 ? (
+                {!isNameEntered ? (
                   <>
                     <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                       Davetlileriniz linke tıkladıklarında ilk olarak bu sayfada karşılanırlar
                     </p>
-                    <button onClick={() => setShowDemoToast1(false)}
+                    <button onClick={() => { setShowDemoToast1(false); setIsNameEntered(true); }}
                             className="mt-2 inline-flex items-center gap-1 text-[12.5px] lg:text-[13px] font-semibold transition-all hover:gap-1.5"
                             style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                       Örnek Canlı Yayına Devam et
