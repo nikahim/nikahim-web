@@ -3,7 +3,7 @@
 import { supabase } from '@/lib/supabase';
 import Image from "next/image";
 import { useState, useEffect, useRef, Fragment } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
 import VideoRecorder from '@/components/VideoRecorder';
@@ -84,6 +84,7 @@ interface GoldOption {
 
 export default function WatchPage() {
   const params = useParams();
+  const router = useRouter();
   const slug = params.slug;
 
   const [event, setEvent] = useState<Event | null>(null);
