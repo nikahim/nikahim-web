@@ -96,6 +96,10 @@ export default function WatchPage() {
   const [viewerFirstName, setViewerFirstName] = useState("");
   const [viewerLastName, setViewerLastName] = useState("");
   const [isNameEntered, setIsNameEntered] = useState(false);
+  // Demo (örnek) event flag + tanıtım toast'ları
+  const [isDemoEvent, setIsDemoEvent] = useState(false);
+  const [showDemoToast1, setShowDemoToast1] = useState(false);
+  const [showDemoToast2, setShowDemoToast2] = useState(false);
   const [isReturningViewer, setIsReturningViewer] = useState(false);
   const [message, setMessage] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -213,6 +217,21 @@ export default function WatchPage() {
     const interval = setInterval(fetchPrices, 300000); // refresh every 5 min
     return () => clearInterval(interval);
   }, []);
+
+  // Demo event: isim girme adımını atla + tanıtım toast'larını zamanla
+  useEffect(() => {
+    if (!isDemoEvent) return;
+    setIsNameEntered(true);
+    setShowWelcomeModal(false);
+    // Toast 1 sayfa açıldıktan 3sn sonra, Toast 2 sayfa açıldıktan 7sn sonra (Toast 1'i değiştirir)
+    const t1 = setTimeout(() => setShowDemoToast1(true), 3000);
+    const t2 = setTimeout(() => {
+      setShowDemoToast1(false);
+      setShowDemoToast2(true);
+    }, 7000);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [isDemoEvent]);
+
 
   useEffect(() => {
     const musicId = event?.background_music;
@@ -543,6 +562,13 @@ export default function WatchPage() {
       
       if (data) {
         setEvent(data);
+
+        // Demo (örnek) event mi? — mertbasar@hotmail.com hesabından oluşturulduysa true
+        // Sadece bu hesabın düğünlerinde isim atlatma + tanıtım toast'ları gösterilir
+        fetch(`/api/is-demo?eventId=${data.id}`)
+          .then(r => r.json())
+          .then(j => setIsDemoEvent(!!j?.isDemo))
+          .catch(() => {});
 
         // Slideshow fotoğraflarını çek — private_photos listesindeki URL'leri yayın akışından çıkar
         const privateSet = new Set<string>(Array.isArray(data.private_photos) ? data.private_photos : []);
@@ -1739,6 +1765,71 @@ export default function WatchPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]" style={{ background: '#FAF7F5' }}>
+      {/* DEMO Toast — sadece mertbasar@hotmail.com hesabının düğünlerinde görünür */}
+      {isDemoEvent && (showDemoToast1 || showDemoToast2) && (
+        <div className="fixed top-4 lg:top-6 left-1/2 -translate-x-1/2 z-[120] w-[92%] max-w-[480px] animate-fade-in">
+          <div className="relative rounded-2xl px-4 py-3.5 lg:px-5 lg:py-4"
+               style={{
+                 background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)',
+                 boxShadow: '0 18px 42px rgba(80,60,40,0.16), 0 4px 12px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 border: '1px solid rgba(232,180,170,0.40)',
+               }}>
+            {/* Kapat */}
+            <button onClick={() => { setShowDemoToast1(false); setShowDemoToast2(false); }}
+                    aria-label="Kapat"
+                    className="absolute top-2.5 right-2.5 w-6 h-6 flex items-center justify-center rounded-full transition-colors hover:bg-rose-50">
+              <svg className="w-4 h-4" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+
+            <div className="flex items-start gap-3 pr-7">
+              {/* Logo */}
+              <Image src="/logo-small.png" alt="Nikahım" width={44} height={44} className="flex-shrink-0 w-10 h-10 lg:w-11 lg:h-11" />
+
+              <div className="flex-1 min-w-0">
+                {showDemoToast1 ? (
+                  <>
+                    <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      Davetlileriniz linke tıkladıklarında ilk olarak bu sayfada karşılanırlar
+                    </p>
+                    <button onClick={() => setShowDemoToast1(false)}
+                            className="mt-2 inline-flex items-center gap-1 text-[12.5px] lg:text-[13px] font-semibold transition-all hover:gap-1.5"
+                            style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      Örnek Canlı Yayına Devam et
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[13px] lg:text-[14px] leading-snug font-semibold flex items-center gap-1.5" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                          Canlı Yayın sayfamızı beğendiniz mi?
+                          <span style={{ fontSize: '14px' }}>💍</span>
+                        </p>
+                        <p className="text-[11.5px] lg:text-[12.5px] leading-snug mt-0.5" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                          Kendi düğün sayfanızı dakikalar içinde oluşturabilirsiniz.
+                        </p>
+                      </div>
+                      <button onClick={() => { setShowDemoToast2(false); setShowAppPopup(true); }}
+                              className="flex-shrink-0 whitespace-nowrap px-3.5 py-1.5 rounded-lg text-[12px] lg:text-[12.5px] font-semibold text-white transition-transform hover:scale-[1.03] btn-press"
+                              style={{ background: 'linear-gradient(135deg, #E08284, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.28)' }}>
+                        Hemen Başla
+                      </button>
+                    </div>
+                    <button onClick={() => { setShowDemoToast2(false); router.push('/'); }}
+                            className="mt-2 inline-flex items-center gap-1 text-[12px] lg:text-[12.5px] font-semibold transition-all hover:gap-1.5"
+                            style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                      Ana Sayfaya Dön
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* App İndir Popup */}
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
