@@ -140,6 +140,31 @@ export default function WatchPage() {
   // Toast 2 retry: kullanıcı X ile kapatırsa 30sn sonra tekrar, ikincide 60sn, toplam 3 kez
   const demoToast2CountRef = useRef(0);
   const demoToast2TimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Toast sürükleme — uzun basıp başka yere taşınabilir
+  const [demoToastOffset, setDemoToastOffset] = useState({ x: 0, y: 0 });
+  const demoDragRef = useRef<{ startX: number; startY: number; offX: number; offY: number; dragging: boolean }>({ startX: 0, startY: 0, offX: 0, offY: 0, dragging: false });
+  useEffect(() => {
+    // Her gizlenince pozisyonu sıfırla; bir sonraki çıkışta gene orijinal yerinden başlar
+    if (!showDemoToast1 && !showDemoToast2) setDemoToastOffset({ x: 0, y: 0 });
+  }, [showDemoToast1, showDemoToast2]);
+  // Toast'a parmak/mouse ile basıp sürükleme — global pointermove/up dinleyicileri
+  useEffect(() => {
+    const onMove = (e: PointerEvent) => {
+      if (!demoDragRef.current.dragging) return;
+      const dx = e.clientX - demoDragRef.current.startX;
+      const dy = e.clientY - demoDragRef.current.startY;
+      setDemoToastOffset({ x: demoDragRef.current.offX + dx, y: demoDragRef.current.offY + dy });
+    };
+    const onUp = () => { demoDragRef.current.dragging = false; };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', onUp);
+    window.addEventListener('pointercancel', onUp);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', onUp);
+      window.removeEventListener('pointercancel', onUp);
+    };
+  }, []);
   const closeDemoToast2WithRetry = () => {
     setShowDemoToast2(false);
     demoToast2CountRef.current += 1;
@@ -350,8 +375,15 @@ export default function WatchPage() {
     const show2 = showDemoToast2 && isNameEntered;
     if (!show1 && !show2) return null;
     return (
-      <div className="fixed top-4 lg:top-6 left-1/2 -translate-x-1/2 z-[120] w-[92%] max-w-[480px] animate-fade-in">
-        <div className="relative rounded-2xl px-4 py-3 lg:px-5 lg:py-3.5"
+      <div className="fixed top-4 lg:top-6 left-1/2 z-[120] w-[92%] max-w-[480px] animate-fade-in"
+           style={{ transform: `translate(calc(-50% + ${demoToastOffset.x}px), ${demoToastOffset.y}px)`, touchAction: 'none' }}
+           onPointerDown={(e) => {
+             // Buton/link/svg üzerine basıldıysa drag başlatma (tıklama olarak işlemesin)
+             const t = e.target as HTMLElement;
+             if (t.closest('button') || t.closest('a')) return;
+             demoDragRef.current = { startX: e.clientX, startY: e.clientY, offX: demoToastOffset.x, offY: demoToastOffset.y, dragging: true };
+           }}>
+        <div className="relative rounded-2xl px-4 py-3 lg:px-5 lg:py-3.5 cursor-grab active:cursor-grabbing"
              style={{
                background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)',
                boxShadow: '0 18px 42px rgba(80,60,40,0.16), 0 4px 12px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
