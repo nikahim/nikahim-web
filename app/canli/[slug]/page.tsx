@@ -400,11 +400,15 @@ export default function WatchPage() {
   const handleReturningContinue = () => {
     setShowReturningModal(false);
     setIsNameEntered(true);
-    
-    // Müziği başlat
+
+    // Müziği başlat — önce mevcut audio varsa temizle ki çift çalmasın
     if (event?.background_music && event.background_music !== 'none') {
       const musicFile = MUSIC_FILES[event.background_music];
       if (musicFile) {
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current = null;
+        }
         const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
         audio.loop = true;
         audio.volume = 0.3;
@@ -919,6 +923,11 @@ export default function WatchPage() {
       if (event?.background_music && event.background_music !== 'none') {
         const musicFile = MUSIC_FILES[event.background_music];
         if (musicFile) {
+          // Önce mevcut audio'yu temizle ki çift çalmasın
+          if (audioRef.current) {
+            audioRef.current.pause();
+            audioRef.current = null;
+          }
           const audio = new Audio(`${SUPABASE_URL}/storage/v1/object/public/music/${musicFile}`);
           audio.loop = true;
           audio.volume = 0.3;
@@ -928,7 +937,7 @@ export default function WatchPage() {
           }).catch(() => {});
         }
       }
-      
+
       setTimeout(() => {
         setShowWelcomeModal(false);
         setIsNameEntered(true);
@@ -1773,7 +1782,7 @@ export default function WatchPage() {
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
                  style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
-                En mutlu anlar, birlikte güzel.
+                En özel anlar, birlikte yaşanır.
               </p>
               {/* Gold dash ayraç */}
               <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
@@ -2296,7 +2305,7 @@ export default function WatchPage() {
 
                     {/* Subtitle — ince italic (Playfair kalsın) */}
                     <p className="italic text-white/70 text-[12px] lg:text-[14px] mb-2 lg:mb-3 tracking-[0.4px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, textShadow: '0 1px 8px rgba(0,0,0,0.6)' }}>
-                      En mutlu anlar, birlikte güzel
+                      En özel anlar, birlikte yaşanır
                     </p>
 
                     {/* Countdown boxes — site default font + yukarı çekildi */}
@@ -2948,7 +2957,7 @@ export default function WatchPage() {
                       100% { transform: translateX(-50%); }
                     }
                   `}</style>
-                  <div style={{ display: 'flex', gap: '8px', width: 'fit-content', animation: 'albumFilmstripRTL 28s linear infinite' }}>
+                  <div style={{ display: 'flex', gap: '8px', width: 'fit-content', animation: 'albumFilmstripRTL 60s linear infinite' }}>
                     {[...slideshowPhotos, ...slideshowPhotos].map((url, i) => (
                       <div key={i}
                            onClick={() => setPhotoLightboxIndex(i % slideshowPhotos.length)}

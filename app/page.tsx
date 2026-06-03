@@ -521,7 +521,7 @@ export default function Home() {
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
                  style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
-                En mutlu anlar, birlikte güzel.
+                En özel anlar, birlikte yaşanır.
               </p>
               {/* Gold dash ayraç */}
               <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
@@ -609,7 +609,7 @@ export default function Home() {
               </div>
               <p className="search-modal-slogan mt-1 text-center italic tracking-[0.3px]"
                  style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14px', color: '#9F4F58' }}>
-                En mutlu anlar, birlikte güzel.
+                En özel anlar, birlikte yaşanır.
               </p>
               <div className="mt-2.5 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
