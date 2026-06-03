@@ -107,6 +107,27 @@ export default function WatchPage() {
     setDemoBlockMsg('Bu Örnek sayfa olduğundan işleminizi gerçekleştiremiyorum');
     setTimeout(() => setDemoBlockMsg(null), 3500);
   };
+  // Demo block modal'ı — main return + welcome return iki yerde de render edilir
+  const renderDemoBlock = () => {
+    if (!demoBlockMsg) return null;
+    return (
+      <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 pointer-events-none">
+        <div className="pointer-events-auto max-w-sm w-full rounded-2xl px-5 py-4 text-center animate-fade-in"
+             style={{
+               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)',
+               boxShadow: '0 24px 60px rgba(60,40,40,0.28), 0 6px 18px rgba(200,104,110,0.18), inset 0 1px 0 rgba(255,255,255,0.95)',
+               border: '1px solid rgba(232,180,170,0.5)',
+             }}>
+          <div className="w-12 h-12 mx-auto mb-2 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)' }}>
+            <svg className="w-6 h-6" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <p className="text-[13.5px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#4B5563', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+            {demoBlockMsg}
+          </p>
+        </div>
+      </div>
+    );
+  };
   // Toast 2 retry: kullanıcı X ile kapatırsa 30sn sonra tekrar, ikincide 60sn, toplam 3 kez
   const demoToast2CountRef = useRef(0);
   const demoToast2TimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -182,6 +203,17 @@ export default function WatchPage() {
   const [faqView, setFaqView] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
   const [faqSearchQuery, setFaqSearchQuery] = useState('');
+  // WhatsApp online göstergesi — İstanbul saatine göre 08:00-20:00 arası "Çevrim içi"
+  const [waOnline, setWaOnline] = useState(false);
+  useEffect(() => {
+    const check = () => {
+      const istHour = parseInt(new Date().toLocaleString('en-US', { timeZone: 'Europe/Istanbul', hour: 'numeric', hour12: false }), 10);
+      setWaOnline(istHour >= 8 && istHour < 20);
+    };
+    check();
+    const t = setInterval(check, 60_000);
+    return () => clearInterval(t);
+  }, []);
   // Ana sayfa ConciergeSheet ile birebir aynı arama mantığı
   const filteredFaqCategories = useMemo(() => {
     const HIDDEN_CATEGORIES = ['Nikahım Çarşı'];
@@ -1167,7 +1199,7 @@ export default function WatchPage() {
   // Payment confirmation timer — banka transferi için kullanıcıya zaman verir
   useEffect(() => {
     if (paymentStep === 2) {
-      setConfirmTimer(75);
+      setConfirmTimer(60);
       const interval = setInterval(() => {
         setConfirmTimer((prev) => {
           if (prev <= 1) { clearInterval(interval); return 0; }
@@ -1180,7 +1212,7 @@ export default function WatchPage() {
 
   // Green confirm button on step 2 → step 3 (success)
   const handlePaymentComplete = async () => {
-    if (isDemoEvent) { showDemoBlock(); return; }
+    if (isDemoEvent) { showDemoBlock(); setShowPaymentModal(false); return; }
     const paymentId = pendingPaymentIdRef.current;
 
     const isAnonymous = anonymousGold || event?.hide_gold_names;
@@ -1315,6 +1347,7 @@ export default function WatchPage() {
   if (showReturningModal && isReturningViewer) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        {renderDemoBlock()}
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1576,6 +1609,7 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         {renderDemoToast()}
+        {renderDemoBlock()}
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1912,24 +1946,7 @@ export default function WatchPage() {
     <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]" style={{ background: '#FAF7F5' }}>
       {renderDemoToast()}
 
-      {/* DEMO Block — sadece örnek sayfada, son aksiyon butonlarında */}
-      {demoBlockMsg && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 pointer-events-none">
-          <div className="pointer-events-auto max-w-sm w-full rounded-2xl px-5 py-4 text-center animate-fade-in"
-               style={{
-                 background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)',
-                 boxShadow: '0 24px 60px rgba(60,40,40,0.28), 0 6px 18px rgba(200,104,110,0.18), inset 0 1px 0 rgba(255,255,255,0.95)',
-                 border: '1px solid rgba(232,180,170,0.5)',
-               }}>
-            <div className="w-12 h-12 mx-auto mb-2 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)' }}>
-              <svg className="w-6 h-6" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <p className="text-[13.5px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#4B5563', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-              {demoBlockMsg}
-            </p>
-          </div>
-        </div>
-      )}
+      {renderDemoBlock()}
 
       {/* App İndir Popup */}
       {showAppPopup && (
@@ -2040,10 +2057,10 @@ export default function WatchPage() {
 
           {/* SAĞ — Glass action area: status pill + müzik + izleyici */}
           <div className="flex items-center gap-2 lg:gap-2.5">
-            {/* Stream status pill */}
+            {/* Stream status pill — rose blur (ana sayfa video badge ile aynı) */}
             {streamData?.status === 'active' && (
               <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
-                    style={{ background: 'linear-gradient(135deg, #EF4444, #DC2626)', boxShadow: '0 3px 10px rgba(220,38,38,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+                    style={{ background: 'rgba(200,104,110,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.30)', boxShadow: '0 4px 14px rgba(160,80,90,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI
               </span>
             )}
@@ -2593,8 +2610,8 @@ export default function WatchPage() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Image src="/navbar-icon.png" alt="" width={28} height={28} className="h-7 w-7 object-contain opacity-80 drop-shadow-lg" />
-                      <span className="flex items-center gap-1.5 bg-red-500/90 backdrop-blur text-white px-3 py-1 rounded-lg text-xs font-bold shadow-lg"><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
-                      <span className="backdrop-blur-md bg-black/30 text-white/80 px-2.5 py-1 rounded-lg text-xs flex items-center gap-1"><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>{viewerCount}</span>
+                      <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold" style={{ background: 'rgba(200,104,110,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.30)', boxShadow: '0 4px 14px rgba(160,80,90,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
+                      <span className="text-white px-2.5 py-1 rounded-full text-[11px] flex items-center gap-1" style={{ background: 'rgba(255,255,255,0.18)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.22)' }}><svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>{viewerCount}</span>
                     </div>
                   </div>
                 </div>
@@ -3301,6 +3318,10 @@ export default function WatchPage() {
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>WhatsApp</p>
                   <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mesaj bırakın, ekibimiz sizinle iletişime geçsin.</p>
+                  <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: waOnline ? '#1E8E3E' : '#9CA3AF' }}>
+                    <span className={`inline-block w-1.5 h-1.5 rounded-full ${waOnline ? 'animate-pulse' : ''}`} style={{ background: waOnline ? '#3FB95A' : '#B5B5B5' }} />
+                    {waOnline ? 'Çevrim içi' : 'Çevrim dışı'}
+                  </p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />

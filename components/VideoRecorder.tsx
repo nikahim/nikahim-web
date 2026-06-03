@@ -301,11 +301,20 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
                 style={{ transform: 'scaleX(-1)' }}
               />
               
-              {/* Kayıt göstergesi */}
+              {/* Kayıt göstergesi — ana sayfa video badge ile aynı (rose blur) */}
               {state === 'recording' && (
-                <div className="absolute top-4 left-4 flex items-center gap-2 bg-red-500 text-white px-3 py-1 rounded-full">
-                  <span className="w-3 h-3 bg-white rounded-full animate-pulse"></span>
-                  <span className="font-bold">{countdown}</span>
+                <div
+                  className="absolute top-3 left-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full"
+                  style={{
+                    background: 'rgba(200,104,110,0.55)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255,255,255,0.30)',
+                    boxShadow: '0 4px 14px rgba(160,80,90,0.30), inset 0 1px 0 rgba(255,255,255,0.25)',
+                  }}
+                >
+                  <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />
+                  <span className="text-[11px] font-bold text-white tracking-[0.4px]">REC {countdown}s</span>
                 </div>
               )}
 
@@ -367,17 +376,6 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
               >
                 Tekrar Dene
               </button>
-            </div>
-          )}
-
-          {/* Gönderen bilgisi */}
-          {!embedded && state !== 'success' && state !== 'error' && state !== 'uploading' && (
-            <div className="mt-4 bg-blue-50 rounded-xl p-3 flex items-center gap-3">
-              <span className="text-2xl">👤</span>
-              <div>
-                <p className="text-sm text-blue-600">Gönderen</p>
-                <p className="font-medium text-gray-900">{senderName}</p>
-              </div>
             </div>
           )}
 
