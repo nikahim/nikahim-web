@@ -226,14 +226,88 @@ export default function WatchPage() {
     setIsReturningViewer(false);
     setShowReturningModal(false);
     setIsNameEntered(false);
-    // Toast 1 sayfa açıldıktan 3sn sonra, Toast 2 sayfa açıldıktan 7sn sonra (Toast 1'i değiştirir)
+    // Toast 1: welcome modal'da 3sn sonra
     const t1 = setTimeout(() => setShowDemoToast1(true), 3000);
-    const t2 = setTimeout(() => {
-      setShowDemoToast1(false);
-      setShowDemoToast2(true);
-    }, 7000);
-    return () => { clearTimeout(t1); clearTimeout(t2); };
+    return () => { clearTimeout(t1); };
   }, [isDemoEvent]);
+
+  // Toast 2: kullanıcı yayına devam ettikten 7sn sonra (sayfa load'undan değil)
+  useEffect(() => {
+    if (!isDemoEvent || !isNameEntered) return;
+    setShowDemoToast1(false);
+    const t2 = setTimeout(() => setShowDemoToast2(true), 7000);
+    return () => { clearTimeout(t2); };
+  }, [isDemoEvent, isNameEntered]);
+
+  // Demo tanıtım toast'ı — hem welcome modal'da (Toast 1) hem stream view'da (Toast 2) aynı render
+  const renderDemoToast = () => {
+    if (!isDemoEvent) return null;
+    const show1 = showDemoToast1 && !isNameEntered;
+    const show2 = showDemoToast2 && isNameEntered;
+    if (!show1 && !show2) return null;
+    return (
+      <div className="fixed top-4 lg:top-6 left-1/2 -translate-x-1/2 z-[120] w-[92%] max-w-[480px] animate-fade-in">
+        <div className="relative rounded-2xl px-4 py-3 lg:px-5 lg:py-3.5"
+             style={{
+               background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)',
+               boxShadow: '0 18px 42px rgba(80,60,40,0.16), 0 4px 12px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
+               border: '1px solid rgba(232,180,170,0.40)',
+             }}>
+          <button onClick={() => { setShowDemoToast1(false); setShowDemoToast2(false); }}
+                  aria-label="Kapat"
+                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full transition-colors hover:bg-rose-50">
+            <svg className="w-4 h-4" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+
+          {show1 ? (
+            <div className="flex items-start gap-3 pr-7">
+              <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="flex-shrink-0 w-10 h-10 lg:w-11 lg:h-11 object-contain" />
+              <div className="flex-1 min-w-0">
+                <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                  Davetlileriniz linke tıkladıklarında ilk olarak bu sayfada karşılanırlar
+                </p>
+                <button onClick={() => { setShowDemoToast1(false); setIsNameEntered(true); }}
+                        className="mt-1.5 inline-flex items-center gap-1 text-[12.5px] lg:text-[13px] font-semibold transition-all hover:gap-1.5"
+                        style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                  Örnek Canlı Yayına Devam et
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="pr-7">
+              {/* Üst: logo + metin (yatayda toast boyunca) */}
+              <div className="flex items-start gap-3">
+                <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="flex-shrink-0 w-10 h-10 lg:w-11 lg:h-11 object-contain" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                    Canlı Yayın sayfamızı beğendiniz mi?
+                  </p>
+                  <p className="text-[11.5px] lg:text-[12.5px] leading-snug mt-0.5" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                    Kendi düğün sayfanızı dakikalar içinde oluşturabilirsiniz.
+                  </p>
+                </div>
+              </div>
+              {/* Alt: sol-link + sağ-buton */}
+              <div className="mt-2 flex items-center justify-between gap-3 pl-[52px] lg:pl-[56px]">
+                <button onClick={() => { setShowDemoToast2(false); router.push('/'); }}
+                        className="inline-flex items-center gap-1 text-[12px] lg:text-[12.5px] font-semibold transition-all hover:gap-1.5"
+                        style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
+                  Ana Sayfaya Dön
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </button>
+                <button onClick={() => { setShowDemoToast2(false); setShowAppPopup(true); }}
+                        className="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-[12px] lg:text-[12.5px] font-semibold text-white transition-transform hover:scale-[1.03] btn-press"
+                        style={{ background: 'linear-gradient(135deg, #E08284, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.28)' }}>
+                  Hemen Başla
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
 
   useEffect(() => {
@@ -1215,9 +1289,9 @@ export default function WatchPage() {
           )}
 
           {/* Hero — Çift fotoğrafı, büyük, soft halo + glass border */}
-          <div className="relative flex items-center justify-center mt-4 mb-5">
+          <div className="relative flex items-center justify-center mt-2 mb-3">
             {/* Arkada soft rose halo */}
-            <div className="absolute w-[200px] h-[200px] rounded-full pointer-events-none"
+            <div className="absolute w-[180px] h-[180px] rounded-full pointer-events-none"
                  style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 65%)', filter: 'blur(12px)' }} />
             <div className="relative rounded-full p-[3px]"
                  style={{
@@ -1225,7 +1299,7 @@ export default function WatchPage() {
                    boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                  }}>
               <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
-                   className="rounded-full object-cover w-[150px] h-[150px] block"
+                   className="rounded-full object-cover w-[135px] h-[135px] block"
                    style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
             </div>
           </div>
@@ -1447,6 +1521,7 @@ export default function WatchPage() {
   if (!isNameEntered) {
     return (
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4 pb-8" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
+        {renderDemoToast()}
         <div className="rounded-[28px] pt-9 px-7 pb-9 max-w-md w-full text-center relative overflow-hidden"
              style={{
                background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 50%, #FFF7F1 100%)',
@@ -1473,9 +1548,9 @@ export default function WatchPage() {
             </div>
           )}
 
-          {/* Hero — Çift fotoğrafı, büyük, halo + glass border */}
-          <div className="relative flex items-center justify-center mt-4 mb-5">
-            <div className="absolute w-[200px] h-[200px] rounded-full pointer-events-none"
+          {/* Hero — Çift fotoğrafı, %10 küçültüldü, alttakiler yukarı */}
+          <div className="relative flex items-center justify-center mt-2 mb-3">
+            <div className="absolute w-[180px] h-[180px] rounded-full pointer-events-none"
                  style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 65%)', filter: 'blur(12px)' }} />
             <div className="relative rounded-full p-[3px]"
                  style={{
@@ -1483,7 +1558,7 @@ export default function WatchPage() {
                    boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                  }}>
               <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
-                   className="rounded-full object-cover w-[150px] h-[150px] block"
+                   className="rounded-full object-cover w-[135px] h-[135px] block"
                    style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
             </div>
           </div>
@@ -1538,7 +1613,7 @@ export default function WatchPage() {
           <div className="mb-6">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-left mb-1.5 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Adınız</label>
+                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Adınız</label>
                 <input
                   type="text"
                   value={viewerFirstName}
@@ -1554,7 +1629,7 @@ export default function WatchPage() {
                 />
               </div>
               <div>
-                <label className="block text-left mb-1.5 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Soyadınız</label>
+                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Soyadınız</label>
                 <input
                   type="text"
                   value={viewerLastName}
@@ -1780,71 +1855,7 @@ export default function WatchPage() {
 
   return (
     <main className="min-h-screen overflow-x-hidden w-full max-w-[100vw]" style={{ background: '#FAF7F5' }}>
-      {/* DEMO Toast — sadece mertbasar@hotmail.com hesabının düğünlerinde görünür
-          Toast 1 sadece welcome modal'da (isim girme), Toast 2 sadece stream view'da */}
-      {isDemoEvent && ((showDemoToast1 && !isNameEntered) || (showDemoToast2 && isNameEntered)) && (
-        <div className="fixed top-4 lg:top-6 left-1/2 -translate-x-1/2 z-[120] w-[92%] max-w-[480px] animate-fade-in">
-          <div className="relative rounded-2xl px-4 py-3.5 lg:px-5 lg:py-4"
-               style={{
-                 background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF9F8 100%)',
-                 boxShadow: '0 18px 42px rgba(80,60,40,0.16), 0 4px 12px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
-                 border: '1px solid rgba(232,180,170,0.40)',
-               }}>
-            {/* Kapat */}
-            <button onClick={() => { setShowDemoToast1(false); setShowDemoToast2(false); }}
-                    aria-label="Kapat"
-                    className="absolute top-2.5 right-2.5 w-6 h-6 flex items-center justify-center rounded-full transition-colors hover:bg-rose-50">
-              <svg className="w-4 h-4" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 6l12 12M18 6L6 18"/></svg>
-            </button>
-
-            <div className="flex items-start gap-3 pr-7">
-              {/* Logo */}
-              <Image src="/logo-small.png" alt="Nikahım" width={44} height={44} className="flex-shrink-0 w-10 h-10 lg:w-11 lg:h-11" />
-
-              <div className="flex-1 min-w-0">
-                {!isNameEntered ? (
-                  <>
-                    <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                      Davetlileriniz linke tıkladıklarında ilk olarak bu sayfada karşılanırlar
-                    </p>
-                    <button onClick={() => { setShowDemoToast1(false); setIsNameEntered(true); }}
-                            className="mt-2 inline-flex items-center gap-1 text-[12.5px] lg:text-[13px] font-semibold transition-all hover:gap-1.5"
-                            style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                      Örnek Canlı Yayına Devam et
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[13px] lg:text-[14px] leading-snug font-semibold flex items-center gap-1.5" style={{ color: '#1F1F1F', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                          Canlı Yayın sayfamızı beğendiniz mi?
-                          <span style={{ fontSize: '14px' }}>💍</span>
-                        </p>
-                        <p className="text-[11.5px] lg:text-[12.5px] leading-snug mt-0.5" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                          Kendi düğün sayfanızı dakikalar içinde oluşturabilirsiniz.
-                        </p>
-                      </div>
-                      <button onClick={() => { setShowDemoToast2(false); setShowAppPopup(true); }}
-                              className="flex-shrink-0 whitespace-nowrap px-3.5 py-1.5 rounded-lg text-[12px] lg:text-[12.5px] font-semibold text-white transition-transform hover:scale-[1.03] btn-press"
-                              style={{ background: 'linear-gradient(135deg, #E08284, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.28)' }}>
-                        Hemen Başla
-                      </button>
-                    </div>
-                    <button onClick={() => { setShowDemoToast2(false); router.push('/'); }}
-                            className="mt-2 inline-flex items-center gap-1 text-[12px] lg:text-[12.5px] font-semibold transition-all hover:gap-1.5"
-                            style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                      Ana Sayfaya Dön
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {renderDemoToast()}
 
       {/* App İndir Popup */}
       {showAppPopup && (
