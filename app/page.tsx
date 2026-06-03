@@ -1025,7 +1025,7 @@ export default function Home() {
                   hesabınıza gelsin!
                 </p>
                 {/* Landscape — badgeler açıklamanın altında sağda alt alta */}
-                <div className="hidden landscape:flex flex-col items-end gap-1.5 mt-3">
+                <div className="hidden landscape:flex flex-col items-end gap-2.5 mt-5">
                   {[
                     { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
                     { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
@@ -1070,7 +1070,7 @@ export default function Home() {
           <div className="feature-card-hover relative rounded-3xl overflow-hidden mx-auto w-full aspect-square portrait:aspect-square landscape:aspect-[1964/541] lg:aspect-[1964/541] max-w-[720px] landscape:max-w-none lg:max-w-none" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="card-light-sweep" aria-hidden="true" />
             <img src="/bg-tebrik.png" alt="" className="lg:hidden landscape:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block landscape:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block landscape:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" style={{ objectPosition: 'left center' }} />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
             <div className="hidden lg:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
@@ -1102,13 +1102,13 @@ export default function Home() {
             {/* Masaüstü — Altın Tak ile aynı yapı: justify-between, content yukarda, badges altta */}
             <div className="hidden lg:flex landscape:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[196px] pr-4 pb-6 pt-[100px]">
               <div>
-                <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>
+                <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(34px, 2.7vw, 36px)' }}>
                   <span style={{ color: '#1F1F1F' }}>Tebrik </span>
                   <span style={{ color: '#C8686E' }}>Mesajlarınızı</span>
                 </h3>
-                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(26px, 2.7vw, 36px)' }}>kabul edin!</h3>
+                <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(34px, 2.7vw, 36px)' }}>kabul edin!</h3>
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="leading-snug text-[13px] lg:text-[14px]" style={{ color: '#6E5A5A' }}>
+                <p className="leading-snug text-[15px] lg:text-[14px]" style={{ color: '#6E5A5A' }}>
                   Misafirleriniz video, sesli veya yazılı tebriklerini size kolayca iletsin.
                 </p>
               </div>
