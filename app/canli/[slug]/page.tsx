@@ -135,6 +135,7 @@ export default function WatchPage() {
   const [photoUploadPreviews, setPhotoUploadPreviews] = useState<string[]>([]);
   const [uploadingGuestPhotos, setUploadingGuestPhotos] = useState(false);
   const [photoUploadSuccess, setPhotoUploadSuccess] = useState(false);
+  const [guestUploadProgress, setGuestUploadProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
   const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
   const [goldHistory, setGoldHistory] = useState<{ name: string; type: string; anonymous?: boolean }[]>([]);
   const [anonymousGold, setAnonymousGold] = useState(false);
@@ -539,14 +540,16 @@ export default function WatchPage() {
       if (data) {
         setEvent(data);
 
-        // Slideshow fotoğraflarını çek
+        // Slideshow fotoğraflarını çek — private_photos listesindeki URL'leri yayın akışından çıkar
+        const privateSet = new Set<string>(Array.isArray(data.private_photos) ? data.private_photos : []);
         const { data: files } = await supabase.storage
           .from('slideshow-photos')
           .list(data.id, { sortBy: { column: 'created_at', order: 'asc' } });
         if (files && files.length > 0) {
           const urls = files
             .filter((f: any) => !f.name.startsWith('.'))
-            .map((f: any) => supabase.storage.from('slideshow-photos').getPublicUrl(`${data.id}/${f.name}`).data.publicUrl);
+            .map((f: any) => supabase.storage.from('slideshow-photos').getPublicUrl(`${data.id}/${f.name}`).data.publicUrl)
+            .filter((u: string) => !privateSet.has(u));
           setSlideshowPhotos(urls);
         }
 
@@ -1344,23 +1347,54 @@ export default function WatchPage() {
                         </label>
                       )}
                     </div>
+                    {/* Yükleme progress barı — multi-foto davetli upload */}
+                    {uploadingGuestPhotos && guestUploadProgress.total > 1 && (
+                      <div className="mb-3 px-3.5 py-3 rounded-xl" style={{ backgroundColor: 'rgba(200,104,110,0.06)', border: '1px solid rgba(200,104,110,0.14)' }}>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                          <span className="flex-1 text-[12.5px] font-semibold" style={{ color: '#9F4F58', letterSpacing: 0.2 }}>
+                            Yükleniyor · {guestUploadProgress.current}/{guestUploadProgress.total}
+                          </span>
+                          <span className="text-[12.5px] font-bold" style={{ color: '#C8686E' }}>
+                            {Math.round((guestUploadProgress.current / guestUploadProgress.total) * 100)}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(200,104,110,0.12)' }}>
+                          <div
+                            className="h-full transition-all duration-200"
+                            style={{
+                              width: `${(guestUploadProgress.current / guestUploadProgress.total) * 100}%`,
+                              backgroundColor: '#C8686E',
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                     <button onClick={async () => {
                       const name = photoUploaderName || viewerName;
                       if (!name.trim() || photoUploadFiles.length === 0 || !event) return;
                       setUploadingGuestPhotos(true);
+                      setGuestUploadProgress({ current: 0, total: photoUploadFiles.length });
                       try {
                         const urls: string[] = [];
-                        for (const file of photoUploadFiles) {
-                          const fileName = `pending/${event.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+                        for (let i = 0; i < photoUploadFiles.length; i++) {
+                          const file = photoUploadFiles[i];
+                          const fileName = `pending/${event.id}/${Date.now()}_${i}_${Math.random().toString(36).slice(2, 8)}.jpg`;
                           const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
                           if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); }
+                          setGuestUploadProgress({ current: i + 1, total: photoUploadFiles.length });
                         }
                         if (urls.length > 0) { await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' }); }
                         setPhotoUploadSuccess(true);
                       } catch (e) { console.error('Photo upload error:', e); }
                       setUploadingGuestPhotos(false);
+                      setGuestUploadProgress({ current: 0, total: 0 });
                     }} disabled={!(photoUploaderName || viewerName).trim() || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: (photoUploaderName || viewerName).trim() && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}>
-                      {uploadingGuestPhotos ? 'Yükleniyor...' : 'Gönder'}
+                      {uploadingGuestPhotos
+                        ? (guestUploadProgress.total > 1
+                            ? `Yükleniyor... ${guestUploadProgress.current}/${guestUploadProgress.total}`
+                            : 'Yükleniyor...')
+                        : 'Gönder'}
                     </button>
                   </div>
                 </>
@@ -1605,20 +1639,46 @@ export default function WatchPage() {
                       )}
                     </div>
 
+                    {/* Yükleme progress barı */}
+                    {uploadingGuestPhotos && guestUploadProgress.total > 1 && (
+                      <div className="mb-3 px-3.5 py-3 rounded-xl" style={{ backgroundColor: 'rgba(200,104,110,0.06)', border: '1px solid rgba(200,104,110,0.14)' }}>
+                        <div className="flex items-center gap-1.5 mb-2">
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                          <span className="flex-1 text-[12.5px] font-semibold" style={{ color: '#9F4F58', letterSpacing: 0.2 }}>
+                            Yükleniyor · {guestUploadProgress.current}/{guestUploadProgress.total}
+                          </span>
+                          <span className="text-[12.5px] font-bold" style={{ color: '#C8686E' }}>
+                            {Math.round((guestUploadProgress.current / guestUploadProgress.total) * 100)}%
+                          </span>
+                        </div>
+                        <div className="h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'rgba(200,104,110,0.12)' }}>
+                          <div
+                            className="h-full transition-all duration-200"
+                            style={{
+                              width: `${(guestUploadProgress.current / guestUploadProgress.total) * 100}%`,
+                              backgroundColor: '#C8686E',
+                            }}
+                          />
+                        </div>
+                      </div>
+                    )}
                     {/* Gönder */}
                     <button
                       onClick={async () => {
                         if (!photoUploaderName.trim() || photoUploadFiles.length === 0 || !event) return;
                         setUploadingGuestPhotos(true);
+                        setGuestUploadProgress({ current: 0, total: photoUploadFiles.length });
                         try {
                           const urls: string[] = [];
-                          for (const file of photoUploadFiles) {
-                            const fileName = `pending/${event.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+                          for (let i = 0; i < photoUploadFiles.length; i++) {
+                            const file = photoUploadFiles[i];
+                            const fileName = `pending/${event.id}/${Date.now()}_${i}_${Math.random().toString(36).slice(2, 8)}.jpg`;
                             const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
                             if (!error) {
                               const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName);
                               urls.push(urlData.publicUrl);
                             }
+                            setGuestUploadProgress({ current: i + 1, total: photoUploadFiles.length });
                           }
                           if (urls.length > 0) {
                             await supabase.from('photo_requests').insert({
@@ -1633,12 +1693,17 @@ export default function WatchPage() {
                           console.error('Photo upload error:', e);
                         }
                         setUploadingGuestPhotos(false);
+                        setGuestUploadProgress({ current: 0, total: 0 });
                       }}
                       disabled={!photoUploaderName.trim() || photoUploadFiles.length === 0 || uploadingGuestPhotos}
                       className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
                       style={{ background: photoUploaderName.trim() && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}
                     >
-                      {uploadingGuestPhotos ? 'Yükleniyor...' : 'Gönder'}
+                      {uploadingGuestPhotos
+                        ? (guestUploadProgress.total > 1
+                            ? `Yükleniyor... ${guestUploadProgress.current}/${guestUploadProgress.total}`
+                            : 'Yükleniyor...')
+                        : 'Gönder'}
                     </button>
                   </div>
                 </>
