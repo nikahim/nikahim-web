@@ -12,6 +12,14 @@ import { fullFaqCategories } from '@/lib/faq-data';
 
 const SUPABASE_URL = 'https://haeifluvvazdealsofle.supabase.co';
 
+// Supabase storage transformation: dosya orijinal kalır, CDN küçültülmüş versiyonu servis eder.
+// width = görüntülenecek boyut (retina için biraz büyük tut, ör 2x), quality 80 yeterli.
+const optimizeImg = (url: string | null | undefined, width: number, quality = 80): string => {
+  if (!url) return '';
+  if (!url.includes('/storage/v1/object/public/')) return url;
+  return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + `?width=${width}&quality=${quality}&resize=cover`;
+};
+
 // Müzik dosyaları mapping
 const MUSIC_FILES: Record<string, string> = {
   canon_in_d: 'canon_in_d.mp3',
@@ -1384,7 +1392,7 @@ export default function WatchPage() {
                    background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,180,170,0.55))',
                    boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                  }}>
-              <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
+              <img src={event.couple_photo_url ? optimizeImg(event.couple_photo_url, 400) : "/couple-icon.png"} alt="Çift Fotoğrafı"
                    className="rounded-full object-cover w-[135px] h-[135px] block"
                    style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
             </div>
@@ -1645,7 +1653,7 @@ export default function WatchPage() {
                    background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,180,170,0.55))',
                    boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                  }}>
-              <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
+              <img src={event.couple_photo_url ? optimizeImg(event.couple_photo_url, 400) : "/couple-icon.png"} alt="Çift Fotoğrafı"
                    className="rounded-full object-cover w-[135px] h-[135px] block"
                    style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
             </div>
@@ -2169,7 +2177,7 @@ export default function WatchPage() {
             <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div className="text-center">
                 {event.couple_photo_url ? (
-                  <img src={event.couple_photo_url} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
+                  <img src={optimizeImg(event.couple_photo_url, 200)} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
                 ) : (
                   <img src="/couple-icon.png" alt="Çift" className="w-20 h-20 mx-auto rounded-full object-cover mb-3" />
                 )}
@@ -2504,7 +2512,7 @@ export default function WatchPage() {
                   <div className={`relative z-10 flex flex-col items-center ${isFullscreen ? 'pt-0' : 'pt-6 lg:pt-10'}`}>
                     {/* Çift fotoğrafı — +%20 büyük, breathing glow ring */}
                     <div className="relative mb-3 lg:mb-5 rounded-full couple-ring-breath" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '2px' }}>
-                      <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
+                      <img src={event.couple_photo_url ? optimizeImg(event.couple_photo_url, 500) : "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
                     </div>
 
                     {/* Çift isimleri — daha zarif: ince + bir tık küçük */}
@@ -2622,7 +2630,7 @@ export default function WatchPage() {
                   <div className="flex items-end justify-between">
                     <div className="flex items-center gap-3">
                       {event.couple_photo_url ? (
-                        <img src={event.couple_photo_url} alt="Çift" className="w-10 h-10 rounded-full object-cover border border-white/20" />
+                        <img src={optimizeImg(event.couple_photo_url, 120)} alt="Çift" className="w-10 h-10 rounded-full object-cover border border-white/20" />
                       ) : (
                         <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.3)' }}>
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
@@ -3117,7 +3125,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(-85px) rotate(-7deg)', zIndex: 1 }}>
                         <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={slideshowPhotos[1]} alt="" className="block object-cover rounded-md w-[82px] h-[94px] lg:w-[107px] lg:h-[124px]" />
+                          <img src={optimizeImg(slideshowPhotos[1], 280)} alt="" className="block object-cover rounded-md w-[82px] h-[94px] lg:w-[107px] lg:h-[124px]" />
                         </div>
                       </div>
                     )}
@@ -3128,7 +3136,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(85px) rotate(7deg)', zIndex: 1 }}>
                         <div className="bg-white p-0.5 rounded-lg" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                          <img src={slideshowPhotos[2]} alt="" className="block object-cover rounded-md w-[82px] h-[94px] lg:w-[107px] lg:h-[124px]" />
+                          <img src={optimizeImg(slideshowPhotos[2], 280)} alt="" className="block object-cover rounded-md w-[82px] h-[94px] lg:w-[107px] lg:h-[124px]" />
                         </div>
                       </div>
                     )}
@@ -3139,7 +3147,7 @@ export default function WatchPage() {
                            className="absolute cursor-pointer transition-transform hover:scale-[1.03]"
                            style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateY(-6px)', zIndex: 3 }}>
                         <div className="bg-white p-1 rounded-xl relative" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                          <img src={slideshowPhotos[0]} alt="" className="block object-cover rounded-lg w-[99px] h-[116px] lg:w-[130px] lg:h-[150px]" />
+                          <img src={optimizeImg(slideshowPhotos[0], 360)} alt="" className="block object-cover rounded-lg w-[99px] h-[116px] lg:w-[130px] lg:h-[150px]" />
                           {/* Fotoğraf sayısı badge */}
                           <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full"
                                style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
@@ -3172,7 +3180,7 @@ export default function WatchPage() {
                            onClick={() => setPhotoLightboxIndex(i % slideshowPhotos.length)}
                            className="w-[68px] h-[68px] lg:w-[77px] lg:h-[77px] flex-shrink-0 rounded-lg overflow-hidden cursor-pointer transition-transform hover:scale-105"
                            style={{ boxShadow: '0 2px 6px rgba(80,60,40,0.12)', border: '1px solid rgba(255,255,255,0.6)' }}>
-                        <img src={url} alt="" className="w-full h-full object-cover" />
+                        <img src={optimizeImg(url, 220)} alt="" className="w-full h-full object-cover" />
                       </div>
                     ))}
                   </div>
@@ -3676,7 +3684,7 @@ export default function WatchPage() {
                     const count = photoLikes[url] || 0;
                     return (
                       <div key={i} onClick={() => setPhotoLightboxIndex(i)} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer relative bg-white p-[3px]" style={{ border: '1.5px solid rgba(200,104,110,0.35)', boxShadow: '0 3px 10px rgba(200,104,110,0.10)' }}>
-                        <img src={url} alt="" className="w-full h-full object-cover rounded-md" />
+                        <img src={optimizeImg(url, 320)} alt="" className="w-full h-full object-cover rounded-md" />
                         {count > 0 && (
                           <div className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)' }}>
                             <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill={liked ? '#E26B72' : 'white'} stroke={liked ? '#E26B72' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3717,7 +3725,7 @@ export default function WatchPage() {
           <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(null); }} className="absolute top-6 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Kapat">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
-          <img src={slideshowPhotos[photoLightboxIndex]} alt="" className="max-w-[92%] max-h-[85%] object-contain" onClick={(e) => e.stopPropagation()} />
+          <img src={optimizeImg(slideshowPhotos[photoLightboxIndex], 1400, 85)} alt="" className="max-w-[92%] max-h-[85%] object-contain" onClick={(e) => e.stopPropagation()} />
           {photoLightboxIndex > 0 && (
             <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(photoLightboxIndex - 1); }} className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Önceki">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
