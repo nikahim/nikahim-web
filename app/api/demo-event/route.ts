@@ -32,10 +32,10 @@ export async function GET() {
       .maybeSingle();
 
     if (!ev?.event_link) {
-      return NextResponse.json({ error: 'no_event' }, { status: 404 });
+      return NextResponse.json({ error: 'no_event', user_id: userRow.id }, { status: 404 });
     }
 
-    return NextResponse.json({ event_link: ev.event_link });
+    return NextResponse.json({ event_link: ev.event_link, user_id: userRow.id });
   } catch (e: any) {
     return NextResponse.json({ error: 'server_error', detail: e?.message }, { status: 500 });
   }

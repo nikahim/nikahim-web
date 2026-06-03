@@ -95,6 +95,7 @@ export default function Home() {
   }
 
   const [searchResults, setSearchResults] = useState<Event[]>([]);
+  const [demoUserId, setDemoUserId] = useState<string | null>(null);
   const [showSearchResults, setShowSearchResults] = useState(false);
   const [allEvents, setAllEvents] = useState<Event[]>([]);
 
@@ -117,6 +118,12 @@ export default function Home() {
   const fetchEvents = async () => {
     const { data } = await supabase.from('events').select('*').order('event_date', { ascending: true });
     if (data) setAllEvents(data);
+    // Demo user_id'yi de çek — search sonuçlarında "Örnek Yayın" etiketi için
+    try {
+      const res = await fetch('/api/demo-event');
+      const j = await res.json().catch(() => ({}));
+      if (j?.user_id) setDemoUserId(j.user_id);
+    } catch {}
   };
 
   const handleSearch = (query: string) => {
@@ -657,7 +664,12 @@ export default function Home() {
                           )}
                           <div className="flex-1 min-w-0">
                             <div className="font-semibold text-gray-900 text-[14px] truncate">{event.bride_full_name} & {event.groom_full_name}</div>
-                            <div className="text-[12px] text-gray-400 mt-0.5">{new Date(event.event_date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                            <div className="text-[12px] text-gray-400 mt-0.5">
+                              {new Date(event.event_date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' })}
+                              {demoUserId && (event as any).user_id === demoUserId && (
+                                <span className="ml-1 font-semibold" style={{ color: '#C8686E' }}>(Örnek Yayın)</span>
+                              )}
+                            </div>
                           </div>
                           <div className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1 flex-shrink-0" style={{ background: 'rgba(200,104,110,0.1)' }}>
                             <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
@@ -1070,7 +1082,7 @@ export default function Home() {
           <div className="feature-card-hover relative rounded-3xl overflow-hidden mx-auto w-full aspect-square portrait:aspect-square landscape:aspect-[1964/541] lg:aspect-[1964/541] max-w-[720px] landscape:max-w-none lg:max-w-none" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
             <div className="card-light-sweep" aria-hidden="true" />
             <img src="/bg-tebrik.png" alt="" className="lg:hidden landscape:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block landscape:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none landscape:[object-position:75%_50%] lg:object-center" />
+            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block landscape:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none landscape:[object-position:75%_65%] lg:object-center" />
             {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
             <div className="hidden lg:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
@@ -1100,7 +1112,7 @@ export default function Home() {
             </div>
 
             {/* Masaüstü — Altın Tak ile aynı yapı: justify-between, content yukarda, badges altta */}
-            <div className="hidden lg:flex landscape:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[60px] lg:pl-[196px] pr-4 pb-[50px] lg:pb-6 pt-[80px] lg:pt-[100px]">
+            <div className="hidden lg:flex landscape:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[60px] lg:pl-[196px] pr-4 pb-[50px] lg:pb-6 pt-[100px] lg:pt-[100px]">
               <div>
                 <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(34px, 2.7vw, 36px)' }}>
                   <span style={{ color: '#1F1F1F' }}>Tebrik </span>
