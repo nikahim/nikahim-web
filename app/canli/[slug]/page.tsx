@@ -2,7 +2,7 @@
 
 import { supabase } from '@/lib/supabase';
 import Image from "next/image";
-import { useState, useEffect, useRef, Fragment } from "react";
+import { useState, useEffect, useRef, useMemo, Fragment } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
@@ -180,7 +180,39 @@ export default function WatchPage() {
   const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('altin');
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
-  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
+  const [faqSearchQuery, setFaqSearchQuery] = useState('');
+  // Ana sayfa ConciergeSheet ile birebir aynı arama mantığı
+  const filteredFaqCategories = useMemo(() => {
+    const HIDDEN_CATEGORIES = ['Nikahım Çarşı'];
+    const visible = fullFaqCategories.filter(c => !HIDDEN_CATEGORIES.includes(c.title));
+    const normalize = (s: string) =>
+      s.toLowerCase()
+        .replace(/ı/g, 'i').replace(/İ/g, 'i').replace(/i̇/g, 'i')
+        .replace(/ş/g, 's').replace(/Ş/g, 's')
+        .replace(/ğ/g, 'g').replace(/Ğ/g, 'g')
+        .replace(/ü/g, 'u').replace(/Ü/g, 'u')
+        .replace(/ö/g, 'o').replace(/Ö/g, 'o')
+        .replace(/ç/g, 'c').replace(/Ç/g, 'c')
+        .replace(/â/g, 'a').replace(/î/g, 'i').replace(/û/g, 'u');
+    const query = normalize(faqSearchQuery.trim());
+    if (!query) return visible;
+    const tokens = query.split(/\s+/).filter(Boolean);
+    if (tokens.length === 0) return visible;
+    return visible
+      .map(cat => ({
+        ...cat,
+        items: cat.items.filter(item => {
+          const haystack = normalize(item.q + ' ' + item.a + ' ' + (item.keywords?.join(' ') || ''));
+          return tokens.every(t => haystack.includes(t));
+        }),
+      }))
+      .filter(cat => cat.items.length > 0);
+  }, [faqSearchQuery]);
+  const totalFaqResults = useMemo(
+    () => filteredFaqCategories.reduce((sum, cat) => sum + cat.items.length, 0),
+    [filteredFaqCategories]
+  );
   // Foto like state — counts per photoUrl + my liked set
   const [photoLikes, setPhotoLikes] = useState<Record<string, number>>({});
   const [likedByMe, setLikedByMe] = useState<Set<string>>(new Set());
@@ -303,18 +335,18 @@ export default function WatchPage() {
                     Canlı Yayın sayfamızı beğendiniz mi?
                   </p>
                   <p className="text-[11.5px] lg:text-[12.5px] leading-snug mt-0.5" style={{ color: '#6B6B6B', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                    Kendi düğün sayfanızı dakikalar içinde oluşturabilirsiniz.
+                    Dakikalar içinde kendi düğün sayfanızı oluşturabilirsiniz
                   </p>
                 </div>
               </div>
               {/* Alt: sol-buton + sağ-link (swap) */}
               <div className="mt-2 flex items-center justify-between gap-3 pl-[52px] lg:pl-[56px]">
-                <button onClick={() => { closeDemoToast2NoRetry(); setShowAppPopup(true); }}
+                <button onClick={() => { closeDemoToast2NoRetry(); setShowPhotoUpload(false); setShowAppPopup(true); }}
                         className="whitespace-nowrap px-3.5 py-1.5 rounded-lg text-[12px] lg:text-[12.5px] font-semibold text-white transition-transform hover:scale-[1.03] btn-press"
-                        style={{ background: 'linear-gradient(135deg, #E08284, #C8686E)', boxShadow: '0 4px 12px rgba(200,104,110,0.28)' }}>
+                        style={{ background: 'linear-gradient(135deg, #E08284, #C8686E)', boxShadow: '0 8px 22px rgba(200,104,110,0.45), 0 2px 8px rgba(160,80,90,0.25)' }}>
                   Hemen Başla
                 </button>
-                <button onClick={() => { closeDemoToast2NoRetry(); router.push('/'); }}
+                <button onClick={() => { closeDemoToast2NoRetry(); setShowPhotoUpload(false); router.push('/'); }}
                         className="inline-flex items-center gap-1 text-[12px] lg:text-[12.5px] font-semibold transition-all hover:gap-1.5"
                         style={{ color: '#C8686E', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
                   Ana Sayfaya Dön
@@ -1456,7 +1488,7 @@ export default function WatchPage() {
                     </div>
                   </div>
                   <div className="p-6 pt-2">
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız Soyadınız</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2 ml-1">Adınız Soyadınız</label>
                     <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
                     <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
@@ -1469,9 +1501,9 @@ export default function WatchPage() {
                         </div>
                       ))}
                       {photoUploadFiles.length < 9 && (
-                        <label className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E]/30 transition-colors">
-                          <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                          <span className="text-[10px] text-gray-300 mt-1">Ekle</span>
+                        <label className="aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E] hover:bg-rose-50/30 transition-colors" style={{ borderColor: 'rgba(200,104,110,0.55)' }}>
+                          <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                          <span className="text-[10px] mt-1" style={{ color: '#C8686E' }}>Ekle</span>
                           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
                             const files = Array.from(e.target.files || []).slice(0, 9 - photoUploadFiles.length);
                             setPhotoUploadFiles(prev => [...prev, ...files]);
@@ -1523,7 +1555,7 @@ export default function WatchPage() {
                       } catch (e) { console.error('Photo upload error:', e); }
                       setUploadingGuestPhotos(false);
                       setGuestUploadProgress({ current: 0, total: 0 });
-                    }} disabled={!(photoUploaderName || viewerName).trim() || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: (photoUploaderName || viewerName).trim() && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}>
+                    }} disabled={(!isDemoEvent && !(photoUploaderName || viewerName).trim()) || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: (isDemoEvent || (photoUploaderName || viewerName).trim()) && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}>
                       {uploadingGuestPhotos
                         ? (guestUploadProgress.total > 1
                             ? `Yükleniyor... ${guestUploadProgress.current}/${guestUploadProgress.total}`
@@ -1752,7 +1784,7 @@ export default function WatchPage() {
 
                   <div className="p-6 pt-2">
                     {/* İsim */}
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Adınız Soyadınız</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2 ml-1">Adınız Soyadınız</label>
                     <input type="text" value={photoUploaderName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
 
                     {/* Fotoğraf Seç */}
@@ -1770,9 +1802,9 @@ export default function WatchPage() {
                         </div>
                       ))}
                       {photoUploadFiles.length < 9 && (
-                        <label className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E]/30 transition-colors">
-                          <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                          <span className="text-[10px] text-gray-300 mt-1">Ekle</span>
+                        <label className="aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E] hover:bg-rose-50/30 transition-colors" style={{ borderColor: 'rgba(200,104,110,0.55)' }}>
+                          <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                          <span className="text-[10px] mt-1" style={{ color: '#C8686E' }}>Ekle</span>
                           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
                             const files = Array.from(e.target.files || []).slice(0, 9 - photoUploadFiles.length);
                             setPhotoUploadFiles(prev => [...prev, ...files]);
@@ -1843,7 +1875,7 @@ export default function WatchPage() {
                         setUploadingGuestPhotos(false);
                         setGuestUploadProgress({ current: 0, total: 0 });
                       }}
-                      disabled={!photoUploaderName.trim() || photoUploadFiles.length === 0 || uploadingGuestPhotos}
+                      disabled={(!isDemoEvent && !photoUploaderName.trim()) || photoUploadFiles.length === 0 || uploadingGuestPhotos}
                       className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg"
                       style={{ background: photoUploaderName.trim() && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}
                     >
@@ -3196,25 +3228,19 @@ export default function WatchPage() {
               </svg>
             </button>
 
-            {/* Mini header — wordmark logo + Destek */}
-            <div className="px-7 pt-6 pb-6"
-                 style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
+            {/* Mini header — wordmark logo + Destek (ana sayfa ile birebir) */}
+            <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
               <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[40px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>
-              <p className="mt-2 text-[12.5px] flex items-center gap-1.5" style={{ color: '#7A6B6B' }}>
-                <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                Ortalama yanıt süresi: <span className="font-semibold" style={{ color: '#4A3E2B' }}>~2 dk</span>
+              <p className="mt-2 text-[13px]" style={{ color: '#6B5A5A' }}>
+                Aklınızdaki tüm sorular için buradayız
               </p>
             </div>
 
             {!faqView && (
             <>
-            {/* Soru — sakin başlık */}
-            <p className="px-7 pt-6 pb-3 text-[13px]" style={{ color: '#6B5A5A' }}>
-              Size nasıl yardımcı olabiliriz?
-            </p>
 
             {/* 3 öğe */}
             <div className="px-5 pb-8 space-y-2.5">
@@ -3302,8 +3328,9 @@ export default function WatchPage() {
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-mail</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>destek@nikahim.com</p>
+                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-posta</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Sorularınızı e-posta yoluyla iletebilirsiniz.</p>
+                  <p className="text-[11px] mt-1 font-medium" style={{ color: '#A0782E' }}>destek@nikahim.com</p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -3332,7 +3359,7 @@ export default function WatchPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Sık Sorulan Sorular</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Hemen cevap bul</p>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>En çok sorulan sorulara göz atın</p>
                 </div>
                 <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -3342,10 +3369,10 @@ export default function WatchPage() {
             </>
             )}
 
-            {/* FAQ inline view — sayfadan ayrılmadan 6 soru/cevap accordion */}
+            {/* FAQ inline view — ana sayfa ConciergeSheet ile birebir aynı: kategorize + search */}
             {faqView && (
               <div className="px-5 pt-5 pb-10">
-                <button onClick={() => { setFaqView(false); setOpenFaqIdx(null); }}
+                <button onClick={() => { setFaqView(false); setOpenFaqIdx(null); setFaqSearchQuery(''); }}
                         className="inline-flex items-center gap-1.5 mb-4 text-[12.5px] font-medium px-3 py-1.5 rounded-full transition-all hover:scale-[1.03]"
                         style={{ color: '#9F4F58', background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(232,180,170,0.30)' }}>
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
@@ -3353,42 +3380,111 @@ export default function WatchPage() {
                   </svg>
                   Destek menüsü
                 </button>
-                <h3 className="font-bold text-[20px] mb-4" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
+                <h3 className="font-bold text-[20px] mb-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                   Sık Sorulan Sorular
                 </h3>
-                <div className="space-y-2">
-                  {conciergeFaqs.map((faq, idx) => {
-                    const open = openFaqIdx === idx;
-                    return (
-                      <div key={idx} className="rounded-2xl overflow-hidden transition-colors"
-                           style={{
-                             background: open ? 'rgba(255,251,247,0.95)' : 'rgba(255,251,247,0.55)',
-                             border: '1px solid rgba(232,180,170,0.30)',
-                             boxShadow: open ? '0 4px 14px rgba(200,104,110,0.10)' : 'none',
-                           }}>
-                        <button onClick={() => setOpenFaqIdx(open ? null : idx)}
-                                className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
-                          <span className="text-[13px] font-semibold leading-snug" style={{ color: '#2B2B2B' }}>{faq.q}</span>
-                          <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[10px] transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
-                                style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>▼</span>
-                        </button>
-                        {open && (
-                          <div className="px-4 pb-4 pt-0 text-[12.5px] leading-relaxed" style={{ color: '#6B5A5A' }}>
-                            {faq.a}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+                <p className="text-[12.5px] mb-4 leading-relaxed" style={{ color: '#6B5A5A' }}>
+                  Aradığınız cevabı saniyeler içinde bulun.
+                </p>
+
+                <div className="relative mb-4">
+                  <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" />
+                    <path strokeLinecap="round" d="M20 20l-3.5-3.5" />
+                  </svg>
+                  <input
+                    type="text"
+                    value={faqSearchQuery}
+                    onChange={(e) => { setFaqSearchQuery(e.target.value); setOpenFaqIdx(null); }}
+                    placeholder="Anahtar kelime yazın..."
+                    className="w-full pl-9 pr-9 py-2.5 rounded-full text-[13px] outline-none transition-all focus:scale-[1.01]"
+                    style={{
+                      background: 'rgba(255,255,255,0.85)',
+                      border: '1px solid rgba(232,180,170,0.35)',
+                      boxShadow: '0 2px 8px rgba(200,104,110,0.06), inset 0 1px 0 rgba(255,255,255,0.9)',
+                      color: '#2B2B2B',
+                    }}
+                  />
+                  {faqSearchQuery && (
+                    <button onClick={() => setFaqSearchQuery('')}
+                            aria-label="Aramayı temizle"
+                            className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+                            style={{ background: 'rgba(200,104,110,0.12)', color: '#9F4F58' }}>
+                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
+
+                {faqSearchQuery && (
+                  <p className="text-[11.5px] mb-3" style={{ color: '#8A7878' }}>
+                    {totalFaqResults > 0 ? `${totalFaqResults} sonuç bulundu` : 'Sonuç bulunamadı'}
+                  </p>
+                )}
+
+                {faqSearchQuery && totalFaqResults === 0 && (
+                  <div className="rounded-2xl p-5 text-center"
+                       style={{ background: 'linear-gradient(135deg, #FBEEEC 0%, #FDF5F2 100%)', border: '1px solid rgba(200,104,110,0.18)' }}>
+                    <p className="text-[13px] font-semibold mb-1" style={{ color: '#1F1F1F' }}>Aradığınızı bulamadınız mı?</p>
+                    <p className="text-[12px] mb-3" style={{ color: '#6B5A5A' }}>Ekibimiz size yardımcı olmaktan mutluluk duyar.</p>
+                    <button onClick={() => { setShowConciergeSheet(false); setTimeout(() => { window.dispatchEvent(new CustomEvent('nikahim:open-chat')); }, 200); }}
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-white text-[12.5px] font-semibold transition-all hover:scale-[1.03]"
+                            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 4px 14px rgba(200,104,110,0.25)' }}>
+                      Canlı Destek Aç
+                    </button>
+                  </div>
+                )}
+
+                {filteredFaqCategories.map((category, ci) => (
+                  <div key={category.title} className={ci === 0 ? '' : 'mt-5'}>
+                    <div className="flex items-center gap-2 mb-2 px-1">
+                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#C8686E' }} />
+                      <h4 className="text-[12px] font-bold uppercase tracking-[0.8px]" style={{ color: '#9F4F58' }}>{category.title}</h4>
+                    </div>
+                    <div className="space-y-2.5">
+                      {category.items.map((item, ii) => {
+                        const key = `${ci}-${ii}`;
+                        const open = openFaqIdx === key;
+                        return (
+                          <div key={key} className="rounded-2xl overflow-hidden transition-all duration-300"
+                               style={{
+                                 background: open ? 'rgba(255,251,247,0.97)' : 'rgba(255,251,247,0.55)',
+                                 border: open ? '1px solid rgba(200,104,110,0.40)' : '1px solid rgba(232,180,170,0.30)',
+                                 boxShadow: open ? '0 8px 28px rgba(200,104,110,0.12), 0 2px 6px rgba(0,0,0,0.04)' : 'none',
+                               }}>
+                            <button onClick={() => setOpenFaqIdx(open ? null : key)}
+                                    className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left">
+                              <span className="text-[13px] leading-snug" style={{ fontWeight: 600, color: '#2E3445' }}>{item.q}</span>
+                              <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+                                    style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                                </svg>
+                              </span>
+                            </button>
+                            {open && (
+                              <div className="px-4 pb-4 pt-0 text-[12.5px] leading-relaxed" style={{ color: '#6B5A5A' }}>
+                                {item.a}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
 
-            {/* Alt watermark — sakin marka imzası (sadece destek menüsü modunda goster) */}
+            {/* Alt watermark — ana sayfa ConciergeSheet ile birebir aynı */}
             {!faqView && (
             <div className="absolute bottom-5 left-0 right-0 text-center pointer-events-none">
-              <p className="text-[10.5px] tracking-[0.5px]" style={{ color: '#B5A8A8' }}>
-                Burada size yardımcı olmak için varız.
+              <p className="text-[11px] tracking-[0.3px] inline-flex items-center gap-1.5" style={{ color: '#9F4F58' }}>
+                Nikahım ekibi her zaman yanınızda
+                <svg className="w-3 h-3" fill="#9F4F58" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
               </p>
             </div>
             )}
@@ -4063,7 +4159,7 @@ export default function WatchPage() {
                   </div>
                 </div>
                 <div className="p-6 pt-2">
-                  <label className="block text-sm font-medium text-gray-600 mb-2">Adınız Soyadınız</label>
+                  <label className="block text-sm font-medium text-gray-600 mb-2 ml-1">Adınız Soyadınız</label>
                   <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
                   <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
                   <div className="grid grid-cols-3 gap-2 mb-4">

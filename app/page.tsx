@@ -871,7 +871,7 @@ export default function Home() {
                     <svg className="animate-spin w-4 h-4 relative z-10" fill="none" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeDasharray="40" strokeDashoffset="20" strokeLinecap="round" opacity="0.8" />
                     </svg>
-                    <span className="relative z-10">Yönlendiriliyor...</span>
+                    <span className="relative z-10">Yönlendiriliyorsunuz...</span>
                   </>
                 ) : (
                   <>
@@ -1728,7 +1728,7 @@ export default function Home() {
                 Nikahım&apos;ı <span className="gradient-text">Takip Edin</span>
               </h3>
               <p className="text-gray-400 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-                Yeni özellikler, duyurular ve düğün gününüze değer katacak içerikler için bizi takip edin.
+                Düğün gününüze değer katacak içerikler, yeni özellikler ve duyurular için bizi takip edin
               </p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-3xl mx-auto">
