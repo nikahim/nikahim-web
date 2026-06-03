@@ -3726,7 +3726,7 @@ export default function WatchPage() {
           <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(null); }} className="absolute top-6 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Kapat">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
-          <img src={optimizeImg(slideshowPhotos[photoLightboxIndex], 1400, 85)} alt="" className="max-w-[92%] max-h-[85%] object-contain" onClick={(e) => e.stopPropagation()} />
+          <img src={slideshowPhotos[photoLightboxIndex]} alt="" className="max-w-[92%] max-h-[85%] object-contain" onClick={(e) => e.stopPropagation()} />
           {photoLightboxIndex > 0 && (
             <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(photoLightboxIndex - 1); }} className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Önceki">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
