@@ -12,6 +12,7 @@ export default function Home() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [showAppPopup, setShowAppPopup] = useState(false);
   const [showSearchModal, setShowSearchModal] = useState(false);
+  const [loadingDemo, setLoadingDemo] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [contactName, setContactName] = useState("");
   const [contactEmail, setContactEmail] = useState("");
@@ -838,7 +839,10 @@ export default function Home() {
               {/* Örnek Canlı Yayın link — mertbasar@hotmail.com hesabının en son nikahına yönlendirir */}
               <button
                 type="button"
+                disabled={loadingDemo}
                 onClick={async () => {
+                  if (loadingDemo) return;
+                  setLoadingDemo(true);
                   try {
                     const res = await fetch('/api/demo-event');
                     if (!res.ok) {
@@ -847,21 +851,35 @@ export default function Home() {
                         ? 'Henüz örnek nikah oluşturulmadı.'
                         : 'Örnek yayına gidilemedi.';
                       alert(msg);
+                      setLoadingDemo(false);
                       return;
                     }
                     const { event_link } = await res.json();
                     router.push(`/canli/${event_link}`);
+                    // loading state'i router.push sonrası bırak — sayfa değişene kadar disabled kalsın
                   } catch (e) {
                     console.error(e);
                     alert('Örnek yayına gidilemedi.');
+                    setLoadingDemo(false);
                   }
                 }}
-                className="live-demo-link inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all hover:gap-3 hover:scale-[1.02]"
-                style={{ background: 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}
+                className={`live-demo-link inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
+                style={{ background: loadingDemo ? 'rgba(200,104,110,0.18)' : 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}
               >
-                <span className="relative z-10">Örnek Canlı Yayın sayfası incele</span>
-                <svg className="live-demo-arrow w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                <span className="live-demo-shimmer" aria-hidden="true" />
+                {loadingDemo ? (
+                  <>
+                    <svg className="animate-spin w-4 h-4 relative z-10" fill="none" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeDasharray="40" strokeDashoffset="20" strokeLinecap="round" opacity="0.8" />
+                    </svg>
+                    <span className="relative z-10">Yönlendiriliyor...</span>
+                  </>
+                ) : (
+                  <>
+                    <span className="relative z-10">Örnek Canlı Yayın sayfası incele</span>
+                    <svg className="live-demo-arrow w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                    <span className="live-demo-shimmer" aria-hidden="true" />
+                  </>
+                )}
               </button>
               <div className="mb-1 lg:mb-3" />
               <div className="flex gap-5">

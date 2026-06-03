@@ -219,10 +219,13 @@ export default function WatchPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Demo event: tanıtım toast'larını zamanla
-  // (Welcome/isim girme akışı aynı kalır — sadece isim girme ZORUNLU değil aşağıdaki Yayına Devam Et butonunda)
+  // Demo event: returning user akışı atlansın → her ziyarette ilk welcome modal'ı göster
+  // Diğer düğünler değişmez, cache'den gelen kullanıcı hâlâ "Tekrar Hoş Geldiniz" modalını görür
   useEffect(() => {
     if (!isDemoEvent) return;
+    setIsReturningViewer(false);
+    setShowReturningModal(false);
+    setIsNameEntered(false);
     // Toast 1 sayfa açıldıktan 3sn sonra, Toast 2 sayfa açıldıktan 7sn sonra (Toast 1'i değiştirir)
     const t1 = setTimeout(() => setShowDemoToast1(true), 3000);
     const t2 = setTimeout(() => {
@@ -1535,23 +1538,35 @@ export default function WatchPage() {
           <div className="mb-6">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-left text-gray-600 mb-1.5 font-medium text-sm">Adınız</label>
+                <label className="block text-left mb-1.5 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Adınız</label>
                 <input
                   type="text"
                   value={viewerFirstName}
                   onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
                   placeholder=""
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
+                  disabled={isDemoEvent}
+                  className={`w-full px-4 py-3 border rounded-xl outline-none ${isDemoEvent ? 'cursor-not-allowed' : 'focus:border-[#C8686E]/40'}`}
+                  style={{
+                    background: isDemoEvent ? '#F3F4F6' : '#FFFFFF',
+                    borderColor: isDemoEvent ? '#D1D5DB' : '#E5E7EB',
+                    color: isDemoEvent ? '#9CA3AF' : '#111827',
+                  }}
                 />
               </div>
               <div>
-                <label className="block text-left text-gray-600 mb-1.5 font-medium text-sm">Soyadınız</label>
+                <label className="block text-left mb-1.5 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Soyadınız</label>
                 <input
                   type="text"
                   value={viewerLastName}
                   onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
                   placeholder=""
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
+                  disabled={isDemoEvent}
+                  className={`w-full px-4 py-3 border rounded-xl outline-none ${isDemoEvent ? 'cursor-not-allowed' : 'focus:border-[#C8686E]/40'}`}
+                  style={{
+                    background: isDemoEvent ? '#F3F4F6' : '#FFFFFF',
+                    borderColor: isDemoEvent ? '#D1D5DB' : '#E5E7EB',
+                    color: isDemoEvent ? '#9CA3AF' : '#111827',
+                  }}
                   onKeyPress={(e) => e.key === "Enter" && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()}
                 />
               </div>
