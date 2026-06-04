@@ -361,9 +361,10 @@ export default function WatchPage() {
   useEffect(() => {
     if (!isDemoEvent || !isNameEntered) return;
     setShowDemoToast1(false);
-    // Demo'da isim yok, anonim "Bir davetli" bildirimi göster
-    setVideoNotification({ text: 'Bir davetli nikaha katıldı!', type: 'join' });
-    const tNotif = setTimeout(() => setVideoNotification(null), 8000);
+    // İsim girildiyse onunla, yoksa "Bir davetli" anonim bildirimi göster
+    const joinText = viewerName?.trim() ? `${viewerName.trim()} nikaha katıldı!` : 'Bir davetli nikaha katıldı!';
+    setVideoNotification({ text: joinText, type: 'join' });
+    const tNotif = setTimeout(() => setVideoNotification(null), 10000);
     const t2 = setTimeout(() => setShowDemoToast2(true), 15000);
     return () => { clearTimeout(t2); clearTimeout(tNotif); };
   }, [isDemoEvent, isNameEntered]);
@@ -400,7 +401,7 @@ export default function WatchPage() {
               <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="flex-shrink-0 w-10 h-10 lg:w-11 lg:h-11 object-contain" />
               <div className="flex-1 min-w-0">
                 <p className="text-[13px] lg:text-[14px] leading-snug font-semibold" style={{ color: '#4B5563', fontFamily: 'var(--font-geist-sans), Inter, sans-serif' }}>
-                  Davetlileriniz linke tıkladıklarında ilk olarak bu sayfada karşılanırlar
+                  Davetlileriniz ilk olarak bu sayfada karşılanır
                 </p>
                 <button onClick={() => { setShowDemoToast1(false); setShowPhotoUpload(false); setIsNameEntered(true); }}
                         className="mt-1.5 inline-flex items-center gap-1 text-[12.5px] lg:text-[13px] font-semibold transition-all hover:gap-1.5"
@@ -950,7 +951,7 @@ export default function WatchPage() {
             text: `${newMsg.sender_name} tebrik mesajı gönderdi!`,
             type: 'message',
           });
-          setTimeout(() => setVideoNotification(null), 8000);
+          setTimeout(() => setVideoNotification(null), 10000);
         }
       })
       .subscribe();
@@ -997,7 +998,7 @@ export default function WatchPage() {
             setGoldHistory(prev => [{ name: shortName, type: goldName }, ...prev].slice(0, 10));
           }
         }
-        setTimeout(() => setVideoNotification(null), 8000);
+        setTimeout(() => setVideoNotification(null), 10000);
       })
       .subscribe();
     return () => { supabase.removeChannel(channel); };
@@ -1181,7 +1182,7 @@ export default function WatchPage() {
         setShowWelcomeModal(false);
         setIsNameEntered(true);
         setVideoNotification({ text: `${viewerName.trim()} nikaha katıldı!`, type: 'join' });
-        setTimeout(() => setVideoNotification(null), 8000);
+        setTimeout(() => setVideoNotification(null), 10000);
       }, 3000);
     }
   };
@@ -1198,7 +1199,7 @@ export default function WatchPage() {
       setMessage("");
       setShowEmojiPicker(false);
       setVideoNotification({ text: `${viewerName} tebrik mesajı gönderdi!`, type: 'message' });
-      setTimeout(() => setVideoNotification(null), 8000);
+      setTimeout(() => setVideoNotification(null), 10000);
     }
   };
 
@@ -1286,7 +1287,7 @@ export default function WatchPage() {
       setVideoNotification({ text: `${viewerName} ${goldName} gönderdi!`, type: 'gold' });
       setGoldHistory(prev => [{ name: viewerName.split(' ')[0] + (viewerName.split(' ')[1] ? ' ' + viewerName.split(' ')[1].charAt(0) + '.' : ''), type: goldName }, ...prev].slice(0, 10));
     }
-    setTimeout(() => setVideoNotification(null), 8000);
+    setTimeout(() => setVideoNotification(null), 10000);
 
     setPendingPaymentId(null);
     pendingPaymentIdRef.current = null;
@@ -1754,35 +1755,23 @@ export default function WatchPage() {
           <div className="mb-6">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Adınız</label>
+                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#4B5563' }}>Adınız</label>
                 <input
                   type="text"
                   value={viewerFirstName}
                   onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
                   placeholder=""
-                  disabled={isDemoEvent}
-                  className={`w-full px-4 py-3 border rounded-xl outline-none ${isDemoEvent ? 'cursor-not-allowed' : 'focus:border-[#C8686E]/40'}`}
-                  style={{
-                    background: isDemoEvent ? '#F3F4F6' : '#FFFFFF',
-                    borderColor: isDemoEvent ? '#D1D5DB' : '#E5E7EB',
-                    color: isDemoEvent ? '#9CA3AF' : '#111827',
-                  }}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
                 />
               </div>
               <div>
-                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: isDemoEvent ? '#9CA3AF' : '#4B5563' }}>Soyadınız</label>
+                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#4B5563' }}>Soyadınız</label>
                 <input
                   type="text"
                   value={viewerLastName}
                   onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
                   placeholder=""
-                  disabled={isDemoEvent}
-                  className={`w-full px-4 py-3 border rounded-xl outline-none ${isDemoEvent ? 'cursor-not-allowed' : 'focus:border-[#C8686E]/40'}`}
-                  style={{
-                    background: isDemoEvent ? '#F3F4F6' : '#FFFFFF',
-                    borderColor: isDemoEvent ? '#D1D5DB' : '#E5E7EB',
-                    color: isDemoEvent ? '#9CA3AF' : '#111827',
-                  }}
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
                   onKeyPress={(e) => e.key === "Enter" && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()}
                 />
               </div>
@@ -2316,26 +2305,8 @@ export default function WatchPage() {
                 )}
               </button>
 
-              {/* Altın listesi - sağ üst — yarıya: normal 1x (her ekran), fullscreen mobil 1x / masaüstü 2x */}
-              {goldHistory.length > 0 && !event?.hide_gold_names && (
-                <div
-                  className={`absolute top-3 right-2 lg:right-3 z-30 overflow-hidden origin-top-right transition-transform ${
-                    isFullscreen ? 'scale-[1] lg:scale-[2]' : 'scale-[1] lg:scale-[1]'
-                  }`}
-                  style={{ height: 30 }}
-                >
-                  <div style={{ transform: `translateY(-${goldDisplayIndex * 30}px)`, transition: goldTransition ? 'transform 0.7s ease-in-out' : 'none' }}>
-                    {goldHistory.map((g, i) => (
-                      <div key={i} className="flex items-center gap-1.5 h-[30px] px-2.5 rounded-lg" style={{ background: 'rgba(0,0,0,0.15)', backdropFilter: 'blur(6px)' }}>
-                        {/* Masaüstünde altın PNG yazıyla hizalı değil — hafif aşağı (translate-y) */}
-                        <Image src="/altintak.png" alt="" width={18} height={18} className="w-[18px] h-[18px] object-contain flex-shrink-0 lg:translate-y-[2px]" />
-                        <span className="text-white/90 text-[11px] font-semibold truncate">{g.type}</span>
-                        <span className="text-white/50 text-[11px] truncate">{g.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {/* Altın listesi rotation banner KALDIRILDI — kullanıcı isteği üzerine sağ üst boş kaldı,
+                  videoNotification (join/gold/message/video/voice) artık aynı pozisyonda görünür */}
 
               {/* Fullscreen floating action bar */}
               {isFullscreen && !fsGoldMode && (
@@ -2460,7 +2431,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={isDemoEvent ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
+                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={isDemoEvent ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
                   </div>
                 </div>
               )}
@@ -2501,7 +2472,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={isDemoEvent ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
+                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={isDemoEvent ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
                   </div>
                 </div>
               )}
@@ -2596,7 +2567,7 @@ export default function WatchPage() {
                   Mobil non-fullscreen %50 küçük, fullscreen ya da masaüstü full size. */}
               {videoNotification && (
                 <div
-                  className={`absolute top-3 left-5 z-30 origin-top-left ${
+                  className={`absolute top-3 right-5 z-30 origin-top-right ${
                     isFullscreen ? 'scale-100' : 'scale-50 lg:scale-100'
                   }`}
                 >
@@ -3808,11 +3779,11 @@ export default function WatchPage() {
       )}
 
       {showVideoRecorder && event && (
-        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
+        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
       {showVoiceRecorder && event && (
-        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 8000); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
+        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
       {/* Ödeme modalı açıkken telefon yan dönerse — dik tutmaya yönlendir */}

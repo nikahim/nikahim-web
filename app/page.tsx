@@ -883,7 +883,7 @@ export default function Home() {
                     <svg className="animate-spin w-4 h-4 relative z-10" fill="none" viewBox="0 0 24 24">
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeDasharray="40" strokeDashoffset="20" strokeLinecap="round" opacity="0.8" />
                     </svg>
-                    <span className="relative z-10">Yönlendiriliyorsunuz...</span>
+                    <span className="relative z-10">Örnek Yayın Sayfası Hazırlanıyor...</span>
                   </>
                 ) : (
                   <>
