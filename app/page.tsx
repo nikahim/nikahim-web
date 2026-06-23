@@ -1473,7 +1473,7 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-14 md:gap-8 max-w-5xl mx-auto items-start">
             {[
-              { id: 0, name: 'Nikah', sub: 'Temel ihtiyaçlar için ideal', price: '₺990', oldPrice: null, discountLabel: null, badge: null, features: ['30 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 0, name: 'Nikah', sub: 'Temel ihtiyaçlar için ideal', price: '₺1.490', oldPrice: null, discountLabel: null, badge: null, features: ['30 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
               { id: 1, name: 'Düğün', sub: 'En çok tercih edilen', price: '₺2.990', oldPrice: null, discountLabel: null, badge: 'En Popüler', features: ['90 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
               { id: 2, name: 'Şölen', sub: 'Maksimum deneyim', price: '₺9.990', oldPrice: null, discountLabel: null, badge: null, features: ['180 Dakika Canlı Yayın', '300 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
