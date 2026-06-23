@@ -70,6 +70,7 @@ interface Event {
     wallet_usdt?: string;
     wallet_xauusdt?: string;
   };
+  recording_urls?: string[];
 }
 
 interface Package {
@@ -192,7 +193,6 @@ export default function WatchPage() {
   // Yayın aktif iken Supabase Presence ile gerçekten izleyen kişi sayısı
   const [liveViewerCount, setLiveViewerCount] = useState(0);
   // Gizli sert kapasite — api.video maliyet koruması (paket-bağımsız, hepsi için 200)
-  const MAX_LIVE_VIEWERS = 200;
   const [viewerLimitReached, setViewerLimitReached] = useState(false);
   const [streamData, setStreamData] = useState<{
     status: string;
@@ -201,6 +201,8 @@ export default function WatchPage() {
     isTest: boolean;
   } | null>(null);
   const [prevStreamStatus, setPrevStreamStatus] = useState<string | null>(null);
+  // Bitmiş yayında izlenen kayıt segmenti (çoklu video → Bölüm 1/2/...)
+  const [recordingSeg, setRecordingSeg] = useState(0);
   const [customAmount, setCustomAmount] = useState("");
   const [pendingPaymentId, setPendingPaymentId] = useState<string | null>(null);
   const [showVideoRecorder, setShowVideoRecorder] = useState(false);
@@ -766,6 +768,28 @@ export default function WatchPage() {
     return () => clearInterval(interval);
   }, [showEndedScreen]);
 
+  // Yayın bittiğinde kayıt segmentlerini birkaç kez tazele — api.video videoları
+  // birkaç dakika içinde hazır olur; tüm bölümler eksiksiz görünsün
+  useEffect(() => {
+    if (streamData?.status !== 'ended' || streamData?.isTest) return;
+    let n = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    const refetch = async () => {
+      n++;
+      const { data } = await supabase
+        .from('events')
+        .select('recording_urls')
+        .eq('event_link', slug)
+        .maybeSingle();
+      if (data?.recording_urls && Array.isArray(data.recording_urls) && data.recording_urls.length > 0) {
+        setEvent((prev) => (prev ? { ...prev, recording_urls: data.recording_urls } : prev));
+      }
+      if (n < 6) timer = setTimeout(refetch, 10000); // ~1 dk boyunca
+    };
+    refetch();
+    return () => clearTimeout(timer);
+  }, [streamData?.status, streamData?.isTest, slug]);
+
   useEffect(() => {
     const fetchEvent = async () => {
       const { data } = await supabase
@@ -773,7 +797,7 @@ export default function WatchPage() {
         .select('*')
         .eq('event_link', slug)
         .maybeSingle();
-      
+
       if (data) {
         setEvent(data);
 
@@ -1130,11 +1154,24 @@ export default function WatchPage() {
 
   const handleNameSubmit = async () => {
     if (viewerName.trim() && event?.id) {
-      // Limit kontrolü SADECE yayın aktifken — gerçek "izleyen" sayısı (presence) üzerinden
+      // Limit kontrolü SADECE yayın aktifken — gerçek "izleyen" sayısı (presence) üzerinden.
+      // Paket limiti + %10 tampon (ör. 100→110, 200→220, 300→330).
       if (streamData?.status === 'active') {
-        if (liveViewerCount >= MAX_LIVE_VIEWERS) {
+        const baseMax = eventPackage?.max_viewers ?? 200;
+        const maxLive = Math.floor(baseMax * 1.1);
+        if (liveViewerCount >= maxLive) {
+          // Çift "ek izleyici paketi"ni kabul ettiyse (pending_payments kaydı) sınır kalkar
+          const { count: extraOk } = await supabase
+            .from('pending_payments')
+            .select('id', { count: 'exact', head: true })
+            .eq('event_id', event.id)
+            .eq('type', 'extra_viewers');
+          if (extraOk && extraOk > 0) {
+            // sınır kaldırıldı — girişe izin ver
+          } else {
           setViewerLimitReached(true);
           return;
+          }
         }
       }
       
@@ -2106,6 +2143,13 @@ export default function WatchPage() {
                 <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI
               </span>
             )}
+            {/* Aktif test yayını — rose CANLI'nin yanında TEST rozeti */}
+            {streamData?.status === 'active' && streamData?.isTest && (
+              <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
+                    style={{ background: 'rgba(217,119,6,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.30)', boxShadow: '0 4px 14px rgba(180,120,20,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
+                TEST
+              </span>
+            )}
             {streamData?.status === 'starting' && (
               <span className="flex items-center gap-1.5 text-white px-2.5 py-1 rounded-full text-[11px] font-bold"
                     style={{ background: streamData?.isTest ? 'linear-gradient(135deg, #F59E0B, #D97706)' : 'linear-gradient(135deg, #EAB308, #CA8A04)', boxShadow: '0 3px 10px rgba(202,138,4,0.30), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
@@ -2497,10 +2541,33 @@ export default function WatchPage() {
               {streamData?.status === 'active' && streamData?.playbackId && (
                 <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={true} isRecording={false} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
               )}
-              {/* Recording */}
-              {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && streamData?.playbackId && (
-                <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={false} isRecording={true} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
-              )}
+              {/* Recording — çoklu segment (Bölüm 1/2/...) desteğiyle */}
+              {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && (() => {
+                const urls: string[] = Array.isArray(event?.recording_urls) ? event!.recording_urls : [];
+                const ids = urls.map((u) => u.match(/\/vod\/([^/]+)/)?.[1] || '').filter(Boolean);
+                const fallbackId = streamData?.videoId || undefined;
+                const list = ids.length > 0 ? ids : (fallbackId ? [fallbackId] : []);
+                if (list.length === 0 && !streamData?.playbackId) return null;
+                const idx = Math.min(recordingSeg, Math.max(0, list.length - 1));
+                const activeId = list[idx] || fallbackId;
+                return (
+                  <>
+                    <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={activeId} isLive={false} isRecording={true} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
+                    {list.length > 1 && (
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-40 flex items-center gap-1.5 px-2 py-1.5 rounded-full max-w-[80%] overflow-x-auto"
+                           style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)' }}>
+                        {list.map((_, i) => (
+                          <button key={i} onClick={() => setRecordingSeg(i)}
+                                  className="px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap transition-all"
+                                  style={{ background: i === idx ? 'rgba(200,104,110,0.92)' : 'rgba(255,255,255,0.18)', color: '#fff' }}>
+                            Bölüm {i + 1}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
               {/* Waiting with countdown — sinematik premium */}
               {((streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest) || ((!streamData?.status || streamData?.status === 'idle') && !isLive)) && (
                 <div className={`absolute inset-0 flex flex-col items-center p-4 ${isFullscreen ? 'justify-start pt-8 lg:pt-14' : 'justify-center'}`}>

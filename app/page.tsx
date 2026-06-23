@@ -1473,9 +1473,9 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-14 md:gap-8 max-w-5xl mx-auto items-start">
             {[
-              { id: 0, name: 'Standart', sub: 'Temel ihtiyaçlar için ideal', price: '₺999', oldPrice: '₺1.249', discountLabel: '%20 İndirim', badge: null, features: ['30 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 1, name: 'Premium', sub: 'En çok tercih edilen', price: '₺2.499', oldPrice: '₺3.339', discountLabel: '%25 İndirim', badge: 'En Popüler', features: ['60 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 2, name: 'VIP', sub: 'Maksimum deneyim', price: '₺4.999', oldPrice: '₺7.139', discountLabel: '%30 İndirim', badge: null, features: ['180 Dakika Canlı Yayın', '300 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 0, name: 'Nikah', sub: 'Temel ihtiyaçlar için ideal', price: '₺990', oldPrice: null, discountLabel: null, badge: null, features: ['30 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 1, name: 'Düğün', sub: 'En çok tercih edilen', price: '₺2.990', oldPrice: null, discountLabel: null, badge: 'En Popüler', features: ['90 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 2, name: 'Şölen', sub: 'Maksimum deneyim', price: '₺9.990', oldPrice: null, discountLabel: null, badge: null, features: ['180 Dakika Canlı Yayın', '300 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Özel Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
@@ -1484,17 +1484,19 @@ export default function Home() {
                   {/* Premium subtle gold shimmer accent */}
                   {isSelected && <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(200,104,110,0.10), transparent 70%)' }} />}
                   {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-7 py-2 rounded-full text-[13px] font-semibold tracking-wide whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.4), 0 2px 8px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-sans)', letterSpacing: '0.5px' }}>{pkg.badge}</div>}
-                  {/* Premium discount badge - elegant ribbon style */}
+                  {/* İndirim rozeti — sadece discountLabel varsa */}
+                  {pkg.discountLabel && (
                   <div className="absolute top-5 right-5 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-bold whitespace-nowrap" style={{ color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,243,243,0.95) 0%, rgba(253,232,232,0.90) 100%)', border: '1px solid rgba(200,104,110,0.30)', boxShadow: '0 2px 8px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.95)' }}>
                     <svg className="w-3 h-3" fill="#C8686E" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 16.8 5.8 21.3l2.4-7.4L2 9.4h7.6z" /></svg>
                     {pkg.discountLabel}
                   </div>
+                  )}
                   <div className="mb-8">
                     <h3 className="text-lg font-bold text-gray-900 mb-1">{pkg.name}</h3>
                     <p className="text-sm text-gray-400">{pkg.sub}</p>
                     <div className="mt-5 flex items-baseline gap-3">
                       <span className="text-5xl font-bold" style={{ color: isSelected ? '#C8686E' : '#111827' }}>{pkg.price}</span>
-                      <span className="text-xl font-medium text-gray-400 line-through">{pkg.oldPrice}</span>
+                      {pkg.oldPrice && <span className="text-xl font-medium text-gray-400 line-through">{pkg.oldPrice}</span>}
                     </div>
                   </div>
                   <ul className="space-y-4 mb-9">
@@ -1633,7 +1635,7 @@ export default function Home() {
               { q: "Canlı yayını aynı anda kaç kişi izleyebilir?", a: (
                 <>
                   <p>Canlı yayını aynı anda izleyebilecek davetli sayısı, satın alınan pakete göre belirlenir.</p>
-                  <p>Nikahım&apos;ın en kapsamlı paketi olan VIP Paket kapsamında, canlı yayın veya yayın kaydı toplam 300 davetliye kadar izletilebilir.</p>
+                  <p>Nikahım&apos;ın en kapsamlı paketi olan Şölen Paket kapsamında, canlı yayın veya yayın kaydı toplam 300 davetliye kadar izletilebilir.</p>
                   <p>Daha fazla katılımcı bekleyen çiftler, paket satın alma aşamasında ek davetli hakkı satın alarak izleyici kapasitelerini artırabilirler.</p>
                 </>
               ), icon: (

@@ -87,30 +87,16 @@ export default function ApiVideoPlayer({
         />
       )}
       
-      {/* Overlay bilgileri */}
-      <div className="absolute top-10 left-4 flex items-center gap-2 z-20">
-        {isLive && (
-          <span className="flex items-center gap-1 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-            <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-            CANLI
-          </span>
-        )}
-        {isRecording && !showLoading && (
+      {/* Overlay — sadece kayıt göstergesi.
+          Canlı / Test / izleyici rozetleri sayfa navbar'ında (rose) gösteriliyor;
+          burada tekrar etmemesi için kaldırıldı (üst üste binme sorunu). */}
+      {isRecording && !showLoading && (
+        <div className="absolute top-10 left-4 z-20">
           <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">
             ▶ KAYIT
           </span>
-        )}
-        {overlayInfo?.isTest && isLive && (
-          <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-            TEST
-          </span>
-        )}
-        {overlayInfo?.viewerCount !== undefined && isLive && (
-          <span className="bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-            👥 {overlayInfo.viewerCount}
-          </span>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
