@@ -389,6 +389,8 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
   if (embedded) return chatBox;
   if (isFullscreen) return null;
+  // Admin panelinde destek widget'ı gösterme (gereksiz)
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <>
