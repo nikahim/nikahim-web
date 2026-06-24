@@ -1160,17 +1160,12 @@ export default function WatchPage() {
         const baseMax = eventPackage?.max_viewers ?? 200;
         const maxLive = Math.floor(baseMax * 1.1);
         if (liveViewerCount >= maxLive) {
-          // Çift "ek izleyici paketi"ni kabul ettiyse (pending_payments kaydı) sınır kalkar
-          const { count: extraOk } = await supabase
-            .from('pending_payments')
-            .select('id', { count: 'exact', head: true })
-            .eq('event_id', event.id)
-            .eq('type', 'extra_viewers');
-          if (extraOk && extraOk > 0) {
-            // sınır kaldırıldı — girişe izin ver
-          } else {
-          setViewerLimitReached(true);
-          return;
+          // Çift "ek izleyici paketi"ni kabul ettiyse sınır kalkar.
+          // RLS güvenli: pending_payments'ı okumadan fonksiyonla kontrol (anon mali veriyi görmesin)
+          const { data: extraOk } = await supabase.rpc('event_extra_viewers_ok', { p_event_id: event.id });
+          if (!extraOk) {
+            setViewerLimitReached(true);
+            return;
           }
         }
       }
