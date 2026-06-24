@@ -23,10 +23,10 @@ export async function GET(request: NextRequest) {
     const deletedVideos: string[] = [];
     const errors: string[] = [];
 
-    // 1. Nikah tarihi + 7 gün geçmiş eventleri bul
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const cutoffDate = sevenDaysAgo.toISOString().split('T')[0]; // YYYY-MM-DD
+    // 1. Etkinlik tarihi + 14 gün geçmiş eventleri bul (saklama süresi 14 gün)
+    const retentionCutoff = new Date();
+    retentionCutoff.setDate(retentionCutoff.getDate() - 14);
+    const cutoffDate = retentionCutoff.toISOString().split('T')[0]; // YYYY-MM-DD
 
     // Event date'i cutoff'tan önce olan eventleri bul
     const { data: expiredEvents, error: eventsError } = await supabase
