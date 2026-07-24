@@ -38,6 +38,7 @@ const EMAILJS = {
 };
 async function sendReplyEmail(ticket: Ticket, text: string) {
   if (!EMAILJS.reply_template_id) throw new Error('EmailJS reply şablonu ayarlı değil');
+  const done = isDone(ticket.status);
   const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -49,8 +50,11 @@ async function sendReplyEmail(ticket: Ticket, text: string) {
         to_email: ticket.user_email || '',
         to_name: ticket.user_name || 'Değerli Kullanıcı',
         subject: `[${ticket.ticket_number}] Destek Talebinize Yanıt`,
-        message: text,
+        message: text,                                   // ekip yanıtı
+        user_message: firstCustomerMessage(ticket),      // kullanıcının ilk mesajı (quote)
         ticket_number: ticket.ticket_number,
+        status: done ? 'Çözüldü' : 'Yanıtlandı',
+        action_url: 'https://nikahim.com',
       },
     }),
   });
