@@ -166,9 +166,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         },
         body: JSON.stringify({
           messages: apiMessages,
-          userId: undefined, // Web ziyaretçi için yok, Elif escalate yaparsa mail gider
+          userId: undefined, // Web ziyaretçi için yok, Elif escalate yaparsa ticket+mail
           userName: guestName,
           userEmail: guestEmail,
+          source: "web",
         }),
       });
 
