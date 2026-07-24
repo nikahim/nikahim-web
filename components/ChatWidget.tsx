@@ -63,6 +63,17 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     return () => window.removeEventListener('nikahim:open-chat', opener);
   }, []);
 
+  // E-posta/harici linkten ?destek=1 ile paneli otomatik aç (sağdan Nikahım Destek)
+  useEffect(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get('destek') === '1' || window.location.hash === '#destek') {
+        setOpen(true);
+        setIsCollapsed(false);
+      }
+    } catch { /* yoksay */ }
+  }, []);
+
   // İlk girişte 5 sn göster, sonra otomatik collapse
   useEffect(() => {
     const t = setTimeout(() => setIsCollapsed(true), 5000);

@@ -62,7 +62,7 @@ async function sendBrandedEmail(p: BrandedMail) {
         message: p.message,
         ref_line: p.ref_line || '',
         cta_label: p.cta_label || 'Destek Al',
-        cta_url: p.cta_url || 'https://nikahim.com/#iletisim',
+        cta_url: p.cta_url || 'https://nikahim.com/?destek=1',
       },
     }),
   });
@@ -166,7 +166,7 @@ export default function AdminSupportPage() {
           greeting: `Merhaba ${name},`,
           message: entry.text,
           ref_line: `Referans No: ${active.ticket_number}  •  Durum: ${done ? 'Çözüldü' : 'Yanıtlandı'}`,
-          cta_label: 'Destek Al', cta_url: 'https://nikahim.com/#iletisim',
+          cta_label: 'Destek Al', cta_url: 'https://nikahim.com/?destek=1',
         });
       }
     } catch (e: any) {
