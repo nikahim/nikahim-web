@@ -385,7 +385,7 @@ export default function AdminSupportPage() {
                     className="w-5 h-5 rounded accent-rose-500" />
                   <span className="text-sm font-semibold text-gray-700">Bu talep çözüldü olarak işaretlensin</span>
                 </label>
-                <p className="text-xs text-gray-400 mb-3">Kaydedince kullanıcıda "Talebiniz Yanıtlandı" popup'ı çıkar ve konu kapanır.</p>
+                <p className="text-xs text-gray-400 mb-3">{`Kaydedince kullanıcıda "Talebiniz Yanıtlandı" popup'ı çıkar ve konu kapanır.`}</p>
                 <button onClick={saveStatus} disabled={savingStatus || !statusDirty}
                   className={`py-2.5 px-7 rounded-full font-semibold text-white text-sm transition-all ${statusDirty ? 'hover:scale-[1.01]' : 'opacity-40 blur-[0.6px] cursor-not-allowed'}`}
                   style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: statusDirty ? '0 6px 20px rgba(200,104,110,0.3)' : 'none' }}>
