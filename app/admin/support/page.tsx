@@ -36,9 +36,15 @@ const EMAILJS = {
   user_id: 'gEM0kiWpFVk06tmCZ',
   reply_template_id: 'template_yxmqdj9', // EmailJS reply şablonu (web ziyaretçisine yanıt maili)
 };
-async function sendReplyEmail(ticket: Ticket, text: string) {
-  if (!EMAILJS.reply_template_id) throw new Error('EmailJS reply şablonu ayarlı değil');
-  const done = isDone(ticket.status);
+// Tek markalı e-posta şablonu — tüm yanıt/duyurular aynı kalıpta, sadece içerik değişir
+interface BrandedMail {
+  to_email: string; to_name?: string; subject: string;
+  badge?: string; title: string; greeting: string; message: string;
+  ref_line?: string; cta_label?: string; cta_url?: string;
+}
+async function sendBrandedEmail(p: BrandedMail) {
+  if (!EMAILJS.reply_template_id) throw new Error('EmailJS şablonu ayarlı değil');
+  if (!p.to_email) throw new Error('Alıcı e-postası yok');
   const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -47,14 +53,16 @@ async function sendReplyEmail(ticket: Ticket, text: string) {
       template_id: EMAILJS.reply_template_id,
       user_id: EMAILJS.user_id,
       template_params: {
-        to_email: ticket.user_email || '',
-        to_name: ticket.user_name || 'Değerli Kullanıcı',
-        subject: `[${ticket.ticket_number}] Destek Talebinize Yanıt`,
-        message: text,                                   // ekip yanıtı
-        user_message: firstCustomerMessage(ticket),      // kullanıcının ilk mesajı (quote)
-        ticket_number: ticket.ticket_number,
-        status: done ? 'Çözüldü' : 'Yanıtlandı',
-        action_url: 'https://nikahim.com',
+        to_email: p.to_email,
+        to_name: p.to_name || 'Değerli Kullanıcı',
+        subject: p.subject,
+        badge: p.badge || '✓',
+        email_title: p.title,
+        greeting: p.greeting,
+        message: p.message,
+        ref_line: p.ref_line || '',
+        cta_label: p.cta_label || 'Destek Al',
+        cta_url: p.cta_url || 'https://nikahim.com/#iletisim',
       },
     }),
   });
@@ -138,15 +146,27 @@ export default function AdminSupportPage() {
     const nextReplies = [...((active.admin_replies as Reply[]) || []), entry];
     const { error } = await supabase.from('support_tickets').update({ admin_replies: nextReplies }).eq('id', active.id);
     if (error) { setSending(false); showToast('Gönderilemedi: ' + error.message, 'error'); return; }
-    // Teslim: WEB → e-posta, MOBİL → uygulama içi bildirim
+    // Teslim: MOBİL → uygulama içi bildirim + e-posta; WEB → e-posta (ikisi de aynı şablon)
+    const recipientEmail = active.user_email || activeUser?.email || '';
+    const name = activeUser?.full_name || active.user_name || 'Değerli Kullanıcı';
+    const done = isDone(active.status);
     try {
-      if (isWeb(active)) {
-        await sendReplyEmail(active, entry.text);
-      } else if (active.user_id) {
+      if (!isWeb(active) && active.user_id) {
         await supabase.from('notifications').insert({
           user_id: active.user_id, type: 'ticket_update',
           title: 'Destek Ekibinden Yeni Yanıt', body: entry.text,
           data: { ticket_number: active.ticket_number, subject: active.subject || null },
+        });
+      }
+      if (recipientEmail) {
+        await sendBrandedEmail({
+          to_email: recipientEmail, to_name: name,
+          subject: `[${active.ticket_number}] Destek Talebinize Yanıt`,
+          badge: '✓', title: 'Destek Talebiniz Yanıtlandı',
+          greeting: `Merhaba ${name},`,
+          message: entry.text,
+          ref_line: `Referans No: ${active.ticket_number}  •  Durum: ${done ? 'Çözüldü' : 'Yanıtlandı'}`,
+          cta_label: 'Destek Al', cta_url: 'https://nikahim.com/#iletisim',
         });
       }
     } catch (e: any) {
@@ -159,7 +179,10 @@ export default function AdminSupportPage() {
     setSending(false);
     setReply('');
     setActive({ ...active, admin_replies: nextReplies });
-    showToast(isWeb(active) ? 'Yanıt e-posta ile gönderildi ✓' : 'Mesaj gönderildi ✓');
+    const ch: string[] = [];
+    if (!isWeb(active) && active.user_id) ch.push('bildirim');
+    if (recipientEmail) ch.push('e-posta');
+    showToast('Yanıt gönderildi ✓' + (ch.length ? ' (' + ch.join(' + ') + ')' : ''));
     fetchTickets();
   };
 
