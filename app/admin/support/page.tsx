@@ -39,8 +39,10 @@ const EMAILJS = {
 // Tek markalı e-posta şablonu — tüm yanıt/duyurular aynı kalıpta, sadece içerik değişir
 interface BrandedMail {
   to_email: string; to_name?: string; subject: string;
-  badge?: string; title: string; greeting: string; message: string;
-  ref_line?: string; cta_label?: string; cta_url?: string;
+  badge?: string; title: string; greeting: string;
+  content_label?: string; message: string;
+  ticket_ref?: string; ticket_status?: string;
+  cta_label?: string; cta_url?: string;
 }
 async function sendBrandedEmail(p: BrandedMail) {
   if (!EMAILJS.reply_template_id) throw new Error('EmailJS şablonu ayarlı değil');
@@ -59,9 +61,11 @@ async function sendBrandedEmail(p: BrandedMail) {
         badge: p.badge || '✓',
         email_title: p.title,
         greeting: p.greeting,
+        content_label: p.content_label || 'Mesaj',
         message: p.message,
-        ref_line: p.ref_line || '',
-        cta_label: p.cta_label || 'Destek Al',
+        ticket_ref: p.ticket_ref || '',
+        ticket_status: p.ticket_status || '',
+        cta_label: p.cta_label || 'Talebi Görüntüle',
         cta_url: p.cta_url || 'https://nikahim.com/?destek=1',
       },
     }),
@@ -164,9 +168,11 @@ export default function AdminSupportPage() {
           subject: `[${active.ticket_number}] Destek Talebinize Yanıt`,
           badge: '✓', title: 'Destek Talebiniz Yanıtlandı',
           greeting: `Merhaba ${name},`,
+          content_label: 'Destek Ekibimizin Yanıtı',
           message: entry.text,
-          ref_line: `Referans No: ${active.ticket_number}  •  Durum: ${done ? 'Çözüldü' : 'Yanıtlandı'}`,
-          cta_label: 'Destek Al', cta_url: 'https://nikahim.com/?destek=1',
+          ticket_ref: active.ticket_number,
+          ticket_status: done ? 'Çözüldü' : 'Yanıtlandı',
+          cta_label: 'Ücretsiz Başla', cta_url: 'https://nikahim.com/?indir=1',
         });
       }
     } catch (e: any) {

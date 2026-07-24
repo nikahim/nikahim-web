@@ -109,6 +109,14 @@ export default function Home() {
 
   useEffect(() => { fetchEvents(); }, []);
 
+  // E-posta/harici linkten ?indir=1 ile uygulama indirme modal'ını aç
+  useEffect(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get('indir') === '1' || p.get('app') === '1') setShowAppPopup(true);
+    } catch { /* yoksay */ }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
