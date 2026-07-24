@@ -154,7 +154,7 @@ export default function AdminSupportPage() {
       if (recipientEmail) {
         await sendBrandedEmail({
           to_email: recipientEmail, to_name: name,
-          subject: `[${active.ticket_number}] Destek Talebinize Yanıt`,
+          subject: `Destek Talebiniz Yanıtlandı · ${active.ticket_number}`,
           badge: '✓', title: 'Destek Talebiniz Yanıtlandı',
           greeting: `Merhaba ${name},`,
           content_label: 'Destek Ekibimizin Yanıtı',
