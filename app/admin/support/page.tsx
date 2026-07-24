@@ -30,13 +30,8 @@ interface Ticket {
 }
 const isWeb = (t: Ticket) => String(t.source || 'mobile').toLowerCase() === 'web';
 
-// EmailJS — web ziyaretçisine yanıt maili (reply_template_id'yi EmailJS'te oluşturup buraya yaz)
-const EMAILJS = {
-  service_id: 'service_ibwy6qp',
-  user_id: 'gEM0kiWpFVk06tmCZ',
-  reply_template_id: 'template_yxmqdj9', // EmailJS reply şablonu (web ziyaretçisine yanıt maili)
-};
-// Tek markalı e-posta şablonu — tüm yanıt/duyurular aynı kalıpta, sadece içerik değişir
+// Tek markalı e-posta şablonu — tüm yanıt/duyurular aynı kalıpta, sadece içerik değişir.
+// Gönderim: Supabase edge function 'send-email' (Resend) — tam HTML kontrolü + dark mode fix.
 interface BrandedMail {
   to_email: string; to_name?: string; subject: string;
   badge?: string; title: string; greeting: string;
@@ -45,19 +40,12 @@ interface BrandedMail {
   cta_label?: string; cta_url?: string;
 }
 async function sendBrandedEmail(p: BrandedMail) {
-  if (!EMAILJS.reply_template_id) throw new Error('EmailJS şablonu ayarlı değil');
   if (!p.to_email) throw new Error('Alıcı e-postası yok');
-  const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      service_id: EMAILJS.service_id,
-      template_id: EMAILJS.reply_template_id,
-      user_id: EMAILJS.user_id,
-      template_params: {
-        to_email: p.to_email,
-        to_name: p.to_name || 'Değerli Kullanıcı',
-        subject: p.subject,
+  const { data, error } = await supabase.functions.invoke('send-email', {
+    body: {
+      to: p.to_email,
+      subject: p.subject,
+      params: {
         badge: p.badge || '✓',
         email_title: p.title,
         greeting: p.greeting,
@@ -65,12 +53,13 @@ async function sendBrandedEmail(p: BrandedMail) {
         message: p.message,
         ticket_ref: p.ticket_ref || '',
         ticket_status: p.ticket_status || '',
-        cta_label: p.cta_label || 'Talebi Görüntüle',
-        cta_url: p.cta_url || 'https://nikahim.com/?destek=1',
+        cta_label: p.cta_label || 'Ücretsiz Başla',
+        cta_url: p.cta_url || 'https://nikahim.com/?indir=1',
       },
-    }),
+    },
   });
-  if (!res.ok) throw new Error('E-posta gönderilemedi (' + res.status + ')');
+  if (error) throw new Error(error.message || 'E-posta gönderilemedi');
+  if (data?.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
 }
 
 const fmt = (ts?: string | null) => {
