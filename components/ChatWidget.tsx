@@ -151,7 +151,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
   const sendMessage = async () => {
     const text = input.trim();
-    if (!text || sending) return;
+    if (!text) return;
 
     const userMsg: ChatMessage = { role: "user", content: text };
     const newConvo = [...messages, userMsg];
@@ -372,13 +372,12 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           onKeyDown={onKey}
           placeholder="Sorunuzu yazın…"
           rows={1}
-          disabled={sending}
           className="flex-1 resize-none px-4 py-2.5 rounded-2xl bg-[#FFF8F9] focus:bg-white focus:outline-none text-sm text-gray-900 placeholder:text-gray-400 max-h-24"
           style={{ fontFamily: "inherit", border: "1.5px solid rgba(200,104,110,0.15)" }}
         />
         <button
           onClick={sendMessage}
-          disabled={sending || !input.trim()}
+          disabled={!input.trim()}
           className="w-11 h-11 rounded-full flex items-center justify-center text-white disabled:opacity-50 transition-opacity flex-shrink-0"
           style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 4px 12px rgba(200,104,110,0.35)" }}
         >
