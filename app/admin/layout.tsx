@@ -10,6 +10,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [openTickets, setOpenTickets] = useState(0);
 
   const isLoginPage = pathname === '/admin/login';
 
@@ -17,6 +18,24 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     if (isLoginPage) { setLoading(false); return; }
     checkAdmin();
   }, [pathname]);
+
+  // Açık destek talebi sayısı — sidebar rozeti + realtime
+  useEffect(() => {
+    if (!isAdmin) return;
+    const fetchOpen = async () => {
+      const { count } = await supabase
+        .from('support_tickets')
+        .select('id', { count: 'exact', head: true })
+        .in('status', ['open', 'in_progress']);
+      setOpenTickets(count || 0);
+    };
+    fetchOpen();
+    const ch = supabase
+      .channel('admin_open_tickets')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'support_tickets' }, () => fetchOpen())
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [isAdmin]);
 
   const checkAdmin = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -79,10 +98,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${active ? 'text-white shadow-md' : 'text-gray-600 hover:bg-gray-50'}`}
                 style={active ? { background: 'linear-gradient(135deg, #D17075, #C8686E)' } : {}}
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                 </svg>
-                {item.label}
+                <span className="flex-1">{item.label}</span>
+                {item.href === '/admin/support' && openTickets > 0 && (
+                  <span
+                    className={`inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full text-xs font-bold ${active ? 'bg-white text-rose-600' : 'text-white'}`}
+                    style={active ? {} : { backgroundColor: '#E5484D' }}
+                  >
+                    {openTickets > 99 ? '99+' : openTickets}
+                  </span>
+                )}
               </Link>
             );
           })}
