@@ -126,7 +126,7 @@ export default function OnayPage() {
   if (status === "error") {
     return (
       <main className="min-h-screen flex items-center justify-center p-4" style={{ background: bgGradient }}>
-        <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}>
+        <div className="rounded-3xl p-8 max-w-md w-full text-center" style={{ backgroundColor: '#FFFAF8', boxShadow: '0 20px 60px rgba(140,70,80,0.12)' }}>
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style={{ backgroundColor: 'rgba(239,68,68,0.08)' }}>
             <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
           </div>
@@ -145,7 +145,7 @@ export default function OnayPage() {
         {isBusiness ? (
           <Image src="/nikahim-carsi-icon.png" alt="Nikahım Çarşı" width={80} height={80} className="mx-auto mb-4 object-contain" style={{ width: 80, height: 80 }} />
         ) : (
-          <Image src="/logo.png" alt="Nikahim.com" width={70} height={70} className="mx-auto rounded-full mb-4" />
+          <Image src="/logo-nikahim.png" alt="Nikahım" width={112} height={120} className="mx-auto mb-4" style={{ width: 108, height: 'auto' }} />
         )}
 
         <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5" style={{ backgroundColor: 'rgba(34,197,94,0.08)' }}>
