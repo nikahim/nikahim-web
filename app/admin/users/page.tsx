@@ -10,6 +10,7 @@ interface User {
   phone: string | null;
   user_type: string;
   is_admin: boolean;
+  role?: string | null;
   created_at: string;
 }
 
@@ -29,6 +30,7 @@ export default function AdminUsersPage() {
   };
 
   const filtered = users.filter(u => {
+    if (u.role === 'agent') return false; // destek uzmanları burada değil, Uzmanlar sayfasında
     if (filter === 'individual' && u.user_type !== 'individual') return false;
     if (filter === 'business' && u.user_type !== 'business') return false;
     if (filter === 'admin' && !u.is_admin) return false;

@@ -93,6 +93,28 @@ interface GoldOption {
   image: string;
 }
 
+// Hafif sıkıştırma (baskı dostu): çözünürlük korunur, sadece 4000px üstü kısılır + JPEG q0.9.
+async function compressImage(file: File): Promise<Blob> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const maxDim = 4000;
+    let width = bitmap.width, height = bitmap.height;
+    if (Math.max(width, height) > maxDim) {
+      const scale = maxDim / Math.max(width, height);
+      width = Math.round(width * scale); height = Math.round(height * scale);
+    }
+    const canvas = document.createElement('canvas');
+    canvas.width = width; canvas.height = height;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return file;
+    ctx.drawImage(bitmap, 0, 0, width, height);
+    const blob: Blob | null = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
+    return blob || file;
+  } catch {
+    return file;
+  }
+}
+
 export default function WatchPage() {
   const params = useParams();
   const router = useRouter();
@@ -1470,9 +1492,18 @@ export default function WatchPage() {
                    background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,180,170,0.55))',
                    boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                  }}>
-              <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
-                   className="rounded-full object-cover w-[135px] h-[135px] block"
-                   style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
+              {event.couple_photo_url ? (
+                <img src={event.couple_photo_url} alt="Çift Fotoğrafı"
+                     className="rounded-full object-cover w-[135px] h-[135px] block"
+                     style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
+              ) : (
+                <div className="rounded-full flex items-center justify-center w-[135px] h-[135px]" style={{ background: '#FDF5F5', border: '2px solid rgba(255,255,255,0.95)' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1609,7 +1640,7 @@ export default function WatchPage() {
                   <div className="p-6 pt-2">
                     <label className="block text-sm font-medium text-gray-600 mb-2 ml-1">Adınız Soyadınız</label>
                     <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 10)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
                         <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
@@ -1619,12 +1650,12 @@ export default function WatchPage() {
                           </button>
                         </div>
                       ))}
-                      {photoUploadFiles.length < 9 && (
+                      {photoUploadFiles.length < 10 && (
                         <label className="aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E] hover:bg-rose-50/30 transition-colors" style={{ borderColor: 'rgba(200,104,110,0.55)' }}>
                           <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                           <span className="text-[10px] mt-1" style={{ color: '#C8686E' }}>Ekle</span>
                           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
-                            const files = Array.from(e.target.files || []).slice(0, 9 - photoUploadFiles.length);
+                            const files = Array.from(e.target.files || []).slice(0, 10 - photoUploadFiles.length);
                             setPhotoUploadFiles(prev => [...prev, ...files]);
                             files.forEach(file => { const reader = new FileReader(); reader.onload = (ev) => setPhotoUploadPreviews(prev => [...prev, ev.target?.result as string]); reader.readAsDataURL(file); });
                           }} />
@@ -1665,7 +1696,8 @@ export default function WatchPage() {
                         for (let i = 0; i < photoUploadFiles.length; i++) {
                           const file = photoUploadFiles[i];
                           const fileName = `pending/${event.id}/${Date.now()}_${i}_${Math.random().toString(36).slice(2, 8)}.jpg`;
-                          const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
+                          const _blob = await compressImage(file);
+                          const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, _blob, { contentType: 'image/jpeg' });
                           if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); }
                           setGuestUploadProgress({ current: i + 1, total: photoUploadFiles.length });
                         }
@@ -1731,9 +1763,18 @@ export default function WatchPage() {
                    background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(232,180,170,0.55))',
                    boxShadow: '0 12px 30px rgba(200,104,110,0.20), 0 4px 12px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.95)',
                  }}>
-              <img src={event.couple_photo_url || "/couple-icon.png"} alt="Çift Fotoğrafı"
-                   className="rounded-full object-cover w-[135px] h-[135px] block"
-                   style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
+              {event.couple_photo_url ? (
+                <img src={event.couple_photo_url} alt="Çift Fotoğrafı"
+                     className="rounded-full object-cover w-[135px] h-[135px] block"
+                     style={{ border: '2px solid rgba(255,255,255,0.95)' }} />
+              ) : (
+                <div className="rounded-full flex items-center justify-center w-[135px] h-[135px]" style={{ background: '#FDF5F5', border: '2px solid rgba(255,255,255,0.95)' }}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                    <circle cx="12" cy="13" r="4" />
+                  </svg>
+                </div>
+              )}
             </div>
           </div>
 
@@ -1896,7 +1937,7 @@ export default function WatchPage() {
                     <input type="text" value={photoUploaderName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
 
                     {/* Fotoğraf Seç */}
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 10)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
                         <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
@@ -1909,12 +1950,12 @@ export default function WatchPage() {
                           </button>
                         </div>
                       ))}
-                      {photoUploadFiles.length < 9 && (
+                      {photoUploadFiles.length < 10 && (
                         <label className="aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E] hover:bg-rose-50/30 transition-colors" style={{ borderColor: 'rgba(200,104,110,0.55)' }}>
                           <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                           <span className="text-[10px] mt-1" style={{ color: '#C8686E' }}>Ekle</span>
                           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
-                            const files = Array.from(e.target.files || []).slice(0, 9 - photoUploadFiles.length);
+                            const files = Array.from(e.target.files || []).slice(0, 10 - photoUploadFiles.length);
                             setPhotoUploadFiles(prev => [...prev, ...files]);
                             files.forEach(file => {
                               const reader = new FileReader();
@@ -1961,7 +2002,8 @@ export default function WatchPage() {
                           for (let i = 0; i < photoUploadFiles.length; i++) {
                             const file = photoUploadFiles[i];
                             const fileName = `pending/${event.id}/${Date.now()}_${i}_${Math.random().toString(36).slice(2, 8)}.jpg`;
-                            const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
+                            const _blob = await compressImage(file);
+                          const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, _blob, { contentType: 'image/jpeg' });
                             if (!error) {
                               const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName);
                               urls.push(urlData.publicUrl);
@@ -2252,7 +2294,12 @@ export default function WatchPage() {
                 {event.couple_photo_url ? (
                   <img src={event.couple_photo_url} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
                 ) : (
-                  <img src="/couple-icon.png" alt="Çift" className="w-20 h-20 mx-auto rounded-full object-cover mb-3" />
+                  <div className="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3" style={{ background: '#FDF5F5', border: '2px solid rgba(200,104,110,0.15)' }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                      <circle cx="12" cy="13" r="4" />
+                    </svg>
+                  </div>
                 )}
                 <h2 className="text-gray-900 font-bold text-[17px] mb-0.5">{event.bride_first_name} & {event.groom_first_name}</h2>
                 <p className="text-gray-500 text-[13px]">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
@@ -2590,7 +2637,16 @@ export default function WatchPage() {
                   <div className={`relative z-10 flex flex-col items-center ${isFullscreen ? 'pt-0' : 'pt-6 lg:pt-10'}`}>
                     {/* Çift fotoğrafı — +%20 büyük, breathing glow ring */}
                     <div className="relative mb-3 lg:mb-5 rounded-full couple-ring-breath" style={{ background: 'linear-gradient(135deg, #E8A5A9 0%, #C8686E 30%, #A85359 60%, #C8686E 80%, #E8A5A9 100%)', padding: '1px' }}>
-                      <img src={event.couple_photo_url || "/navbar-icon.png"} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
+                      {event.couple_photo_url ? (
+                        <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" />
+                      ) : (
+                        <div className="rounded-full flex items-center justify-center w-[96px] h-[96px] lg:w-[192px] lg:h-[192px]" style={{ background: '#FDF5F5' }}>
+                          <svg xmlns="http://www.w3.org/2000/svg" width="40%" height="40%" viewBox="0 0 24 24" fill="none" stroke="#C8686E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                            <circle cx="12" cy="13" r="4" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
 
                     {/* Çift isimleri — daha zarif: ince + bir tık küçük */}
@@ -2711,7 +2767,7 @@ export default function WatchPage() {
                         <img src={event.couple_photo_url} alt="Çift" className="w-10 h-10 rounded-full object-cover border border-white/20" />
                       ) : (
                         <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.3)' }}>
-                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" strokeWidth={1.5} /></svg>
                         </div>
                       )}
                       <div>
@@ -4290,7 +4346,7 @@ export default function WatchPage() {
                 <div className="p-6 pt-2">
                   <label className="block text-sm font-medium text-gray-600 mb-2 ml-1">Adınız Soyadınız</label>
                   <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
-                  <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 9)</label>
+                  <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 10)</label>
                   <div className="grid grid-cols-3 gap-2 mb-4">
                     {photoUploadPreviews.map((prev, i) => (
                       <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
@@ -4300,12 +4356,12 @@ export default function WatchPage() {
                         </button>
                       </div>
                     ))}
-                    {photoUploadFiles.length < 9 && (
+                    {photoUploadFiles.length < 10 && (
                       <label className="aspect-square rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E]/30 transition-colors">
                         <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                         <span className="text-[10px] text-gray-300 mt-1">Ekle</span>
                         <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
-                          const files = Array.from(e.target.files || []).slice(0, 9 - photoUploadFiles.length);
+                          const files = Array.from(e.target.files || []).slice(0, 10 - photoUploadFiles.length);
                           setPhotoUploadFiles(prev => [...prev, ...files]);
                           files.forEach(file => { const reader = new FileReader(); reader.onload = (ev) => setPhotoUploadPreviews(prev => [...prev, ev.target?.result as string]); reader.readAsDataURL(file); });
                         }} />
@@ -4321,7 +4377,8 @@ export default function WatchPage() {
                       const urls: string[] = [];
                       for (const file of photoUploadFiles) {
                         const fileName = `pending/${event.id}/${Date.now()}_${Math.random().toString(36).slice(2, 8)}.jpg`;
-                        const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, file, { contentType: 'image/jpeg' });
+                        const _blob = await compressImage(file);
+                          const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, _blob, { contentType: 'image/jpeg' });
                         if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); }
                       }
                       if (urls.length > 0) { await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' }); }

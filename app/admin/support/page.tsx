@@ -92,7 +92,7 @@ function firstCustomerMessage(t: Ticket): string {
 export default function AdminSupportPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sourceTab, setSourceTab] = useState<'mobile' | 'web'>('mobile');
+  const [sourceTab, setSourceTab] = useState<'all' | 'mobile' | 'web' | 'whatsapp' | 'email'>('all');
   const [tab, setTab] = useState<'open' | 'done' | 'all'>('open');
 
   const [active, setActive] = useState<Ticket | null>(null);
@@ -205,7 +205,8 @@ export default function AdminSupportPage() {
     fetchTickets();
   };
 
-  const bySource = useMemo(() => tickets.filter(t => (sourceTab === 'web' ? isWeb(t) : !isWeb(t))), [tickets, sourceTab]);
+  const srcOf = (t: Ticket) => String(t.source || 'mobile').toLowerCase();
+  const bySource = useMemo(() => tickets.filter(t => sourceTab === 'all' || srcOf(t) === sourceTab), [tickets, sourceTab]);
 
   const filtered = useMemo(() => bySource.filter(t => {
     if (tab === 'open') return !isDone(t.status);
@@ -213,8 +214,7 @@ export default function AdminSupportPage() {
     return true;
   }), [bySource, tab]);
 
-  const mobileCount = tickets.filter(t => !isWeb(t) && !isDone(t.status)).length;
-  const webCount = tickets.filter(t => isWeb(t) && !isDone(t.status)).length;
+  const srcCount = (k: string) => tickets.filter(t => (k === 'all' || srcOf(t) === k) && !isDone(t.status)).length;
   const openCount = bySource.filter(t => !isDone(t.status)).length;
   const doneCount = bySource.filter(t => isDone(t.status)).length;
   const allCount = bySource.length;
@@ -236,18 +236,21 @@ export default function AdminSupportPage() {
         <p className="text-gray-500 text-sm mt-1">Kullanıcı taleplerini yanıtla ve çöz</p>
       </div>
 
-      {/* Büyük kaynak tab'ları — MOBİL / WEB */}
-      <div className="flex gap-3 mb-5">
-        {([['mobile', '📱 Mobil (Üyeler)', mobileCount], ['web', '🌐 Web (Ziyaretçi)', webCount]] as const).map(([k, l, c]) => (
-          <button key={k} onClick={() => setSourceTab(k as any)}
-            className={`flex-1 px-6 py-4 rounded-2xl text-base font-bold transition-all border-2 ${sourceTab === k ? 'text-white shadow-lg border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
-            style={sourceTab === k ? { background: 'linear-gradient(135deg, #D17075, #C8686E)' } : {}}>
-            {l}
-            {c > 0 && (
-              <span className={`ml-2 inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full text-xs font-bold ${sourceTab === k ? 'bg-white/25 text-white' : 'bg-rose-100 text-rose-600'}`}>{c}</span>
-            )}
-          </button>
-        ))}
+      {/* Kaynak tab'ları — Tümü / Mobil / Web / WhatsApp / E-posta */}
+      <div className="flex flex-wrap gap-2 mb-5">
+        {([['all', '▦ Tümü'], ['mobile', '📱 Mobil'], ['web', '🌐 Web'], ['whatsapp', '🟢 WhatsApp'], ['email', '✉️ E-posta']] as const).map(([k, l]) => {
+          const c = srcCount(k);
+          return (
+            <button key={k} onClick={() => setSourceTab(k as any)}
+              className={`px-5 py-3 rounded-2xl text-sm font-bold transition-all border-2 ${sourceTab === k ? 'text-white shadow-lg border-transparent' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'}`}
+              style={sourceTab === k ? { background: 'linear-gradient(135deg, #D17075, #C8686E)' } : {}}>
+              {l}
+              {c > 0 && (
+                <span className={`ml-2 inline-flex items-center justify-center min-w-[22px] h-[22px] px-1.5 rounded-full text-xs font-bold ${sourceTab === k ? 'bg-white/25 text-white' : 'bg-rose-100 text-rose-600'}`}>{c}</span>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Durum tab'ları */}

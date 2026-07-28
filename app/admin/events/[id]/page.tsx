@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import Link from "next/link";
+import EventActions from "@/components/EventActions";
 
 export default function AdminEventDetailPage() {
   const params = useParams();
@@ -96,6 +97,12 @@ export default function AdminEventDetailPage() {
             Etkinliği Sil
           </button>
         </div>
+      </div>
+
+      {/* Hızlı İşlemler — ücretsiz ek süre / paket yükseltme */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-6 mb-6">
+        <h2 className="font-bold text-gray-800 mb-3">Hızlı İşlemler</h2>
+        <EventActions eventId={event.id} onChange={fetchAll} />
       </div>
 
       {/* Tabs */}
