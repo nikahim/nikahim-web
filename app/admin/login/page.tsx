@@ -40,13 +40,9 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)' }}>
       <div className="bg-white rounded-3xl p-10 max-w-md w-full" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.1)' }}>
         <div className="text-center mb-8">
-          <div className="w-20 h-20 rounded-3xl bg-white mx-auto mb-3 flex items-center justify-center" style={{ boxShadow: '0 12px 30px rgba(200,104,110,0.18)' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-nikahim.png" alt="Nikahım" className="w-14 h-14 object-contain" />
-          </div>
-          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#C8686E' }}>Nikahım</h1>
-          <p className="text-sm font-semibold text-gray-600 mt-1">Admin Paneli</p>
-          <p className="text-xs text-gray-400 mt-0.5">Yönetim girişi</p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-full.png" alt="Nikahım" className="h-24 mx-auto mb-2 object-contain" />
+          <p className="text-base font-semibold text-gray-700">Admin Paneli</p>
         </div>
 
         {error && (
