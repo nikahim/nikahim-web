@@ -1179,7 +1179,7 @@ export default function WatchPage() {
       // Limit kontrolü SADECE yayın aktifken — gerçek "izleyen" sayısı (presence) üzerinden.
       // Paket limiti + %10 tampon (ör. 100→110, 200→220, 300→330).
       if (streamData?.status === 'active') {
-        const baseMax = eventPackage?.max_viewers ?? 200;
+        const baseMax = (eventPackage?.max_viewers ?? 200) + ((event as any)?.extra_viewers ?? 0);
         const maxLive = Math.floor(baseMax * 1.1);
         if (liveViewerCount >= maxLive) {
           // Çift "ek izleyici paketi"ni kabul ettiyse sınır kalkar.

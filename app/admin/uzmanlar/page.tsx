@@ -8,6 +8,7 @@ const PERMS = [
   { key: "live_ops", label: "Canlı operasyon" },
   { key: "user_lookup", label: "Kullanıcı arama / detay" },
   { key: "grant_time", label: "Ücretsiz ek süre" },
+  { key: "grant_viewers", label: "İzleyici artırma" },
   { key: "grant_package", label: "Paket yükseltme" },
   { key: "notify_user", label: "Kullanıcıya bildirim" },
 ];
