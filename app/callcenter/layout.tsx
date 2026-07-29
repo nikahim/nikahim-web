@@ -51,6 +51,7 @@ export default function CallcenterLayout({ children }: { children: React.ReactNo
     { href: "/callcenter", label: "Panelim", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6", show: true },
     { href: "/callcenter/destek", label: "Destek Talepleri", icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z", show: can("support") },
     { href: "/callcenter/operasyon", label: "Canlı Operasyon", icon: "M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z", show: can("live_ops") },
+    { href: "/callcenter/izleme", label: "İzleme Duvarı", icon: "M4 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5zM3 19h18M8 21h8", show: can("live_ops") },
     { href: "/callcenter/kullanicilar", label: "Kullanıcı Ara", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z", show: can("user_lookup") },
     { href: "/callcenter/guvenlik", label: "Güvenlik", icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z", show: true },
   ].filter((n) => n.show);
