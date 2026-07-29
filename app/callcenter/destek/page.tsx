@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import CreateTicketModal from "@/components/CreateTicketModal";
 
 const SOURCES = [
   { key: "all", label: "Tümü", icon: "▦" },
@@ -9,8 +10,29 @@ const SOURCES = [
   { key: "web", label: "Web", icon: "🌐" },
   { key: "whatsapp", label: "WhatsApp", icon: "🟢" },
   { key: "email", label: "E-posta", icon: "✉️" },
+  { key: "phone", label: "Telefon", icon: "📞" },
 ];
 const OPEN = ["open", "in_progress"];
+const isWeb = (t: any) => String(t?.source || "mobile").toLowerCase() === "web";
+
+// Markalı e-posta — admin ile aynı edge function (Resend)
+async function sendBrandedEmail(to: string, name: string, ticketNo: string, subject: string, message: string, done: boolean) {
+  if (!to) throw new Error("Alıcı e-postası yok");
+  const { data, error } = await supabase.functions.invoke("send-email", {
+    body: {
+      to, subject: `Destek Talebiniz Yanıtlandı · ${ticketNo}`,
+      params: {
+        badge: "✓", email_title: "Destek Talebiniz Yanıtlandı",
+        greeting: `Merhaba ${name || "Değerli Kullanıcı"},`,
+        content_label: "Destek Ekibimizin Yanıtı", message,
+        ticket_ref: ticketNo, ticket_status: done ? "Çözüldü" : "Yanıtlandı",
+        cta_label: "Ücretsiz Başla", cta_url: "https://nikahim.com/?indir=1",
+      },
+    },
+  });
+  if (error) throw new Error(error.message || "E-posta gönderilemedi");
+  if (data?.error) throw new Error(typeof data.error === "string" ? data.error : JSON.stringify(data.error));
+}
 const relTime = (iso?: string) => { if (!iso) return ""; const s = (Date.now() - new Date(iso).getTime()) / 1000; if (s < 60) return "az önce"; if (s < 3600) return `${Math.floor(s / 60)} dk önce`; if (s < 86400) return `${Math.floor(s / 3600)} sa önce`; return new Date(iso).toLocaleDateString("tr-TR"); };
 
 export default function CallcenterDestek() {
@@ -21,6 +43,26 @@ export default function CallcenterDestek() {
   const [sel, setSel] = useState<any>(null);
   const [reply, setReply] = useState("");
   const [sending, setSending] = useState(false);
+  const [newTicketOpen, setNewTicketOpen] = useState(false);
+  const [channels, setChannels] = useState<{ app: boolean; email: boolean; whatsapp: boolean }>({ app: false, email: false, whatsapp: false });
+  const [toast, setToast] = useState<string>("");
+  const showToast = (m: string) => { setToast(m); setTimeout(() => setToast(""), 3500); };
+  const [meId, setMeId] = useState<string | null>(null);
+  const [staffMap, setStaffMap] = useState<Record<string, string>>({});
+  useEffect(() => { (async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setMeId(user?.id || null);
+    const { data } = await supabase.from("users").select("id, full_name, username").or("role.eq.owner,role.eq.agent,is_admin.eq.true");
+    const m: Record<string, string> = {};
+    (data || []).forEach((u: any) => { m[u.id] = u.full_name || u.username || "Uzman"; });
+    setStaffMap(m);
+  })(); }, []);
+
+  const selectTicket = (t: any) => {
+    setSel(t); setReply("");
+    const email = t.user_email || t.email || "";
+    setChannels({ app: !!t.user_id && !isWeb(t), email: !!email, whatsapp: false });
+  };
 
   const load = async () => {
     const { data } = await supabase.from("support_tickets").select("*").order("created_at", { ascending: false }).limit(500);
@@ -36,17 +78,37 @@ export default function CallcenterDestek() {
   const countSrc = (k: string) => tickets.filter(t => (k === "all" || srcOf(t) === k) && isOpen(t)).length;
 
   const sendReply = async () => {
-    if (!reply.trim() || !sel) return;
+    if (!reply.trim() || !sel || (!channels.app && !channels.email)) return;
     setSending(true);
     const text = reply.trim();
     const replies = Array.isArray(sel.admin_replies) ? sel.admin_replies : [];
     const next = [...replies, { text, at: new Date().toISOString() }];
-    await supabase.from("support_tickets").update({ admin_replies: next, status: "in_progress" }).eq("id", sel.id);
-    if (sel.user_id) {
-      await supabase.from("notifications").insert({ user_id: sel.user_id, type: "ticket_update", title: "Destek Ekibinden Yeni Yanıt", body: text, data: { ticket: sel.ticket_number } });
+    // İlk cevabı yazan talebi üstlenir
+    const patch: any = { admin_replies: next, status: "in_progress" };
+    const claimed = !sel.assigned_to && meId;
+    if (claimed) { patch.assigned_to = meId; patch.assigned_at = new Date().toISOString(); }
+    await supabase.from("support_tickets").update(patch).eq("id", sel.id);
+    const recipientEmail = sel.user_email || sel.email || "";
+    const name = sel.user_name || sel.name || "Değerli Kullanıcı";
+    try {
+      if (channels.app && sel.user_id) {
+        await supabase.from("notifications").insert({ user_id: sel.user_id, type: "ticket_update", title: "Destek Ekibinden Yeni Yanıt", body: text, data: { ticket: sel.ticket_number } });
+      }
+      if (channels.email && recipientEmail) {
+        await sendBrandedEmail(recipientEmail, name, sel.ticket_number, sel.subject || "", text, false);
+      }
+    } catch (e: any) {
+      setSending(false);
+      showToast("Yanıt kaydedildi ama iletilemedi: " + (e?.message || e));
+      setSel({ ...sel, ...patch }); load();
+      return;
     }
     setReply(""); setSending(false);
-    setSel({ ...sel, admin_replies: next, status: "in_progress" });
+    setSel({ ...sel, ...patch });
+    const ch: string[] = [];
+    if (channels.app && sel.user_id) ch.push("bildirim");
+    if (channels.email && recipientEmail) ch.push("e-posta");
+    showToast("Yanıt gönderildi ✓" + (ch.length ? " (" + ch.join(" + ") + ")" : ""));
     load();
   };
 
@@ -61,9 +123,12 @@ export default function CallcenterDestek() {
 
   return (
     <div className="min-h-screen bg-[#F6F7F9] p-8">
-      <div className="mb-5">
-        <h1 className="text-2xl font-bold text-slate-800">Destek Talepleri</h1>
-        <p className="text-slate-500 text-sm mt-1">Tüm kanallardan gelen destek — kaynağına göre</p>
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-800">Destek Talepleri</h1>
+          <p className="text-slate-500 text-sm mt-1">Tüm kanallardan gelen destek — kaynağına göre</p>
+        </div>
+        <button onClick={() => setNewTicketOpen(true)} className="flex-shrink-0 py-2.5 px-5 rounded-xl text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900">+ Yeni Talep</button>
       </div>
 
       {/* Kaynak sekmeleri */}
@@ -87,7 +152,7 @@ export default function CallcenterDestek() {
         {/* Liste */}
         <div className="bg-white rounded-2xl border border-slate-200/70 divide-y divide-slate-100 overflow-hidden">
           {filtered.length === 0 ? <div className="py-10 text-center text-sm text-slate-400">Bu filtrede talep yok</div> : filtered.map(t => (
-            <button key={t.id} onClick={() => setSel(t)} className={`w-full text-left p-4 hover:bg-slate-50 transition-all ${sel?.id === t.id ? "bg-blue-50/60" : ""}`}>
+            <button key={t.id} onClick={() => selectTicket(t)} className={`w-full text-left p-4 hover:bg-slate-50 transition-all ${sel?.id === t.id ? "bg-blue-50/60" : ""}`}>
               <div className="flex items-center justify-between mb-1">
                 <span className="text-sm font-semibold text-slate-800 truncate">{t.user_name || t.name || "İsimsiz"}</span>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${isOpen(t) ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"}`}>{isOpen(t) ? "Açık" : "Çözüldü"}</span>
@@ -110,7 +175,14 @@ export default function CallcenterDestek() {
                   <p className="font-bold text-slate-800">{sel.user_name || sel.name}</p>
                   <p className="text-xs text-slate-400">{sel.user_email || sel.email} · {sel.user_phone || sel.phone || "—"}</p>
                 </div>
-                <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500">{srcLabel(srcOf(sel))}</span>
+                <div className="flex flex-col items-end gap-1">
+                  <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500">{srcLabel(srcOf(sel))}</span>
+                  {sel.assigned_to ? (
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">👤 {sel.assigned_to === meId ? "Siz" : (staffMap[sel.assigned_to] || "Uzman")}</span>
+                  ) : (
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-400">Atanmadı</span>
+                  )}
+                </div>
               </div>
               <div className="max-h-[340px] overflow-y-auto space-y-2 mb-3 pr-1">
                 {(Array.isArray(sel.conversation) ? sel.conversation : []).map((m: any, i: number) => (
@@ -123,8 +195,21 @@ export default function CallcenterDestek() {
               {isOpen(sel) ? (
                 <div className="space-y-2">
                   <textarea value={reply} onChange={(e) => setReply(e.target.value)} rows={3} placeholder="Yanıtınız…" className="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-sm outline-none focus:border-slate-400 resize-none" />
+                  {/* Kanal seçimi */}
+                  <div className="flex flex-wrap items-center gap-3 text-sm">
+                    <span className="text-[11px] font-semibold text-slate-400 uppercase">Gönderim:</span>
+                    <label className={`flex items-center gap-1.5 ${!sel.user_id ? "opacity-40" : "cursor-pointer"}`}>
+                      <input type="checkbox" disabled={!sel.user_id} checked={channels.app} onChange={e => setChannels(c => ({ ...c, app: e.target.checked }))} className="w-4 h-4 rounded accent-slate-700" />📱 Uygulama
+                    </label>
+                    <label className={`flex items-center gap-1.5 ${!(sel.user_email || sel.email) ? "opacity-40" : "cursor-pointer"}`}>
+                      <input type="checkbox" disabled={!(sel.user_email || sel.email)} checked={channels.email} onChange={e => setChannels(c => ({ ...c, email: e.target.checked }))} className="w-4 h-4 rounded accent-slate-700" />✉️ E-posta
+                    </label>
+                    <label className="flex items-center gap-1.5 opacity-40" title="WhatsApp entegrasyonu yakında">
+                      <input type="checkbox" disabled className="w-4 h-4 rounded accent-slate-700" />🟢 WhatsApp <span className="text-[10px]">(yakında)</span>
+                    </label>
+                  </div>
                   <div className="flex gap-2">
-                    <button onClick={sendReply} disabled={sending || !reply.trim()} className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900 disabled:opacity-50">{sending ? "Gönderiliyor…" : "Yanıtla"}</button>
+                    <button onClick={sendReply} disabled={sending || !reply.trim() || (!channels.app && !channels.email)} className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900 disabled:opacity-50">{sending ? "Gönderiliyor…" : "Yanıtla"}</button>
                     <button onClick={resolve} className="px-4 py-2.5 rounded-xl text-sm font-semibold text-emerald-700 bg-emerald-100 hover:bg-emerald-200">Çözüldü</button>
                   </div>
                 </div>
@@ -133,8 +218,13 @@ export default function CallcenterDestek() {
           )}
         </div>
       </div>
+
+      {newTicketOpen && (
+        <CreateTicketModal onClose={() => setNewTicketOpen(false)} onCreated={(num) => { setNewTicketOpen(false); showToast("Talep oluşturuldu ✓ " + num); load(); }} />
+      )}
+      {toast && <div className="fixed bottom-6 right-6 z-[70] px-5 py-3 rounded-2xl shadow-2xl bg-slate-800 text-white text-sm font-semibold">{toast}</div>}
     </div>
   );
 }
 
-function srcLabel(s: string) { return ({ mobile: "📱 Mobil", web: "🌐 Web", whatsapp: "🟢 WhatsApp", email: "✉️ E-posta" } as any)[s] || "📱 Mobil"; }
+function srcLabel(s: string) { return ({ mobile: "📱 Mobil", web: "🌐 Web", whatsapp: "🟢 WhatsApp", email: "✉️ E-posta", phone: "📞 Telefon" } as any)[s] || "📱 Mobil"; }

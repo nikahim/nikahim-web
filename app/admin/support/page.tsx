@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import CreateTicketModal from "@/components/CreateTicketModal";
 
 const DONE = ['resolved', 'closed', 'cozuldu', 'çözüldü', 'kapandi', 'kapandı', 'kapali'];
 const isDone = (s?: string | null) => DONE.includes(String(s || '').toLowerCase());
@@ -25,6 +26,8 @@ interface Ticket {
   admin_replies?: Reply[] | null;
   conversation?: any;
   source?: string | null;
+  assigned_to?: string | null;
+  assigned_at?: string | null;
   created_at: string;
   resolved_at?: string | null;
 }
@@ -92,18 +95,31 @@ function firstCustomerMessage(t: Ticket): string {
 export default function AdminSupportPage() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sourceTab, setSourceTab] = useState<'all' | 'mobile' | 'web' | 'whatsapp' | 'email'>('all');
+  const [sourceTab, setSourceTab] = useState<'all' | 'mobile' | 'web' | 'whatsapp' | 'email' | 'phone'>('all');
   const [tab, setTab] = useState<'open' | 'done' | 'all'>('open');
+  const [newTicketOpen, setNewTicketOpen] = useState(false);
 
   const [active, setActive] = useState<Ticket | null>(null);
   const [activeUser, setActiveUser] = useState<{ full_name?: string | null; email?: string | null; phone?: string | null } | null>(null);
   const [reply, setReply] = useState('');
+  const [channels, setChannels] = useState<{ app: boolean; email: boolean; whatsapp: boolean }>({ app: false, email: false, whatsapp: false });
   const [resolveChecked, setResolveChecked] = useState(false);
   const [sending, setSending] = useState(false);
   const [savingStatus, setSavingStatus] = useState(false);
 
   const [toast, setToast] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
   const showToast = (msg: string, type: 'success' | 'error' = 'success') => { setToast({ msg, type }); setTimeout(() => setToast(null), 3500); };
+
+  const [meId, setMeId] = useState<string | null>(null);
+  const [staffMap, setStaffMap] = useState<Record<string, string>>({});
+  useEffect(() => { (async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setMeId(user?.id || null);
+    const { data } = await supabase.from('users').select('id, full_name, username').or('role.eq.owner,role.eq.agent,is_admin.eq.true');
+    const m: Record<string, string> = {};
+    (data || []).forEach((u: any) => { m[u.id] = u.full_name || u.username || 'Uzman'; });
+    setStaffMap(m);
+  })(); }, []);
 
   const fetchTickets = async () => {
     const { data, error } = await supabase.from('support_tickets').select('*').order('created_at', { ascending: false });
@@ -126,10 +142,14 @@ export default function AdminSupportPage() {
     setReply('');
     setResolveChecked(isDone(t.status));
     setActiveUser(null);
+    let u: any = null;
     if (t.user_id) {
       const { data } = await supabase.from('users').select('full_name, email, phone').eq('id', t.user_id).single();
-      if (data) setActiveUser(data);
+      if (data) { setActiveUser(data); u = data; }
     }
+    const email = t.user_email || u?.email || '';
+    // Varsayılan kanallar: kayıtlı + mobil kullanıcıya uygulama bildirimi; e-posta varsa e-posta işaretli
+    setChannels({ app: !!t.user_id && !isWeb(t), email: !!email, whatsapp: false });
   };
 
   const sendReply = async () => {
@@ -137,21 +157,25 @@ export default function AdminSupportPage() {
     setSending(true);
     const entry: Reply = { text: reply.trim(), at: new Date().toISOString() };
     const nextReplies = [...((active.admin_replies as Reply[]) || []), entry];
-    const { error } = await supabase.from('support_tickets').update({ admin_replies: nextReplies }).eq('id', active.id);
+    // İlk cevabı yazan talebi üstlenir — atanmamışsa şu anki kullanıcıya ata
+    const patch: any = { admin_replies: nextReplies };
+    const claimed = !active.assigned_to && meId;
+    if (claimed) { patch.assigned_to = meId; patch.assigned_at = new Date().toISOString(); }
+    const { error } = await supabase.from('support_tickets').update(patch).eq('id', active.id);
     if (error) { setSending(false); showToast('Gönderilemedi: ' + error.message, 'error'); return; }
-    // Teslim: MOBİL → uygulama içi bildirim + e-posta; WEB → e-posta (ikisi de aynı şablon)
+    // Teslim: seçilen kanallara göre — uygulama bildirimi ve/veya e-posta
     const recipientEmail = active.user_email || activeUser?.email || '';
     const name = activeUser?.full_name || active.user_name || 'Değerli Kullanıcı';
     const done = isDone(active.status);
     try {
-      if (!isWeb(active) && active.user_id) {
+      if (channels.app && active.user_id) {
         await supabase.from('notifications').insert({
           user_id: active.user_id, type: 'ticket_update',
           title: 'Destek Ekibinden Yeni Yanıt', body: entry.text,
           data: { ticket_number: active.ticket_number, subject: active.subject || null },
         });
       }
-      if (recipientEmail) {
+      if (channels.email && recipientEmail) {
         await sendBrandedEmail({
           to_email: recipientEmail, to_name: name,
           subject: `Destek Talebiniz Yanıtlandı · ${active.ticket_number}`,
@@ -167,17 +191,17 @@ export default function AdminSupportPage() {
     } catch (e: any) {
       setSending(false);
       showToast('Yanıt kaydedildi ama iletilemedi: ' + (e?.message || e), 'error');
-      setActive({ ...active, admin_replies: nextReplies });
+      setActive({ ...active, ...patch });
       fetchTickets();
       return;
     }
     setSending(false);
     setReply('');
-    setActive({ ...active, admin_replies: nextReplies });
+    setActive({ ...active, ...patch });
     const ch: string[] = [];
-    if (!isWeb(active) && active.user_id) ch.push('bildirim');
-    if (recipientEmail) ch.push('e-posta');
-    showToast('Yanıt gönderildi ✓' + (ch.length ? ' (' + ch.join(' + ') + ')' : ''));
+    if (channels.app && active.user_id) ch.push('bildirim');
+    if (channels.email && recipientEmail) ch.push('e-posta');
+    showToast('Yanıt gönderildi ✓' + (ch.length ? ' (' + ch.join(' + ') + ')' : ' (kaydedildi)'));
     fetchTickets();
   };
 
@@ -231,14 +255,21 @@ export default function AdminSupportPage() {
 
   return (
     <div className="p-8">
-      <div className="mb-6">
-        <h1 className="text-3xl font-bold text-gray-800">Destek Talepleri</h1>
-        <p className="text-gray-500 text-sm mt-1">Kullanıcı taleplerini yanıtla ve çöz</p>
+      <div className="mb-6 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800">Destek Talepleri</h1>
+          <p className="text-gray-500 text-sm mt-1">Kullanıcı taleplerini yanıtla ve çöz</p>
+        </div>
+        <button onClick={() => setNewTicketOpen(true)}
+          className="flex-shrink-0 py-2.5 px-5 rounded-full font-semibold text-white text-sm transition-all hover:scale-[1.02]"
+          style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 20px rgba(200,104,110,0.3)' }}>
+          + Yeni Talep
+        </button>
       </div>
 
       {/* Kaynak tab'ları — Tümü / Mobil / Web / WhatsApp / E-posta */}
       <div className="flex flex-wrap gap-2 mb-5">
-        {([['all', '▦ Tümü'], ['mobile', '📱 Mobil'], ['web', '🌐 Web'], ['whatsapp', '🟢 WhatsApp'], ['email', '✉️ E-posta']] as const).map(([k, l]) => {
+        {([['all', '▦ Tümü'], ['mobile', '📱 Mobil'], ['web', '🌐 Web'], ['whatsapp', '🟢 WhatsApp'], ['email', '✉️ E-posta'], ['phone', '📞 Telefon']] as const).map(([k, l]) => {
           const c = srcCount(k);
           return (
             <button key={k} onClick={() => setSourceTab(k as any)}
@@ -317,6 +348,11 @@ export default function AdminSupportPage() {
                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${activeDone ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                   {activeDone ? '✓ Çözüldü' : '⚠ Açık'}
                 </span>
+                {active.assigned_to ? (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-700">👤 {active.assigned_to === meId ? 'Siz' : (staffMap[active.assigned_to] || 'Uzman')}</span>
+                ) : (
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">Atanmadı</span>
+                )}
               </div>
               <button onClick={() => setActive(null)} className="text-gray-400 hover:text-gray-600 text-2xl leading-none">×</button>
             </div>
@@ -391,7 +427,23 @@ export default function AdminSupportPage() {
                   </label>
                   <textarea value={reply} onChange={e => setReply(e.target.value)} placeholder="Mesajınızı yazın..." rows={3} maxLength={1000}
                     className="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-rose-400 resize-none mb-2" />
-                  <button onClick={sendReply} disabled={sending || !reply.trim()}
+                  {/* Kanal seçimi — cevap nereye gitsin */}
+                  <div className="flex flex-wrap items-center gap-4 mb-3">
+                    <span className="text-xs font-semibold text-gray-400 uppercase">Gönderim:</span>
+                    <label className={`flex items-center gap-1.5 text-sm ${(!active.user_id) ? 'opacity-40' : 'cursor-pointer'}`}>
+                      <input type="checkbox" disabled={!active.user_id} checked={channels.app} onChange={e => setChannels(c => ({ ...c, app: e.target.checked }))} className="w-4 h-4 rounded accent-rose-500" />
+                      📱 Uygulama bildirimi
+                    </label>
+                    <label className={`flex items-center gap-1.5 text-sm ${(!uEmail) ? 'opacity-40' : 'cursor-pointer'}`}>
+                      <input type="checkbox" disabled={!uEmail} checked={channels.email} onChange={e => setChannels(c => ({ ...c, email: e.target.checked }))} className="w-4 h-4 rounded accent-rose-500" />
+                      ✉️ E-posta
+                    </label>
+                    <label className="flex items-center gap-1.5 text-sm opacity-40" title="WhatsApp entegrasyonu yakında">
+                      <input type="checkbox" disabled className="w-4 h-4 rounded accent-rose-500" />
+                      🟢 WhatsApp <span className="text-[10px] text-gray-400">(yakında)</span>
+                    </label>
+                  </div>
+                  <button onClick={sendReply} disabled={sending || !reply.trim() || (!channels.app && !channels.email)}
                     className="py-2.5 px-7 rounded-full font-semibold text-white text-sm transition-all hover:scale-[1.01] disabled:opacity-40"
                     style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 20px rgba(200,104,110,0.3)' }}>
                     {sending ? 'Gönderiliyor...' : '📨 Gönder'}
@@ -420,6 +472,11 @@ export default function AdminSupportPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Yeni talep oluştur */}
+      {newTicketOpen && (
+        <CreateTicketModal onClose={() => setNewTicketOpen(false)} onCreated={(num) => { setNewTicketOpen(false); showToast('Talep oluşturuldu ✓ ' + num); fetchTickets(); }} />
       )}
 
       {/* Toast */}
