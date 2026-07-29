@@ -157,17 +157,32 @@ export default function Home() {
     if (!contactName || !contactEmail || !contactMessage) { alert('Lütfen tüm alanları doldurun.'); return; }
     setContactSending(true);
     try {
-      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          service_id: 'service_ibwy6qp', template_id: 'template_yqt3v0n', user_id: 'gEM0kiWpFVk06tmCZ',
-          template_params: { from_name: contactName, from_email: contactEmail, email: contactEmail, name: contactName, subject: contactSubject, message: contactMessage },
-        }),
+      // 1) Panele destek talebi olarak düşür (birincil)
+      const ticket_number = ('NKH-' + Math.random().toString(36).slice(2, 8)).toUpperCase();
+      const { error: tErr } = await supabase.from('support_tickets').insert({
+        ticket_number,
+        user_name: contactName,
+        user_email: contactEmail,
+        subject: contactSubject || 'Bize Ulaşın',
+        source: 'web',
+        status: 'open',
+        conversation: [{ role: 'user', content: contactMessage }],
       });
-      if (response.ok || (await response.text()) === 'OK') {
-        setContactSuccess(true); setContactName(''); setContactEmail(''); setContactSubject('Genel Soru'); setContactMessage('');
-        setTimeout(() => setContactSuccess(false), 3000);
-      } else { throw new Error('Gönderilemedi'); }
+      if (tErr) throw tErr;
+
+      // 2) E-posta kopyası (best-effort — hata olsa da talep açıldı)
+      try {
+        await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            service_id: 'service_ibwy6qp', template_id: 'template_yqt3v0n', user_id: 'gEM0kiWpFVk06tmCZ',
+            template_params: { from_name: contactName, from_email: contactEmail, email: contactEmail, name: contactName, subject: contactSubject, message: contactMessage },
+          }),
+        });
+      } catch {}
+
+      setContactSuccess(true); setContactName(''); setContactEmail(''); setContactSubject('Genel Soru'); setContactMessage('');
+      setTimeout(() => setContactSuccess(false), 3000);
     } catch { alert('Mesaj gönderilemedi. Lütfen tekrar deneyin.'); } finally { setContactSending(false); }
   };
 
