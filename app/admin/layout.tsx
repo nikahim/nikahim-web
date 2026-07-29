@@ -13,6 +13,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [isAdmin, setIsAdmin] = useState(false);
   const [needMfa, setNeedMfa] = useState(false);
   const [openTickets, setOpenTickets] = useState(0);
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => { setCollapsed(typeof window !== 'undefined' && localStorage.getItem('adminSidebar') === 'closed'); }, []);
+  const toggleSidebar = (v: boolean) => { setCollapsed(v); try { localStorage.setItem('adminSidebar', v ? 'closed' : 'open'); } catch {} };
 
   const isLoginPage = pathname === '/admin/login';
 
@@ -94,11 +98,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Kapalıyken açma oku */}
+      {collapsed && (
+        <button onClick={() => toggleSidebar(false)} title="Menüyü aç" className="fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-white border border-gray-200 shadow-md flex items-center justify-center text-gray-500 hover:bg-gray-50">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+        </button>
+      )}
       {/* Sidebar */}
-      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
-        <div className="p-6 border-b border-gray-100">
-          <h1 className="text-xl font-bold" style={{ color: '#C8686E' }}>Nikahım Admin</h1>
-          <p className="text-xs text-gray-400 mt-1">Yönetim Paneli</p>
+      {!collapsed && (
+      <aside className="w-64 bg-white border-r border-gray-200 flex flex-col flex-shrink-0">
+        <div className="p-6 border-b border-gray-100 flex items-start justify-between">
+          <div>
+            <h1 className="text-xl font-bold" style={{ color: '#C8686E' }}>Nikahım Admin</h1>
+            <p className="text-xs text-gray-400 mt-1">Yönetim Paneli</p>
+          </div>
+          <button onClick={() => toggleSidebar(true)} title="Menüyü kapat" className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 flex-shrink-0">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
         </div>
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map(item => {
@@ -135,6 +151,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </button>
         </div>
       </aside>
+      )}
 
       {/* Main */}
       <main className="flex-1 overflow-auto">

@@ -14,6 +14,10 @@ export default function CallcenterLayout({ children }: { children: React.ReactNo
   const [me, setMe] = useState<Me | null>(null);
   const [needMfa, setNeedMfa] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+
+  useEffect(() => { setCollapsed(typeof window !== 'undefined' && localStorage.getItem('ccSidebar') === 'closed'); }, []);
+  const toggleSidebar = (v: boolean) => { setCollapsed(v); try { localStorage.setItem('ccSidebar', v ? 'closed' : 'open'); } catch {} };
 
   const isLogin = pathname === "/callcenter/login";
 
@@ -58,16 +62,25 @@ export default function CallcenterLayout({ children }: { children: React.ReactNo
 
   return (
     <div className="min-h-screen bg-[#F6F7F9] flex">
-      <aside className="w-60 bg-slate-900 flex flex-col">
+      {collapsed && (
+        <button onClick={() => toggleSidebar(false)} title="Menüyü aç" className="fixed top-4 left-4 z-50 w-10 h-10 rounded-xl bg-slate-900 shadow-md flex items-center justify-center text-white hover:bg-slate-800">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+        </button>
+      )}
+      {!collapsed && (
+      <aside className="w-60 bg-slate-900 flex flex-col flex-shrink-0">
         <div className="p-5 border-b border-slate-800 flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-white flex items-center justify-center flex-shrink-0">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/logo-nikahim.png" alt="Nikahım" className="w-6 h-6 object-contain" />
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             <h1 className="text-base font-bold text-white leading-tight">Nikahım</h1>
             <p className="text-[10px] text-slate-400">Destek Uzmanı Paneli</p>
           </div>
+          <button onClick={() => toggleSidebar(true)} title="Menüyü kapat" className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 flex-shrink-0">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+          </button>
         </div>
         <nav className="flex-1 p-3 space-y-1">
           {nav.map((item) => {
@@ -91,6 +104,7 @@ export default function CallcenterLayout({ children }: { children: React.ReactNo
           </button>
         </div>
       </aside>
+      )}
       <main className="flex-1 overflow-auto">{children}</main>
     </div>
   );
