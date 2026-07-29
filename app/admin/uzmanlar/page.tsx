@@ -73,10 +73,15 @@ export default function AdminAgentsPage() {
     if (await call({ action: "delete", agent_id: ag.id })) { say("Uzman silindi"); load(); }
   };
 
-  const reviewApproval = async (id: string, status: "approved" | "rejected") => {
+  const reviewApproval = async (r: any, status: "approved" | "rejected") => {
     const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from("approval_requests").update({ status, reviewed_by: user?.id, reviewed_at: new Date().toISOString() }).eq("id", id);
-    say(status === "approved" ? "Talep onaylandı" : "Talep reddedildi");
+    // Onaylandıysa ve silme talebiyse — gerçekten sil (owner, service role fonksiyonu)
+    if (status === "approved" && r.action_type === "delete_event" && r.target_id) {
+      const { data, error } = await supabase.functions.invoke("agent-action", { body: { action: "purge_event", event_id: r.target_id } });
+      if (error || data?.error) { say(data?.error || "Silme başarısız", "err"); return; }
+    }
+    await supabase.from("approval_requests").update({ status, reviewed_by: user?.id, reviewed_at: new Date().toISOString() }).eq("id", r.id);
+    say(status === "approved" ? "Onaylandı ve uygulandı" : "Talep reddedildi");
     load();
   };
 
@@ -107,8 +112,8 @@ export default function AdminAgentsPage() {
                   <p className="text-sm font-semibold text-slate-800">{ACTION_LABEL[r.action_type] || r.action_type}</p>
                   <p className="text-xs text-slate-500">{r.reason || `${r.target_type || ""} ${r.target_id || ""}`}</p>
                 </div>
-                <button onClick={() => reviewApproval(r.id, "approved")} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700">Onayla</button>
-                <button onClick={() => reviewApproval(r.id, "rejected")} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 bg-slate-200 hover:bg-slate-300">Reddet</button>
+                <button onClick={() => reviewApproval(r, "approved")} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700">Onayla</button>
+                <button onClick={() => reviewApproval(r, "rejected")} className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-600 bg-slate-200 hover:bg-slate-300">Reddet</button>
               </div>
             ))}
           </div>
