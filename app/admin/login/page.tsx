@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
       <div className="bg-white rounded-3xl p-10 max-w-md w-full" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.1)' }}>
         <div className="text-center mb-8">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-full.png" alt="Nikahım" className="h-24 mx-auto mb-2 object-contain" />
+          <img src="/logo-beraber-t.png" alt="Nikahım" className="h-28 mx-auto mb-2 object-contain" />
           <p className="text-base font-semibold text-gray-700">Admin Paneli</p>
         </div>
 
