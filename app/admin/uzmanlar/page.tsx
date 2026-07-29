@@ -118,7 +118,7 @@ export default function AdminAgentsPage() {
       {/* Uzman listesi */}
       {agents.length === 0 ? (
         <div className="bg-white rounded-2xl border border-slate-200/70 p-10 text-center">
-          <p className="text-slate-400 text-sm">Henüz uzman yok. "+ Uzman Oluştur" ile ekle.</p>
+          <p className="text-slate-400 text-sm">{'Henüz uzman yok. "+ Uzman Oluştur" ile ekle.'}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
