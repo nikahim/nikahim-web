@@ -19,7 +19,7 @@ export default function AdminLoginPage() {
     const { data, error: authError } = await supabase.auth.signInWithPassword({ email: email.trim(), password });
 
     if (authError) {
-      setError("Giriş başarısız: " + authError.message);
+      setError("E-posta veya şifre hatalı! Lütfen tekrar deneyin.");
       setLoading(false);
       return;
     }
@@ -40,13 +40,13 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center p-4" style={{ background: 'linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)' }}>
       <div className="bg-white rounded-3xl p-10 max-w-md w-full" style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.1)' }}>
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+          <div className="w-20 h-20 rounded-3xl bg-white mx-auto mb-3 flex items-center justify-center" style={{ boxShadow: '0 12px 30px rgba(200,104,110,0.18)' }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo-nikahim.png" alt="Nikahım" className="w-14 h-14 object-contain" />
           </div>
-          <h1 className="text-2xl font-bold" style={{ color: '#C8686E' }}>Admin Paneli</h1>
-          <p className="text-sm text-gray-500 mt-1">Nikahım yönetim girişi</p>
+          <h1 className="text-2xl font-bold tracking-tight" style={{ color: '#C8686E' }}>Nikahım</h1>
+          <p className="text-sm font-semibold text-gray-600 mt-1">Admin Paneli</p>
+          <p className="text-xs text-gray-400 mt-0.5">Yönetim girişi</p>
         </div>
 
         {error && (

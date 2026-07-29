@@ -25,7 +25,7 @@ export default function MfaSetup() {
 
   const startEnroll = async () => {
     setBusy(true);
-    const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", friendlyName: `TOTP-${Date.now()}` });
+    const { data, error } = await supabase.auth.mfa.enroll({ factorType: "totp", issuer: "Nikahım.com", friendlyName: `Nikahım-${Date.now()}` });
     setBusy(false);
     if (error) { say(error.message, "err"); return; }
     setEnroll({ id: data.id, qr: data.totp.qr_code, secret: data.totp.secret });
