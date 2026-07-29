@@ -70,7 +70,7 @@ export default function MfaSetup() {
 
       {enroll && (
         <div>
-          <p className="text-sm text-slate-600 mb-3">1. Authenticator uygulamanla bu QR'ı tarat:</p>
+          <p className="text-sm text-slate-600 mb-3">{"1. Authenticator uygulamanla bu QR'ı tarat:"}</p>
           <div className="flex justify-center mb-3"><div className="p-3 bg-white border border-slate-200 rounded-xl" dangerouslySetInnerHTML={{ __html: enroll.qr }} /></div>
           <p className="text-xs text-slate-400 text-center mb-3">Elle: <span className="font-mono">{enroll.secret}</span></p>
           <p className="text-sm text-slate-600 mb-2">2. Uygulamadaki 6 haneli kodu gir:</p>
