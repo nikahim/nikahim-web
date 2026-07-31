@@ -30,7 +30,7 @@ export default function AdminDashboardPage() {
     const win = new Date(); win.setDate(win.getDate() - 21); // son 21 gün + ileri
 
     const [evRes, openTk, webTk, waitTk, txRes, newU, streamsRes] = await Promise.all([
-      supabase.from("events").select("id,user_id,bride_full_name,groom_full_name,bride_first_name,groom_first_name,event_type,event_date,event_time,city,status,is_live,stream_started_at,stream_ended_at,setup_completed,package_id,created_at").gte("event_date", win.toISOString().slice(0, 10)).order("event_date", { ascending: true }).limit(500),
+      supabase.from("events").select("id,user_id,bride_full_name,groom_full_name,bride_first_name,groom_first_name,event_type,event_date,event_time,city,status,is_live,stream_started_at,stream_ended_at,setup_completed,package_id,created_at,last_test_at,last_test_quality").gte("event_date", win.toISOString().slice(0, 10)).order("event_date", { ascending: true }).limit(500),
       supabase.from("support_tickets").select("id", { count: "exact", head: true }).in("status", ["open", "in_progress"]),
       supabase.from("support_tickets").select("id", { count: "exact", head: true }).eq("status", "open").eq("source", "web"),
       supabase.from("support_tickets").select("id", { count: "exact", head: true }).eq("status", "open"),
@@ -40,7 +40,10 @@ export default function AdminDashboardPage() {
     ]);
 
     const events: EventRow[] = evRes.data || [];
-    const testedIds = new Set((streamsRes.data || []).filter((s: any) => s.is_test).map((s: any) => s.event_id));
+    // Test yapıldı: kalıcı events.last_test_at VEYA (eski) streams.is_test
+    const testedIds = new Set<string>();
+    (streamsRes.data || []).forEach((s: any) => { if (s.is_test) testedIds.add(s.event_id); });
+    events.forEach((e: any) => { if (e.last_test_at) testedIds.add(e.id); });
     const isEnded = (s?: string) => ["ended", "cancelled", "canceled", "completed"].includes(String(s || "").toLowerCase());
 
     const todayEvents = events.filter(e => e.event_date === td);
@@ -213,7 +216,10 @@ function OpsTable({ events, td, tested }: { events: EventRow[]; td: string; test
     if ((e.event_date || "") < td) return { label: "Yayın yok", cls: "bg-red-100 text-red-700" };
     if (e.event_date === td) return { label: "Bugün · bekliyor", cls: "bg-indigo-100 text-indigo-700" };
     if (!tested.has(e.id)) return { label: "Test eksik", cls: "bg-amber-100 text-amber-700" };
-    return { label: "Hazırlanıyor", cls: "bg-emerald-100 text-emerald-700" };
+    const q = (e as any).last_test_quality;
+    if (q === "Zayıf") return { label: "Test: Zayıf", cls: "bg-orange-100 text-orange-700" };
+    if (q === "Orta") return { label: "Test: Orta", cls: "bg-yellow-100 text-yellow-700" };
+    return { label: q ? "Test: İyi ✓" : "Hazırlanıyor", cls: "bg-emerald-100 text-emerald-700" };
   };
   if (!events.length) return <Empty text="Yaklaşan yayın yok" />;
   return (
