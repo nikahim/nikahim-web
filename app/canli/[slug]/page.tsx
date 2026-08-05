@@ -1400,11 +1400,14 @@ export default function WatchPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gray-100 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-4xl mb-4">⏳</div>
-          <p className="text-gray-600">Yükleniyor...</p>
-        </div>
+      <main className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(#FFF9F6, #FDECE6)' }}>
+        {/* Uygulamadaki kalp geçiş animasyonu (büyüyüp küçülen) */}
+        <img
+          src="/logo-heart.png"
+          alt="Nikahım"
+          style={{ width: 132, height: 'auto', animation: 'nkhHeartBeat 3s ease-in-out infinite' }}
+        />
+        <style>{`@keyframes nkhHeartBeat { 0%,100% { transform: scale(0.94); } 50% { transform: scale(1.12); } }`}</style>
       </main>
     );
   }
