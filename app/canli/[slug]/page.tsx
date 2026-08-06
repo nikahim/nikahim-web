@@ -1405,7 +1405,7 @@ export default function WatchPage() {
         <img
           src="/logo-heart.png"
           alt="Nikahım"
-          style={{ width: 132, height: 'auto', marginBottom: '11vh', animation: 'nkhHeartBeat 3s ease-in-out infinite' }}
+          style={{ width: 132, height: 'auto', marginBottom: '6vh', animation: 'nkhHeartBeat 3s ease-in-out infinite' }}
         />
         <style>{`@keyframes nkhHeartBeat { 0%,100% { transform: scale(0.94); } 50% { transform: scale(1.12); } }`}</style>
       </main>
