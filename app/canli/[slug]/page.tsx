@@ -69,6 +69,7 @@ interface Event {
     wallet_tl?: string;
     wallet_usdt?: string;
     wallet_xauusdt?: string;
+    bank_name?: string | null;
   };
   recording_urls?: string[];
 }
@@ -4072,10 +4073,16 @@ export default function WatchPage() {
                     <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
                       <div className="flex justify-between items-start mb-2">
                         <div>
-                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Banka</p>
+                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Hesap Sahibi</p>
                           <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.bank_holder_name || event.groom_full_name}</p>
                         </div>
                       </div>
+                      {event.payment_methods_enabled?.bank_name && (
+                        <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Banka</p>
+                          <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.payment_methods_enabled.bank_name}</p>
+                        </div>
+                      )}
                       <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
                         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">IBAN</p>
                         <div className="flex items-center gap-2 mt-1">
