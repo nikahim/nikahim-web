@@ -2,7 +2,8 @@ import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 
 // "Örnek Canlı Yayın sayfası incele" butonu için — mertbasar@hotmail.com
-// hesabının en son oluşturduğu nikahın event_link'ini döner.
+// hesabının İLK (en eski) nikahının event_link'ini döner. Çoklu etkinlikte
+// hesaba yeni event eklense bile örnek her zaman bu ilk demo nikahta kalır.
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -22,12 +23,14 @@ export async function GET() {
       return NextResponse.json({ error: 'demo_user_not_found' }, { status: 404 });
     }
 
+    // İlk (en eski) nikah = sabit demo. Yeni etkinlikler örneği DEĞİŞTİRMEZ.
     const { data: ev } = await supabase
       .from('events')
       .select('event_link')
       .eq('user_id', userRow.id)
+      .eq('event_type', 'nikah')
       .not('event_link', 'is', null)
-      .order('created_at', { ascending: false })
+      .order('created_at', { ascending: true })
       .limit(1)
       .maybeSingle();
 
