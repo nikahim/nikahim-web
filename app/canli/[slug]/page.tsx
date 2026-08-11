@@ -567,13 +567,86 @@ export default function WatchPage() {
     );
   };
 
+  // Davetli giriş seçici — YAN YANA iki kart (referans tasarım): büyük ikon + gold nokta + 3 mini kutu
+  const renderWelcomeChooser = (ready: boolean, onJoin: () => void, onPhoto: () => void) => {
+    const isDugun = event?.event_type === 'dugun';
+    const st = { stroke: '#C84452' as const };
+    const icBroadcast = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
+    const icHeart = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>;
+    const icGold = <span className="w-[26px] h-[26px] rounded-full inline-flex items-center justify-center text-[15px] font-semibold" style={{ border: '1.7px solid #C84452', color: '#C84452', lineHeight: 1 }}>₺</span>;
+    const icCamera = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" /></svg>;
+    const icUpload = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 7.5L12 3m0 0L7.5 7.5M12 3v13.5" /></svg>;
+    const icUsers = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
+    // Büyük ikonlar — Katıl: monitor + yayın sinyali · Paylaş: fotoğraf
+    const bigVideo = (
+      <span className="relative inline-flex items-center justify-center">
+        <svg className="w-11 h-11" fill="none" stroke="#C84452" strokeWidth="1.7" viewBox="0 0 24 24">
+          <rect x="2.5" y="4.5" width="15" height="12" rx="2.4" />
+          <path d="M8 8.4L12.6 11 8 13.6z" fill="#C84452" stroke="none" />
+          <path strokeLinecap="round" d="M8.5 19.5h5M11 16.5v3" />
+        </svg>
+        <svg className="w-[22px] h-[22px] absolute -right-2 -bottom-1" fill="none" stroke="#C84452" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>
+      </span>
+    );
+    const bigImage = <svg className="w-11 h-11" fill="none" stroke="#C84452" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
+
+    const goldDot = (
+      <span className="flex items-center justify-center gap-1.5 mt-1.5 mb-0.5">
+        <span className="h-px w-5" style={{ background: 'linear-gradient(90deg, transparent, #D9A94F)' }} />
+        <span className="w-[3px] h-[3px] rounded-full" style={{ background: '#D4A852' }} />
+        <span className="h-px w-5" style={{ background: 'linear-gradient(90deg, #D9A94F, transparent)' }} />
+      </span>
+    );
+
+    // İki kart EŞİT ağırlıkta (biri öne çıkmaz), aynı stil
+    const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
+      <button
+        onClick={() => ready && onClick()}
+        disabled={!ready}
+        className="relative rounded-[22px] px-2.5 pt-3.5 pb-2.5 text-center transition-all btn-press active:scale-[0.985] disabled:cursor-default flex flex-col items-center h-full"
+        style={{
+          opacity: ready ? 1 : 0.55,
+          background: '#FFFDFC',
+          border: '1px solid #F1E3E0',
+          boxShadow: '0 6px 14px rgba(58,36,32,0.06)',
+        }}
+      >
+        <span className="inline-flex items-center px-3.5 py-1.5 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
+        <span className="my-2.5 w-[68px] h-[68px] rounded-full flex items-center justify-center" style={{ background: '#FFF1EF' }}>{big}</span>
+        <span className="block font-semibold text-[18px] leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
+        {goldDot}
+        <span className="flex gap-1.5 w-full mt-auto">
+          {feats.map((f, i) => (
+            <span key={i} className="flex-1 h-[64px] rounded-[11px] flex flex-col items-center justify-center px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
+              {f.icon}
+              <span className="text-[11px] leading-[14px] text-center mt-1.5" style={{ color: '#3F3A3B' }}>{f.label}</span>
+            </span>
+          ))}
+        </span>
+      </button>
+    );
+
+    return (
+      <>
+        <div className="flex justify-center mb-2.5 mt-1">
+          <svg className="w-6 h-6 animate-bounce" style={{ color: '#E95A68' }} fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        </div>
+        <div className="grid grid-cols-2 gap-3 items-stretch">
+          {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icHeart, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
+          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icCamera, label: 'Çek' }, { icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Çiftle Paylaş' }], onPhoto)}
+        </div>
+        {!ready && <p className="text-center text-[11.5px] mt-3" style={{ color: '#B5A0A0' }}>Devam etmek için adınızı ve soyadınızı yazın</p>}
+      </>
+    );
+  };
+
   // Birleşik Fotoğraf Paylaş popup'ı — "Fotoğraf Ekle" + "Yüklediklerim" sekmeleri (3 giriş ekranında ortak)
   const renderPhotoUploadPopup = () => {
     if (!showPhotoUpload) return null;
     const name = photoUploaderName || viewerName;
     return (
-      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
-        <div className="rounded-3xl max-w-md w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.97), rgba(250,245,238,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
+      <div className="fixed inset-0 z-[60] flex items-stretch justify-center sm:items-center sm:p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
+        <div className="rounded-none sm:rounded-3xl max-w-md w-full overflow-hidden relative flex flex-col h-full sm:h-auto sm:max-h-[92vh]" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.99), rgba(250,245,238,0.98))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
           {photoUploadSuccess ? (
             <div className="p-9 text-center">
               <div className="text-6xl mb-4">🎉</div>
@@ -600,7 +673,9 @@ export default function WatchPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
-                    <p className="text-xs text-gray-400">{event?.event_type === 'dugun' ? 'Düğün' : 'Nikah'} gününden karelerinizi paylaşın</p>
+                    {name.trim()
+                      ? <p className="text-[13px] font-semibold" style={{ color: '#C8686E' }}>Sn. {name.trim()}</p>
+                      : <p className="text-xs text-gray-400">{event?.event_type === 'dugun' ? 'Düğün' : 'Nikah'} gününden karelerinizi paylaşın</p>}
                   </div>
                 </div>
                 {/* Sekmeler */}
@@ -612,11 +687,9 @@ export default function WatchPage() {
                   ))}
                 </div>
               </div>
-              <div className="p-6 pt-3 max-h-[62vh] overflow-y-auto">
+              <div className="p-6 pt-3 flex-1 overflow-y-auto sm:flex-none sm:max-h-[62vh]">
                 {photoTab === 'uploads' ? renderMyUploads() : (
                   <>
-                    <label className="block text-sm font-medium text-gray-600 mb-2 ml-1">Adınız Soyadınız</label>
-                    <input type="text" value={photoUploaderName || viewerName} onChange={(e) => setPhotoUploaderName(e.target.value)} placeholder="" className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400 mb-4" />
                     <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 10)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
@@ -652,7 +725,7 @@ export default function WatchPage() {
                       </div>
                     )}
                     <button onClick={async () => {
-                      if (isDemoEvent) { showDemoBlock(); return; }
+                      // Demo etkinlikte de yükleme çalışsın (görülebilmesi için engel kaldırıldı)
                       if (!name.trim() || photoUploadFiles.length === 0 || !event) return;
                       setUploadingGuestPhotos(true);
                       setGuestUploadProgress({ current: 0, total: photoUploadFiles.length });
@@ -1914,64 +1987,11 @@ export default function WatchPage() {
           </div>
 
           {/* İki seçenek kartı — dönen misafir (isim zaten var, ikisi de aktif) */}
-          {(() => {
-            const isDugun = event.event_type === 'dugun';
-            const joinTitle = isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl';
-            return (
-              <div className="flex flex-col gap-3">
-                {/* Kart 1 — Katıl · primary rose */}
-                <button
-                  onClick={handleReturningContinue}
-                  className="w-full relative text-left rounded-[22px] p-[1.5px] overflow-hidden transition-all btn-press"
-                  style={{ background: 'linear-gradient(135deg, #E9A0A3, #C8686E)' }}
-                >
-                  <span className="block rounded-[21px] px-4 py-3.5 relative overflow-hidden"
-                        style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 16px 38px rgba(200,104,110,0.26), inset 0 1px 0 rgba(255,255,255,0.30)' }}>
-                    <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.20), transparent)' }} />
-                    <span className="relative flex items-center gap-3.5">
-                      <span className="flex-shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-2xl" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.25)' }}>
-                        <svg className="w-6 h-6" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                      </span>
-                      <span className="flex-1 min-w-0">
-                        <span className="inline-flex items-center gap-1 mb-1 px-2 py-[3px] rounded-full text-[9.5px] font-bold tracking-[0.4px] text-white" style={{ background: 'rgba(255,255,255,0.18)' }}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> UZAKTAYSAN
-                        </span>
-                        <span className="block text-white font-bold text-[17px] leading-tight">{joinTitle}</span>
-                        <span className="flex items-center gap-1.5 mt-1 text-white/90 text-[11.5px] font-medium">
-                          <span>Canlı İzle</span><span className="opacity-50">·</span><span>Tebrik Et</span><span className="opacity-50">·</span>
-                          <span className="inline-flex items-center gap-0.5"><svg className="w-3 h-3" viewBox="0 0 24 24" fill="#F4D58D"><circle cx="12" cy="12" r="9" stroke="#E7C270" strokeWidth="1.5" fill="#F4D58D"/></svg>Altın Tak</span>
-                        </span>
-                      </span>
-                      <svg className="w-5 h-5 text-white/90 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                    </span>
-                  </span>
-                </button>
-
-                {/* Kart 2 — Fotoğraf Paylaş · secondary cream-rose */}
-                <button
-                  onClick={() => { setPhotoUploaderName(viewerName); setShowPhotoUpload(true); }}
-                  className="w-full relative text-left rounded-[22px] px-4 py-3.5 overflow-hidden transition-all btn-press"
-                  style={{ background: 'linear-gradient(180deg, #FFF5F4 0%, #FFEDEB 100%)', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 10px 26px rgba(200,104,110,0.12)' }}
-                >
-                  <span className="flex items-center gap-3.5">
-                    <span className="flex-shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-2xl" style={{ background: 'linear-gradient(135deg, #F8C4C2, #ECA1A5)', boxShadow: '0 5px 12px rgba(200,104,110,0.18)' }}>
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" /></svg>
-                    </span>
-                    <span className="flex-1 min-w-0">
-                      <span className="inline-flex items-center gap-1 mb-1 px-2 py-[3px] rounded-full text-[9.5px] font-bold tracking-[0.4px]" style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
-                        {isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN'}
-                      </span>
-                      <span className="block font-bold text-[17px] leading-tight" style={{ color: '#B85258' }}>Fotoğraf Paylaş</span>
-                      <span className="flex items-center gap-1.5 mt-1 text-[11.5px] font-medium" style={{ color: '#9A6B6B' }}>
-                        <span>Çek</span><span className="opacity-40">·</span><span>Yükle</span><span className="opacity-40">·</span><span>Çiftle Paylaş</span>
-                      </span>
-                    </span>
-                    <svg className="w-5 h-5 flex-shrink-0" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                  </span>
-                </button>
-              </div>
-            );
-          })()}
+          {renderWelcomeChooser(
+            true,
+            handleReturningContinue,
+            () => { setPhotoUploaderName(viewerName); setPhotoTab('add'); setShowPhotoUpload(true); }
+          )}
         </div>
 
         {/* Fotoğraf Yükleme Popup - Tekrar gelen */}
@@ -2108,72 +2128,12 @@ export default function WatchPage() {
             </div>
           </div>
 
-          {/* İki seçenek kartı — ad-soyad girilmeden sönük (opacity .60), girilince aktif */}
-          {(() => {
-            const ready = isDemoEvent || (viewerFirstName.trim().length >= 2 && viewerLastName.trim().length >= 2);
-            const isDugun = event.event_type === 'dugun';
-            const joinTitle = isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl';
-            return (
-              <div className="flex flex-col gap-3">
-                {/* Kart 1 — Katıl (aktiviteye göre) · primary rose */}
-                <button
-                  onClick={() => { if (!ready) return; if (isDemoEvent) { setShowPhotoUpload(false); setIsNameEntered(true); } else { handleNameSubmit(); } }}
-                  disabled={!ready}
-                  className="w-full relative text-left rounded-[22px] p-[1.5px] overflow-hidden transition-all btn-press disabled:cursor-default"
-                  style={{ opacity: ready ? 1 : 0.6, transform: 'scale(1)', background: ready ? 'linear-gradient(135deg, #E9A0A3, #C8686E)' : 'rgba(200,104,110,0.18)' }}
-                >
-                  <span className="block rounded-[21px] px-4 py-3.5 relative overflow-hidden"
-                        style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: ready ? '0 16px 38px rgba(200,104,110,0.26), inset 0 1px 0 rgba(255,255,255,0.30)' : 'none' }}>
-                    <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.20), transparent)' }} />
-                    <span className="relative flex items-center gap-3.5">
-                      <span className="flex-shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-2xl" style={{ background: 'rgba(255,255,255,0.20)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.25)' }}>
-                        <svg className="w-6 h-6" fill="white" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                      </span>
-                      <span className="flex-1 min-w-0">
-                        <span className="inline-flex items-center gap-1 mb-1 px-2 py-[3px] rounded-full text-[9.5px] font-bold tracking-[0.4px] text-white" style={{ background: 'rgba(255,255,255,0.18)' }}>
-                          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> UZAKTAYSAN
-                        </span>
-                        <span className="block text-white font-bold text-[17px] leading-tight">{joinTitle}</span>
-                        <span className="flex items-center gap-1.5 mt-1 text-white/90 text-[11.5px] font-medium">
-                          <span>Canlı İzle</span><span className="opacity-50">·</span><span>Tebrik Et</span><span className="opacity-50">·</span>
-                          <span className="inline-flex items-center gap-0.5"><svg className="w-3 h-3" viewBox="0 0 24 24" fill="#F4D58D"><circle cx="12" cy="12" r="9" stroke="#E7C270" strokeWidth="1.5" fill="#F4D58D"/></svg>Altın Tak</span>
-                        </span>
-                      </span>
-                      <svg className="w-5 h-5 text-white/90 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                    </span>
-                  </span>
-                </button>
-
-                {/* Kart 2 — Fotoğraf Paylaş · secondary cream-rose */}
-                <button
-                  onClick={() => { if (!ready) return; setPhotoUploaderName(`${viewerFirstName} ${viewerLastName}`.trim()); setShowPhotoUpload(true); }}
-                  disabled={!ready}
-                  className="w-full relative text-left rounded-[22px] px-4 py-3.5 overflow-hidden transition-all btn-press disabled:cursor-default"
-                  style={{ opacity: ready ? 1 : 0.6, background: 'linear-gradient(180deg, #FFF5F4 0%, #FFEDEB 100%)', border: '1px solid rgba(200,104,110,0.22)', boxShadow: ready ? '0 10px 26px rgba(200,104,110,0.12)' : 'none' }}
-                >
-                  <span className="flex items-center gap-3.5">
-                    <span className="flex-shrink-0 inline-flex items-center justify-center w-12 h-12 rounded-2xl" style={{ background: 'linear-gradient(135deg, #F8C4C2, #ECA1A5)', boxShadow: '0 5px 12px rgba(200,104,110,0.18)' }}>
-                      <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" /></svg>
-                    </span>
-                    <span className="flex-1 min-w-0">
-                      <span className="inline-flex items-center gap-1 mb-1 px-2 py-[3px] rounded-full text-[9.5px] font-bold tracking-[0.4px]" style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
-                        {isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN'}
-                      </span>
-                      <span className="block font-bold text-[17px] leading-tight" style={{ color: '#B85258' }}>Fotoğraf Paylaş</span>
-                      <span className="flex items-center gap-1.5 mt-1 text-[11.5px] font-medium" style={{ color: '#9A6B6B' }}>
-                        <span>Çek</span><span className="opacity-40">·</span><span>Yükle</span><span className="opacity-40">·</span><span>Çiftle Paylaş</span>
-                      </span>
-                    </span>
-                    <svg className="w-5 h-5 flex-shrink-0" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
-                  </span>
-                </button>
-
-                {!ready && (
-                  <p className="text-center text-[11.5px] mt-0.5" style={{ color: '#B5A0A0' }}>Devam etmek için adınızı ve soyadınızı yazın</p>
-                )}
-              </div>
-            );
-          })()}
+          {/* İki seçenek kartı — ad-soyad girilmeden sönük, girilince aktif (yan yana referans tasarım). Demo'da da isim zorunlu. */}
+          {renderWelcomeChooser(
+            viewerFirstName.trim().length >= 2 && viewerLastName.trim().length >= 2,
+            () => { if (isDemoEvent) { setShowPhotoUpload(false); setIsNameEntered(true); } else { handleNameSubmit(); } },
+            () => { setPhotoUploaderName(`${viewerFirstName} ${viewerLastName}`.trim()); setPhotoTab('add'); setShowPhotoUpload(true); }
+          )}
         </div>
 
         {/* Fotoğraf Yükleme Popup */}
