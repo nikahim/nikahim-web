@@ -1705,7 +1705,16 @@ export default function WatchPage() {
                           if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); }
                           setGuestUploadProgress({ current: i + 1, total: photoUploadFiles.length });
                         }
-                        if (urls.length > 0) { await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' }); }
+                        if (urls.length > 0) {
+                          // Eski akış (çiftin onay ekranı) — geçiş güvenliği için korunuyor
+                          await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' });
+                          // Yeni model: foto başına satır + atomik numara (davetli ekranı + baskı + fotoğrafçı portalı)
+                          for (const url of urls) {
+                            let photoNo: number | null = null;
+                            try { const { data: no } = await supabase.rpc('next_photo_no', { p_event_id: event.id }); if (typeof no === 'number') photoNo = no; } catch {}
+                            await supabase.from('guest_photos').insert({ event_id: event.id, guest_name: name.trim(), photo_url: url, photo_no: photoNo, status: 'pending' });
+                          }
+                        }
                         setPhotoUploadSuccess(true);
                       } catch (e) { console.error('Photo upload error:', e); }
                       setUploadingGuestPhotos(false);
