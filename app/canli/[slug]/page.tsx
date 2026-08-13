@@ -551,7 +551,7 @@ export default function WatchPage() {
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
             <div className="p-9 text-center">
-              <div className="text-5xl mb-3">🖨️</div>
+              <img src="/baski-onay.png" alt="" className="w-28 h-28 mx-auto mb-3 object-contain" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h3 className="text-lg font-bold text-gray-900 mb-1.5">Baskı İsteğiniz İletildi</h3>
               <p className="text-[13px] text-gray-500 mb-6 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
               <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="text-white px-8 py-3 rounded-xl font-semibold" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
