@@ -254,8 +254,12 @@ export default function WatchPage() {
   const [printQty, setPrintQty] = useState(1);
   const [printSubmitting, setPrintSubmitting] = useState(false);
   const [printSuccess, setPrintSuccess] = useState(false);
-  const [printedIds, setPrintedIds] = useState<string[]>([]);
+  const [printedIds, setPrintedIds] = useState<string[]>([]); // baskıya gönderilmiş (bekleyen)
+  const [completedIds, setCompletedIds] = useState<string[]>([]); // fotoğrafçı baskıyı tamamlamış
   const [showPhotogGate, setShowPhotogGate] = useState(false);
+  const [guestLightboxIndex, setGuestLightboxIndex] = useState<number | null>(null);
+  const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
+  const [showNameNudge, setShowNameNudge] = useState(false);
   // Fotoğraf Paylaş popup'ı açıldığında misafirin kendi yüklemelerini + baskı boylarını getir
   useEffect(() => {
     if (showPhotoUpload) {
@@ -425,43 +429,46 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <div className="text-4xl mb-2">📷</div>
-          <p className="text-sm text-gray-500">Henüz fotoğraf yüklemediniz.</p>
-          <button onClick={() => setPhotoTab('add')} className="mt-3 text-[13px] font-semibold" style={{ color: '#C8686E' }}>Fotoğraf ekle →</button>
+          <Image src="/resim-ekle-icon-3.png" alt="" width={72} height={72} className="w-16 h-16 mx-auto mb-3 object-contain opacity-90" />
+          <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
+          <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
+            <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
+            <svg className="relative w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" /></svg>
+            <span className="relative">Fotoğraf Ekle</span>
+          </button>
         </div>
       );
     }
-    const statusMap: Record<string, { t: string; bg: string; c: string }> = {
-      approved: { t: 'Albüme eklendi', bg: '#EAF7EF', c: '#318052' },
-      pending: { t: 'Onay bekliyor', bg: '#FDF3E1', c: '#B8892E' },
-      rejected: { t: 'Eklenmedi', bg: '#F3F0F0', c: '#8A7E7E' },
-    };
+    // Not: Çiftin onay/ret durumu davetliye GÖSTERİLMEZ (baskı için kafa karıştırıyor).
     return (
       <div className="grid grid-cols-2 gap-3">
-        {guestOwnPhotos.map((p) => {
-          const st = statusMap[p.status] || statusMap.pending;
+        {guestOwnPhotos.map((p, idx) => {
           const isPrinted = printedIds.includes(p.id);
+          const isCompleted = completedIds.includes(p.id);
           return (
             <div key={p.id} className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.14)', background: '#fff' }}>
-              <div className="relative aspect-square bg-gray-50">
+              <button onClick={() => setGuestLightboxIndex(idx)} className="relative aspect-square bg-gray-50 w-full block">
                 <img src={optimizeImg(p.photo_url, 400)} alt="" className="w-full h-full object-cover" />
-                <span className="absolute top-2 left-2 px-2 py-[3px] rounded-full text-[10px] font-bold" style={{ background: st.bg, color: st.c }}>{st.t}</span>
                 {p.photo_no != null && (
-                  <span className="absolute top-2 right-2 px-1.5 py-[2px] rounded-md text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)' }}>#{p.photo_no}</span>
+                  <span className="absolute top-2 left-2 px-1.5 py-[2px] rounded-md text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)' }}>#{p.photo_no}</span>
                 )}
-              </div>
+                {/* büyüteç — sağ alt beyaz */}
+                <span className="absolute bottom-2 right-2 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
+                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 8v6M8 11h6M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
+                </span>
+              </button>
               <button
-                onClick={() => (isPrinted ? null : openPrintFor(p))}
-                disabled={isPrinted}
+                onClick={() => openPrintFor(p)}
                 className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold transition-colors"
                 style={{
-                  color: isPrinted ? '#318052' : photogOn ? '#C8686E' : '#A79C9C',
-                  background: isPrinted ? '#EAF7EF' : photogOn ? 'rgba(200,104,110,0.06)' : '#F3F0F0',
-                  cursor: isPrinted ? 'default' : 'pointer',
+                  color: isCompleted ? '#fff' : isPrinted ? '#318052' : photogOn ? '#C8686E' : '#A79C9C',
+                  background: isCompleted ? '#318052' : isPrinted ? '#EAF7EF' : photogOn ? 'rgba(200,104,110,0.06)' : '#F3F0F0',
                 }}
               >
-                {isPrinted ? (
-                  <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Baskı listesinde</>
+                {isCompleted ? (
+                  <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Baskı Tamamlandı</>
+                ) : isPrinted ? (
+                  <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Baskı listesinde · Tekrar</>
                 ) : (
                   <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>Baskıya Gönder</>
                 )}
@@ -473,13 +480,74 @@ export default function WatchPage() {
     );
   };
 
+  // Misafirin kendi fotoğrafları için tam ekran görüntüleyici — kaydır + büyüt (çift dokun) + sil + baskı
+  const renderGuestLightbox = () => {
+    if (guestLightboxIndex === null || !guestOwnPhotos[guestLightboxIndex]) return null;
+    const p = guestOwnPhotos[guestLightboxIndex];
+    const total = guestOwnPhotos.length;
+    const go = (d: number) => setGuestLightboxIndex((i) => (i === null ? i : (i + d + total) % total));
+    const isPrinted = printedIds.includes(p.id);
+    const isCompleted = completedIds.includes(p.id);
+    return (
+      <div className="fixed inset-0 z-[85] flex flex-col" style={{ background: 'rgba(15,10,10,0.94)' }}>
+        {/* üst bar */}
+        <div className="flex items-center justify-between px-4 py-3 flex-shrink-0">
+          <span className="text-white/90 text-[13px] font-semibold">{guestLightboxIndex + 1} / {total}{p.photo_no != null ? ` · #${p.photo_no}` : ''}</span>
+          <button onClick={() => setGuestLightboxIndex(null)} className="w-9 h-9 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(255,255,255,0.15)' }}>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
+        </div>
+        {/* görsel — çift dokun zoom, yatay kaydır */}
+        <div
+          className="flex-1 relative overflow-hidden flex items-center justify-center touch-pan-y"
+          onTouchStart={(e) => { (e.currentTarget as HTMLElement).dataset.sx = String(e.touches[0].clientX); }}
+          onTouchEnd={(e) => {
+            const sx = Number((e.currentTarget as HTMLElement).dataset.sx || 0);
+            const dx = e.changedTouches[0].clientX - sx;
+            if (Math.abs(dx) > 55) go(dx < 0 ? 1 : -1);
+          }}
+        >
+          <img
+            key={p.id}
+            src={optimizeImg(p.photo_url, 1400, 90)}
+            alt=""
+            className="max-w-full max-h-full object-contain select-none transition-transform duration-200"
+            style={{ transform: 'scale(1)' }}
+            onDoubleClick={(e) => { const el = e.currentTarget; el.style.transform = el.style.transform === 'scale(1)' ? 'scale(2.3)' : 'scale(1)'; }}
+          />
+          {total > 1 && (
+            <>
+              <button onClick={() => go(-1)} className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(255,255,255,0.12)' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
+              <button onClick={() => go(1)} className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(255,255,255,0.12)' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg></button>
+            </>
+          )}
+        </div>
+        {/* alt aksiyonlar */}
+        <div className="flex items-center justify-center gap-3 px-4 py-4 flex-shrink-0">
+          {/* Sil (yalnız çift henüz onaylamadıysa = pending) */}
+          {p.status === 'pending' && (
+            <button onClick={() => deleteOwnPhoto(p)} disabled={deletingPhotoId === p.id} className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-[13px]" style={{ background: 'rgba(255,255,255,0.12)', color: '#FFB4B4' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+              {deletingPhotoId === p.id ? 'Siliniyor…' : 'Sil'}
+            </button>
+          )}
+          {/* Baskı */}
+          <button onClick={() => openPrintFor(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px] text-white" style={{ background: isCompleted ? '#318052' : 'linear-gradient(135deg, #D17075, #C8686E)' }}>
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>
+            {isCompleted ? 'Baskı Tamamlandı' : isPrinted ? 'Tekrar Baskıya Gönder' : 'Baskıya Gönder'}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   // Baskı onay modalı — boy seç + adet + toplam + fotoğrafçıya gönder
   const renderPrintModal = () => {
     if (!printPhoto) return null;
     const size = printSizes.find((s) => s.id === printSizeId);
     const total = size ? size.price_tl * printQty : 0;
     return (
-      <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
+      <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
             <div className="p-9 text-center">
@@ -517,11 +585,18 @@ export default function WatchPage() {
                             </span>
                             <span className="text-[14px] font-semibold text-gray-800">{s.size_label}</span>
                           </span>
-                          <span className="text-[14px] font-bold" style={{ color: '#C8686E' }}>{s.price_tl}₺</span>
+                          <span className="text-[13px] font-bold" style={{ color: s.price_tl > 0 ? '#C8686E' : '#B8892E' }}>{s.price_tl > 0 ? `${s.price_tl}₺` : 'Fiyatı sorun'}</span>
                         </button>
                       );
                     })}
                   </div>
+
+                  {size && size.price_tl === 0 && (
+                    <div className="flex items-start gap-1.5 mb-4 px-3 py-2.5 rounded-xl" style={{ background: '#FDF3E1' }}>
+                      <span className="text-[14px]" style={{ color: '#B8892E' }}>⚠️</span>
+                      <span className="text-[12px] leading-snug" style={{ color: '#8A6410' }}>Bu boyutun fiyatı belirtilmemiş. Fotoğrafçınız ile fiyat bilgisini görüşün.</span>
+                    </div>
+                  )}
 
                   <label className="block text-[12.5px] font-semibold text-gray-500 mb-2">Adet</label>
                   <div className="flex items-center gap-4 mb-5">
@@ -531,8 +606,8 @@ export default function WatchPage() {
                   </div>
 
                   <div className="flex items-center justify-between px-4 py-3 rounded-xl mb-4" style={{ background: 'rgba(200,104,110,0.06)' }}>
-                    <span className="text-[13px] text-gray-600">{printQty} adet × {size?.price_tl}₺</span>
-                    <span className="text-[17px] font-bold" style={{ color: '#B85258' }}>{total}₺</span>
+                    <span className="text-[13px] text-gray-600">{printQty} adet{size && size.price_tl > 0 ? ` × ${size.price_tl}₺` : ''}</span>
+                    <span className="text-[17px] font-bold" style={{ color: '#B85258' }}>{size && size.price_tl > 0 ? `${total}₺` : '—'}</span>
                   </div>
                   <p className="text-[12px] text-gray-400 text-center mb-4 leading-snug">Ücret fotoğrafçıya etkinlik yerinde ödenir. Onaylıyor musunuz?</p>
 
@@ -601,11 +676,10 @@ export default function WatchPage() {
     // İki kart EŞİT ağırlıkta (biri öne çıkmaz), aynı stil
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
-        onClick={() => ready && onClick()}
-        disabled={!ready}
-        className="relative rounded-[22px] px-2.5 pt-3.5 pb-2.5 text-center transition-all btn-press active:scale-[0.985] disabled:cursor-default flex flex-col items-center h-full"
+        onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
+        className="relative rounded-[22px] px-2.5 pt-3.5 pb-3 text-center transition-transform duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
         style={{
-          opacity: ready ? 1 : 0.55,
+          opacity: ready ? 1 : 0.72,
           background: '#FFFDFC',
           border: '1px solid #F1E3E0',
           boxShadow: '0 6px 14px rgba(58,36,32,0.06)',
@@ -617,7 +691,7 @@ export default function WatchPage() {
         {goldDot}
         <span className="flex gap-1.5 w-full mt-auto">
           {feats.map((f, i) => (
-            <span key={i} className="flex-1 h-[64px] rounded-[11px] flex flex-col items-center justify-center px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
+            <span key={i} className="flex-1 h-[70px] rounded-[11px] flex flex-col items-center justify-center px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
               {f.icon}
               <span className="text-[11px] leading-[14px] text-center mt-1.5" style={{ color: '#3F3A3B' }}>{f.label}</span>
             </span>
@@ -635,7 +709,18 @@ export default function WatchPage() {
           {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icHeart, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
           {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icCamera, label: 'Çek' }, { icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Çiftle Paylaş' }], onPhoto)}
         </div>
-        {!ready && <p className="text-center text-[11.5px] mt-3" style={{ color: '#B5A0A0' }}>Devam etmek için adınızı ve soyadınızı yazın</p>}
+        {showNameNudge && (
+          <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }} onClick={() => setShowNameNudge(false)}>
+            <div className="rounded-3xl p-7 max-w-xs w-full text-center relative" style={{ background: '#FFFCF9', boxShadow: '0 25px 70px rgba(0,0,0,0.18)' }} onClick={(e) => e.stopPropagation()}>
+              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)' }}>
+                <svg className="w-7 h-7" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
+              </div>
+              <h3 className="text-[16px] font-bold text-gray-900 mb-1.5">Önce Adınızı Girin</h3>
+              <p className="text-[13px] text-gray-500 mb-6 leading-snug">Devam etmek için lütfen önce adınızı ve soyadınızı yazın.</p>
+              <button onClick={() => setShowNameNudge(false)} className="w-full py-3 rounded-xl font-semibold text-[14px] text-white" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
+            </div>
+          </div>
+        )}
       </>
     );
   };
@@ -649,7 +734,7 @@ export default function WatchPage() {
         <div className="rounded-none sm:rounded-3xl max-w-md w-full overflow-hidden relative flex flex-col h-full sm:h-auto sm:max-h-[92vh]" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.99), rgba(250,245,238,0.98))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
           {photoUploadSuccess ? (
             <div className="p-9 text-center">
-              <div className="text-6xl mb-4">🎉</div>
+              <img src="/foto-yuklendi.png" alt="" className="w-32 h-32 mx-auto mb-3 object-contain" onError={(e) => { const el = e.currentTarget; el.style.display = 'none'; }} />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Fotoğraflarınız Yüklendi!</h3>
               <p className="text-gray-500 text-sm mb-6">Çift onayladığında canlı yayın albümünde görünecek.</p>
               <div className="flex flex-col gap-2.5">
@@ -752,8 +837,10 @@ export default function WatchPage() {
                       } catch (e) { console.error('Photo upload error:', e); }
                       setUploadingGuestPhotos(false);
                       setGuestUploadProgress({ current: 0, total: 0 });
-                    }} disabled={(!isDemoEvent && !name.trim()) || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full disabled:bg-gray-300 text-white py-3 rounded-xl font-semibold transition-all hover:shadow-lg" style={{ background: (isDemoEvent || name.trim()) && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D17075, #C8686E)' : undefined }}>
-                      {uploadingGuestPhotos ? (guestUploadProgress.total > 1 ? `Yükleniyor... ${guestUploadProgress.current}/${guestUploadProgress.total}` : 'Yükleniyor...') : 'Gönder'}
+                    }} disabled={(!isDemoEvent && !name.trim()) || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full relative overflow-hidden disabled:bg-gray-300 text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.01] disabled:hover:scale-100 flex items-center justify-center gap-2.5" style={{ background: (isDemoEvent || name.trim()) && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)' : undefined, boxShadow: (isDemoEvent || name.trim()) && photoUploadFiles.length > 0 ? '0 14px 34px rgba(200,104,110,0.26), inset 0 1px 0 rgba(255,255,255,0.30)' : undefined }}>
+                      {(isDemoEvent || name.trim()) && photoUploadFiles.length > 0 && <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />}
+                      {uploadingGuestPhotos && <span className="relative w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />}
+                      <span className="relative">{uploadingGuestPhotos ? (guestUploadProgress.total > 1 ? `Yükleniyor ${guestUploadProgress.current}/${guestUploadProgress.total}` : 'Yükleniyor…') : 'Gönder'}</span>
                     </button>
                   </>
                 )}
@@ -761,6 +848,7 @@ export default function WatchPage() {
             </>
           )}
         </div>
+        {renderGuestLightbox()}
         {renderPrintModal()}
         {renderPhotogGate()}
       </div>
@@ -1059,14 +1147,40 @@ export default function WatchPage() {
       const [{ data: photos }, { data: sizes }, { data: prints }] = await Promise.all([
         supabase.from('guest_photos').select('id, photo_url, photo_no, status').eq('event_id', event.id).eq('guest_name', name.trim()).order('photo_no', { ascending: true }),
         supabase.from('photo_print_sizes').select('id, size_label, price_tl').eq('event_id', event.id).order('price_tl', { ascending: true }),
-        supabase.from('print_requests').select('photo_url').eq('event_id', event.id).eq('guest_name', name.trim()),
+        supabase.from('print_requests').select('photo_url, status').eq('event_id', event.id).eq('guest_name', name.trim()),
       ]);
       setGuestOwnPhotos(photos || []);
       setPrintSizes(sizes || []);
-      // Zaten baskıya gönderilmiş fotoğrafların url'lerini işaretle (tekrar göndermeyi engellemek için)
-      setPrintedIds((photos || []).filter((p) => (prints || []).some((r) => r.photo_url === p.photo_url)).map((p) => p.id));
+      const prs = prints || [];
+      // baskıya gönderilmiş (bekleyen) + fotoğrafçının tamamladığı
+      setPrintedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url)).map((p) => p.id));
+      setCompletedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status === 'printed')).map((p) => p.id));
     } catch (e) { console.error('own photos load error', e); }
     setLoadingOwnPhotos(false);
+  };
+
+  // Misafir kendi fotoğrafını siler (çift onaylamadan önce): guest_photos + storage + photo_requests dizisinden çıkar
+  const deleteOwnPhoto = async (photo: { id: string; photo_url: string }) => {
+    if (!event) return;
+    setDeletingPhotoId(photo.id);
+    try {
+      await supabase.from('guest_photos').delete().eq('id', photo.id);
+      // Storage yolu (pending/<eventId>/dosya.jpg) — public url'den çıkar
+      const m = photo.photo_url.match(/slideshow-photos\/(.+)$/);
+      if (m && m[1]) { try { await supabase.storage.from('slideshow-photos').remove([decodeURIComponent(m[1].split('?')[0])]); } catch {} }
+      // Çiftin onay ekranı photo_requests dizisinden oku → bu url'i diziden çıkar (boşalırsa satırı sil)
+      const nm = (photoUploaderName || viewerName).trim();
+      const { data: reqs } = await supabase.from('photo_requests').select('id, photo_urls').eq('event_id', event.id).eq('sender_name', nm).eq('status', 'pending');
+      for (const r of reqs || []) {
+        const urls = (r.photo_urls || []).filter((u: string) => u !== photo.photo_url);
+        if (urls.length === (r.photo_urls || []).length) continue;
+        if (urls.length === 0) await supabase.from('photo_requests').delete().eq('id', r.id);
+        else await supabase.from('photo_requests').update({ photo_urls: urls }).eq('id', r.id);
+      }
+      setGuestOwnPhotos((list) => list.filter((p) => p.id !== photo.id));
+      setGuestLightboxIndex(null);
+    } catch (e) { console.error('delete own photo error', e); }
+    setDeletingPhotoId(null);
   };
 
   // Baskıya Gönder — çift izin verdiyse modal açılır, vermediyse gri uyarı.
