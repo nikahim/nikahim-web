@@ -117,6 +117,44 @@ async function compressImage(file: File): Promise<Blob> {
   }
 }
 
+// Parmakla pinch-zoom + pan + çift-dokun büyüt + (zoom yokken) yatay kaydırarak geçiş
+function GuestZoomImage({ src, onSwipe }: { src: string; onSwipe: (d: number) => void }) {
+  const [t, setT] = useState({ s: 1, x: 0, y: 0 });
+  const g = useRef<{ mode: 'pinch' | 'pan' | null; startDist: number; startS: number; startX: number; startY: number; sx: number; sy: number; lastTap: number }>({ mode: null, startDist: 0, startS: 1, startX: 0, startY: 0, sx: 0, sy: 0, lastTap: 0 });
+  useEffect(() => { setT({ s: 1, x: 0, y: 0 }); }, [src]);
+  const dist = (ts: React.TouchList) => Math.hypot(ts[0].clientX - ts[1].clientX, ts[0].clientY - ts[1].clientY);
+  return (
+    <div
+      className="flex-1 overflow-hidden flex items-center justify-center"
+      style={{ touchAction: 'none' }}
+      onTouchStart={(e) => {
+        if (e.touches.length === 2) { g.current.mode = 'pinch'; g.current.startDist = dist(e.touches); g.current.startS = t.s; }
+        else if (e.touches.length === 1) { g.current.mode = 'pan'; g.current.sx = e.touches[0].clientX; g.current.sy = e.touches[0].clientY; g.current.startX = t.x; g.current.startY = t.y; }
+      }}
+      onTouchMove={(e) => {
+        if (g.current.mode === 'pinch' && e.touches.length === 2) {
+          const ns = Math.min(4, Math.max(1, g.current.startS * dist(e.touches) / (g.current.startDist || 1)));
+          setT((p) => ({ ...p, s: ns }));
+        } else if (g.current.mode === 'pan' && e.touches.length === 1 && t.s > 1.05) {
+          const dx = e.touches[0].clientX - g.current.sx; const dy = e.touches[0].clientY - g.current.sy;
+          setT((p) => ({ ...p, x: g.current.startX + dx, y: g.current.startY + dy }));
+        }
+      }}
+      onTouchEnd={(e) => {
+        if (g.current.mode === 'pan' && t.s <= 1.05) {
+          const dx = e.changedTouches[0].clientX - g.current.sx;
+          if (Math.abs(dx) > 55) onSwipe(dx < 0 ? 1 : -1);
+        }
+        if (t.s < 1.05) setT({ s: 1, x: 0, y: 0 });
+        g.current.mode = null;
+      }}
+      onClick={() => { const now = Date.now(); if (now - g.current.lastTap < 300) setT((p) => (p.s > 1 ? { s: 1, x: 0, y: 0 } : { s: 2.4, x: 0, y: 0 })); g.current.lastTap = now; }}
+    >
+      <img src={src} alt="" draggable={false} className="max-w-full max-h-full object-contain select-none" style={{ transform: `translate(${t.x}px, ${t.y}px) scale(${t.s})`, transition: g.current.mode ? 'none' : 'transform 0.2s' }} />
+    </div>
+  );
+}
+
 export default function WatchPage() {
   const params = useParams();
   const router = useRouter();
@@ -259,6 +297,7 @@ export default function WatchPage() {
   const [showPhotogGate, setShowPhotogGate] = useState(false);
   const [guestLightboxIndex, setGuestLightboxIndex] = useState<number | null>(null);
   const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
+  const [confirmDeletePhoto, setConfirmDeletePhoto] = useState<{ id: string; photo_url: string; status: string } | null>(null);
   const [showNameNudge, setShowNameNudge] = useState(false);
   // Fotoğraf Paylaş popup'ı açıldığında misafirin kendi yüklemelerini + baskı boylarını getir
   useEffect(() => {
@@ -497,46 +536,46 @@ export default function WatchPage() {
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
         </div>
-        {/* görsel — çift dokun zoom, yatay kaydır */}
-        <div
-          className="flex-1 relative overflow-hidden flex items-center justify-center touch-pan-y"
-          onTouchStart={(e) => { (e.currentTarget as HTMLElement).dataset.sx = String(e.touches[0].clientX); }}
-          onTouchEnd={(e) => {
-            const sx = Number((e.currentTarget as HTMLElement).dataset.sx || 0);
-            const dx = e.changedTouches[0].clientX - sx;
-            if (Math.abs(dx) > 55) go(dx < 0 ? 1 : -1);
-          }}
-        >
-          <img
-            key={p.id}
-            src={optimizeImg(p.photo_url, 1400, 90)}
-            alt=""
-            className="max-w-full max-h-full object-contain select-none transition-transform duration-200"
-            style={{ transform: 'scale(1)' }}
-            onDoubleClick={(e) => { const el = e.currentTarget; el.style.transform = el.style.transform === 'scale(1)' ? 'scale(2.3)' : 'scale(1)'; }}
-          />
+        {/* görsel — parmakla pinch-zoom + pan + çift dokun; zoom yokken kaydırarak geçiş */}
+        <div className="flex-1 relative overflow-hidden flex">
+          <GuestZoomImage key={p.id} src={optimizeImg(p.photo_url, 1400, 90)} onSwipe={(d) => go(d)} />
           {total > 1 && (
             <>
-              <button onClick={() => go(-1)} className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(255,255,255,0.12)' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
-              <button onClick={() => go(1)} className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(255,255,255,0.12)' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg></button>
+              <button onClick={() => go(-1)} className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white z-10" style={{ background: 'rgba(255,255,255,0.12)' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg></button>
+              <button onClick={() => go(1)} className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white z-10" style={{ background: 'rgba(255,255,255,0.12)' }}><svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg></button>
             </>
           )}
         </div>
-        {/* alt aksiyonlar */}
-        <div className="flex items-center justify-center gap-3 px-4 py-4 flex-shrink-0">
-          {/* Sil (yalnız çift henüz onaylamadıysa = pending) */}
-          {p.status === 'pending' && (
-            <button onClick={() => deleteOwnPhoto(p)} disabled={deletingPhotoId === p.id} className="flex items-center gap-2 px-4 py-2.5 rounded-xl font-semibold text-[13px]" style={{ background: 'rgba(255,255,255,0.12)', color: '#FFB4B4' }}>
+        {/* alt aksiyonlar — sil solda, baskı sağda, aralarında geniş boşluk */}
+        <div className="flex items-center justify-between gap-4 px-6 py-4 flex-shrink-0">
+          {p.status === 'pending' ? (
+            <button onClick={() => setConfirmDeletePhoto(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px]" style={{ background: 'rgba(255,255,255,0.12)', color: '#FFB4B4' }}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
-              {deletingPhotoId === p.id ? 'Siliniyor…' : 'Sil'}
+              Sil
             </button>
-          )}
-          {/* Baskı */}
+          ) : <span />}
           <button onClick={() => openPrintFor(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px] text-white" style={{ background: isCompleted ? '#318052' : 'linear-gradient(135deg, #D17075, #C8686E)' }}>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>
             {isCompleted ? 'Baskı Tamamlandı' : isPrinted ? 'Tekrar Baskıya Gönder' : 'Baskıya Gönder'}
           </button>
         </div>
+
+        {/* Sil onay modalı (rose) */}
+        {confirmDeletePhoto && (
+          <div className="absolute inset-0 z-[90] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)' }} onClick={() => setConfirmDeletePhoto(null)}>
+            <div className="rounded-3xl p-7 max-w-xs w-full text-center" style={{ background: '#FFFCF9' }} onClick={(e) => e.stopPropagation()}>
+              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)' }}>
+                <svg className="w-7 h-7" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+              </div>
+              <h3 className="text-[16px] font-bold text-gray-900 mb-1.5">Fotoğrafı Sil</h3>
+              <p className="text-[13px] text-gray-500 mb-6 leading-snug">Bu fotoğrafı silmek istediğinize emin misiniz? Geri alınamaz.</p>
+              <div className="flex gap-3">
+                <button onClick={() => setConfirmDeletePhoto(null)} className="flex-1 py-3 rounded-xl font-semibold text-[14px]" style={{ background: '#FDECEC', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}>Vazgeç</button>
+                <button onClick={() => { const ph = confirmDeletePhoto; setConfirmDeletePhoto(null); if (ph) deleteOwnPhoto(ph); }} className="flex-1 py-3 rounded-xl font-semibold text-[14px] text-white" style={{ background: 'linear-gradient(135deg, #D17075, #B85258)' }}>Sil</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -775,7 +814,7 @@ export default function WatchPage() {
               <div className="p-6 pt-3 flex-1 overflow-y-auto sm:flex-none sm:max-h-[62vh]">
                 {photoTab === 'uploads' ? renderMyUploads() : (
                   <>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (en fazla 10)</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (tek seferde en fazla 10 adet)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
                         <div key={i} className="relative aspect-square rounded-xl overflow-hidden">

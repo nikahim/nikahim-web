@@ -40,8 +40,10 @@ function setRL(id: string, v: { count: number; until: number }) {
 }
 
 // ---- 6 haneli OTP kutuları (Google Authenticator tarzı) ----
-function OtpInput({ value, onChange, disabled, error }: { value: string; onChange: (v: string) => void; disabled?: boolean; error?: boolean }) {
+function OtpInput({ value, onChange, disabled, error, autoFocusReady }: { value: string; onChange: (v: string) => void; disabled?: boolean; error?: boolean; autoFocusReady?: boolean }) {
   const ref = useRef<HTMLInputElement>(null);
+  // Etkinlik seçilir seçilmez ilk kutu aktif olsun (kullanıcı tekrar dokunmasın)
+  useEffect(() => { if (autoFocusReady && !disabled) { const t = setTimeout(() => ref.current?.focus(), 120); return () => clearTimeout(t); } }, [autoFocusReady, disabled]);
   return (
     <div className="relative flex justify-center gap-2.5 select-none" onClick={() => ref.current?.focus()}>
       <input
@@ -204,7 +206,13 @@ export default function FotografciPanel() {
     } catch (e) { console.error(e); }
     setAddingSize(false);
   };
-  const deleteSize = async (id: string) => { if (!selected) return; await supabase.from('photo_print_sizes').delete().eq('id', id); loadDashboard(selected.id); };
+  const deleteSize = async (id: string) => {
+    if (!selected) return;
+    const willBeEmpty = sizes.length <= 1; // son boyu siliyorsa
+    await supabase.from('photo_print_sizes').delete().eq('id', id);
+    await loadDashboard(selected.id);
+    if (willBeEmpty) { setShowSetup(true); setSetupStep(1); } // boysuz olmaz — zorla ekletir
+  };
   const markPrinted = async (id: string) => { await supabase.from('print_requests').update({ status: 'printed', printed_at: new Date().toISOString() }).eq('id', id); if (selected) loadDashboard(selected.id); };
   const revertPrinted = async (id: string) => { await supabase.from('print_requests').update({ status: 'pending', printed_at: null }).eq('id', id); if (selected) loadDashboard(selected.id); };
 
@@ -241,22 +249,22 @@ export default function FotografciPanel() {
       {step === 'login' && (
         <div className="min-h-screen flex items-center justify-center p-4">
           <div className="w-full max-w-md rounded-[28px] overflow-hidden relative" style={{ background: '#FFFDFC', boxShadow: '0 30px 80px rgba(180,90,100,0.18), 0 8px 24px rgba(200,104,110,0.10)', border: '1px solid rgba(200,104,110,0.14)' }}>
-            {/* İllüstrasyon */}
-            <div className="relative w-full" style={{ aspectRatio: '3 / 1.7', background: 'linear-gradient(180deg,#2a1f1e,#3a2b28)' }}>
-              <img src="/fotografci-login.png" alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 55%, rgba(255,253,252,0.95))' }} />
+            {/* İllüstrasyon — tümü görünsün (object-contain), altta yumuşak çok kademeli geçiş */}
+            <div className="relative w-full" style={{ aspectRatio: '16 / 8.5', background: '#FFFDFC' }}>
+              <img src="/fotografci-login.png" alt="" className="w-full h-full object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
+              <div className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,253,252,0) 0%, rgba(255,253,252,0.25) 45%, rgba(255,253,252,0.7) 78%, #FFFDFC 100%)' }} />
             </div>
 
-            <div className="px-7 pb-8 -mt-6 relative">
-              {/* Logo + isim */}
+            <div className="px-7 pb-8 -mt-1 relative">
+              {/* Logo (kalp) + Nikahım imza yazısı (görsel) */}
               <div className="flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={54} height={54} className="h-12 w-auto object-contain drop-shadow" />
-                <p className="text-[19px] font-bold mt-1" style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif' }}>Nikahım</p>
-                <h1 className="text-[15px] font-semibold mt-2 mb-1" style={{ color: '#4A3A3A' }}>Fotoğrafçı Girişi</h1>
+                <img src="/navbar-icon.png" alt="" className="h-9 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                <img src="/navbar-text.png" alt="Nikahım" className="h-5 w-auto object-contain mt-1.5" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                <h1 className="text-[15px] font-semibold mt-3 mb-1" style={{ color: '#4A3A3A' }}>Fotoğrafçı Girişi</h1>
               </div>
 
               {/* Etkinlik seç */}
-              <label className="block text-[13px] font-semibold mt-4 mb-2" style={{ color: '#6B5A5A' }}>Lütfen etkinlik seçin</label>
+              <label className="block text-[13px] font-semibold mt-4 mb-2" style={{ color: '#6B5A5A' }}>Lütfen Düğün / Nikah seçin</label>
               {selected ? (
                 <button onClick={() => { setSelected(null); setResults([]); setQuery(''); setCode(''); setCodeError(''); }} className="w-full flex items-center gap-3 p-2.5 rounded-2xl text-left" style={{ background: 'rgba(200,104,110,0.06)', border: '1.5px solid rgba(200,104,110,0.35)' }}>
                   <span className="w-11 h-11 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={selected.couple_photo_url} size={44} /></span>
@@ -270,14 +278,14 @@ export default function FotografciPanel() {
                 <>
                   <div className="relative">
                     <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
-                    <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Çiftin adı veya soyadı (en az 2 harf)…" className="w-full pl-10 pr-4 py-3 rounded-xl border outline-none text-gray-900 text-[14px]" style={{ borderColor: 'rgba(0,0,0,0.12)' }} />
+                    <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Gelin veya Damat ismi ile arayın…" className="w-full pl-10 pr-4 py-3 rounded-xl border outline-none text-gray-900 text-[14px]" style={{ borderColor: 'rgba(0,0,0,0.12)' }} />
                   </div>
-                  {query.trim().length >= 2 && (
-                    <div className="mt-2 flex flex-col gap-1.5 max-h-64 overflow-y-auto">
+                  {query.trim().length >= 1 && (
+                    <div className="mt-2 flex flex-col gap-1.5 max-h-64 overflow-y-auto rounded-xl" style={{ boxShadow: results.length ? '0 8px 24px rgba(200,104,110,0.10)' : 'none' }}>
                       {searching && <p className="text-center text-[12.5px] text-gray-400 py-3">Aranıyor…</p>}
                       {!searching && results.length === 0 && <p className="text-center text-[12.5px] text-gray-400 py-3">Sonuç yok. Çift baskı iznini açmamış olabilir.</p>}
                       {results.map((e) => (
-                        <button key={e.id} onClick={() => selectEvent(e)} className="flex items-center gap-3 p-2 rounded-xl text-left transition-colors hover:bg-rose-50/60" style={{ border: '1px solid rgba(200,104,110,0.12)' }}>
+                        <button key={e.id} onClick={() => selectEvent(e)} className="flex items-center gap-3 p-2 rounded-xl text-left transition-colors hover:bg-rose-50/60" style={{ border: '1px solid rgba(200,104,110,0.12)', background: '#fff' }}>
                           <span className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={e.couple_photo_url} size={40} /></span>
                           <span className="flex-1 min-w-0">
                             <span className="block font-semibold text-gray-900 text-[13.5px] truncate">{coupleTitle(e)}</span>
@@ -293,11 +301,12 @@ export default function FotografciPanel() {
               {/* Kod gir (etkinlik seçilmeden gri) */}
               <div className="mt-5" style={{ opacity: selected ? 1 : 0.45, pointerEvents: selected ? 'auto' : 'none' }}>
                 <label className="block text-[13px] font-semibold mb-2.5 text-center" style={{ color: '#6B5A5A' }}>Lütfen bu etkinlik için kodu girin</label>
-                <OtpInput value={code} onChange={(v) => { setCode(v); setCodeError(''); }} disabled={!selected || blockLeft > 0} error={!!codeError} />
+                <OtpInput value={code} onChange={(v) => { setCode(v); setCodeError(''); }} disabled={!selected || blockLeft > 0} error={!!codeError} autoFocusReady={!!selected && blockLeft === 0} />
                 {codeError && <p className="text-[12.5px] text-center mt-2.5" style={{ color: '#E5484D' }}>{codeError}</p>}
                 {blockLeft > 0 && <p className="text-[12.5px] text-center mt-1 text-gray-400">Kalan süre: {fmtBlock(blockLeft)}</p>}
-                <button onClick={verifyCode} disabled={!selected || code.length !== 6 || checking || blockLeft > 0} className="w-full mt-4 py-3 rounded-xl font-semibold text-white disabled:opacity-40 transition-opacity" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>
-                  {checking ? 'Kontrol ediliyor…' : 'Giriş Yap'}
+                <button onClick={verifyCode} disabled={!selected || code.length !== 6 || checking || blockLeft > 0} className="w-full mt-4 py-3.5 rounded-2xl font-semibold text-white text-[15px] relative overflow-hidden transition-all hover:scale-[1.01] disabled:opacity-40 disabled:hover:scale-100" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 30px rgba(200,104,110,0.24), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
+                  <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
+                  <span className="relative">{checking ? 'Kontrol ediliyor…' : 'Giriş Yap'}</span>
                 </button>
               </div>
             </div>
@@ -342,10 +351,12 @@ export default function FotografciPanel() {
                 <div className="flex flex-col gap-5">
                   {Object.entries(groupedPending).map(([guest, rows]) => (
                     <div key={guest}>
-                      <div className="flex items-center gap-2 mb-2.5">
-                        <span className="w-7 h-7 rounded-full flex items-center justify-center text-white text-[12px] font-bold" style={{ background: 'linear-gradient(135deg, #E9A0A3, #C8686E)' }}>{guest.charAt(0).toUpperCase()}</span>
-                        <h3 className="font-bold text-gray-800">Davetli: {guest}</h3>
-                        <span className="text-[12px] text-gray-400">{rows.length} baskı</span>
+                      <div className="flex items-center gap-2.5 mb-2.5">
+                        <span className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[13px] font-bold flex-shrink-0" style={{ background: 'linear-gradient(135deg, #E9A0A3, #C8686E)' }}>{guest.charAt(0).toUpperCase()}</span>
+                        <div>
+                          <h3 className="font-bold text-gray-800 leading-tight">Davetli: {guest}</h3>
+                          <span className="text-[12px]" style={{ color: '#E5484D' }}>{rows.reduce((a, r) => a + r.qty, 0)} baskı bekliyor</span>
+                        </div>
                       </div>
                       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                         {rows.map((r) => (
@@ -425,7 +436,7 @@ export default function FotografciPanel() {
                       <input ref={priceRef} value={newSizePrice} onChange={(e) => setNewSizePrice(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder="Fiyat" className="w-full px-3 py-2.5 pr-7 rounded-lg border border-gray-200 outline-none focus:border-[#C8686E]/50 text-gray-900 text-[14px]" onKeyDown={(e) => e.key === 'Enter' && addSize()} />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-[14px]">₺</span>
                     </div>
-                    <button onClick={addSize} disabled={addingSize || !newSizeLabel.trim() || newSizePrice === ''} className="px-4 rounded-lg font-semibold text-white disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Ekle</button>
+                    <button onClick={addSize} disabled={addingSize || !newSizeLabel.trim() || newSizePrice === ''} className="px-4 min-w-[64px] flex items-center justify-center rounded-lg font-semibold text-white disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>{addingSize ? <span className="w-4 h-4 rounded-full border-2 border-white/50 border-t-white animate-spin" /> : 'Ekle'}</button>
                   </div>
                 </div>
                 {sizes.length === 0 ? (
@@ -454,21 +465,26 @@ export default function FotografciPanel() {
                 <div className="flex transition-transform duration-400" style={{ transform: `translateX(-${setupStep * 100}%)` }}>
                   {/* Adım 0 — tanıtım */}
                   <div className="w-full flex-shrink-0">
-                    <div className="relative w-full" style={{ aspectRatio: '3 / 2.4' }}>
-                      <img src="/fotografci-panel.png" alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
-                      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, transparent 60%, rgba(255,253,252,0.96))' }} />
+                    <div className="relative w-full" style={{ aspectRatio: '3 / 2' }}>
+                      <img src="/fotografci-panel.png" alt="" className="w-full h-full object-cover object-top" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
+                      <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,253,252,0) 0%, rgba(255,253,252,0.5) 60%, #FFFDFC 100%)' }} />
                     </div>
-                    <div className="px-7 pb-7 -mt-4 relative text-center">
-                      <h3 className="text-[18px] font-bold mb-2" style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif' }}>Hoş Geldiniz</h3>
-                      <p className="text-[13.5px] leading-relaxed text-gray-600 mb-6">Davetlilerin size baskı talebi gönderebilmesi için önce lütfen yapabildiğiniz fotoğraf baskı boylarını ve fiyatlarını oluşturun.</p>
+                    <div className="px-7 pb-7 -mt-8 relative text-center">
+                      <h3 className="text-[19px] font-bold mb-2" style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif' }}>Hoş Geldiniz</h3>
+                      <p className="text-[13.5px] leading-relaxed text-gray-600 mb-4">Davetlilerin size baskı talebi gönderebilmesi için önce lütfen yapabildiğiniz baskı boylarını ve fiyatlarını oluşturun.</p>
+                      {/* 2 sayfa göstergesi */}
+                      <div className="flex items-center justify-center gap-2 mb-5">
+                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#C8686E' }} />
+                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(200,104,110,0.25)' }} />
+                      </div>
                       <button onClick={() => setSetupStep(1)} className="w-full py-3 rounded-xl font-semibold text-white" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Devam Et</button>
                     </div>
                   </div>
                   {/* Adım 1 — boy/fiyat */}
                   <div className="w-full flex-shrink-0 p-7">
                     <button onClick={() => setSetupStep(0)} className="text-[13px] text-gray-400 mb-3 flex items-center gap-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>Geri</button>
-                    <h3 className="text-[17px] font-bold text-gray-900 mb-1">Baskı Boyutları</h3>
-                    <p className="text-[12.5px] text-gray-400 mb-3">En az bir boyut ekleyin. Boy seçince fiyat alanına geçin.</p>
+                    <h3 className="text-[17px] font-bold text-gray-900 mb-1">En az bir baskı boyutu ekleyin</h3>
+                    <p className="text-[12.5px] text-gray-400 mb-3">Boy seçince fiyat alanına otomatik geçilir.</p>
                     <div className="flex flex-wrap gap-1.5 mb-3">
                       {QUICK_SIZES.map((sz) => (
                         <button key={sz} onClick={() => { setNewSizeLabel(sz); setTimeout(() => priceRef.current?.focus(), 50); }} className="px-3 py-1.5 rounded-lg text-[12.5px] font-semibold" style={{ background: newSizeLabel === sz ? 'rgba(200,104,110,0.12)' : '#F3EEEE', color: newSizeLabel === sz ? '#C8686E' : '#7A6E6E' }}>{sz}</button>
@@ -480,7 +496,7 @@ export default function FotografciPanel() {
                         <input ref={priceRef} value={newSizePrice} onChange={(e) => setNewSizePrice(e.target.value.replace(/[^\d.]/g, ''))} inputMode="decimal" placeholder="Fiyat" className="w-full px-3 py-2.5 pr-6 rounded-lg border border-gray-200 outline-none focus:border-[#C8686E]/50 text-gray-900 text-[14px]" onKeyDown={(e) => e.key === 'Enter' && addSize()} />
                         <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 text-[13px]">₺</span>
                       </div>
-                      <button onClick={addSize} disabled={addingSize || !newSizeLabel.trim() || newSizePrice === ''} className="px-3 rounded-lg font-semibold text-white text-[13px] disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Ekle</button>
+                      <button onClick={addSize} disabled={addingSize || !newSizeLabel.trim() || newSizePrice === ''} className="px-3 min-w-[54px] flex items-center justify-center rounded-lg font-semibold text-white text-[13px] disabled:opacity-50" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>{addingSize ? <span className="w-3.5 h-3.5 rounded-full border-2 border-white/50 border-t-white animate-spin" /> : 'Ekle'}</button>
                     </div>
                     {sizes.length > 0 && (
                       <div className="flex flex-col gap-1.5 mb-4 max-h-40 overflow-y-auto">
@@ -496,6 +512,10 @@ export default function FotografciPanel() {
                       </div>
                     )}
                     <p className="text-[11.5px] text-gray-400 mb-3 flex items-start gap-1.5"><span style={{ color: '#C8686E' }}>ⓘ</span> Fiyat girmezseniz davetli “Fotoğrafçınız ile fiyat bilgisini görüşün” uyarısı görür.</p>
+                    <div className="flex items-center justify-center gap-2 mb-4">
+                      <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(200,104,110,0.25)' }} />
+                      <span className="w-2.5 h-2.5 rounded-full" style={{ background: '#C8686E' }} />
+                    </div>
                     <button onClick={() => setShowSetup(false)} disabled={sizes.length === 0} className="w-full py-3 rounded-xl font-semibold text-white disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Panele Geç</button>
                   </div>
                 </div>
