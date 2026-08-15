@@ -21,7 +21,7 @@ interface EventRow {
 }
 interface PrintRow {
   id: string; guest_name: string; photo_url: string; size_label: string;
-  price_tl: number; qty: number; status: string; created_at: string; printed_at: string | null;
+  price_tl: number; qty: number; status: string; created_at: string; printed_at: string | null; paid?: boolean;
 }
 interface SizeRow { id: string; size_label: string; price_tl: number; }
 
@@ -91,6 +91,8 @@ export default function FotografciPanel() {
   const [blockLeft, setBlockLeft] = useState(0); // saniye
 
   const [tab, setTab] = useState<'pending' | 'done' | 'sizes'>('pending');
+  const [selectedGuest, setSelectedGuest] = useState<string>('all'); // sol menü davetli filtresi
+  const [guestSearch, setGuestSearch] = useState('');
   const [prints, setPrints] = useState<PrintRow[]>([]);
   const [sizes, setSizes] = useState<SizeRow[]>([]);
   const [loading, setLoading] = useState(false);
@@ -215,6 +217,12 @@ export default function FotografciPanel() {
   };
   const markPrinted = async (id: string) => { await supabase.from('print_requests').update({ status: 'printed', printed_at: new Date().toISOString() }).eq('id', id); if (selected) loadDashboard(selected.id); };
   const revertPrinted = async (id: string) => { await supabase.from('print_requests').update({ status: 'pending', printed_at: null }).eq('id', id); if (selected) loadDashboard(selected.id); };
+  // Tahsilat — bir davetlinin tamamlanmış baskılarını "tahsil edildi" işaretle/geri al
+  const setGuestPaid = async (guest: string, paid: boolean) => {
+    if (!selected) return;
+    await supabase.from('print_requests').update({ paid }).eq('event_id', selected.id).eq('guest_name', guest).eq('status', 'printed');
+    loadDashboard(selected.id);
+  };
 
   const downloadPhoto = async (url: string, label: string) => {
     try {
@@ -230,9 +238,27 @@ export default function FotografciPanel() {
     w.document.close();
   };
 
-  const pending = prints.filter((p) => p.status === 'pending');
-  const done = prints.filter((p) => p.status === 'printed');
+  const guestMatch = (g: string) => selectedGuest === 'all' || g === selectedGuest;
+  const pending = prints.filter((p) => p.status === 'pending' && guestMatch(p.guest_name));
+  const done = prints.filter((p) => p.status === 'printed' && guestMatch(p.guest_name));
   const groupedPending = pending.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
+  const groupedDone = done.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
+
+  // Sol menü — tüm davetliler (arama + bekleyen/tamamlanan sayıları)
+  const guestList = (() => {
+    const m: Record<string, { pending: number; done: number }> = {};
+    for (const p of prints) {
+      m[p.guest_name] = m[p.guest_name] || { pending: 0, done: 0 };
+      if (p.status === 'pending') m[p.guest_name].pending += p.qty;
+      else if (p.status === 'printed') m[p.guest_name].done += p.qty;
+    }
+    return Object.entries(m)
+      .filter(([n]) => n.toLowerCase().includes(guestSearch.trim().toLowerCase()))
+      .sort((a, b) => (b[1].pending - a[1].pending) || a[0].localeCompare(b[0]));
+  })();
+  // Bu düğünde tahsil edilen toplam (paid=printed satırların tutarı)
+  const totalCollected = prints.filter((p) => p.status === 'printed' && p.paid).reduce((a, p) => a + p.price_tl * p.qty, 0);
+
   const coupleTitle = (e: EventRow) => `${e.bride_first_name} & ${e.groom_first_name}`;
   const fmtBlock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
 
@@ -326,11 +352,52 @@ export default function FotografciPanel() {
                   <p className="text-[11px] text-gray-400 -mt-0.5">{coupleTitle(selected)}</p>
                 </div>
               </div>
-              <button onClick={() => { setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
+              <div className="flex items-center gap-2.5">
+                <div className="text-right hidden sm:block">
+                  <p className="text-[10px] text-gray-400 -mb-0.5">Tahsil edilen</p>
+                  <p className="text-[15px] font-bold" style={{ color: '#318052' }}>{totalCollected}₺</p>
+                </div>
+                <button onClick={() => { setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); setSelectedGuest('all'); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
+              </div>
             </div>
           </header>
 
-          <div className="max-w-5xl mx-auto px-4 py-6">
+          <div className="max-w-6xl mx-auto px-4 py-6 flex gap-6">
+            {/* Sol menü — davetli listesi (masaüstü) */}
+            <aside className="hidden md:flex flex-col w-60 flex-shrink-0">
+              <div className="relative mb-3">
+                <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
+                <input value={guestSearch} onChange={(e) => setGuestSearch(e.target.value)} placeholder="Davetli ara…" className="w-full pl-9 pr-3 py-2 rounded-lg border outline-none text-[13px] text-gray-900" style={{ borderColor: 'rgba(0,0,0,0.10)' }} />
+              </div>
+              <div className="flex flex-col gap-1 overflow-y-auto" style={{ maxHeight: '70vh' }}>
+                <button onClick={() => setSelectedGuest('all')} className="flex items-center justify-between px-3 py-2 rounded-lg text-left text-[13px] font-semibold transition-colors" style={{ background: selectedGuest === 'all' ? 'rgba(200,104,110,0.10)' : 'transparent', color: selectedGuest === 'all' ? '#C8686E' : '#6B5A5A' }}>
+                  Tümü <span className="text-[11px] text-gray-400">{prints.length}</span>
+                </button>
+                {guestList.map(([name, c]) => (
+                  <button key={name} onClick={() => setSelectedGuest(name)} className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left transition-colors" style={{ background: selectedGuest === name ? 'rgba(200,104,110,0.10)' : 'transparent' }}>
+                    <span className="text-[13px] font-semibold truncate" style={{ color: selectedGuest === name ? '#C8686E' : '#4A3A3A' }}>{name}</span>
+                    <span className="flex items-center gap-1.5 flex-shrink-0">
+                      {c.pending > 0 && <span className="inline-flex items-center gap-0.5 text-[10.5px] font-bold" style={{ color: '#E5484D' }}><svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>{c.pending}</span>}
+                      {c.done > 0 && <span className="inline-flex items-center gap-0.5 text-[10.5px] font-bold" style={{ color: '#318052' }}><svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>{c.done}</span>}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </aside>
+
+            <div className="flex-1 min-w-0">
+            {/* Mobil davetli filtre — yatay çipler */}
+            <div className="md:hidden mb-4">
+              <div className="flex gap-1.5 overflow-x-auto pb-1">
+                <button onClick={() => setSelectedGuest('all')} className="flex-shrink-0 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === 'all' ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === 'all' ? '#fff' : '#8A6E70' }}>Tümü</button>
+                {guestList.map(([name, c]) => (
+                  <button key={name} onClick={() => setSelectedGuest(name)} className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === name ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === name ? '#fff' : '#8A6E70' }}>
+                    {name}
+                    {c.pending > 0 && <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9.5px] font-bold" style={{ background: selectedGuest === name ? 'rgba(255,255,255,0.25)' : '#E5484D', color: '#fff' }}>{c.pending}</span>}
+                  </button>
+                ))}
+              </div>
+            </div>
             {/* Sekmeler */}
             <div className="flex gap-1 p-1 rounded-xl mb-5 max-w-md" style={{ background: 'rgba(200,104,110,0.07)' }}>
               {([['pending', 'Bekleyenler', pending.length], ['done', 'Tamamlananlar', done.length], ['sizes', 'Baskı Boyutları', sizes.length]] as const).map(([k, lbl, n]) => (
@@ -389,32 +456,44 @@ export default function FotografciPanel() {
               )
             )}
 
-            {/* Tamamlananlar */}
+            {/* Tamamlananlar — davetliye gruplu + toplam adet/ücret + Tahsil Edildi */}
             {!loading && tab === 'done' && (
-              done.length === 0 ? (
+              Object.keys(groupedDone).length === 0 ? (
                 <p className="text-center text-sm text-gray-400 py-12">Henüz tamamlanan baskı yok.</p>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                  {done.map((r) => (
-                    <div key={r.id} className="rounded-2xl overflow-hidden bg-white" style={{ border: '1px solid rgba(49,128,82,0.20)' }}>
-                      <div className="relative aspect-square w-full bg-gray-50">
-                        <button onClick={() => setLightbox(r.photo_url)} className="absolute inset-0 w-full h-full block">
-                          <img src={optimizeImg(r.photo_url, 400)} alt="" className="w-full h-full object-cover opacity-95" />
-                        </button>
-                        {/* geri al — sol üst beyaz buton */}
-                        <button onClick={() => revertPrinted(r.id)} title="Geri al" className="absolute top-1.5 left-1.5 w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.15)' }}>
-                          <svg className="w-4 h-4" fill="none" stroke="#8A7E7E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
-                        </button>
-                        {/* içi dolu yeşil + tik — Baskı Tamamlandı */}
-                        <span className="absolute top-1.5 right-1.5 px-2 py-[3px] rounded-full text-[10px] font-bold text-white flex items-center gap-1" style={{ background: '#318052' }}>
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                          Baskı Tamamlandı
-                        </span>
-                        <span className="absolute bottom-1.5 left-1.5 px-2 py-[3px] rounded-md text-[11px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.55)' }}>{r.size_label} · {r.qty} adet</span>
+                <div className="flex flex-col gap-5">
+                  {Object.entries(groupedDone).map(([guest, rows]) => {
+                    const totQty = rows.reduce((a, r) => a + r.qty, 0);
+                    const totPrice = rows.reduce((a, r) => a + r.qty * r.price_tl, 0);
+                    const allPaid = rows.every((r) => r.paid);
+                    return (
+                      <div key={guest} className="rounded-2xl p-3.5" style={{ background: '#fff', border: `1px solid ${allPaid ? 'rgba(49,128,82,0.28)' : 'rgba(200,104,110,0.14)'}` }}>
+                        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                          <div>
+                            <h3 className="font-bold text-gray-800 leading-tight">Davetli: {guest}</h3>
+                            <span className="text-[12px] text-gray-500">{totQty} baskı{totPrice > 0 ? ` · ${totPrice}₺` : ''}</span>
+                          </div>
+                          <button onClick={() => setGuestPaid(guest, !allPaid)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold transition-colors" style={{ background: allPaid ? '#318052' : 'rgba(49,128,82,0.10)', color: allPaid ? '#fff' : '#318052', border: allPaid ? 'none' : '1px solid rgba(49,128,82,0.30)' }}>
+                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                            {allPaid ? 'Tahsil Edildi' : 'Tahsil Et'}
+                          </button>
+                        </div>
+                        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+                          {rows.map((r) => (
+                            <div key={r.id} className="relative rounded-xl overflow-hidden bg-gray-50" style={{ border: '1px solid rgba(0,0,0,0.05)' }}>
+                              <button onClick={() => setLightbox(r.photo_url)} className="relative aspect-square w-full block">
+                                <img src={optimizeImg(r.photo_url, 300)} alt="" className="w-full h-full object-cover opacity-95" />
+                                <span className="absolute bottom-1 left-1 px-1.5 py-[2px] rounded text-[9.5px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.55)' }}>{r.size_label}·{r.qty}</span>
+                              </button>
+                              <button onClick={() => revertPrinted(r.id)} title="Geri al" className="absolute top-1 left-1 w-6 h-6 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.92)' }}>
+                                <svg className="w-3 h-3" fill="none" stroke="#8A7E7E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
+                              </button>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                      <div className="p-2"><span className="text-[12px] text-gray-500 truncate">Davetli: {r.guest_name}</span></div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )
             )}
@@ -456,6 +535,7 @@ export default function FotografciPanel() {
                 )}
               </div>
             )}
+            </div>
           </div>
 
           {/* Giriş sonrası kurulum modalı — kayan 2 adım */}
