@@ -9,6 +9,21 @@ interface ChatMessage {
   ticketNumber?: string;
 }
 
+// 3 destek asistanı — kişiye rastgele biri atanır, localStorage'da sabit kalır
+const ASSISTANTS = [
+  { name: 'Elif', img: '/asistan-elif.png' },
+  { name: 'Tuğçe', img: '/asistan-tugce.png' },
+  { name: 'Yusuf', img: '/asistan-yusuf.png' },
+];
+function getAssignedAgent() {
+  if (typeof window === 'undefined') return ASSISTANTS[0];
+  try {
+    let i = localStorage.getItem('nkh_support_agent');
+    if (i === null || !ASSISTANTS[Number(i)]) { i = String(Math.floor(Math.random() * ASSISTANTS.length)); localStorage.setItem('nkh_support_agent', i); }
+    return ASSISTANTS[Number(i)];
+  } catch { return ASSISTANTS[0]; }
+}
+
 const WELCOME_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
@@ -44,7 +59,25 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   const [guestEmail, setGuestEmail] = useState(userEmail);
   const [hasStarted, setHasStarted] = useState(!!userEmail);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [agent, setAgent] = useState(ASSISTANTS[0]); // atanan destek asistanı
   const pathname = usePathname();
+
+  // Atanan asistanı belirle + önceki sohbeti kaşeden yükle (kapatınca silinmez, altından devam eder)
+  useEffect(() => {
+    const a = getAssignedAgent();
+    setAgent(a);
+    try {
+      const raw = localStorage.getItem('nkh_chat_messages');
+      const arr = raw ? JSON.parse(raw) : null;
+      if (Array.isArray(arr) && arr.length > 0) { setMessages(arr); return; }
+    } catch {}
+    setMessages([{ role: 'assistant', content: `Merhaba! Ben Nikahım destek asistanınız ${a.name}. Size nasıl yardımcı olabilirim?` }]);
+  }, []);
+
+  // Sohbeti kaşede sakla — kişi chati kapatıp açsa da konuşma kalır
+  useEffect(() => {
+    try { localStorage.setItem('nkh_chat_messages', JSON.stringify(messages)); } catch {}
+  }, [messages]);
   // Concierge sheet kullanan sayfalarda bubble gizli (ana sayfa + canlı yayın)
   const hideBubble = pathname === '/' || (pathname?.startsWith('/canli/') ?? false);
 
@@ -106,7 +139,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
   const sendTicketEmail = async (ticketNumber: string, conversation: ChatMessage[]) => {
     const convoText = conversation
-      .map((m) => (m.role === "user" ? "👤 Kullanıcı" : "💬 Elif") + ":\n" + m.content)
+      .map((m) => (m.role === "user" ? "👤 Kullanıcı" : "💬 " + agent.name) + ":\n" + m.content)
       .join("\n\n");
     const subject = `[${ticketNumber}] Yeni Destek Başvurusu (Web)`;
     const message =
@@ -160,13 +193,15 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     setSending(true);
 
     const startTime = Date.now();
-    const THINKING_DELAY = 4000; // 4 sn "okuyor / düşünüyor"
-    // "Elif yazıyor" 4 sn sonra görünür (kişi tepki süresi gibi)
-    const typingShowTimer = setTimeout(() => setTyping(true), THINKING_DELAY);
+    // Okuma süresi — asistan kişinin mesajını "okuyor" (uzunluğa göre kısa). ~0.6–2.5 sn.
+    const userWords = text.split(/\s+/).filter(Boolean).length;
+    const readDelay = Math.min(2500, Math.max(600, userWords * 240));
+    // "… yazıyor" okuma süresinden sonra görünür (gerçek destek uzmanı gibi)
+    const typingShowTimer = setTimeout(() => setTyping(true), readDelay);
 
     try {
       const apiMessages = newConvo
-        .filter((m) => m !== WELCOME_MESSAGE || newConvo.length > 1)
+        .filter((m, i) => !(i === 0 && m.role === "assistant")) // ilk karşılama mesajını API'ye gönderme
         .map((m) => ({ role: m.role, content: m.content }));
 
       const res = await fetch(`${SUPABASE_URL}/functions/v1/chat-bot`, {
@@ -203,16 +238,16 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ticketNumber: data.ticketNumber || undefined,
       };
 
-      // Gerçekçi insan yazma hızı: ~55ms / karakter (≈ 18 char/sn, hızlı klavye kullanıcısı)
-      // + küçük rastgelelik. Min 1.5 sn, max 8 sn.
-      const len = botMsg.content.length;
-      const baseTyping = len * 55;
-      const jitter = 200 + Math.random() * 600; // 200-800ms ek
-      const typingDuration = Math.min(8000, Math.max(1500, baseTyping + jitter));
+      // Gerçek insan yazma hızı — araştırma: ortalama ~40 WPM, profesyonel destek ~45 WPM.
+      // Yanıtın kelime sayısına göre "yazıyor" süresi. Kısa yanıt kısa, uzun yanıt uzun; makul sınırlar.
+      const words = botMsg.content.trim().split(/\s+/).filter(Boolean).length;
+      const WPM = 45;
+      const jitter = 150 + Math.random() * 400; // hafif insani değişkenlik
+      const typingDuration = Math.min(7000, Math.max(1400, Math.round((words / WPM) * 60000) + jitter));
 
-      // Toplam: 4sn düşünme + yazma süresi (API gecikmesi yenebilir)
+      // Toplam: okuma süresi + yazma süresi (API gecikmesi bunu yiyebilir)
       const elapsed = Date.now() - startTime;
-      const totalDelay = Math.max(THINKING_DELAY, elapsed) + typingDuration;
+      const totalDelay = Math.max(readDelay, elapsed) + typingDuration;
       const remaining = totalDelay - elapsed;
 
       setTimeout(async () => {
@@ -256,7 +291,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         {hasStarted && (
           <div className="relative">
             <div className="w-11 h-11 rounded-full overflow-hidden" style={{ border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
-              <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+              <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
           </div>
@@ -276,9 +311,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       {!hasStarted ? (
         <div className="flex-1 flex flex-col items-center justify-start pt-8 p-6 overflow-y-auto" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
           <div className="w-24 h-24 rounded-full overflow-hidden mb-3 flex-shrink-0" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)", aspectRatio: '1 / 1' }}>
-            <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+            <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
           </div>
-          <div className="text-base font-bold mb-8" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>Elif</div>
+          <div className="text-base font-bold mb-8" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>{agent.name}</div>
           <div className="text-center mb-5">
             <div className="text-lg font-bold text-gray-900 mb-1">Hoş geldiniz!</div>
             <div className="text-sm text-gray-600 leading-relaxed">
@@ -323,7 +358,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           <div key={i} className={`flex items-end gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             {m.role === "assistant" && (
               <div className="w-8 h-8 rounded-full flex-shrink-0 overflow-hidden" style={{ border: "1.5px solid rgba(200,104,110,0.3)" }}>
-                <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+                <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
               </div>
             )}
             <div
@@ -352,13 +387,13 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         {typing && (
           <div className="flex items-end gap-2">
             <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: "1.5px solid rgba(200,104,110,0.3)" }}>
-              <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+              <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
             </div>
             <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5" style={{ border: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 6px rgba(200,104,110,0.08)" }}>
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" />
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.15s" }} />
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.3s" }} />
-              <span className="text-xs text-[#8B7355] italic ml-1">Elif yazıyor…</span>
+              <span className="text-xs text-[#8B7355] italic ml-1">{agent.name} yazıyor…</span>
             </div>
           </div>
         )}
@@ -458,7 +493,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
             >
               <span className="relative">
                 <span className="block w-[40px] h-[40px] rounded-full overflow-hidden bg-white" style={{ boxShadow: '0 2px 8px rgba(200,104,110,0.18)' }}>
-                  <img src="/elif-avatar.png" alt="Elif" className="w-full h-full object-cover" />
+                  <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
                 </span>
                 <span className="absolute -top-0.5 -right-0.5 w-[10px] h-[10px] bg-green-500 rounded-full border-2 border-white" />
               </span>

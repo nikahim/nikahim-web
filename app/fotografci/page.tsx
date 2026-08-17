@@ -772,12 +772,17 @@ export default function FotografciPanel() {
               <div className="flex-1 overflow-y-auto px-5 pt-5 pb-4 space-y-2.5">
                 {/* Canlı Destek */}
                 <button onClick={() => { setShowSupport(false); setTimeout(() => window.dispatchEvent(new CustomEvent('nikahim:open-chat')), 200); }} className="w-full flex items-center gap-3.5 p-4 rounded-2xl text-left" style={{ background: 'linear-gradient(180deg, rgba(255,251,247,0.85), rgba(253,243,243,0.80))', border: '1px solid rgba(232,180,170,0.25)', boxShadow: '0 2px 10px rgba(200,104,110,0.06)' }}>
-                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.35), rgba(200,104,110,0.20))' }}>
-                    <svg className="w-5 h-5" fill="none" stroke="#9F4F58" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" /></svg>
+                  {/* 3 destek asistanı — üst üste yuvarlak profiller */}
+                  <div className="flex items-center flex-shrink-0" style={{ paddingLeft: 4 }}>
+                    {['/asistan-elif.png', '/asistan-tugce.png', '/asistan-yusuf.png'].map((im, i) => (
+                      <span key={im} className="w-9 h-9 rounded-full overflow-hidden bg-white" style={{ border: '2px solid #fff', marginLeft: i === 0 ? -4 : -10, boxShadow: '0 2px 6px rgba(200,104,110,0.18)', zIndex: 3 - i }}>
+                        <img src={im} alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                      </span>
+                    ))}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
-                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Anlık sohbet ile yardım al</p>
+                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Uzmanlarımızla anlık sohbet</p>
                     <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#3FB95A' }}><span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />Çevrim içi</p>
                   </div>
                   <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
