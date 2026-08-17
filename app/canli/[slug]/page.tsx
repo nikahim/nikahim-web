@@ -300,6 +300,7 @@ export default function WatchPage() {
   const [deletingPhotoId, setDeletingPhotoId] = useState<string | null>(null);
   const [confirmDeletePhoto, setConfirmDeletePhoto] = useState<{ id: string; photo_url: string; status: string } | null>(null);
   const [showNameNudge, setShowNameNudge] = useState(false);
+  const [menuPhotoId, setMenuPhotoId] = useState<string | null>(null); // Yüklediklerim 3-nokta menüsü
   // Fotoğraf Paylaş popup'ı açıldığında misafirin kendi yüklemelerini + baskı boylarını getir
   useEffect(() => {
     if (showPhotoUpload) {
@@ -483,41 +484,45 @@ export default function WatchPage() {
     return (
       <div className="grid grid-cols-2 gap-3">
         {guestOwnPhotos.map((p, idx) => {
-          const isPrinted = printedIds.includes(p.id);
           const isPending = pendingIds.includes(p.id);
           const isCompleted = completedIds.includes(p.id);
+          const menuOpen = menuPhotoId === p.id;
           return (
-            <div key={p.id} className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.14)', background: '#fff' }}>
+            <div key={p.id} className="rounded-2xl overflow-hidden relative" style={{ border: '1px solid rgba(200,104,110,0.14)', background: '#fff' }}>
               <button onClick={() => setGuestLightboxIndex(idx)} className="relative aspect-square bg-gray-50 w-full block">
                 <img src={optimizeImg(p.photo_url, 400)} alt="" className="w-full h-full object-cover" />
                 {p.photo_no != null && (
                   <span className="absolute top-2 left-2 px-1.5 py-[2px] rounded-md text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)' }}>#{p.photo_no}</span>
                 )}
-                {/* Tekrar baskı — sol alt yazıcı butonu (zaten gönderilmişse) */}
-                {isPrinted && (
-                  <span onClick={(e) => { e.stopPropagation(); openPrintFor(p); }} title="Tekrar baskıya gönder" className="absolute bottom-2 left-2 w-7 h-7 rounded-full flex items-center justify-center cursor-pointer" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
-                    <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>
+                {/* durum rozeti — sol alt */}
+                {(isCompleted || isPending) && (
+                  <span className="absolute bottom-2 left-2 px-2 py-[3px] rounded-full text-[9.5px] font-bold flex items-center gap-1" style={{ background: isCompleted ? '#318052' : '#FDF3E1', color: isCompleted ? '#fff' : '#9A6A12' }}>
+                    {isCompleted ? 'Baskı Tamamlandı' : 'Baskı listesinde'}
                   </span>
                 )}
-                {/* büyüteç — sağ alt beyaz */}
+                {/* büyüteç — sağ alt */}
                 <span className="absolute bottom-2 right-2 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
                   <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 8v6M8 11h6M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
                 </span>
               </button>
-              {isCompleted ? (
-                <div className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold" style={{ color: '#fff', background: '#318052' }}>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                  Baskı Tamamlandı{isPending ? ' · +bekleyen' : ''}
-                </div>
-              ) : isPending ? (
-                <div className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold" style={{ color: '#9A6A12', background: '#FDF3E1' }}>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
-                  Baskı listesinde
-                </div>
-              ) : (
-                <button onClick={() => openPrintFor(p)} className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold transition-colors" style={{ color: photogOn ? '#C8686E' : '#A79C9C', background: photogOn ? 'rgba(200,104,110,0.06)' : '#F3F0F0' }}>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>Baskıya Gönder
-                </button>
+              {/* 3 nokta — sağ üst */}
+              <button onClick={(e) => { e.stopPropagation(); setMenuPhotoId(menuOpen ? null : p.id); }} className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center z-10" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
+                <svg className="w-4 h-4" fill="#5A4A4A" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="12" cy="19" r="1.6" /></svg>
+              </button>
+              {menuOpen && (
+                <>
+                  <div className="fixed inset-0 z-20" onClick={() => setMenuPhotoId(null)} />
+                  <div className="absolute top-10 right-2 z-30 rounded-xl overflow-hidden bg-white py-1 w-36" style={{ boxShadow: '0 12px 30px rgba(0,0,0,0.18)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                    {[
+                      { l: 'Baskı Al', on: () => openPrintFor(p) },
+                      { l: 'Paylaş', on: () => shareGuestPhoto(p.photo_url) },
+                      { l: 'İndir', on: () => downloadGuestPhoto(p.photo_url, p.photo_no) },
+                      ...(p.status === 'pending' ? [{ l: 'Sil', on: () => setConfirmDeletePhoto(p), danger: true }] : []),
+                    ].map((it) => (
+                      <button key={it.l} onClick={() => { setMenuPhotoId(null); it.on(); }} className="w-full text-left px-4 py-2.5 text-[13px] font-medium hover:bg-rose-50/60" style={{ color: (it as { danger?: boolean }).danger ? '#D14343' : '#4A3A3A' }}>{it.l}</button>
+                    ))}
+                  </div>
+                </>
               )}
             </div>
           );
@@ -597,7 +602,7 @@ export default function WatchPage() {
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
             <div className="p-9 text-center">
-              <img src="/baski-onay.png" alt="" className="w-36 h-36 mx-auto mb-3 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <img src="/baski-onay.png" alt="" className="w-44 h-44 mx-auto mb-3 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h3 className="text-lg font-bold text-gray-900 mb-1.5">Baskı İsteğiniz İletildi</h3>
               <p className="text-[13px] text-gray-500 mb-6 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
               <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="text-white px-8 py-3 rounded-xl font-semibold" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
@@ -697,19 +702,11 @@ export default function WatchPage() {
     const icGold = <span className="w-[26px] h-[26px] rounded-full inline-flex items-center justify-center text-[15px] font-semibold" style={{ border: '1.7px solid #C84452', color: '#C84452', lineHeight: 1 }}>₺</span>;
     const icUpload = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 7.5L12 3m0 0L7.5 7.5M12 3v13.5" /></svg>;
     const icUsers = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
-    // Büyük ikonlar — gerçek görseller (Nikaha Katıl: yayın ekranı · Fotoğraf Paylaş: foto yığını)
-    const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[84px] h-[84px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[84px] h-[84px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    // Baskı Al mini ikonu (yazıcı)
-    const icPrinter = <svg className="w-6 h-6" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>;
-
-    const goldDot = (
-      <span className="flex items-center justify-center gap-1.5 mt-1.5 mb-0.5">
-        <span className="h-px w-5" style={{ background: 'linear-gradient(90deg, transparent, #D9A94F)' }} />
-        <span className="w-[3px] h-[3px] rounded-full" style={{ background: '#D4A852' }} />
-        <span className="h-px w-5" style={{ background: 'linear-gradient(90deg, #D9A94F, transparent)' }} />
-      </span>
-    );
+    // Büyük ikonlar — gerçek görseller (Nikaha Katıl: yayın ekranı · Fotoğraf Paylaş: foto yığını) — %20 büyük
+    const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[100px] h-[100px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[100px] h-[100px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    // Baskı Al mini ikonu (yazıcı — tam çizim)
+    const icPrinter = <svg className="w-6 h-6" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>;
 
     // İki kart EŞİT ağırlıkta (biri öne çıkmaz), aynı stil
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
@@ -725,9 +722,8 @@ export default function WatchPage() {
         }}
       >
         <span className="inline-flex items-center px-3.5 py-1.5 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
-        <span className="my-2 flex items-center justify-center h-[84px]">{big}</span>
-        <span className="block font-semibold text-[18px] leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
-        {goldDot}
+        <span className="mt-2 mb-0.5 flex items-center justify-center h-[100px]">{big}</span>
+        <span className="block font-semibold text-[18px] leading-tight mb-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
         <span className="flex gap-1.5 w-full mt-auto">
           {feats.map((f, i) => (
             <span key={i} className="flex-1 h-[70px] rounded-[11px] flex flex-col items-center justify-center px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
@@ -747,7 +743,7 @@ export default function WatchPage() {
         </div>
         <div className="grid grid-cols-2 gap-3 items-stretch">
           {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icHeart, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
-          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Çiftle Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
+          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
         </div>
         {showNameNudge && (
           <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }} onClick={() => setShowNameNudge(false)}>
@@ -755,8 +751,8 @@ export default function WatchPage() {
               <div className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.10)' }}>
                 <svg className="w-7 h-7" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
               </div>
-              <h3 className="text-[16px] font-bold text-gray-900 mb-1.5">Önce Adınızı Girin</h3>
-              <p className="text-[13px] text-gray-500 mb-6 leading-snug">Devam etmek için lütfen önce adınızı ve soyadınızı yazın.</p>
+              <h3 className="text-[16px] font-bold text-gray-900 mb-1.5">Önce Bilgilerinizi Girin</h3>
+              <p className="text-[13px] text-gray-500 mb-6 leading-snug">Devam etmek için lütfen önce <b className="font-bold text-gray-700">Adınızı</b> ve <b className="font-bold text-gray-700">Soyadınızı</b> yazın.</p>
               <button onClick={() => setShowNameNudge(false)} className="w-full py-3 rounded-xl font-semibold text-[14px] text-white" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
             </div>
           </div>
@@ -774,7 +770,7 @@ export default function WatchPage() {
         <div className="rounded-none sm:rounded-3xl max-w-md w-full overflow-hidden relative flex flex-col h-full sm:h-auto sm:max-h-[92vh]" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.99), rgba(250,245,238,0.98))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
           {photoUploadSuccess ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-9">
-              <img src="/foto-yuklendi.png" alt="" className="w-40 h-40 mb-3 object-contain" loading="eager" onError={(e) => { const el = e.currentTarget; el.style.display = 'none'; }} />
+              <img src="/foto-yuklendi.png" alt="" className="w-44 h-44 mb-3 object-contain" loading="eager" onError={(e) => { const el = e.currentTarget; el.style.display = 'none'; }} />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Fotoğraflarınız Yüklendi!</h3>
               <p className="text-gray-500 text-sm mb-6">Çift onayladığında canlı yayın albümünde görünecek.</p>
               <div className="flex flex-col gap-2.5">
@@ -793,7 +789,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/foto-ekle-4.png" alt="" className="w-12 h-12 object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                  <img src="/foto-ekle-4.png" alt="" className="w-14 h-14 object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
@@ -878,7 +874,7 @@ export default function WatchPage() {
                     }} disabled={(!isDemoEvent && !name.trim()) || photoUploadFiles.length === 0 || uploadingGuestPhotos} className="w-full relative overflow-hidden disabled:bg-gray-300 text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.01] disabled:hover:scale-100 flex items-center justify-center gap-2.5" style={{ background: (isDemoEvent || name.trim()) && photoUploadFiles.length > 0 ? 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)' : undefined, boxShadow: (isDemoEvent || name.trim()) && photoUploadFiles.length > 0 ? '0 14px 34px rgba(200,104,110,0.26), inset 0 1px 0 rgba(255,255,255,0.30)' : undefined }}>
                       {(isDemoEvent || name.trim()) && photoUploadFiles.length > 0 && <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />}
                       {uploadingGuestPhotos && <span className="relative w-4 h-4 rounded-full border-2 border-white/40 border-t-white animate-spin" />}
-                      <span className="relative">{uploadingGuestPhotos ? (guestUploadProgress.total > 1 ? `Yükleniyor ${guestUploadProgress.current}/${guestUploadProgress.total}` : 'Yükleniyor…') : 'Gönder'}</span>
+                      <span className="relative">{uploadingGuestPhotos ? (guestUploadProgress.total > 1 ? `Yükleniyor ${guestUploadProgress.current}/${guestUploadProgress.total}` : 'Yükleniyor…') : 'Paylaş'}</span>
                     </button>
                   </>
                 )}
@@ -1219,6 +1215,22 @@ export default function WatchPage() {
       setGuestLightboxIndex(null);
     } catch (e) { console.error('delete own photo error', e); }
     setDeletingPhotoId(null);
+  };
+
+  // Fotoğrafı indir (blob) + paylaş (Web Share / kopyala)
+  const downloadGuestPhoto = async (url: string, no: number | null) => {
+    try {
+      const res = await fetch(url); const blob = await res.blob();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `nikahim_${no ?? Date.now()}.jpg`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    } catch { window.open(url, '_blank'); }
+  };
+  const shareGuestPhoto = async (url: string) => {
+    try {
+      if (navigator.share) { await navigator.share({ url }); return; }
+      await navigator.clipboard.writeText(url);
+    } catch {}
   };
 
   // Baskıya Gönder — çift izin verdiyse modal açılır, vermediyse gri uyarı.
@@ -2254,7 +2266,7 @@ export default function WatchPage() {
             </span>
           </div>
 
-          <div className="mb-6">
+          <div className="mb-2">
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#4B5563' }}>Adınız</label>
