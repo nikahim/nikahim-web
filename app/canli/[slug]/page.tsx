@@ -292,7 +292,8 @@ export default function WatchPage() {
   const [printQty, setPrintQty] = useState(1);
   const [printSubmitting, setPrintSubmitting] = useState(false);
   const [printSuccess, setPrintSuccess] = useState(false);
-  const [printedIds, setPrintedIds] = useState<string[]>([]); // baskıya gönderilmiş (bekleyen)
+  const [printedIds, setPrintedIds] = useState<string[]>([]); // herhangi bir baskı isteği var
+  const [pendingIds, setPendingIds] = useState<string[]>([]); // bekleyen (henüz basılmamış) baskı isteği var
   const [completedIds, setCompletedIds] = useState<string[]>([]); // fotoğrafçı baskıyı tamamlamış
   const [showPhotogGate, setShowPhotogGate] = useState(false);
   const [guestLightboxIndex, setGuestLightboxIndex] = useState<number | null>(null);
@@ -468,7 +469,7 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <Image src="/resim-ekle-icon-3.png" alt="" width={72} height={72} className="w-16 h-16 mx-auto mb-3 object-contain opacity-90" />
+          <img src="/foto-ekle-4.png" alt="" className="w-16 h-16 mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
           <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
           <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
             <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
@@ -483,6 +484,7 @@ export default function WatchPage() {
       <div className="grid grid-cols-2 gap-3">
         {guestOwnPhotos.map((p, idx) => {
           const isPrinted = printedIds.includes(p.id);
+          const isPending = pendingIds.includes(p.id);
           const isCompleted = completedIds.includes(p.id);
           return (
             <div key={p.id} className="rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.14)', background: '#fff' }}>
@@ -491,27 +493,32 @@ export default function WatchPage() {
                 {p.photo_no != null && (
                   <span className="absolute top-2 left-2 px-1.5 py-[2px] rounded-md text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)' }}>#{p.photo_no}</span>
                 )}
+                {/* Tekrar baskı — sol alt yazıcı butonu (zaten gönderilmişse) */}
+                {isPrinted && (
+                  <span onClick={(e) => { e.stopPropagation(); openPrintFor(p); }} title="Tekrar baskıya gönder" className="absolute bottom-2 left-2 w-7 h-7 rounded-full flex items-center justify-center cursor-pointer" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
+                    <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>
+                  </span>
+                )}
                 {/* büyüteç — sağ alt beyaz */}
                 <span className="absolute bottom-2 right-2 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
                   <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 8v6M8 11h6M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
                 </span>
               </button>
-              <button
-                onClick={() => openPrintFor(p)}
-                className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold transition-colors"
-                style={{
-                  color: isCompleted ? '#fff' : isPrinted ? '#318052' : photogOn ? '#C8686E' : '#A79C9C',
-                  background: isCompleted ? '#318052' : isPrinted ? '#EAF7EF' : photogOn ? 'rgba(200,104,110,0.06)' : '#F3F0F0',
-                }}
-              >
-                {isCompleted ? (
-                  <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Baskı Tamamlandı</>
-                ) : isPrinted ? (
-                  <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Baskı listesinde · Tekrar</>
-                ) : (
-                  <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>Baskıya Gönder</>
-                )}
-              </button>
+              {isCompleted ? (
+                <div className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold" style={{ color: '#fff', background: '#318052' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  Baskı Tamamlandı{isPending ? ' · +bekleyen' : ''}
+                </div>
+              ) : isPending ? (
+                <div className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold" style={{ color: '#9A6A12', background: '#FDF3E1' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
+                  Baskı listesinde
+                </div>
+              ) : (
+                <button onClick={() => openPrintFor(p)} className="w-full py-2.5 flex items-center justify-center gap-1.5 text-[12.5px] font-semibold transition-colors" style={{ color: photogOn ? '#C8686E' : '#A79C9C', background: photogOn ? 'rgba(200,104,110,0.06)' : '#F3F0F0' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>Baskıya Gönder
+                </button>
+              )}
             </div>
           );
         })}
@@ -547,7 +554,7 @@ export default function WatchPage() {
           )}
         </div>
         {/* alt aksiyonlar — sil solda, baskı sağda, aralarında geniş boşluk */}
-        <div className="flex items-center justify-between gap-4 px-6 py-4 flex-shrink-0">
+        <div className="flex items-center justify-between gap-4 px-6 pt-4 pb-10 flex-shrink-0">
           {p.status === 'pending' ? (
             <button onClick={() => setConfirmDeletePhoto(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px]" style={{ background: 'rgba(255,255,255,0.12)', color: '#FFB4B4' }}>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
@@ -555,7 +562,7 @@ export default function WatchPage() {
             </button>
           ) : <span />}
           <button onClick={() => openPrintFor(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px] text-white" style={{ background: isCompleted ? '#318052' : 'linear-gradient(135deg, #D17075, #C8686E)' }}>
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>
             {isCompleted ? 'Baskı Tamamlandı' : isPrinted ? 'Tekrar Baskıya Gönder' : 'Baskıya Gönder'}
           </button>
         </div>
@@ -590,7 +597,7 @@ export default function WatchPage() {
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
             <div className="p-9 text-center">
-              <img src="/baski-onay.png" alt="" className="w-28 h-28 mx-auto mb-3 object-contain" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <img src="/baski-onay.png" alt="" className="w-36 h-36 mx-auto mb-3 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h3 className="text-lg font-bold text-gray-900 mb-1.5">Baskı İsteğiniz İletildi</h3>
               <p className="text-[13px] text-gray-500 mb-6 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
               <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="text-white px-8 py-3 rounded-xl font-semibold" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
@@ -688,21 +695,13 @@ export default function WatchPage() {
     const icBroadcast = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
     const icHeart = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>;
     const icGold = <span className="w-[26px] h-[26px] rounded-full inline-flex items-center justify-center text-[15px] font-semibold" style={{ border: '1.7px solid #C84452', color: '#C84452', lineHeight: 1 }}>₺</span>;
-    const icCamera = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" /></svg>;
     const icUpload = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 7.5L12 3m0 0L7.5 7.5M12 3v13.5" /></svg>;
     const icUsers = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
-    // Büyük ikonlar — Katıl: monitor + yayın sinyali · Paylaş: fotoğraf
-    const bigVideo = (
-      <span className="relative inline-flex items-center justify-center">
-        <svg className="w-11 h-11" fill="none" stroke="#C84452" strokeWidth="1.7" viewBox="0 0 24 24">
-          <rect x="2.5" y="4.5" width="15" height="12" rx="2.4" />
-          <path d="M8 8.4L12.6 11 8 13.6z" fill="#C84452" stroke="none" />
-          <path strokeLinecap="round" d="M8.5 19.5h5M11 16.5v3" />
-        </svg>
-        <svg className="w-[22px] h-[22px] absolute -right-2 -bottom-1" fill="none" stroke="#C84452" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>
-      </span>
-    );
-    const bigImage = <svg className="w-11 h-11" fill="none" stroke="#C84452" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
+    // Büyük ikonlar — gerçek görseller (Nikaha Katıl: yayın ekranı · Fotoğraf Paylaş: foto yığını)
+    const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[84px] h-[84px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[84px] h-[84px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    // Baskı Al mini ikonu (yazıcı)
+    const icPrinter = <svg className="w-6 h-6" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m11.32 0H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175M6.34 18l-.38 3.523M17.66 18l.38 3.523M6.75 7.281h10.5" /></svg>;
 
     const goldDot = (
       <span className="flex items-center justify-center gap-1.5 mt-1.5 mb-0.5">
@@ -716,16 +715,17 @@ export default function WatchPage() {
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="relative rounded-[22px] px-2.5 pt-3.5 pb-3 text-center transition-transform duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
+        className="relative rounded-[22px] px-2.5 pt-3.5 pb-3 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
         style={{
-          opacity: ready ? 1 : 0.72,
+          opacity: ready ? 1 : 0.5,
+          filter: ready ? 'none' : 'grayscale(0.5) blur(0.4px)',
           background: '#FFFDFC',
           border: '1px solid #F1E3E0',
           boxShadow: '0 6px 14px rgba(58,36,32,0.06)',
         }}
       >
         <span className="inline-flex items-center px-3.5 py-1.5 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
-        <span className="my-2.5 w-[68px] h-[68px] rounded-full flex items-center justify-center" style={{ background: '#FFF1EF' }}>{big}</span>
+        <span className="my-2 flex items-center justify-center h-[84px]">{big}</span>
         <span className="block font-semibold text-[18px] leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
         {goldDot}
         <span className="flex gap-1.5 w-full mt-auto">
@@ -741,12 +741,13 @@ export default function WatchPage() {
 
     return (
       <>
-        <div className="flex justify-center mb-2.5 mt-1">
-          <svg className="w-6 h-6 animate-bounce" style={{ color: '#E95A68' }} fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+        {/* Aşağı ok — SADECE isim girilince belirir */}
+        <div className="flex justify-center mb-2.5 mt-1" style={{ height: 24 }}>
+          {ready && <svg className="w-6 h-6 animate-bounce" style={{ color: '#E95A68' }} fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>}
         </div>
         <div className="grid grid-cols-2 gap-3 items-stretch">
           {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icHeart, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
-          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icCamera, label: 'Çek' }, { icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Çiftle Paylaş' }], onPhoto)}
+          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Çiftle Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
         </div>
         {showNameNudge && (
           <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }} onClick={() => setShowNameNudge(false)}>
@@ -772,8 +773,8 @@ export default function WatchPage() {
       <div className="fixed inset-0 z-[60] flex items-stretch justify-center sm:items-center sm:p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
         <div className="rounded-none sm:rounded-3xl max-w-md w-full overflow-hidden relative flex flex-col h-full sm:h-auto sm:max-h-[92vh]" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.99), rgba(250,245,238,0.98))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
           {photoUploadSuccess ? (
-            <div className="p-9 text-center">
-              <img src="/foto-yuklendi.png" alt="" className="w-32 h-32 mx-auto mb-3 object-contain" onError={(e) => { const el = e.currentTarget; el.style.display = 'none'; }} />
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-9">
+              <img src="/foto-yuklendi.png" alt="" className="w-40 h-40 mb-3 object-contain" loading="eager" onError={(e) => { const el = e.currentTarget; el.style.display = 'none'; }} />
               <h3 className="text-xl font-bold text-gray-900 mb-2">Fotoğraflarınız Yüklendi!</h3>
               <p className="text-gray-500 text-sm mb-6">Çift onayladığında canlı yayın albümünde görünecek.</p>
               <div className="flex flex-col gap-2.5">
@@ -792,9 +793,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, #F8C4C2, #ECA1A5)', boxShadow: '0 5px 12px rgba(200,104,110,0.20)' }}>
-                    <Image src="/resim-ekle-icon-3.png" alt="" width={36} height={36} className="object-contain" />
-                  </div>
+                  <img src="/foto-ekle-4.png" alt="" className="w-12 h-12 object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
@@ -1191,8 +1190,8 @@ export default function WatchPage() {
       setGuestOwnPhotos(photos || []);
       setPrintSizes(sizes || []);
       const prs = prints || [];
-      // baskıya gönderilmiş (bekleyen) + fotoğrafçının tamamladığı
       setPrintedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url)).map((p) => p.id));
+      setPendingIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status !== 'printed')).map((p) => p.id));
       setCompletedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status === 'printed')).map((p) => p.id));
     } catch (e) { console.error('own photos load error', e); }
     setLoadingOwnPhotos(false);
@@ -2261,9 +2260,10 @@ export default function WatchPage() {
                 <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#4B5563' }}>Adınız</label>
                 <input
                   type="text"
+                  autoFocus
                   value={viewerFirstName}
                   onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
-                  placeholder=""
+                  placeholder="Adınızı yazın"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
                 />
               </div>
@@ -2273,7 +2273,7 @@ export default function WatchPage() {
                   type="text"
                   value={viewerLastName}
                   onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
-                  placeholder=""
+                  placeholder="Soyadınızı yazın"
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
                   onKeyPress={(e) => e.key === "Enter" && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()}
                 />

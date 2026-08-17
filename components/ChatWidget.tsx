@@ -402,11 +402,27 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
   if (isFullscreen) return null;
   // Admin panelinde destek widget'ı gösterme (gereksiz)
   if (pathname?.startsWith('/admin') || pathname?.startsWith('/callcenter')) return null;
+  const isPhotog = pathname === '/fotografci';
 
   return (
     <>
       {open && chatBox}
-      {!open && !hideBubble && (
+      {/* Fotoğrafçı paneli — Elif yerine sabit rose headset (aynı destek panelini açar) */}
+      {!open && isPhotog && (
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Destek"
+          className="fixed z-[9999] bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-105"
+          style={{ background: 'linear-gradient(135deg, #D88488, #C8686E)', boxShadow: '0 14px 34px rgba(200,104,110,0.35), inset 0 1px 0 rgba(255,255,255,0.3)' }}
+        >
+          <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M4 14v-2a8 8 0 0116 0v2" />
+            <path d="M4 14h3v6H4v-6zM17 14h3v6h-3v-6z" />
+            <path d="M17 20v.5a2.5 2.5 0 01-2.5 2.5H12" />
+          </svg>
+        </button>
+      )}
+      {!open && !hideBubble && !isPhotog && (
         <div
           className="fixed flex items-stretch z-[9999] bottom-[75px] lg:bottom-9 right-[-6px] lg:right-0"
           style={{

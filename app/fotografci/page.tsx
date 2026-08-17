@@ -11,6 +11,7 @@ const optimizeImg = (url: string, width: number, quality = 80): string => {
 
 interface EventRow {
   id: string;
+  user_id: string | null;
   bride_first_name: string;
   bride_last_name: string;
   groom_first_name: string;
@@ -93,6 +94,8 @@ export default function FotografciPanel() {
   const [tab, setTab] = useState<'pending' | 'done' | 'sizes'>('pending');
   const [selectedGuest, setSelectedGuest] = useState<string>('all'); // sol menü davetli filtresi
   const [guestSearch, setGuestSearch] = useState('');
+  const [hideTotal, setHideTotal] = useState(false); // banka tarzı göz ikonu — tutarı gizle
+  const [doneFilter, setDoneFilter] = useState<'all' | 'unpaid' | 'paid'>('all'); // tamamlananlar tahsilat filtresi
   const [prints, setPrints] = useState<PrintRow[]>([]);
   const [sizes, setSizes] = useState<SizeRow[]>([]);
   const [loading, setLoading] = useState(false);
@@ -107,27 +110,38 @@ export default function FotografciPanel() {
   const [showSetup, setShowSetup] = useState(false);
   const [setupStep, setSetupStep] = useState(0);
 
-  // --- Canlı arama (2+ harf, buton yok) ---
+  const [showAllList, setShowAllList] = useState(false);
+
+  // İsme göre eşleşen etkinlikler → sahibi (çift) izin AÇMIŞSA o çiftin TÜM etkinlikleri (nikah+düğün) listelenir.
+  // Böylece uygulamada hangi etkinliğin seçili olduğu fark etmez; fotoğrafçı ikisini de görür.
+  const fetchEvents = async (q: string) => {
+    const cols = 'id, user_id, bride_first_name, bride_last_name, groom_first_name, groom_last_name, event_type, event_date, couple_photo_url';
+    let base = supabase.from('events').select(cols).order('event_date', { ascending: true }).limit(80);
+    if (q) base = base.or(`bride_first_name.ilike.%${q}%,groom_first_name.ilike.%${q}%,bride_last_name.ilike.%${q}%,groom_last_name.ilike.%${q}%`);
+    const { data: matched } = await base;
+    if (!matched || matched.length === 0) { setResults([]); return; }
+    const owners = Array.from(new Set(matched.map((m: EventRow) => m.user_id).filter(Boolean))) as string[];
+    let enabledOwners = new Set<string>();
+    if (owners.length) {
+      const { data: en } = await supabase.from('events').select('user_id').in('user_id', owners).eq('photographer_access_enabled', true);
+      enabledOwners = new Set((en || []).map((r: { user_id: string }) => r.user_id));
+    }
+    setResults(matched.filter((m: EventRow) => m.user_id && enabledOwners.has(m.user_id)));
+  };
+
+  // --- Canlı arama (1+ harf, buton yok) veya "tümünü göster" oku ---
   useEffect(() => {
     const q = query.trim();
-    if (q.length < 2) { setResults([]); return; }
+    if (q.length < 1 && !showAllList) { setResults([]); return; }
     let alive = true;
     setSearching(true);
     const t = setTimeout(async () => {
-      try {
-        const { data } = await supabase
-          .from('events')
-          .select('id, bride_first_name, bride_last_name, groom_first_name, groom_last_name, event_type, event_date, couple_photo_url')
-          .eq('photographer_access_enabled', true)
-          .or(`bride_first_name.ilike.%${q}%,groom_first_name.ilike.%${q}%,bride_last_name.ilike.%${q}%,groom_last_name.ilike.%${q}%`)
-          .order('event_date', { ascending: true })
-          .limit(30);
-        if (alive) setResults(data || []);
-      } catch (e) { console.error(e); }
+      try { await fetchEvents(q); } catch (e) { console.error(e); }
       if (alive) setSearching(false);
     }, 250);
     return () => { alive = false; clearTimeout(t); };
-  }, [query]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, showAllList]);
 
   // Blok sayacı
   useEffect(() => {
@@ -152,6 +166,8 @@ export default function FotografciPanel() {
       if (!data?.photographer_access_enabled) { setCodeError('Bu etkinlik için baskı hizmeti kapatılmış.'); setChecking(false); return; }
       if ((data?.photographer_access_code || '') === code) {
         setRL(selected.id, { count: 0, until: 0 });
+        // Oturumu sakla — sayfa yenilenince tekrar kod sorulmasın
+        try { sessionStorage.setItem('nkh_photog_panel', JSON.stringify(selected)); } catch {}
         setStep('panel');
         await loadDashboard(selected.id, true);
       } else {
@@ -172,8 +188,9 @@ export default function FotografciPanel() {
     setChecking(false);
   };
 
-  const loadDashboard = useCallback(async (eventId: string, firstLoad = false) => {
-    setLoading(true);
+  // silent = arka plan yenilemesi (spinner gösterme, filtre/sekme/yeri bozma)
+  const loadDashboard = useCallback(async (eventId: string, firstLoad = false, silent = false) => {
+    if (!silent) setLoading(true);
     try {
       const [{ data: p }, { data: s }] = await Promise.all([
         supabase.from('print_requests').select('*').eq('event_id', eventId).order('created_at', { ascending: false }),
@@ -183,17 +200,31 @@ export default function FotografciPanel() {
       setSizes(s || []);
       if (firstLoad && (s || []).length === 0) { setShowSetup(true); setSetupStep(0); setTab('sizes'); }
     } catch (e) { console.error(e); }
-    setLoading(false);
+    if (!silent) setLoading(false);
   }, []);
 
   useEffect(() => {
     if (step !== 'panel' || !selected) return;
+    // Realtime (anlık) + 10 sn yedek poll — ikisi de SESSİZ (filtre/sekme/yeri bozmaz)
     const ch = supabase
       .channel(`prints-${selected.id}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'print_requests', filter: `event_id=eq.${selected.id}` }, () => loadDashboard(selected.id))
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'print_requests', filter: `event_id=eq.${selected.id}` }, () => loadDashboard(selected.id, false, true))
       .subscribe();
-    return () => { supabase.removeChannel(ch); };
+    const poll = setInterval(() => loadDashboard(selected.id, false, true), 10000);
+    return () => { supabase.removeChannel(ch); clearInterval(poll); };
   }, [step, selected, loadDashboard]);
+
+  // Sayfa yenilenince oturumu geri yükle (tekrar kod sorma)
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem('nkh_photog_panel');
+      if (raw) {
+        const ev = JSON.parse(raw) as EventRow;
+        if (ev?.id) { setSelected(ev); setStep('panel'); loadDashboard(ev.id, false, true); }
+      }
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const addSize = async () => {
     if (!selected) return;
@@ -242,22 +273,32 @@ export default function FotografciPanel() {
   const pending = prints.filter((p) => p.status === 'pending' && guestMatch(p.guest_name));
   const done = prints.filter((p) => p.status === 'printed' && guestMatch(p.guest_name));
   const groupedPending = pending.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
-  const groupedDone = done.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
+  const doneFiltered = done.filter((p) => doneFilter === 'all' || (doneFilter === 'paid' ? p.paid : !p.paid));
+  const groupedDone = doneFiltered.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
 
-  // Sol menü — tüm davetliler (arama + bekleyen/tamamlanan sayıları)
+  // Sol menü — davetliler. Sıra: önce BEKLEYENİ olanlar (ilk gelen üstte / FCFS), sonra tamamlananlar.
   const guestList = (() => {
-    const m: Record<string, { pending: number; done: number }> = {};
+    const m: Record<string, { pending: number; done: number; firstPending: string }> = {};
     for (const p of prints) {
-      m[p.guest_name] = m[p.guest_name] || { pending: 0, done: 0 };
-      if (p.status === 'pending') m[p.guest_name].pending += p.qty;
-      else if (p.status === 'printed') m[p.guest_name].done += p.qty;
+      m[p.guest_name] = m[p.guest_name] || { pending: 0, done: 0, firstPending: '' };
+      if (p.status === 'pending') {
+        m[p.guest_name].pending += p.qty;
+        if (!m[p.guest_name].firstPending || p.created_at < m[p.guest_name].firstPending) m[p.guest_name].firstPending = p.created_at;
+      } else if (p.status === 'printed') m[p.guest_name].done += p.qty;
     }
     return Object.entries(m)
       .filter(([n]) => n.toLowerCase().includes(guestSearch.trim().toLowerCase()))
-      .sort((a, b) => (b[1].pending - a[1].pending) || a[0].localeCompare(b[0]));
+      .sort((a, b) => {
+        const ap = a[1].pending > 0, bp = b[1].pending > 0;
+        if (ap && bp) return a[1].firstPending.localeCompare(b[1].firstPending); // ilk gelen üstte
+        if (ap !== bp) return ap ? -1 : 1; // bekleyeni olanlar üstte
+        return a[0].localeCompare(b[0]);
+      });
   })();
-  // Bu düğünde tahsil edilen toplam (paid=printed satırların tutarı)
+  // Tahsil edilen + tahsil edilecek (bu düğünde, tamamlanmış baskılar)
   const totalCollected = prints.filter((p) => p.status === 'printed' && p.paid).reduce((a, p) => a + p.price_tl * p.qty, 0);
+  const totalToCollect = prints.filter((p) => p.status === 'printed' && !p.paid).reduce((a, p) => a + p.price_tl * p.qty, 0);
+  const mask = (v: number) => (hideTotal ? '••••' : `${v}₺`);
 
   const coupleTitle = (e: EventRow) => `${e.bride_first_name} & ${e.groom_first_name}`;
   const fmtBlock = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
@@ -275,17 +316,17 @@ export default function FotografciPanel() {
       {step === 'login' && (
         <div className="min-h-screen flex items-center justify-center p-4">
           <div className="w-full max-w-md rounded-[28px] overflow-hidden relative" style={{ background: '#FFFDFC', boxShadow: '0 30px 80px rgba(180,90,100,0.18), 0 8px 24px rgba(200,104,110,0.10)', border: '1px solid rgba(200,104,110,0.14)' }}>
-            {/* İllüstrasyon — tümü görünsün (object-contain), altta yumuşak çok kademeli geçiş */}
-            <div className="relative w-full" style={{ aspectRatio: '16 / 8.5', background: '#FFFDFC' }}>
-              <img src="/fotografci-login.png" alt="" className="w-full h-full object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
+            {/* İllüstrasyon — kamera %10 küçük (padding), altta yumuşak çok kademeli geçiş */}
+            <div className="relative w-full" style={{ aspectRatio: '16 / 8', background: '#FFFDFC' }}>
+              <img src="/fotografci-login.png" alt="" className="w-full h-full object-contain p-[5%]" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
               <div className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,253,252,0) 0%, rgba(255,253,252,0.25) 45%, rgba(255,253,252,0.7) 78%, #FFFDFC 100%)' }} />
             </div>
 
             <div className="px-7 pb-8 -mt-1 relative">
-              {/* Logo (kalp) + Nikahım imza yazısı (görsel) */}
+              {/* Logo (kalp) + Nikahım imza yazısı — %20 büyük */}
               <div className="flex flex-col items-center">
-                <img src="/navbar-icon.png" alt="" className="h-9 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-                <img src="/navbar-text.png" alt="Nikahım" className="h-5 w-auto object-contain mt-1.5" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                <img src="/navbar-icon.png" alt="" className="h-11 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                <img src="/navbar-text.png" alt="Nikahım" className="h-6 w-auto object-contain mt-1.5" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                 <h1 className="text-[15px] font-semibold mt-3 mb-1" style={{ color: '#4A3A3A' }}>Fotoğrafçı Girişi</h1>
               </div>
 
@@ -304,9 +345,13 @@ export default function FotografciPanel() {
                 <>
                   <div className="relative">
                     <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
-                    <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Gelin veya Damat ismi ile arayın…" className="w-full pl-10 pr-4 py-3 rounded-xl border outline-none text-gray-900 text-[14px]" style={{ borderColor: 'rgba(0,0,0,0.12)' }} />
+                    <input value={query} onChange={(e) => { setQuery(e.target.value); setShowAllList(false); }} placeholder="Gelin veya Damat ismi ile arayın…" className="w-full pl-10 pr-11 py-3 rounded-xl border outline-none text-gray-900 text-[14px]" style={{ borderColor: 'rgba(0,0,0,0.12)' }} />
+                    {/* Açılır ok — tüm etkinlikleri listele */}
+                    <button onClick={() => setShowAllList((v) => !v)} title="Tümünü göster" className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg flex items-center justify-center transition-transform" style={{ background: 'rgba(200,104,110,0.08)', transform: showAllList ? 'translateY(-50%) rotate(180deg)' : 'translateY(-50%)' }}>
+                      <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                    </button>
                   </div>
-                  {query.trim().length >= 1 && (
+                  {(query.trim().length >= 1 || showAllList) && (
                     <div className="mt-2 flex flex-col gap-1.5 max-h-64 overflow-y-auto rounded-xl" style={{ boxShadow: results.length ? '0 8px 24px rgba(200,104,110,0.10)' : 'none' }}>
                       {searching && <p className="text-center text-[12.5px] text-gray-400 py-3">Aranıyor…</p>}
                       {!searching && results.length === 0 && <p className="text-center text-[12.5px] text-gray-400 py-3">Sonuç yok. Çift baskı iznini açmamış olabilir.</p>}
@@ -353,11 +398,20 @@ export default function FotografciPanel() {
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
-                <div className="text-right hidden sm:block">
-                  <p className="text-[10px] text-gray-400 -mb-0.5">Tahsil edilen</p>
-                  <p className="text-[15px] font-bold" style={{ color: '#318052' }}>{totalCollected}₺</p>
+                <div className="hidden sm:flex items-center gap-2">
+                  <div className="text-right leading-tight">
+                    <p className="text-[10px] text-gray-400 -mb-0.5">Tahsil edilen / edilecek</p>
+                    <p className="text-[14px] font-bold"><span style={{ color: '#318052' }}>{mask(totalCollected)}</span><span className="text-gray-300"> / </span><span style={{ color: '#C8686E' }}>{mask(totalToCollect)}</span></p>
+                  </div>
+                  <button onClick={() => setHideTotal((v) => !v)} title={hideTotal ? 'Göster' : 'Gizle'} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.06)', color: '#8A7E7E' }}>
+                    {hideTotal ? (
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L9.88 9.88" /></svg>
+                    )}
+                  </button>
                 </div>
-                <button onClick={() => { setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); setSelectedGuest('all'); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
+                <button onClick={() => { try { sessionStorage.removeItem('nkh_photog_panel'); } catch {}; setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); setSelectedGuest('all'); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
               </div>
             </div>
           </header>
@@ -456,10 +510,17 @@ export default function FotografciPanel() {
               )
             )}
 
-            {/* Tamamlananlar — davetliye gruplu + toplam adet/ücret + Tahsil Edildi */}
-            {!loading && tab === 'done' && (
-              Object.keys(groupedDone).length === 0 ? (
-                <p className="text-center text-sm text-gray-400 py-12">Henüz tamamlanan baskı yok.</p>
+            {/* Tamamlananlar — davetliye gruplu + toplam adet/ücret + tahsilat */}
+            {!loading && tab === 'done' && (<>
+              {done.length > 0 && (
+                <div className="flex gap-1.5 mb-4">
+                  {([['all', 'Hepsi'], ['unpaid', 'Tahsil Edilecek'], ['paid', 'Tahsil Edilen']] as const).map(([k, lbl]) => (
+                    <button key={k} onClick={() => setDoneFilter(k)} className="px-3 py-1.5 rounded-full text-[12.5px] font-semibold transition-colors" style={{ background: doneFilter === k ? '#C8686E' : 'rgba(200,104,110,0.08)', color: doneFilter === k ? '#fff' : '#8A6E70' }}>{lbl}</button>
+                  ))}
+                </div>
+              )}
+              {Object.keys(groupedDone).length === 0 ? (
+                <p className="text-center text-sm text-gray-400 py-12">{done.length === 0 ? 'Henüz tamamlanan baskı yok.' : 'Bu filtrede kayıt yok.'}</p>
               ) : (
                 <div className="flex flex-col gap-5">
                   {Object.entries(groupedDone).map(([guest, rows]) => {
@@ -468,15 +529,33 @@ export default function FotografciPanel() {
                     const allPaid = rows.every((r) => r.paid);
                     return (
                       <div key={guest} className="rounded-2xl p-3.5" style={{ background: '#fff', border: `1px solid ${allPaid ? 'rgba(49,128,82,0.28)' : 'rgba(200,104,110,0.14)'}` }}>
-                        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                        <div className="flex items-start justify-between mb-3 flex-wrap gap-2">
                           <div>
                             <h3 className="font-bold text-gray-800 leading-tight">Davetli: {guest}</h3>
                             <span className="text-[12px] text-gray-500">{totQty} baskı{totPrice > 0 ? ` · ${totPrice}₺` : ''}</span>
                           </div>
-                          <button onClick={() => setGuestPaid(guest, !allPaid)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold transition-colors" style={{ background: allPaid ? '#318052' : 'rgba(49,128,82,0.10)', color: allPaid ? '#fff' : '#318052', border: allPaid ? 'none' : '1px solid rgba(49,128,82,0.30)' }}>
-                            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                            {allPaid ? 'Tahsil Edildi' : 'Tahsil Et'}
-                          </button>
+                          <div className="text-right">
+                            {allPaid ? (
+                              <div className="flex flex-col items-end gap-1">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold text-white" style={{ background: '#318052' }}>
+                                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                  Tahsil Edildi
+                                </span>
+                                <button onClick={() => setGuestPaid(guest, false)} className="inline-flex items-center gap-1 text-[11.5px] font-semibold" style={{ color: '#7A6E6E' }}>
+                                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
+                                  Geri Al
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="flex flex-col items-end gap-1">
+                                {totPrice > 0 && <span className="text-[13px] font-bold" style={{ color: '#C8686E' }}>{totPrice}₺</span>}
+                                <button onClick={() => setGuestPaid(guest, true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold" style={{ background: 'rgba(49,128,82,0.10)', color: '#318052', border: '1px solid rgba(49,128,82,0.30)' }}>
+                                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                  Tahsil Et
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         </div>
                         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
                           {rows.map((r) => (
@@ -495,7 +574,8 @@ export default function FotografciPanel() {
                     );
                   })}
                 </div>
-              )
+              )}
+            </>
             )}
 
             {/* Baskı Boyutları */}
@@ -545,11 +625,11 @@ export default function FotografciPanel() {
                 <div className="flex transition-transform duration-400" style={{ transform: `translateX(-${setupStep * 100}%)` }}>
                   {/* Adım 0 — tanıtım */}
                   <div className="w-full flex-shrink-0">
-                    <div className="relative w-full" style={{ aspectRatio: '3 / 2' }}>
-                      <img src="/fotografci-panel.png" alt="" className="w-full h-full object-cover object-top" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
-                      <div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,253,252,0) 0%, rgba(255,253,252,0.5) 60%, #FFFDFC 100%)' }} />
+                    <div className="relative w-full" style={{ aspectRatio: '3 / 2.15' }}>
+                      <img src="/fotografci-panel.png" alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 42%' }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
+                      <div className="absolute inset-x-0 bottom-0 h-1/4 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,253,252,0) 0%, rgba(255,253,252,0.55) 65%, #FFFDFC 100%)' }} />
                     </div>
-                    <div className="px-7 pb-7 -mt-8 relative text-center">
+                    <div className="px-7 pb-7 -mt-3 relative text-center">
                       <h3 className="text-[19px] font-bold mb-2" style={{ color: '#B85258', fontFamily: 'var(--font-playfair), Georgia, serif' }}>Hoş Geldiniz</h3>
                       <p className="text-[13.5px] leading-relaxed text-gray-600 mb-4">Davetlilerin size baskı talebi gönderebilmesi için önce lütfen yapabildiğiniz baskı boylarını ve fiyatlarını oluşturun.</p>
                       {/* 2 sayfa göstergesi */}
@@ -563,8 +643,7 @@ export default function FotografciPanel() {
                   {/* Adım 1 — boy/fiyat */}
                   <div className="w-full flex-shrink-0 p-7">
                     <button onClick={() => setSetupStep(0)} className="text-[13px] text-gray-400 mb-3 flex items-center gap-1"><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>Geri</button>
-                    <h3 className="text-[17px] font-bold text-gray-900 mb-1">En az bir baskı boyutu ekleyin</h3>
-                    <p className="text-[12.5px] text-gray-400 mb-3">Boy seçince fiyat alanına otomatik geçilir.</p>
+                    <h3 className="text-[17px] font-bold text-gray-900 mb-3">En az bir baskı boyutu ekleyin</h3>
                     <div className="flex flex-wrap gap-1.5 mb-3">
                       {QUICK_SIZES.map((sz) => (
                         <button key={sz} onClick={() => { setNewSizeLabel(sz); setTimeout(() => priceRef.current?.focus(), 50); }} className="px-3 py-1.5 rounded-lg text-[12.5px] font-semibold" style={{ background: newSizeLabel === sz ? 'rgba(200,104,110,0.12)' : '#F3EEEE', color: newSizeLabel === sz ? '#C8686E' : '#7A6E6E' }}>{sz}</button>
