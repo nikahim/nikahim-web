@@ -506,7 +506,7 @@ export default function FotografciPanel() {
                 <button key={k} onClick={() => setTab(k)} className="flex-1 py-2 rounded-lg text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5" style={{ background: tab === k ? '#fff' : 'transparent', color: tab === k ? '#C8686E' : '#9A8A8A', boxShadow: tab === k ? '0 2px 6px rgba(200,104,110,0.12)' : 'none' }}>
                   {lbl}
                   {n > 0 && (k === 'sizes'
-                    ? <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-[5px] text-[10px] font-bold" style={{ background: 'rgba(200,104,110,0.12)', color: '#B85258' }}>{n}</span>
+                    ? <span className="inline-flex items-center justify-center min-w-[22px] h-[20px] px-1.5 rounded-[6px] text-[12px] font-bold" style={{ background: 'rgba(200,104,110,0.14)', color: '#B85258' }}>{n}</span>
                     : <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold text-white" style={{ background: k === 'pending' ? '#E5484D' : '#C8686E' }}>{n}</span>)}
                 </button>
               ))}
@@ -567,7 +567,7 @@ export default function FotografciPanel() {
             {!loading && tab === 'done' && (<>
               {done.length > 0 && (
                 <div className="flex gap-1.5 mb-4">
-                  {([['all', 'Hepsi'], ['unpaid', 'Ödeme Bekliyor'], ['paid', 'Ödeme Alınanlar']] as const).map(([k, lbl]) => (
+                  {([['all', 'Hepsi'], ['unpaid', 'Ödeme Bekleyenler'], ['paid', 'Ödeme Alınanlar']] as const).map(([k, lbl]) => (
                     <button key={k} onClick={() => setDoneFilter(k)} className="px-3 py-1.5 rounded-full text-[12.5px] font-semibold transition-colors" style={{ background: doneFilter === k ? '#C8686E' : 'rgba(200,104,110,0.08)', color: doneFilter === k ? '#fff' : '#8A6E70' }}>{lbl}</button>
                   ))}
                 </div>
@@ -637,8 +637,8 @@ export default function FotografciPanel() {
             {!loading && tab === 'sizes' && (
               <div className="max-w-lg">
                 <div className="rounded-2xl p-4 mb-5 bg-white" style={{ border: '1px solid rgba(200,104,110,0.14)' }}>
-                  <h3 className="font-bold text-gray-800 mb-1">Fotoğraf Boyu Ekle</h3>
-                  <p className="text-[12.5px] text-gray-400 mb-3">Davetliler yalnızca buraya eklediğiniz boyutlardan seçebilir. Fiyatı görmeleri sipariş vermelerini kolaylaştırır.</p>
+                  <h3 className="font-bold text-gray-800 mb-1">Fotoğraf Baskı Boyu Ekle</h3>
+                  <p className="text-[12.5px] text-gray-400 mb-3">Davetliler yalnızca buraya eklediğiniz baskı boyutlarından seçebilir. Fiyatı görmeleri sipariş vermelerini kolaylaştırır.</p>
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {QUICK_SIZES.map((sz) => (
                       <button key={sz} onClick={() => { setNewSizeLabel(sz); setTimeout(() => priceRef.current?.focus(), 50); }} className="px-3 py-1.5 rounded-lg text-[12.5px] font-semibold" style={{ background: newSizeLabel === sz ? 'rgba(200,104,110,0.12)' : '#F3EEEE', color: newSizeLabel === sz ? '#C8686E' : '#7A6E6E' }}>{sz}</button>
@@ -772,17 +772,22 @@ export default function FotografciPanel() {
               <div className="flex-1 overflow-y-auto px-5 pt-5 pb-4 space-y-2.5">
                 {/* Canlı Destek */}
                 <button onClick={() => { setShowSupport(false); setTimeout(() => window.dispatchEvent(new CustomEvent('nikahim:open-chat')), 200); }} className="w-full flex items-center gap-3.5 p-4 rounded-2xl text-left" style={{ background: 'linear-gradient(180deg, rgba(255,251,247,0.85), rgba(253,243,243,0.80))', border: '1px solid rgba(232,180,170,0.25)', boxShadow: '0 2px 10px rgba(200,104,110,0.06)' }}>
-                  {/* 3 destek asistanı — üst üste yuvarlak profiller */}
-                  <div className="flex items-center flex-shrink-0" style={{ paddingLeft: 4 }}>
-                    {['/asistan-elif.png', '/asistan-tugce.png', '/asistan-yusuf.png'].map((im, i) => (
-                      <span key={im} className="w-9 h-9 rounded-full overflow-hidden bg-white" style={{ border: '2px solid #fff', marginLeft: i === 0 ? -4 : -10, boxShadow: '0 2px 6px rgba(200,104,110,0.18)', zIndex: 3 - i }}>
-                        <img src={im} alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-                      </span>
-                    ))}
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.35), rgba(200,104,110,0.20))' }}>
+                    <svg className="w-5 h-5" fill="none" stroke="#9F4F58" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" /></svg>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
-                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Uzmanlarımızla anlık sohbet</p>
+                    <div className="flex items-center gap-2">
+                      <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
+                      {/* 3 destek asistanı — başlığın sağında üst üste */}
+                      <span className="flex items-center">
+                        {['/asistan-elif.png', '/asistan-tugce.png', '/asistan-yusuf.png'].map((im, i) => (
+                          <span key={im} className="w-6 h-6 rounded-full overflow-hidden bg-white" style={{ border: '1.5px solid #fff', marginLeft: i === 0 ? 0 : -8, boxShadow: '0 1px 4px rgba(200,104,110,0.2)', zIndex: 3 - i }}>
+                            <img src={im} alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                          </span>
+                        ))}
+                      </span>
+                    </div>
+                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Destek Asistanlarımız ile anlık sohbet</p>
                     <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#3FB95A' }}><span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />Çevrim içi</p>
                   </div>
                   <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>

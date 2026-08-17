@@ -3718,8 +3718,17 @@ export default function WatchPage() {
                   </svg>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
-                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Anlık sohbet ile yardım al</p>
+                  <div className="flex items-center gap-2">
+                    <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
+                    <span className="flex items-center">
+                      {['/asistan-elif.png', '/asistan-tugce.png', '/asistan-yusuf.png'].map((im, i) => (
+                        <span key={im} className="w-6 h-6 rounded-full overflow-hidden bg-white" style={{ border: '1.5px solid #fff', marginLeft: i === 0 ? 0 : -8, boxShadow: '0 1px 4px rgba(200,104,110,0.2)', zIndex: 3 - i }}>
+                          <img src={im} alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                        </span>
+                      ))}
+                    </span>
+                  </div>
+                  <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Destek Asistanlarımız ile anlık sohbet</p>
                   <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#3FB95A' }}>
                     <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                     Çevrim içi
