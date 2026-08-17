@@ -22,7 +22,7 @@ interface EventRow {
 }
 interface PrintRow {
   id: string; guest_name: string; photo_url: string; size_label: string;
-  price_tl: number; qty: number; status: string; created_at: string; printed_at: string | null; paid?: boolean;
+  price_tl: number; qty: number; status: string; created_at: string; printed_at: string | null; paid?: boolean; device_id?: string | null;
 }
 interface SizeRow { id: string; size_label: string; price_tl: number; }
 
@@ -248,11 +248,11 @@ export default function FotografciPanel() {
   };
   const markPrinted = async (id: string) => { await supabase.from('print_requests').update({ status: 'printed', printed_at: new Date().toISOString() }).eq('id', id); if (selected) loadDashboard(selected.id); };
   const revertPrinted = async (id: string) => { await supabase.from('print_requests').update({ status: 'pending', printed_at: null }).eq('id', id); if (selected) loadDashboard(selected.id); };
-  // Tahsilat — bir davetlinin tamamlanmış baskılarını "tahsil edildi" işaretle/geri al
-  const setGuestPaid = async (guest: string, paid: boolean) => {
-    if (!selected) return;
-    await supabase.from('print_requests').update({ paid }).eq('event_id', selected.id).eq('guest_name', guest).eq('status', 'printed');
-    loadDashboard(selected.id);
+  // Ödeme — bir davetlinin (belirli satırların) tamamlanmış baskılarını "ödendi" işaretle/geri al
+  const setRowsPaid = async (rows: PrintRow[], paid: boolean) => {
+    if (!selected || rows.length === 0) return;
+    await supabase.from('print_requests').update({ paid }).in('id', rows.map((r) => r.id));
+    loadDashboard(selected.id, false, true);
   };
 
   const downloadPhoto = async (url: string, label: string) => {
@@ -269,30 +269,49 @@ export default function FotografciPanel() {
     w.document.close();
   };
 
-  const guestMatch = (g: string) => selectedGuest === 'all' || g === selectedGuest;
-  const pending = prints.filter((p) => p.status === 'pending' && guestMatch(p.guest_name));
-  const done = prints.filter((p) => p.status === 'printed' && guestMatch(p.guest_name));
-  const groupedPending = pending.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
-  const doneFiltered = done.filter((p) => doneFilter === 'all' || (doneFilter === 'paid' ? p.paid : !p.paid));
-  const groupedDone = doneFiltered.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[p.guest_name] = acc[p.guest_name] || []).push(p); return acc; }, {});
+  // Davetli anahtarı = device_id (yoksa isim). Aynı isimde birden fazla cihaz → "(2)" eki ile ayrılır.
+  const keyOf = (p: PrintRow) => p.device_id || `name:${p.guest_name}`;
+  const keyMeta: Record<string, { name: string; first: string }> = {};
+  for (const p of prints) {
+    const k = keyOf(p);
+    if (!keyMeta[k]) keyMeta[k] = { name: p.guest_name, first: p.created_at };
+    else if (p.created_at < keyMeta[k].first) keyMeta[k].first = p.created_at;
+  }
+  const labelOf: Record<string, string> = {};
+  {
+    const byName: Record<string, [string, { name: string; first: string }][]> = {};
+    for (const [k, v] of Object.entries(keyMeta)) (byName[v.name] = byName[v.name] || []).push([k, v]);
+    for (const [nm, arr] of Object.entries(byName)) {
+      arr.sort((a, b) => a[1].first.localeCompare(b[1].first));
+      arr.forEach(([k], i) => { labelOf[k] = arr.length > 1 ? `${nm} (${i + 1})` : nm; });
+    }
+  }
 
-  // Sol menü — davetliler. Sıra: önce BEKLEYENİ olanlar (ilk gelen üstte / FCFS), sonra tamamlananlar.
+  const guestMatch = (p: PrintRow) => selectedGuest === 'all' || keyOf(p) === selectedGuest;
+  const pending = prints.filter((p) => p.status === 'pending' && guestMatch(p));
+  const done = prints.filter((p) => p.status === 'printed' && guestMatch(p));
+  const groupedPending = pending.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[keyOf(p)] = acc[keyOf(p)] || []).push(p); return acc; }, {});
+  const doneFiltered = done.filter((p) => doneFilter === 'all' || (doneFilter === 'paid' ? p.paid : !p.paid));
+  const groupedDone = doneFiltered.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[keyOf(p)] = acc[keyOf(p)] || []).push(p); return acc; }, {});
+
+  // Sol menü — davetliler (anahtar bazlı). Sıra: bekleyeni olanlar önce (ilk gelen üstte / FCFS), sonra tamamlananlar.
   const guestList = (() => {
     const m: Record<string, { pending: number; done: number; firstPending: string }> = {};
     for (const p of prints) {
-      m[p.guest_name] = m[p.guest_name] || { pending: 0, done: 0, firstPending: '' };
+      const k = keyOf(p);
+      m[k] = m[k] || { pending: 0, done: 0, firstPending: '' };
       if (p.status === 'pending') {
-        m[p.guest_name].pending += p.qty;
-        if (!m[p.guest_name].firstPending || p.created_at < m[p.guest_name].firstPending) m[p.guest_name].firstPending = p.created_at;
-      } else if (p.status === 'printed') m[p.guest_name].done += p.qty;
+        m[k].pending += p.qty;
+        if (!m[k].firstPending || p.created_at < m[k].firstPending) m[k].firstPending = p.created_at;
+      } else if (p.status === 'printed') m[k].done += p.qty;
     }
     return Object.entries(m)
-      .filter(([n]) => n.toLowerCase().includes(guestSearch.trim().toLowerCase()))
+      .filter(([k]) => (labelOf[k] || '').toLowerCase().includes(guestSearch.trim().toLowerCase()))
       .sort((a, b) => {
         const ap = a[1].pending > 0, bp = b[1].pending > 0;
-        if (ap && bp) return a[1].firstPending.localeCompare(b[1].firstPending); // ilk gelen üstte
-        if (ap !== bp) return ap ? -1 : 1; // bekleyeni olanlar üstte
-        return a[0].localeCompare(b[0]);
+        if (ap && bp) return a[1].firstPending.localeCompare(b[1].firstPending);
+        if (ap !== bp) return ap ? -1 : 1;
+        return (labelOf[a[0]] || '').localeCompare(labelOf[b[0]] || '');
       });
   })();
   // Tahsil edilen + tahsil edilecek (bu düğünde, tamamlanmış baskılar)
@@ -435,9 +454,9 @@ export default function FotografciPanel() {
                 <button onClick={() => setSelectedGuest('all')} className="flex items-center justify-between px-3 py-2 rounded-lg text-left text-[13px] font-semibold transition-colors" style={{ background: selectedGuest === 'all' ? 'rgba(200,104,110,0.10)' : 'transparent', color: selectedGuest === 'all' ? '#C8686E' : '#6B5A5A' }}>
                   Tümü <span className="text-[11px] text-gray-400">{prints.length}</span>
                 </button>
-                {guestList.map(([name, c]) => (
-                  <button key={name} onClick={() => setSelectedGuest(name)} className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left transition-colors" style={{ background: selectedGuest === name ? 'rgba(200,104,110,0.10)' : 'transparent' }}>
-                    <span className="text-[13px] font-semibold truncate" style={{ color: selectedGuest === name ? '#C8686E' : '#4A3A3A' }}>{name}</span>
+                {guestList.map(([gkey, c]) => (
+                  <button key={gkey} onClick={() => setSelectedGuest(gkey)} className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left transition-colors" style={{ background: selectedGuest === gkey ? 'rgba(200,104,110,0.10)' : 'transparent' }}>
+                    <span className="text-[13px] font-semibold truncate" style={{ color: selectedGuest === gkey ? '#C8686E' : '#4A3A3A' }}>{labelOf[gkey] || '—'}</span>
                     <span className="flex items-center gap-1.5 flex-shrink-0">
                       {c.pending > 0 && <span className="inline-flex items-center gap-0.5 text-[10.5px] font-bold" style={{ color: '#E5484D' }}><svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>{c.pending}</span>}
                       {c.done > 0 && <span className="inline-flex items-center gap-0.5 text-[10.5px] font-bold" style={{ color: '#318052' }}><svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>{c.done}</span>}
@@ -452,10 +471,10 @@ export default function FotografciPanel() {
             <div className="md:hidden mb-4">
               <div className="flex gap-1.5 overflow-x-auto pb-1">
                 <button onClick={() => setSelectedGuest('all')} className="flex-shrink-0 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === 'all' ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === 'all' ? '#fff' : '#8A6E70' }}>Tümü</button>
-                {guestList.map(([name, c]) => (
-                  <button key={name} onClick={() => setSelectedGuest(name)} className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === name ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === name ? '#fff' : '#8A6E70' }}>
-                    {name}
-                    {c.pending > 0 && <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9.5px] font-bold" style={{ background: selectedGuest === name ? 'rgba(255,255,255,0.25)' : '#E5484D', color: '#fff' }}>{c.pending}</span>}
+                {guestList.map(([gkey, c]) => (
+                  <button key={gkey} onClick={() => setSelectedGuest(gkey)} className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === gkey ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === gkey ? '#fff' : '#8A6E70' }}>
+                    {labelOf[gkey] || '—'}
+                    {c.pending > 0 && <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9.5px] font-bold" style={{ background: selectedGuest === gkey ? 'rgba(255,255,255,0.25)' : '#E5484D', color: '#fff' }}>{c.pending}</span>}
                   </button>
                 ))}
               </div>
@@ -478,12 +497,14 @@ export default function FotografciPanel() {
                 <p className="text-center text-sm text-gray-400 py-12">Bekleyen baskı isteği yok.</p>
               ) : (
                 <div className="flex flex-col gap-5">
-                  {Object.entries(groupedPending).map(([guest, rows]) => (
+                  {Object.entries(groupedPending).map(([guest, rows]) => {
+                    const gname = labelOf[guest] || rows[0]?.guest_name || '—';
+                    return (
                     <div key={guest}>
                       <div className="flex items-center gap-2.5 mb-2.5">
-                        <span className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[13px] font-bold flex-shrink-0" style={{ background: 'linear-gradient(135deg, #E9A0A3, #C8686E)' }}>{guest.charAt(0).toUpperCase()}</span>
+                        <span className="w-8 h-8 rounded-full flex items-center justify-center text-white text-[13px] font-bold flex-shrink-0" style={{ background: 'linear-gradient(135deg, #E9A0A3, #C8686E)' }}>{gname.charAt(0).toUpperCase()}</span>
                         <div>
-                          <h3 className="font-bold text-gray-800 leading-tight">Davetli: {guest}</h3>
+                          <h3 className="font-bold text-gray-800 leading-tight">Davetli: {gname}</h3>
                           <span className="text-[12px]" style={{ color: '#E5484D' }}>{rows.reduce((a, r) => a + r.qty, 0)} baskı bekliyor</span>
                         </div>
                       </div>
@@ -497,7 +518,7 @@ export default function FotografciPanel() {
                             <div className="p-2">
                               <p className="text-[12px] text-gray-500 mb-2 text-center">{r.qty} × {r.price_tl}₺ = <span className="font-bold" style={{ color: '#B85258' }}>{r.qty * r.price_tl}₺</span></p>
                               <div className="flex gap-1.5 mb-1.5">
-                                <button onClick={() => downloadPhoto(r.photo_url, `${guest}_${r.size_label}`)} title="İndir" className="flex-1 py-1.5 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
+                                <button onClick={() => downloadPhoto(r.photo_url, `${gname}_${r.size_label}`)} title="İndir" className="flex-1 py-1.5 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
                                   <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
                                 </button>
                                 <button onClick={() => printPhoto(r.photo_url)} title="Yazdır" className="flex-1 py-1.5 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
@@ -513,7 +534,8 @@ export default function FotografciPanel() {
                         ))}
                       </div>
                     </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )
             )}
@@ -532,6 +554,7 @@ export default function FotografciPanel() {
               ) : (
                 <div className="flex flex-col gap-5">
                   {Object.entries(groupedDone).map(([guest, rows]) => {
+                    const gname = labelOf[guest] || rows[0]?.guest_name || '—';
                     const totQty = rows.reduce((a, r) => a + r.qty, 0);
                     const totPrice = rows.reduce((a, r) => a + r.qty * r.price_tl, 0);
                     const allPaid = rows.every((r) => r.paid);
@@ -539,7 +562,7 @@ export default function FotografciPanel() {
                       <div key={guest} className="rounded-2xl p-3.5" style={{ background: '#fff', border: `1px solid ${allPaid ? 'rgba(49,128,82,0.28)' : 'rgba(200,104,110,0.14)'}` }}>
                         <div className="flex items-start justify-between mb-3 flex-wrap gap-2">
                           <div>
-                            <h3 className="font-bold text-gray-800 leading-tight">Davetli: {guest}</h3>
+                            <h3 className="font-bold text-gray-800 leading-tight">Davetli: {gname}</h3>
                             <span className="text-[12px] text-gray-500">{totQty} baskı{totPrice > 0 ? ` · ${totPrice}₺` : ''}</span>
                           </div>
                           <div className="text-center">
@@ -549,7 +572,7 @@ export default function FotografciPanel() {
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                                   Ödendi
                                 </span>
-                                <button onClick={() => setGuestPaid(guest, false)} className="inline-flex items-center gap-1 text-[11.5px] font-semibold" style={{ color: '#7A6E6E' }}>
+                                <button onClick={() => setRowsPaid(rows, false)} className="inline-flex items-center gap-1 text-[11.5px] font-semibold" style={{ color: '#7A6E6E' }}>
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>
                                   Geri Al
                                 </button>
@@ -557,7 +580,7 @@ export default function FotografciPanel() {
                             ) : (
                               <div className="flex flex-col items-center gap-1">
                                 {totPrice > 0 && <span className="text-[13px] font-bold" style={{ color: '#C8686E' }}>{totPrice}₺</span>}
-                                <button onClick={() => setGuestPaid(guest, true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold" style={{ background: 'rgba(49,128,82,0.10)', color: '#318052', border: '1px solid rgba(49,128,82,0.30)' }}>
+                                <button onClick={() => setRowsPaid(rows, true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold" style={{ background: 'rgba(49,128,82,0.10)', color: '#318052', border: '1px solid rgba(49,128,82,0.30)' }}>
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                                   Ödeme Aldım
                                 </button>

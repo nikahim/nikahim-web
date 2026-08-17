@@ -117,6 +117,19 @@ async function compressImage(file: File): Promise<Blob> {
   }
 }
 
+// Cihaza özel benzersiz kimlik (aynı isimli davetlileri ayırmak için) — localStorage'da kalıcı
+function getDeviceId(): string {
+  if (typeof window === 'undefined') return '';
+  try {
+    let id = localStorage.getItem('nkh_device_id');
+    if (!id) {
+      id = (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : `d_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+      localStorage.setItem('nkh_device_id', id);
+    }
+    return id;
+  } catch { return ''; }
+}
+
 // Parmakla pinch-zoom + pan + çift-dokun büyüt + (zoom yokken) yatay kaydırarak geçiş
 function GuestZoomImage({ src, onSwipe }: { src: string; onSwipe: (d: number) => void }) {
   const [t, setT] = useState({ s: 1, x: 0, y: 0 });
@@ -860,10 +873,11 @@ export default function WatchPage() {
                         }
                         if (urls.length > 0) {
                           await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' });
+                          const devId = getDeviceId();
                           for (const url of urls) {
                             let photoNo: number | null = null;
                             try { const { data: no } = await supabase.rpc('next_photo_no', { p_event_id: event.id }); if (typeof no === 'number') photoNo = no; } catch {}
-                            await supabase.from('guest_photos').insert({ event_id: event.id, guest_name: name.trim(), photo_url: url, photo_no: photoNo, status: 'pending' });
+                            await supabase.from('guest_photos').insert({ event_id: event.id, guest_name: name.trim(), photo_url: url, photo_no: photoNo, status: 'pending', device_id: devId });
                           }
                         }
                         setPhotoUploadFiles([]); setPhotoUploadPreviews([]);
@@ -1175,13 +1189,18 @@ export default function WatchPage() {
   // ---- Fotoğrafçı / baskı ekosistemi (misafir tarafı) ----
   // Misafirin kendi yüklediği fotoğrafları + çiftin belirlediği baskı boylarını yükler.
   const loadGuestOwnPhotos = async (name: string) => {
-    if (!event || !name.trim()) return;
+    if (!event) return;
+    const devId = getDeviceId();
+    if (!devId && !name.trim()) return;
     setLoadingOwnPhotos(true);
     try {
+      // Aynı telefon = aynı device_id → kendi yüklemelerini görür (isim aynı olsa bile karışmaz)
+      const gpBase = supabase.from('guest_photos').select('id, photo_url, photo_no, status').eq('event_id', event.id).order('photo_no', { ascending: true });
+      const prBase = supabase.from('print_requests').select('photo_url, status').eq('event_id', event.id);
       const [{ data: photos }, { data: sizes }, { data: prints }] = await Promise.all([
-        supabase.from('guest_photos').select('id, photo_url, photo_no, status').eq('event_id', event.id).eq('guest_name', name.trim()).order('photo_no', { ascending: true }),
+        devId ? gpBase.eq('device_id', devId) : gpBase.eq('guest_name', name.trim()),
         supabase.from('photo_print_sizes').select('id, size_label, price_tl').eq('event_id', event.id).order('price_tl', { ascending: true }),
-        supabase.from('print_requests').select('photo_url, status').eq('event_id', event.id).eq('guest_name', name.trim()),
+        devId ? prBase.eq('device_id', devId) : prBase.eq('guest_name', name.trim()),
       ]);
       setGuestOwnPhotos(photos || []);
       setPrintSizes(sizes || []);
@@ -1256,6 +1275,7 @@ export default function WatchPage() {
         price_tl: size.price_tl,
         qty: printQty,
         status: 'pending',
+        device_id: getDeviceId(),
       });
       setPrintedIds((ids) => [...ids, printPhoto.id]);
       setPrintSuccess(true);
