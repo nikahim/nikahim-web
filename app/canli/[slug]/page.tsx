@@ -501,41 +501,50 @@ export default function WatchPage() {
           const isCompleted = completedIds.includes(p.id);
           const menuOpen = menuPhotoId === p.id;
           return (
-            <div key={p.id} className="rounded-2xl overflow-hidden relative" style={{ border: '1px solid rgba(200,104,110,0.14)', background: '#fff' }}>
-              <button onClick={() => setGuestLightboxIndex(idx)} className="relative aspect-square bg-gray-50 w-full block">
+            <div key={p.id} className="rounded-2xl relative" style={{ border: '1px solid rgba(200,104,110,0.14)', background: '#fff' }}>
+              <button onClick={() => setGuestLightboxIndex(idx)} className="relative aspect-square bg-gray-50 w-full block rounded-t-2xl overflow-hidden">
                 <img src={optimizeImg(p.photo_url, 400)} alt="" className="w-full h-full object-cover" />
                 {p.photo_no != null && (
                   <span className="absolute top-2 left-2 px-1.5 py-[2px] rounded-md text-[10px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.45)' }}>#{p.photo_no}</span>
-                )}
-                {/* durum rozeti — sol alt */}
-                {(isCompleted || isPending) && (
-                  <span className="absolute bottom-2 left-2 px-2 py-[3px] rounded-full text-[9.5px] font-bold flex items-center gap-1" style={{ background: isCompleted ? '#318052' : '#FDF3E1', color: isCompleted ? '#fff' : '#9A6A12' }}>
-                    {isCompleted ? 'Baskı Tamamlandı' : 'Baskı listesinde'}
-                  </span>
                 )}
                 {/* büyüteç — sağ alt */}
                 <span className="absolute bottom-2 right-2 w-7 h-7 rounded-full flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
                   <svg className="w-4 h-4" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M11 8v6M8 11h6M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
                 </span>
               </button>
-              {/* 3 nokta — sağ üst */}
-              <button onClick={(e) => { e.stopPropagation(); setMenuPhotoId(menuOpen ? null : p.id); }} className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center z-10" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
+              {/* 3 nokta — sağ üst (menü fotonun üstüne taşar) */}
+              <button onClick={(e) => { e.stopPropagation(); setMenuPhotoId(menuOpen ? null : p.id); }} className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center z-20" style={{ background: 'rgba(255,255,255,0.92)', boxShadow: '0 2px 6px rgba(0,0,0,0.18)' }}>
                 <svg className="w-4 h-4" fill="#5A4A4A" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="12" cy="19" r="1.6" /></svg>
               </button>
               {menuOpen && (
                 <>
-                  <div className="fixed inset-0 z-20" onClick={() => setMenuPhotoId(null)} />
-                  <div className="absolute top-10 right-2 z-30 rounded-xl overflow-hidden bg-white py-1 w-36" style={{ boxShadow: '0 12px 30px rgba(0,0,0,0.18)', border: '1px solid rgba(0,0,0,0.06)' }}>
+                  <div className="fixed inset-0 z-30" onClick={() => setMenuPhotoId(null)} />
+                  <div className="absolute top-10 right-2 z-40 rounded-xl overflow-hidden bg-white py-1 w-28" style={{ boxShadow: '0 12px 30px rgba(0,0,0,0.22)', border: '1px solid rgba(0,0,0,0.06)' }}>
                     {[
-                      { l: 'Baskı Al', on: () => openPrintFor(p) },
                       { l: 'Paylaş', on: () => shareGuestPhoto(p.photo_url) },
                       { l: 'İndir', on: () => downloadGuestPhoto(p.photo_url, p.photo_no) },
                       ...(p.status === 'pending' ? [{ l: 'Sil', on: () => setConfirmDeletePhoto(p), danger: true }] : []),
                     ].map((it) => (
-                      <button key={it.l} onClick={() => { setMenuPhotoId(null); it.on(); }} className="w-full text-left px-4 py-2.5 text-[13px] font-medium hover:bg-rose-50/60" style={{ color: (it as { danger?: boolean }).danger ? '#D14343' : '#4A3A3A' }}>{it.l}</button>
+                      <button key={it.l} onClick={() => { setMenuPhotoId(null); it.on(); }} className="w-full text-left px-3.5 py-2 text-[13px] font-medium hover:bg-rose-50/60" style={{ color: (it as { danger?: boolean }).danger ? '#D14343' : '#4A3A3A' }}>{it.l}</button>
                     ))}
                   </div>
                 </>
+              )}
+              {/* Alt buton — Baskı durumu / Baskıya Gönder */}
+              {isCompleted ? (
+                <div className="w-full py-2.5 rounded-b-2xl flex items-center justify-center gap-1.5 text-[12.5px] font-semibold" style={{ color: '#fff', background: '#318052' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.6" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+                  Baskı Tamamlandı
+                </div>
+              ) : isPending ? (
+                <div className="w-full py-2.5 rounded-b-2xl flex items-center justify-center gap-1.5 text-[12.5px] font-semibold" style={{ color: '#9A6A12', background: '#FDF3E1' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
+                  Baskı listesinde
+                </div>
+              ) : (
+                <button onClick={() => openPrintFor(p)} className="w-full py-2.5 rounded-b-2xl flex items-center justify-center gap-1.5 text-[12.5px] font-semibold transition-colors" style={{ color: photogOn ? '#C8686E' : '#A79C9C', background: photogOn ? 'rgba(200,104,110,0.06)' : '#F3F0F0' }}>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>Baskıya Gönder
+                </button>
               )}
             </div>
           );
@@ -725,7 +734,7 @@ export default function WatchPage() {
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="relative rounded-[22px] px-2.5 pt-3.5 pb-3 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
+        className="relative rounded-[22px] px-2.5 pt-3 pb-2.5 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
         style={{
           opacity: ready ? 1 : 0.5,
           filter: ready ? 'none' : 'grayscale(0.5) blur(0.4px)',
@@ -735,13 +744,14 @@ export default function WatchPage() {
         }}
       >
         <span className="inline-flex items-center px-3.5 py-1.5 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
-        <span className="mt-2 mb-0.5 flex items-center justify-center h-[100px]">{big}</span>
-        <span className="block font-semibold text-[18px] leading-tight mb-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
+        <span className="mt-0.5 flex items-center justify-center h-[90px]">{big}</span>
+        <span className="block font-semibold text-[18px] leading-tight mb-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
         <span className="flex gap-1.5 w-full mt-auto">
           {feats.map((f, i) => (
-            <span key={i} className="flex-1 h-[70px] rounded-[11px] flex flex-col items-center justify-center px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
+            <span key={i} className="flex-1 rounded-[11px] flex flex-col items-center justify-start pt-2.5 pb-2 px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
               {f.icon}
-              <span className="text-[11px] leading-[14px] text-center mt-1.5" style={{ color: '#3F3A3B' }}>{f.label}</span>
+              {/* etiket 2 satırlık sabit alan → tüm ikonlar aynı hizada */}
+              <span className="text-[11px] leading-[12px] text-center mt-1.5 h-[24px] flex items-start justify-center" style={{ color: '#3F3A3B' }}>{f.label}</span>
             </span>
           ))}
         </span>
@@ -2289,24 +2299,23 @@ export default function WatchPage() {
           <div className="mb-2">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#4B5563' }}>Adınız</label>
+                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#9AA0A6' }}>Adınız</label>
                 <input
                   type="text"
-                  autoFocus
                   value={viewerFirstName}
                   onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
                   placeholder="Adınızı yazın"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-300"
                 />
               </div>
               <div>
-                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#4B5563' }}>Soyadınız</label>
+                <label className="block text-left mb-1.5 ml-1 font-medium text-sm" style={{ color: '#9AA0A6' }}>Soyadınız</label>
                 <input
                   type="text"
                   value={viewerLastName}
                   onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
                   placeholder="Soyadınızı yazın"
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-400"
+                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-300"
                   onKeyPress={(e) => e.key === "Enter" && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()}
                 />
               </div>

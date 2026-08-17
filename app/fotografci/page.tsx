@@ -3,6 +3,7 @@
 import { supabase } from '@/lib/supabase';
 import Image from "next/image";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { fullFaqCategories } from '@/lib/faq-data';
 
 const optimizeImg = (url: string, width: number, quality = 80): string => {
   if (!url || !url.includes('/storage/v1/object/public/')) return url;
@@ -109,39 +110,58 @@ export default function FotografciPanel() {
   // Kurulum modalı (giriş sonrası, boy/fiyat yoksa)
   const [showSetup, setShowSetup] = useState(false);
   const [setupStep, setSetupStep] = useState(0);
+  // Destek paneli (ana sayfadaki "?" ile aynı — sağdan açılır)
+  const [showSupport, setShowSupport] = useState(false);
+  const [faqQuery, setFaqQuery] = useState('');
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
 
   const [showAllList, setShowAllList] = useState(false);
+  const [allCache, setAllCache] = useState<EventRow[] | null>(null); // tüm izinli etkinlikler (önden yüklenir)
+  const [cacheLoading, setCacheLoading] = useState(false);
 
-  // İsme göre eşleşen etkinlikler → sahibi (çift) izin AÇMIŞSA o çiftin TÜM etkinlikleri (nikah+düğün) listelenir.
-  // Böylece uygulamada hangi etkinliğin seçili olduğu fark etmez; fotoğrafçı ikisini de görür.
-  const fetchEvents = async (q: string) => {
+  // İzin AÇILMIŞ çiftlerin TÜM etkinlikleri (nikah+düğün). q boşsa hepsi.
+  const fetchEvents = async (q: string): Promise<EventRow[]> => {
     const cols = 'id, user_id, bride_first_name, bride_last_name, groom_first_name, groom_last_name, event_type, event_date, couple_photo_url';
-    let base = supabase.from('events').select(cols).order('event_date', { ascending: true }).limit(80);
+    let base = supabase.from('events').select(cols).order('event_date', { ascending: true }).limit(200);
     if (q) base = base.or(`bride_first_name.ilike.%${q}%,groom_first_name.ilike.%${q}%,bride_last_name.ilike.%${q}%,groom_last_name.ilike.%${q}%`);
     const { data: matched } = await base;
-    if (!matched || matched.length === 0) { setResults([]); return; }
+    if (!matched || matched.length === 0) return [];
     const owners = Array.from(new Set(matched.map((m: EventRow) => m.user_id).filter(Boolean))) as string[];
     let enabledOwners = new Set<string>();
     if (owners.length) {
       const { data: en } = await supabase.from('events').select('user_id').in('user_id', owners).eq('photographer_access_enabled', true);
       enabledOwners = new Set((en || []).map((r: { user_id: string }) => r.user_id));
     }
-    setResults(matched.filter((m: EventRow) => m.user_id && enabledOwners.has(m.user_id)));
+    return matched.filter((m: EventRow) => m.user_id && enabledOwners.has(m.user_id));
   };
 
-  // --- Canlı arama (1+ harf, buton yok) veya "tümünü göster" oku ---
+  // Sayfa açılır açılmaz tüm izinli etkinlikleri önden yükle → arama/menü anında açılır
+  useEffect(() => {
+    if (step !== 'login' || allCache) return;
+    setCacheLoading(true);
+    fetchEvents('').then((list) => { setAllCache(list); }).catch(() => {}).finally(() => setCacheLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
+
+  // Arama — önbellek varsa anlık istemci-taraflı filtre, yoksa sunucu
   useEffect(() => {
     const q = query.trim();
     if (q.length < 1 && !showAllList) { setResults([]); return; }
+    if (allCache) {
+      const ql = q.toLowerCase();
+      setResults(q ? allCache.filter((e) => [e.bride_first_name, e.groom_first_name, e.bride_last_name, e.groom_last_name].some((n) => (n || '').toLowerCase().includes(ql))) : allCache);
+      setSearching(false);
+      return;
+    }
     let alive = true;
     setSearching(true);
     const t = setTimeout(async () => {
-      try { await fetchEvents(q); } catch (e) { console.error(e); }
+      try { const list = await fetchEvents(q); if (alive) setResults(list); } catch (e) { console.error(e); }
       if (alive) setSearching(false);
     }, 250);
     return () => { alive = false; clearTimeout(t); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [query, showAllList]);
+  }, [query, showAllList, allCache]);
 
   // Blok sayacı
   useEffect(() => {
@@ -372,8 +392,8 @@ export default function FotografciPanel() {
                   </div>
                   {(query.trim().length >= 1 || showAllList) && (
                     <div className="mt-2 flex flex-col gap-1.5 max-h-64 overflow-y-auto rounded-xl" style={{ boxShadow: results.length ? '0 8px 24px rgba(200,104,110,0.10)' : 'none' }}>
-                      {searching && <p className="text-center text-[12.5px] text-gray-400 py-3">Aranıyor…</p>}
-                      {!searching && results.length === 0 && <p className="text-center text-[12.5px] text-gray-400 py-3">Sonuç yok. Çift baskı iznini açmamış olabilir.</p>}
+                      {(searching || cacheLoading) && <div className="flex items-center justify-center gap-2 py-3"><span className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(200,104,110,0.25)', borderTopColor: '#C8686E' }} /><span className="text-[12.5px] text-gray-400">Aranıyor…</span></div>}
+                      {!searching && !cacheLoading && results.length === 0 && <p className="text-center text-[12.5px] text-gray-400 py-3">Sonuç yok. Çift baskı iznini açmamış olabilir.</p>}
                       {results.map((e) => (
                         <button key={e.id} onClick={() => selectEvent(e)} className="flex items-center gap-3 p-2 rounded-xl text-left transition-colors hover:bg-rose-50/60" style={{ border: '1px solid rgba(200,104,110,0.12)', background: '#fff' }}>
                           <span className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={e.couple_photo_url} size={40} /></span>
@@ -568,6 +588,7 @@ export default function FotografciPanel() {
                           <div className="text-center">
                             {allPaid ? (
                               <div className="flex flex-col items-center gap-1">
+                                {totPrice > 0 && <span className="text-[16px] font-extrabold" style={{ color: '#318052' }}>{totPrice}₺</span>}
                                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold text-white" style={{ background: '#318052' }}>
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                                   Ödendi
@@ -579,7 +600,7 @@ export default function FotografciPanel() {
                               </div>
                             ) : (
                               <div className="flex flex-col items-center gap-1">
-                                {totPrice > 0 && <span className="text-[13px] font-bold" style={{ color: '#C8686E' }}>{totPrice}₺</span>}
+                                {totPrice > 0 && <span className="text-[16px] font-extrabold" style={{ color: '#C8686E' }}>{totPrice}₺</span>}
                                 <button onClick={() => setRowsPaid(rows, true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold" style={{ background: 'rgba(49,128,82,0.10)', color: '#318052', border: '1px solid rgba(49,128,82,0.30)' }}>
                                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                                   Ödeme Aldım
@@ -721,6 +742,71 @@ export default function FotografciPanel() {
           <button onClick={() => setLightbox(null)} className="absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(255,255,255,0.15)' }}>
             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
+        </div>
+      )}
+
+      {/* Sabit rose headset — Nikahım Destek panelini açar (ana sayfadaki "?" ile aynı konsept) */}
+      <button onClick={() => setShowSupport(true)} aria-label="Destek" className="fixed z-[70] bottom-6 right-6 w-14 h-14 rounded-full flex items-center justify-center transition-transform hover:scale-105" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E)', boxShadow: '0 14px 34px rgba(200,104,110,0.35), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
+        <svg viewBox="0 0 24 24" className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M4 14v-2a8 8 0 0116 0v2" /><path d="M4 14h3v6H4v-6zM17 14h3v6h-3v-6z" /><path d="M17 20v.5a2.5 2.5 0 01-2.5 2.5H12" /></svg>
+      </button>
+
+      {/* Nikahım Destek paneli — sağdan kayar */}
+      {showSupport && (
+        <div className="fixed inset-0 z-[80]" onClick={() => setShowSupport(false)}>
+          <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }} />
+          <div className="absolute top-0 right-0 h-full w-full sm:max-w-[400px] flex flex-col" style={{ background: '#FFFCFA', boxShadow: '-20px 0 60px rgba(0,0,0,0.18)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4 flex-shrink-0" style={{ borderBottom: '1px solid rgba(200,104,110,0.12)' }}>
+              <div className="flex items-center gap-2">
+                <Image src="/navbar-text.png" alt="Nikahım" width={80} height={20} className="h-5 w-auto object-contain" />
+                <span className="text-[15px] font-bold" style={{ color: '#B85258' }}>Destek</span>
+              </div>
+              <button onClick={() => setShowSupport(false)} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.05)', color: '#8A7E7E' }}>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="px-5 py-4 flex-shrink-0">
+              <button onClick={() => { setShowSupport(false); setTimeout(() => window.dispatchEvent(new CustomEvent('nikahim:open-chat')), 150); }} className="w-full flex items-center gap-3 p-3.5 rounded-2xl text-left" style={{ background: 'linear-gradient(135deg, #FFF1F1, #FFE7E8)', border: '1px solid rgba(200,104,110,0.2)' }}>
+                <span className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 bg-white"><img src="/elif-avatar.png" alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} /></span>
+                <span className="flex-1">
+                  <span className="block font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</span>
+                  <span className="block text-[12px] text-gray-500">Uzmanımız Elif ile sohbet edin</span>
+                </span>
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500 flex-shrink-0" />
+              </button>
+            </div>
+            <div className="px-5 pb-2 flex-shrink-0">
+              <div className="relative">
+                <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
+                <input value={faqQuery} onChange={(e) => setFaqQuery(e.target.value)} placeholder="Sorunuzu arayın…" className="w-full pl-10 pr-4 py-2.5 rounded-xl border outline-none text-[13.5px] text-gray-900" style={{ borderColor: 'rgba(0,0,0,0.10)' }} />
+              </div>
+            </div>
+            <div className="flex-1 overflow-y-auto px-5 py-3">
+              {(() => {
+                const ql = faqQuery.trim().toLowerCase();
+                const items = fullFaqCategories.flatMap((c) => c.items.map((it) => ({ ...it, cat: c.title })));
+                const filtered = ql ? items.filter((it) => (it.q + ' ' + it.a + ' ' + (it.keywords || []).join(' ')).toLowerCase().includes(ql)) : items;
+                if (filtered.length === 0) return <p className="text-center text-[13px] text-gray-400 py-8">Sonuç bulunamadı. Canlı Destek’ten yazabilirsiniz.</p>;
+                return (
+                  <div className="flex flex-col gap-2">
+                    {filtered.slice(0, 40).map((it, i) => {
+                      const id = `${it.cat}-${i}`;
+                      const isOpen = openFaq === id;
+                      return (
+                        <div key={id} className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.12)' }}>
+                          <button onClick={() => setOpenFaq(isOpen ? null : id)} className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left">
+                            <span className="text-[13.5px] font-semibold text-gray-800">{it.q}</span>
+                            <svg className="w-4 h-4 flex-shrink-0 transition-transform" style={{ color: '#C8686E', transform: isOpen ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          </button>
+                          {isOpen && <div className="px-4 pb-3.5 text-[12.5px] leading-relaxed text-gray-600">{it.a}</div>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
+            </div>
+            <a href="mailto:destek@nikahim.com?subject=Fotoğrafçı%20Destek" className="flex-shrink-0 text-center py-3.5 text-[12.5px] font-semibold" style={{ color: '#C8686E', borderTop: '1px solid rgba(200,104,110,0.12)' }}>destek@nikahim.com</a>
+          </div>
         </div>
       )}
     </main>
