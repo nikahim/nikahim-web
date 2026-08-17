@@ -112,6 +112,7 @@ export default function FotografciPanel() {
   const [setupStep, setSetupStep] = useState(0);
   // Destek paneli (ana sayfadaki "?" ile aynı — sağdan açılır)
   const [showSupport, setShowSupport] = useState(false);
+  const [supportFaqView, setSupportFaqView] = useState(false);
   const [faqQuery, setFaqQuery] = useState('');
   const [openFaq, setOpenFaq] = useState<string | null>(null);
 
@@ -475,7 +476,7 @@ export default function FotografciPanel() {
                   Tümü <span className="text-[11px] text-gray-400">{prints.length}</span>
                 </button>
                 {guestList.map(([gkey, c]) => (
-                  <button key={gkey} onClick={() => setSelectedGuest(gkey)} className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left transition-colors" style={{ background: selectedGuest === gkey ? 'rgba(200,104,110,0.10)' : 'transparent' }}>
+                  <button key={gkey} onClick={() => { setSelectedGuest(gkey); setTab(c.pending > 0 ? 'pending' : 'done'); }} className="flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-left transition-colors" style={{ background: selectedGuest === gkey ? 'rgba(200,104,110,0.10)' : 'transparent' }}>
                     <span className="text-[13px] font-semibold truncate" style={{ color: selectedGuest === gkey ? '#C8686E' : '#4A3A3A' }}>{labelOf[gkey] || '—'}</span>
                     <span className="flex items-center gap-1.5 flex-shrink-0">
                       {c.pending > 0 && <span className="inline-flex items-center gap-0.5 text-[10.5px] font-bold" style={{ color: '#E5484D' }}><svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>{c.pending}</span>}
@@ -492,7 +493,7 @@ export default function FotografciPanel() {
               <div className="flex gap-1.5 overflow-x-auto pb-1">
                 <button onClick={() => setSelectedGuest('all')} className="flex-shrink-0 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === 'all' ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === 'all' ? '#fff' : '#8A6E70' }}>Tümü</button>
                 {guestList.map(([gkey, c]) => (
-                  <button key={gkey} onClick={() => setSelectedGuest(gkey)} className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === gkey ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === gkey ? '#fff' : '#8A6E70' }}>
+                  <button key={gkey} onClick={() => { setSelectedGuest(gkey); setTab(c.pending > 0 ? 'pending' : 'done'); }} className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12.5px] font-semibold" style={{ background: selectedGuest === gkey ? '#C8686E' : 'rgba(200,104,110,0.08)', color: selectedGuest === gkey ? '#fff' : '#8A6E70' }}>
                     {labelOf[gkey] || '—'}
                     {c.pending > 0 && <span className="inline-flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full text-[9.5px] font-bold" style={{ background: selectedGuest === gkey ? 'rgba(255,255,255,0.25)' : '#E5484D', color: '#fff' }}>{c.pending}</span>}
                   </button>
@@ -504,7 +505,9 @@ export default function FotografciPanel() {
               {([['pending', 'Bekleyenler', pending.length], ['done', 'Tamamlananlar', done.length], ['sizes', 'Baskı Boyutları', sizes.length]] as const).map(([k, lbl, n]) => (
                 <button key={k} onClick={() => setTab(k)} className="flex-1 py-2 rounded-lg text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5" style={{ background: tab === k ? '#fff' : 'transparent', color: tab === k ? '#C8686E' : '#9A8A8A', boxShadow: tab === k ? '0 2px 6px rgba(200,104,110,0.12)' : 'none' }}>
                   {lbl}
-                  {n > 0 && <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold text-white" style={{ background: k === 'pending' ? '#E5484D' : '#C8686E' }}>{n}</span>}
+                  {n > 0 && (k === 'sizes'
+                    ? <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-[5px] text-[10px] font-bold" style={{ background: 'rgba(200,104,110,0.12)', color: '#B85258' }}>{n}</span>
+                    : <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold text-white" style={{ background: k === 'pending' ? '#E5484D' : '#C8686E' }}>{n}</span>)}
                 </button>
               ))}
             </div>
@@ -755,57 +758,103 @@ export default function FotografciPanel() {
         <div className="fixed inset-0 z-[80]" onClick={() => setShowSupport(false)}>
           <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }} />
           <div className="absolute top-0 right-0 h-full w-full sm:max-w-[400px] flex flex-col" style={{ background: '#FFFCFA', boxShadow: '-20px 0 60px rgba(0,0,0,0.18)' }} onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-4 flex-shrink-0" style={{ borderBottom: '1px solid rgba(200,104,110,0.12)' }}>
-              <div className="flex items-center gap-2">
-                <Image src="/navbar-text.png" alt="Nikahım" width={80} height={20} className="h-5 w-auto object-contain" />
-                <span className="text-[15px] font-bold" style={{ color: '#B85258' }}>Destek</span>
-              </div>
-              <button onClick={() => setShowSupport(false)} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.05)', color: '#8A7E7E' }}>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            {/* Header — ana sayfa ile birebir */}
+            <div className="px-7 pt-6 pb-6 flex-shrink-0 relative" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
+              <button onClick={() => setShowSupport(false)} className="absolute top-5 right-5 w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+                <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[38px] w-auto object-contain -ml-0.5 -mb-1" />
+              <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>Destek</h2>
+              <p className="mt-2 text-[13px]" style={{ color: '#6B5A5A' }}>Aklınızdaki tüm sorular için buradayız</p>
             </div>
-            <div className="px-5 py-4 flex-shrink-0">
-              <button onClick={() => { setShowSupport(false); setTimeout(() => window.dispatchEvent(new CustomEvent('nikahim:open-chat')), 150); }} className="w-full flex items-center gap-3 p-3.5 rounded-2xl text-left" style={{ background: 'linear-gradient(135deg, #FFF1F1, #FFE7E8)', border: '1px solid rgba(200,104,110,0.2)' }}>
-                <span className="w-11 h-11 rounded-full overflow-hidden flex-shrink-0 bg-white"><img src="/elif-avatar.png" alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} /></span>
-                <span className="flex-1">
-                  <span className="block font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</span>
-                  <span className="block text-[12px] text-gray-500">Uzmanımız Elif ile sohbet edin</span>
-                </span>
-                <span className="w-2.5 h-2.5 rounded-full bg-green-500 flex-shrink-0" />
-              </button>
-            </div>
-            <div className="px-5 pb-2 flex-shrink-0">
-              <div className="relative">
-                <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
-                <input value={faqQuery} onChange={(e) => setFaqQuery(e.target.value)} placeholder="Sorunuzu arayın…" className="w-full pl-10 pr-4 py-2.5 rounded-xl border outline-none text-[13.5px] text-gray-900" style={{ borderColor: 'rgba(0,0,0,0.10)' }} />
-              </div>
-            </div>
-            <div className="flex-1 overflow-y-auto px-5 py-3">
-              {(() => {
-                const ql = faqQuery.trim().toLowerCase();
-                const items = fullFaqCategories.flatMap((c) => c.items.map((it) => ({ ...it, cat: c.title })));
-                const filtered = ql ? items.filter((it) => (it.q + ' ' + it.a + ' ' + (it.keywords || []).join(' ')).toLowerCase().includes(ql)) : items;
-                if (filtered.length === 0) return <p className="text-center text-[13px] text-gray-400 py-8">Sonuç bulunamadı. Canlı Destek’ten yazabilirsiniz.</p>;
-                return (
-                  <div className="flex flex-col gap-2">
-                    {filtered.slice(0, 40).map((it, i) => {
-                      const id = `${it.cat}-${i}`;
-                      const isOpen = openFaq === id;
-                      return (
-                        <div key={id} className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.12)' }}>
-                          <button onClick={() => setOpenFaq(isOpen ? null : id)} className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left">
-                            <span className="text-[13.5px] font-semibold text-gray-800">{it.q}</span>
-                            <svg className="w-4 h-4 flex-shrink-0 transition-transform" style={{ color: '#C8686E', transform: isOpen ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                          </button>
-                          {isOpen && <div className="px-4 pb-3.5 text-[12.5px] leading-relaxed text-gray-600">{it.a}</div>}
-                        </div>
-                      );
-                    })}
+
+            {!supportFaqView ? (
+              <div className="flex-1 overflow-y-auto px-5 pt-5 pb-4 space-y-2.5">
+                {/* Canlı Destek */}
+                <button onClick={() => { setShowSupport(false); setTimeout(() => window.dispatchEvent(new CustomEvent('nikahim:open-chat')), 200); }} className="w-full flex items-center gap-3.5 p-4 rounded-2xl text-left" style={{ background: 'linear-gradient(180deg, rgba(255,251,247,0.85), rgba(253,243,243,0.80))', border: '1px solid rgba(232,180,170,0.25)', boxShadow: '0 2px 10px rgba(200,104,110,0.06)' }}>
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(232,165,169,0.35), rgba(200,104,110,0.20))' }}>
+                    <svg className="w-5 h-5" fill="none" stroke="#9F4F58" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" /></svg>
                   </div>
-                );
-              })()}
-            </div>
-            <a href="mailto:destek@nikahim.com?subject=Fotoğrafçı%20Destek" className="flex-shrink-0 text-center py-3.5 text-[12.5px] font-semibold" style={{ color: '#C8686E', borderTop: '1px solid rgba(200,104,110,0.12)' }}>destek@nikahim.com</a>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
+                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Anlık sohbet ile yardım al</p>
+                    <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#3FB95A' }}><span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />Çevrim içi</p>
+                  </div>
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </button>
+                {/* WhatsApp */}
+                <a href="https://wa.me/905366919361?text=Merhaba%20%21%20Nikah%C4%B1m%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum" target="_blank" rel="noopener noreferrer" className="w-full flex items-center gap-3.5 p-4 rounded-2xl text-left" style={{ background: 'linear-gradient(180deg, rgba(255,251,247,0.85), rgba(253,243,243,0.80))', border: '1px solid rgba(232,180,170,0.25)', boxShadow: '0 2px 10px rgba(200,104,110,0.06)' }}>
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(170,225,180,0.45), rgba(60,180,80,0.18))' }}>
+                    <svg className="w-5 h-5" fill="#1E8E3E" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" /></svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>WhatsApp</p>
+                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Mesaj bırakın, ekibimiz sizinle iletişime geçsin.</p>
+                    <p className="text-[11px] mt-1 inline-flex items-center gap-1" style={{ color: '#1E8E3E' }}><span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />Çevrim içi</p>
+                  </div>
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </a>
+                {/* E-posta */}
+                <a href="mailto:destek@nikahim.com?subject=Fotoğrafçı%20Destek" className="w-full flex items-center gap-3.5 p-4 rounded-2xl text-left" style={{ background: 'linear-gradient(180deg, rgba(255,251,247,0.85), rgba(253,243,243,0.80))', border: '1px solid rgba(232,180,170,0.25)', boxShadow: '0 2px 10px rgba(200,104,110,0.06)' }}>
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(245,225,200,0.40), rgba(212,168,82,0.20))' }}>
+                    <svg className="w-5 h-5" fill="none" stroke="#A0782E" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="M3 7l9 6 9-6" /></svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>E-posta</p>
+                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>Sorularınızı e-posta yoluyla iletebilirsiniz.</p>
+                    <p className="text-[11px] mt-1 font-medium" style={{ color: '#A0782E' }}>destek@nikahim.com</p>
+                  </div>
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </a>
+                {/* SSS */}
+                <button onClick={() => setSupportFaqView(true)} className="w-full flex items-center gap-3.5 p-4 rounded-2xl text-left" style={{ background: 'linear-gradient(180deg, rgba(255,251,247,0.85), rgba(253,243,243,0.80))', border: '1px solid rgba(232,180,170,0.25)', boxShadow: '0 2px 10px rgba(200,104,110,0.06)' }}>
+                  <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(220,210,235,0.45), rgba(160,140,200,0.18))' }}>
+                    <svg className="w-5 h-5" fill="none" stroke="#6B5BA5" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5" strokeWidth="1.5" /><path d="M9.5 9c0-1.5 1.2-2.5 2.5-2.5s2.5 1 2.5 2.5c0 1.2-1 1.8-1.8 2.2-0.5 0.3-0.7 0.7-0.7 1.3" /><circle cx="12" cy="16.5" r="0.6" fill="#6B5BA5" stroke="none" /></svg>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Sık Sorulan Sorular</p>
+                    <p className="text-[12px] mt-0.5" style={{ color: '#8A7878' }}>En çok sorulan sorulara göz atın</p>
+                  </div>
+                  <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="#B5A8A8" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </button>
+              </div>
+            ) : (
+              <div className="flex-1 overflow-y-auto px-5 pt-5 pb-6">
+                <button onClick={() => { setSupportFaqView(false); setOpenFaq(null); setFaqQuery(''); }} className="inline-flex items-center gap-1.5 mb-4 text-[12.5px] font-medium px-3 py-1.5 rounded-full" style={{ color: '#9F4F58', background: 'rgba(255,255,255,0.65)', border: '1px solid rgba(232,180,170,0.30)' }}>
+                  <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
+                  Destek menüsü
+                </button>
+                <h3 className="font-bold text-[20px] mb-3" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>Sık Sorulan Sorular</h3>
+                <div className="relative mb-4">
+                  <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
+                  <input value={faqQuery} onChange={(e) => setFaqQuery(e.target.value)} placeholder="Sorunuzu arayın…" className="w-full pl-10 pr-4 py-2.5 rounded-xl border outline-none text-[13.5px] text-gray-900" style={{ borderColor: 'rgba(0,0,0,0.10)' }} />
+                </div>
+                {(() => {
+                  const ql = faqQuery.trim().toLowerCase();
+                  const items = fullFaqCategories.flatMap((c) => c.items.map((it) => ({ ...it, cat: c.title })));
+                  const filtered = ql ? items.filter((it) => (it.q + ' ' + it.a + ' ' + (it.keywords || []).join(' ')).toLowerCase().includes(ql)) : items;
+                  if (filtered.length === 0) return <p className="text-center text-[13px] text-gray-400 py-8">Sonuç bulunamadı. Canlı Destek’ten yazabilirsiniz.</p>;
+                  return (
+                    <div className="flex flex-col gap-2">
+                      {filtered.slice(0, 40).map((it, i) => {
+                        const id = `${it.cat}-${i}`;
+                        const isOpen = openFaq === id;
+                        return (
+                          <div key={id} className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.12)' }}>
+                            <button onClick={() => setOpenFaq(isOpen ? null : id)} className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left">
+                              <span className="text-[13.5px] font-semibold text-gray-800">{it.q}</span>
+                              <svg className="w-4 h-4 flex-shrink-0 transition-transform" style={{ color: '#C8686E', transform: isOpen ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                            </button>
+                            {isOpen && <div className="px-4 pb-3.5 text-[12.5px] leading-relaxed text-gray-600">{it.a}</div>}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })()}
+              </div>
+            )}
+            <p className="flex-shrink-0 text-center py-4 text-[12.5px] font-medium" style={{ color: '#B85258', borderTop: '1px solid rgba(232,180,170,0.18)' }}>Nikahım ekibi her zaman yanınızda ❤️</p>
           </div>
         </div>
       )}
