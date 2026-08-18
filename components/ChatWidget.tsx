@@ -241,9 +241,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       // Gerçek insan yazma hızı — araştırma: ortalama ~40 WPM, profesyonel destek ~45 WPM.
       // Yanıtın kelime sayısına göre "yazıyor" süresi. Kısa yanıt kısa, uzun yanıt uzun; makul sınırlar.
       const words = botMsg.content.trim().split(/\s+/).filter(Boolean).length;
-      const WPM = 45;
-      const jitter = 150 + Math.random() * 400; // hafif insani değişkenlik
-      const typingDuration = Math.min(7000, Math.max(1400, Math.round((words / WPM) * 60000) + jitter));
+      const WPM = 40;
+      const jitter = 150 + Math.random() * 500; // hafif insani değişkenlik
+      const typingDuration = Math.min(11000, Math.max(1400, Math.round((words / WPM) * 60000) + jitter));
 
       // Toplam: okuma süresi + yazma süresi (API gecikmesi bunu yiyebilir)
       const elapsed = Date.now() - startTime;
