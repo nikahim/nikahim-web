@@ -24,6 +24,7 @@ interface EventRow {
 interface PrintRow {
   id: string; guest_name: string; photo_url: string; size_label: string;
   price_tl: number; qty: number; status: string; created_at: string; printed_at: string | null; paid?: boolean; device_id?: string | null;
+  source?: string | null; order_id?: string | null;
 }
 interface SizeRow { id: string; size_label: string; price_tl: number; }
 
@@ -92,7 +93,7 @@ export default function FotografciPanel() {
   const [checking, setChecking] = useState(false);
   const [blockLeft, setBlockLeft] = useState(0); // saniye
 
-  const [tab, setTab] = useState<'pending' | 'done' | 'sizes'>('pending');
+  const [tab, setTab] = useState<'pending' | 'done' | 'sizes' | 'couple'>('pending');
   const [selectedGuest, setSelectedGuest] = useState<string>('all'); // sol menü davetli filtresi
   const [guestSearch, setGuestSearch] = useState('');
   const [hideTotal, setHideTotal] = useState(false); // banka tarzı göz ikonu — tutarı gizle
@@ -290,10 +291,14 @@ export default function FotografciPanel() {
     w.document.close();
   };
 
+  // Çift baskı siparişleri (source='couple') davetli baskılarından AYRI tutulur
+  const isCouple = (p: PrintRow) => p.source === 'couple';
+
   // Davetli anahtarı = device_id (yoksa isim). Aynı isimde birden fazla cihaz → "(2)" eki ile ayrılır.
   const keyOf = (p: PrintRow) => p.device_id || `name:${p.guest_name}`;
   const keyMeta: Record<string, { name: string; first: string }> = {};
   for (const p of prints) {
+    if (isCouple(p)) continue;
     const k = keyOf(p);
     if (!keyMeta[k]) keyMeta[k] = { name: p.guest_name, first: p.created_at };
     else if (p.created_at < keyMeta[k].first) keyMeta[k].first = p.created_at;
@@ -309,8 +314,17 @@ export default function FotografciPanel() {
   }
 
   const guestMatch = (p: PrintRow) => selectedGuest === 'all' || keyOf(p) === selectedGuest;
-  const pending = prints.filter((p) => p.status === 'pending' && guestMatch(p));
-  const done = prints.filter((p) => p.status === 'printed' && guestMatch(p));
+  const pending = prints.filter((p) => p.status === 'pending' && !isCouple(p) && guestMatch(p));
+  const done = prints.filter((p) => p.status === 'printed' && !isCouple(p) && guestMatch(p));
+
+  // ── Düğün Çifti Talepleri — order_id'ye göre gruplu (source='couple') ──
+  const couplePrints = prints.filter(isCouple);
+  const couplePendingCount = couplePrints.filter((p) => p.status === 'pending').length;
+  const coupleOrders = (() => {
+    const m: Record<string, PrintRow[]> = {};
+    for (const p of couplePrints) { const k = p.order_id || p.id; (m[k] = m[k] || []).push(p); }
+    return Object.entries(m).sort((a, b) => (b[1][0]?.created_at || '').localeCompare(a[1][0]?.created_at || ''));
+  })();
   const groupedPending = pending.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[keyOf(p)] = acc[keyOf(p)] || []).push(p); return acc; }, {});
   const doneFiltered = done.filter((p) => doneFilter === 'all' || (doneFilter === 'paid' ? p.paid : !p.paid));
   const groupedDone = doneFiltered.reduce<Record<string, PrintRow[]>>((acc, p) => { (acc[keyOf(p)] = acc[keyOf(p)] || []).push(p); return acc; }, {});
@@ -319,6 +333,7 @@ export default function FotografciPanel() {
   const guestList = (() => {
     const m: Record<string, { pending: number; done: number; firstPending: string }> = {};
     for (const p of prints) {
+      if (isCouple(p)) continue;
       const k = keyOf(p);
       m[k] = m[k] || { pending: 0, done: 0, firstPending: '' };
       if (p.status === 'pending') {
@@ -501,13 +516,14 @@ export default function FotografciPanel() {
               </div>
             </div>
             {/* Sekmeler */}
-            <div className="flex gap-1 p-1 rounded-xl mb-5 max-w-md" style={{ background: 'rgba(200,104,110,0.07)' }}>
-              {([['pending', 'Bekleyenler', pending.length], ['done', 'Tamamlananlar', done.length], ['sizes', 'Baskı Boyutları', sizes.length]] as const).map(([k, lbl, n]) => (
-                <button key={k} onClick={() => setTab(k)} className="flex-1 py-2 rounded-lg text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5" style={{ background: tab === k ? '#fff' : 'transparent', color: tab === k ? '#C8686E' : '#9A8A8A', boxShadow: tab === k ? '0 2px 6px rgba(200,104,110,0.12)' : 'none' }}>
+            <div className="flex flex-wrap gap-1 p-1 rounded-xl mb-5 max-w-2xl" style={{ background: 'rgba(200,104,110,0.07)' }}>
+              {([['pending', 'Bekleyenler', pending.length], ['done', 'Tamamlananlar', done.length], ['couple', 'Düğün Çifti', couplePendingCount], ['sizes', 'Baskı Boyutları', sizes.length]] as const).map(([k, lbl, n]) => (
+                <button key={k} onClick={() => setTab(k)} className="flex-1 min-w-[130px] py-2 rounded-lg text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5" style={{ background: tab === k ? '#fff' : 'transparent', color: tab === k ? (k === 'couple' ? '#B8860B' : '#C8686E') : '#9A8A8A', boxShadow: tab === k ? '0 2px 6px rgba(200,104,110,0.12)' : 'none' }}>
+                  {k === 'couple' && <span aria-hidden style={{ fontSize: 13 }}>⭐</span>}
                   {lbl}
                   {n > 0 && (k === 'sizes'
                     ? <span className="inline-flex items-center justify-center min-w-[22px] h-[20px] px-1.5 rounded-[6px] text-[12px] font-bold" style={{ background: 'rgba(200,104,110,0.14)', color: '#B85258' }}>{n}</span>
-                    : <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold text-white" style={{ background: k === 'pending' ? '#E5484D' : '#C8686E' }}>{n}</span>)}
+                    : <span className="inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold text-white" style={{ background: k === 'pending' ? '#E5484D' : k === 'couple' ? '#D4A017' : '#C8686E' }}>{n}</span>)}
                 </button>
               ))}
             </div>
@@ -556,6 +572,69 @@ export default function FotografciPanel() {
                           </div>
                         ))}
                       </div>
+                    </div>
+                    );
+                  })}
+                </div>
+              )
+            )}
+
+            {/* ⭐ Düğün Çifti Talepleri — order_id'ye gruplu, öne çıkan */}
+            {!loading && tab === 'couple' && (
+              coupleOrders.length === 0 ? (
+                <p className="text-center text-sm text-gray-400 py-12">Düğün çiftinden henüz baskı siparişi yok.</p>
+              ) : (
+                <div className="flex flex-col gap-5">
+                  {coupleOrders.map(([orderId, rows]) => {
+                    const totalQty = rows.reduce((a, r) => a + r.qty, 0);
+                    const priced = rows.every((r) => !!r.size_label);
+                    const totalPrice = rows.reduce((a, r) => a + (r.price_tl || 0) * r.qty, 0);
+                    const allPrinted = rows.every((r) => r.status === 'printed');
+                    const allPaid = rows.every((r) => r.paid);
+                    const dt = new Date(rows[0]?.created_at || Date.now());
+                    return (
+                    <div key={orderId} className="rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #FFFBF0, #FFF6F6)', border: '1.5px solid rgba(212,160,23,0.35)', boxShadow: '0 4px 16px rgba(184,134,11,0.08)' }}>
+                      <div className="flex items-center gap-2.5 mb-3">
+                        <span className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[15px] flex-shrink-0" style={{ background: 'linear-gradient(135deg, #E6B84C, #C89020)' }}>⭐</span>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-800 leading-tight">Düğün Çifti Siparişi</h3>
+                          <span className="text-[12px] text-gray-500">{dt.toLocaleDateString('tr-TR')} · {totalQty} baskı{priced ? ` · ${totalPrice}₺` : ' · fiyat bekliyor'}</span>
+                        </div>
+                        <span className="px-2.5 py-1 rounded-full text-[11px] font-bold" style={{ background: allPrinted ? 'rgba(49,128,82,0.10)' : 'rgba(212,160,23,0.14)', color: allPrinted ? '#318052' : '#B8860B' }}>{allPrinted ? 'Hazır' : 'Bekliyor'}</span>
+                      </div>
+                      {!priced && (
+                        <p className="text-[12px] mb-3 px-3 py-2 rounded-lg" style={{ background: 'rgba(212,160,23,0.10)', color: '#8A6A2E' }}>Bu siparişte boy/fiyat girilmemiş. Çiftle iletişime geçip fiyatı belirleyebilirsiniz.</p>
+                      )}
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        {rows.map((r) => (
+                          <div key={r.id} className="rounded-2xl overflow-hidden bg-white" style={{ border: '1px solid rgba(200,104,110,0.14)' }}>
+                            <button onClick={() => setLightbox(r.photo_url)} className="relative aspect-square w-full bg-gray-50 block">
+                              <img src={optimizeImg(r.photo_url, 400)} alt="" className="w-full h-full object-cover" />
+                              <span className="absolute bottom-1.5 left-1.5 px-2 py-[3px] rounded-md text-[11px] font-bold text-white" style={{ background: 'rgba(0,0,0,0.55)' }}>{r.size_label || 'Boy?'} · {r.qty} adet</span>
+                            </button>
+                            <div className="p-2">
+                              <div className="flex gap-1.5 mb-1.5">
+                                <button onClick={() => downloadPhoto(r.photo_url, `DugunCifti_${r.size_label || 'foto'}`)} title="İndir" className="flex-1 py-1.5 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+                                </button>
+                                <button onClick={() => printPhoto(r.photo_url)} title="Yazdır" className="flex-1 py-1.5 rounded-lg flex items-center justify-center" style={{ background: 'rgba(200,104,110,0.08)', color: '#C8686E' }}>
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096M17.66 18L17.28 21.523M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456M17.66 18h1.09A2.25 2.25 0 0021 15.75V9.456m-18 0a2.25 2.25 0 011.837-2.175M3 9.456V6.375c0-.621.504-1.125 1.125-1.125h15.75c.621 0 1.125.504 1.125 1.125v3.081" /></svg>
+                                </button>
+                              </div>
+                              {r.status === 'printed'
+                                ? <button onClick={() => revertPrinted(r.id)} className="w-full py-2 rounded-lg text-[12px] font-semibold" style={{ background: 'rgba(49,128,82,0.10)', color: '#318052' }}>Hazır ✓</button>
+                                : <button onClick={() => markPrinted(r.id)} className="w-full py-2 rounded-lg text-[12px] font-semibold" style={{ border: '1.5px solid #318052', color: '#318052', background: 'transparent' }}>Baskıyı Tamamladım</button>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      {allPrinted && priced && (
+                        <div className="flex items-center justify-between mt-3 pt-3" style={{ borderTop: '1px solid rgba(200,104,110,0.12)' }}>
+                          {allPaid
+                            ? <><span className="text-[13px] font-bold" style={{ color: '#318052' }}>Ödendi · {totalPrice}₺</span><button onClick={() => setRowsPaid(rows, false)} className="text-[11.5px] font-semibold" style={{ color: '#7A6E6E' }}>Geri Al</button></>
+                            : <><span className="text-[13px] font-semibold text-gray-600">Tahsil edilecek: <span className="font-bold" style={{ color: '#B85258' }}>{totalPrice}₺</span></span><button onClick={() => setRowsPaid(rows, true)} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12.5px] font-bold" style={{ background: 'rgba(49,128,82,0.10)', color: '#318052', border: '1px solid rgba(49,128,82,0.30)' }}>Ödeme Aldım</button></>}
+                        </div>
+                      )}
                     </div>
                     );
                   })}
