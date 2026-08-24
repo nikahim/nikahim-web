@@ -366,75 +366,84 @@ export default function FotografciPanel() {
   );
 
   return (
-    <main className="min-h-screen" style={{ background: 'linear-gradient(180deg, #FDF3F1 0%, #FBEEEC 45%, #FCF6F3 100%)' }}>
+    <main className="min-h-screen" style={{ background: 'radial-gradient(circle at 50% 30%, #FFFAF8 0%, #FBF4F2 55%, #F8EEEC 100%)' }}>
       {/* ================= GİRİŞ ================= */}
       {step === 'login' && (
         <div className="min-h-screen flex items-center justify-center p-4">
-          <div className="w-full max-w-md rounded-[28px] overflow-hidden relative" style={{ background: '#FFFDFC', boxShadow: '0 30px 80px rgba(180,90,100,0.18), 0 8px 24px rgba(200,104,110,0.10)', border: '1px solid rgba(200,104,110,0.14)' }}>
-            {/* İllüstrasyon — kamera %10 küçük (padding), altta yumuşak çok kademeli geçiş */}
-            <div className="relative w-full" style={{ aspectRatio: '16 / 8', background: '#FFFDFC' }}>
-              <img src="/fotografci-login.png" alt="" className="w-full h-full object-contain p-[5%]" onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
-              <div className="absolute inset-x-0 bottom-0 h-2/5 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,253,252,0) 0%, rgba(255,253,252,0.25) 45%, rgba(255,253,252,0.7) 78%, #FFFDFC 100%)' }} />
+          <div className="w-full max-w-md rounded-[32px] relative px-7 pt-11 pb-9" style={{ background: '#FFFDFC', boxShadow: '0 24px 70px rgba(168,112,105,0.10), 0 4px 18px rgba(168,112,105,0.05)', border: '1px solid rgba(205,161,157,0.18)' }}>
+
+            {/* 1) Logo (kalp) + Nikahım imza yazısı — en üstte, marka önce */}
+            <div className="flex flex-col items-center">
+              <img src="/navbar-icon.png" alt="" className="h-16 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+              <img src="/navbar-text.png" alt="Nikahım" className="h-9 w-auto object-contain mt-2" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
             </div>
 
-            <div className="px-7 pb-8 -mt-1 relative">
-              {/* Logo (kalp) + Nikahım imza yazısı — daha büyük */}
-              <div className="flex flex-col items-center">
-                <img src="/navbar-icon.png" alt="" className="h-14 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-                <img src="/navbar-text.png" alt="Nikahım" className="h-8 w-auto object-contain mt-1.5" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-                <h1 className="text-[15px] font-semibold mt-3 mb-1" style={{ color: '#4A3A3A' }}>Fotoğrafçı Girişi</h1>
-              </div>
+            {/* 2) Başlık — güçlü */}
+            <h1 className="text-center mt-6" style={{ fontSize: 28, lineHeight: 1.15, fontWeight: 650, letterSpacing: '-0.01em', color: '#332824' }}>Fotoğrafçı Girişi</h1>
 
-              {/* Etkinlik seç */}
-              <label className="block text-[13px] font-semibold mt-4 mb-2" style={{ color: '#6B5A5A' }}>Lütfen Düğün / Nikah seçin</label>
-              {selected ? (
-                <button onClick={() => { setSelected(null); setResults([]); setQuery(''); setCode(''); setCodeError(''); }} className="w-full flex items-center gap-3 p-2.5 rounded-2xl text-left" style={{ background: 'rgba(200,104,110,0.06)', border: '1.5px solid rgba(200,104,110,0.35)' }}>
-                  <span className="w-11 h-11 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={selected.couple_photo_url} size={44} /></span>
-                  <span className="flex-1 min-w-0">
-                    <span className="block font-bold text-gray-900 text-[14px]">{coupleTitle(selected)}</span>
-                    <span className="block text-[11.5px] text-gray-400">{selected.event_type === 'dugun' ? 'Düğün' : 'Nikah'} · {selected.event_date}</span>
-                  </span>
-                  <span className="text-[12px] font-semibold" style={{ color: '#C8686E' }}>Değiştir</span>
-                </button>
-              ) : (
-                <>
-                  <div className="relative">
-                    <svg className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
-                    <input value={query} onChange={(e) => { setQuery(e.target.value); setShowAllList(false); }} placeholder="Gelin veya Damat ismi ile arayın…" className="w-full pl-10 pr-11 py-3 rounded-xl border outline-none text-gray-900 text-[14px]" style={{ borderColor: 'rgba(0,0,0,0.12)' }} />
-                    {/* Açılır ok — tüm etkinlikleri listele */}
-                    <button onClick={() => setShowAllList((v) => !v)} title="Tümünü göster" className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-lg flex items-center justify-center transition-transform" style={{ background: 'rgba(200,104,110,0.08)', transform: showAllList ? 'translateY(-50%) rotate(180deg)' : 'translateY(-50%)' }}>
-                      <svg className="w-4 h-4" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
-                    </button>
+            {/* 3) Açıklama */}
+            <p className="text-center mt-3" style={{ fontSize: 15.5, lineHeight: 1.5, color: '#8E8784' }}>Düğün günü fotoğraf baskı ve albüm yönetimi</p>
+
+            {/* 4) Kamera görseli — küçültülmüş, ikincil */}
+            <img src="/fotografci-login.png" alt="" className="block mx-auto object-contain" style={{ width: '74%', maxWidth: 330, height: 'auto', marginTop: 16, marginBottom: 8 }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
+
+            {/* 5) İnce ayırıcı + kalp */}
+            <div className="flex items-center gap-6 mt-3 mb-8">
+              <span className="flex-1 h-px" style={{ background: '#F0DAD7' }} />
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#E3B7B2"><path d="M12 21s-6.7-4.35-9.33-8.02C.9 10.3 1.6 6.9 4.3 5.7c1.9-.85 3.9-.1 5 1.4l.7.95.7-.95c1.1-1.5 3.1-2.25 5-1.4 2.7 1.2 3.4 4.6 1.63 7.28C18.7 16.65 12 21 12 21z" /></svg>
+              <span className="flex-1 h-px" style={{ background: '#F0DAD7' }} />
+            </div>
+
+            {/* 6) Etkinlik seçin — başlık ortalı değil sol hizalı (form akışı) */}
+            <label className="block mb-3.5" style={{ fontSize: 16, fontWeight: 600, color: '#332824' }}>Etkinlik seçin</label>
+            {selected ? (
+              <button onClick={() => { setSelected(null); setResults([]); setQuery(''); setCode(''); setCodeError(''); }} className="w-full flex items-center gap-3 text-left" style={{ minHeight: 76, padding: '13px 16px 13px 18px', borderRadius: 20, background: '#FFFDFC', border: '1px solid #E7D8D5' }}>
+                <span className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={selected.couple_photo_url} size={48} /></span>
+                <span className="flex-1 min-w-0">
+                  <span className="block font-semibold text-[16px]" style={{ color: '#332824' }}>{coupleTitle(selected)}</span>
+                  <span className="block text-[13px] mt-0.5" style={{ color: '#908783' }}>{selected.event_date} · {selected.event_type === 'dugun' ? 'Düğün' : 'Nikah'}</span>
+                </span>
+                <span className="text-[13px] font-semibold" style={{ color: '#C9827D' }}>Değiştir</span>
+              </button>
+            ) : (
+              <>
+                <div className="flex items-stretch gap-2.5">
+                  <div className="relative flex-1">
+                    <svg className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#979FA9' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
+                    <input value={query} onChange={(e) => { setQuery(e.target.value); setShowAllList(false); }} placeholder="Gelin veya damat adıyla arayın" className="w-full outline-none" style={{ height: 62, paddingLeft: 46, paddingRight: 14, borderRadius: 18, border: '1.5px solid #DDD7D4', background: '#FFFEFD', fontSize: 16, color: '#3A302C' }} onFocus={(e) => { e.currentTarget.style.borderColor = '#C98782'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(201,135,130,0.10)'; }} onBlur={(e) => { e.currentTarget.style.borderColor = '#DDD7D4'; e.currentTarget.style.boxShadow = 'none'; }} />
                   </div>
-                  {(query.trim().length >= 1 || showAllList) && (
-                    <div className="mt-2 flex flex-col gap-1.5 max-h-64 overflow-y-auto rounded-xl" style={{ boxShadow: results.length ? '0 8px 24px rgba(200,104,110,0.10)' : 'none' }}>
-                      {(searching || cacheLoading) && <div className="flex items-center justify-center gap-2 py-3"><span className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(200,104,110,0.25)', borderTopColor: '#C8686E' }} /><span className="text-[12.5px] text-gray-400">Aranıyor…</span></div>}
-                      {!searching && !cacheLoading && results.length === 0 && <p className="text-center text-[12.5px] text-gray-400 py-3">Sonuç yok. Çift baskı iznini açmamış olabilir.</p>}
-                      {results.map((e) => (
-                        <button key={e.id} onClick={() => selectEvent(e)} className="flex items-center gap-3 p-2 rounded-xl text-left transition-colors hover:bg-rose-50/60" style={{ border: '1px solid rgba(200,104,110,0.12)', background: '#fff' }}>
-                          <span className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={e.couple_photo_url} size={40} /></span>
-                          <span className="flex-1 min-w-0">
-                            <span className="block font-semibold text-gray-900 text-[13.5px] truncate">{coupleTitle(e)}</span>
-                            <span className="block text-[11px] text-gray-400">{e.event_type === 'dugun' ? 'Düğün' : 'Nikah'} · {e.event_date}</span>
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </>
-              )}
+                  {/* Ayrı rose açılır kutu — tüm etkinlikleri listele */}
+                  <button onClick={() => setShowAllList((v) => !v)} title="Tümünü göster" className="flex items-center justify-center flex-shrink-0 transition-colors" style={{ width: 58, borderRadius: 16, background: '#FAF0EF', color: '#C77470' }}>
+                    <svg className="w-5 h-5 transition-transform" style={{ transform: showAllList ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                </div>
+                {(query.trim().length >= 1 || showAllList) && (
+                  <div className="mt-2.5 flex flex-col gap-1.5 max-h-64 overflow-y-auto rounded-2xl" style={{ boxShadow: results.length ? '0 8px 24px rgba(200,104,110,0.10)' : 'none' }}>
+                    {(searching || cacheLoading) && <div className="flex items-center justify-center gap-2 py-3"><span className="w-4 h-4 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(200,104,110,0.25)', borderTopColor: '#C8686E' }} /><span className="text-[13px] text-gray-400">Aranıyor…</span></div>}
+                    {!searching && !cacheLoading && results.length === 0 && <p className="text-center text-[13px] text-gray-400 py-3">Sonuç yok. Çift baskı iznini açmamış olabilir.</p>}
+                    {results.map((e) => (
+                      <button key={e.id} onClick={() => selectEvent(e)} className="flex items-center gap-3 p-2.5 rounded-2xl text-left transition-colors hover:bg-rose-50/60" style={{ border: '1px solid rgba(200,104,110,0.12)', background: '#fff' }}>
+                        <span className="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={e.couple_photo_url} size={40} /></span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block font-semibold text-[14px] truncate" style={{ color: '#332824' }}>{coupleTitle(e)}</span>
+                          <span className="block text-[11.5px]" style={{ color: '#908783' }}>{e.event_type === 'dugun' ? 'Düğün' : 'Nikah'} · {e.event_date}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
 
-              {/* Kod gir (etkinlik seçilmeden gri) */}
-              <div className="mt-5" style={{ opacity: selected ? 1 : 0.45, pointerEvents: selected ? 'auto' : 'none' }}>
-                <label className="block text-[13px] font-semibold mb-2.5 text-center" style={{ color: '#6B5A5A' }}>Lütfen bu etkinlik için kodu girin</label>
-                <OtpInput value={code} onChange={(v) => { setCode(v); setCodeError(''); }} disabled={!selected || blockLeft > 0} error={!!codeError} autoFocusReady={!!selected && blockLeft === 0} />
-                {codeError && <p className="text-[12.5px] text-center mt-2.5" style={{ color: '#E5484D' }}>{codeError}</p>}
-                {blockLeft > 0 && <p className="text-[12.5px] text-center mt-1 text-gray-400">Kalan süre: {fmtBlock(blockLeft)}</p>}
-                <button onClick={verifyCode} disabled={!selected || code.length !== 6 || checking || blockLeft > 0} className="w-full mt-4 py-3.5 rounded-2xl font-semibold text-white text-[15px] relative overflow-hidden transition-all hover:scale-[1.01] disabled:opacity-40 disabled:hover:scale-100" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 30px rgba(200,104,110,0.24), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
-                  <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
-                  <span className="relative">{checking ? 'Kontrol ediliyor…' : 'Giriş Yap'}</span>
-                </button>
-              </div>
+            {/* Kod gir (etkinlik seçilmeden gri) */}
+            <div className="mt-8" style={{ opacity: selected ? 1 : 0.5, pointerEvents: selected ? 'auto' : 'none' }}>
+              <label className="block mb-5 text-center" style={{ fontSize: 16, fontWeight: 400, color: '#8E8784' }}>6 haneli etkinlik kodunu girin</label>
+              <OtpInput value={code} onChange={(v) => { setCode(v); setCodeError(''); }} disabled={!selected || blockLeft > 0} error={!!codeError} autoFocusReady={!!selected && blockLeft === 0} />
+              {codeError && <p className="text-[13px] text-center mt-3" style={{ color: '#B85E5A' }}>{codeError}</p>}
+              {blockLeft > 0 && <p className="text-[13px] text-center mt-1.5 text-gray-400">Kalan süre: {fmtBlock(blockLeft)}</p>}
+              <button onClick={verifyCode} disabled={!selected || code.length !== 6 || checking || blockLeft > 0} className="w-full font-semibold text-white relative overflow-hidden transition-all hover:scale-[1.005] disabled:hover:scale-100" style={{ height: 72, marginTop: 24, borderRadius: 22, fontSize: 18, background: (selected && code.length === 6 && !checking && blockLeft === 0) ? '#C9827D' : '#F2DEDC', color: (selected && code.length === 6 && !checking && blockLeft === 0) ? '#fff' : 'rgba(255,255,255,0.82)', boxShadow: (selected && code.length === 6 && !checking && blockLeft === 0) ? '0 12px 28px rgba(183,111,105,0.18)' : 'none' }}>
+                <span className="relative">{checking ? 'Giriş yapılıyor…' : 'Giriş Yap'}</span>
+              </button>
             </div>
           </div>
         </div>
