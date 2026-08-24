@@ -104,6 +104,11 @@ export default function FotografciPanel() {
   const [thumbIdx, setThumbIdx] = useState(0);                // çift siparişinde seçili foto
   const [showSizesModal, setShowSizesModal] = useState(false); // ⚙ baskı boyutları ayarları
   const [confirmReprint, setConfirmReprint] = useState<string | null>(null); // yeniden yazdır onayı (photo url)
+  // Yeni sipariş bildirimi — toast + ses (kapatılabilir)
+  const [toast, setToast] = useState<{ name: string; info: string; couple: boolean } | null>(null);
+  const [soundOn, setSoundOn] = useState(true);
+  const [flashKey, setFlashKey] = useState<string | null>(null); // yeni gelen siparişi kısa vurgula
+  const soundOnRef = useRef(true);
   const [prints, setPrints] = useState<PrintRow[]>([]);
   const [sizes, setSizes] = useState<SizeRow[]>([]);
   const [loading, setLoading] = useState(false);
@@ -236,7 +241,16 @@ export default function FotografciPanel() {
     // Realtime (anlık) + 10 sn yedek poll — ikisi de SESSİZ (filtre/sekme/yeri bozmaz)
     const ch = supabase
       .channel(`prints-${selected.id}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'print_requests', filter: `event_id=eq.${selected.id}` }, () => loadDashboard(selected.id, false, true))
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'print_requests', filter: `event_id=eq.${selected.id}` }, (payload) => {
+        loadDashboard(selected.id, false, true);
+        if (payload.eventType === 'INSERT') {
+          const n = payload.new as { guest_name?: string; size_label?: string; qty?: number; source?: string; order_id?: string; id?: string };
+          const couple = n?.source === 'couple';
+          setToast({ name: couple ? 'Düğün Çifti' : (n?.guest_name || 'Davetli'), info: `${n?.size_label ? n.size_label + ' · ' : ''}${n?.qty || 1} adet`, couple });
+          setFlashKey(couple ? `couple:${n?.order_id || n?.id}` : `g:${n?.id}`);
+          if (soundOnRef.current) playDing();
+        }
+      })
       .subscribe();
     const poll = setInterval(() => loadDashboard(selected.id, false, true), 10000);
     return () => { supabase.removeChannel(ch); clearInterval(poll); };
@@ -308,6 +322,31 @@ export default function FotografciPanel() {
     w.document.write(`<html><head><title>Baskı</title><style>@page{margin:0}body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh}img{max-width:100%;max-height:100vh}</style></head><body><img src="${url}" onload="setTimeout(function(){window.print()},300)"/></body></html>`);
     w.document.close();
   };
+
+  // Yeni sipariş "ding" sesi — Web Audio ile iki notalı, dosya gerektirmez
+  const playDing = () => {
+    try {
+      const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const ctx = new AC();
+      const note = (freq: number, start: number, dur: number) => {
+        const o = ctx.createOscillator(); const g = ctx.createGain();
+        o.connect(g); g.connect(ctx.destination); o.type = 'sine'; o.frequency.value = freq;
+        g.gain.setValueAtTime(0.0001, ctx.currentTime + start);
+        g.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + start + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + start + dur);
+        o.start(ctx.currentTime + start); o.stop(ctx.currentTime + start + dur + 0.02);
+      };
+      note(880, 0, 0.18); note(1174, 0.14, 0.28); // ding-dong
+    } catch { /* ses engellenmiş olabilir */ }
+  };
+
+  // soundOn'u yükle + ref'i senkron tut
+  useEffect(() => { try { const v = localStorage.getItem('nkh_photog_sound'); if (v === '0') { setSoundOn(false); soundOnRef.current = false; } } catch {} }, []);
+  const toggleSound = () => setSoundOn((v) => { const nv = !v; soundOnRef.current = nv; try { localStorage.setItem('nkh_photog_sound', nv ? '1' : '0'); } catch {} return nv; });
+
+  // Toast otomatik kapanır
+  useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(null), 5000); return () => clearTimeout(t); }, [toast]);
+  useEffect(() => { if (!flashKey) return; const t = setTimeout(() => setFlashKey(null), 2600); return () => clearTimeout(t); }, [flashKey]);
 
   // Çift baskı siparişleri (source='couple') davetli baskılarından AYRI tutulur
   const isCouple = (p: PrintRow) => p.source === 'couple';
@@ -417,6 +456,7 @@ export default function FotografciPanel() {
 
   return (
     <main className="min-h-screen" style={{ background: 'radial-gradient(circle at 50% 30%, #FFFAF8 0%, #FBF4F2 55%, #F8EEEC 100%)' }}>
+      <style>{`@keyframes slideInLeft{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}@keyframes flashRing{0%,100%{box-shadow:0 0 0 0 rgba(210,104,109,0)}30%{box-shadow:0 0 0 2px rgba(210,104,109,0.9)}}`}</style>
       {/* ================= GİRİŞ ================= */}
       {step === 'login' && (
         <div className="min-h-screen flex items-center justify-center p-4">
@@ -533,6 +573,13 @@ export default function FotografciPanel() {
                     </div>
                   </div>
                 </div>
+                <button onClick={toggleSound} title={soundOn ? 'Ses açık' : 'Ses kapalı'} className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(200,104,110,0.06)', color: soundOn ? '#C8686E' : '#B0AAA7' }}>
+                  {soundOn ? (
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                  ) : (
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 17H5.828a2 2 0 00-1.414.586L3 19V9a6 6 0 015.5-5.98M9 9v.75M15 5.5A6 6 0 0118 9v3M3 3l18 18" /></svg>
+                  )}
+                </button>
                 <button onClick={() => { try { sessionStorage.removeItem('nkh_photog_panel'); } catch {}; setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); setSelectedGuest('all'); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
               </div>
             </div>
@@ -574,8 +621,9 @@ export default function FotografciPanel() {
                   const wait = minsAgo(o.createdAt);
                   const waitColor = o.status === 'pending' ? (wait >= 20 ? '#C95A60' : wait >= 10 ? '#D68B32' : '#9A928E') : '#9A928E';
                   const meta = STATUS_META[o.status];
+                  const flash = flashKey === o.key;
                   return (
-                    <button key={o.key} onClick={() => { setSelKey(o.key); setThumbIdx(0); }} className="w-full text-left flex items-center gap-3 px-3 py-3 transition-colors" style={{ background: active ? '#FCF0EF' : o.couple ? '#FFFAEE' : 'transparent', borderBottom: '1px solid #F1ECEA', boxShadow: active ? 'inset 3px 0 #D2686D' : 'none' }}>
+                    <button key={o.key} onClick={() => { setSelKey(o.key); setThumbIdx(0); }} className="w-full text-left flex items-center gap-3 px-3 py-3 transition-colors" style={{ background: active ? '#FCF0EF' : o.couple ? '#FFFAEE' : 'transparent', borderBottom: '1px solid #F1ECEA', boxShadow: active ? 'inset 3px 0 #D2686D' : 'none', animation: flash ? 'flashRing 1.3s ease 2' : 'none' }}>
                       <span className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 text-[15px] font-semibold" style={{ background: o.couple ? '#FBEFCB' : '#F3DFDC', color: o.couple ? '#C08A1E' : '#B96165' }}>
                         {o.couple ? '⭐' : (r0 ? <img src={optimizeImg(r0.photo_url, 80)} alt="" className="w-full h-full object-cover" /> : o.name.charAt(0).toUpperCase())}
                       </span>
@@ -783,6 +831,18 @@ export default function FotografciPanel() {
                   <button onClick={() => { printPhoto(confirmReprint); setConfirmReprint(null); }} className="flex-1 py-2.5 rounded-xl text-[13.5px] font-semibold text-white" style={{ background: '#D45F65' }}>Yeniden Yazdır</button>
                 </div>
               </div>
+            </div>
+          )}
+
+          {/* Yeni sipariş bildirimi — sol alt toast */}
+          {toast && (
+            <div className="fixed z-[75] bottom-6 left-6 flex items-center gap-3 pl-3.5 pr-4 py-3 rounded-2xl" style={{ background: '#fff', border: '1px solid #ECE5E2', boxShadow: '0 14px 40px rgba(60,40,35,0.14)', animation: 'slideInLeft 0.25s ease' }}>
+              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[15px]" style={{ background: toast.couple ? '#FBEFCB' : '#FCF0EF', color: toast.couple ? '#C08A1E' : '#C95E64' }}>{toast.couple ? '⭐' : '🔔'}</span>
+              <div>
+                <p className="text-[13px] font-bold" style={{ color: '#2E2927' }}>Yeni baskı isteği</p>
+                <p className="text-[12px]" style={{ color: '#89817D' }}>{toast.name} · {toast.info}</p>
+              </div>
+              <button onClick={() => setToast(null)} className="ml-1 text-[16px] leading-none" style={{ color: '#C7C0BD' }}>×</button>
             </div>
           )}
 
