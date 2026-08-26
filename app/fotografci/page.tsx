@@ -787,9 +787,12 @@ export default function FotografciPanel() {
                 <p className="text-center text-sm text-gray-400 py-16">Yükleniyor…</p>
               ) : !selOrder ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-16">
-                  <span className="text-4xl mb-3">🖼️</span>
-                  <p className="text-[14px] font-semibold" style={{ color: '#6B625E' }}>Soldan bir sipariş seçin</p>
-                  <p className="text-[12.5px] mt-1" style={{ color: '#A79F9B' }}>Kim bekliyor → ne basacağım → nasıl basacağım</p>
+                  <div className="w-24 h-24 mb-4 rounded-full flex items-center justify-center" style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.12) 0%, transparent 70%)' }}>
+                    <img src="/foto-ekle-8.png" alt="" className="w-16 h-16 object-contain opacity-90" onError={(e) => { const el = e.currentTarget as HTMLImageElement; el.style.display = 'none'; const sib = el.nextElementSibling as HTMLElement | null; if (sib) sib.style.display = 'block'; }} />
+                    <svg className="w-11 h-11" style={{ display: 'none', color: '#D8A0A2' }} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+                  </div>
+                  <p className="text-[15px] font-semibold" style={{ color: '#6B625E' }}>Soldan bir sipariş seçin</p>
+                  <p className="text-[12.5px] mt-1.5 max-w-[250px] leading-relaxed" style={{ color: '#A79F9B' }}>Baskı detaylarını ve fotoğrafları burada göreceksiniz.</p>
                 </div>
               ) : (() => {
                 const ci = Math.min(thumbIdx, selOrder.rows.length - 1);
