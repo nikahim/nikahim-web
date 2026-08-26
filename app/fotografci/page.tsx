@@ -364,6 +364,15 @@ export default function FotografciPanel() {
     w.document.write(`<html><head><title>Baskı</title><style>@page{margin:0}body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh}img{max-width:100%;max-height:100vh}</style></head><body><img src="${url}" onload="setTimeout(function(){window.print()},300)"/></body></html>`);
     w.document.close();
   };
+  // Çoklu baskı — hepsini TEK yazdırma penceresinde, her fotoğraf ayrı sayfa (tek dialog)
+  const printPhotos = (urls: string[]) => {
+    if (urls.length === 0) return;
+    if (urls.length === 1) return printPhoto(urls[0]);
+    const w = window.open('', '_blank'); if (!w) return;
+    const imgs = urls.map((u) => `<img src="${u}" />`).join('');
+    w.document.write(`<html><head><title>Baskı</title><style>@page{margin:0}body{margin:0}img{display:block;width:100%;height:100vh;object-fit:contain;page-break-after:always}</style></head><body>${imgs}<scr` + `ipt>var n=${urls.length},c=0;function d(){c++;if(c>=n){setTimeout(function(){window.print()},300)}}var I=document.images;for(var i=0;i<I.length;i++){I[i].onload=d;I[i].onerror=d;}</scr` + `ipt></body></html>`);
+    w.document.close();
+  };
 
   // Kalıcı AudioContext — realtime callback'te yeni context "suspended" başlar (ses çıkmaz).
   // Bir kez kullanıcı etkileşiminde oluşturulup resume edilir, sonra yeniden kullanılır.
@@ -519,8 +528,8 @@ export default function FotografciPanel() {
   const STATUS_META: Record<string, { label: string; color: string; soft: string }> = {
     pending: { label: 'Beklemede', color: '#C95E64', soft: '#FCF0EF' },
     printing: { label: 'Baskıda', color: '#D58B34', soft: '#FFF6E8' },
-    printed: { label: 'Hazır', color: '#329464', soft: '#EDF8F2' },
-    delivered: { label: 'Teslim Edildi', color: '#6B7280', soft: '#F3F4F6' },
+    printed: { label: 'Hazır', color: '#3B82C4', soft: '#EAF2FB' },
+    delivered: { label: 'Teslim Edildi', color: '#2E9E68', soft: '#EAF7F0' },
   };
   const minsAgo = (iso: string) => Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 60000));
 
@@ -922,6 +931,18 @@ export default function FotografciPanel() {
                         )}
                       </>)}
                     </div>
+
+                    {/* Çoklu baskı — birden fazla fotoğraf varsa toplu işlem */}
+                    {rows.length > 1 && (rows.some((r) => r.status === 'pending') || rows.some((r) => r.status === 'printing')) && (
+                      <div className="flex gap-2 mt-2">
+                        {rows.some((r) => r.status === 'pending') && (
+                          <button onClick={() => { const pend = rows.filter((r) => r.status === 'pending'); printPhotos(pend.map((r) => r.photo_url)); advanceOrder(pend, 'printing'); }} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#FBE3E4', color: '#C25760' }}>🖨 Tümünü Yazdır ({rows.filter((r) => r.status === 'pending').length})</button>
+                        )}
+                        {rows.some((r) => r.status === 'printing') && (
+                          <button onClick={() => advanceOrder(rows.filter((r) => r.status === 'printing'), 'printed')} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#E4F3EA', color: '#2E7D52' }}>✓ Tümü Basıldı</button>
+                        )}
+                      </div>
+                    )}
 
                     {/* Sipariş durumu — TÜM fotoğraflar basılınca teslim (ödeme yukarıda ayrı) */}
                     {allPrinted && !allDelivered && (
