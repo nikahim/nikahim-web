@@ -139,6 +139,7 @@ export default function FotografciPanel() {
   const [photoMenuOpen, setPhotoMenuOpen] = useState(false); // orta panel foto 3-nokta menü
   const [moreOpen, setMoreOpen] = useState(false); // sağ panel "diğer işlemler" katlanır
   const soundOnRef = useRef(true);
+  const knownIdsRef = useRef<Set<string> | null>(null); // yeni sipariş tespiti (poll + realtime ortak)
   const [prints, setPrints] = useState<PrintRow[]>([]);
   const [sizes, setSizes] = useState<SizeRow[]>([]);
   const [loading, setLoading] = useState(false);
@@ -259,11 +260,26 @@ export default function FotografciPanel() {
         supabase.from('print_requests').select('*').eq('event_id', eventId).order('created_at', { ascending: false }),
         supabase.from('photo_print_sizes').select('*').eq('event_id', eventId).order('price_tl', { ascending: true }),
       ]);
-      setPrints(p || []);
+      const rowsP: PrintRow[] = p || [];
+      // Yeni sipariş tespiti — realtime'a bağlı DEĞİL; poll her 10sn'de de yakalar
+      const prevKnown = knownIdsRef.current;
+      knownIdsRef.current = new Set(rowsP.map((r) => r.id));
+      if (prevKnown && !firstLoad) {
+        const fresh = rowsP.filter((r) => !prevKnown.has(r.id));
+        if (fresh.length > 0) {
+          const newest = [...fresh].sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''))[0];
+          const couple = newest.source === 'couple';
+          setToast({ name: couple ? 'Düğün Çifti' : (newest.guest_name || 'Davetli'), info: `${newest.size_label ? newest.size_label + ' · ' : ''}${newest.qty || 1} adet`, couple });
+          setFlashKey(couple ? `couple:${newest.order_id || newest.id}` : `g:${newest.device_id || 'name:' + newest.guest_name}`);
+          if (soundOnRef.current) playDing();
+        }
+      }
+      setPrints(rowsP);
       setSizes(s || []);
       if (firstLoad && (s || []).length === 0) { setShowSetup(true); setSetupStep(0); setTab('sizes'); }
     } catch (e) { console.error(e); }
     if (!silent) setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -271,18 +287,9 @@ export default function FotografciPanel() {
     // Realtime (anlık) + 10 sn yedek poll — ikisi de SESSİZ (filtre/sekme/yeri bozmaz)
     const ch = supabase
       .channel(`prints-${selected.id}`)
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'print_requests', filter: `event_id=eq.${selected.id}` }, (payload) => {
-        loadDashboard(selected.id, false, true);
-        if (payload.eventType === 'INSERT') {
-          const n = payload.new as { guest_name?: string; size_label?: string; qty?: number; source?: string; order_id?: string; id?: string };
-          const couple = n?.source === 'couple';
-          setToast({ name: couple ? 'Düğün Çifti' : (n?.guest_name || 'Davetli'), info: `${n?.size_label ? n.size_label + ' · ' : ''}${n?.qty || 1} adet`, couple });
-          setFlashKey(couple ? `couple:${n?.order_id || n?.id}` : `g:${n?.id}`);
-          if (soundOnRef.current) playDing();
-        }
-      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'print_requests', filter: `event_id=eq.${selected.id}` }, () => loadDashboard(selected.id, false, true))
       .subscribe();
-    const poll = setInterval(() => loadDashboard(selected.id, false, true), 10000);
+    const poll = setInterval(() => loadDashboard(selected.id, false, true), 8000);
     return () => { supabase.removeChannel(ch); clearInterval(poll); };
   }, [step, selected, loadDashboard]);
 
@@ -651,11 +658,11 @@ export default function FotografciPanel() {
                     </div>
                   </div>
                 </div>
-                <button onClick={toggleSound} title={soundOn ? 'Ses açık' : 'Ses kapalı'} className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(200,104,110,0.06)', color: soundOn ? '#C8686E' : '#B0AAA7' }}>
+                <button onClick={toggleSound} title={soundOn ? 'Bildirim sesi açık' : 'Bildirim sesi kapalı'} className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors" style={{ background: soundOn ? '#FCF0EF' : '#F1ECEA', color: soundOn ? '#C95E64' : '#9A928E' }}>
                   {soundOn ? (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" /></svg>
+                    <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22zm7-5v-1l-1.6-1.6V10a5.4 5.4 0 00-4.15-5.25V4a1.25 1.25 0 10-2.5 0v.75A5.4 5.4 0 006.6 10v4.4L5 16v1z" /></svg>
                   ) : (
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 17H5.828a2 2 0 00-1.414.586L3 19V9a6 6 0 015.5-5.98M9 9v.75M15 5.5A6 6 0 0118 9v3M3 3l18 18" /></svg>
+                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M18.4 14.4 17 13V10a5 5 0 0 0-3.8-4.85M6.6 6.6A5 5 0 0 0 6 10v3l-1.5 1.5V15h11M10 20a2 2 0 0 0 4 0M3 3l18 18" /></svg>
                   )}
                 </button>
                 <button onClick={() => { try { sessionStorage.removeItem('nkh_photog_panel'); } catch {}; setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); setSelectedGuest('all'); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
@@ -911,7 +918,10 @@ export default function FotografciPanel() {
                     <div>
                       <p className="text-[11px] font-semibold mb-2 tracking-wide" style={{ color: '#A79F9B' }}>SEÇİLİ FOTOĞRAF{rows.length > 1 ? ` · ${ci + 1}/${rows.length}` : ''}</p>
                       {curStatus === 'pending' && (
-                        <button onClick={() => { printPhoto(cur.photo_url); advanceOrder([cur], 'printing'); if (ci < rows.length - 1) setThumbIdx(ci + 1); }} className="w-full h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#D45F65', boxShadow: '0 8px 18px rgba(194,85,91,0.16)' }}>🖨 Yazdır</button>
+                        <div className="flex gap-2">
+                          <button onClick={() => { printPhoto(cur.photo_url); advanceOrder([cur], 'printing'); if (ci < rows.length - 1) setThumbIdx(ci + 1); }} className="flex-1 h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#D45F65', boxShadow: '0 8px 18px rgba(194,85,91,0.16)' }}>🖨 Yazdır</button>
+                          <button onClick={() => downloadPhoto(cur.photo_url, `${selOrder.name}_${cur.size_label || 'foto'}`)} title="İndir — kendi baskı programında aç" className="h-11 px-4 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>İndir</button>
+                        </div>
                       )}
                       {curStatus === 'printing' && (
                         <button onClick={() => advanceOrder([cur], 'printed')} className="w-full h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#329464', boxShadow: '0 8px 18px rgba(50,148,100,0.16)' }}>✓ Baskı Tamamlandı</button>
