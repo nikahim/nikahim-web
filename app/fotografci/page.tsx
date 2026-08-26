@@ -105,11 +105,13 @@ export default function FotografciPanel() {
   const [showSizesModal, setShowSizesModal] = useState(false); // ⚙ baskı boyutları ayarları
   const [confirmReprint, setConfirmReprint] = useState<string | null>(null); // yeniden yazdır onayı (photo url)
   // Yeni sipariş bildirimi — toast + ses (kapatılabilir)
-  const [toast, setToast] = useState<{ name: string; info: string; couple: boolean } | null>(null);
+  const [toast, setToast] = useState<{ name: string; info: string; couple: boolean; title?: string; ok?: boolean } | null>(null);
   const [soundOn, setSoundOn] = useState(true);
   const [flashKey, setFlashKey] = useState<string | null>(null); // yeni gelen siparişi kısa vurgula
   const [queueSort, setQueueSort] = useState<'time' | 'qty' | 'price'>('time'); // sol kuyruk sıralama
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
+  const [photoMenuOpen, setPhotoMenuOpen] = useState(false); // orta panel foto 3-nokta menü
+  const [moreOpen, setMoreOpen] = useState(false); // sağ panel "diğer işlemler" katlanır
   const soundOnRef = useRef(true);
   const [prints, setPrints] = useState<PrintRow[]>([]);
   const [sizes, setSizes] = useState<SizeRow[]>([]);
@@ -303,6 +305,14 @@ export default function FotografciPanel() {
     if (to === 'printing') { patch.delivered_at = null; patch.paid = false; }
     await supabase.from('print_requests').update(patch).in('id', rows.map((r) => r.id));
     loadDashboard(selected.id, false, true);
+    if (to === 'delivered') {
+      const q = rows.reduce((a, r) => a + r.qty, 0);
+      const p = rows.reduce((a, r) => a + (r.price_tl || 0) * r.qty, 0);
+      const couple = rows[0]?.source === 'couple';
+      const nm = couple ? (selected ? coupleTitle(selected) : 'Düğün Çifti') : (labelOf[keyOf(rows[0])] || rows[0]?.guest_name || 'Davetli');
+      setToast({ ok: true, title: 'Sipariş teslim edildi ✓', name: nm, info: `${q} baskı${p > 0 ? ` · ${p}₺ alındı` : ''}`, couple });
+      setSelKey(null); // otomatik sıradaki siparişe geç
+    }
   };
   // Ödeme — bir davetlinin (belirli satırların) tamamlanmış baskılarını "ödendi" işaretle/geri al
   const setRowsPaid = async (rows: PrintRow[], paid: boolean) => {
@@ -417,9 +427,10 @@ export default function FotografciPanel() {
 
   // ── Birleşik sipariş listesi: çift = order_id grubu (⭐), davetli = her satır bir sipariş ──
   const orderStatusOf = (rows: PrintRow[]): string =>
-    rows.every((r) => r.status === 'delivered') ? 'delivered'
-      : rows.every((r) => r.status === 'printed' || r.status === 'delivered') ? 'printed'
-        : rows.some((r) => r.status === 'printing') ? 'printing' : 'pending';
+    // Basılmamış foto varsa sipariş "Beklemede" kalır (iş bitmedi); hepsi basılınca "Hazır"; hepsi teslimse "Teslim"
+    rows.some((r) => r.status === 'pending') ? 'pending'
+      : rows.some((r) => r.status === 'printing') ? 'printing'
+        : rows.every((r) => r.status === 'delivered') ? 'delivered' : 'printed';
   type Order = { key: string; kind: 'couple' | 'guest'; rows: PrintRow[]; name: string; createdAt: string; status: string; couple: boolean };
   const allOrders: Order[] = (() => {
     const list: Order[] = [];
@@ -439,9 +450,12 @@ export default function FotografciPanel() {
   for (const o of allOrders) statusCounts[o.status] = (statusCounts[o.status] || 0) + 1;
   const oQty = (o: Order) => o.rows.reduce((a, r) => a + r.qty, 0);
   const oPrice = (o: Order) => o.rows.reduce((a, r) => a + (r.price_tl || 0) * r.qty, 0);
+  // Tutarlı sipariş kodu — davetli(device_id)/çift(order_id) bazlı; panel + davetli tarafında AYNI üretilir
+  const orderCodeFrom = (base: string) => { let h = 0; for (let i = 0; i < base.length; i++) h = (h * 31 + base.charCodeAt(i)) >>> 0; return 'NK-' + h.toString(36).toUpperCase().padStart(5, '0').slice(0, 5); };
+  const orderCode = (o: Order) => orderCodeFrom(o.couple ? (o.rows[0].order_id || o.rows[0].id) : (o.rows[0].device_id || `name:${o.rows[0].guest_name}`));
   const queue = allOrders
     .filter((o) => statusTab === 'all' || o.status === statusTab)
-    .filter((o) => o.name.toLowerCase().includes(guestSearch.trim().toLowerCase()))
+    .filter((o) => { const q = guestSearch.trim().toLowerCase(); return !q || o.name.toLowerCase().includes(q) || orderCode(o).toLowerCase().includes(q); })
     .sort((a, b) => {
       if (queueSort === 'qty') return oQty(b) - oQty(a) || a.createdAt.localeCompare(b.createdAt);
       if (queueSort === 'price') return oPrice(b) - oPrice(a) || a.createdAt.localeCompare(b.createdAt);
@@ -450,12 +464,12 @@ export default function FotografciPanel() {
   const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join('') || '—';
   const selOrder = queue.find((o) => o.key === selKey) || allOrders.find((o) => o.key === selKey) || queue[0] || null;
   const STATUS_TABS: { k: 'all' | 'pending' | 'printing' | 'printed' | 'delivered'; label: string }[] = [
-    { k: 'all', label: 'Tümü' }, { k: 'pending', label: 'Beklemede' }, { k: 'printing', label: 'Baskıda' }, { k: 'printed', label: 'Tamamladı' }, { k: 'delivered', label: 'Teslim Edildi' },
+    { k: 'all', label: 'Tümü' }, { k: 'pending', label: 'Beklemede' }, { k: 'printing', label: 'Baskıda' }, { k: 'printed', label: 'Hazır' }, { k: 'delivered', label: 'Teslim Edildi' },
   ];
   const STATUS_META: Record<string, { label: string; color: string; soft: string }> = {
     pending: { label: 'Beklemede', color: '#C95E64', soft: '#FCF0EF' },
     printing: { label: 'Baskıda', color: '#D58B34', soft: '#FFF6E8' },
-    printed: { label: 'Tamamladı', color: '#329464', soft: '#EDF8F2' },
+    printed: { label: 'Hazır', color: '#329464', soft: '#EDF8F2' },
     delivered: { label: 'Teslim Edildi', color: '#6B7280', soft: '#F3F4F6' },
   };
   const minsAgo = (iso: string) => Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 60000));
@@ -614,12 +628,12 @@ export default function FotografciPanel() {
                 <div className="flex items-center gap-2">
                   <div className="relative flex-1">
                     <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
-                    <input value={guestSearch} onChange={(e) => setGuestSearch(e.target.value)} placeholder="Sipariş / davetli ara…" className="w-full pl-9 pr-3 py-2.5 rounded-xl outline-none text-[13px] text-gray-900" style={{ border: '1px solid #E8E2DF', background: '#FFF' }} />
+                    <input value={guestSearch} onChange={(e) => setGuestSearch(e.target.value)} placeholder="İsim veya kod (NK-…) ile ara" className="w-full pl-9 pr-3 py-2.5 rounded-xl outline-none text-[13px] text-gray-900" style={{ border: '1px solid #E8E2DF', background: '#FFF' }} />
                   </div>
                   {/* Sırala butonu + menü (aktifse rose nokta işareti) */}
                   <div className="relative flex-shrink-0">
                     <button onClick={() => setSortMenuOpen((v) => !v)} title="Sırala" className="relative w-10 h-10 rounded-xl flex items-center justify-center transition-colors" style={{ background: queueSort !== 'time' || sortMenuOpen ? '#FCF0EF' : '#F7F4F3', color: queueSort !== 'time' ? '#C95E64' : '#8A827E' }}>
-                      <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18M6 12h12M10 18h4" /></svg>
+                      <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M7 4v16m0 0l-3.5-3.5M7 20l3.5-3.5M17 20V4m0 0l-3.5 3.5M17 4l3.5 3.5" /></svg>
                       {queueSort !== 'time' && <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full" style={{ background: '#D2686D', boxShadow: '0 0 0 1.5px #fff' }} />}
                     </button>
                     {sortMenuOpen && (
@@ -696,27 +710,50 @@ export default function FotografciPanel() {
                       <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[13px] font-bold tracking-tight" style={{ background: selOrder.couple ? '#FBEFCB' : '#F3DFDC', color: selOrder.couple ? '#C08A1E' : '#B96165' }}>{selOrder.couple ? '⭐' : initials(selOrder.name)}</span>
                       <div className="min-w-0">
                         <h2 className="text-[17px] font-bold leading-tight truncate" style={{ color: '#2E2927' }}>{selOrder.couple ? `${selOrder.name} · Düğün Çifti` : selOrder.name}</h2>
-                        <p className="text-[12px]" style={{ color: '#908985' }}>Sipariş #{(selOrder.rows[0].order_id || selOrder.rows[0].id).slice(0, 6).toUpperCase()} · {new Date(selOrder.createdAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</p>
+                        <p className="text-[12px]" style={{ color: '#908985' }}>Sipariş {orderCode(selOrder)} · {new Date(selOrder.createdAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</p>
                       </div>
                       <span className="ml-auto px-2.5 py-1 rounded-full text-[11.5px] font-semibold flex-shrink-0" style={{ background: STATUS_META[st].soft, color: STATUS_META[st].color }}>{STATUS_META[st].label}</span>
                     </div>
 
                     <div className="flex-1 overflow-y-auto px-5 py-4">
-                      <button onClick={() => setLightbox(cur.photo_url)} className="w-full rounded-xl overflow-hidden flex items-center justify-center" style={{ background: '#F6F4F3', maxHeight: 420 }}>
-                        <img src={optimizeImg(cur.photo_url, 1000)} alt="" className="w-full object-contain" style={{ maxHeight: 420 }} />
-                      </button>
-
+                      {/* Çoklu foto: ÜSTTE thumbnail şeridi (durum rozeti + tooltip) */}
                       {selOrder.rows.length > 1 && (
-                        <div className="flex gap-2.5 mt-3 overflow-x-auto pb-1">
-                          {selOrder.rows.map((r, i) => (
-                            <button key={r.id} onClick={() => setThumbIdx(i)} className="relative flex-shrink-0 rounded-lg overflow-hidden" style={{ width: 76, height: 56, border: i === ci ? '2px solid #D2686D' : '2px solid transparent' }}>
-                              <img src={optimizeImg(r.photo_url, 160)} alt="" className="w-full h-full object-cover" />
-                              {/* Foto-bazlı durum noktası */}
-                              <span className="absolute top-1 right-1 w-2.5 h-2.5 rounded-full" style={{ background: STATUS_META[r.status]?.color || '#C4BDB9', boxShadow: '0 0 0 1.5px #fff' }} />
-                            </button>
-                          ))}
+                        <div className="flex gap-2.5 mb-3 overflow-x-auto pb-1">
+                          {selOrder.rows.map((r, i) => {
+                            const rm = STATUS_META[r.status]; const rdone = r.status === 'printed' || r.status === 'delivered';
+                            return (
+                              <button key={r.id} onClick={() => setThumbIdx(i)} title={rm?.label} className="relative flex-shrink-0 rounded-lg overflow-hidden" style={{ width: 96, height: 72, border: i === ci ? '2px solid #D2686D' : '2px solid #ECE5E2' }}>
+                                <img src={optimizeImg(r.photo_url, 220)} alt="" className="w-full h-full object-cover" onError={(e) => { const t = e.currentTarget as HTMLImageElement; if (!t.dataset.fb) { t.dataset.fb = '1'; t.src = r.photo_url; } }} />
+                                <span className="absolute top-1 right-1 w-4 h-4 rounded-full flex items-center justify-center" style={{ background: rm?.color || '#C4BDB9', boxShadow: '0 0 0 1.5px #fff' }}>
+                                  {rdone && <svg className="w-2.5 h-2.5" fill="none" stroke="#fff" strokeWidth="3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>}
+                                </span>
+                              </button>
+                            );
+                          })}
                         </div>
                       )}
+
+                      {/* Büyük seçili fotoğraf — sağ üstte 3-nokta menü (İndir / Tam ekran / Yeniden yazdır) */}
+                      <div className="relative w-full rounded-xl overflow-hidden flex items-center justify-center" style={{ background: '#F6F4F3', minHeight: 320 }}>
+                        <button onClick={() => setLightbox(cur.photo_url)} className="w-full flex items-center justify-center" style={{ maxHeight: 460 }}>
+                          <img src={optimizeImg(cur.photo_url, 1200)} alt="" className="w-full object-contain" style={{ maxHeight: 460 }} onError={(e) => { const t = e.currentTarget as HTMLImageElement; if (!t.dataset.fb) { t.dataset.fb = '1'; t.src = cur.photo_url; } }} />
+                        </button>
+                        <div className="absolute top-2 right-2">
+                          <button onClick={(e) => { e.stopPropagation(); setPhotoMenuOpen((v) => !v); }} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(20,12,14,0.5)', color: '#fff' }}>
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="12" cy="19" r="1.6" /></svg>
+                          </button>
+                          {photoMenuOpen && (
+                            <>
+                              <div className="fixed inset-0 z-[60]" onClick={() => setPhotoMenuOpen(false)} />
+                              <div className="absolute right-0 mt-1.5 z-[61] w-44 rounded-xl overflow-hidden py-1" style={{ background: '#fff', border: '1px solid #ECE5E2', boxShadow: '0 12px 30px rgba(60,40,35,0.18)' }}>
+                                <button onClick={() => { downloadPhoto(cur.photo_url, `${selOrder.name}_${cur.size_label || 'foto'}`); setPhotoMenuOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-[13px] hover:bg-rose-50/50" style={{ color: '#5C5652' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>İndir</button>
+                                <button onClick={() => { setLightbox(cur.photo_url); setPhotoMenuOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-[13px] hover:bg-rose-50/50" style={{ color: '#5C5652' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M20.25 20.25v-4.5m0 4.5h-4.5m4.5 0L15 15" /></svg>Tam ekran</button>
+                                <button onClick={() => { setConfirmReprint(cur.photo_url); setPhotoMenuOpen(false); }} className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left text-[13px] hover:bg-rose-50/50" style={{ color: '#5C5652' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992V4.356M2.985 19.644v-4.992h4.992m-4.992 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.183m0-4.991v4.99" /></svg>Yeniden yazdır</button>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
 
                       {/* Sipariş özeti tek satır */}
                       <div className="grid grid-cols-3 mt-4 rounded-xl overflow-hidden" style={{ border: '1px solid #EEE7E4' }}>
@@ -760,11 +797,6 @@ export default function FotografciPanel() {
                       </div>
                     </div>
 
-                    <div className="flex gap-2 px-5 py-3 flex-shrink-0" style={{ borderTop: '1px solid #F0EAE7' }}>
-                      <button onClick={() => downloadPhoto(cur.photo_url, `${selOrder.name}_${cur.size_label || 'foto'}`)} className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}>İndir</button>
-                      <button onClick={() => setLightbox(cur.photo_url)} className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}>Tam ekran</button>
-                      <button onClick={() => setConfirmReprint(cur.photo_url)} className="flex-1 py-2.5 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}>Yeniden yazdır</button>
-                    </div>
                   </>
                 );
               })()}
@@ -787,17 +819,21 @@ export default function FotografciPanel() {
                 const undoIcon = <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>;
                 return (
                   <div className="rounded-2xl p-4" style={{ background: '#fff', border: '1px solid #ECE5E2', boxShadow: '0 8px 26px rgba(62,43,37,0.04)' }}>
-                    <h3 className="text-[14px] font-bold mb-3" style={{ color: '#2E2927' }}>Sipariş Bilgisi</h3>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-[14px] font-bold" style={{ color: '#2E2927' }}>Sipariş Bilgisi</h3>
+                      <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md" style={{ background: '#F4F1EF', color: '#8A827E' }}>{orderCode(selOrder)}</span>
+                    </div>
                     <div className="flex flex-col gap-2.5 text-[13px]">
                       <div className="flex items-center justify-between"><span style={{ color: '#89817D' }}>{selOrder.couple ? 'Düğün Çifti' : 'Davetli'}</span><span className="font-semibold" style={{ color: '#302A28' }}>{selOrder.name}</span></div>
                       <div className="flex items-center justify-between"><span style={{ color: '#89817D' }}>Fotoğraf</span><span className="font-semibold" style={{ color: '#302A28' }}>{rows.length} kare</span></div>
                       <div className="flex items-center justify-between"><span style={{ color: '#89817D' }}>Toplam baskı</span><span className="font-semibold" style={{ color: '#302A28' }}>{totQ} adet</span></div>
+                      <div className="flex items-center justify-between"><span style={{ color: '#89817D' }}>Toplam</span><span className="font-extrabold text-[15px]" style={{ color: priced ? '#B85258' : '#A79F9B' }}>{priced ? `${totP}₺` : 'Fiyat bekliyor'}</span></div>
                     </div>
 
-                    {/* Toplam tutar — belirgin (bu davetlinin ödeyeceği toplam) */}
-                    <div className="mt-3 flex items-center justify-between px-3 py-2.5 rounded-xl" style={{ background: '#FCF0EF' }}>
-                      <span className="text-[13px] font-semibold" style={{ color: '#9A6C6E' }}>Toplam Tutar</span>
-                      <span className="text-[18px] font-extrabold" style={{ color: priced ? '#B85258' : '#A79F9B' }}>{priced ? `${totP}₺` : 'Fiyat bekliyor'}</span>
+                    {/* Ödeme — teslimden AYRI gösterilir */}
+                    <div className="mt-3 flex items-center justify-between px-3 py-2.5 rounded-xl" style={{ background: allDelivered ? '#EDF8F2' : '#FCF0EF' }}>
+                      <span className="text-[12.5px] font-semibold" style={{ color: allDelivered ? '#2E7D52' : '#9A6C6E' }}>Ödeme</span>
+                      <span className="text-[13px] font-bold" style={{ color: allDelivered ? '#329464' : '#B85258' }}>{!priced ? 'Fiyat bekliyor' : allDelivered ? `✓ ${totP}₺ alındı` : `Teslimde ${totP}₺`}</span>
                     </div>
 
                     {/* Baskı ilerlemesi (kısmi: örn. 2/6 basıldı) */}
@@ -808,8 +844,10 @@ export default function FotografciPanel() {
 
                     {!priced && selOrder.couple && <p className="text-[11.5px] mt-3 px-3 py-2 rounded-lg" style={{ background: '#FFF6E8', color: '#8A6A2E' }}>Boy/fiyat girilmemiş. Çiftle iletişime geçip fiyatı belirleyebilirsiniz.</p>}
 
+                    <div className="my-3.5 h-px" style={{ background: '#F0EAE7' }} />
+
                     {/* Seçili fotoğrafın aksiyonu — foto-bazlı ilerleme */}
-                    <div className="mt-4">
+                    <div>
                       <p className="text-[11px] font-semibold mb-2 tracking-wide" style={{ color: '#A79F9B' }}>SEÇİLİ FOTOĞRAF{rows.length > 1 ? ` · ${ci + 1}/${rows.length}` : ''}</p>
                       {curStatus === 'pending' && (
                         <button onClick={() => { printPhoto(cur.photo_url); advanceOrder([cur], 'printing'); if (ci < rows.length - 1) setThumbIdx(ci + 1); }} className="w-full h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#D45F65', boxShadow: '0 8px 18px rgba(194,85,91,0.16)' }}>🖨 Yazdır</button>
@@ -817,24 +855,29 @@ export default function FotografciPanel() {
                       {curStatus === 'printing' && (
                         <button onClick={() => advanceOrder([cur], 'printed')} className="w-full h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#329464', boxShadow: '0 8px 18px rgba(50,148,100,0.16)' }}>✓ Baskı Tamamlandı</button>
                       )}
-                      {(curStatus === 'printed' || curStatus === 'delivered') && (
-                        <div className="flex items-center gap-2">
-                          <span className="flex-1 h-11 rounded-xl flex items-center justify-center gap-1.5 text-[13.5px] font-semibold" style={{ background: '#EDF8F2', color: '#329464' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Basıldı</span>
-                          {curStatus === 'printed' && <button onClick={() => advanceOrder([cur], 'printing')} className="h-11 px-3 rounded-xl flex items-center gap-1 text-[12.5px] font-semibold" style={{ background: '#F7F2F1', color: '#8A7E7E' }}>{undoIcon}Geri Al</button>}
-                        </div>
-                      )}
-                      {(curStatus === 'printing' || curStatus === 'printed') && (
-                        <button onClick={() => setConfirmReprint(cur.photo_url)} className="w-full h-9 mt-2 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}>↻ Yeniden Yazdır</button>
-                      )}
+                      {(curStatus === 'printed' || curStatus === 'delivered') && (<>
+                        <div className="w-full h-11 rounded-xl flex items-center justify-center gap-1.5 text-[13.5px] font-semibold" style={{ background: '#EDF8F2', color: '#329464' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Bu fotoğraf basıldı</div>
+                        {curStatus === 'printed' && (
+                          <div className="mt-1.5">
+                            <button onClick={() => setMoreOpen((v) => !v)} className="w-full flex items-center justify-center gap-1 py-1.5 text-[12px] font-semibold" style={{ color: '#9A928E' }}>Diğer işlemler<svg className="w-3.5 h-3.5 transition-transform" style={{ transform: moreOpen ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg></button>
+                            {moreOpen && (
+                              <div className="flex gap-2 mt-1">
+                                <button onClick={() => setConfirmReprint(cur.photo_url)} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}>↻ Yeniden yazdır</button>
+                                <button onClick={() => advanceOrder([cur], 'printing')} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1" style={{ background: '#F7F2F1', color: '#8A7E7E' }}>{undoIcon}Basılmadı</button>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </>)}
                     </div>
 
-                    {/* Teslim — TÜM fotoğraflar basılınca aktif (toplam tahsilat) */}
+                    {/* Sipariş durumu — TÜM fotoğraflar basılınca teslim (ödeme yukarıda ayrı) */}
                     {allPrinted && !allDelivered && (
-                      <button onClick={() => advanceOrder(rows, 'delivered')} className="w-full h-12 mt-3 rounded-xl text-[14px] font-bold flex items-center justify-center gap-2 transition-colors hover:bg-rose-50" style={{ background: '#FFF6F5', border: '1.5px solid #E3A9A6', color: '#C25760' }}>🎁 Teslim Edildi{priced ? ` · ${totP}₺ Alındı` : ''}</button>
+                      <button onClick={() => advanceOrder(rows, 'delivered')} className="w-full h-12 mt-3 rounded-xl text-[14.5px] font-bold flex items-center justify-center gap-2 transition-colors hover:bg-rose-50" style={{ background: '#FFF6F5', border: '1.5px solid #E3A9A6', color: '#C25760' }}>🎁 Teslim Edildi</button>
                     )}
                     {allDelivered && (
                       <div className="text-center mt-3 py-2.5 rounded-xl" style={{ background: '#F2F8F4', border: '1px solid #D8EBDF' }}>
-                        <p className="text-[13.5px] font-bold" style={{ color: '#329464' }}>✓ Teslim edildi{priced ? ` · ${totP}₺ Alındı` : ''}</p>
+                        <p className="text-[13.5px] font-bold" style={{ color: '#329464' }}>✓ Teslim edildi</p>
                         <button onClick={() => advanceOrder(rows, 'printed')} className="inline-flex items-center gap-1 text-[12px] font-semibold mt-1" style={{ color: '#8A827E' }}>{undoIcon}Geri Al</button>
                       </div>
                     )}
@@ -911,10 +954,10 @@ export default function FotografciPanel() {
 
           {/* Yeni sipariş bildirimi — sol alt toast */}
           {toast && (
-            <div className="fixed z-[75] bottom-6 left-6 flex items-center gap-3 pl-3.5 pr-4 py-3 rounded-2xl" style={{ background: '#fff', border: '1px solid #ECE5E2', boxShadow: '0 14px 40px rgba(60,40,35,0.14)', animation: 'slideInLeft 0.25s ease' }}>
-              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[15px]" style={{ background: toast.couple ? '#FBEFCB' : '#FCF0EF', color: toast.couple ? '#C08A1E' : '#C95E64' }}>{toast.couple ? '⭐' : '🔔'}</span>
+            <div className="fixed z-[75] bottom-6 left-6 flex items-center gap-3 pl-3.5 pr-4 py-3 rounded-2xl" style={{ background: '#fff', border: `1px solid ${toast.ok ? '#CDE9D8' : '#ECE5E2'}`, boxShadow: '0 14px 40px rgba(60,40,35,0.14)', animation: 'slideInLeft 0.25s ease' }}>
+              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[15px]" style={{ background: toast.ok ? '#EDF8F2' : toast.couple ? '#FBEFCB' : '#FCF0EF', color: toast.ok ? '#329464' : toast.couple ? '#C08A1E' : '#C95E64' }}>{toast.ok ? '✓' : toast.couple ? '⭐' : '🔔'}</span>
               <div>
-                <p className="text-[13px] font-bold" style={{ color: '#2E2927' }}>Yeni baskı isteği</p>
+                <p className="text-[13px] font-bold" style={{ color: '#2E2927' }}>{toast.title || 'Yeni baskı isteği'}</p>
                 <p className="text-[12px]" style={{ color: '#89817D' }}>{toast.name} · {toast.info}</p>
               </div>
               <button onClick={() => setToast(null)} className="ml-1 text-[16px] leading-none" style={{ color: '#C7C0BD' }}>×</button>

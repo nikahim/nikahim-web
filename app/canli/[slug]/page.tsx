@@ -21,6 +21,9 @@ const optimizeImg = (url: string | null | undefined, width: number, quality = 80
   return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + `?width=${width}&quality=${quality}`;
 };
 
+// Sipariş kodu — fotoğrafçı panelindekiyle AYNI algoritma (davetli device_id bazlı)
+const orderCodeFrom = (base: string) => { let h = 0; for (let i = 0; i < base.length; i++) h = (h * 31 + base.charCodeAt(i)) >>> 0; return 'NK-' + h.toString(36).toUpperCase().padStart(5, '0').slice(0, 5); };
+
 // Müzik dosyaları mapping
 const MUSIC_FILES: Record<string, string> = {
   canon_in_d: 'canon_in_d.mp3',
@@ -96,9 +99,25 @@ interface GoldOption {
 }
 
 // Hafif sıkıştırma (baskı dostu): çözünürlük korunur, sadece 4000px üstü kısılır + JPEG q0.9.
+// Her formatı (HEIC/HEIF dahil) güvenli şekilde JPEG'e çevir + 4000px'e küçült.
+// Amaç: kullanıcı ne yüklerse yüklesin sistem kabul etsin, gösterebilsin, basabilsin.
 async function compressImage(file: File): Promise<Blob> {
+  const isHeic = /heic|heif/i.test(file.type) || /\.(heic|heif)$/i.test(file.name);
+  const convertHeic = async (): Promise<Blob> => {
+    const heic2any = (await import('heic2any')).default as (o: { blob: Blob; toType?: string; quality?: number }) => Promise<Blob | Blob[]>;
+    const out = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.9 });
+    return Array.isArray(out) ? out[0] : out;
+  };
   try {
-    const bitmap = await createImageBitmap(file);
+    let src: Blob = file;
+    let bitmap: ImageBitmap;
+    try {
+      bitmap = await createImageBitmap(src);
+    } catch {
+      // createImageBitmap çözemedi (çoğunlukla HEIC) → önce JPEG'e çevir, tekrar dene
+      src = await convertHeic();
+      bitmap = await createImageBitmap(src);
+    }
     const maxDim = 4000;
     let width = bitmap.width, height = bitmap.height;
     if (Math.max(width, height) > maxDim) {
@@ -108,11 +127,13 @@ async function compressImage(file: File): Promise<Blob> {
     const canvas = document.createElement('canvas');
     canvas.width = width; canvas.height = height;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return file;
+    if (!ctx) return src;
     ctx.drawImage(bitmap, 0, 0, width, height);
     const blob: Blob | null = await new Promise((res) => canvas.toBlob(res, 'image/jpeg', 0.9));
-    return blob || file;
+    return blob || src;
   } catch {
+    // Son çare: HEIC ise tek başına çevirmeyi dene; olmazsa orijinali gönder
+    if (isHeic) { try { return await convertHeic(); } catch {} }
     return file;
   }
 }
@@ -626,8 +647,14 @@ export default function WatchPage() {
             <div className="p-9 text-center">
               <img src="/baski-onay.png" alt="" className="w-44 h-44 mx-auto mb-3 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h3 className="text-lg font-bold text-gray-900 mb-1.5">Baskı İsteğiniz İletildi</h3>
-              <p className="text-[13px] text-gray-500 mb-6 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
-              <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="text-white px-8 py-3 rounded-xl font-semibold" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
+              <p className="text-[13px] text-gray-500 mb-4 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
+              {/* Sipariş kodu — fotoğrafçıya söyleyerek baskını bulabilir */}
+              <div className="inline-flex flex-col items-center gap-0.5 px-6 py-3 rounded-2xl mb-6" style={{ background: '#FCF0EF', border: '1px solid rgba(200,104,110,0.18)' }}>
+                <span className="text-[11px] font-semibold" style={{ color: '#9A6C6E' }}>Sipariş Kodunuz</span>
+                <span className="text-[22px] font-extrabold tracking-wider" style={{ color: '#C8686E' }}>{orderCodeFrom(getDeviceId())}</span>
+                <span className="text-[10.5px]" style={{ color: '#B39197' }}>Fotoğrafçı sizi bu kodla bulabilir</span>
+              </div>
+              <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="block w-full text-white py-3 rounded-xl font-semibold" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
             </div>
           ) : (
             <div className="p-6">
