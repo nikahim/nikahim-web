@@ -505,7 +505,7 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <img src="/foto-ekle-4.png" alt="" className="w-16 h-16 mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+          <img src="/foto-ekle-8.png" alt="" className="w-16 h-16 mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
           <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
           <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
             <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
@@ -645,17 +645,17 @@ export default function WatchPage() {
       <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
-            <div className="px-9 pt-2 pb-8 text-center">
-              <img src="/baski-onay.png" alt="" className="w-60 h-60 mx-auto -mb-7 -translate-x-2 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-              <h3 className="text-lg font-bold text-gray-900 mb-2">Baskı İsteğiniz İletildi</h3>
-              <p className="text-[13px] text-gray-500 mb-2.5 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
+            <div className="px-9 pt-3 pb-10 text-center">
+              <img src="/baski-onay.png" alt="" className="w-60 h-60 mx-auto -mb-6 -translate-x-2 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+              <h3 className="text-lg font-bold text-gray-900 mb-2.5">Baskı İsteğiniz İletildi</h3>
+              <p className="text-[13px] text-gray-500 mb-5 leading-relaxed">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
               {/* Sipariş kodu — fotoğrafçıya söyleyerek baskını bulabilir */}
-              <div className="inline-flex flex-col items-center gap-0.5 px-6 py-2.5 rounded-2xl mb-3" style={{ background: '#FCF0EF', border: '1px solid rgba(200,104,110,0.18)' }}>
+              <div className="inline-flex flex-col items-center gap-0.5 px-6 py-3 rounded-2xl" style={{ background: '#FCF0EF', border: '1px solid rgba(200,104,110,0.18)' }}>
                 <span className="text-[11px] font-semibold" style={{ color: '#9A6C6E' }}>Sipariş Kodunuz</span>
                 <span className="text-[20px] font-extrabold tracking-wider" style={{ color: '#C8686E' }}>{orderCodeFrom(getDeviceId())}</span>
                 <span className="text-[10.5px]" style={{ color: '#B39197' }}>Fotoğrafçı sizi bu kodla bulabilir</span>
               </div>
-              <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="block w-full text-white py-3 rounded-xl font-semibold" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Tamam</button>
+              <button onClick={() => { setPrintPhoto(null); setPrintSuccess(false); }} className="block w-full text-white py-3.5 mt-8 rounded-xl font-semibold text-[15px] transition-all duration-150 hover:brightness-[1.04] active:scale-[0.97] active:brightness-95" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 12px 26px rgba(200,104,110,0.30), inset 0 1px 0 rgba(255,255,255,0.28)' }}>Tamam</button>
             </div>
           ) : (
             <div className="p-6">
@@ -838,7 +838,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/foto-ekle-4.png" alt="" className="w-14 h-14 object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                  <img src="/foto-ekle-8.png" alt="" className="w-14 h-14 object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
