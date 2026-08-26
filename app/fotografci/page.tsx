@@ -957,12 +957,11 @@ export default function FotografciPanel() {
                       <button onClick={() => advanceOrder(rows, 'delivered')} className="w-full h-12 mt-3 rounded-xl text-[14.5px] font-bold flex items-center justify-center gap-2 transition-colors hover:bg-rose-50" style={{ background: '#FFF6F5', border: '1.5px solid #E3A9A6', color: '#C25760' }}>🎁 Teslim Edildi</button>
                     )}
                     {allDelivered && (
-                      <div className="mt-3 py-3 rounded-xl text-center" style={{ background: '#F2F8F4', border: '1px solid #D8EBDF' }}>
-                        <p className="text-[14px] font-bold" style={{ color: '#329464' }}>✓ Teslim edildi</p>
-                        <button onClick={() => setMoreOpen((v) => !v)} className="inline-flex items-center gap-1 text-[11.5px] font-semibold mt-1.5" style={{ color: '#9AA79E' }}>⋯ Diğer işlemler</button>
-                        {moreOpen && (
-                          <button onClick={() => advanceOrder(rows, 'printed')} className="mx-auto mt-2 inline-flex items-center gap-1 px-3 h-8 rounded-lg text-[12px] font-semibold" style={{ background: '#fff', border: '1px solid #D8EBDF', color: '#8A827E' }}>{undoIcon}Teslimi geri al</button>
-                        )}
+                      <div className="mt-3">
+                        <div className="py-3 rounded-xl text-center mb-2" style={{ background: '#F2F8F4', border: '1px solid #D8EBDF' }}>
+                          <p className="text-[14px] font-bold" style={{ color: '#329464' }}>✓ Teslim edildi</p>
+                        </div>
+                        <button onClick={() => advanceOrder(rows, 'printed')} className="w-full h-10 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5 transition-transform active:scale-[0.98] hover:brightness-[0.97]" style={{ background: '#F4F1EF', color: '#8A827E' }}>{undoIcon}Teslimi Geri Al</button>
                       </div>
                     )}
                   </div>

@@ -645,8 +645,8 @@ export default function WatchPage() {
       <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
-            <div className="px-9 pt-4 pb-8 text-center">
-              <img src="/baski-onay.png" alt="" className="w-60 h-60 mx-auto -mb-5 -translate-x-2 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            <div className="px-9 pt-2 pb-8 text-center">
+              <img src="/baski-onay.png" alt="" className="w-60 h-60 mx-auto -mb-7 -translate-x-2 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h3 className="text-lg font-bold text-gray-900 mb-2">Baskı İsteğiniz İletildi</h3>
               <p className="text-[13px] text-gray-500 mb-2.5 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
               {/* Sipariş kodu — fotoğrafçıya söyleyerek baskını bulabilir */}
@@ -747,17 +747,15 @@ export default function WatchPage() {
   const renderWelcomeChooser = (ready: boolean, onJoin: () => void, onPhoto: () => void) => {
     const isDugun = event?.event_type === 'dugun';
     const st = { stroke: '#C84452' as const };
-    const icBroadcast = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
+    const icBroadcast = <svg className="w-7 h-7" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
     // Tebrik Et — kalp değil, tebrik mektubu/zarf (içinde kalp)
-    const icLetter = <svg className="w-6 h-6" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.3 7.2l8.7 6 8.7-6" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 14.6c-1-.8-2-1.5-2-2.4 0-.5.45-.95 1-.95.4 0 .77.24.95.6l.05.1.05-.1c.18-.36.55-.6.95-.6.55 0 1 .45 1 .95 0 .9-1 1.6-2 2.4z" /></svg>;
-    const icGold = <span className="w-[26px] h-[26px] rounded-full inline-flex items-center justify-center text-[15px] font-semibold" style={{ border: '1.7px solid #C84452', color: '#C84452', lineHeight: 1 }}>₺</span>;
-    const icUpload = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 7.5L12 3m0 0L7.5 7.5M12 3v13.5" /></svg>;
-    const icUsers = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
+    const icLetter = <svg className="w-7 h-7" fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.3 7.2l8.7 6 8.7-6" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 14.6c-1-.8-2-1.5-2-2.4 0-.5.45-.95 1-.95.4 0 .77.24.95.6l.05.1.05-.1c.18-.36.55-.6.95-.6.55 0 1 .45 1 .95 0 .9-1 1.6-2 2.4z" /></svg>;
+    const icUsers = <svg className="w-7 h-7" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
     // Büyük ikonlar — gerçek görseller (Nikaha Katıl: yayın ekranı · Fotoğraf Paylaş: foto yığını) — %20 büyük
     const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[100px] h-[100px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
     const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[100px] h-[100px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
     // Baskı Al mini ikonu (yazıcı — tam çizim)
-    const icPrinter = <svg className="w-6 h-6" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>;
+    const icPrinter = <svg className="w-7 h-7" fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>;
 
     // İki kart EŞİT ağırlıkta (biri öne çıkmaz), aynı stil
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
@@ -773,14 +771,13 @@ export default function WatchPage() {
         }}
       >
         <span className="inline-flex items-center px-3.5 py-1.5 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
-        <span className="mt-[22px] flex items-center justify-center h-[88px]">{big}</span>
-        <span className="block font-semibold text-[18px] leading-tight mt-[14px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
-        <span className="flex gap-1.5 w-full mt-[26px]">
+        <span className="mt-[8px] flex items-center justify-center h-[86px]">{big}</span>
+        <span className="block font-semibold text-[18px] leading-tight mt-[6px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
+        <span className="flex gap-2 w-full mt-[22px]">
           {feats.map((f, i) => (
-            <span key={i} className="flex-1 rounded-[11px] flex flex-col items-center justify-start pt-2.5 pb-2 px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
+            <span key={i} className="flex-1 rounded-[13px] flex flex-col items-center justify-center py-3 px-1" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
               {f.icon}
-              {/* etiket 2 satırlık sabit alan → tüm ikonlar aynı hizada */}
-              <span className="text-[11px] leading-[12px] text-center mt-1.5 h-[24px] flex items-start justify-center" style={{ color: '#3F3A3B' }}>{f.label}</span>
+              <span className="text-[12.5px] font-medium leading-tight text-center mt-2" style={{ color: '#3F3A3B' }}>{f.label}</span>
             </span>
           ))}
         </span>
@@ -794,8 +791,8 @@ export default function WatchPage() {
           {ready && <svg className="w-6 h-6 animate-bounce" style={{ color: '#E95A68' }} fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>}
         </div>
         <div className="grid grid-cols-2 gap-3 items-stretch">
-          {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icLetter, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
-          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
+          {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icLetter, label: 'Tebrik Et' }], onJoin)}
+          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icUsers, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
         </div>
         {showNameNudge && (
           <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }} onClick={() => setShowNameNudge(false)}>
