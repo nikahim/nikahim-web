@@ -919,12 +919,12 @@ export default function FotografciPanel() {
                       <p className="text-[11px] font-semibold mb-2 tracking-wide" style={{ color: '#A79F9B' }}>SEÇİLİ FOTOĞRAF{rows.length > 1 ? ` · ${ci + 1}/${rows.length}` : ''}</p>
                       {curStatus === 'pending' && (
                         <div className="flex gap-2">
-                          <button onClick={() => { printPhoto(cur.photo_url); advanceOrder([cur], 'printing'); if (ci < rows.length - 1) setThumbIdx(ci + 1); }} className="flex-1 h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#D45F65', boxShadow: '0 8px 18px rgba(194,85,91,0.16)' }}>🖨 Yazdır</button>
-                          <button onClick={() => downloadPhoto(cur.photo_url, `${selOrder.name}_${cur.size_label || 'foto'}`)} title="İndir — kendi baskı programında aç" className="h-11 px-4 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>İndir</button>
+                          <button onClick={() => { printPhoto(cur.photo_url); advanceOrder([cur], 'printing'); if (ci < rows.length - 1) setThumbIdx(ci + 1); }} className="flex-1 h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2 transition-transform active:scale-[0.98] hover:brightness-95" style={{ background: '#D45F65', boxShadow: '0 8px 18px rgba(194,85,91,0.16)' }}>🖨 Yazdır</button>
+                          <button onClick={() => downloadPhoto(cur.photo_url, `${selOrder.name}_${cur.size_label || 'foto'}`)} title="İndir — kendi baskı programında aç" className="h-11 px-4 rounded-xl text-[13px] font-semibold flex items-center justify-center gap-1.5 transition-transform active:scale-[0.98]" style={{ background: '#F7F2F1', color: '#6B5A5A' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>İndir</button>
                         </div>
                       )}
                       {curStatus === 'printing' && (
-                        <button onClick={() => advanceOrder([cur], 'printed')} className="w-full h-11 rounded-xl text-white text-[14px] font-semibold flex items-center justify-center gap-2" style={{ background: '#329464', boxShadow: '0 8px 18px rgba(50,148,100,0.16)' }}>✓ Baskı Tamamlandı</button>
+                        <button onClick={() => advanceOrder([cur], 'printed')} className="w-full h-11 rounded-xl text-white text-[14px] font-bold flex items-center justify-center transition-transform active:scale-[0.98] hover:brightness-95" style={{ background: '#2E9E68', boxShadow: '0 8px 18px rgba(46,158,104,0.20)' }}>Baskı Tamamlandı</button>
                       )}
                       {(curStatus === 'printed' || curStatus === 'delivered') && (<>
                         <div className="w-full h-11 rounded-xl flex items-center justify-center gap-1.5 text-[13.5px] font-semibold" style={{ background: '#EDF8F2', color: '#329464' }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>Bu fotoğraf basıldı</div>
@@ -942,15 +942,13 @@ export default function FotografciPanel() {
                       </>)}
                     </div>
 
-                    {/* Çoklu baskı — birden fazla fotoğraf varsa toplu işlem */}
-                    {rows.length > 1 && (rows.some((r) => r.status === 'pending') || rows.some((r) => r.status === 'printing')) && (
-                      <div className="flex gap-2 mt-2">
+                    {/* Toplu işlem — SADECE seçili foto basılmadıysa (basılıda gizli) ve >1 foto */}
+                    {(curStatus === 'pending' || curStatus === 'printing') && rows.length > 1 && (
+                      <div className="flex flex-col gap-2 mt-2">
                         {rows.some((r) => r.status === 'pending') && (
-                          <button onClick={() => { const pend = rows.filter((r) => r.status === 'pending'); printPhotos(pend.map((r) => r.photo_url)); advanceOrder(pend, 'printing'); }} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#FBE3E4', color: '#C25760' }}>🖨 Tümünü Yazdır ({rows.filter((r) => r.status === 'pending').length})</button>
+                          <button onClick={() => { const pend = rows.filter((r) => r.status === 'pending'); printPhotos(pend.map((r) => r.photo_url)); advanceOrder(pend, 'printing'); }} className="w-full h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5 transition-transform active:scale-[0.98] hover:brightness-95" style={{ background: '#FBE3E4', color: '#C25760' }}>🖨 Kalan {rows.filter((r) => r.status === 'pending').length} Fotoğrafı Yazdır</button>
                         )}
-                        {rows.some((r) => r.status === 'printing') && (
-                          <button onClick={() => advanceOrder(rows.filter((r) => r.status === 'printing'), 'printed')} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#E4F3EA', color: '#2E7D52' }}>✓ Tümü Basıldı</button>
-                        )}
+                        <button onClick={() => advanceOrder(rows.filter((r) => r.status === 'pending' || r.status === 'printing'), 'printed')} className="w-full h-10 rounded-xl text-[13px] font-semibold flex items-center justify-center transition-transform active:scale-[0.98] hover:bg-emerald-50" style={{ background: '#fff', border: '1.5px solid #A7D8BC', color: '#2E9E68' }}>Tüm Baskılar Tamamlandı</button>
                       </div>
                     )}
 

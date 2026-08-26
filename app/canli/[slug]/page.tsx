@@ -335,6 +335,7 @@ export default function WatchPage() {
   const [confirmDeletePhoto, setConfirmDeletePhoto] = useState<{ id: string; photo_url: string; status: string } | null>(null);
   const [showNameNudge, setShowNameNudge] = useState(false);
   const [menuPhotoId, setMenuPhotoId] = useState<string | null>(null); // Yüklediklerim 3-nokta menüsü
+  const [printSummary, setPrintSummary] = useState<{ count: number; total: number }>({ count: 0, total: 0 }); // baskı sipariş özeti
   // Fotoğraf Paylaş popup'ı açıldığında misafirin kendi yüklemelerini + baskı boylarını getir
   useEffect(() => {
     if (showPhotoUpload) {
@@ -644,8 +645,8 @@ export default function WatchPage() {
       <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)' }}>
         <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, #FFFCF9, #FAF5EE)', boxShadow: '0 25px 80px rgba(0,0,0,0.18)', border: '1px solid rgba(200,104,110,0.12)' }}>
           {printSuccess ? (
-            <div className="px-9 pt-5 pb-8 text-center">
-              <img src="/baski-onay.png" alt="" className="w-60 h-60 mx-auto -mb-1 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+            <div className="px-9 pt-4 pb-8 text-center">
+              <img src="/baski-onay.png" alt="" className="w-60 h-60 mx-auto -mb-5 -translate-x-2 object-contain" loading="eager" onError={(e) => { e.currentTarget.style.display = 'none'; }} />
               <h3 className="text-lg font-bold text-gray-900 mb-2">Baskı İsteğiniz İletildi</h3>
               <p className="text-[13px] text-gray-500 mb-2.5 leading-snug">Fotoğrafçı baskınızı hazırlayacak. Ücreti fotoğrafçıya etkinlik yerinde ödeyeceksiniz.</p>
               {/* Sipariş kodu — fotoğrafçıya söyleyerek baskını bulabilir */}
@@ -747,7 +748,8 @@ export default function WatchPage() {
     const isDugun = event?.event_type === 'dugun';
     const st = { stroke: '#C84452' as const };
     const icBroadcast = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
-    const icHeart = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg>;
+    // Tebrik Et — kalp değil, tebrik mektubu/zarf (içinde kalp)
+    const icLetter = <svg className="w-6 h-6" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.3 7.2l8.7 6 8.7-6" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 14.6c-1-.8-2-1.5-2-2.4 0-.5.45-.95 1-.95.4 0 .77.24.95.6l.05.1.05-.1c.18-.36.55-.6.95-.6.55 0 1 .45 1 .95 0 .9-1 1.6-2 2.4z" /></svg>;
     const icGold = <span className="w-[26px] h-[26px] rounded-full inline-flex items-center justify-center text-[15px] font-semibold" style={{ border: '1.7px solid #C84452', color: '#C84452', lineHeight: 1 }}>₺</span>;
     const icUpload = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 7.5L12 3m0 0L7.5 7.5M12 3v13.5" /></svg>;
     const icUsers = <svg className="w-6 h-6" fill="none" strokeWidth="1.8" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
@@ -761,7 +763,7 @@ export default function WatchPage() {
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="relative rounded-[22px] px-2.5 pt-3 pb-2.5 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
+        className="relative rounded-[22px] px-2.5 pt-4 pb-4 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
         style={{
           opacity: ready ? 1 : 0.5,
           filter: ready ? 'none' : 'grayscale(0.5) blur(0.4px)',
@@ -771,9 +773,9 @@ export default function WatchPage() {
         }}
       >
         <span className="inline-flex items-center px-3.5 py-1.5 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
-        <span className="mt-0.5 flex items-center justify-center h-[90px]">{big}</span>
-        <span className="block font-semibold text-[18px] leading-tight mb-2" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
-        <span className="flex gap-1.5 w-full mt-auto">
+        <span className="mt-[22px] flex items-center justify-center h-[88px]">{big}</span>
+        <span className="block font-semibold text-[18px] leading-tight mt-[14px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
+        <span className="flex gap-1.5 w-full mt-[26px]">
           {feats.map((f, i) => (
             <span key={i} className="flex-1 rounded-[11px] flex flex-col items-center justify-start pt-2.5 pb-2 px-0.5" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
               {f.icon}
@@ -792,7 +794,7 @@ export default function WatchPage() {
           {ready && <svg className="w-6 h-6 animate-bounce" style={{ color: '#E95A68' }} fill="none" stroke="currentColor" strokeWidth="2.3" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>}
         </div>
         <div className="grid grid-cols-2 gap-3 items-stretch">
-          {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icHeart, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
+          {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı İzle' }, { icon: icLetter, label: 'Tebrik Et' }, { icon: icGold, label: 'Altın Tak' }], onJoin)}
           {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Paylaş', bigImage, [{ icon: icUpload, label: 'Yükle' }, { icon: icUsers, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
         </div>
         {showNameNudge && (
@@ -855,6 +857,19 @@ export default function WatchPage() {
                     </button>
                   ))}
                 </div>
+                {/* Sipariş Numaranız — baskı siparişi verildiyse görünür */}
+                {printSummary.count > 0 && (
+                  <div className="mt-2.5 flex items-center justify-between px-3.5 py-2.5 rounded-xl" style={{ background: '#FCF0EF', border: '1px solid rgba(200,104,110,0.16)' }}>
+                    <div className="leading-tight">
+                      <p className="text-[10px] font-semibold" style={{ color: '#9A6C6E' }}>Sipariş Numaranız</p>
+                      <p className="text-[15px] font-extrabold tracking-wide" style={{ color: '#C8686E' }}>{orderCodeFrom(getDeviceId())}</p>
+                    </div>
+                    <div className="text-right leading-tight">
+                      <p className="text-[11px] font-semibold" style={{ color: '#8A7B7D' }}>{printSummary.count} baskı</p>
+                      {printSummary.total > 0 && <p className="text-[13px] font-bold" style={{ color: '#B85258' }}>{printSummary.total}₺</p>}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="p-6 pt-3 flex-1 overflow-y-auto sm:flex-none sm:max-h-[62vh]">
                 {photoTab === 'uploads' ? renderMyUploads() : (
@@ -1233,7 +1248,7 @@ export default function WatchPage() {
     try {
       // Aynı telefon = aynı device_id → kendi yüklemelerini görür (isim aynı olsa bile karışmaz)
       const gpBase = supabase.from('guest_photos').select('id, photo_url, photo_no, status').eq('event_id', event.id).order('photo_no', { ascending: true });
-      const prBase = supabase.from('print_requests').select('photo_url, status').eq('event_id', event.id);
+      const prBase = supabase.from('print_requests').select('photo_url, status, qty, price_tl').eq('event_id', event.id);
       const [{ data: photos }, { data: sizes }, { data: prints }] = await Promise.all([
         devId ? gpBase.eq('device_id', devId) : gpBase.eq('guest_name', name.trim()),
         supabase.from('photo_print_sizes').select('id, size_label, price_tl').eq('event_id', event.id).order('price_tl', { ascending: true }),
@@ -1241,7 +1256,11 @@ export default function WatchPage() {
       ]);
       setGuestOwnPhotos(photos || []);
       setPrintSizes(sizes || []);
-      const prs = prints || [];
+      const prs = (prints || []) as { photo_url: string; status: string; qty?: number; price_tl?: number }[];
+      // Sipariş özeti — kaç baskı + toplam tutar (davetliye gösterilir)
+      const pcount = prs.reduce((a, r) => a + (r.qty || 1), 0);
+      const ptotal = prs.reduce((a, r) => a + (r.qty || 1) * (r.price_tl || 0), 0);
+      setPrintSummary({ count: pcount, total: ptotal });
       setPrintedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url)).map((p) => p.id));
       setPendingIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status !== 'printed')).map((p) => p.id));
       setCompletedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status === 'printed')).map((p) => p.id));
