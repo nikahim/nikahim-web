@@ -3530,7 +3530,7 @@ export default function WatchPage() {
             </div>
 
             {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBF1E8, #F1DED0)', boxShadow: '0 4px 16px rgba(150,110,90,0.10)', border: '1px solid rgba(180,70,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.10)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FEF7F7, #F8E7E7)', boxShadow: '0 4px 16px rgba(200,90,95,0.08)', border: '1px solid rgba(200,80,90,0.13)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(200,90,95,0.08)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -4389,7 +4389,7 @@ export default function WatchPage() {
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Ödeme Yöntemini Seçin</h3>
                 <div className="space-y-2.5 mb-5">
                   {/* Banka / IBAN */}
-                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; setPaymentMethod('iban'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(212,175,55,0.15)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
+                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('iban'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(212,175,55,0.15)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
                     <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.12), rgba(201,161,59,0.06))' }}>
                       <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
                     </div>
@@ -4407,7 +4407,7 @@ export default function WatchPage() {
                   </button>
 
                   {/* QR Kod */}
-                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; setPaymentMethod('qr'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(200,180,140,0.12)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
+                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('qr'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(200,180,140,0.12)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
                     <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
                       <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                     </div>
@@ -4446,7 +4446,11 @@ export default function WatchPage() {
             )}
 
             {/* STEP 2: Transfer details */}
-            {paymentStep === 2 && (
+            {paymentStep === 2 && (() => {
+              const qrKey = selectedGold === 'gram_altin' ? 'gram' : selectedGold === 'ceyrek_altin' ? 'ceyrek' : selectedGold === 'yarim_altin' ? 'yarim' : selectedGold === 'tam_altin' ? 'tam' : selectedGold === 'ata_altin' ? 'ata' : 'ozel';
+              const qrUnavailable = paymentMethod === 'qr' && !event.qr_codes?.[qrKey];
+              const selGold = goldOptions.find((g) => g.id === selectedGold);
+              return (
               <div className="p-6 pt-4">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
 
@@ -4473,8 +4477,8 @@ export default function WatchPage() {
                       <div className={hasBank ? 'border-t pt-2 mt-2' : ''} style={hasBank ? { borderColor: 'rgba(212,175,55,0.08)' } : undefined}>
                         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">IBAN</p>
                         <div className="flex items-center gap-2 mt-1">
-                          <p className="font-mono text-gray-800 text-sm flex-1">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
-                          <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                          <p className="font-mono text-gray-800 text-[13px] flex-1 min-w-0 break-all">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
+                          <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="flex-shrink-0 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
                             Kopyala &rsaquo;
                           </button>
                         </div>
@@ -4518,9 +4522,22 @@ export default function WatchPage() {
                           )}
                         </div>
                       ) : (
-                        <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
-                          <p className="text-sm text-gray-400">Bu hediye için QR kod tanımlanmamış</p>
-                          <button onClick={() => setPaymentMethod('iban')} className="text-xs font-medium mt-2" style={{ color: '#A08530' }}>IBAN ile gönderin →</button>
+                        <div className="rounded-2xl p-5 text-center" style={{ background: 'linear-gradient(180deg, #FFFDF7, #FFF8EC)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 6px 20px rgba(212,175,55,0.08)' }}>
+                          {/* Seçilen altın kartı (ilk sayfadaki gibi) */}
+                          <div className="inline-flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(212,175,55,0.14)' }}>
+                            <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center flex-shrink-0" style={{ boxShadow: '0 2px 8px rgba(184,134,11,0.12)' }}>
+                              <img src={selGold?.id === 'nakit' ? '/tl-icon.png' : selGold?.image} alt="" className="w-8 h-8 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                            </div>
+                            <div className="text-left">
+                              <p className="text-[13px] font-bold text-gray-900 leading-tight">{selGold?.name}</p>
+                              {getSelectedPrice() > 0 && <p className="text-[13px] font-extrabold leading-tight" style={{ color: '#8B6914' }}>{'₺'}{getSelectedPrice().toLocaleString()}</p>}
+                            </div>
+                          </div>
+                          <p className="text-[12.5px] text-gray-500 mt-3 mb-3 leading-relaxed">Bu hediye için QR kod tanımlanmamış. Ödemeyi IBAN ile kolayca gönderebilirsiniz.</p>
+                          <button onClick={() => startTransition(() => setPaymentMethod('iban'))} className="w-full text-white py-3 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-transform active:scale-[0.98] hover:brightness-105" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8912B)', boxShadow: '0 6px 18px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.35)' }}>
+                            IBAN ile Gönder
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                          </button>
                         </div>
                       );
                     })()}
@@ -4547,6 +4564,8 @@ export default function WatchPage() {
                   </div>
                 )}
 
+                {/* QR yoksa geri sayım/onay gösterme (kişi zaten IBAN'a yönlendiriliyor) */}
+                {!qrUnavailable && (<>
                 {/* Waiting indicator section */}
                 <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'linear-gradient(135deg, #FFF9E6, #FFF3CC)', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
                   <div className="flex flex-col items-center text-center mb-2">
@@ -4572,8 +4591,10 @@ export default function WatchPage() {
                 <button onClick={handlePaymentComplete} disabled={confirmTimer > 0} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: confirmTimer > 0 ? '#9ca3af' : 'linear-gradient(135deg, #4ade80, #22c55e)', boxShadow: confirmTimer > 0 ? 'none' : '0 4px 16px rgba(34,197,94,0.25)' }}>
                   {confirmTimer > 0 ? `Ödemeyi Onaylıyorum (${confirmTimer}s)` : '✓ Ödemeyi Onaylıyorum'}
                 </button>
+                </>)}
               </div>
-            )}
+              );
+            })()}
 
             {/* STEP 3: Success */}
             {paymentStep === 3 && (
