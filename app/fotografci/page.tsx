@@ -706,7 +706,7 @@ export default function FotografciPanel() {
                       // Tümü teslim edildiyse (beklemede/baskıda/hazır 0) → Teslim Edildi sekmesi yeşil + tick
                       const allComplete = k === 'delivered' && n > 0 && (statusCounts.pending || 0) === 0 && (statusCounts.printing || 0) === 0 && (statusCounts.printed || 0) === 0;
                       if (allComplete) {
-                        return <span className="inline-flex items-center justify-center gap-1 min-w-[24px] h-6 px-2 rounded-full text-[12px] font-bold" style={{ background: '#E6F6EC', color: '#2E9E68' }}><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>{n}</span>;
+                        return <span className="inline-flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full text-[12px] font-bold" style={{ background: '#2E9E68', color: '#fff' }}>{n}</span>;
                       }
                       return <span className="inline-flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full text-[12px] font-bold" style={{ background: isPend ? '#D65E64' : active ? '#D65E64' : '#F1ECEA', color: isPend || active ? '#fff' : '#8A827E', animation: isPend ? 'pendPulse 1.6s ease-in-out infinite' : 'none' }}>{n}</span>;
                     })()}
