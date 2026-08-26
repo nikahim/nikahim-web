@@ -2,7 +2,7 @@
 
 import { supabase } from '@/lib/supabase';
 import Image from "next/image";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo, startTransition } from "react";
 import { fullFaqCategories } from '@/lib/faq-data';
 
 const optimizeImg = (url: string, width: number, quality = 80): string => {
@@ -498,7 +498,9 @@ export default function FotografciPanel() {
       : rows.some((r) => r.status === 'printing') ? 'printing'
         : rows.every((r) => r.status === 'delivered') ? 'delivered' : 'printed';
   type Order = { key: string; kind: 'couple' | 'guest'; rows: PrintRow[]; name: string; createdAt: string; status: string; couple: boolean };
-  const allOrders: Order[] = (() => {
+  // Ağır gruplama — sadece veriye (prints/couplePrints/selected/labelOf) bağlı; sekme değişince yeniden hesaplanmaz
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const allOrders: Order[] = useMemo<Order[]>(() => {
     const list: Order[] = [];
     const cm: Record<string, PrintRow[]> = {};
     for (const p of couplePrints) { const k = p.order_id || p.id; (cm[k] = cm[k] || []).push(p); }
@@ -511,9 +513,12 @@ export default function FotografciPanel() {
       list.push({ key: `g:${gk}`, kind: 'guest', rows, name: labelOf[gk] || rows[0]?.guest_name || '—', createdAt: first, status: orderStatusOf(rows), couple: false });
     }
     return list;
-  })();
-  const statusCounts: Record<string, number> = { all: allOrders.length, pending: 0, printing: 0, printed: 0, delivered: 0 };
-  for (const o of allOrders) statusCounts[o.status] = (statusCounts[o.status] || 0) + 1;
+  }, [couplePrints, prints, selected, labelOf]);
+  const statusCounts = useMemo<Record<string, number>>(() => {
+    const c: Record<string, number> = { all: allOrders.length, pending: 0, printing: 0, printed: 0, delivered: 0 };
+    for (const o of allOrders) c[o.status] = (c[o.status] || 0) + 1;
+    return c;
+  }, [allOrders]);
   const oQty = (o: Order) => o.rows.reduce((a, r) => a + r.qty, 0);
   const oPrice = (o: Order) => o.rows.reduce((a, r) => a + (r.price_tl || 0) * r.qty, 0);
   // Tutarlı sipariş kodu — davetli(device_id)/çift(order_id) bazlı; panel + davetli tarafında AYNI üretilir
@@ -698,7 +703,7 @@ export default function FotografciPanel() {
               {STATUS_TABS.map(({ k, label }) => {
                 const active = statusTab === k;
                 return (
-                  <button key={k} onClick={() => { setStatusTab(k); setSelKey(null); }} className="h-11 rounded-xl flex items-center justify-center gap-2 text-[14px] font-medium transition-colors" style={{ background: active ? '#FCF0EF' : 'transparent', color: active ? '#C95E64' : '#675F5B', fontWeight: active ? 600 : 500 }}>
+                  <button key={k} onClick={() => startTransition(() => { setStatusTab(k); setSelKey(null); })} className="h-11 rounded-xl flex items-center justify-center gap-2 text-[14px] font-medium transition-colors" style={{ background: active ? '#FCF0EF' : 'transparent', color: active ? '#C95E64' : '#675F5B', fontWeight: active ? 600 : 500 }}>
                     {label}
                     {(() => {
                       const n = statusCounts[k] || 0;
@@ -762,7 +767,7 @@ export default function FotografciPanel() {
                   const meta = STATUS_META[o.status];
                   const flash = flashKey === o.key;
                   return (
-                    <button key={o.key} onClick={() => { setSelKey(o.key); setThumbIdx(0); }} className="w-full text-left flex items-center gap-3 px-3 py-3 transition-colors" style={{ background: active ? '#FCF0EF' : o.couple ? '#FFFAEE' : 'transparent', borderBottom: '1px solid #F1ECEA', boxShadow: active ? 'inset 3px 0 #D2686D' : 'none', animation: flash ? 'flashRing 1.3s ease 2' : 'none' }}>
+                    <button key={o.key} onClick={() => startTransition(() => { setSelKey(o.key); setThumbIdx(0); })} className="w-full text-left flex items-center gap-3 px-3 py-3 transition-colors" style={{ background: active ? '#FCF0EF' : o.couple ? '#FFFAEE' : 'transparent', borderBottom: '1px solid #F1ECEA', boxShadow: active ? 'inset 3px 0 #D2686D' : 'none', animation: flash ? 'flashRing 1.3s ease 2' : 'none' }}>
                       <span className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-[14px] font-bold tracking-tight" style={{ background: o.couple ? '#FBEFCB' : '#F3DFDC', color: o.couple ? '#C08A1E' : '#B96165' }}>
                         {o.couple ? '⭐' : initials(o.name)}
                       </span>
