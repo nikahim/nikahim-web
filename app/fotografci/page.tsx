@@ -10,6 +10,32 @@ const optimizeImg = (url: string, width: number, quality = 80): string => {
   return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + `?width=${width}&quality=${quality}`;
 };
 
+// Büyük fotoğraf — skeleton/"yükleniyor" + transform hatası olursa ham URL'e düşer
+function PhotoView({ url, onClick }: { url: string; onClick?: () => void }) {
+  const [loaded, setLoaded] = useState(false);
+  const [fb, setFb] = useState(false);
+  useEffect(() => { setLoaded(false); setFb(false); }, [url]);
+  return (
+    <div className="relative w-full flex items-center justify-center" style={{ minHeight: 320 }}>
+      {!loaded && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2.5" style={{ background: '#F4F1EF' }}>
+          <span className="w-7 h-7 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(200,104,110,0.22)', borderTopColor: '#C8686E' }} />
+          <span className="text-[12px]" style={{ color: '#A79F9B' }}>Fotoğraf yükleniyor…</span>
+        </div>
+      )}
+      <img
+        src={fb ? url : optimizeImg(url, 1200)}
+        alt=""
+        onClick={onClick}
+        onLoad={() => setLoaded(true)}
+        onError={() => { if (!fb) setFb(true); else setLoaded(true); }}
+        className="w-full object-contain cursor-zoom-in transition-opacity duration-200"
+        style={{ maxHeight: 460, opacity: loaded ? 1 : 0 }}
+      />
+    </div>
+  );
+}
+
 interface EventRow {
   id: string;
   user_id: string | null;
@@ -260,14 +286,18 @@ export default function FotografciPanel() {
     return () => { supabase.removeChannel(ch); clearInterval(poll); };
   }, [step, selected, loadDashboard]);
 
-  // Sayfa yenilenince oturumu geri yükle (tekrar kod sorma)
+  // Oturum davranışı: SADECE yenileme (reload) / geri-ileri'de otomatik geri yükle.
+  // Linke YENİDEN girişte (fresh navigate) oturumu temizle → normal giriş + kod ekranı (başka düğüne girebilsin).
   useEffect(() => {
     try {
+      const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming | undefined;
+      const navType = navEntry?.type; // 'reload' | 'navigate' | 'back_forward'
       const raw = sessionStorage.getItem('nkh_photog_panel');
-      if (raw) {
+      if (raw && (navType === 'reload' || navType === 'back_forward')) {
         const ev = JSON.parse(raw) as EventRow;
-        if (ev?.id) { setSelected(ev); setStep('panel'); loadDashboard(ev.id, false, true); }
+        if (ev?.id) { setSelected(ev); setStep('panel'); loadDashboard(ev.id, false, true); return; }
       }
+      if (navType === 'navigate') sessionStorage.removeItem('nkh_photog_panel'); // yeni giriş → login göster
     } catch {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -335,11 +365,31 @@ export default function FotografciPanel() {
     w.document.close();
   };
 
+  // Kalıcı AudioContext — realtime callback'te yeni context "suspended" başlar (ses çıkmaz).
+  // Bir kez kullanıcı etkileşiminde oluşturulup resume edilir, sonra yeniden kullanılır.
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const unlockAudio = () => {
+    try {
+      const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!audioCtxRef.current) audioCtxRef.current = new AC();
+      if (audioCtxRef.current.state === 'suspended') audioCtxRef.current.resume();
+    } catch { /* yok say */ }
+  };
+  // İlk kullanıcı etkileşiminde ses kilidini aç (tarayıcı autoplay politikası)
+  useEffect(() => {
+    const h = () => unlockAudio();
+    window.addEventListener('pointerdown', h);
+    window.addEventListener('keydown', h);
+    return () => { window.removeEventListener('pointerdown', h); window.removeEventListener('keydown', h); };
+  }, []);
+
   // Yeni sipariş "ding" sesi — Web Audio ile iki notalı, dosya gerektirmez
   const playDing = () => {
     try {
       const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const ctx = new AC();
+      if (!audioCtxRef.current) audioCtxRef.current = new AC();
+      const ctx = audioCtxRef.current;
+      if (ctx.state === 'suspended') ctx.resume();
       const note = (freq: number, start: number, dur: number) => {
         const o = ctx.createOscillator(); const g = ctx.createGain();
         o.connect(g); g.connect(ctx.destination); o.type = 'sine'; o.frequency.value = freq;
@@ -485,7 +535,7 @@ export default function FotografciPanel() {
 
   return (
     <main className="min-h-screen" style={{ background: 'radial-gradient(circle at 50% 30%, #FFFAF8 0%, #FBF4F2 55%, #F8EEEC 100%)' }}>
-      <style>{`@keyframes slideInLeft{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}@keyframes flashRing{0%,100%{box-shadow:0 0 0 0 rgba(210,104,109,0)}30%{box-shadow:0 0 0 2px rgba(210,104,109,0.9)}}`}</style>
+      <style>{`@keyframes slideInLeft{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}@keyframes flashRing{0%,100%{box-shadow:0 0 0 0 rgba(210,104,109,0)}30%{box-shadow:0 0 0 2px rgba(210,104,109,0.9)}}@keyframes pendPulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(214,94,100,0.45)}50%{transform:scale(1.12);box-shadow:0 0 0 4px rgba(214,94,100,0)}}`}</style>
       {/* ================= GİRİŞ ================= */}
       {step === 'login' && (
         <div className="min-h-screen flex items-center justify-center p-4">
@@ -612,7 +662,11 @@ export default function FotografciPanel() {
                 return (
                   <button key={k} onClick={() => { setStatusTab(k); setSelKey(null); }} className="h-11 rounded-xl flex items-center justify-center gap-2 text-[14px] font-medium transition-colors" style={{ background: active ? '#FCF0EF' : 'transparent', color: active ? '#C95E64' : '#675F5B', fontWeight: active ? 600 : 500 }}>
                     {label}
-                    <span className="inline-flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full text-[12px] font-semibold" style={{ background: active ? '#D65E64' : '#F1ECEA', color: active ? '#fff' : '#8A827E' }}>{statusCounts[k] || 0}</span>
+                    {(() => {
+                      const n = statusCounts[k] || 0;
+                      const isPend = k === 'pending' && n > 0; // beklemede sayısı her zaman kırmızı + nabız
+                      return <span className="inline-flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full text-[12px] font-bold" style={{ background: isPend ? '#D65E64' : active ? '#D65E64' : '#F1ECEA', color: isPend || active ? '#fff' : '#8A827E', animation: isPend ? 'pendPulse 1.6s ease-in-out infinite' : 'none' }}>{n}</span>;
+                    })()}
                   </button>
                 );
               })}
@@ -678,7 +732,7 @@ export default function FotografciPanel() {
                           <span className="text-[11.5px] truncate" style={{ color: '#89817D' }}>{o.couple ? 'Düğün Çifti · ' : ''}{oPrice(o) > 0 ? `${oPrice(o)}₺` : (o.rows.length + ' kare')}</span>
                           <span className="flex items-center gap-1.5 flex-shrink-0">
                             <span className="inline-flex items-center justify-center min-w-[26px] h-[20px] px-1.5 rounded-md text-[11.5px] font-bold" style={{ background: '#FCF0EF', color: '#C95E64' }}>×{totQ}</span>
-                            <span className="w-2 h-2 rounded-full" style={{ background: meta.color }} />
+                            <span title={meta.label} className="inline-flex items-center gap-1 px-1.5 h-[18px] rounded-full text-[10px] font-semibold" style={{ background: meta.soft, color: meta.color }}><span className="w-1.5 h-1.5 rounded-full" style={{ background: meta.color }} />{meta.label}</span>
                           </span>
                         </span>
                       </span>
@@ -735,10 +789,8 @@ export default function FotografciPanel() {
 
                       {/* Büyük seçili fotoğraf — sağ üstte 3-nokta menü (İndir / Tam ekran / Yeniden yazdır) */}
                       <div className="relative w-full rounded-xl overflow-hidden flex items-center justify-center" style={{ background: '#F6F4F3', minHeight: 320 }}>
-                        <button onClick={() => setLightbox(cur.photo_url)} className="w-full flex items-center justify-center" style={{ maxHeight: 460 }}>
-                          <img src={optimizeImg(cur.photo_url, 1200)} alt="" className="w-full object-contain" style={{ maxHeight: 460 }} onError={(e) => { const t = e.currentTarget as HTMLImageElement; if (!t.dataset.fb) { t.dataset.fb = '1'; t.src = cur.photo_url; } }} />
-                        </button>
-                        <div className="absolute top-2 right-2">
+                        <PhotoView key={cur.id} url={cur.photo_url} onClick={() => setLightbox(cur.photo_url)} />
+                        <div className="absolute top-2 right-2 z-10">
                           <button onClick={(e) => { e.stopPropagation(); setPhotoMenuOpen((v) => !v); }} className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: 'rgba(20,12,14,0.5)', color: '#fff' }}>
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.6" /><circle cx="12" cy="12" r="1.6" /><circle cx="12" cy="19" r="1.6" /></svg>
                           </button>
@@ -776,7 +828,7 @@ export default function FotografciPanel() {
                         {([
                           { lbl: 'Beklemede', d: 'M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z' },
                           { lbl: 'Baskıda', d: 'M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2M6 14h12v7H6z' },
-                          { lbl: 'Tamamladı', d: 'M5 13l4 4L19 7' },
+                          { lbl: 'Hazır', d: 'M5 13l4 4L19 7' },
                           { lbl: 'Teslim', d: 'M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zm0 0h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
                         ] as const).map((s, i) => {
                           const done = i < stepIdx; const active = i === stepIdx;
@@ -876,9 +928,12 @@ export default function FotografciPanel() {
                       <button onClick={() => advanceOrder(rows, 'delivered')} className="w-full h-12 mt-3 rounded-xl text-[14.5px] font-bold flex items-center justify-center gap-2 transition-colors hover:bg-rose-50" style={{ background: '#FFF6F5', border: '1.5px solid #E3A9A6', color: '#C25760' }}>🎁 Teslim Edildi</button>
                     )}
                     {allDelivered && (
-                      <div className="text-center mt-3 py-2.5 rounded-xl" style={{ background: '#F2F8F4', border: '1px solid #D8EBDF' }}>
-                        <p className="text-[13.5px] font-bold" style={{ color: '#329464' }}>✓ Teslim edildi</p>
-                        <button onClick={() => advanceOrder(rows, 'printed')} className="inline-flex items-center gap-1 text-[12px] font-semibold mt-1" style={{ color: '#8A827E' }}>{undoIcon}Geri Al</button>
+                      <div className="mt-3 py-3 rounded-xl text-center" style={{ background: '#F2F8F4', border: '1px solid #D8EBDF' }}>
+                        <p className="text-[14px] font-bold" style={{ color: '#329464' }}>✓ Teslim edildi</p>
+                        <button onClick={() => setMoreOpen((v) => !v)} className="inline-flex items-center gap-1 text-[11.5px] font-semibold mt-1.5" style={{ color: '#9AA79E' }}>⋯ Diğer işlemler</button>
+                        {moreOpen && (
+                          <button onClick={() => advanceOrder(rows, 'printed')} className="mx-auto mt-2 inline-flex items-center gap-1 px-3 h-8 rounded-lg text-[12px] font-semibold" style={{ background: '#fff', border: '1px solid #D8EBDF', color: '#8A827E' }}>{undoIcon}Teslimi geri al</button>
+                        )}
                       </div>
                     )}
                   </div>
