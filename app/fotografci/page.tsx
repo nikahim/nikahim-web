@@ -48,7 +48,7 @@ function OtpInput({ value, onChange, disabled, error, autoFocusReady }: { value:
   // Etkinlik seçilir seçilmez ilk kutu aktif olsun (kullanıcı tekrar dokunmasın)
   useEffect(() => { if (autoFocusReady && !disabled) { const t = setTimeout(() => ref.current?.focus(), 120); return () => clearTimeout(t); } }, [autoFocusReady, disabled]);
   return (
-    <div className="relative flex justify-center gap-2.5 select-none" onClick={() => ref.current?.focus()}>
+    <div className="relative flex justify-center gap-2 select-none" onClick={() => ref.current?.focus()}>
       <input
         ref={ref}
         value={value}
@@ -65,7 +65,7 @@ function OtpInput({ value, onChange, disabled, error, autoFocusReady }: { value:
         return (
           <div
             key={i}
-            className="w-10 h-14 rounded-xl flex items-center justify-center text-[24px] font-bold transition-all"
+            className="w-9 h-12 rounded-xl flex items-center justify-center text-[20px] font-bold transition-all"
             style={{
               background: disabled ? '#F4F1F1' : '#FFFDFD',
               border: `2px solid ${error ? '#E5484D' : active ? '#E95A68' : filled ? 'rgba(200,104,110,0.4)' : 'rgba(0,0,0,0.10)'}`,
@@ -108,6 +108,7 @@ export default function FotografciPanel() {
   const [toast, setToast] = useState<{ name: string; info: string; couple: boolean } | null>(null);
   const [soundOn, setSoundOn] = useState(true);
   const [flashKey, setFlashKey] = useState<string | null>(null); // yeni gelen siparişi kısa vurgula
+  const [queueSort, setQueueSort] = useState<'time' | 'qty' | 'price'>('time'); // sol kuyruk sıralama
   const soundOnRef = useRef(true);
   const [prints, setPrints] = useState<PrintRow[]>([]);
   const [sizes, setSizes] = useState<SizeRow[]>([]);
@@ -429,10 +430,17 @@ export default function FotografciPanel() {
   })();
   const statusCounts: Record<string, number> = { all: allOrders.length, pending: 0, printing: 0, printed: 0, delivered: 0 };
   for (const o of allOrders) statusCounts[o.status] = (statusCounts[o.status] || 0) + 1;
+  const oQty = (o: Order) => o.rows.reduce((a, r) => a + r.qty, 0);
+  const oPrice = (o: Order) => o.rows.reduce((a, r) => a + (r.price_tl || 0) * r.qty, 0);
   const queue = allOrders
     .filter((o) => statusTab === 'all' || o.status === statusTab)
     .filter((o) => o.name.toLowerCase().includes(guestSearch.trim().toLowerCase()))
-    .sort((a, b) => a.createdAt.localeCompare(b.createdAt)); // en eski önce (FCFS)
+    .sort((a, b) => {
+      if (queueSort === 'qty') return oQty(b) - oQty(a) || a.createdAt.localeCompare(b.createdAt);
+      if (queueSort === 'price') return oPrice(b) - oPrice(a) || a.createdAt.localeCompare(b.createdAt);
+      return a.createdAt.localeCompare(b.createdAt); // İlk gelen (FCFS)
+    });
+  const initials = (n: string) => n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w.charAt(0).toUpperCase()).join('') || '—';
   const selOrder = queue.find((o) => o.key === selKey) || allOrders.find((o) => o.key === selKey) || queue[0] || null;
   const STATUS_TABS: { k: 'all' | 'pending' | 'printing' | 'printed' | 'delivered'; label: string }[] = [
     { k: 'all', label: 'Tümü' }, { k: 'pending', label: 'Beklemede' }, { k: 'printing', label: 'Baskıda' }, { k: 'printed', label: 'Tamamladı' }, { k: 'delivered', label: 'Teslim Edildi' },
@@ -460,32 +468,22 @@ export default function FotografciPanel() {
       {/* ================= GİRİŞ ================= */}
       {step === 'login' && (
         <div className="min-h-screen flex items-center justify-center p-4">
-          <div className="w-full max-w-md rounded-[32px] relative px-7 pt-11 pb-9" style={{ background: '#FFFDFC', boxShadow: '0 24px 70px rgba(168,112,105,0.10), 0 4px 18px rgba(168,112,105,0.05)', border: '1px solid rgba(205,161,157,0.18)' }}>
+          <div className="w-full max-w-md rounded-[28px] relative px-7 pt-7 pb-6" style={{ background: '#FFFDFC', boxShadow: '0 24px 70px rgba(168,112,105,0.10), 0 4px 18px rgba(168,112,105,0.05)', border: '1px solid rgba(205,161,157,0.18)' }}>
 
             {/* 1) Logo (kalp) + Nikahım imza yazısı — en üstte, marka önce */}
             <div className="flex flex-col items-center">
-              <img src="/navbar-icon.png" alt="" className="h-16 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-              <img src="/navbar-text.png" alt="Nikahım" className="h-9 w-auto object-contain mt-2" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+              <img src="/navbar-icon.png" alt="" className="h-12 w-auto object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+              <img src="/navbar-text.png" alt="Nikahım" className="h-7 w-auto object-contain mt-1" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
             </div>
 
             {/* 2) Başlık — güçlü */}
-            <h1 className="text-center mt-6" style={{ fontSize: 28, lineHeight: 1.15, fontWeight: 650, letterSpacing: '-0.01em', color: '#332824' }}>Fotoğrafçı Girişi</h1>
+            <h1 className="text-center mt-4" style={{ fontSize: 24, lineHeight: 1.15, fontWeight: 650, letterSpacing: '-0.01em', color: '#332824' }}>Fotoğrafçı Girişi</h1>
 
-            {/* 3) Açıklama */}
-            <p className="text-center mt-3" style={{ fontSize: 15.5, lineHeight: 1.5, color: '#8E8784' }}>Düğün günü fotoğraf baskı ve albüm yönetimi</p>
+            {/* 3) Kamera görseli — küçük, ikincil */}
+            <img src="/fotografci-login.png" alt="" className="block mx-auto object-contain" style={{ width: '58%', maxWidth: 220, height: 'auto', marginTop: 6, marginBottom: 16 }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
 
-            {/* 4) Kamera görseli — küçültülmüş, ikincil */}
-            <img src="/fotografci-login.png" alt="" className="block mx-auto object-contain" style={{ width: '74%', maxWidth: 330, height: 'auto', marginTop: 16, marginBottom: 8 }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
-
-            {/* 5) İnce ayırıcı + kalp */}
-            <div className="flex items-center gap-6 mt-3 mb-8">
-              <span className="flex-1 h-px" style={{ background: '#F0DAD7' }} />
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="#E3B7B2"><path d="M12 21s-6.7-4.35-9.33-8.02C.9 10.3 1.6 6.9 4.3 5.7c1.9-.85 3.9-.1 5 1.4l.7.95.7-.95c1.1-1.5 3.1-2.25 5-1.4 2.7 1.2 3.4 4.6 1.63 7.28C18.7 16.65 12 21 12 21z" /></svg>
-              <span className="flex-1 h-px" style={{ background: '#F0DAD7' }} />
-            </div>
-
-            {/* 6) Etkinlik seçin — başlık ortalı değil sol hizalı (form akışı) */}
-            <label className="block mb-3.5" style={{ fontSize: 16, fontWeight: 600, color: '#332824' }}>Etkinlik seçin</label>
+            {/* 4) Etkinlik seçin — sol hizalı (form akışı) */}
+            <label className="block mb-2.5" style={{ fontSize: 15, fontWeight: 600, color: '#332824' }}>Etkinlik seçin</label>
             {selected ? (
               <button onClick={() => { setSelected(null); setResults([]); setQuery(''); setCode(''); setCodeError(''); }} className="w-full flex items-center gap-3 text-left" style={{ minHeight: 76, padding: '13px 16px 13px 18px', borderRadius: 20, background: '#FFFDFC', border: '1px solid #E7D8D5' }}>
                 <span className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={selected.couple_photo_url} size={48} /></span>
@@ -497,14 +495,14 @@ export default function FotografciPanel() {
               </button>
             ) : (
               <>
-                <div className="flex items-stretch gap-2.5">
+                <div className="flex items-stretch gap-2">
                   <div className="relative flex-1">
-                    <svg className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2" style={{ color: '#979FA9' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
-                    <input value={query} onChange={(e) => { setQuery(e.target.value); setShowAllList(false); }} placeholder="Gelin veya damat adıyla arayın" className="w-full outline-none" style={{ height: 62, paddingLeft: 46, paddingRight: 14, borderRadius: 18, border: '1.5px solid #DDD7D4', background: '#FFFEFD', fontSize: 16, color: '#3A302C' }} onFocus={(e) => { e.currentTarget.style.borderColor = '#C98782'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(201,135,130,0.10)'; }} onBlur={(e) => { e.currentTarget.style.borderColor = '#DDD7D4'; e.currentTarget.style.boxShadow = 'none'; }} />
+                    <svg className="w-[18px] h-[18px] absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: '#979FA9' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
+                    <input value={query} onChange={(e) => { setQuery(e.target.value); setShowAllList(false); }} placeholder="Gelin veya damat adıyla arayın" className="w-full outline-none" style={{ height: 50, paddingLeft: 42, paddingRight: 14, borderRadius: 14, border: '1.5px solid #DDD7D4', background: '#FFFEFD', fontSize: 15, color: '#3A302C' }} onFocus={(e) => { e.currentTarget.style.borderColor = '#C98782'; e.currentTarget.style.boxShadow = '0 0 0 4px rgba(201,135,130,0.10)'; }} onBlur={(e) => { e.currentTarget.style.borderColor = '#DDD7D4'; e.currentTarget.style.boxShadow = 'none'; }} />
                   </div>
                   {/* Ayrı rose açılır kutu — tüm etkinlikleri listele */}
-                  <button onClick={() => setShowAllList((v) => !v)} title="Tümünü göster" className="flex items-center justify-center flex-shrink-0 transition-colors" style={{ width: 58, borderRadius: 16, background: '#FAF0EF', color: '#C77470' }}>
-                    <svg className="w-5 h-5 transition-transform" style={{ transform: showAllList ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  <button onClick={() => setShowAllList((v) => !v)} title="Tümünü göster" className="flex items-center justify-center flex-shrink-0 transition-colors" style={{ width: 48, borderRadius: 13, background: '#FAF0EF', color: '#C77470' }}>
+                    <svg className="w-[18px] h-[18px] transition-transform" style={{ transform: showAllList ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </button>
                 </div>
                 {(query.trim().length >= 1 || showAllList) && (
@@ -526,12 +524,12 @@ export default function FotografciPanel() {
             )}
 
             {/* Kod gir (etkinlik seçilmeden gri) */}
-            <div className="mt-8" style={{ opacity: selected ? 1 : 0.5, pointerEvents: selected ? 'auto' : 'none' }}>
-              <label className="block mb-5 text-center" style={{ fontSize: 16, fontWeight: 400, color: '#8E8784' }}>6 haneli etkinlik kodunu girin</label>
+            <div className="mt-6" style={{ opacity: selected ? 1 : 0.5, pointerEvents: selected ? 'auto' : 'none' }}>
+              <label className="block mb-3.5 text-center" style={{ fontSize: 14, fontWeight: 400, color: '#8E8784' }}>6 haneli etkinlik kodunu girin</label>
               <OtpInput value={code} onChange={(v) => { setCode(v); setCodeError(''); }} disabled={!selected || blockLeft > 0} error={!!codeError} autoFocusReady={!!selected && blockLeft === 0} />
               {codeError && <p className="text-[13px] text-center mt-3" style={{ color: '#B85E5A' }}>{codeError}</p>}
               {blockLeft > 0 && <p className="text-[13px] text-center mt-1.5 text-gray-400">Kalan süre: {fmtBlock(blockLeft)}</p>}
-              <button onClick={verifyCode} disabled={!selected || code.length !== 6 || checking || blockLeft > 0} className="w-full font-semibold text-white relative overflow-hidden transition-all hover:scale-[1.005] disabled:hover:scale-100" style={{ height: 72, marginTop: 24, borderRadius: 22, fontSize: 18, background: (selected && code.length === 6 && !checking && blockLeft === 0) ? '#C9827D' : '#F2DEDC', color: (selected && code.length === 6 && !checking && blockLeft === 0) ? '#fff' : 'rgba(255,255,255,0.82)', boxShadow: (selected && code.length === 6 && !checking && blockLeft === 0) ? '0 12px 28px rgba(183,111,105,0.18)' : 'none' }}>
+              <button onClick={verifyCode} disabled={!selected || code.length !== 6 || checking || blockLeft > 0} className="w-full font-semibold text-white relative overflow-hidden transition-all hover:scale-[1.005] disabled:hover:scale-100" style={{ height: 54, marginTop: 18, borderRadius: 16, fontSize: 16, background: (selected && code.length === 6 && !checking && blockLeft === 0) ? '#C9827D' : '#F2DEDC', color: (selected && code.length === 6 && !checking && blockLeft === 0) ? '#fff' : 'rgba(255,255,255,0.82)', boxShadow: (selected && code.length === 6 && !checking && blockLeft === 0) ? '0 10px 24px rgba(183,111,105,0.18)' : 'none' }}>
                 <span className="relative">{checking ? 'Giriş yapılıyor…' : 'Giriş Yap'}</span>
               </button>
             </div>
@@ -610,6 +608,11 @@ export default function FotografciPanel() {
                   <svg className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" /></svg>
                   <input value={guestSearch} onChange={(e) => setGuestSearch(e.target.value)} placeholder="Sipariş / davetli ara…" className="w-full pl-9 pr-3 py-2.5 rounded-xl outline-none text-[13px] text-gray-900" style={{ border: '1px solid #E8E2DF', background: '#FFF' }} />
                 </div>
+                <div className="flex gap-1 mt-2.5">
+                  {([['time', 'İlk Gelen'], ['qty', 'Adet'], ['price', 'Ücret']] as const).map(([k, lbl]) => (
+                    <button key={k} onClick={() => setQueueSort(k)} className="flex-1 py-1.5 rounded-lg text-[11.5px] font-semibold transition-colors" style={{ background: queueSort === k ? '#FCF0EF' : '#F7F4F3', color: queueSort === k ? '#C95E64' : '#8A827E' }}>{lbl}</button>
+                  ))}
+                </div>
               </div>
               <div className="flex-1 overflow-y-auto">
                 {queue.length === 0 ? (
@@ -624,17 +627,20 @@ export default function FotografciPanel() {
                   const flash = flashKey === o.key;
                   return (
                     <button key={o.key} onClick={() => { setSelKey(o.key); setThumbIdx(0); }} className="w-full text-left flex items-center gap-3 px-3 py-3 transition-colors" style={{ background: active ? '#FCF0EF' : o.couple ? '#FFFAEE' : 'transparent', borderBottom: '1px solid #F1ECEA', boxShadow: active ? 'inset 3px 0 #D2686D' : 'none', animation: flash ? 'flashRing 1.3s ease 2' : 'none' }}>
-                      <span className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center flex-shrink-0 text-[15px] font-semibold" style={{ background: o.couple ? '#FBEFCB' : '#F3DFDC', color: o.couple ? '#C08A1E' : '#B96165' }}>
-                        {o.couple ? '⭐' : (r0 ? <img src={optimizeImg(r0.photo_url, 80)} alt="" className="w-full h-full object-cover" /> : o.name.charAt(0).toUpperCase())}
+                      <span className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-[14px] font-bold tracking-tight" style={{ background: o.couple ? '#FBEFCB' : '#F3DFDC', color: o.couple ? '#C08A1E' : '#B96165' }}>
+                        {o.couple ? '⭐' : initials(o.name)}
                       </span>
                       <span className="flex-1 min-w-0">
                         <span className="flex items-center justify-between gap-2">
                           <span className="text-[13.5px] font-semibold truncate" style={{ color: active ? '#C95E64' : '#302A28' }}>{o.couple ? `${o.name}` : o.name}</span>
                           <span className="text-[11.5px] flex-shrink-0" style={{ color: waitColor }}>{new Date(o.createdAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
                         </span>
-                        <span className="flex items-center justify-between gap-2 mt-0.5">
-                          <span className="text-[11.5px] truncate" style={{ color: '#89817D' }}>{o.couple ? 'Düğün Çifti · ' : ''}{r0?.size_label || 'Boy?'} · {totQ} adet</span>
-                          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: meta.color }} />
+                        <span className="flex items-center justify-between gap-2 mt-1">
+                          <span className="text-[11.5px] truncate" style={{ color: '#89817D' }}>{o.couple ? 'Düğün Çifti · ' : ''}{r0?.size_label || 'Boy?'}</span>
+                          <span className="flex items-center gap-1.5 flex-shrink-0">
+                            <span className="inline-flex items-center justify-center min-w-[26px] h-[20px] px-1.5 rounded-md text-[11.5px] font-bold" style={{ background: '#FCF0EF', color: '#C95E64' }}>×{totQ}</span>
+                            <span className="w-2 h-2 rounded-full" style={{ background: meta.color }} />
+                          </span>
                         </span>
                       </span>
                     </button>
@@ -662,7 +668,7 @@ export default function FotografciPanel() {
                 return (
                   <>
                     <div className="flex items-center gap-3 px-5 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #F0EAE7' }}>
-                      <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[14px] font-semibold" style={{ background: selOrder.couple ? '#FBEFCB' : '#F3DFDC', color: selOrder.couple ? '#C08A1E' : '#B96165' }}>{selOrder.couple ? '⭐' : selOrder.name.charAt(0).toUpperCase()}</span>
+                      <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[13px] font-bold tracking-tight" style={{ background: selOrder.couple ? '#FBEFCB' : '#F3DFDC', color: selOrder.couple ? '#C08A1E' : '#B96165' }}>{selOrder.couple ? '⭐' : initials(selOrder.name)}</span>
                       <div className="min-w-0">
                         <h2 className="text-[17px] font-bold leading-tight truncate" style={{ color: '#2E2927' }}>{selOrder.couple ? `${selOrder.name} · Düğün Çifti` : selOrder.name}</h2>
                         <p className="text-[12px]" style={{ color: '#908985' }}>Sipariş #{(selOrder.rows[0].order_id || selOrder.rows[0].id).slice(0, 6).toUpperCase()} · {new Date(selOrder.createdAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</p>
@@ -701,14 +707,29 @@ export default function FotografciPanel() {
                         </div>
                       </div>
 
-                      {/* Durum stepper */}
-                      <div className="grid grid-cols-4 mt-5">
-                        {['Beklemede', 'Baskıda', 'Tamamladı', 'Teslim'].map((lbl, i) => (
-                          <div key={lbl} className="flex flex-col items-center gap-1.5">
-                            <span className="w-3 h-3 rounded-full" style={{ background: i < stepIdx ? '#329464' : i === stepIdx ? '#D2686D' : '#E4DDDA' }} />
-                            <span className="text-[11px]" style={{ color: i === stepIdx ? '#D2686D' : i < stepIdx ? '#329464' : '#A79F9B', fontWeight: i === stepIdx ? 600 : 400 }}>{lbl}</span>
-                          </div>
-                        ))}
+                      {/* Durum stepper — ikonlu + bağlantı çizgili */}
+                      <div className="flex items-start mt-6 px-1">
+                        {([
+                          { lbl: 'Beklemede', d: 'M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z' },
+                          { lbl: 'Baskıda', d: 'M6 9V3h12v6M6 18H4a2 2 0 01-2-2v-4a2 2 0 012-2h16a2 2 0 012 2v4a2 2 0 01-2 2h-2M6 14h12v7H6z' },
+                          { lbl: 'Tamamladı', d: 'M5 13l4 4L19 7' },
+                          { lbl: 'Teslim', d: 'M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zm0 0h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z' },
+                        ] as const).map((s, i) => {
+                          const done = i < stepIdx; const active = i === stepIdx;
+                          const col = done ? '#329464' : active ? '#D2686D' : '#C4BDB9';
+                          const bg = done ? '#EDF8F2' : active ? '#FCF0EF' : '#F4F1EF';
+                          return (
+                            <div key={s.lbl} className="flex items-start" style={{ flex: i < 3 ? 1 : '0 0 auto' }}>
+                              <div className="flex flex-col items-center gap-1.5" style={{ width: 62 }}>
+                                <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: bg, color: col, border: `1.5px solid ${done || active ? col : '#E4DDDA'}` }}>
+                                  <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth={done ? 2.4 : 1.9} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d={done ? 'M5 13l4 4L19 7' : s.d} /></svg>
+                                </span>
+                                <span className="text-[10.5px] text-center leading-tight" style={{ color: col, fontWeight: active ? 600 : 400 }}>{s.lbl}</span>
+                              </div>
+                              {i < 3 && <span className="h-[2px] mt-[17px]" style={{ flex: 1, background: i < stepIdx ? '#329464' : '#E7E0DD' }} />}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
 
