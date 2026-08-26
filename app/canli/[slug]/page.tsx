@@ -752,8 +752,8 @@ export default function WatchPage() {
     const icLetter = <svg className="w-8 h-8" fill="none" strokeWidth="1.5" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.3 7.2l8.7 6 8.7-6" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 14.6c-1-.8-2-1.5-2-2.4 0-.5.45-.95 1-.95.4 0 .77.24.95.6l.05.1.05-.1c.18-.36.55-.6.95-.6.55 0 1 .45 1 .95 0 .9-1 1.6-2 2.4z" /></svg>;
     const icUsers = <svg className="w-7 h-7" fill="none" strokeWidth="1.7" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
     // Büyük ikonlar — gerçek görseller (Nikaha Katıl: yayın ekranı · Fotoğraf Paylaş: foto yığını) — %20 büyük
-    const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[80px] h-[80px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[80px] h-[80px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[86px] h-[86px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[86px] h-[86px] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
     // Baskı Al mini ikonu (yazıcı — tam çizim)
     const icPrinter = <svg className="w-7 h-7" fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>;
 
@@ -761,7 +761,7 @@ export default function WatchPage() {
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="relative rounded-[22px] px-2.5 pt-3 pb-3 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
+        className="relative rounded-[22px] px-2.5 pt-3.5 pb-4 text-center transition-all duration-150 active:scale-[0.94] active:shadow-[0_0_0_2px_rgba(233,90,104,0.55)] flex flex-col items-center h-full"
         style={{
           opacity: ready ? 1 : 0.5,
           filter: ready ? 'none' : 'grayscale(0.5) blur(0.4px)',
@@ -771,11 +771,11 @@ export default function WatchPage() {
         }}
       >
         <span className="inline-flex items-center px-3.5 py-1 rounded-[9px] text-[10.5px] font-semibold tracking-[0.3px]" style={{ background: '#FFF0EE', color: '#E95A68' }}>{pill}</span>
-        <span className="mt-[6px] flex items-center justify-center h-[68px]">{big}</span>
-        <span className="block font-semibold text-[17px] leading-tight mt-[5px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
-        <span className="flex gap-2 w-full mt-[13px]">
+        <span className="mt-[6px] flex items-center justify-center h-[74px]">{big}</span>
+        <span className="block font-semibold text-[17px] leading-tight mt-[6px]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#C84452' }}>{title}</span>
+        <span className="flex gap-2 w-full mt-[17px]">
           {feats.map((f, i) => (
-            <span key={i} className="flex-1 rounded-[13px] flex flex-col items-center justify-center py-2.5 px-1" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
+            <span key={i} className="flex-1 rounded-[13px] flex flex-col items-center justify-center py-3 px-1" style={{ background: '#FFFCFB', border: '1px solid #F1D9D6' }}>
               {f.icon}
               <span className="text-[12.5px] font-medium leading-tight text-center mt-2" style={{ color: '#3F3A3B' }}>{f.label}</span>
             </span>
@@ -2339,26 +2339,28 @@ export default function WatchPage() {
             </span>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-2 pt-2">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-left mb-1 ml-1 font-medium text-sm" style={{ color: '#9AA0A6' }}>Adınız</label>
+                <label className="block text-left mb-1 ml-2 font-medium text-sm" style={{ color: '#9AA0A6' }}>Adınız</label>
                 <input
                   type="text"
                   value={viewerFirstName}
                   onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
-                  onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300); }}
+                  onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
+                  onBlur={() => setTimeout(() => { if (!(document.activeElement instanceof HTMLInputElement)) window.scrollTo({ top: 0, behavior: 'smooth' }); }, 120)}
                   placeholder="Adınızı yazın"
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-300"
                 />
               </div>
               <div>
-                <label className="block text-left mb-1 ml-1 font-medium text-sm" style={{ color: '#9AA0A6' }}>Soyadınız</label>
+                <label className="block text-left mb-1 ml-2 font-medium text-sm" style={{ color: '#9AA0A6' }}>Soyadınız</label>
                 <input
                   type="text"
                   value={viewerLastName}
                   onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
-                  onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'center' }), 300); }}
+                  onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
+                  onBlur={() => setTimeout(() => { if (!(document.activeElement instanceof HTMLInputElement)) window.scrollTo({ top: 0, behavior: 'smooth' }); }, 120)}
                   placeholder="Soyadınızı yazın"
                   className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:border-[#C8686E]/40 outline-none text-gray-900 placeholder:text-gray-300"
                   onKeyPress={(e) => e.key === "Enter" && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()}

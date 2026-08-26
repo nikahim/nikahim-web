@@ -703,6 +703,11 @@ export default function FotografciPanel() {
                     {(() => {
                       const n = statusCounts[k] || 0;
                       const isPend = k === 'pending' && n > 0; // beklemede sayısı her zaman kırmızı + nabız
+                      // Tümü teslim edildiyse (beklemede/baskıda/hazır 0) → Teslim Edildi sekmesi yeşil + tick
+                      const allComplete = k === 'delivered' && n > 0 && (statusCounts.pending || 0) === 0 && (statusCounts.printing || 0) === 0 && (statusCounts.printed || 0) === 0;
+                      if (allComplete) {
+                        return <span className="inline-flex items-center justify-center gap-1 min-w-[24px] h-6 px-2 rounded-full text-[12px] font-bold" style={{ background: '#E6F6EC', color: '#2E9E68' }}><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>{n}</span>;
+                      }
                       return <span className="inline-flex items-center justify-center min-w-[24px] h-6 px-1.5 rounded-full text-[12px] font-bold" style={{ background: isPend ? '#D65E64' : active ? '#D65E64' : '#F1ECEA', color: isPend || active ? '#fff' : '#8A827E', animation: isPend ? 'pendPulse 1.6s ease-in-out infinite' : 'none' }}>{n}</span>;
                     })()}
                   </button>
@@ -787,11 +792,11 @@ export default function FotografciPanel() {
                 <p className="text-center text-sm text-gray-400 py-16">Yükleniyor…</p>
               ) : !selOrder ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-center px-6 py-16">
-                  <div className="w-24 h-24 mb-4 rounded-full flex items-center justify-center" style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.12) 0%, transparent 70%)' }}>
-                    <img src="/foto-ekle-8.png" alt="" className="w-16 h-16 object-contain opacity-90" onError={(e) => { const el = e.currentTarget as HTMLImageElement; el.style.display = 'none'; const sib = el.nextElementSibling as HTMLElement | null; if (sib) sib.style.display = 'block'; }} />
-                    <svg className="w-11 h-11" style={{ display: 'none', color: '#D8A0A2' }} fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
+                  <div className="w-44 h-44 mb-4 rounded-full flex items-center justify-center" style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.12) 0%, transparent 70%)' }}>
+                    <img src="/foto-ekle-8.png" alt="" className="w-32 h-32 object-contain opacity-90" onError={(e) => { const el = e.currentTarget as HTMLImageElement; el.style.display = 'none'; const sib = el.nextElementSibling as HTMLElement | null; if (sib) sib.style.display = 'block'; }} />
+                    <svg className="w-20 h-20" style={{ display: 'none', color: '#D8A0A2' }} fill="none" stroke="currentColor" strokeWidth="1.4" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
                   </div>
-                  <p className="text-[15px] font-semibold" style={{ color: '#6B625E' }}>Soldan bir sipariş seçin</p>
+                  <p className="text-[15px] font-semibold" style={{ color: '#6B625E' }}>Fotoğraf Bulunmuyor</p>
                   <p className="text-[12.5px] mt-1.5 max-w-[250px] leading-relaxed" style={{ color: '#A79F9B' }}>Baskı detaylarını ve fotoğrafları burada göreceksiniz.</p>
                 </div>
               ) : (() => {
