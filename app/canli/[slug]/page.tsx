@@ -4522,19 +4522,20 @@ export default function WatchPage() {
                           )}
                         </div>
                       ) : (
-                        <div className="rounded-2xl p-5 text-center" style={{ background: 'linear-gradient(180deg, #FFFDF7, #FFF8EC)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 6px 20px rgba(212,175,55,0.08)' }}>
-                          {/* Seçilen altın kartı (ilk sayfadaki gibi) */}
-                          <div className="inline-flex items-center gap-3 px-3 py-2 rounded-xl" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(212,175,55,0.14)' }}>
-                            <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center flex-shrink-0" style={{ boxShadow: '0 2px 8px rgba(184,134,11,0.12)' }}>
-                              <img src={selGold?.id === 'nakit' ? '/tl-icon.png' : selGold?.image} alt="" className="w-8 h-8 object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                        <div className="space-y-3">
+                          {/* İlk sayfadaki altın özet kartı — birebir */}
+                          <div className="flex items-center gap-4 rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #FFFDF5, #FFF8E7, #FDF3D7)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 4px 20px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
+                            <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 12px rgba(212,175,55,0.12)' }}>
+                              {selGold?.image && (<div className="relative w-9 h-9"><Image src={selGold!.image} alt="" fill className="object-contain" /></div>)}
                             </div>
-                            <div className="text-left">
-                              <p className="text-[13px] font-bold text-gray-900 leading-tight">{selGold?.name}</p>
-                              {getSelectedPrice() > 0 && <p className="text-[13px] font-extrabold leading-tight" style={{ color: '#8B6914' }}>{'₺'}{getSelectedPrice().toLocaleString()}</p>}
+                            <div>
+                              <p className="text-sm font-bold text-gray-900">{event.bride_first_name} & {event.groom_first_name} için</p>
+                              <p className="text-xs mt-0.5 font-medium" style={{ color: '#A08530' }}>{selGold?.name}</p>
                             </div>
+                            {getSelectedPrice() > 0 && <p className="text-xl font-semibold ml-auto tracking-tight" style={{ color: '#8B6914' }}>{'₺'}{getSelectedPrice().toLocaleString()}</p>}
                           </div>
-                          <p className="text-[12.5px] text-gray-500 mt-3 mb-3 leading-relaxed">Bu hediye için QR kod tanımlanmamış. Ödemeyi IBAN ile kolayca gönderebilirsiniz.</p>
-                          <button onClick={() => startTransition(() => setPaymentMethod('iban'))} className="w-full text-white py-3 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-transform active:scale-[0.98] hover:brightness-105" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8912B)', boxShadow: '0 6px 18px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.35)' }}>
+                          <p className="text-[12.5px] text-gray-500 text-center leading-relaxed px-2">Bu hediye için QR kod tanımlanmamış. Ödemeyi IBAN ile kolayca gönderebilirsiniz.</p>
+                          <button onClick={() => startTransition(() => setPaymentMethod('iban'))} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[14.5px] flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8912B)', boxShadow: '0 6px 18px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.35)' }}>
                             IBAN ile Gönder
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                           </button>
