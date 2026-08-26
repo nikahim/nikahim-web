@@ -344,6 +344,15 @@ export default function WatchPage() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPhotoUpload]);
+  // "Yüklediklerim" açıkken baskı durumunu canlı yenile (fotoğrafçı Hazır/Teslim yapınca davetli otomatik görsün)
+  useEffect(() => {
+    if (!showPhotoUpload || photoTab !== 'uploads') return;
+    const n = (photoUploaderName || viewerName).trim();
+    if (!n && !getDeviceId()) return;
+    const t = setInterval(() => loadGuestOwnPhotos(n), 12000);
+    return () => clearInterval(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [showPhotoUpload, photoTab, photoUploaderName, viewerName]);
   const [slideshowPhotos, setSlideshowPhotos] = useState<string[]>([]);
   const [goldHistory, setGoldHistory] = useState<{ name: string; type: string; anonymous?: boolean }[]>([]);
   const [anonymousGold, setAnonymousGold] = useState(false);
@@ -581,8 +590,8 @@ export default function WatchPage() {
     const p = guestOwnPhotos[guestLightboxIndex];
     const total = guestOwnPhotos.length;
     const go = (d: number) => setGuestLightboxIndex((i) => (i === null ? i : (i + d + total) % total));
-    const isPrinted = printedIds.includes(p.id);
     const isCompleted = completedIds.includes(p.id);
+    const isPending = pendingIds.includes(p.id);
     return (
       <div className="fixed inset-0 z-[85] flex flex-col" style={{ background: 'rgba(15,10,10,0.94)' }}>
         {/* üst bar */}
@@ -603,17 +612,38 @@ export default function WatchPage() {
           )}
         </div>
         {/* alt aksiyonlar — sil solda, baskı sağda, aralarında geniş boşluk */}
-        <div className="flex items-center justify-between gap-4 px-6 pt-4 pb-10 flex-shrink-0">
-          {p.status === 'pending' ? (
-            <button onClick={() => setConfirmDeletePhoto(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px]" style={{ background: 'rgba(255,255,255,0.12)', color: '#FFB4B4' }}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
-              Sil
+        <div className="flex items-center justify-between gap-3 px-6 pt-4 pb-10 flex-shrink-0">
+          {/* Sol — ikon aksiyonlar: Paylaş · İndir · Sil (sil sadece çift onayından önce) */}
+          <div className="flex items-center gap-2.5">
+            <button onClick={() => shareGuestPhoto(p.photo_url)} title="Paylaş" className="w-11 h-11 rounded-full flex items-center justify-center text-white transition-transform active:scale-90" style={{ background: 'rgba(255,255,255,0.14)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg>
             </button>
-          ) : <span />}
-          <button onClick={() => openPrintFor(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px] text-white" style={{ background: isCompleted ? '#318052' : 'linear-gradient(135deg, #D17075, #C8686E)' }}>
-            <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>
-            {isCompleted ? 'Baskı Tamamlandı' : isPrinted ? 'Tekrar Baskıya Gönder' : 'Baskıya Gönder'}
-          </button>
+            <button onClick={() => downloadGuestPhoto(p.photo_url, p.photo_no)} title="İndir" className="w-11 h-11 rounded-full flex items-center justify-center text-white transition-transform active:scale-90" style={{ background: 'rgba(255,255,255,0.14)' }}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
+            </button>
+            {p.status === 'pending' && (
+              <button onClick={() => setConfirmDeletePhoto(p)} title="Sil" className="w-11 h-11 rounded-full flex items-center justify-center transition-transform active:scale-90" style={{ background: 'rgba(255,255,255,0.14)', color: '#FFB4B4' }}>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+              </button>
+            )}
+          </div>
+          {/* Sağ — baskı durumu / gönder (tekrar bastır yok: karışıklık olmasın) */}
+          {isCompleted ? (
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px] text-white" style={{ background: '#318052' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.6" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+              Baskı Tamamlandı
+            </div>
+          ) : isPending ? (
+            <div className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px]" style={{ background: 'rgba(255,255,255,0.14)', color: '#FFD9A0' }}>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2M22 12a10 10 0 11-20 0 10 10 0 0120 0z" /></svg>
+              Baskı listesinde
+            </div>
+          ) : (
+            <button onClick={() => openPrintFor(p)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-[13px] text-white transition-transform active:scale-[0.97]" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>
+              <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>
+              Baskıya Gönder
+            </button>
+          )}
         </div>
 
         {/* Sil onay modalı (rose) */}
@@ -1258,9 +1288,12 @@ export default function WatchPage() {
       const pcount = prs.reduce((a, r) => a + (r.qty || 1), 0);
       const ptotal = prs.reduce((a, r) => a + (r.qty || 1) * (r.price_tl || 0), 0);
       setPrintSummary({ count: pcount, total: ptotal });
-      setPrintedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url)).map((p) => p.id));
-      setPendingIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status !== 'printed')).map((p) => p.id));
-      setCompletedIds((photos || []).filter((p) => prs.some((r) => r.photo_url === p.photo_url && r.status === 'printed')).map((p) => p.id));
+      // Baskı tamamlandı = fotoğrafçı 'printed' (Hazır) VEYA 'delivered' (Teslim) yaptı; listede = isteği var ama henüz basılmadı
+      const hasPr = (p: { photo_url: string }) => prs.some((r) => r.photo_url === p.photo_url);
+      const doneFor = (p: { photo_url: string }) => prs.some((r) => r.photo_url === p.photo_url && (r.status === 'printed' || r.status === 'delivered'));
+      setPrintedIds((photos || []).filter(hasPr).map((p) => p.id));
+      setCompletedIds((photos || []).filter(doneFor).map((p) => p.id));
+      setPendingIds((photos || []).filter((p) => hasPr(p) && !doneFor(p)).map((p) => p.id));
     } catch (e) { console.error('own photos load error', e); }
     setLoadingOwnPhotos(false);
   };
