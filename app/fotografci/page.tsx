@@ -637,33 +637,55 @@ export default function FotografciPanel() {
                 </div>
               </div>
               <div className="flex items-center gap-2.5">
-                <div className="hidden sm:flex items-center gap-2.5">
-                  <button onClick={() => setHideTotal((v) => !v)} title={hideTotal ? 'Göster' : 'Gizle'} className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E' }}>
-                    {hideTotal ? (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    ) : (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L9.88 9.88" /></svg>
-                    )}
-                  </button>
-                  {/* Alınan Ödemeler / Ödenecek — hizalı, koyu rose ayraç */}
-                  <div className="flex items-stretch gap-2.5 leading-tight">
-                    <div className="text-center">
-                      <p className="text-[10px] font-semibold" style={{ color: '#B85258' }}>Alınan Ödemeler</p>
-                      <p className="text-[14px] font-bold" style={{ color: '#318052' }}>{mask(totalCollected)}</p>
+                {/* Finans özeti modülü — Toplam Satış | Tahsil Edilen | Tahsil Bekleyen */}
+                <div className="hidden lg:flex items-center gap-2 rounded-2xl pl-2.5 pr-3 py-1.5" style={{ background: '#FFFAF8', border: '1px solid #EFE2DF' }}>
+                  {/* Ana — Toplam Satış */}
+                  <div className="flex items-center gap-2.5 pr-3.5" style={{ borderRight: '1px solid #EEE3DF' }}>
+                    <span className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0EE', color: '#C96F73' }}>
+                      <svg className="w-[22px] h-[22px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 00-2.25-2.25H15a3 3 0 11-6 0H5.25A2.25 2.25 0 003 12m18 0v6a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 18v-6m18 0V9M3 12V9m18 0a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 9m18 0V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v3" /></svg>
+                    </span>
+                    <div className="leading-none">
+                      <p className="text-[11.5px] font-medium mb-1" style={{ color: '#A46B68' }}>Toplam Satış</p>
+                      <p className="text-[23px] font-extrabold leading-none" style={{ color: '#B95F63' }}>{mask(totalCollected + totalToCollect)}</p>
                     </div>
-                    <span className="text-[16px] font-bold flex items-center" style={{ color: '#C8686E' }}>/</span>
-                    <div className="text-center">
-                      <p className="text-[10px] font-semibold" style={{ color: '#B85258' }}>Ödenecek</p>
-                      <p className="text-[14px] font-bold" style={{ color: '#C8686E' }}>{mask(totalToCollect)}</p>
+                  </div>
+                  {/* Tahsil Edilen */}
+                  <div className="flex items-center gap-2 pl-1.5">
+                    <span className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#EDF8F0', color: '#3E955D' }}>
+                      <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+                    </span>
+                    <div className="leading-none">
+                      <p className="text-[10.5px] font-medium mb-0.5" style={{ color: '#8A817D' }}>Tahsil Edilen</p>
+                      <p className="text-[15px] font-bold leading-none" style={{ color: '#3E955D' }}>{mask(totalCollected)}</p>
+                    </div>
+                  </div>
+                  {/* Tahsil Bekleyen */}
+                  <div className="flex items-center gap-2 pl-1.5">
+                    <span className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#FFF1EB', color: '#D67B63' }}>
+                      <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </span>
+                    <div className="leading-none">
+                      <p className="text-[10.5px] font-medium mb-0.5" style={{ color: '#8A817D' }}>Tahsil Bekleyen</p>
+                      <p className="text-[15px] font-bold leading-none" style={{ color: '#D46F65' }}>{mask(totalToCollect)}</p>
                     </div>
                   </div>
                 </div>
+                <button onClick={() => setHideTotal((v) => !v)} title={hideTotal ? 'Tutarları göster' : 'Tutarları gizle'} className="hidden lg:flex w-9 h-9 rounded-xl items-center justify-center flex-shrink-0 transition-colors hover:brightness-95" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E' }}>
+                  {hideTotal ? (
+                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L9.88 9.88" /></svg>
+                  ) : (
+                    <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  )}
+                </button>
                 <button onClick={toggleSound} title={soundOn ? 'Bildirim sesi açık' : 'Bildirim sesi kapalı'} className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors" style={{ background: soundOn ? '#FCF0EF' : '#F1ECEA', color: soundOn ? '#C95E64' : '#9A928E' }}>
                   {soundOn ? (
                     <svg className="w-[18px] h-[18px]" fill="currentColor" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22zm7-5v-1l-1.6-1.6V10a5.4 5.4 0 00-4.15-5.25V4a1.25 1.25 0 10-2.5 0v.75A5.4 5.4 0 006.6 10v4.4L5 16v1z" /></svg>
                   ) : (
                     <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M18.4 14.4 17 13V10a5 5 0 0 0-3.8-4.85M6.6 6.6A5 5 0 0 0 6 10v3l-1.5 1.5V15h11M10 20a2 2 0 0 0 4 0M3 3l18 18" /></svg>
                   )}
+                </button>
+                <button onClick={() => setShowSizesModal(true)} title="Baskı boyutları" className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors hover:brightness-95" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E' }}>
+                  <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                 </button>
                 <button onClick={() => { try { sessionStorage.removeItem('nkh_photog_panel'); } catch {}; setStep('login'); setSelected(null); setCode(''); setResults([]); setQuery(''); setPrints([]); setSizes([]); setSelectedGuest('all'); }} className="text-[13px] font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#C8686E', background: 'rgba(200,104,110,0.08)' }}>Çıkış</button>
               </div>
@@ -934,7 +956,7 @@ export default function FotografciPanel() {
                             {moreOpen && (
                               <div className="flex gap-2 mt-1">
                                 <button onClick={() => setConfirmReprint(cur.photo_url)} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1.5" style={{ background: '#F7F2F1', color: '#6B5A5A' }}>↻ Yeniden yazdır</button>
-                                <button onClick={() => advanceOrder([cur], 'printing')} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1" style={{ background: '#F7F2F1', color: '#8A7E7E' }}>{undoIcon}Basılmadı</button>
+                                <button onClick={() => advanceOrder([cur], 'pending')} className="flex-1 h-9 rounded-xl text-[12.5px] font-semibold flex items-center justify-center gap-1" style={{ background: '#F7F2F1', color: '#8A7E7E' }}>{undoIcon}Basılmadı</button>
                               </div>
                             )}
                           </div>
@@ -967,16 +989,6 @@ export default function FotografciPanel() {
                   </div>
                 );
               })()}
-
-              <button onClick={() => setShowSizesModal(true)} className="rounded-2xl p-4 text-left flex items-center gap-3" style={{ background: '#fff', border: '1px solid #ECE5E2', boxShadow: '0 8px 26px rgba(62,43,37,0.04)' }}>
-                <span className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#FCF0EF', color: '#C95E64' }}>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                </span>
-                <div>
-                  <p className="text-[13.5px] font-semibold" style={{ color: '#2E2927' }}>Baskı Boyutları</p>
-                  <p className="text-[11.5px]" style={{ color: '#89817D' }}>{sizes.length} boy tanımlı · düzenle</p>
-                </div>
-              </button>
             </aside>
           </div>
 
