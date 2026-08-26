@@ -4523,6 +4523,11 @@ export default function WatchPage() {
                         </div>
                       ) : (
                         <div className="space-y-3">
+                          {/* Uyarı — üstte, bold, dikkat çeken ünlem üçgeni */}
+                          <div className="flex items-start gap-2.5 rounded-xl px-3.5 py-2.5" style={{ background: 'rgba(217,130,43,0.09)', border: '1px solid rgba(217,130,43,0.20)' }}>
+                            <svg className="w-5 h-5 flex-shrink-0 mt-[1px]" style={{ color: '#D9822B' }} fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.008v.008H12v-.008z" /></svg>
+                            <p className="text-[12.5px] font-bold leading-snug" style={{ color: '#8A5A16' }}>Bu hediye için QR kod tanımlanmamış. Ödemeyi IBAN ile kolayca gönderebilirsiniz.</p>
+                          </div>
                           {/* İlk sayfadaki altın özet kartı — birebir */}
                           <div className="flex items-center gap-4 rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #FFFDF5, #FFF8E7, #FDF3D7)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 4px 20px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
                             <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 12px rgba(212,175,55,0.12)' }}>
@@ -4534,7 +4539,6 @@ export default function WatchPage() {
                             </div>
                             {getSelectedPrice() > 0 && <p className="text-xl font-semibold ml-auto tracking-tight" style={{ color: '#8B6914' }}>{'₺'}{getSelectedPrice().toLocaleString()}</p>}
                           </div>
-                          <p className="text-[12.5px] text-gray-500 text-center leading-relaxed px-2">Bu hediye için QR kod tanımlanmamış. Ödemeyi IBAN ile kolayca gönderebilirsiniz.</p>
                           <button onClick={() => startTransition(() => setPaymentMethod('iban'))} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[14.5px] flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8912B)', boxShadow: '0 6px 18px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.35)' }}>
                             IBAN ile Gönder
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
