@@ -2756,7 +2756,7 @@ export default function WatchPage() {
               )}
 
               {/* Fullscreen toggle button */}
-              <button onClick={async () => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { await document.documentElement.requestFullscreen?.(); (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { document.exitFullscreen?.(); (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
                 ) : (
@@ -2909,7 +2909,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={3} className="w-full px-3 py-2.5 rounded-xl outline-none text-[13px] text-white placeholder:text-white/25 resize-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'inherit' }} />
+                    <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { const panel = e.currentTarget.parentElement?.parentElement as HTMLElement | null; if (panel) { panel.style.top = '12px'; panel.style.bottom = 'auto'; } }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={3} className="w-full px-3 py-2.5 rounded-xl outline-none text-[13px] text-white placeholder:text-white/25 resize-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'inherit' }} />
                     <button onClick={() => { sendMessage(); setFsTebrikPanel(null); }} disabled={!message.trim()} className="w-full mt-2.5 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.25)' }}>
                       Gönder
                     </button>
@@ -3530,7 +3530,7 @@ export default function WatchPage() {
             </div>
 
             {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FEFAF8, #F9F0EA)', boxShadow: '0 4px 16px rgba(150,110,90,0.06)', border: '1px solid rgba(180,70,80,0.07)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.06)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBF1E8, #F1DED0)', boxShadow: '0 4px 16px rgba(150,110,90,0.10)', border: '1px solid rgba(180,70,80,0.14)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(150,110,90,0.10)'; }}>
               <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
                 <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
@@ -4433,9 +4433,11 @@ export default function WatchPage() {
                   )}
                 </div>
 
-                <div className="flex items-center justify-center gap-1.5 text-[10px] text-gray-300">
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                  Ödeme doğrudan çiftin hesabına aktarılır
+                <div className="flex items-center justify-center gap-2 mt-1">
+                  <span className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(184,150,11,0.10)' }}>
+                    <svg className="w-4 h-4" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+                  </span>
+                  <p className="text-[11.5px] font-semibold" style={{ color: '#9A7B2E' }}>Para Transferini Doğrudan Çiftin Hesabına Yapıyorsunuz</p>
                 </div>
                 </>
                   );
@@ -4448,23 +4450,27 @@ export default function WatchPage() {
               <div className="p-6 pt-4">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
 
-                {/* IBAN Content */}
-                {paymentMethod === 'iban' && (
+                {/* IBAN Content — sıra: Banka → IBAN → Hesap Sahibi (+Damat/Gelin). Alıcı kaldırıldı (kafa karıştırıyordu) */}
+                {paymentMethod === 'iban' && (() => {
+                  const holderName = event.bank_holder_name || event.groom_full_name;
+                  const norm = (s?: string) => (s || '').toLocaleLowerCase('tr-TR').replace(/\s+/g, ' ').trim();
+                  const hn = norm(holderName);
+                  let side = '';
+                  if (hn && hn === norm(event.groom_full_name)) side = 'Damat';
+                  else if (hn && hn === norm(event.bride_full_name)) side = 'Gelin';
+                  else if (hn && norm(event.groom_last_name) && hn.includes(norm(event.groom_last_name))) side = 'Damat';
+                  else if (hn && norm(event.bride_last_name) && hn.includes(norm(event.bride_last_name))) side = 'Gelin';
+                  const hasBank = !!event.payment_methods_enabled?.bank_name;
+                  return (
                   <div className="space-y-3">
                     <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
-                      <div className="flex justify-between items-start mb-2">
+                      {hasBank && (
                         <div>
-                          <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Hesap Sahibi</p>
-                          <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.bank_holder_name || event.groom_full_name}</p>
-                        </div>
-                      </div>
-                      {event.payment_methods_enabled?.bank_name && (
-                        <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
                           <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Banka</p>
-                          <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.payment_methods_enabled.bank_name}</p>
+                          <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.payment_methods_enabled?.bank_name}</p>
                         </div>
                       )}
-                      <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                      <div className={hasBank ? 'border-t pt-2 mt-2' : ''} style={hasBank ? { borderColor: 'rgba(212,175,55,0.08)' } : undefined}>
                         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">IBAN</p>
                         <div className="flex items-center gap-2 mt-1">
                           <p className="font-mono text-gray-800 text-sm flex-1">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
@@ -4474,8 +4480,8 @@ export default function WatchPage() {
                         </div>
                       </div>
                       <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
-                        <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Alıcı</p>
-                        <p className="text-sm text-gray-700 mt-0.5">{event.bride_first_name} & {event.groom_first_name}</p>
+                        <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Hesap Sahibi</p>
+                        <p className="font-semibold text-gray-800 text-sm mt-0.5">{holderName}{side ? ` (${side})` : ''}</p>
                       </div>
                       {getSelectedPrice() > 0 && (
                         <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
@@ -4490,7 +4496,8 @@ export default function WatchPage() {
                       )}
                     </div>
                   </div>
-                )}
+                  );
+                })()}
 
                 {/* QR Content */}
                 {paymentMethod === 'qr' && (

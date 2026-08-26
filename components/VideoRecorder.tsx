@@ -19,6 +19,7 @@ type RecordingState = 'idle' | 'preview' | 'recording' | 'recorded' | 'uploading
 
 export default function VideoRecorder({ eventId, senderName, onSuccess, onClose, embedded, onDemoBlock }: VideoRecorderProps) {
   const [state, setState] = useState<RecordingState>('idle');
+  const [facingMode, setFacingMode] = useState<'user' | 'environment'>('user'); // ön/arka kamera
   const [countdown, setCountdown] = useState(30);
   const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -32,17 +33,17 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
   const countdownRef = useRef<NodeJS.Timeout | null>(null);
   const mimeTypeRef = useRef<string>('video/webm');
 
-  // Kamera başlat
-  const startCamera = async () => {
+  // Kamera başlat (ön/arka)
+  const startCamera = async (facing: 'user' | 'environment' = facingMode) => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: 'user', width: 1280, height: 720 },
+        video: { facingMode: facing, width: 1280, height: 720 },
         audio: true
       });
-      
+
       streamRef.current = stream;
       setState('preview');
-      
+
       // State değiştikten sonra video element'e ata
       setTimeout(() => {
         if (videoRef.current) {
@@ -50,11 +51,28 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
           videoRef.current.play().catch(console.error);
         }
       }, 100);
-      
+
     } catch (err) {
       console.error('Kamera hatası:', err);
       setErrorMessage('Kamera erişimi reddedildi. Lütfen izin verin.');
       setState('error');
+    }
+  };
+
+  // Ön/arka kamera değiştir (yalnızca kayıt öncesi önizlemede)
+  const flipCamera = async () => {
+    const next = facingMode === 'user' ? 'environment' : 'user';
+    setFacingMode(next);
+    if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop());
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: next, width: 1280, height: 720 },
+        audio: true,
+      });
+      streamRef.current = stream;
+      if (videoRef.current) { videoRef.current.srcObject = stream; videoRef.current.play().catch(console.error); }
+    } catch (err) {
+      console.error('Kamera çevirme hatası:', err);
     }
   };
 
@@ -298,9 +316,21 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
                   video.play().catch(console.error);
                 }}
                 className="w-full aspect-video bg-gray-900 rounded-xl object-cover"
-                style={{ transform: 'scaleX(-1)' }}
+                style={{ transform: facingMode === 'user' ? 'scaleX(-1)' : 'none' }}
               />
-              
+
+              {/* Kamera çevir — sadece kayıt öncesi önizlemede (sağ üst) */}
+              {state === 'preview' && (
+                <button
+                  onClick={flipCamera}
+                  title="Kamerayı çevir"
+                  className="absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-transform active:scale-90"
+                  style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.25)' }}
+                >
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M20 4v5h-.582m0 0a8.001 8.001 0 00-15.356 2m15.356-2H15M4 20v-5h.581m0 0a8.003 8.003 0 0015.357-2M4.581 15H9" /></svg>
+                </button>
+              )}
+
               {/* Kayıt göstergesi — ana sayfa video badge ile aynı (rose blur) */}
               {state === 'recording' && (
                 <div
