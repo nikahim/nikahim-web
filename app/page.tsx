@@ -850,25 +850,27 @@ export default function Home() {
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
 
-        {/* Sinematik hero video — sağda ~%60, %10 zoom-out, kenarlar kreme smooth fade */}
-        <div className="absolute inset-y-0 right-0 w-[58%] lg:w-[60%] overflow-hidden pointer-events-none select-none" style={{ background: '#FAF6F3' }}>
-          <video autoPlay muted loop playsInline className="w-full h-full object-cover" style={{ transform: 'scale(0.9)', transformOrigin: 'center' }}>
+        {/* Sinematik hero video — mobil full-bleed, masaüstü sağ %60; krem uzun kademeli fade */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[60%] overflow-hidden pointer-events-none select-none" style={{ background: '#FFFAF7' }}>
+          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover object-[55%_center] lg:object-[64%_center] brightness-[0.97] contrast-[1.03] saturate-[0.92] scale-100 lg:scale-90">
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
-          {/* Sol → sağ kreme smooth fade (sabit çizgi yok) */}
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #FAF6F3 0%, rgba(250,246,243,0.9) 10%, rgba(250,246,243,0.45) 30%, rgba(250,246,243,0.12) 55%, transparent 82%)' }} />
-          {/* Üst fade — header alanı kreme sabit kalsın */}
-          <div className="absolute inset-x-0 top-0 h-28" style={{ background: 'linear-gradient(180deg, #FAF6F3 0%, rgba(250,246,243,0.55) 50%, transparent 100%)' }} />
-          {/* Alt fade — buton alanı ile blend */}
-          <div className="absolute inset-x-0 bottom-0 h-24" style={{ background: 'linear-gradient(0deg, rgba(250,246,243,0.55), transparent)' }} />
+          {/* Sol → sağ uzun cinematic fade — mobil (metin sol tarafta okunur, sağda yüzler görünür) */}
+          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'linear-gradient(90deg, #FFFAF7 0%, rgba(255,250,247,0.97) 12%, rgba(255,250,247,0.78) 26%, rgba(255,250,247,0.42) 40%, rgba(255,250,247,0.14) 54%, rgba(255,250,247,0) 72%)' }} />
+          {/* Sol → sağ uzun cinematic fade — masaüstü (0→69, sabit çizgi yok) */}
+          <div className="absolute inset-0 z-10 hidden lg:block" style={{ background: 'linear-gradient(90deg, #FFFAF7 0%, rgba(255,250,247,0.98) 8%, rgba(255,250,247,0.92) 18%, rgba(255,250,247,0.72) 30%, rgba(255,250,247,0.40) 43%, rgba(255,250,247,0.14) 55%, rgba(255,250,247,0) 69%)' }} />
+          {/* Üst fade — header krem sabit kalsın */}
+          <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FFFAF7 0%, rgba(255,250,247,0.5) 50%, transparent 100%)' }} />
+          {/* Alt hafif erime */}
+          <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '30%', background: 'linear-gradient(0deg, rgba(255,250,247,0.48) 0%, rgba(255,250,247,0.15) 40%, transparent 100%)' }} />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-10 lg:py-0 w-full">
-          <div className="max-w-[54%] lg:max-w-[52%]">
+          <div className="lg:max-w-[52%]">
             <div className="animate-fade-in-up">
-              {/* Slogan — solid (transparent değil), mobilde yukarıda ve sığacak şekilde sarar */}
-              <div className="inline-flex items-center gap-2 px-3 lg:px-5 py-2 lg:py-2.5 rounded-full text-[11px] lg:text-sm font-medium mb-5 lg:mb-6 mt-2 lg:mt-16 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: '#FCEBEE', color: '#C8686E', border: '1px solid rgba(200,104,110,0.28)' }}>
-                <span className="w-2 h-2 rounded-full animate-pulse flex-shrink-0" style={{ background: '#C8686E' }} />
+              {/* Slogan — glass (Apple-style), pembe değil; mobilde yukarıda ve sarabilir */}
+              <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full text-[12px] lg:text-[13px] font-semibold tracking-[0.01em] mb-5 lg:mb-6 mt-2 lg:mt-16 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.62)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.16)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
+                <span className="w-[7px] h-[7px] rounded-full animate-pulse flex-shrink-0" style={{ background: '#D85F70' }} />
                 Türkiye&apos;nin Dijital Düğün ve Nikah Platformu
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
