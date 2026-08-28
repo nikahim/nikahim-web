@@ -859,12 +859,12 @@ export default function Home() {
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
               <h1 className="leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
-                <span className="font-black text-gray-900 text-[2.7rem] lg:text-[3.8rem]">Bu Mutlu Günü</span>
+                <span className="font-black text-gray-900 text-[2.7rem] lg:text-[3.8rem]">Büyük Gününüzü</span>
                 <br />
-                <span className="gradient-text-hero animate-glow font-bold text-[3.2rem] lg:text-[4.5rem]">Canlı Yayınlayın</span>
+                <span className="gradient-text-hero animate-glow font-bold text-[3.2rem] lg:text-[4.5rem]">Kolaylaştırın.</span>
               </h1>
               {/* Item 26: yeni açıklama */}
-              <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Sevdikleriniz nerede olursa olsun, en mutlu anınızı birlikte yaşayın. Canlı Yayın, Fotoğraf Albümü, Online Altın Takma, Videolu Tebrik mesajları ve çok daha fazlası tek platformda!</p>
+              <p className="text-lg lg:text-[1.35rem] text-gray-400 mb-12 leading-relaxed max-w-[520px]">Masa planından canlı yayına, fotoğraf albümünden tebrik mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler Nikahım&apos;da.</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-6">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
