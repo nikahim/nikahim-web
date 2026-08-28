@@ -855,43 +855,45 @@ export default function Home() {
             -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
             mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
           }
-          @media (max-width: 1023px) {
-            .hero-vid-mask {
-              -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 10%, #000 24%), linear-gradient(to top, transparent 0%, rgba(0,0,0,0.55) 16%, #000 36%);
-              -webkit-mask-composite: source-in;
-              mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 10%, #000 24%), linear-gradient(to top, transparent 0%, rgba(0,0,0,0.55) 16%, #000 36%);
-              mask-composite: intersect;
-            }
+          .hero-vid-mask-4 {
+            -webkit-mask-image: radial-gradient(ellipse 84% 82% at 50% 50%, #000 0%, #000 52%, rgba(0,0,0,0.45) 78%, transparent 100%);
+            mask-image: radial-gradient(ellipse 84% 82% at 50% 50%, #000 0%, #000 52%, rgba(0,0,0,0.45) 78%, transparent 100%);
           }
         `}</style>
-        {/* Hero görsel — masaüstü full mask; mobil sağ-üstte KIRPILMAMIŞ landscape blok (iki yüz de görünür) + sol/alt fade */}
-        <div className="absolute inset-y-0 right-0 w-full lg:w-[66%] overflow-hidden pointer-events-none select-none">
-          <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask absolute right-0 top-[104px] w-[62%] h-auto object-contain object-center lg:top-0 lg:bottom-0 lg:left-0 lg:w-full lg:h-full lg:object-cover lg:object-[56%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92]">
+        {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[66%] overflow-hidden pointer-events-none select-none hidden lg:block">
+          <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask absolute inset-0 h-full w-full object-cover object-[56%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92]">
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
-          {/* Masaüstü — header üst fade */}
-          <div className="absolute inset-x-0 top-0 h-24 z-10 hidden lg:block" style={{ background: 'linear-gradient(180deg, #FBF8F5 0%, rgba(251,248,245,0.5) 50%, transparent 100%)' }} />
-          {/* Masaüstü — alt fadeaway (arka plan tonuyla, dikey çizgisiz) */}
-          <div className="absolute inset-x-0 bottom-0 z-10 hidden lg:block" style={{ height: '32%', background: 'linear-gradient(0deg, #FAF7F5 0%, rgba(250,247,245,0.55) 32%, rgba(250,247,245,0.15) 62%, transparent 100%)' }} />
+          {/* header üst fade */}
+          <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FBF8F5 0%, rgba(251,248,245,0.5) 50%, transparent 100%)' }} />
+          {/* alt fadeaway (arka plan tonuyla) */}
+          <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '32%', background: 'linear-gradient(0deg, #FAF7F5 0%, rgba(250,247,245,0.55) 32%, rgba(250,247,245,0.15) 62%, transparent 100%)' }} />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12 lg:pt-28 lg:pb-0 w-full">
           <div className="lg:max-w-[46%]">
             <div className="animate-fade-in-up">
               {/* Slogan — glass (Apple-style), pembe değil; mobilde yukarıda ve sarabilir */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[11px] lg:text-[12.5px] font-semibold tracking-[0.01em] mb-5 lg:mb-6 mt-0 leading-snug whitespace-normal lg:whitespace-nowrap max-w-[46%] lg:max-w-none" style={{ background: 'rgba(255,255,255,0.55)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.15)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[12px] lg:text-[12.5px] font-semibold tracking-[0.01em] mb-5 lg:mb-6 mt-0 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.55)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.15)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
                 <span className="w-[7px] h-[7px] rounded-full animate-pulse flex-shrink-0" style={{ background: '#D85F70' }} />
                 Türkiye&apos;nin Dijital Düğün ve Nikah Platformu
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
-              <h1 className="leading-[1.04] mb-6 lg:mb-12 max-w-[48%] lg:max-w-none" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1.2px' }}>
-                <span className="font-black text-gray-900 text-[1.6rem] lg:text-[3.4rem]">Büyük Gününüzü</span>
+              <h1 className="leading-[1.05] mb-5 lg:mb-12" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1.2px' }}>
+                <span className="font-black text-gray-900 text-[2.4rem] lg:text-[3.4rem]">Büyük Gününüzü</span>
                 <br />
-                <span className="gradient-text-hero animate-glow font-bold text-[1.75rem] lg:text-[4rem]">Kolaylaştırın</span>
+                <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4rem]">Kolaylaştırın</span>
               </h1>
-              {/* Item 26: yeni açıklama — koyu, okunur (foto üstünde bile) */}
-              <p className="text-[13px] lg:text-[1.15rem] font-medium mb-8 lg:mb-10 leading-relaxed max-w-[44%] lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
-              <div className="flex flex-row gap-3 lg:gap-4 mt-32 lg:mt-0 mb-7 lg:mb-6">
+              {/* Item 26: yeni açıklama — mobilde tam genişlik */}
+              <p className="text-[15px] lg:text-[1.15rem] font-medium mb-7 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
+              {/* Mobil hero video — akış içinde, 4 kenarı arka plan rengine fade (mask) */}
+              <div className="lg:hidden relative w-full mb-7" style={{ aspectRatio: '1024 / 688' }}>
+                <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-center brightness-[0.96] contrast-[1.03] saturate-[0.94]">
+                  <source src="/welcome-video-2.mp4" type="video/mp4" />
+                </video>
+              </div>
+              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                   {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
