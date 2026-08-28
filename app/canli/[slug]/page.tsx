@@ -2720,7 +2720,7 @@ export default function WatchPage() {
             {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir */}
             <div className="rounded-2xl p-5 flex flex-col text-center justify-center gap-3.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
               <p className="text-[15px] font-semibold leading-snug" style={{ color: '#7B6A74' }}>
-                Bu büyük gününü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
+                Bu büyük Günü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
               </p>
               <button onClick={() => { window.open('/', '_blank', 'noopener,noreferrer'); }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
                 Nikahım&apos;ı Keşfet
@@ -3557,7 +3557,7 @@ export default function WatchPage() {
               <div className="flex items-center flex-shrink-0">
                 <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#FFF0F2', color: '#E75C70' }}>{videoTebrikCount > 999 ? '999+' : videoTebrikCount}</span>
                 <span className="mx-2.5 flex-shrink-0" style={{ width: '1px', height: '32px', background: '#F1DFE1' }} />
-                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#E75C70', boxShadow: '0 4px 10px rgba(231,92,112,0.28)' }}>
+                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#EE8792', boxShadow: '0 4px 10px rgba(231,92,112,0.18)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
@@ -3575,7 +3575,7 @@ export default function WatchPage() {
               <div className="flex items-center flex-shrink-0">
                 <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#EFF8FC', color: '#48A7D8' }}>{sesliTebrikCount > 999 ? '999+' : sesliTebrikCount}</span>
                 <span className="mx-2.5 flex-shrink-0" style={{ width: '1px', height: '32px', background: '#E1EDF2' }} />
-                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#48A7D8', boxShadow: '0 4px 10px rgba(72,167,216,0.28)' }}>
+                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#74BEE0', boxShadow: '0 4px 10px rgba(72,167,216,0.18)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
@@ -3593,7 +3593,7 @@ export default function WatchPage() {
               <div className="flex items-center flex-shrink-0">
                 <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#EFF8F0', color: '#51B86D' }}>{messages.length > 999 ? '999+' : messages.length}</span>
                 <span className="mx-2.5 flex-shrink-0" style={{ width: '1px', height: '32px', background: '#E0ECE2' }} />
-                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#51B86D', boxShadow: '0 4px 10px rgba(81,184,109,0.28)' }}>
+                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#7CC993', boxShadow: '0 4px 10px rgba(81,184,109,0.18)' }}>
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>

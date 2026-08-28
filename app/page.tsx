@@ -850,19 +850,19 @@ export default function Home() {
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
 
-        {/* Sinematik hero video — mobil full-bleed, masaüstü sağ %56; sağa yaslı, kademeli kayboluş */}
-        <div className="absolute inset-y-0 right-0 w-full lg:w-[56%] overflow-hidden pointer-events-none select-none" style={{ background: '#FFFAF7' }}>
-          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover object-[68%_center] lg:object-[58%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92] scale-[0.88] origin-right lg:scale-100 lg:origin-center">
+        {/* Sinematik hero video — mobil full-bleed (uniform sis), masaüstü sağ %62 geniş çözülme */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[62%] overflow-hidden pointer-events-none select-none" style={{ background: '#FFF9F6' }}>
+          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover object-[46%_center] lg:object-[58%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92] scale-[0.82] lg:scale-100 origin-center">
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
-          {/* Mobil — sadece metin arkasını koru, %78'de sıfırlan (sağda foto net) */}
-          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'linear-gradient(90deg, rgba(255,248,245,0.98) 0%, rgba(255,248,245,0.95) 28%, rgba(255,248,245,0.72) 48%, rgba(255,248,245,0.22) 64%, rgba(255,248,245,0) 78%)' }} />
-          {/* Masaüstü — kademeli kayboluş (sağda net, sola gidince sis ~%92'ye çıkar, sabit kesim yok) */}
-          <div className="absolute inset-0 z-10 hidden lg:block" style={{ background: 'linear-gradient(90deg, rgba(255,250,247,0.92) 0%, rgba(255,250,247,0.9) 10%, rgba(255,250,247,0.74) 24%, rgba(255,250,247,0.5) 37%, rgba(255,250,247,0.26) 49%, rgba(255,250,247,0.08) 61%, rgba(255,250,247,0) 74%)' }} />
+          {/* Mobil — TÜM videoya uniform sis (yazılar her yerde okunur), sol fade yok */}
+          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'rgba(255,249,246,0.52)' }} />
+          {/* Masaüstü — geniş kademeli çözülme (foto sol panelin altına girer, ~%90'da netleşir) */}
+          <div className="absolute inset-0 z-10 hidden lg:block" style={{ background: 'linear-gradient(to right, #FFF9F6 0%, rgba(255,249,246,0.98) 8%, rgba(255,249,246,0.92) 18%, rgba(255,249,246,0.78) 30%, rgba(255,249,246,0.55) 42%, rgba(255,249,246,0.32) 54%, rgba(255,249,246,0.14) 66%, rgba(255,249,246,0.04) 78%, transparent 90%)' }} />
           {/* Üst fade — header krem sabit kalsın */}
-          <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FFFAF7 0%, rgba(255,250,247,0.5) 50%, transparent 100%)' }} />
+          <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FFF9F6 0%, rgba(255,249,246,0.5) 50%, transparent 100%)' }} />
           {/* Alt hafif erime */}
-          <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '30%', background: 'linear-gradient(0deg, rgba(255,250,247,0.48) 0%, rgba(255,250,247,0.15) 40%, transparent 100%)' }} />
+          <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '28%', background: 'linear-gradient(0deg, rgba(255,249,246,0.42) 0%, rgba(255,249,246,0.12) 45%, transparent 100%)' }} />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12 lg:pt-28 lg:pb-0 w-full">
@@ -880,8 +880,8 @@ export default function Home() {
                 <span className="gradient-text-hero animate-glow font-bold text-[2.3rem] lg:text-[4rem]">Kolaylaştırın</span>
               </h1>
               {/* Item 26: yeni açıklama — koyu, okunur (foto üstünde bile) */}
-              <p className="text-[15px] lg:text-[1.15rem] font-medium mb-10 leading-relaxed max-w-[86%] lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
-              <div className="flex flex-row gap-3 lg:gap-4 mb-6">
+              <p className="text-[15px] lg:text-[1.15rem] font-medium mb-12 lg:mb-10 leading-relaxed max-w-[52%] lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
+              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                   {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
@@ -923,8 +923,8 @@ export default function Home() {
                     setLoadingDemo(false);
                   }
                 }}
-                className={`live-demo-link inline-flex items-center gap-2 mb-3 px-4 py-2.5 rounded-xl text-[13px] lg:text-sm font-medium transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
-                style={{ background: loadingDemo ? 'rgba(200,104,110,0.18)' : 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}
+                className={`live-demo-link inline-flex items-center gap-2 mb-6 lg:mb-3 px-4 py-3 lg:py-2.5 rounded-2xl text-[13px] lg:text-sm font-medium transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
+                style={{ background: loadingDemo ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.72)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', color: '#C95669', border: '1px solid rgba(206,91,110,0.25)' }}
               >
                 {loadingDemo ? (
                   <>
@@ -941,19 +941,19 @@ export default function Home() {
                   </>
                 )}
               </button>
-              <div className="mb-1 lg:mb-3" />
-              <div className="flex gap-5">
+              <div className="mb-3 lg:mb-3" />
+              <div className="flex gap-4">
                 {[
-                  { line1: 'Mutlu', line2: 'Çiftler', alt: 'Mutlu Çiftler', icon: '/couple-icon.png', iconSize: 'w-[70px] h-[70px]' },
-                  { line1: 'Mutlu', line2: 'Misafirler', alt: 'Mutlu Misafirler', icon: '/izleyici-icon-2.png', iconSize: 'w-[78px] h-[78px] -my-3 relative top-[3px]' }
+                  { line1: 'Mutlu', line2: 'Çiftler', alt: 'Mutlu Çiftler', icon: '/couple-icon.png', iconSize: 'w-[56px] h-[56px]' },
+                  { line1: 'Mutlu', line2: 'Misafirler', alt: 'Mutlu Misafirler', icon: '/izleyici-icon-2.png', iconSize: 'w-[62px] h-[62px] -my-2 relative top-[2px]' }
                 ].map((s, i) => (
-                  <div key={i} className="group flex items-center gap-1 px-4 py-3 rounded-[16px] transition-all duration-300 hover:-translate-y-1 cursor-default" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', border: '1px solid rgba(200,180,160,0.12)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(200,104,110,0.1), 0 4px 12px rgba(0,0,0,0.04)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'; }}>
+                  <div key={i} className="group flex items-center gap-1 px-3 py-2.5 rounded-[16px] transition-all duration-300 hover:-translate-y-1 cursor-default" style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(12px)', border: '1px solid rgba(200,180,160,0.14)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(200,104,110,0.1), 0 4px 12px rgba(0,0,0,0.04)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'; }}>
                     <div className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-                      <Image src={s.icon} alt={s.alt} width={72} height={72} className={`${s.iconSize} object-contain`} />
+                      <Image src={s.icon} alt={s.alt} width={64} height={64} className={`${s.iconSize} object-contain`} />
                     </div>
                     <div className="ml-1">
-                      <div className="text-gray-600 text-[14px] font-medium leading-tight whitespace-nowrap">{s.line1}</div>
-                      <div className="text-gray-600 text-[14px] font-medium leading-tight whitespace-nowrap mt-0.5">{s.line2}</div>
+                      <div className="text-gray-600 text-[13px] font-medium leading-tight whitespace-nowrap">{s.line1}</div>
+                      <div className="text-gray-600 text-[13px] font-medium leading-tight whitespace-nowrap mt-0.5">{s.line2}</div>
                     </div>
                   </div>
                 ))}
