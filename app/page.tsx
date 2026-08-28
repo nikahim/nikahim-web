@@ -850,35 +850,35 @@ export default function Home() {
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
 
-        {/* Sinematik hero video — sağda tam genişlik, sol kenarı kreme fade */}
-        <div className="absolute inset-y-0 right-0 w-full lg:w-[60%] pointer-events-none select-none">
-          <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+        {/* Sinematik hero video — sağda ~%60, %10 zoom-out, kenarlar kreme smooth fade */}
+        <div className="absolute inset-y-0 right-0 w-[58%] lg:w-[60%] overflow-hidden pointer-events-none select-none" style={{ background: '#FAF6F3' }}>
+          <video autoPlay muted loop playsInline className="w-full h-full object-cover" style={{ transform: 'scale(0.9)', transformOrigin: 'center' }}>
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
-          {/* Sol → sağ kreme fade — mobil (metin daha okunur) */}
-          <div className="absolute inset-0 lg:hidden" style={{ background: 'linear-gradient(90deg, #FAF6F3 0%, rgba(250,246,243,0.92) 30%, rgba(250,246,243,0.45) 58%, rgba(250,246,243,0.12) 100%)' }} />
-          {/* Sol kenar fade — masaüstü */}
-          <div className="absolute inset-0 hidden lg:block" style={{ background: 'linear-gradient(90deg, #FAF6F3 0%, #FAF6F3 6%, rgba(250,246,243,0.55) 30%, transparent 60%)' }} />
-          {/* Alt hafif fade — buton alanı ile blend */}
+          {/* Sol → sağ kreme smooth fade (sabit çizgi yok) */}
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #FAF6F3 0%, rgba(250,246,243,0.9) 10%, rgba(250,246,243,0.45) 30%, rgba(250,246,243,0.12) 55%, transparent 82%)' }} />
+          {/* Üst fade — header alanı kreme sabit kalsın */}
+          <div className="absolute inset-x-0 top-0 h-28" style={{ background: 'linear-gradient(180deg, #FAF6F3 0%, rgba(250,246,243,0.55) 50%, transparent 100%)' }} />
+          {/* Alt fade — buton alanı ile blend */}
           <div className="absolute inset-x-0 bottom-0 h-24" style={{ background: 'linear-gradient(0deg, rgba(250,246,243,0.55), transparent)' }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
-          <div className="lg:max-w-[52%]">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-10 lg:py-0 w-full">
+          <div className="max-w-[54%] lg:max-w-[52%]">
             <div className="animate-fade-in-up">
-              {/* Slogan — masaüstünde daha aşağı (header'dan uzak) */}
-              <div className="inline-flex items-center gap-2.5 px-4 lg:px-5 py-2.5 -mx-2 lg:mx-0 rounded-full text-[12px] lg:text-sm font-medium mb-6 mt-4 lg:mt-16 whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
+              {/* Slogan — solid (transparent değil), mobilde yukarıda ve sığacak şekilde sarar */}
+              <div className="inline-flex items-center gap-2 px-3 lg:px-5 py-2 lg:py-2.5 rounded-full text-[11px] lg:text-sm font-medium mb-5 lg:mb-6 mt-2 lg:mt-16 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: '#FCEBEE', color: '#C8686E', border: '1px solid rgba(200,104,110,0.28)' }}>
                 <span className="w-2 h-2 rounded-full animate-pulse flex-shrink-0" style={{ background: '#C8686E' }} />
                 Türkiye&apos;nin Dijital Düğün ve Nikah Platformu
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
-              <h1 className="leading-[1.06] mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
-                <span className="font-black text-gray-900 text-[2.3rem] lg:text-[3.8rem]">Büyük Gününüzü</span>
+              <h1 className="leading-[1.06] mb-6 lg:mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
+                <span className="font-black text-gray-900 text-[2rem] lg:text-[3.8rem]">Büyük Gününüzü</span>
                 <br />
-                <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4.5rem]">Kolaylaştırın</span>
+                <span className="gradient-text-hero animate-glow font-bold text-[2.3rem] lg:text-[4.5rem]">Kolaylaştırın</span>
               </h1>
               {/* Item 26: yeni açıklama */}
-              <p className="text-[15px] lg:text-[1.35rem] mb-12 leading-relaxed max-w-[520px]" style={{ color: '#A67C86' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler Nikahım&apos;da!</p>
+              <p className="text-[15px] lg:text-[1.35rem] mb-12 leading-relaxed max-w-[520px]" style={{ color: '#6E5049' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#57403A' }}>Nikahım</span>&apos;da!</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-6">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
