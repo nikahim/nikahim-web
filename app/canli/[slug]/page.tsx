@@ -2659,12 +2659,12 @@ export default function WatchPage() {
 
       {/* 3 PANEL LAYOUT */}
       <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-32 lg:p-5 lg:pb-5">
-        <div className="flex flex-col lg:flex-row lg:items-stretch gap-4 lg:gap-5">
+        <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
-          <div ref={leftPanelRef} className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3 lg:justify-between">
+          <div ref={leftPanelRef} className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3">
             {/* Çift + Aile — TEK kart (kart üstüne kart hissi yok, daha premium) */}
-            <div className="rounded-2xl p-5" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+            <div className="rounded-2xl p-5 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div className="text-center">
                 {event.couple_photo_url ? (
                   <img src={event.couple_photo_url} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
@@ -2718,29 +2718,10 @@ export default function WatchPage() {
             </div>
 
             {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir */}
-            <div className="rounded-2xl p-5 flex flex-col text-center gap-2.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+            <div className="rounded-2xl p-5 flex flex-col text-center justify-center gap-3.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
               <p className="text-[15px] font-semibold leading-snug" style={{ color: '#7B6A74' }}>
                 Bu büyük gününü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
               </p>
-              {/* Özellik ikonları — davetli welcome tarzı line icon */}
-              <div className="grid grid-cols-4 gap-1 w-full py-1.5">
-                <div className="flex flex-col items-center gap-1">
-                  <svg className="w-[22px] h-[22px]" fill="none" stroke="#C8686E" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.3 7.2l8.7 6 8.7-6" /></svg>
-                  <span className="text-[10px] font-medium leading-tight" style={{ color: '#8A7E82' }}>Davetiye</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <svg className="w-[22px] h-[22px]" fill="none" stroke="#C8686E" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M7.5 10.5h9" strokeWidth="2.2" /><path d="M12 10.5V16M10 16h4" /><path d="M6 6.5v5.5M6 12h2.5M6 12l-.5 4.5M8.3 12l.2 4.5" /><path d="M18 6.5v5.5M18 12h-2.5M18 12l.5 4.5M15.7 12l-.2 4.5" /></svg>
-                  <span className="text-[10px] font-medium leading-tight" style={{ color: '#8A7E82' }}>Masa Planı</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <svg className="w-[22px] h-[22px]" fill="none" stroke="#C8686E" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>
-                  <span className="text-[10px] font-medium leading-tight" style={{ color: '#8A7E82' }}>Canlı</span>
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <svg className="w-[22px] h-[22px]" fill="none" stroke="#C8686E" strokeWidth="1.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25z" /></svg>
-                  <span className="text-[10px] font-medium leading-tight" style={{ color: '#8A7E82' }}>Albüm</span>
-                </div>
-              </div>
               <button onClick={() => { window.open('/', '_blank', 'noopener,noreferrer'); }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
                 Nikahım&apos;ı Keşfet
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
