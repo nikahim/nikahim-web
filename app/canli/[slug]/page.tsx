@@ -2705,13 +2705,13 @@ export default function WatchPage() {
 
             {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir */}
             <div className="rounded-2xl p-5 flex flex-col text-center gap-2.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
-              <p className="text-[15px] font-bold leading-snug" style={{ color: '#4A3B44' }}>
-                Sen de büyük gününü <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştır.
+              <p className="text-[15px] font-semibold leading-snug" style={{ color: '#7B6A74' }}>
+                Bu büyük gününü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
               </p>
               <p className="text-[12.5px] leading-relaxed" style={{ color: '#85828A' }}>
-                Davetiyeden masa planına, canlı yayından fotoğraflara… Büyük günün için ihtiyacın olan dijital çözümler tek yerde.
+                Dijital davetiyeden otomatik masa planına, Canlı yayından fotoğraf albümüne. Bu büyük gün için ihtiyacın olan tüm dijital çözümler burada!
               </p>
-              <button onClick={() => { window.location.href = '/'; }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm text-white transition-all hover:scale-[1.02] flex items-center justify-center gap-1.5" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 16px rgba(200,104,110,0.25)' }}>
+              <button onClick={() => { window.location.href = '/'; }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
                 Nikahım&apos;ı Keşfet
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </button>
@@ -2759,7 +2759,7 @@ export default function WatchPage() {
               )}
 
               {/* Fullscreen toggle button */}
-              <button onClick={() => { const next = !isFullscreen; setIsFullscreen(next); if (next) { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} } else { try { (screen.orientation as any)?.unlock?.(); } catch {} setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+              <button onClick={() => { const next = !isFullscreen; try { if (next) (screen.orientation as any)?.lock?.('landscape').catch(() => {}); else (screen.orientation as any)?.unlock?.(); } catch {} startTransition(() => { setIsFullscreen(next); if (!next) { setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }); }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
                 {isFullscreen ? (
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
                 ) : (
@@ -3280,14 +3280,15 @@ export default function WatchPage() {
                           <div key={gold.id} className={`relative card-enter card-enter-${topIdx + 1}`}>
 
                             {isHighlight && (
-                              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[9.5px] md:text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap"
+                              <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[9.5px] md:text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap overflow-hidden"
                                    style={{
-                                     background: 'linear-gradient(135deg, #C8A050 0%, #B8893C 100%)',
-                                     boxShadow: '0 6px 18px rgba(184,134,11,0.22), 0 2px 6px rgba(160,120,40,0.10), inset 0 1px 0 rgba(255,255,255,0.25)',
+                                     background: 'linear-gradient(135deg, #F5D98A 0%, #E3BC60 45%, #C99A34 100%)',
+                                     boxShadow: '0 8px 22px rgba(184,134,11,0.40), 0 2px 8px rgba(160,120,40,0.20), inset 0 1px 0 rgba(255,255,255,0.65)',
                                      letterSpacing: '0.5px',
-                                     textShadow: '0 1px 1px rgba(120,80,20,0.20)',
+                                     textShadow: '0 1px 1px rgba(120,80,20,0.25)',
                                    }}>
-                                Popüler
+                                <span className="absolute inset-0 pointer-events-none popbadge-shine" style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.75) 47%, transparent 60%)' }} />
+                                <span className="relative">Popüler</span>
                               </div>
                             )}
                             <button onClick={() => handleGoldSelect(gold.id)}
@@ -3406,9 +3407,10 @@ export default function WatchPage() {
                     return (
                       <div key={id} className={`relative card-enter card-enter-${idx + 1}`}>
                         {isHighlight && (
-                          <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap"
-                               style={{ background: 'linear-gradient(135deg, #C8A050 0%, #B8893C 100%)', boxShadow: '0 6px 18px rgba(184,134,11,0.22), 0 2px 6px rgba(160,120,40,0.10), inset 0 1px 0 rgba(255,255,255,0.25)', letterSpacing: '0.5px', textShadow: '0 1px 1px rgba(120,80,20,0.20)' }}>
-                            Popüler
+                          <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 z-10 text-[11px] font-semibold px-3 py-[3px] rounded-full text-white whitespace-nowrap overflow-hidden"
+                               style={{ background: 'linear-gradient(135deg, #F5D98A 0%, #E3BC60 45%, #C99A34 100%)', boxShadow: '0 8px 22px rgba(184,134,11,0.40), 0 2px 8px rgba(160,120,40,0.20), inset 0 1px 0 rgba(255,255,255,0.65)', letterSpacing: '0.5px', textShadow: '0 1px 1px rgba(120,80,20,0.25)' }}>
+                            <span className="absolute inset-0 pointer-events-none popbadge-shine" style={{ background: 'linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.75) 47%, transparent 60%)' }} />
+                            <span className="relative">Popüler</span>
                           </div>
                         )}
                         <button onClick={() => handleGoldSelect(id)}
@@ -3430,7 +3432,7 @@ export default function WatchPage() {
                           </div>
                           <div className="relative w-[68px] h-[68px] mx-auto mb-2 group-hover:scale-110 transition-transform duration-500 coin-float">
                             <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.32) 0%, transparent 60%)', filter: 'blur(6px)', transform: 'translateY(8%) scale(0.85)' }} />
-                            <Image src={isNakit ? '/tl-icon.png' : gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))' }} />
+                            <Image src={isNakit ? '/tl-icon.png' : gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))', transform: gold.id === 'gram_altin' ? 'scale(0.8)' : undefined }} />
                           </div>
                           <div className="text-[14px] font-medium" style={{
                             letterSpacing: '0.3px',
@@ -4067,6 +4069,11 @@ export default function WatchPage() {
             0%, 100% { opacity: 0.85; }
             50% { opacity: 1; }
           }
+          @keyframes popbadgeShine {
+            0% { transform: translateX(-130%); }
+            55%, 100% { transform: translateX(170%); }
+          }
+          .popbadge-shine { animation: popbadgeShine 3.4s ease-in-out infinite; will-change: transform; }
           .dock-gold-halo { animation: dockGoldBreath 3.4s ease-in-out infinite; }
           .dock-tab { transition: color 380ms ease, transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1); }
           .dock-tab:active { transform: scale(0.94); }
