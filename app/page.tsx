@@ -850,19 +850,26 @@ export default function Home() {
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
 
-        {/* Sinematik hero video — mobil full-bleed (uniform sis), masaüstü sağ %62 geniş çözülme */}
-        <div className="absolute inset-y-0 right-0 w-full lg:w-[62%] overflow-hidden pointer-events-none select-none" style={{ background: '#FFF9F6' }}>
-          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover object-[46%_center] lg:object-[58%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92] scale-[0.82] lg:scale-100 origin-center">
+        <style>{`
+          .hero-vid-mask {
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
+            mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
+          }
+          @media (max-width: 1023px) { .hero-vid-mask { -webkit-mask-image: none; mask-image: none; } }
+        `}</style>
+        {/* Hero görsel — masaüstü mask ile kendi arka planına erir (dikey çizgi YOK); mobil sağda çift + sol fade */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[66%] overflow-hidden pointer-events-none select-none">
+          <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask absolute inset-0 h-full w-full object-cover object-[44%_center] lg:object-[56%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92] scale-[0.8] lg:scale-100 origin-center">
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
-          {/* Mobil — TÜM videoya uniform sis (yazılar her yerde okunur), sol fade yok */}
-          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'rgba(255,249,246,0.52)' }} />
-          {/* Masaüstü — geniş kademeli çözülme (foto sol panelin altına girer, ~%90'da netleşir) */}
-          <div className="absolute inset-0 z-10 hidden lg:block" style={{ background: 'linear-gradient(to right, #FFF9F6 0%, rgba(255,249,246,0.98) 8%, rgba(255,249,246,0.92) 18%, rgba(255,249,246,0.78) 30%, rgba(255,249,246,0.55) 42%, rgba(255,249,246,0.32) 54%, rgba(255,249,246,0.14) 66%, rgba(255,249,246,0.04) 78%, transparent 90%)' }} />
-          {/* Üst fade — header krem sabit kalsın */}
-          <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FFF9F6 0%, rgba(255,249,246,0.5) 50%, transparent 100%)' }} />
-          {/* Alt hafif erime */}
-          <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '28%', background: 'linear-gradient(0deg, rgba(255,249,246,0.42) 0%, rgba(255,249,246,0.12) 45%, transparent 100%)' }} />
+          {/* Mobil — sol fade (yarıdan sonra krem, sağda çift/yüzler net); üst tamamen faded değil */}
+          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'linear-gradient(90deg, #FBF8F5 0%, rgba(251,248,245,0.96) 30%, rgba(251,248,245,0.72) 46%, rgba(251,248,245,0.36) 60%, rgba(251,248,245,0.1) 74%, transparent 88%)' }} />
+          {/* Mobil — header için çok hafif üst fade */}
+          <div className="absolute inset-x-0 top-0 h-20 z-10 lg:hidden" style={{ background: 'linear-gradient(180deg, #FBF8F5 0%, rgba(251,248,245,0.4) 55%, transparent 100%)' }} />
+          {/* Masaüstü — header üst fade */}
+          <div className="absolute inset-x-0 top-0 h-24 z-10 hidden lg:block" style={{ background: 'linear-gradient(180deg, #FBF8F5 0%, rgba(251,248,245,0.5) 50%, transparent 100%)' }} />
+          {/* Masaüstü — alt fadeaway (arka plan tonuyla, dikey çizgisiz) */}
+          <div className="absolute inset-x-0 bottom-0 z-10 hidden lg:block" style={{ height: '32%', background: 'linear-gradient(0deg, #FAF7F5 0%, rgba(250,247,245,0.55) 32%, rgba(250,247,245,0.15) 62%, transparent 100%)' }} />
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12 lg:pt-28 lg:pb-0 w-full">
@@ -880,7 +887,7 @@ export default function Home() {
                 <span className="gradient-text-hero animate-glow font-bold text-[2.3rem] lg:text-[4rem]">Kolaylaştırın</span>
               </h1>
               {/* Item 26: yeni açıklama — koyu, okunur (foto üstünde bile) */}
-              <p className="text-[15px] lg:text-[1.15rem] font-medium mb-12 lg:mb-10 leading-relaxed max-w-[52%] lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
+              <p className="text-[15px] lg:text-[1.15rem] font-medium mb-10 leading-relaxed max-w-[250px] lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
