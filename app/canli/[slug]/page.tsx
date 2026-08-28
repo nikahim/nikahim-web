@@ -2711,7 +2711,7 @@ export default function WatchPage() {
               <p className="text-[12.5px] leading-relaxed" style={{ color: '#85828A' }}>
                 Dijital davetiyeden otomatik masa planına, Canlı yayından fotoğraf albümüne. Bu büyük gün için ihtiyacın olan tüm dijital çözümler burada!
               </p>
-              <button onClick={() => { window.location.href = '/'; }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
+              <button onClick={() => { window.open('/', '_blank', 'noopener,noreferrer'); }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
                 Nikahım&apos;ı Keşfet
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </button>
