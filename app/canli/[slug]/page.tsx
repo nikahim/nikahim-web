@@ -3536,7 +3536,7 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
               </div>
               <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
-                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px] truncate" style={{ color: '#6B5763' }}>Video Tebrik</h3>
+                <h3 className="font-bold lg:font-semibold text-[16px] lg:text-[15px] leading-tight tracking-[-0.25px] truncate" style={{ color: '#6B5763' }}>Video Tebrik</h3>
                 <p className="text-[12.5px] leading-[17px] mt-0.5 truncate" style={{ color: '#85828A' }}>Tebrik videosu gönderin</p>
               </div>
               <div className="flex items-center flex-shrink-0">
@@ -3554,7 +3554,7 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
               </div>
               <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
-                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px] truncate" style={{ color: '#6B5763' }}>Sesli Tebrik</h3>
+                <h3 className="font-bold lg:font-semibold text-[16px] lg:text-[15px] leading-tight tracking-[-0.25px] truncate" style={{ color: '#6B5763' }}>Sesli Tebrik</h3>
                 <p className="text-[12.5px] leading-[17px] mt-0.5 truncate" style={{ color: '#85828A' }}>Sesli mesaj gönderin</p>
               </div>
               <div className="flex items-center flex-shrink-0">
@@ -3572,7 +3572,7 @@ export default function WatchPage() {
                 <svg className="w-5 h-5" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
               </div>
               <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
-                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px] truncate" style={{ color: '#6B5763' }}>Tebrik Mesajı</h3>
+                <h3 className="font-bold lg:font-semibold text-[16px] lg:text-[15px] leading-tight tracking-[-0.25px] truncate" style={{ color: '#6B5763' }}>Tebrik Mesajı</h3>
                 <p className="text-[12.5px] leading-[17px] mt-0.5 truncate" style={{ color: '#85828A' }}>Tebrik mesajı gönderin</p>
               </div>
               <div className="flex items-center flex-shrink-0">
