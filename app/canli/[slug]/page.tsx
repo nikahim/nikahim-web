@@ -3531,13 +3531,13 @@ export default function WatchPage() {
             </div>
 
             {/* Video Tebrik — premium, kompakt */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-3 lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-[14px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0F2' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
               </div>
               <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
-                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#172033' }}>Video Tebrik</h3>
-                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Kısa bir video ile duygularınızı paylaşın.</p>
+                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#4A3B44' }}>Video Tebrik</h3>
+                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Duygularınızı video olarak paylaşın</p>
               </div>
               <div className="flex items-center flex-shrink-0">
                 <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#FFF0F2', color: '#E75C70' }}>{videoTebrikCount > 999 ? '999+' : videoTebrikCount}</span>
@@ -3549,13 +3549,13 @@ export default function WatchPage() {
             </div>
 
             {/* Sesli Tebrik — premium, kompakt */}
-            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 group w-full flex items-center rounded-[20px] px-4 py-3 lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[14px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#EFF8FC' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
               </div>
               <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
-                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#172033' }}>Sesli Tebrik</h3>
-                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Sesli mesajınızı kaydedip gönderin.</p>
+                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#4A3B44' }}>Sesli Tebrik</h3>
+                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Sesli Tebrik mesajınızı gönderin</p>
               </div>
               <div className="flex items-center flex-shrink-0">
                 <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#EFF8FC', color: '#48A7D8' }}>{sesliTebrikCount > 999 ? '999+' : sesliTebrikCount}</span>
@@ -3567,13 +3567,13 @@ export default function WatchPage() {
             </div>
 
             {/* Mesaj Tebrik — premium, kompakt */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 group w-full flex items-center rounded-[20px] px-4 py-3 lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[14px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#F0F8F1' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
               </div>
               <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
-                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#172033' }}>Mesaj Tebrik</h3>
-                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Yazılı olarak tebriklerinizi iletin.</p>
+                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#4A3B44' }}>Tebrik Mesajı</h3>
+                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Tebrik mesajınızı iletin</p>
               </div>
               <div className="flex items-center flex-shrink-0">
                 <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#EFF8F0', color: '#51B86D' }}>{messages.length > 999 ? '999+' : messages.length}</span>
