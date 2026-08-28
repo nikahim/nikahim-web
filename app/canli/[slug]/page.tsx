@@ -51,6 +51,8 @@ interface Event {
   bride_mother_name: string;
   event_date: string;
   event_time: string;
+  city?: string | null;
+  venue?: string | null;
   couple_photo_url: string;
   bank_iban: string;
   bank_holder_name: string;
@@ -2686,6 +2688,18 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   {eventTime}
                 </div>
+                {event.city && (
+                  <div className="flex items-center gap-2 text-gray-500 text-sm">
+                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
+                    <span className="truncate">{event.city}</span>
+                  </div>
+                )}
+                {event.venue && (
+                  <div className="flex items-center gap-2 text-gray-500 text-sm">
+                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.9} d="M3.75 21h16.5M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h1.5c.621 0 1.125.504 1.125 1.125V21" /></svg>
+                    <span className="truncate">{event.venue}</span>
+                  </div>
+                )}
               </div>
               {/* Ayraç — çift bilgisi ile aile bilgisi arası */}
               <div className="my-4 flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.2), transparent)' }} /></div>
@@ -2707,9 +2721,6 @@ export default function WatchPage() {
             <div className="rounded-2xl p-5 flex flex-col text-center gap-2.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
               <p className="text-[15px] font-semibold leading-snug" style={{ color: '#7B6A74' }}>
                 Bu büyük gününü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
-              </p>
-              <p className="text-[12.5px] leading-relaxed" style={{ color: '#85828A' }}>
-                Dijital davetiyeden otomatik masa planına, Canlı yayından fotoğraf albümüne. Bu büyük gün için ihtiyacın olan tüm dijital çözümler burada!
               </p>
               <button onClick={() => { window.open('/', '_blank', 'noopener,noreferrer'); }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
                 Nikahım&apos;ı Keşfet
