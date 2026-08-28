@@ -856,8 +856,8 @@ export default function Home() {
             mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
           }
           .hero-vid-mask-4 {
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.04) 5%, rgba(0,0,0,0.11) 9%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.36) 17%, rgba(0,0,0,0.52) 21%, rgba(0,0,0,0.68) 25%, rgba(0,0,0,0.83) 29%, rgba(0,0,0,0.94) 33%, #000 38%, #000 62%, rgba(0,0,0,0.94) 67%, rgba(0,0,0,0.83) 71%, rgba(0,0,0,0.68) 75%, rgba(0,0,0,0.52) 79%, rgba(0,0,0,0.36) 83%, rgba(0,0,0,0.22) 87%, rgba(0,0,0,0.11) 91%, rgba(0,0,0,0.04) 95%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.04) 5%, rgba(0,0,0,0.11) 9%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.36) 17%, rgba(0,0,0,0.52) 21%, rgba(0,0,0,0.68) 25%, rgba(0,0,0,0.83) 29%, rgba(0,0,0,0.94) 33%, #000 38%, #000 62%, rgba(0,0,0,0.94) 67%, rgba(0,0,0,0.83) 71%, rgba(0,0,0,0.68) 75%, rgba(0,0,0,0.52) 79%, rgba(0,0,0,0.36) 83%, rgba(0,0,0,0.22) 87%, rgba(0,0,0,0.11) 91%, rgba(0,0,0,0.04) 95%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 6%, rgba(0,0,0,0.06) 11%, rgba(0,0,0,0.13) 16%, rgba(0,0,0,0.23) 21%, rgba(0,0,0,0.36) 26%, rgba(0,0,0,0.51) 31%, rgba(0,0,0,0.67) 36%, rgba(0,0,0,0.83) 41%, rgba(0,0,0,0.95) 46%, #000 50%, rgba(0,0,0,0.95) 54%, rgba(0,0,0,0.83) 59%, rgba(0,0,0,0.67) 64%, rgba(0,0,0,0.51) 69%, rgba(0,0,0,0.36) 74%, rgba(0,0,0,0.23) 79%, rgba(0,0,0,0.13) 84%, rgba(0,0,0,0.06) 89%, rgba(0,0,0,0.02) 94%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 6%, rgba(0,0,0,0.06) 11%, rgba(0,0,0,0.13) 16%, rgba(0,0,0,0.23) 21%, rgba(0,0,0,0.36) 26%, rgba(0,0,0,0.51) 31%, rgba(0,0,0,0.67) 36%, rgba(0,0,0,0.83) 41%, rgba(0,0,0,0.95) 46%, #000 50%, rgba(0,0,0,0.95) 54%, rgba(0,0,0,0.83) 59%, rgba(0,0,0,0.67) 64%, rgba(0,0,0,0.51) 69%, rgba(0,0,0,0.36) 74%, rgba(0,0,0,0.23) 79%, rgba(0,0,0,0.13) 84%, rgba(0,0,0,0.06) 89%, rgba(0,0,0,0.02) 94%, transparent 100%);
           }
         `}</style>
         {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
@@ -881,14 +881,14 @@ export default function Home() {
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
               <h1 className="leading-[1.05] mb-5 lg:mb-12" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1.2px' }}>
-                <span className="font-black text-gray-900 text-[2.4rem] lg:text-[3.4rem]">Büyük Gününüzü</span>
+                <span className="font-black text-gray-900 text-[2.4rem] lg:text-[3.4rem]">Büyük Gününüz</span>
                 <br />
-                <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4rem]">Kolaylaştırın</span>
+                <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4rem]">Artık Dijital</span>
               </h1>
               {/* Item 26: yeni açıklama — mobilde tam genişlik */}
               <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-7 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
               {/* Mobil hero video — full-bleed, mask ile zemine karışır (üst/alt simetrik), açıklamaya biner */}
-              <div className="lg:hidden relative -mx-6 -mt-6 mb-4 overflow-hidden" style={{ aspectRatio: '1024 / 640' }}>
+              <div className="lg:hidden relative -mx-6 -mt-6 mb-4 overflow-hidden" style={{ aspectRatio: '1024 / 700' }}>
                 <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[50%_45%] scale-[1.12] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
