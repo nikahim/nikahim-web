@@ -849,8 +849,22 @@ export default function Home() {
         <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FBF8F5 0%, #F5F0EC 35%, #FDF5F3 65%, #FAF7F5 100%)' }} />
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+
+        {/* Sinematik hero video — sağda tam genişlik, sol kenarı kreme fade */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[60%] pointer-events-none select-none">
+          <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+            <source src="/welcome-video-2.mp4" type="video/mp4" />
+          </video>
+          {/* Sol → sağ kreme fade — mobil (metin daha okunur) */}
+          <div className="absolute inset-0 lg:hidden" style={{ background: 'linear-gradient(90deg, #FAF6F3 0%, rgba(250,246,243,0.92) 30%, rgba(250,246,243,0.45) 58%, rgba(250,246,243,0.12) 100%)' }} />
+          {/* Sol kenar fade — masaüstü */}
+          <div className="absolute inset-0 hidden lg:block" style={{ background: 'linear-gradient(90deg, #FAF6F3 0%, #FAF6F3 6%, rgba(250,246,243,0.55) 30%, transparent 60%)' }} />
+          {/* Alt hafif fade — buton alanı ile blend */}
+          <div className="absolute inset-x-0 bottom-0 h-24" style={{ background: 'linear-gradient(0deg, rgba(250,246,243,0.55), transparent)' }} />
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-20 lg:py-0 w-full">
+          <div className="lg:max-w-[52%]">
             <div className="animate-fade-in-up">
               {/* Slogan — masaüstünde daha aşağı (header'dan uzak) */}
               <div className="inline-flex items-center gap-2.5 px-4 lg:px-5 py-2.5 -mx-2 lg:mx-0 rounded-full text-[12px] lg:text-sm font-medium mb-6 mt-4 lg:mt-16 whitespace-nowrap" style={{ background: 'rgba(200,104,110,0.06)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.12)' }}>
@@ -941,44 +955,6 @@ export default function Home() {
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-            <div className="flex justify-center">
-              <div className="relative w-full max-w-[420px]">
-                <div className="absolute -inset-8 rounded-[2rem] blur-3xl opacity-[0.12]" style={{ background: 'linear-gradient(135deg, #C8686E, #6FAFCF)' }} />
-                <div className="relative rounded-3xl overflow-hidden" style={{ boxShadow: '0 40px 100px rgba(200,100,100,0.25), 0 20px 50px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.03)', aspectRatio: '4/5' }}>
-                  <video autoPlay muted loop playsInline className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: '70% center' }}>
-                    <source src="/hero-video.mp4" type="video/mp4" />
-                  </video>
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, transparent 40%, rgba(0,0,0,0.15) 100%)' }} />
-                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-white px-3 py-1.5 rounded-full text-[13px] font-semibold tracking-[0.4px]"
-                       style={{
-                         background: 'rgba(200, 88, 96, 0.78)',
-                         backdropFilter: 'blur(14px) saturate(180%)',
-                         WebkitBackdropFilter: 'blur(14px) saturate(180%)',
-                         border: '1px solid rgba(255,255,255,0.32)',
-                         boxShadow: '0 6px 24px rgba(200,80,90,0.35), inset 0 1px 0 rgba(255,255,255,0.30)',
-                         textShadow: '0 1px 2px rgba(0,0,0,0.22)',
-                       }}>
-                    <span className="w-2 h-2 bg-white rounded-full animate-pulse" style={{ boxShadow: '0 0 6px rgba(255,255,255,0.7)' }} />CANLI
-                  </div>
-                  {/* Sağ üst — izleyici sayacı (göz + sayı) */}
-                  <div className="absolute top-4 right-4 z-10 flex items-center gap-1.5 text-white px-3 py-1.5 rounded-full text-[13px] font-semibold tracking-[0.4px]"
-                       style={{
-                         background: 'rgba(30, 30, 40, 0.42)',
-                         backdropFilter: 'blur(14px) saturate(180%)',
-                         WebkitBackdropFilter: 'blur(14px) saturate(180%)',
-                         border: '1px solid rgba(255,255,255,0.28)',
-                         boxShadow: '0 6px 20px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.22)',
-                         textShadow: '0 1px 2px rgba(0,0,0,0.30)',
-                       }}>
-                    <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                      <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
-                      <circle cx="12" cy="12" r="3" />
-                    </svg>
-                    56
-                  </div>
-                </div>
               </div>
             </div>
           </div>
