@@ -845,7 +845,7 @@ export default function Home() {
       </header>
 
       {/* HERO */}
-      <section id="hero" className="relative min-h-screen flex items-start overflow-hidden">
+      <section id="hero" className="relative flex items-start overflow-hidden lg:min-h-screen">
         <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #FBF8F5 0%, #F5F0EC 35%, #FDF5F3 65%, #FAF7F5 100%)' }} />
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
@@ -856,14 +856,8 @@ export default function Home() {
             mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
           }
           .hero-vid-mask-4 {
-            -webkit-mask-image:
-              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%);
-            -webkit-mask-composite: source-in;
-            mask-image:
-              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%);
-            mask-composite: intersect;
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 5%, rgba(0,0,0,0.12) 10%, rgba(0,0,0,0.30) 15%, rgba(0,0,0,0.55) 21%, rgba(0,0,0,0.82) 28%, #000 36%, #000 64%, rgba(0,0,0,0.82) 72%, rgba(0,0,0,0.55) 79%, rgba(0,0,0,0.30) 85%, rgba(0,0,0,0.12) 90%, rgba(0,0,0,0.03) 95%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 5%, rgba(0,0,0,0.12) 10%, rgba(0,0,0,0.30) 15%, rgba(0,0,0,0.55) 21%, rgba(0,0,0,0.82) 28%, #000 36%, #000 64%, rgba(0,0,0,0.82) 72%, rgba(0,0,0,0.55) 79%, rgba(0,0,0,0.30) 85%, rgba(0,0,0,0.12) 90%, rgba(0,0,0,0.03) 95%, transparent 100%);
           }
         `}</style>
         {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
@@ -893,13 +887,13 @@ export default function Home() {
               </h1>
               {/* Item 26: yeni açıklama — mobilde tam genişlik */}
               <p className="text-[15px] lg:text-[1.15rem] font-medium mb-7 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
-              {/* Mobil hero video — akış içinde, 4 kenarı arka plan rengine fade (mask) */}
-              <div className="lg:hidden relative w-full mb-7" style={{ aspectRatio: '1024 / 688' }}>
-                <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-center brightness-[0.96] contrast-[1.03] saturate-[0.94]">
+              {/* Mobil hero video — full-bleed (ekranı sağdan sola kaplar), üst/alt fade, ~%20 büyük */}
+              <div className="lg:hidden relative -mx-6 mb-6 overflow-hidden" style={{ aspectRatio: '1024 / 640' }}>
+                <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-center scale-[1.12] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
               </div>
-              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6 lg:mt-16">
+              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6 lg:mt-24">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                   {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
