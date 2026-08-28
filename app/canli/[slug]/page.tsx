@@ -367,7 +367,8 @@ export default function WatchPage() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showRotationPrompt, setShowRotationPrompt] = useState(false);
   const [showPersistentRotation, setShowPersistentRotation] = useState(false);
-  const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('altin');
+  const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('tebrik');
+  const [showTebrikSuccess, setShowTebrikSuccess] = useState(false); // mesaj tebriği iletildi onayı + altın CTA
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
@@ -3529,43 +3530,61 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* Video Tebrik - warm cream — masaüstünde sabit yükseklik (3 kart eşit) */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FEF7F7, #F8E7E7)', boxShadow: '0 4px 16px rgba(200,90,95,0.08)', border: '1px solid rgba(200,80,90,0.13)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(180,70,80,0.14)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(200,90,95,0.08)'; }}>
-              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.06)' }}>
-                <svg className="w-5 h-5" style={{ color: '#B44650' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+            {/* Video Tebrik — premium: soft tint + dairesel aksiyon (Gönder pill kaldırıldı) */}
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[22px] px-4 py-4 lg:px-5 lg:py-5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+              <div className="w-16 h-16 rounded-[18px] flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0F2' }}>
+                <svg className="w-7 h-7" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-sm whitespace-nowrap">Video Tebrik</h3>
-                <p className="text-gray-400 text-[10px]">30 sn video mesaj</p>
+              <div className="flex-1 min-w-0 ml-4 mr-2.5">
+                <h3 className="font-bold text-[17px] lg:text-[18px] leading-[23px] tracking-[-0.25px]" style={{ color: '#172033' }}>Video Tebrik</h3>
+                <p className="font-semibold text-[13px] leading-[18px] mt-[3px]" style={{ color: '#73717A' }}>30 saniyeye kadar</p>
+                <p className="text-[13px] leading-[18px] mt-1" style={{ color: '#85828A' }}>Kısa bir video ile duygularınızı paylaşın.</p>
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#B44650', background: 'rgba(180,70,80,0.06)', border: '1px solid rgba(180,70,80,0.1)' }}>{videoTebrikCount}</span>
-              <button onClick={() => setShowVideoRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #E8A8AE, #D4757E, #C25A65)', boxShadow: '0 6px 16px rgba(196,90,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
+              <div className="flex items-center flex-shrink-0">
+                <span className="min-w-[42px] h-[38px] px-2.5 rounded-[13px] flex items-center justify-center font-bold text-[14px]" style={{ background: '#FFF0F2', color: '#E75C70' }}>{videoTebrikCount > 999 ? '999+' : videoTebrikCount}</span>
+                <span className="mx-3 lg:mx-3.5 flex-shrink-0" style={{ width: '1px', height: '46px', background: '#F1DFE1' }} />
+                <span className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#E75C70', boxShadow: '0 6px 12px rgba(231,92,112,0.30)' }}>
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
             </div>
 
-            {/* Sesli Tebrik - soft blue — sabit yükseklik */}
-            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBFDFE, #F0F6FA)', boxShadow: '0 4px 16px rgba(111,175,207,0.07)', border: '1px solid rgba(111,175,207,0.10)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(111,175,207,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(111,175,207,0.07)'; }}>
-              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.06)' }}>
-                <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+            {/* Sesli Tebrik — premium */}
+            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 group w-full flex items-center rounded-[22px] px-4 py-4 lg:px-5 lg:py-5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+              <div className="w-16 h-16 rounded-[18px] flex items-center justify-center flex-shrink-0" style={{ background: '#EFF8FC' }}>
+                <svg className="w-7 h-7" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-sm whitespace-nowrap">Sesli Tebrik</h3>
-                <p className="text-gray-400 text-[10px]">Sesli mesaj gönderin</p>
+              <div className="flex-1 min-w-0 ml-4 mr-2.5">
+                <h3 className="font-bold text-[17px] lg:text-[18px] leading-[23px] tracking-[-0.25px]" style={{ color: '#172033' }}>Sesli Tebrik</h3>
+                <p className="font-semibold text-[13px] leading-[18px] mt-[3px]" style={{ color: '#73717A' }}>60 saniyeye kadar</p>
+                <p className="text-[13px] leading-[18px] mt-1" style={{ color: '#85828A' }}>Sesli mesajınızı kaydedip gönderin.</p>
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#6FAFCF', background: 'rgba(111,175,207,0.06)', border: '1px solid rgba(111,175,207,0.1)' }}>{sesliTebrikCount}</span>
-              <button onClick={() => setShowVoiceRecorder(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #B5DAEA, #85C4DE, #6FAFCF)', boxShadow: '0 6px 16px rgba(111,175,207,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
+              <div className="flex items-center flex-shrink-0">
+                <span className="min-w-[42px] h-[38px] px-2.5 rounded-[13px] flex items-center justify-center font-bold text-[14px]" style={{ background: '#EFF8FC', color: '#48A7D8' }}>{sesliTebrikCount > 999 ? '999+' : sesliTebrikCount}</span>
+                <span className="mx-3 lg:mx-3.5 flex-shrink-0" style={{ width: '1px', height: '46px', background: '#E1EDF2' }} />
+                <span className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#48A7D8', boxShadow: '0 6px 12px rgba(72,167,216,0.30)' }}>
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
             </div>
 
-            {/* Mesaj Tebrik - soft green — sabit yükseklik (sayı 2 hane olunca taşmasın) */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 rounded-2xl p-4 lg:p-5 flex items-center gap-3 transition-all duration-200 hover:-translate-y-1 cursor-pointer lg:h-[78px] ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(135deg, #FBFDFB, #F0F7F0)', boxShadow: '0 4px 16px rgba(91,168,101,0.07)', border: '1px solid rgba(76,175,80,0.10)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 25px rgba(76,175,80,0.16)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(91,168,101,0.07)'; }}>
-              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.06)' }}>
-                <svg className="w-5 h-5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+            {/* Mesaj Tebrik — premium */}
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 group w-full flex items-center rounded-[22px] px-4 py-4 lg:px-5 lg:py-5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+              <div className="w-16 h-16 rounded-[18px] flex items-center justify-center flex-shrink-0" style={{ background: '#F0F8F1' }}>
+                <svg className="w-7 h-7" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 text-sm whitespace-nowrap">Mesaj Tebrik</h3>
-                <p className="text-gray-400 text-[10px]">Yazılı tebrik bırakın</p>
+              <div className="flex-1 min-w-0 ml-4 mr-2.5">
+                <h3 className="font-bold text-[17px] lg:text-[18px] leading-[23px] tracking-[-0.25px]" style={{ color: '#172033' }}>Mesaj Tebrik</h3>
+                <p className="font-semibold text-[13px] leading-[18px] mt-[3px]" style={{ color: '#73717A' }}>250 karaktere kadar</p>
+                <p className="text-[13px] leading-[18px] mt-1" style={{ color: '#85828A' }}>Yazılı olarak tebriklerinizi iletin.</p>
               </div>
-              <span className="text-[10px] font-bold px-2 py-1 rounded-lg flex-shrink-0 min-w-[28px] text-center" style={{ color: '#5BA865', background: 'rgba(76,175,80,0.06)', border: '1px solid rgba(76,175,80,0.1)' }}>{messages.length}</span>
-              <button onClick={() => setShowMessageModal(true)} className="text-white px-4 py-2.5 rounded-xl font-semibold text-xs flex-shrink-0 transition-all hover:scale-105 flex items-center gap-1.5 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #A8D6B0, #6DC275, #5BA865)', boxShadow: '0 6px 16px rgba(91,168,101,0.28), inset 0 1px 0 rgba(255,255,255,0.4)' }}><span className="absolute inset-0 opacity-50" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, transparent 50%)' }} /><span className="relative">Gönder</span><svg className="w-3 h-3 relative" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M9 5l7 7-7 7" /></svg></button>
+              <div className="flex items-center flex-shrink-0">
+                <span className="min-w-[42px] h-[38px] px-2.5 rounded-[13px] flex items-center justify-center font-bold text-[14px]" style={{ background: '#EFF8F0', color: '#51B86D' }}>{messages.length > 999 ? '999+' : messages.length}</span>
+                <span className="mx-3 lg:mx-3.5 flex-shrink-0" style={{ width: '1px', height: '46px', background: '#E0ECE2' }} />
+                <span className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#51B86D', boxShadow: '0 6px 12px rgba(81,184,109,0.30)' }}>
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                </span>
+              </div>
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
@@ -4069,10 +4088,10 @@ export default function WatchPage() {
         `}</style>
 
         <div className="relative max-w-[400px] mx-auto pointer-events-auto" style={{ overflow: 'visible' }}>
-          {/* Permanent gold halo under middle (Altın Tak) — luxury "primary action" signal */}
+          {/* Ortadaki tab (Tebrik) altında yumuşak rose halo — "primary action" sinyali */}
           <div className="dock-gold-halo absolute left-1/2 -bottom-2 w-[120px] h-8 pointer-events-none rounded-full"
                style={{
-                 background: 'radial-gradient(ellipse at center, rgba(212,168,82,0.32) 0%, rgba(212,168,82,0.10) 40%, transparent 75%)',
+                 background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.30) 0%, rgba(200,104,110,0.09) 40%, transparent 75%)',
                  filter: 'blur(12px)',
                }} />
 
@@ -4128,20 +4147,20 @@ export default function WatchPage() {
             {/* Tabs container */}
             <div className="relative h-full flex items-stretch gap-0">
               {[
-                { id: 'tebrik' as const, label: 'Tebrik', isMid: false, icon: (
+                { id: 'altin' as const, label: 'Altın Tak', isMid: false, icon: (
                   <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
-                    <path d="M12 14.5s-2.8-1.6-2.8-3.5c0-0.95 0.85-1.7 1.8-1.7 0.55 0 1 0.3 1 0.3s0.45-0.3 1-0.3c0.95 0 1.8 0.75 1.8 1.7 0 1.9-2.8 3.5-2.8 3.5z" fill="currentColor" stroke="none" />
-                  </svg>
-                ) },
-                { id: 'altin' as const, label: 'Altın Tak', isMid: true, icon: (
-                  <svg className="dock-tab-icon w-[27px] h-[27px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     {/* Kurdele */}
                     <path d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" />
                     {/* Madeni */}
                     <circle cx="12" cy="14.5" r="5.5" />
                     {/* Yıldız vurgu (luxury accent, içte) */}
                     <path d="M12 12.2l0.55 1.1 1.2 0.17-0.87 0.84 0.2 1.19L12 14.93l-1.07 0.57 0.2-1.19-0.87-0.84 1.2-0.17z" fill="currentColor" stroke="none" />
+                  </svg>
+                ) },
+                { id: 'tebrik' as const, label: 'Tebrik', isMid: true, icon: (
+                  <svg className="dock-tab-icon w-[27px] h-[27px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                    <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
+                    <path d="M12 14.5s-2.8-1.6-2.8-3.5c0-0.95 0.85-1.7 1.8-1.7 0.55 0 1 0.3 1 0.3s0.45-0.3 1-0.3c0.95 0 1.8 0.75 1.8 1.7 0 1.9-2.8 3.5-2.8 3.5z" fill="currentColor" stroke="none" />
                   </svg>
                 ) },
                 { id: 'album' as const, label: 'Albüm', isMid: false, icon: (
@@ -4161,7 +4180,7 @@ export default function WatchPage() {
                           aria-label={tab.label}
                           className="dock-tab relative flex-1 flex flex-col items-center justify-center gap-0.5 rounded-[26px]"
                           style={{
-                            color: isActive ? '#9F4F58' : (tab.isMid ? '#8F5A3D' : '#9A8989'),
+                            color: isActive ? '#9F4F58' : (tab.isMid ? '#B06B74' : '#9A8989'),
                             opacity: isActive ? 1 : 0.88,
                           }}>
                     <span className="relative z-10">{tab.icon}</span>
@@ -4677,10 +4696,31 @@ export default function WatchPage() {
                 <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'inherit' }} />
               </div>
 
-              <button onClick={() => { sendMessage(); setShowMessageModal(false); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
+              <button onClick={() => { const had = message.trim().length > 0; sendMessage(); setShowMessageModal(false); if (had && !isDemoEvent) setShowTebrikSuccess(true); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
                 Tebrik Gönder
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tebrik mesajı iletildi — onay + altın hediye CTA */}
+      {showTebrikSuccess && (
+        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)' }} onClick={() => setShowTebrikSuccess(false)}>
+          <div className="rounded-3xl max-w-sm w-full p-7 pt-8 text-center relative" style={{ background: 'linear-gradient(165deg, #FBFDFB, #F2F8F3)', boxShadow: '0 25px 80px rgba(0,0,0,0.16)', border: '1px solid rgba(76,175,80,0.10)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: '#E4F4E8' }}>
+              <svg className="w-8 h-8" fill="none" stroke="#51B86D" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-1.5">Tebriğiniz İletildi</h3>
+            <p className="text-[13.5px] text-gray-500 mb-5 leading-relaxed">Mesajınız {event.bride_first_name} & {event.groom_first_name} çiftine ulaştı.</p>
+            <div className="rounded-2xl p-4 mb-4" style={{ background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.16)' }}>
+              <p className="text-[13px] font-semibold leading-snug mb-3" style={{ color: '#8B6914' }}>Mutlu Çiftimize Düğün Hediyesi olarak Altın Takabilirsiniz</p>
+              <button onClick={() => { setShowTebrikSuccess(false); setActiveMobileTab('altin'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-full text-white py-3 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" style={{ background: 'linear-gradient(135deg, #E0B84E, #C99A2E)', boxShadow: '0 6px 16px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" /><circle cx="12" cy="14.5" r="5.5" /></svg>
+                Altın Tak
+              </button>
+            </div>
+            <button onClick={() => setShowTebrikSuccess(false)} className="text-[13px] font-medium text-gray-400 py-1">Şimdilik Kapat</button>
           </div>
         </div>
       )}
