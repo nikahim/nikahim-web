@@ -2703,15 +2703,17 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* "Sende bu mutlu gününü..." CTA — sol panel altına alındı */}
-            <div className="rounded-2xl p-5 flex flex-col items-center text-center gap-3" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
-              <p className="text-sm font-semibold leading-snug">
-                <span className="text-gray-800">Sende bu mutlu gününü </span>
-                <span style={{ color: '#C8686E' }}>Canlı Yayınlamak</span>
-                <span className="text-gray-800"> ister misin?</span>
+            {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir */}
+            <div className="rounded-2xl p-5 flex flex-col text-center gap-2.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+              <p className="text-[15px] font-bold leading-snug" style={{ color: '#4A3B44' }}>
+                Sen de büyük gününü <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştır.
               </p>
-              <button onClick={() => setShowAppPopup(true)} className="w-full px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2" style={{ borderColor: 'rgba(200,104,110,0.25)', color: '#C8686E', background: 'rgba(255,255,255,0.9)' }}>
-                Hemen Başla !
+              <p className="text-[12.5px] leading-relaxed" style={{ color: '#85828A' }}>
+                Davetiyeden masa planına, canlı yayından fotoğraflara… Büyük günün için ihtiyacın olan dijital çözümler tek yerde.
+              </p>
+              <button onClick={() => { window.location.href = '/'; }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm text-white transition-all hover:scale-[1.02] flex items-center justify-center gap-1.5" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 16px rgba(200,104,110,0.25)' }}>
+                Nikahım&apos;ı Keşfet
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
               </button>
             </div>
           </div>
