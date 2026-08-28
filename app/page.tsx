@@ -857,12 +857,12 @@ export default function Home() {
           }
           .hero-vid-mask-4 {
             -webkit-mask-image:
-              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%);
+              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%);
             -webkit-mask-composite: source-in;
             mask-image:
-              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%);
+              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.03) 6%, rgba(0,0,0,0.10) 11%, rgba(0,0,0,0.24) 16%, rgba(0,0,0,0.44) 22%, rgba(0,0,0,0.68) 28%, rgba(0,0,0,0.88) 35%, #000 43%, #000 57%, rgba(0,0,0,0.88) 65%, rgba(0,0,0,0.68) 72%, rgba(0,0,0,0.44) 78%, rgba(0,0,0,0.24) 84%, rgba(0,0,0,0.10) 89%, rgba(0,0,0,0.03) 94%, transparent 100%);
             mask-composite: intersect;
           }
         `}</style>
@@ -899,7 +899,7 @@ export default function Home() {
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
               </div>
-              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6">
+              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6 lg:mt-16">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                   {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
@@ -959,23 +959,6 @@ export default function Home() {
                   </>
                 )}
               </button>
-              <div className="mb-3 lg:mb-3" />
-              <div className="flex gap-4">
-                {[
-                  { line1: 'Mutlu', line2: 'Çiftler', alt: 'Mutlu Çiftler', icon: '/couple-icon.png', iconSize: 'w-[56px] h-[56px]' },
-                  { line1: 'Mutlu', line2: 'Misafirler', alt: 'Mutlu Misafirler', icon: '/izleyici-icon-2.png', iconSize: 'w-[62px] h-[62px] -my-2 relative top-[2px]' }
-                ].map((s, i) => (
-                  <div key={i} className="group flex items-center gap-1 px-3 py-2.5 rounded-[16px] transition-all duration-300 hover:-translate-y-1 cursor-default" style={{ background: 'rgba(255,255,255,0.88)', backdropFilter: 'blur(12px)', border: '1px solid rgba(200,180,160,0.14)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(200,104,110,0.1), 0 4px 12px rgba(0,0,0,0.04)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 2px 16px rgba(0,0,0,0.03)'; }}>
-                    <div className="flex-shrink-0 transition-transform duration-300 group-hover:scale-110">
-                      <Image src={s.icon} alt={s.alt} width={64} height={64} className={`${s.iconSize} object-contain`} />
-                    </div>
-                    <div className="ml-1">
-                      <div className="text-gray-600 text-[13px] font-medium leading-tight whitespace-nowrap">{s.line1}</div>
-                      <div className="text-gray-600 text-[13px] font-medium leading-tight whitespace-nowrap mt-0.5">{s.line2}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
