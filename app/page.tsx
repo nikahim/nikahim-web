@@ -856,8 +856,8 @@ export default function Home() {
             mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
           }
           .hero-vid-mask-4 {
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 6%, rgba(0,0,0,0.06) 11%, rgba(0,0,0,0.13) 16%, rgba(0,0,0,0.23) 21%, rgba(0,0,0,0.36) 26%, rgba(0,0,0,0.51) 31%, rgba(0,0,0,0.67) 36%, rgba(0,0,0,0.83) 41%, rgba(0,0,0,0.95) 46%, #000 50%, rgba(0,0,0,0.95) 54%, rgba(0,0,0,0.83) 59%, rgba(0,0,0,0.67) 64%, rgba(0,0,0,0.51) 69%, rgba(0,0,0,0.36) 74%, rgba(0,0,0,0.23) 79%, rgba(0,0,0,0.13) 84%, rgba(0,0,0,0.06) 89%, rgba(0,0,0,0.02) 94%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 6%, rgba(0,0,0,0.06) 11%, rgba(0,0,0,0.13) 16%, rgba(0,0,0,0.23) 21%, rgba(0,0,0,0.36) 26%, rgba(0,0,0,0.51) 31%, rgba(0,0,0,0.67) 36%, rgba(0,0,0,0.83) 41%, rgba(0,0,0,0.95) 46%, #000 50%, rgba(0,0,0,0.95) 54%, rgba(0,0,0,0.83) 59%, rgba(0,0,0,0.67) 64%, rgba(0,0,0,0.51) 69%, rgba(0,0,0,0.36) 74%, rgba(0,0,0,0.23) 79%, rgba(0,0,0,0.13) 84%, rgba(0,0,0,0.06) 89%, rgba(0,0,0,0.02) 94%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.18) 4%, rgba(0,0,0,0.42) 8%, rgba(0,0,0,0.68) 12%, rgba(0,0,0,0.88) 15%, #000 18%, #000 70%, rgba(0,0,0,0.9) 77%, rgba(0,0,0,0.72) 82%, rgba(0,0,0,0.5) 86%, rgba(0,0,0,0.3) 90%, rgba(0,0,0,0.14) 94%, rgba(0,0,0,0.04) 97%, transparent 100%);
+            mask-image: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.18) 4%, rgba(0,0,0,0.42) 8%, rgba(0,0,0,0.68) 12%, rgba(0,0,0,0.88) 15%, #000 18%, #000 70%, rgba(0,0,0,0.9) 77%, rgba(0,0,0,0.72) 82%, rgba(0,0,0,0.5) 86%, rgba(0,0,0,0.3) 90%, rgba(0,0,0,0.14) 94%, rgba(0,0,0,0.04) 97%, transparent 100%);
           }
         `}</style>
         {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
@@ -886,16 +886,16 @@ export default function Home() {
                 <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4rem]">Artık Dijital</span>
               </h1>
               {/* Item 26: yeni açıklama — mobilde tam genişlik */}
-              <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-7 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
+              <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
               {/* Mobil hero video — full-bleed, mask ile zemine karışır (üst/alt simetrik), açıklamaya biner */}
-              <div className="lg:hidden relative -mx-6 -mt-6 mb-4 overflow-hidden" style={{ aspectRatio: '1024 / 700' }}>
+              <div className="lg:hidden relative -mx-6 mt-0 mb-4 overflow-hidden" style={{ aspectRatio: '1024 / 700' }}>
                 <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[50%_45%] scale-[1.12] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
               </div>
               <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6 lg:mt-24">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
-                <button onClick={() => setShowAppPopup(true)} className="flex-[1.2] lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+                <button onClick={() => setShowAppPopup(true)} className="flex-[1.3] basis-0 lg:basis-auto lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                   {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
                   <span className="lg:hidden flex flex-col leading-tight">
                     <span className="italic font-light text-[12px] opacity-90">Ücretsiz</span>
@@ -906,7 +906,7 @@ export default function Home() {
                     Hesap Oluştur
                   </span>
                 </button>
-                <button onClick={() => setShowSearchModal(true)} className="flex-[0.85] lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Yayına Katıl</button>
+                <button onClick={() => setShowSearchModal(true)} className="flex-[0.9] basis-0 lg:basis-auto lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Yayına Katıl</button>
               </div>
               {/* Örnek Canlı Yayın link — mertbasar@hotmail.com hesabının en son nikahına yönlendirir */}
               <button
@@ -935,8 +935,8 @@ export default function Home() {
                     setLoadingDemo(false);
                   }
                 }}
-                className={`live-demo-link inline-flex items-center gap-2 mb-6 lg:mb-3 px-4 py-3 lg:py-2.5 rounded-2xl text-[13px] lg:text-sm font-medium transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
-                style={{ background: loadingDemo ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.72)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', color: '#C95669', border: '1px solid rgba(206,91,110,0.25)' }}
+                className={`live-demo-link inline-flex items-center gap-2 mb-6 lg:mb-3 px-0 py-1.5 lg:px-4 lg:py-2.5 rounded-none lg:rounded-2xl text-[14px] lg:text-sm font-semibold lg:font-medium lg:bg-white/70 lg:backdrop-blur-md lg:border lg:border-[#CE5B6E]/25 transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
+                style={{ color: '#C95669' }}
               >
                 {loadingDemo ? (
                   <>
