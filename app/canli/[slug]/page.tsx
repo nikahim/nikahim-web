@@ -3530,59 +3530,56 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* Video Tebrik — premium: soft tint + dairesel aksiyon (Gönder pill kaldırıldı) */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[22px] px-4 py-4 lg:px-5 lg:py-5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
-              <div className="w-16 h-16 rounded-[18px] flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0F2' }}>
-                <svg className="w-7 h-7" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
+            {/* Video Tebrik — premium, kompakt */}
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-3 lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+              <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0F2' }}>
+                <svg className="w-5 h-5" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
               </div>
-              <div className="flex-1 min-w-0 ml-4 mr-2.5">
-                <h3 className="font-bold text-[17px] lg:text-[18px] leading-[23px] tracking-[-0.25px]" style={{ color: '#172033' }}>Video Tebrik</h3>
-                <p className="font-semibold text-[13px] leading-[18px] mt-[3px]" style={{ color: '#73717A' }}>30 saniyeye kadar</p>
-                <p className="text-[13px] leading-[18px] mt-1" style={{ color: '#85828A' }}>Kısa bir video ile duygularınızı paylaşın.</p>
+              <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
+                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#172033' }}>Video Tebrik</h3>
+                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Kısa bir video ile duygularınızı paylaşın.</p>
               </div>
               <div className="flex items-center flex-shrink-0">
-                <span className="min-w-[42px] h-[38px] px-2.5 rounded-[13px] flex items-center justify-center font-bold text-[14px]" style={{ background: '#FFF0F2', color: '#E75C70' }}>{videoTebrikCount > 999 ? '999+' : videoTebrikCount}</span>
-                <span className="mx-3 lg:mx-3.5 flex-shrink-0" style={{ width: '1px', height: '46px', background: '#F1DFE1' }} />
-                <span className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#E75C70', boxShadow: '0 6px 12px rgba(231,92,112,0.30)' }}>
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#FFF0F2', color: '#E75C70' }}>{videoTebrikCount > 999 ? '999+' : videoTebrikCount}</span>
+                <span className="mx-2.5 flex-shrink-0" style={{ width: '1px', height: '32px', background: '#F1DFE1' }} />
+                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#E75C70', boxShadow: '0 4px 10px rgba(231,92,112,0.28)' }}>
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
             </div>
 
-            {/* Sesli Tebrik — premium */}
-            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 group w-full flex items-center rounded-[22px] px-4 py-4 lg:px-5 lg:py-5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
-              <div className="w-16 h-16 rounded-[18px] flex items-center justify-center flex-shrink-0" style={{ background: '#EFF8FC' }}>
-                <svg className="w-7 h-7" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
+            {/* Sesli Tebrik — premium, kompakt */}
+            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 group w-full flex items-center rounded-[20px] px-4 py-3 lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+              <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#EFF8FC' }}>
+                <svg className="w-5 h-5" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
               </div>
-              <div className="flex-1 min-w-0 ml-4 mr-2.5">
-                <h3 className="font-bold text-[17px] lg:text-[18px] leading-[23px] tracking-[-0.25px]" style={{ color: '#172033' }}>Sesli Tebrik</h3>
-                <p className="font-semibold text-[13px] leading-[18px] mt-[3px]" style={{ color: '#73717A' }}>60 saniyeye kadar</p>
-                <p className="text-[13px] leading-[18px] mt-1" style={{ color: '#85828A' }}>Sesli mesajınızı kaydedip gönderin.</p>
+              <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
+                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#172033' }}>Sesli Tebrik</h3>
+                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Sesli mesajınızı kaydedip gönderin.</p>
               </div>
               <div className="flex items-center flex-shrink-0">
-                <span className="min-w-[42px] h-[38px] px-2.5 rounded-[13px] flex items-center justify-center font-bold text-[14px]" style={{ background: '#EFF8FC', color: '#48A7D8' }}>{sesliTebrikCount > 999 ? '999+' : sesliTebrikCount}</span>
-                <span className="mx-3 lg:mx-3.5 flex-shrink-0" style={{ width: '1px', height: '46px', background: '#E1EDF2' }} />
-                <span className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#48A7D8', boxShadow: '0 6px 12px rgba(72,167,216,0.30)' }}>
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#EFF8FC', color: '#48A7D8' }}>{sesliTebrikCount > 999 ? '999+' : sesliTebrikCount}</span>
+                <span className="mx-2.5 flex-shrink-0" style={{ width: '1px', height: '32px', background: '#E1EDF2' }} />
+                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#48A7D8', boxShadow: '0 4px 10px rgba(72,167,216,0.28)' }}>
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
             </div>
 
-            {/* Mesaj Tebrik — premium */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 group w-full flex items-center rounded-[22px] px-4 py-4 lg:px-5 lg:py-5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
-              <div className="w-16 h-16 rounded-[18px] flex items-center justify-center flex-shrink-0" style={{ background: '#F0F8F1' }}>
-                <svg className="w-7 h-7" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
+            {/* Mesaj Tebrik — premium, kompakt */}
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 group w-full flex items-center rounded-[20px] px-4 py-3 lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+              <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#F0F8F1' }}>
+                <svg className="w-5 h-5" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
               </div>
-              <div className="flex-1 min-w-0 ml-4 mr-2.5">
-                <h3 className="font-bold text-[17px] lg:text-[18px] leading-[23px] tracking-[-0.25px]" style={{ color: '#172033' }}>Mesaj Tebrik</h3>
-                <p className="font-semibold text-[13px] leading-[18px] mt-[3px]" style={{ color: '#73717A' }}>250 karaktere kadar</p>
-                <p className="text-[13px] leading-[18px] mt-1" style={{ color: '#85828A' }}>Yazılı olarak tebriklerinizi iletin.</p>
+              <div className="flex-1 min-w-0 ml-3.5 mr-2.5">
+                <h3 className="font-bold text-[16px] lg:text-[17px] leading-tight tracking-[-0.25px]" style={{ color: '#172033' }}>Mesaj Tebrik</h3>
+                <p className="text-[12.5px] leading-[17px] mt-0.5" style={{ color: '#85828A' }}>Yazılı olarak tebriklerinizi iletin.</p>
               </div>
               <div className="flex items-center flex-shrink-0">
-                <span className="min-w-[42px] h-[38px] px-2.5 rounded-[13px] flex items-center justify-center font-bold text-[14px]" style={{ background: '#EFF8F0', color: '#51B86D' }}>{messages.length > 999 ? '999+' : messages.length}</span>
-                <span className="mx-3 lg:mx-3.5 flex-shrink-0" style={{ width: '1px', height: '46px', background: '#E0ECE2' }} />
-                <span className="w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#51B86D', boxShadow: '0 6px 12px rgba(81,184,109,0.30)' }}>
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" strokeWidth={2.4} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
+                <span className="min-w-[36px] h-[32px] px-2 rounded-[11px] flex items-center justify-center font-bold text-[13px]" style={{ background: '#EFF8F0', color: '#51B86D' }}>{messages.length > 999 ? '999+' : messages.length}</span>
+                <span className="mx-2.5 flex-shrink-0" style={{ width: '1px', height: '32px', background: '#E0ECE2' }} />
+                <span className="w-7 h-7 rounded-full flex items-center justify-center transition-transform group-active:scale-90" style={{ background: '#51B86D', boxShadow: '0 4px 10px rgba(81,184,109,0.28)' }}>
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                 </span>
               </div>
             </div>
@@ -4088,13 +4085,6 @@ export default function WatchPage() {
         `}</style>
 
         <div className="relative max-w-[400px] mx-auto pointer-events-auto" style={{ overflow: 'visible' }}>
-          {/* Ortadaki tab (Tebrik) altında yumuşak rose halo — "primary action" sinyali */}
-          <div className="dock-gold-halo absolute left-1/2 -bottom-2 w-[120px] h-8 pointer-events-none rounded-full"
-               style={{
-                 background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.30) 0%, rgba(200,104,110,0.09) 40%, transparent 75%)',
-                 filter: 'blur(12px)',
-               }} />
-
           <nav className="relative pointer-events-auto"
                style={{
                  background: 'linear-gradient(180deg, rgba(255,251,247,0.78) 0%, rgba(253,245,240,0.85) 100%)',
@@ -4157,8 +4147,8 @@ export default function WatchPage() {
                     <path d="M12 12.2l0.55 1.1 1.2 0.17-0.87 0.84 0.2 1.19L12 14.93l-1.07 0.57 0.2-1.19-0.87-0.84 1.2-0.17z" fill="currentColor" stroke="none" />
                   </svg>
                 ) },
-                { id: 'tebrik' as const, label: 'Tebrik', isMid: true, icon: (
-                  <svg className="dock-tab-icon w-[27px] h-[27px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                { id: 'tebrik' as const, label: 'Tebrik', isMid: false, icon: (
+                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
                     <path d="M12 14.5s-2.8-1.6-2.8-3.5c0-0.95 0.85-1.7 1.8-1.7 0.55 0 1 0.3 1 0.3s0.45-0.3 1-0.3c0.95 0 1.8 0.75 1.8 1.7 0 1.9-2.8 3.5-2.8 3.5z" fill="currentColor" stroke="none" />
                   </svg>
@@ -4180,7 +4170,7 @@ export default function WatchPage() {
                           aria-label={tab.label}
                           className="dock-tab relative flex-1 flex flex-col items-center justify-center gap-0.5 rounded-[26px]"
                           style={{
-                            color: isActive ? '#9F4F58' : (tab.isMid ? '#B06B74' : '#9A8989'),
+                            color: isActive ? '#9F4F58' : '#9A8989',
                             opacity: isActive ? 1 : 0.88,
                           }}>
                     <span className="relative z-10">{tab.icon}</span>
