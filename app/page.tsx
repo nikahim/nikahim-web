@@ -856,8 +856,14 @@ export default function Home() {
             mask-image: linear-gradient(to right, transparent 0%, transparent 6%, rgba(0,0,0,0.10) 18%, rgba(0,0,0,0.30) 30%, rgba(0,0,0,0.56) 42%, rgba(0,0,0,0.80) 55%, #000 68%);
           }
           .hero-vid-mask-4 {
-            -webkit-mask-image: radial-gradient(ellipse 84% 82% at 50% 50%, #000 0%, #000 52%, rgba(0,0,0,0.45) 78%, transparent 100%);
-            mask-image: radial-gradient(ellipse 84% 82% at 50% 50%, #000 0%, #000 52%, rgba(0,0,0,0.45) 78%, transparent 100%);
+            -webkit-mask-image:
+              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%);
+            -webkit-mask-composite: source-in;
+            mask-image:
+              linear-gradient(to right, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.55) 9%, #000 20%, #000 80%, rgba(0,0,0,0.55) 91%, transparent 100%);
+            mask-composite: intersect;
           }
         `}</style>
         {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
