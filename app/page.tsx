@@ -850,15 +850,15 @@ export default function Home() {
         <div className="absolute top-[-300px] right-[-200px] w-[900px] h-[900px] rounded-full opacity-[0.05]" style={{ background: 'radial-gradient(circle, #C8686E 0%, transparent 70%)' }} />
         <div className="absolute bottom-[-200px] left-[-150px] w-[700px] h-[700px] rounded-full opacity-[0.04]" style={{ background: 'radial-gradient(circle, #6FAFCF 0%, transparent 70%)' }} />
 
-        {/* Sinematik hero video — mobil full-bleed, masaüstü sağ %60; krem uzun kademeli fade */}
-        <div className="absolute inset-y-0 right-0 w-full lg:w-[60%] overflow-hidden pointer-events-none select-none" style={{ background: '#FFFAF7' }}>
-          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover object-[55%_center] lg:object-[64%_center] brightness-[0.97] contrast-[1.03] saturate-[0.92] scale-100 lg:scale-90">
+        {/* Sinematik hero video — mobil full-bleed, masaüstü sağ %56; krem kademeli fade */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-[56%] overflow-hidden pointer-events-none select-none" style={{ background: '#FFFAF7' }}>
+          <video autoPlay muted loop playsInline preload="metadata" className="absolute inset-0 h-full w-full object-cover object-[68%_center] lg:object-[60%_center] brightness-[0.94] contrast-[1.04] saturate-[0.90] scale-100 lg:scale-90">
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
-          {/* Sol → sağ uzun cinematic fade — mobil (metin sol tarafta okunur, sağda yüzler görünür) */}
-          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'linear-gradient(90deg, #FFFAF7 0%, rgba(255,250,247,0.97) 12%, rgba(255,250,247,0.78) 26%, rgba(255,250,247,0.42) 40%, rgba(255,250,247,0.14) 54%, rgba(255,250,247,0) 72%)' }} />
-          {/* Sol → sağ uzun cinematic fade — masaüstü (0→69, sabit çizgi yok) */}
-          <div className="absolute inset-0 z-10 hidden lg:block" style={{ background: 'linear-gradient(90deg, #FFFAF7 0%, rgba(255,250,247,0.98) 8%, rgba(255,250,247,0.92) 18%, rgba(255,250,247,0.72) 30%, rgba(255,250,247,0.40) 43%, rgba(255,250,247,0.14) 55%, rgba(255,250,247,0) 69%)' }} />
+          {/* Mobil — güçlü/uzun fade (metin sağın %75'ine kadar okunur, sağ kenarda yüzler net) */}
+          <div className="absolute inset-0 z-10 lg:hidden" style={{ background: 'linear-gradient(90deg, rgba(255,250,247,0.98) 0%, rgba(255,250,247,0.96) 42%, rgba(255,250,247,0.88) 65%, rgba(255,250,247,0.60) 82%, rgba(255,250,247,0.20) 100%)' }} />
+          {/* Masaüstü — kısa cinematic fade (%59'da biter, gelin siste kalmaz) */}
+          <div className="absolute inset-0 z-10 hidden lg:block" style={{ background: 'linear-gradient(90deg, #FFFAF7 0%, rgba(255,250,247,0.97) 9%, rgba(255,250,247,0.82) 20%, rgba(255,250,247,0.55) 31%, rgba(255,250,247,0.27) 41%, rgba(255,250,247,0.08) 50%, rgba(255,250,247,0) 59%)' }} />
           {/* Üst fade — header krem sabit kalsın */}
           <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FFFAF7 0%, rgba(255,250,247,0.5) 50%, transparent 100%)' }} />
           {/* Alt hafif erime */}
@@ -866,21 +866,21 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-10 lg:py-0 w-full">
-          <div className="lg:max-w-[52%]">
+          <div className="lg:max-w-[46%]">
             <div className="animate-fade-in-up">
               {/* Slogan — glass (Apple-style), pembe değil; mobilde yukarıda ve sarabilir */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full text-[12px] lg:text-[13px] font-semibold tracking-[0.01em] mb-5 lg:mb-6 mt-2 lg:mt-16 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.62)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.16)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[12px] lg:text-[12.5px] font-semibold tracking-[0.01em] mb-5 lg:mb-6 mt-2 lg:mt-16 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.55)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.15)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
                 <span className="w-[7px] h-[7px] rounded-full animate-pulse flex-shrink-0" style={{ background: '#D85F70' }} />
                 Türkiye&apos;nin Dijital Düğün ve Nikah Platformu
               </div>
               {/* Item 25: 'Nikahınızı' kaldırıldı, 'Bu Mutlu Günü' geldi */}
-              <h1 className="leading-[1.06] mb-6 lg:mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1px' }}>
-                <span className="font-black text-gray-900 text-[2rem] lg:text-[3.8rem]">Büyük Gününüzü</span>
+              <h1 className="leading-[1.02] mb-6 lg:mb-8" style={{ fontFamily: 'var(--font-playfair)', letterSpacing: '-1.2px' }}>
+                <span className="font-black text-gray-900 text-[2rem] lg:text-[3.4rem]">Büyük Gününüzü</span>
                 <br />
-                <span className="gradient-text-hero animate-glow font-bold text-[2.3rem] lg:text-[4.5rem]">Kolaylaştırın</span>
+                <span className="gradient-text-hero animate-glow font-bold text-[2.3rem] lg:text-[4rem]">Kolaylaştırın</span>
               </h1>
-              {/* Item 26: yeni açıklama */}
-              <p className="text-[15px] lg:text-[1.35rem] mb-12 leading-relaxed max-w-[520px]" style={{ color: '#6E5049' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#57403A' }}>Nikahım</span>&apos;da!</p>
+              {/* Item 26: yeni açıklama — koyu, okunur (foto üstünde bile) */}
+              <p className="text-[15px] lg:text-[1.15rem] font-medium mb-10 leading-relaxed max-w-[520px]" style={{ color: '#4E4140' }}>Akıllı masa planından Canlı Yayına, Fotoğraf Albümünden Tebrik Mesajlarına... Büyük gününüz için ihtiyacınız olan tüm dijital çözümler <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da!</p>
               <div className="flex flex-row gap-3 lg:gap-4 mb-6">
                 {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
                 <button onClick={() => setShowAppPopup(true)} className="flex-1 lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
