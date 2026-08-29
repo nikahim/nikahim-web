@@ -868,7 +868,7 @@ export default function Home() {
         `}</style>
         {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
         <div className="absolute inset-y-0 right-0 w-full lg:w-[66%] overflow-hidden pointer-events-none select-none hidden lg:block">
-          <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask absolute inset-0 h-full w-full object-cover object-[56%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92]">
+          <video autoPlay muted loop playsInline preload="auto" className="hero-vid-mask absolute inset-0 h-full w-full object-cover object-[56%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92]">
             <source src="/welcome-video-2.mp4" type="video/mp4" />
           </video>
           {/* header üst fade */}
@@ -895,7 +895,7 @@ export default function Home() {
               <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Canlı Yayından akıllı Masa Planlayıcısına, Fotoğraf Albümünden tebrik mesajlarına... Büyük gününüz için<br className="hidden lg:block" /> her şey <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da.</p>
               {/* Mobil hero video — uygulama welcome ekranıyla BİREBİR: 2 katman mask + object 64%/66% */}
               <div className="lg:hidden relative -mx-6 mt-1.5 mb-[18px] overflow-hidden" style={{ height: 'clamp(305px, 39vh, 405px)' }}>
-                <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[64%_66%] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
+                <video autoPlay muted loop playsInline preload="auto" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[64%_66%] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
               </div>
