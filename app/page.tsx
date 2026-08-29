@@ -869,7 +869,7 @@ export default function Home() {
         {/* Masaüstü hero görsel — mask ile arka plana erir (mobilde gizli; mobil video akış içinde) */}
         <div className="absolute inset-y-0 right-0 w-full lg:w-[66%] overflow-hidden pointer-events-none select-none hidden lg:block">
           <video autoPlay muted loop playsInline preload="auto" className="hero-vid-mask absolute inset-0 h-full w-full object-cover object-[56%_center] brightness-[0.95] contrast-[1.04] saturate-[0.92]">
-            <source src="/welcome-video-2.mp4" type="video/mp4" />
+            <source src="/welcome-video-2-hd.mp4" type="video/mp4" />
           </video>
           {/* header üst fade */}
           <div className="absolute inset-x-0 top-0 h-24 z-10" style={{ background: 'linear-gradient(180deg, #FBF8F5 0%, rgba(251,248,245,0.5) 50%, transparent 100%)' }} />
