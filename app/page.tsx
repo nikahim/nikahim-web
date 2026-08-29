@@ -892,7 +892,7 @@ export default function Home() {
                 <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4rem]">Artık Dijital</span>
               </h1>
               {/* Item 26: yeni açıklama — mobilde tam genişlik */}
-              <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Canlı Yayından akıllı Masa Planlayıcısına, Fotoğraf Albümünden tebrik mesajlarına... Büyük gününüz için<br className="hidden lg:block" /> her şey <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da.</p>
+              <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Canlı yayından akıllı masa planlayıcısına, fotoğraflardan tebrik mesajlarına… Büyük gününüz için<br className="hidden lg:block" /> her şey <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da.</p>
               {/* Mobil hero video — uygulama welcome ekranıyla BİREBİR: 2 katman mask + object 64%/66% */}
               <div className="lg:hidden relative -mx-6 mt-1.5 mb-[18px] overflow-hidden" style={{ height: 'clamp(305px, 39vh, 405px)' }}>
                 <video autoPlay muted loop playsInline preload="auto" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[64%_66%] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
