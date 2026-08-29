@@ -877,11 +877,11 @@ export default function Home() {
           <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '32%', background: 'linear-gradient(0deg, #FAF7F5 0%, rgba(250,247,245,0.55) 32%, rgba(250,247,245,0.15) 62%, transparent 100%)' }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-12 lg:pt-28 lg:pb-0 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-12 lg:pt-28 lg:pb-0 w-full">
           <div className="lg:max-w-[46%]">
             <div className="animate-fade-in-up">
               {/* Slogan — glass (Apple-style), pembe değil; mobilde yukarıda ve sarabilir */}
-              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[12px] lg:text-[12.5px] font-semibold tracking-[0.01em] mb-5 lg:mb-6 mt-0 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.55)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.15)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full text-[12px] lg:text-[12.5px] font-semibold tracking-[0.01em] mb-4 lg:mb-6 mt-0 leading-snug whitespace-normal lg:whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.55)', color: '#B45E69', border: '1px solid rgba(217,77,104,0.15)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', boxShadow: '0 6px 20px rgba(80,45,55,0.05)' }}>
                 <span className="w-[7px] h-[7px] rounded-full animate-pulse flex-shrink-0" style={{ background: '#D85F70' }} />
                 Türkiye&apos;nin Dijital Düğün ve Nikah Platformu
               </div>
