@@ -914,7 +914,7 @@ export default function Home() {
                 </button>
                 <button onClick={() => setShowSearchModal(true)} className="flex-[0.9] basis-0 lg:basis-auto lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Davetli Girişi</button>
               </div>
-              {/* Örnek Canlı Yayın link — mertbasar@hotmail.com hesabının en son nikahına yönlendirir */}
+              {/* Canlı yayın demo kartı — tüm kart tıklanabilir; örnek yayına yönlendirir */}
               <button
                 type="button"
                 disabled={loadingDemo}
@@ -934,30 +934,49 @@ export default function Home() {
                     }
                     const { event_link } = await res.json();
                     router.push(`/canli/${event_link}`);
-                    // loading state'i router.push sonrası bırak — sayfa değişene kadar disabled kalsın
                   } catch (e) {
                     console.error(e);
                     alert('Örnek yayına gidilemedi.');
                     setLoadingDemo(false);
                   }
                 }}
-                className={`live-demo-link inline-flex items-center gap-2 mb-6 lg:mb-3 px-4 py-3 lg:py-2.5 rounded-2xl text-[13px] lg:text-sm font-medium transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
-                style={{ background: loadingDemo ? 'rgba(200,104,110,0.18)' : 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}
+                className={`group block w-full text-left rounded-[22px] p-4 mb-6 lg:mb-3 max-w-[560px] transition-all ${loadingDemo ? 'cursor-wait opacity-80' : 'hover:-translate-y-0.5'}`}
+                style={{ background: 'rgba(255,255,255,0.82)', border: '1px solid #F0D5D8', boxShadow: '0 10px 30px rgba(99,60,60,0.055), 0 2px 8px rgba(99,60,60,0.025)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
               >
-                {loadingDemo ? (
-                  <>
-                    <svg className="animate-spin w-4 h-4 relative z-10" fill="none" viewBox="0 0 24 24">
-                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" strokeDasharray="40" strokeDashoffset="20" strokeLinecap="round" opacity="0.8" />
-                    </svg>
-                    <span className="relative z-10">Örnek Yayın Sayfası Hazırlanıyor...</span>
-                  </>
-                ) : (
-                  <>
-                    <span className="relative z-10">Örnek Canlı Yayın sayfası incele</span>
-                    <svg className="live-demo-arrow w-4 h-4 relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                    <span className="live-demo-shimmer" aria-hidden="true" />
-                  </>
-                )}
+                {/* Üst: thumbnail + başlık/açıklama + ok */}
+                <div className="flex items-center gap-3.5">
+                  <img src="/demo-canli.png" alt="Canlı yayın önizleme" className="w-[118px] h-[70px] flex-shrink-0 object-cover rounded-[13px]" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[14.5px] lg:text-[15px] font-bold leading-tight" style={{ color: '#202333' }}>Düğün &amp; Nikah sayfasını deneyimleyin</p>
+                    <p className="text-[12px] font-medium leading-snug mt-1" style={{ color: '#8C7771' }}>Davetlilerinizin ne göreceğini keşfedin.</p>
+                  </div>
+                  <span className="w-[34px] h-[34px] flex-shrink-0 rounded-full flex items-center justify-center transition-transform group-hover:translate-x-0.5" style={{ background: '#FFF6F6', border: '1px solid #F1D5D9', color: '#D75F6C' }}>
+                    {loadingDemo ? (
+                      <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2.4" strokeDasharray="38" strokeDashoffset="20" strokeLinecap="round" opacity="0.85" /></svg>
+                    ) : (
+                      <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.1} d="M5 12h13M12 5l7 7-7 7" /></svg>
+                    )}
+                  </span>
+                </div>
+                {/* Alt: 4 özellik — yatay (ikon solda) + aralarında dikey çizgi */}
+                <div className="grid grid-cols-4 mt-3.5 pt-3" style={{ borderTop: '1px solid #F3E5E2' }}>
+                  <div className="flex items-center justify-center gap-1.5" style={{ color: '#6A5852', borderRight: '1px solid #F3E5E2' }}>
+                    <svg className="w-[18px] h-[18px] lg:w-[20px] lg:h-[20px] flex-shrink-0" fill="none" stroke="#DC6874" strokeWidth={1.7} viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2.5" /><path d="M8 21h8" strokeLinecap="round" /><path d="M10.5 8.3l4 2.7-4 2.7z" fill="#DC6874" stroke="none" /></svg>
+                    <span className="text-[10px] lg:text-[11px] font-semibold leading-tight whitespace-nowrap">Canlı Yayın</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5" style={{ color: '#6A5852', borderRight: '1px solid #F3E5E2' }}>
+                    <svg className="w-[18px] h-[18px] lg:w-[20px] lg:h-[20px] flex-shrink-0" fill="none" stroke="#DC6874" strokeWidth={1.7} viewBox="0 0 24 24"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                    <span className="text-[10px] lg:text-[11px] font-semibold leading-tight whitespace-nowrap">Altın Tak</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5" style={{ color: '#6A5852', borderRight: '1px solid #F3E5E2' }}>
+                    <svg className="w-[18px] h-[18px] lg:w-[20px] lg:h-[20px] flex-shrink-0" fill="none" stroke="#DC6874" strokeWidth={1.7} viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-11.5 7.9L3 21l1.6-6.5A8.5 8.5 0 1 1 21 11.5z" strokeLinejoin="round" /><path d="M12 14.3s-2.4-1.4-2.4-3c0-.85.68-1.4 1.4-1.4.55 0 1 .35 1 .35s.45-.35 1-.35c.72 0 1.4.55 1.4 1.4 0 1.6-2.4 3-2.4 3z" fill="#DC6874" stroke="none" /></svg>
+                    <span className="text-[10px] lg:text-[11px] font-semibold leading-tight whitespace-nowrap">Tebrik Et</span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5" style={{ color: '#6A5852' }}>
+                    <svg className="w-[18px] h-[18px] lg:w-[20px] lg:h-[20px] flex-shrink-0" fill="none" stroke="#DC6874" strokeWidth={1.7} viewBox="0 0 24 24"><path d="M21 14V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9" strokeLinecap="round" /><circle cx="8.5" cy="9" r="1.4" /><path d="M3 16l4-3.5 4 3" strokeLinecap="round" strokeLinejoin="round" /><path d="M18 15.5v5M15.5 18h5" strokeLinecap="round" /></svg>
+                    <span className="text-[10px] lg:text-[11px] font-semibold leading-tight whitespace-nowrap">Fotoğraf</span>
+                  </div>
+                </div>
               </button>
             </div>
           </div>
