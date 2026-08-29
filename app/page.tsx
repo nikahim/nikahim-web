@@ -894,7 +894,7 @@ export default function Home() {
               {/* Item 26: yeni açıklama — mobilde tam genişlik */}
               <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Masa planından canlı yayına, fotoğraflardan tebrik mesajlarına... Büyük gününüz için her şey <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da.</p>
               {/* Mobil hero video — uygulama welcome ekranıyla BİREBİR: 2 katman mask + object 64%/66% */}
-              <div className="lg:hidden relative -mx-6 mt-1.5 mb-[18px] overflow-hidden" style={{ height: 'clamp(340px, 43vh, 450px)' }}>
+              <div className="lg:hidden relative -mx-6 mt-1.5 mb-[18px] overflow-hidden" style={{ height: 'clamp(305px, 39vh, 405px)' }}>
                 <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[64%_66%] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
@@ -942,7 +942,7 @@ export default function Home() {
                   }
                 }}
                 className={`live-demo-link inline-flex items-center gap-2 mb-6 lg:mb-3 px-4 py-3 lg:py-2.5 rounded-2xl text-[13px] lg:text-sm font-medium transition-all ${loadingDemo ? 'cursor-wait opacity-75 scale-[0.98]' : 'hover:gap-3 hover:scale-[1.02]'}`}
-                style={{ background: loadingDemo ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.72)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', color: '#C95669', border: '1px solid rgba(206,91,110,0.25)' }}
+                style={{ background: loadingDemo ? 'rgba(200,104,110,0.18)' : 'rgba(200,104,110,0.1)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.25)' }}
               >
                 {loadingDemo ? (
                   <>
