@@ -992,13 +992,15 @@ export default function Home() {
 
       {/* ÖZELLİK KARTLARI - Altın Toplama + Nikah Albümü */}
       <section id="ozellikler" className="py-16" style={{ scrollMarginTop: '80px' }}>
-        <div className="max-w-7xl mx-auto px-6 space-y-16 md:space-y-20">
+        <div className="max-w-[1340px] mx-auto px-6 space-y-16 md:space-y-20">
           {/* Canlı Yayın - mobile (1:1 kare) + desktop (image aspect 1964/541 ≈ 3.63:1, ~339px) */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[1964/541] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[1964/640] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Mobil — sol kısmı krem kapla (resim sağda kalsın) */}
+            <div className="lg:hidden absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, #FFFCFA 0%, #FFFCFA 40%, rgba(255,252,250,0.72) 58%, rgba(255,252,250,0.22) 80%, rgba(255,252,250,0) 96%)' }} />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem (Canlı Yayın için daha ince — rose tonu öne çıksın) */}
-            <div className="hidden lg:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
+            <div className="hidden lg:block absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, #FFFCFA 0%, #FFFCFA 45%, rgba(255,252,250,0.82) 60%, rgba(255,252,250,0.34) 80%, rgba(255,252,250,0) 96%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
             <div className="lg:hidden absolute" style={{ top: '12%', left: '5.5%', width: '54%' }}>
@@ -1012,13 +1014,13 @@ export default function Home() {
               </p>
               <div className="flex flex-col items-start gap-3 mt-5">
                 {[
-                  { label: 'Yüksek Çözünürlük', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2" /><path strokeLinecap="round" d="M8 21h8M12 17v4" /></svg> },
-                  { label: 'Tek Tıkla Yayın', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg> },
-                  { label: 'Uygulamasız İzleme', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" /><line x1="3" y1="3" x2="21" y2="21" strokeLinecap="round" /></svg> },
+                  { label: 'Yüksek Çözünürlük', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2" /><path strokeLinecap="round" d="M8 21h8M12 17v4" /></svg> },
+                  { label: 'Tek Tıkla Yayın', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg> },
+                  { label: 'Uygulamasız İzleme', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" /><line x1="3" y1="3" x2="21" y2="21" strokeLinecap="round" /></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
-                    <span className="w-9 h-9 flex-shrink-0 grid place-items-center rounded-[11px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.13)', boxShadow: '0 4px 12px rgba(70,45,40,0.045)', color: '#DC6873' }}>{b.icon}</span>
-                    <span className="text-[12.5px] font-medium" style={{ color: '#554F4C' }}>{b.label}</span>
+                    <span className="w-8 h-8 flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[11px] font-medium" style={{ color: '#554F4C' }}>{b.label}</span>
                   </div>
                 ))}
               </div>
@@ -1035,15 +1037,15 @@ export default function Home() {
                   sevdikleriniz bu anı kaçırmasın.
                 </p>
               </div>
-              <div className="flex gap-6 flex-wrap -ml-[80px]">
+              <div className="flex gap-5 flex-wrap -ml-[60px]">
                 {[
-                  { label: 'Yüksek Çözünürlük', icon: <svg className="w-[19px] h-[19px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2" /><path strokeLinecap="round" d="M8 21h8M12 17v4" /></svg> },
-                  { label: 'Tek Tıkla Yayın', icon: <svg className="w-[19px] h-[19px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg> },
-                  { label: 'Uygulamasız İzleme', icon: <svg className="w-[19px] h-[19px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" /><line x1="3" y1="3" x2="21" y2="21" strokeLinecap="round" /></svg> },
+                  { label: 'Yüksek Çözünürlük', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2" /><path strokeLinecap="round" d="M8 21h8M12 17v4" /></svg> },
+                  { label: 'Tek Tıkla Yayın', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5" /></svg> },
+                  { label: 'Uygulamasız İzleme', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" /><line x1="3" y1="3" x2="21" y2="21" strokeLinecap="round" /></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
-                    <span className="w-[42px] h-[42px] flex-shrink-0 grid place-items-center rounded-[13px]" style={{ background: 'rgba(255,255,255,0.86)', border: '1px solid rgba(216,101,112,0.13)', boxShadow: '0 5px 16px rgba(70,45,40,0.045)', color: '#DC6873' }}>{b.icon}</span>
-                    <span className="text-[14px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
+                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
                   </div>
                 ))}
               </div>
