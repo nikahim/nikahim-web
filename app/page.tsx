@@ -877,7 +877,7 @@ export default function Home() {
           <div className="absolute inset-x-0 bottom-0 z-10" style={{ height: '32%', background: 'linear-gradient(0deg, #FAF7F5 0%, rgba(250,247,245,0.55) 32%, rgba(250,247,245,0.15) 62%, transparent 100%)' }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-16 pb-12 lg:pt-28 lg:pb-0 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-20 pb-12 lg:pt-28 lg:pb-0 w-full">
           <div className="lg:max-w-[46%]">
             <div className="animate-fade-in-up">
               {/* Slogan — glass (Apple-style), pembe değil; mobilde yukarıda ve sarabilir */}
