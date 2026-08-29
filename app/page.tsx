@@ -892,7 +892,7 @@ export default function Home() {
                 <span className="gradient-text-hero animate-glow font-bold text-[2.7rem] lg:text-[4rem]">Artık Dijital</span>
               </h1>
               {/* Item 26: yeni açıklama — mobilde tam genişlik */}
-              <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Canlı Yayından akıllı Masa Planlayıcısına, Fotoğraf Albümünden tebrik mesajlarına... Büyük gününüz için her şey <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da.</p>
+              <p className="relative z-10 text-[15px] lg:text-[1.15rem] font-medium mb-5 lg:mb-10 leading-relaxed lg:max-w-[520px]" style={{ color: '#574438' }}>Canlı Yayından akıllı Masa Planlayıcısına, Fotoğraf Albümünden tebrik mesajlarına... Büyük gününüz için<br className="hidden lg:block" /> her şey <span className="font-bold" style={{ color: '#3A302D' }}>Nikahım</span>&apos;da.</p>
               {/* Mobil hero video — uygulama welcome ekranıyla BİREBİR: 2 katman mask + object 64%/66% */}
               <div className="lg:hidden relative -mx-6 mt-1.5 mb-[18px] overflow-hidden" style={{ height: 'clamp(305px, 39vh, 405px)' }}>
                 <video autoPlay muted loop playsInline preload="metadata" className="hero-vid-mask-4 absolute inset-0 h-full w-full object-cover object-[64%_66%] brightness-[0.96] contrast-[1.03] saturate-[0.94]">
@@ -974,7 +974,7 @@ export default function Home() {
                   </div>
                   <div className="flex items-center justify-center gap-1.5" style={{ color: '#6A5852' }}>
                     <svg className="w-[18px] h-[18px] lg:w-[20px] lg:h-[20px] flex-shrink-0" fill="none" stroke="#DC6874" strokeWidth={1.7} viewBox="0 0 24 24"><path d="M21 14V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9" strokeLinecap="round" /><circle cx="8.5" cy="9" r="1.4" /><path d="M3 16l4-3.5 4 3" strokeLinecap="round" strokeLinejoin="round" /><path d="M18 15.5v5M15.5 18h5" strokeLinecap="round" /></svg>
-                    <span className="text-[10px] lg:text-[11px] font-semibold leading-tight">Fotoğraf Albümü</span>
+                    <span className="text-[10px] lg:text-[11px] font-semibold leading-tight whitespace-nowrap">Fotoğraf</span>
                   </div>
                 </div>
               </button>
