@@ -997,12 +997,12 @@ export default function Home() {
           <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[1964/640] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/bg-canli-yayin-s2.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Mobil — sol + alt hafif rose-krem (resim sağda, kart hafif belirir) */}
-            <div className="lg:hidden absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(253,245,242,0.88) 0%, rgba(253,245,242,0.85) 36%, rgba(253,245,242,0.55) 56%, rgba(253,245,242,0.2) 78%, rgba(253,245,242,0) 94%)' }} />
-            <div className="lg:hidden absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: '15%', background: 'linear-gradient(0deg, rgba(253,245,242,0.85) 0%, transparent 100%)' }} />
+            <div className="lg:hidden absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(250,243,235,0.88) 0%, rgba(250,243,235,0.85) 36%, rgba(250,243,235,0.55) 56%, rgba(250,243,235,0.2) 78%, rgba(250,243,235,0) 94%)' }} />
+            <div className="lg:hidden absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: '15%', background: 'linear-gradient(0deg, rgba(250,243,235,0.85) 0%, transparent 100%)' }} />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Cream overlay — sol içerik tarafı krem (Canlı Yayın için daha ince — rose tonu öne çıksın) */}
-            <div className="hidden lg:block absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(253,245,242,0.9) 0%, rgba(253,245,242,0.88) 38%, rgba(253,245,242,0.6) 56%, rgba(253,245,242,0.24) 76%, rgba(253,245,242,0) 92%)' }} />
-            <div className="hidden lg:block absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: '18%', background: 'linear-gradient(0deg, rgba(253,245,242,0.88) 0%, rgba(253,245,242,0.4) 45%, transparent 100%)' }} />
+            <div className="hidden lg:block absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(250,243,235,0.9) 0%, rgba(250,243,235,0.88) 38%, rgba(250,243,235,0.6) 56%, rgba(250,243,235,0.24) 76%, rgba(250,243,235,0) 92%)' }} />
+            <div className="hidden lg:block absolute inset-x-0 bottom-0 pointer-events-none" style={{ height: '18%', background: 'linear-gradient(0deg, rgba(250,243,235,0.88) 0%, rgba(250,243,235,0.4) 45%, transparent 100%)' }} />
 
             {/* Mobil heading + dash + açıklama + badges */}
             <div className="lg:hidden absolute" style={{ top: '12%', left: '5.5%', width: '54%' }}>
