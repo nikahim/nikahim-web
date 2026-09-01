@@ -1065,9 +1065,9 @@ export default function Home() {
               <p className="mt-3 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri altının TL karşılığını doğrudan hesabınıza göndersin. Arada aracı ve komisyon olmadan, paranız doğrudan size ulaşsın.</p>
               <div className="flex flex-col items-end gap-3 mt-5">
                 {[
-                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'Aracısız', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
-                  { label: 'Komisyonsuz', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
+                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
+                  { label: 'Havale/EFT', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
+                  { label: 'Altın Değerinde TL', icon: <svg className="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="18.5" textAnchor="middle" fontSize="20" fontWeight="800">₺</text></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex flex-row-reverse items-center gap-2.5">
                     <span className="w-8 h-8 flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1077,7 +1077,7 @@ export default function Home() {
               </div>
             </div>
             {/* Masaüstü — metin sağda ortalı */}
-            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[50%] flex-col justify-center pr-16 pl-10">
+            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[48%] flex-col justify-center pr-10 pl-20">
               <div className="mb-5"><FeatureBadge label="ALTIN TAKMA" /></div>
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.4vw, 38px)' }}>Altınlarınız,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>doğrudan hesabınıza.</h3>
@@ -1085,9 +1085,9 @@ export default function Home() {
               <p className="text-[13px] lg:text-[14px] leading-snug mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri altının TL karşılığını doğrudan hesabınıza göndersin. Arada aracı ve komisyon olmadan, paranız doğrudan size ulaşsın.</p>
               <div className="flex flex-col gap-3 items-start">
                 {[
-                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'Aracısız', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
-                  { label: 'Komisyonsuz', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
+                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
+                  { label: 'Havale/EFT', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
+                  { label: 'Altın Değerinde TL', icon: <svg className="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="18.5" textAnchor="middle" fontSize="20" fontWeight="800">₺</text></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1099,7 +1099,7 @@ export default function Home() {
           </div>
 
           {/* Tebrik Mesajları - mobile (1:1) + desktop (aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[2197/716] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[1969/799] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/bg-tebrik.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Mobil heading + açıklama + feature (yeni stil) */}
@@ -1129,19 +1129,7 @@ export default function Home() {
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Sevdiklerinizin mesajları,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>hep sizinle.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[400px]" style={{ color: '#6E5A5A' }}>Davetlileriniz video, sesli veya yazılı tebriklerini bıraksın. Tüm güzel dilekleriniz tek yerde biriksin.</p>
-              <div className="flex flex-col gap-3 items-start">
-                {[
-                  { label: 'Video', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="6" width="13" height="12" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5l6-3.5v10l-6-3.5z" /></svg> },
-                  { label: 'Sesli', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3" /><path strokeLinecap="round" strokeLinejoin="round" d="M5 11a7 7 0 0014 0M12 18v3M8 21h8" /></svg> },
-                  { label: 'Yazılı', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z" /></svg> },
-                ].map((b, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
-                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="leading-snug text-[13px] lg:text-[14px] max-w-[400px]" style={{ color: '#6E5A5A' }}>Davetlileriniz video, sesli veya yazılı tebriklerini bıraksın. Tüm güzel dilekleriniz tek yerde biriksin.</p>
             </div>
           </div>
 
@@ -1194,7 +1182,7 @@ export default function Home() {
                     </div>
                     <div className="absolute top-2.5 right-2.5 flex items-center gap-1 px-2 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 7px rgba(80,60,40,0.16)' }}>
                       <svg className="w-3 h-3" fill="none" stroke="#C26068" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v5H6z" /></svg>
-                      <span className="text-[9px] font-bold leading-none" style={{ color: '#9F4F58' }}>Baskıya Hazır</span>
+                      <span className="text-[9px] font-bold leading-none" style={{ color: '#9F4F58' }}>Baskıya Gönder</span>
                     </div>
                   </div>
                 </div>
@@ -1275,13 +1263,13 @@ export default function Home() {
                   </div>
                   <div className="absolute top-1.5 right-1.5 flex items-center gap-1 px-2 py-1 rounded-full" style={{ background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 7px rgba(80,60,40,0.16)' }}>
                     <svg className="w-3 h-3" fill="none" stroke="#C26068" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v5H6z" /></svg>
-                    <span className="text-[8.5px] font-bold leading-none" style={{ color: '#9F4F58' }}>Baskıya Hazır</span>
+                    <span className="text-[8.5px] font-bold leading-none" style={{ color: '#9F4F58' }}>Baskıya Gönder</span>
                   </div>
                 </div>
               </div>
 
               {/* Filmstrip — sol kolonda ortalı, 15px yukarı (18→33) */}
-              <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '33px', width: '320px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
+              <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '26px', width: '400px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
                 <style>{`
                   @keyframes albumFilmstripDesktop {
                     0% { transform: translateX(0); }
@@ -1299,8 +1287,8 @@ export default function Home() {
                   {[...Array(2)].map((_, dup) => (
                     ['/foto2.png', '/foto3.png', '/foto4.png', '/foto5.png', '/foto6.jpg'].map((url, i) => (
                       <div key={`${dup}-${i}`}
-                           className="flex-shrink-0 rounded overflow-hidden"
-                           style={{ width: '36px', height: '36px', boxShadow: '0 2px 6px rgba(80,60,40,0.12)', border: '1px solid rgba(255,255,255,0.6)' }}>
+                           className="flex-shrink-0 rounded-lg overflow-hidden"
+                           style={{ width: '84px', height: '84px', boxShadow: '0 4px 12px rgba(80,60,40,0.16)', border: '1.5px solid rgba(255,255,255,0.7)' }}>
                         <img src={url} alt="" className="w-full h-full object-cover" />
                       </div>
                     ))
@@ -1316,11 +1304,57 @@ export default function Home() {
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>sizin hikâyeniz.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
               <p className="leading-snug text-[13px] lg:text-[14px] max-w-[380px] mb-5" style={{ color: '#6E5A5A' }}>Davetlileriniz düğün boyunca kendi çektikleri fotoğrafları albümünüze yüklesin. Tüm kareler tek yerde biriksin; ister siz ister davetlileriniz, dilediğiniz fotoğrafları kolayca baskı için seçin.</p>
-              <div className="flex flex-col gap-3 items-start">
+              <div className="flex flex-row gap-5 items-center flex-wrap">
                 {[
                   { label: 'Tek Albüm', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
                   { label: 'Kolay Yükleme', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 15V4M8 8l4-4 4 4M4 15v3a2 2 0 002 2h12a2 2 0 002-2v-3" /></svg> },
                   { label: 'Fotoğraf Baskısı', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg> },
+                ].map((b, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Akıllı Masa Planlayıcısı — en son kart (mobil dikey dikdörtgen) */}
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-[874/1799] lg:aspect-[2195/716] max-w-[440px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+            <img src="/masa-plani-mobil.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/masa-plani-masaustu.png" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Mobil — metin üstte (krem alan) */}
+            <div className="lg:hidden absolute" style={{ top: '4%', left: '6%', right: '6%' }}>
+              <div className="mb-4"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
+              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.6vw, 44px)' }}>Masa düzeniniz,</h3>
+              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px, 4.4vw, 34px)' }}>zahmetsizce hazır.</h3>
+              <div className="mt-3" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="mt-3 leading-relaxed text-[13px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin, tercihlerinizi belirleyin. Akıllı planlayıcı en uygun masa düzenini oluştursun; dilediğiniz gibi düzenleyip son halini verin.</p>
+              <div className="flex flex-col gap-3 mt-5 items-start">
+                {[
+                  { label: 'Akıllı Yerleşim', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
+                  { label: 'Kolay Davetli Yönetimi', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
+                  { label: 'Sürükle & Düzenle', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" /></svg> },
+                ].map((b, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-8 h-8 flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[11px] font-medium" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Masaüstü — metin solda ortalı */}
+            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[156px] pr-4">
+              <div className="mb-5"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
+              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Masa düzeniniz,</h3>
+              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>zahmetsizce hazır.</h3>
+              <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin, tercihlerinizi belirleyin. Akıllı planlayıcı en uygun masa düzenini oluştursun; dilediğiniz gibi düzenleyip son halini verin.</p>
+              <div className="flex flex-col gap-3 items-start">
+                {[
+                  { label: 'Akıllı Yerleşim', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
+                  { label: 'Kolay Davetli Yönetimi', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
+                  { label: 'Sürükle & Düzenle', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" /></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1412,16 +1446,16 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-6">
           <div className="text-center mb-10 md:mb-12">
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-5" style={{ fontFamily: 'var(--font-playfair)' }}>Neden <span className="gradient-text">Nikahım?</span></h2>
-            <p className="text-lg text-gray-400 max-w-xl mx-auto">Özel gününüzü daha özel kılan profesyonel özellikler</p>
+            <p className="text-lg text-gray-400 max-w-xl mx-auto">Planlamadan canlı yayına, anılarınızdan fotoğraf baskısına kadar ihtiyacınız olan her şey Nikahım&apos;da.</p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
             {[
-              { title: 'Size Özel Yayın Sayfası', desc: 'Sadece size ait bir yayın sayfası! Dilerseniz Canlı Yayını herkese kapalı yapın, sadece davetiyeli kişiler katılsın.', badges: ['%100 Gizlilik', 'Özel Erişim'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg> },
-              { title: 'Tek Tıkla Katılım & İzleme', desc: 'Davetlileriniz için uygulama gerekmez, üyelik gerekmez! Link üzerinden tek tıkla izlemeye başlarlar. Kaçırırlarsa sorun yok! Yayın kaydı 30 gün boyunca aynı linkte video olarak izlenebilir!', badges: ['Üyelik Yok', '30 Gün Kayıt'], dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
-              { title: 'Online Altın Takma', desc: 'Havale/EFT veya Crypto ile altın takma! Ödemeler direkt sizin banka hesabınıza, aracı ve komisyon yok.', badges: ['Komisyonsuz', 'Aracı yok', 'Hızlı'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg> },
-              { title: 'Video ve Sesli Tebrik', desc: 'Davetlileriniz 30 saniyelik video veya 60 saniyelik sesli tebrik mesajı göndersin.', badges: ['30 sn Video', '60 sn Ses'], dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
-              { title: 'Fotoğraf Albümü', desc: 'Siz yada Misafirleriniz (sizin onayınızın ardından) gün boyunca çekilen tüm fotoğrafları yüklesin, tüm anılar tek albümde toplansın.', badges: ['Birlikte Yükle', 'Tek Albüm', 'Kolay İndir'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
-              { title: 'Özel Davetiye', desc: 'WhatsApp, Instagram ve diğer platformlardan kolayca paylaşabileceğiniz size özel davetiye.', badges: ['Kolay Paylaşım', 'Tek link'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> },
+              { title: 'Canlı Yayın', desc: 'Düğününüzü size özel sayfanızdan canlı yayınlayın. Davetlileriniz uygulama indirmeden, tek tıkla yayına katılsın.', badges: ['Özel Yayın Sayfası', 'Tek Tıkla Katılım', 'Full HD'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
+              { title: 'Altın Karşılığı TL Gönderimi', desc: 'Davetlileriniz seçtikleri altının TL karşılığını doğrudan hesabınıza göndersin. Nikahım paranıza aracılık etmez.', badges: ['Doğrudan Hesabınıza', 'Aracısız', 'Komisyonsuz'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
+              { title: 'Tebrik Mesajları', desc: 'Davetlileriniz video, sesli veya yazılı tebriklerini bıraksın. Tüm güzel dilekleriniz tek yerde biriksin.', badges: ['Videolu', 'Sesli', 'Yazılı'], dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg> },
+              { title: 'Ortak Fotoğraf Albümü', desc: 'Siz ve davetlileriniz düğünde çektiğiniz fotoğrafları yükleyin. Tüm anılarınız tek albümde bir araya gelsin.', badges: ['Birlikte Yükleyin', 'Tek Albüm', 'Çift Onayı'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
+              { title: 'Fotoğraf Baskısı', desc: 'İster siz ister davetlileriniz, dilediğiniz fotoğrafları baskı için seçin. Seçilen kareler fotoğrafçınızın paneline ulaşsın.', badges: ['Albümden Seçin', 'Kolay Baskı', 'Fotoğrafçı Paneli'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg> },
+              { title: 'Akıllı Masa Planlayıcısı', desc: 'Davetlilerinizi ekleyin, tercihlerinizi belirleyin. Akıllı planlayıcı en uygun masa düzenini oluştursun; son dokunuşları siz yapın.', badges: ['Akıllı Yerleşim', 'Davetli Yönetimi', 'Sürükle & Düzenle'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" strokeWidth={1.8} /><rect x="14" y="3" width="7" height="7" rx="1.5" strokeWidth={1.8} /><rect x="3" y="14" width="7" height="7" rx="1.5" strokeWidth={1.8} /><rect x="14" y="14" width="7" height="7" rx="1.5" strokeWidth={1.8} /></svg> },
             ].map((feature, i) => (
               <div key={i}
                    className="premium-card group p-7 rounded-3xl bg-white transition-all duration-300 hover:-translate-y-1 flex flex-col h-full"
