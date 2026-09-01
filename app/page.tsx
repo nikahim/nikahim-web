@@ -577,15 +577,12 @@ export default function Home() {
               <div className="mt-2.5 h-[1px] rounded-full" style={{ width: '54px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
-            {/* Fayda başlığı + alt satır */}
+            {/* Fayda başlığı — 2 satır */}
             <div className="text-center mb-5">
-              <h3 className="leading-[1.2]" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', fontWeight: 700, fontSize: '19px' }}>
-                <span style={{ color: '#1F1F1F' }}>Büyük gününüzü </span>
-                <span style={{ color: '#C8686E' }}>telefondan yönetin.</span>
+              <h3 className="leading-[1.25]" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', fontWeight: 700, fontSize: '20px' }}>
+                <span style={{ color: '#1F1F1F' }}>Büyük Gününüzü</span><br />
+                <span style={{ color: '#C8686E' }}>Telefondan yönetin!</span>
               </h3>
-              <p className="mt-2 mx-auto max-w-[290px] text-[12.5px] leading-snug" style={{ color: '#7A6A6A' }}>
-                Davetiyenizi oluşturun, paylaşın ve canlı yayınınızı başlatın.
-              </p>
             </div>
 
             {/* 3 feature — kompakt */}
@@ -612,9 +609,12 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Ücretsiz indirin */}
+            {/* Ücretsiz İndirin, Hemen Başlayın! */}
             <div className="text-center mb-3">
-              <p className="text-[12.5px] font-semibold tracking-[0.2px]" style={{ color: '#9F4F58' }}>Ücretsiz indirin</p>
+              <p className="text-[12.5px] tracking-[0.2px]">
+                <span style={{ color: '#9F4F58', fontWeight: 600 }}>Ücretsiz İndirin,</span>
+                <span style={{ color: '#6E5A5A' }}> Hemen Başlayın!</span>
+              </p>
             </div>
 
             {/* App Store + Google Play yan yana */}
@@ -1041,12 +1041,12 @@ export default function Home() {
             </div>
 
             {/* Masaüstü — içerik solda ortalı, feature'lar açıklama altında alt alta */}
-            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[156px] pr-4">
+            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[176px] pr-4">
               <div className="mb-5"><FeatureBadge label="CANLI YAYIN" live /></div>
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.4vw, 38px)' }}>Sevdikleriniz,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>o an yanınızda.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[400px]" style={{ color: '#6E5A5A' }}>Düğününüzü canlı yayınlayın. Uzakta olan sevdikleriniz de bu özel anı sizinle birlikte yaşasın.</p>
+              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[470px]" style={{ color: '#6E5A5A' }}>Düğününüzü canlı yayınlayın. Uzakta olan sevdikleriniz<br />de bu özel anı sizinle birlikte yaşasın.</p>
               <div className="flex flex-col gap-3 items-start">
                 {[
                   { label: 'Full HD', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2" /><path strokeLinecap="round" d="M8 21h8M12 17v4" /></svg> },
@@ -1072,13 +1072,13 @@ export default function Home() {
               <h3 className="leading-[1.06] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Altınlarınız,</h3>
               <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(16px, 4vw, 30px)' }}>doğrudan hesabınıza</h3>
               <div className="mt-2.5 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-2.5 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri<br />altının TL karşılığını<br />doğrudan hesabınıza<br />göndersin.</p>
+              <p className="mt-2.5 leading-relaxed text-[13px] text-right" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri<br />altının TL karşılığını<br />sizin hesabınıza<br />göndersin.</p>
               <div className="flex flex-col items-end mt-4">
                 <div className="flex flex-col items-start gap-2">
                 {[
                   { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
                   { label: 'Havale/EFT', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'Altın Değerinde TL', icon: <svg className="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="25" fontWeight="800">₺</text></svg> },
+                  { label: 'Altın Değerinde TL', icon: <svg className="w-[15px] h-[15px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="27" fontWeight="400">₺</text></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <span className="w-8 h-8 flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1094,12 +1094,12 @@ export default function Home() {
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.4vw, 38px)' }}>Altınlarınız,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>doğrudan hesabınıza.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="text-[13px] lg:text-[14px] leading-snug mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri altının TL karşılığını doğrudan hesabınıza göndersin. Arada aracı ve komisyon olmadan, paranız doğrudan size ulaşsın.</p>
+              <p className="text-[13px] lg:text-[14px] leading-snug mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri altının TL karşılığını sizin hesabınıza göndersin.</p>
               <div className="flex flex-col gap-3 items-start">
                 {[
                   { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
                   { label: 'Havale/EFT', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'Altın Değerinde TL', icon: <svg className="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="25" fontWeight="800">₺</text></svg> },
+                  { label: 'Altın Değerinde TL', icon: <svg className="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="27" fontWeight="400">₺</text></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1136,12 +1136,24 @@ export default function Home() {
             </div>
 
             {/* Masaüstü — içerik solda ortalı, feature'lar açıklama altında alt alta */}
-            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center -translate-y-[42px] pl-[156px] pr-4">
-              <div className="mb-7"><FeatureBadge label="TEBRİK MESAJLARI" /></div>
+            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center -translate-y-[10px] pl-[176px] pr-4">
+              <div className="mb-5"><FeatureBadge label="TEBRİK MESAJLARI" /></div>
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Sevdiklerinizin mesajları,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>hep sizinle.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] max-w-[400px]" style={{ color: '#6E5A5A' }}>Davetlileriniz video, sesli veya yazılı tebriklerini bıraksın. Tüm güzel dilekleriniz tek yerde biriksin.</p>
+              <p className="leading-snug text-[13px] lg:text-[14px] max-w-[400px] mb-5" style={{ color: '#6E5A5A' }}>Davetlileriniz video, sesli veya yazılı tebriklerini bıraksın. Tüm güzel dilekleriniz tek yerde biriksin.</p>
+              <div className="flex flex-col gap-3 items-start">
+                {[
+                  { label: 'Video', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="6" width="13" height="12" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5l6-3.5v10l-6-3.5z" /></svg> },
+                  { label: 'Sesli', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3" /><path strokeLinecap="round" strokeLinejoin="round" d="M5 11a7 7 0 0014 0M12 18v3M8 21h8" /></svg> },
+                  { label: 'Yazılı', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z" /></svg> },
+                ].map((b, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -1252,19 +1264,19 @@ export default function Home() {
             {/* SOL — 3 foto + altta kayan filmstrip */}
             <div className="absolute left-0 top-0 h-full w-[48%]">
               {/* 3 foto */}
-              <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%) translateX(-100px) rotate(-7deg)', zIndex: 1 }}>
+              <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%) translateX(-112px) rotate(-7deg)', zIndex: 1 }}>
                 <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                  <img src="/foto2.png" alt="" className="block object-cover rounded-md" style={{ width: '101px', height: '144px' }} />
+                  <img src="/foto2.png" alt="" className="block object-cover rounded-md" style={{ width: '111px', height: '158px' }} />
                 </div>
               </div>
-              <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%) translateX(100px) rotate(7deg)', zIndex: 1 }}>
+              <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%) translateX(112px) rotate(7deg)', zIndex: 1 }}>
                 <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                  <img src="/foto8.png" alt="" className="block object-cover rounded-md" style={{ width: '101px', height: '144px' }} />
+                  <img src="/foto8.png" alt="" className="block object-cover rounded-md" style={{ width: '111px', height: '158px' }} />
                 </div>
               </div>
-              <div className="absolute" style={{ left: '50%', top: '44%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
+              <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
                 <div className="bg-white p-1 rounded-xl relative album-float" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                  <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: '137px', height: '187px' }} />
+                  <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: '151px', height: '206px' }} />
                   <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                     <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                       <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -1281,7 +1293,7 @@ export default function Home() {
               </div>
 
               {/* Filmstrip — sol kolonda ortalı, 15px yukarı (18→33) */}
-              <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '26px', width: '400px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
+              <div className="absolute left-1/2 -translate-x-1/2 overflow-hidden" style={{ bottom: '34px', width: '440px', maskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0, black 8%, black 92%, transparent 100%)' }}>
                 <style>{`
                   @keyframes albumFilmstripDesktop {
                     0% { transform: translateX(0); }
@@ -1300,7 +1312,7 @@ export default function Home() {
                     ['/foto2.png', '/foto3.png', '/foto4.png', '/foto5.png', '/foto6.jpg'].map((url, i) => (
                       <div key={`${dup}-${i}`}
                            className="flex-shrink-0 rounded-lg overflow-hidden"
-                           style={{ width: '84px', height: '84px', boxShadow: '0 4px 12px rgba(80,60,40,0.16)', border: '1.5px solid rgba(255,255,255,0.7)' }}>
+                           style={{ width: '92px', height: '92px', boxShadow: '0 4px 12px rgba(80,60,40,0.16)', border: '1.5px solid rgba(255,255,255,0.7)' }}>
                         <img src={url} alt="" className="w-full h-full object-cover" />
                       </div>
                     ))
@@ -1332,7 +1344,7 @@ export default function Home() {
           </div>
 
           {/* Akıllı Masa Planlayıcısı — en son kart (mobil dikey dikdörtgen) */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-[874/1799] lg:aspect-[3/1] max-w-[440px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-[852/1596] lg:aspect-[3/1] max-w-[440px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/masa-plani-mobil.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/masa-plani-masaustu.png" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Mobil — metin üstte (krem alan) */}
@@ -1361,7 +1373,7 @@ export default function Home() {
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Masa düzeniniz,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>zahmetsizce hazır.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin, tercihlerinizi belirleyin. Akıllı planlayıcı en uygun masa düzenini oluştursun; dilediğiniz gibi düzenleyip son halini verin.</p>
+              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[460px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin, tercihlerinizi belirleyin. Akıllı<br />planlayıcı en uygun masa düzenini oluştursun;<br />dilediğiniz gibi düzenleyip son halini verin.</p>
               <div className="flex flex-col gap-3 items-start">
                 {[
                   { label: 'Akıllı Yerleşim', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
@@ -1541,8 +1553,8 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-14 md:gap-8 max-w-5xl mx-auto items-stretch">
             {[
               { id: 0, name: 'Nikah', sub: 'Temel ihtiyaçlar için ideal', price: '₺1.490', oldPrice: null, discountLabel: null, badge: null, features: ['30 Dakika Canlı Yayın', '100 İzleyici', '1080p Full HD*', 'Fotoğraf Albümü', 'Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 1, name: 'Düğün', sub: 'En çok tercih edilen', price: '₺2.990', oldPrice: null, discountLabel: null, badge: 'En Popüler', features: ['90 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Masa Planlayıcısı', 'Fotoğraf Albümü', 'Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
-              { id: 2, name: 'Şölen', sub: 'Maksimum deneyim', price: '₺9.990', oldPrice: null, discountLabel: null, badge: null, features: ['180 Dakika Canlı Yayın', '300 İzleyici', '1080p Full HD*', 'Masa Planlayıcısı', 'Fotoğraf Albümü', 'Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 1, name: 'Düğün', sub: 'En çok tercih edilen', price: '₺2.990', oldPrice: null, discountLabel: null, badge: 'En Popüler', features: ['90 Dakika Canlı Yayın', '200 İzleyici', '1080p Full HD*', 'Masa Planlayıcısı', 'Fotoğrafçı Paneli', 'Fotoğraf Albümü', 'Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
+              { id: 2, name: 'Şölen', sub: 'Maksimum deneyim', price: '₺9.990', oldPrice: null, discountLabel: null, badge: null, features: ['180 Dakika Canlı Yayın', '300 İzleyici', '1080p Full HD*', 'Masa Planlayıcısı', 'Fotoğrafçı Paneli', 'Fotoğraf Albümü', 'Davetiye Tasarımı', 'Tebrik Mesajları', 'Yayın Kaydı ve İndirme'], disabled: [] },
             ].map((pkg) => {
               const isSelected = selectedPackage === pkg.id;
               return (
@@ -1566,7 +1578,7 @@ export default function Home() {
                     </div>
                   </div>
                   <ul className="space-y-4 mb-9 flex-1">
-                    {pkg.features.map((f, i) => (<li key={i} className={`flex items-center gap-3 text-sm ${i < 3 || f === 'Masa Planlayıcısı' ? 'font-bold text-gray-900' : 'text-gray-600'}`}><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `rgba(200,104,110,${isSelected ? '0.15' : '0.1'})` }}><svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>{f}</li>))}
+                    {pkg.features.map((f, i) => (<li key={i} className={`flex items-center gap-3 text-sm ${i < 3 || f === 'Masa Planlayıcısı' || f === 'Fotoğrafçı Paneli' ? 'font-bold text-gray-900' : 'text-gray-600'}`}><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: `rgba(200,104,110,${isSelected ? '0.15' : '0.1'})` }}><svg className="w-3 h-3" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg></div>{f}</li>))}
                     {pkg.disabled.map((f, i) => (<li key={`d-${i}`} className="flex items-center gap-3 text-sm text-gray-300"><div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"><svg className="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" /></svg></div>{f}</li>))}
                   </ul>
                   {isSelected ? (
