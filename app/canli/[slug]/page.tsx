@@ -2442,7 +2442,7 @@ export default function WatchPage() {
       {/* App İndir Popup */}
       {showAppPopup && (
         <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 animate-fade-in" onClick={() => setShowAppPopup(false)} style={{ backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}>
-          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-16 lg:pt-9 lg:pb-20 max-w-md w-full overflow-hidden"
+          <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-8 lg:pt-8 lg:pb-9 max-w-md w-full animate-scale-in overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
                  background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
@@ -2470,58 +2470,68 @@ export default function WatchPage() {
               <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
 
-            {/* Üst — logo + slogan, etrafında soft glow */}
-            <div className="relative flex flex-col items-center mb-5">
+            {/* Üst — logo (kompakt) + slogan */}
+            <div className="relative flex flex-col items-center mb-4">
               {/* Logo arkası soft rose halo */}
-              <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
+              <div className="absolute top-0 w-[150px] h-[110px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[104px] h-[104px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[34px] w-auto object-contain -mt-1" />
+                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[80px] h-[80px] object-contain" />
+                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[27px] w-auto object-contain -mt-1" />
               </div>
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
-                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '15.5px', color: '#9F4F58' }}>
+                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14px', color: '#9F4F58' }}>
                 En özel anlar, birlikte yaşanır.
               </p>
               {/* Gold dash ayraç */}
-              <div className="mt-3 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
+              <div className="mt-2.5 h-[1px] rounded-full" style={{ width: '54px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
-            {/* 3 feature — ana sayfa ile aynı: Davetiye → Paylaş → Canlı */}
-            <div className="grid grid-cols-3 gap-4 mb-7 lg:mb-8">
+            {/* Fayda başlığı — 2 satır */}
+            <div className="text-center mb-5">
+              <h3 className="leading-[1.25]" style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', fontWeight: 700, fontSize: '20px' }}>
+                <span style={{ color: '#1F1F1F' }}>Büyük Gününüzü</span><br />
+                <span style={{ color: '#C8686E' }}>Telefondan yönetin!</span>
+              </h3>
+            </div>
+
+            {/* 3 feature — kompakt */}
+            <div className="grid grid-cols-3 gap-3 mb-8">
               {[
-                { title: 'Davetiye Oluştur', icon: (
-                  <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                { title: 'Davetiyeni Oluştur', icon: (
+                  <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                     <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
                     <path d="M3.5 8L12 13l8.5-5" />
                     <path d="M12 13.5v3" />
                     <path d="M10.5 16.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5c0-1-1.5-2-1.5-2s-1.5 1-1.5 2z" fill="currentColor" stroke="none" opacity="0.65" />
                   </svg>
                 ) },
-                { title: 'Sevdiklerinle Paylaş', icon: <svg className="w-7 h-7" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-                { title: 'Canlı Yayınla', icon: <svg className="w-9 h-9" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
+                { title: 'Sevdiklerinle Paylaş', icon: <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
+                { title: 'Canlı Yayınla', icon: <svg className="w-[30px] h-[30px]" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
               ].map((f, i) => (
-                <div key={i} className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
+                <div key={i} className="relative flex flex-col items-center text-center">
+                  {i > 0 && <span aria-hidden="true" className="absolute left-0 top-[22px] -translate-y-1/2 h-11 w-px" style={{ background: 'linear-gradient(180deg, transparent, rgba(200,104,110,0.18), transparent)' }} />}
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
                     {f.icon}
                   </div>
-                  <h4 className="text-[12px] font-normal text-gray-900 leading-tight">{f.title}</h4>
+                  <h4 className="text-[11px] font-normal text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>
 
-            {/* CTA alt yazı — store butonlarına mesafe */}
-            <div className="text-center mb-6 lg:mb-7">
-              <p className="text-[13.5px]" style={{ color: '#7A6B6B' }}>
-                Uygulamayı <span style={{ fontWeight: 700, color: '#1F1F1F' }}>ücretsiz indirin</span>, hemen başlayın !
+            {/* Ücretsiz İndirin, Hemen Başlayın! */}
+            <div className="text-center mb-4">
+              <p className="text-[13px] tracking-[0.2px]">
+                <span style={{ color: '#9F4F58', fontWeight: 600 }}>Ücretsiz İndirin,</span>
+                <span style={{ color: '#6E5A5A' }}> Hemen Başlayın!</span>
               </p>
             </div>
 
             {/* App Store + Google Play yan yana */}
             <div className="flex gap-2.5 justify-center">
-              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto" /></a>
-              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto" /></a>
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={220} height={66} className="h-[54px] w-auto" /></a>
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={220} height={66} className="h-[54px] w-auto" /></a>
             </div>
           </div>
         </div>
