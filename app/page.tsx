@@ -994,7 +994,7 @@ export default function Home() {
       <section id="ozellikler" className="py-16" style={{ scrollMarginTop: '80px' }}>
         <div className="max-w-[1340px] mx-auto px-6 space-y-16 md:space-y-20">
           {/* Canlı Yayın - mobile (1:1 kare) + desktop (image aspect 1964/541 ≈ 3.63:1, ~339px) */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[2195/716] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[2172/724] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             {/* Yeni stil — krem fade görselin içinde gömülü, CSS overlay yok */}
             <img src="/bg-canli-yayin-s2.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
@@ -1050,14 +1050,11 @@ export default function Home() {
           </div>
 
           {/* Altınlarınızı Online Toplayın - kart (masaüstü aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="feature-card-hover relative rounded-3xl overflow-hidden lg:aspect-[1964/541]" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="card-light-sweep" aria-hidden="true" />
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[1944/809] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover lg:hidden pointer-events-none select-none" />
-            <img src="/altin-toplama-masaustu.png" alt="" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Mobil — Canlı Yayın tonuna yaklaştırmak için hafif rose katman */}
-            <div className="lg:hidden absolute inset-0 pointer-events-none" style={{ background: 'rgba(232, 165, 169, 0.15)' }} />
-            {/* Mobil — heading sağda (canlı yayın/tebrik tarzı), badges altta ortalı */}
-            <div className="lg:hidden relative min-h-[340px]">
+            <img src="/altin-toplama-masaustu.png" alt="Altınlarınızı online toplayın" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Mobil — metin sağda (görsel solda), yeni stil */}
+            <div className="lg:hidden absolute inset-0">
               {/* Heading + dash + açıklama — sağa yapışık (altın görseli sol yarıda) */}
               <div className="absolute" style={{ top: '18%', right: '5%', width: '50%' }}>
                 <h3 className="leading-[1.05] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 6.4vw, 52px)' }}>Altınlarınızı</h3>
@@ -1070,26 +1067,19 @@ export default function Home() {
                   onlardan sizin<br />
                   hesabınıza gelsin!
                 </p>
-                {/* Landscape — badgeler açıklamanın altında sağda alt alta */}
-                <div className="hidden landscape:flex flex-col items-end gap-2.5 mt-5">
+                {/* Feature'lar — sağ hizalı kare-ikon (yeni stil) */}
+                <div className="flex flex-col items-end gap-3 mt-5">
                   {[
-                    { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
-                    { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
-                    { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+                    { label: 'Güvenilir', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
+                    { label: 'Komisyon Yok', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
+                    { label: 'Anında Ödeme', icon: <svg className="w-[15px] h-[15px]" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
                   ].map((b, i) => (
-                    <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
+                    <div key={i} className="flex flex-row-reverse items-center gap-2.5">
+                      <span className="w-8 h-8 flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                      <span className="text-[11px] font-medium" style={{ color: '#554F4C' }}>{b.label}</span>
+                    </div>
                   ))}
                 </div>
-              </div>
-              {/* Badges — alt tam ortalı (sadece portrait) */}
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-1.5 flex-wrap px-3 landscape:hidden">
-                {[
-                  { label: 'Güvenilir', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
-                  { label: 'Komisyon Yok', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
-                  { label: 'Anında Ödeme', icon: <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
-                ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
-                ))}
               </div>
             </div>
             {/* Masaüstü — image full bg, içerik 100px aşağı, badges 100px sağ */}
@@ -1100,31 +1090,27 @@ export default function Home() {
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
                 <p className="text-[13px] lg:text-[14px] leading-snug" style={{ color: '#6E5A5A' }}>Davetlileriniz size doğrudan para gönderir, siz uygulamadan kolayca takip edersiniz.</p>
               </div>
-              <div className="flex gap-1.5 flex-nowrap">
+              <div className="flex gap-5 flex-wrap">
                 {[
-                  { label: 'Güvenilir', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
-                  { label: 'Komisyon Yok', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
-                  { label: 'Anında Ödeme', icon: <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
+                  { label: 'Güvenilir', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2L4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4" /></svg> },
+                  { label: 'Komisyon Yok', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><line x1="19" y1="5" x2="5" y2="19" strokeLinecap="round" /><circle cx="6.5" cy="6.5" r="2.5" /><circle cx="17.5" cy="17.5" r="2.5" /></svg> },
+                  { label: 'Anında Ödeme', icon: <svg className="w-[17px] h-[17px]" fill="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
 
           {/* Tebrik Mesajları - mobile (1:1) + desktop (aspect 3.63:1 = canlı yayın ile aynı) */}
-          <div className="feature-card-hover relative rounded-3xl overflow-hidden mx-auto w-full aspect-square portrait:aspect-square landscape:aspect-[1964/541] lg:aspect-[1964/541] max-w-[720px] landscape:max-w-none lg:max-w-none" style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="card-light-sweep" aria-hidden="true" />
-            <img src="/bg-tebrik.png" alt="" className="lg:hidden landscape:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block landscape:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none landscape:[object-position:75%_65%] lg:object-center" />
-            {/* Cream overlay — sol içerik tarafı krem, sağda image'a fade */}
-            <div className="hidden lg:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
-
-            {/* Cream overlay landscape (telefon yatay) için de aktif */}
-            <div className="hidden landscape:block absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.70) 0%, rgba(255, 248, 240, 0.70) 65%, rgba(255, 248, 240, 0) 100%)' }} />
-
-            {/* Mobil heading + açıklama + badges (alt alta) — sadece portrait */}
-            <div className="lg:hidden landscape:hidden absolute" style={{ top: '20%', left: '6%', width: '52%' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[2197/716] max-w-[720px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+            <img src="/bg-tebrik.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/bg-tebrik-masaustu.png" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Mobil heading + açıklama + feature (yeni stil) */}
+            <div className="lg:hidden absolute" style={{ top: '14%', left: '6%', width: '52%' }}>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>Tebrik</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>mesajlarınızı</h3>
               <h3 className="leading-[1.05]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(22px, 5.4vw, 44px)' }}>kabul edin !</h3>
@@ -1135,18 +1121,21 @@ export default function Home() {
                 size kolayca iletsin.
               </p>
               {/* Badges — açıklama altında alt alta (vertical stack) */}
-              <div className="flex flex-col gap-1.5 mt-7 items-start">
+              <div className="flex flex-col gap-3 mt-6 items-start">
                 {[
-                  { label: 'Kolay Gönderim', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg> },
-                  { label: 'Uygulamadan Takip', icon: <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l2-2 2 2 3-3" /></svg> },
+                  { label: 'Kolay Gönderim', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg> },
+                  { label: 'Uygulamadan Takip', icon: <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l2-2 2 2 3-3" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-8 h-8 flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[11px] font-medium" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Masaüstü — Altın Tak ile aynı yapı: justify-between, content yukarda, badges altta */}
-            <div className="hidden lg:flex landscape:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[60px] lg:pl-[196px] pr-4 pb-[50px] lg:pb-6 pt-[100px] lg:pt-[100px]">
+            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-between pl-[156px] pr-4 pb-8 pt-[82px]">
               <div>
                 <h3 className="leading-[1.05] whitespace-nowrap" style={{ fontFamily: 'var(--font-playfair)', fontWeight: 600, fontSize: 'clamp(34px, 2.7vw, 36px)' }}>
                   <span style={{ color: '#1F1F1F' }}>Tebrik </span>
@@ -1159,20 +1148,22 @@ export default function Home() {
                 </p>
               </div>
               {/* Badges — Altın Tak ile aynı hizada (kartın alt kısmında) */}
-              <div className="flex gap-1.5 flex-nowrap">
+              <div className="flex gap-5 flex-wrap">
                 {[
-                  { label: 'Kolay Gönderim', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg> },
-                  { label: 'Uygulamadan Takip', icon: <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2.2} viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l2-2 2 2 3-3" /></svg> },
+                  { label: 'Kolay Gönderim', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg> },
+                  { label: 'Uygulamadan Takip', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M9 14l2-2 2 2 3-3" /></svg> },
                 ].map((b, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[13px] font-semibold whitespace-nowrap" style={{ background: 'rgba(255, 250, 247, 0.94)', color: '#C8686E', border: '1px solid rgba(200,104,110,0.22)', boxShadow: '0 3px 10px rgba(200,104,110,0.12), 0 1px 3px rgba(0,0,0,0.04)' }}>{b.icon}{b.label}</span>
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
                 ))}
               </div>
             </div>
           </div>
 
           {/* Fotoğraf Albümü — MOBİL kart (content-sized, 1:1 yaklaşık) */}
-          <div className="feature-card-hover lg:hidden relative rounded-3xl overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="card-light-sweep" aria-hidden="true" />
+          <div className="feature-card-hover lg:hidden relative rounded-[28px] overflow-hidden mx-auto w-full" style={{ maxWidth: '720px', backgroundImage: 'url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <div className="px-5 md:px-7 pt-10 pb-6">
               {/* Header — "Fotoğraf" / dash "Albümü Oluşturun" dash (dashes rose) */}
               <div className="text-center mb-3"
@@ -1268,8 +1259,7 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (fotolar SOL, içerik SAĞ — Altın Toplama hizası) */}
-          <div className="feature-card-hover hidden lg:block relative rounded-3xl overflow-hidden mx-auto w-full lg:aspect-[1964/541]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(255,255,255,0.15), 0 16px 48px rgba(200,140,140,0.18), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(232,180,170,0.25)' }}>
-            <div className="card-light-sweep" aria-hidden="true" />
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[2194/717]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             {/* Cream overlay — sağ içerik tarafı %50 krem, solda foto tarafına fade */}
             <div className="absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
@@ -1514,7 +1504,6 @@ export default function Home() {
               const isSelected = selectedPackage === pkg.id;
               return (
                 <div key={pkg.id} onClick={() => setSelectedPackage(pkg.id)} className={`feature-card-hover relative rounded-3xl p-9 transition-all duration-500 cursor-pointer ${isSelected ? 'scale-[1.04]' : 'hover:-translate-y-2'}`} style={isSelected ? { background: 'linear-gradient(180deg, rgba(255,255,255,0.98) 0%, rgba(253,245,243,0.96) 100%)', backdropFilter: 'blur(24px)', boxShadow: '0 30px 80px rgba(200,104,110,0.22), 0 12px 32px rgba(200,104,110,0.10), 0 2px 8px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1.5px solid rgba(200,104,110,0.45)' } : { background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(252,250,248,0.94) 100%)', backdropFilter: 'blur(20px)', boxShadow: '0 16px 50px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.9)', border: '1px solid rgba(200,104,110,0.10)' }}>
-                  <div className="card-light-sweep" aria-hidden="true" />
                   {/* Premium subtle gold shimmer accent */}
                   {isSelected && <div className="absolute top-0 left-0 right-0 h-24 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(200,104,110,0.10), transparent 70%)' }} />}
                   {pkg.badge && <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-white px-7 py-2 rounded-full text-[13px] font-semibold tracking-wide whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #E08284, #D17075, #C06068)', boxShadow: '0 8px 24px rgba(200,104,110,0.4), 0 2px 8px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.3)', fontFamily: 'var(--font-geist-sans)', letterSpacing: '0.5px' }}>{pkg.badge}</div>}
