@@ -1053,9 +1053,9 @@ export default function Home() {
           </div>
 
           {/* Takılan Altınlarınız Doğrudan Hesabınıza */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[2172/724] max-w-[720px] lg:max-w-none" style={{ background: '#FAF3EB', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-square lg:aspect-[1800/749] max-w-[720px] lg:max-w-none" style={{ background: '#FAF3EB', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/altin-toplama-mobil.png" alt="" className="absolute inset-0 w-full h-full object-cover lg:hidden pointer-events-none select-none" />
-            <img src="/altin-toplama-masaustu.png" alt="Takılan altınlarınız doğrudan hesabınıza" className="hidden lg:block absolute inset-0 w-full h-full object-contain object-center pointer-events-none select-none" />
+            <img src="/altin-toplama-masaustu.png" alt="Takılan altınlarınız doğrudan hesabınıza" className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none" />
             {/* Mobil — metin sağda */}
             <div className="lg:hidden absolute" style={{ top: '10%', right: '5%', width: '55%' }}>
               <div className="mb-4 flex justify-end"><FeatureBadge label="ALTIN TAKMA" /></div>
