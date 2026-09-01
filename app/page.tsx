@@ -586,7 +586,7 @@ export default function Home() {
             </div>
 
             {/* 3 feature — kompakt */}
-            <div className="grid grid-cols-3 gap-3 mb-5">
+            <div className="grid grid-cols-3 gap-3 mb-8">
               {[
                 { title: 'Davetiyeni Oluştur', icon: (
                   <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -610,8 +610,8 @@ export default function Home() {
             </div>
 
             {/* Ücretsiz İndirin, Hemen Başlayın! */}
-            <div className="text-center mb-3">
-              <p className="text-[12.5px] tracking-[0.2px]">
+            <div className="text-center mb-4">
+              <p className="text-[13px] tracking-[0.2px]">
                 <span style={{ color: '#9F4F58', fontWeight: 600 }}>Ücretsiz İndirin,</span>
                 <span style={{ color: '#6E5A5A' }}> Hemen Başlayın!</span>
               </p>
@@ -619,8 +619,8 @@ export default function Home() {
 
             {/* App Store + Google Play yan yana */}
             <div className="flex gap-2.5 justify-center">
-              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={200} height={60} className="h-12 w-auto" /></a>
-              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={200} height={60} className="h-12 w-auto" /></a>
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/appstore.png" alt="App Store" width={220} height={66} className="h-[54px] w-auto" /></a>
+              <a href="#" className="block transition-transform hover:scale-[1.03]"><Image src="/playstore.png" alt="Google Play" width={220} height={66} className="h-[54px] w-auto" /></a>
             </div>
           </div>
         </div>
@@ -1344,11 +1344,11 @@ export default function Home() {
           </div>
 
           {/* Akıllı Masa Planlayıcısı — en son kart (mobil dikey dikdörtgen) */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-[852/1596] lg:aspect-[3/1] max-w-[440px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-[852/1746] lg:aspect-[3/1] max-w-[440px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/masa-plani-mobil.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             <img src="/masa-plani-masaustu.png" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Mobil — metin üstte (krem alan) */}
-            <div className="lg:hidden absolute" style={{ top: '2.5%', left: '6%', right: '6%' }}>
+            <div className="lg:hidden absolute" style={{ top: '2%', left: '6%', right: '6%' }}>
               <div className="mb-3"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(22px, 5.6vw, 44px)' }}>Masa düzeniniz,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px, 4.4vw, 34px)' }}>zahmetsizce hazır.</h3>
@@ -1475,7 +1475,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
             {[
               { title: 'Canlı Yayın', desc: 'Düğününüzü size özel sayfanızdan canlı yayınlayın. Davetlileriniz uygulama indirmeden, tek tıkla yayına katılsın. Kaçıranlar için yayın kaydı 30 gün boyunca sayfanızda izlenebilir.', badges: ['Özel Yayın Sayfası', 'Tek Tıkla Katılım', 'Full HD'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
-              { title: 'Altın Karşılığı TL Gönderimi', desc: 'Davetlileriniz seçtikleri altının TL karşılığını doğrudan hesabınıza göndersin. Uzakta olan misafirleriniz de size dijital altın takmış olsun.', badges: ['Doğrudan Hesabınıza', 'Aracısız', 'Komisyonsuz'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
+              { title: 'Altın Gönderimi', desc: 'Davetlileriniz seçtikleri altının TL karşılığını doğrudan hesabınıza göndersin. Uzakta olan misafirleriniz de size dijital altın takmış olsun.', badges: ['Doğrudan Hesabınıza', 'Aracısız', 'Komisyonsuz'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
               { title: 'Tebrik Mesajları', desc: 'Davetlileriniz 3 farklı şekilde size tebriklerini iletsin. Tüm güzel dilekleriniz tek yerde biriksin.', badges: ['Videolu', 'Sesli', 'Yazılı'], dualIcon: true, icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>, icon2: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>, icon3: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z" /></svg> },
               { title: 'Ortak Fotoğraf Albümü', desc: 'Siz ve davetlileriniz düğünde çektiğiniz fotoğrafları yükleyin. Tüm anılarınız tek albümde bir araya gelsin.', badges: ['Birlikte Yükleyin', 'Tek Albüm', 'Çift Onayı'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
               { title: 'Fotoğraf Baskısı', desc: 'İster siz ister davetlileriniz, dilediğiniz fotoğrafları baskı için seçin. Seçilen kareler fotoğrafçınızın paneline ulaşsın.', badges: ['Albümden Seçin', 'Kolay Baskı', 'Fotoğrafçı Paneli'], icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg> },
