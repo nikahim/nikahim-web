@@ -1060,15 +1060,15 @@ export default function Home() {
             <div className="lg:hidden absolute" style={{ top: '6.5%', right: '5%', width: '55%' }}>
               <div className="mb-[clamp(7px,2.6vw,12px)] flex justify-end"><FeatureBadge label="ALTIN TAKMA" /></div>
               <h3 className="leading-[1.06] text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(18px, 5.4vw, 44px)' }}>Altınlarınız,</h3>
-              <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(16px, 4vw, 30px)' }}>doğrudan hesabınıza</h3>
+              <h3 className="leading-[1.1] mt-1 text-right" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(13px, 3.5vw, 30px)' }}>doğrudan hesabınıza</h3>
               <div className="mt-2.5 ml-auto" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
               <p className="mt-[clamp(6px,2.2vw,10px)] leading-relaxed text-[clamp(11px,3.3vw,13px)] text-right" style={{ color: '#6E5A5A' }}>Davetlileriniz seçtikleri<br />altının TL karşılığını<br />sizin hesabınıza<br />göndersin.</p>
               <div className="flex flex-col items-end mt-[clamp(9px,3vw,16px)]">
                 <div className="flex flex-col items-start gap-2">
                 {[
-                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
+                  { label: 'Hesabınıza', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
                   { label: 'Havale/EFT', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'Altın Değerinde TL', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="27" fontWeight="400">₺</text></svg> },
+                  { label: 'TL Karşılığı', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="27" fontWeight="400">₺</text></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <span className="w-[clamp(27px,7.2vw,32px)] h-[clamp(27px,7.2vw,32px)] flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1344,7 +1344,7 @@ export default function Home() {
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(15px, 4.4vw, 34px)' }}>zahmetsizce hazır.</h3>
               <div className="mt-[clamp(6px,2.2vw,10px)]" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
               <p className="mt-[clamp(6px,2.2vw,10px)] leading-relaxed text-[clamp(11px,3.3vw,13px)]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin, tercihlerinizi belirleyin. Akıllı planlayıcı en uygun masa düzenini oluştursun; dilediğiniz gibi düzenleyip son halini verin.</p>
-              <div className="flex flex-row justify-between gap-2 mt-[clamp(9px,3.4vw,20px)]">
+              <div className="flex flex-row justify-between gap-1 mt-[clamp(9px,3.4vw,20px)]">
                 {[
                   { label: 'Akıllı Yerleşim', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
                   { label: 'Davetli Yönetimi', icon: <svg className="w-[clamp(13px,3.7vw,15px)] h-[clamp(13px,3.7vw,15px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
@@ -1352,7 +1352,7 @@ export default function Home() {
                 ].map((b, i) => (
                   <div key={i} className="flex flex-col items-center text-center gap-1.5 flex-1">
                     <span className="w-[clamp(27px,7.2vw,32px)] h-[clamp(27px,7.2vw,32px)] flex-shrink-0 grid place-items-center rounded-[10px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
-                    <span className="text-[clamp(9.5px,2.9vw,11px)] font-medium leading-tight" style={{ color: '#554F4C' }}>{b.label}</span>
+                    <span className="text-[clamp(7.5px,2.6vw,11px)] font-medium leading-tight" style={{ color: '#554F4C' }}>{b.label}</span>
                   </div>
                 ))}
               </div>
