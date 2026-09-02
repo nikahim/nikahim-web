@@ -851,9 +851,9 @@ export default function WatchPage() {
   const renderWelcomeActions = () => {
     const rose = '#C96F78', gold = '#C99A32', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
     const roseTint = 'rgba(201,111,120,0.105)', goldTint = 'rgba(201,154,50,0.105)';
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 20.25c4.97 0 9-3.69 9-8.25s-4.03-8.25-9-8.25S3 7.44 3 12c0 2.1.86 4.02 2.27 5.48.43.45.74 1.04.59 1.64a4.48 4.48 0 01-.92 1.79A5.97 5.97 0 006 21c1.28 0 2.47-.4 3.44-1.09.81.22 1.67.34 2.56.34z" /><path d="M12 14.35c-1.05-.8-2.05-1.44-2.05-2.42 0-.53.44-.94.97-.94.4 0 .76.24.95.58.19-.34.55-.58.95-.58.53 0 .97.41.97.94 0 .98-1 1.62-2.05 2.42z" fill="currentColor" stroke="none" /></svg>;
-    // Altın Tak — sade madalya/kolye çizgisel ikon (hediye kutusu değil)
-    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8.7 10.2L7 3.5h3.4L12 6.3l1.6-2.8H17l-1.7 6.7" /><circle cx="12" cy="15.4" r="5.4" /><circle cx="12" cy="15.4" r="1.9" /></svg>;
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 20.6c5.1 0 9.2-3.78 9.2-8.45S17.1 3.7 12 3.7 2.8 7.48 2.8 12.15c0 2.15.88 4.11 2.32 5.6.44.46.76 1.06.6 1.68a4.6 4.6 0 01-.94 1.83A6.1 6.1 0 005.9 21.4c1.31 0 2.53-.41 3.52-1.11.83.22 1.7.31 2.58.31z" /><path d="M12 15.15c-1.85-1.4-3.6-2.55-3.6-4.28 0-.98.78-1.68 1.74-1.68.68 0 1.32.4 1.86 1.08.54-.68 1.18-1.08 1.86-1.08.96 0 1.74.7 1.74 1.68 0 1.73-1.75 2.88-3.6 4.28z" fill="currentColor" stroke="none" /></svg>;
+    // Altın Tak — sade madalya ikonu (%20 büyük)
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8.3 9.4L6.3 2.7h3.9L12 5.7l1.8-3h3.9L15.7 9.4" /><circle cx="12" cy="14.8" r="6.4" /><circle cx="12" cy="14.8" r="2.3" /></svg>;
     const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-1.5-1.5l1.41-1.41a2.25 2.25 0 013.18 0l2.91 2.91M4.5 19.5h15a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5h-15A1.5 1.5 0 003 6v12a1.5 1.5 0 001.5 1.5zm10.13-11.25a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
     const items = [
       { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: roseTint, tab: 'tebrik' as const },
@@ -899,10 +899,12 @@ export default function WatchPage() {
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#9B9491" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
-        {/* Section header — koyu serif başlık, altın rengi yok */}
-        <div className="mb-6 px-1">
-          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(23px,6.6vw,28px)', fontWeight: 600, letterSpacing: '-0.5px', lineHeight: 1.18 }}>Altın Tak</h1>
-          <p className="mt-1.5" style={{ color: '#817976', fontSize: 'clamp(14px,3.9vw,15px)', lineHeight: 1.45 }}>Mutlu çifte hediyenizi gönderin.</p>
+        {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
+        <div className="flex flex-col items-center text-center mb-6">
+          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
+          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
+          <p className="italic mt-[8px]" style={{ fontFamily: serif, color: '#756E6B', fontSize: 'clamp(12.5px,3.6vw,14px)', lineHeight: 1.35 }}>Mutlu çifte hediyenizi gönderin.</p>
+          <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
         {/* Ana panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 26, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
@@ -954,6 +956,122 @@ export default function WatchPage() {
           <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
             <strong style={{ color: '#302927', fontSize: 14, fontWeight: 600 }}>Güvenli banka transferi</strong>
             <span style={{ color: '#89817E', fontSize: 12.5, lineHeight: 1.4 }}>Ödeme doğrudan çiftin hesabına gönderilir.</span>
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Mobil Tebrik Et — Altın Tak ile aynı design system (masaüstü ayrı, dokunulmadı)
+  const renderTebrikMobile = () => {
+    const rose = '#C96F78', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
+    const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#8D8784" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
+    const icVideo = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>;
+    const icSes = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>;
+    const icYazi = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect x="3" y="4.5" width="18" height="13.5" rx="2.5" /><path d="M7.5 9.5h9M7.5 13h5.5" /></svg>;
+    const rows = [
+      { id: 'video', title: 'Video Tebrik', desc: 'Bir tebrik videosu gönderin.', icon: icVideo, count: videoTebrikCount, on: () => setShowVideoRecorder(true) },
+      { id: 'audio', title: 'Sesli Tebrik', desc: 'Sesinizle bir mesaj bırakın.', icon: icSes, count: sesliTebrikCount, on: () => setShowVoiceRecorder(true) },
+      { id: 'text', title: 'Yazılı Tebrik', desc: 'Bir tebrik mesajı yazın.', icon: icYazi, count: messages.length, on: () => setShowMessageModal(true) },
+    ];
+    return (
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
+        {/* Header — sparkle kalp + serif başlık + rose çizgi (Altın Tak ile aynı) */}
+        <div className="flex flex-col items-center text-center mb-6">
+          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
+          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Tebrik Et</h1>
+          <p className="italic mt-[8px]" style={{ fontFamily: serif, color: '#756E6B', fontSize: 'clamp(12.5px,3.6vw,14px)', lineHeight: 1.35 }}>Çifte güzel bir anı bırakın.</p>
+          <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
+        </div>
+        {/* Panel */}
+        <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
+          <h2 className="mb-[14px] px-1" style={{ color: '#302927', fontSize: 'clamp(15px,4.3vw,15.5px)', fontWeight: 600, letterSpacing: '-0.1px' }}>Tebrik türünü seçin</h2>
+          {rows.map((r, idx) => (
+            <div key={r.id}>
+              {idx > 0 && <div style={{ height: 1, marginLeft: 'clamp(62px,18vw,73px)', marginRight: 10, background: 'rgba(60,45,41,0.065)' }} />}
+              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(84px,24vw,92px)', padding: 'clamp(12px,3.6vw,14px) clamp(8px,2.8vw,10px)' }}>
+                <span className="grid place-items-center rounded-full" style={{ width: 'clamp(46px,13vw,50px)', height: 'clamp(46px,13vw,50px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
+                  <span className="block" style={{ width: 'clamp(23px,6.5vw,25px)', height: 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
+                </span>
+                <span className="min-w-0 flex flex-col" style={{ gap: 4 }}>
+                  <strong style={{ color: '#302927', fontSize: 'clamp(15px,4.3vw,16px)', fontWeight: 600, letterSpacing: '-0.15px', lineHeight: 1.22 }}>{r.title}</strong>
+                  <span style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.4 }}>{r.desc}</span>
+                </span>
+                <span className="grid place-items-center rounded-full" style={{ minWidth: 30, height: 30, padding: '0 8px', background: 'rgba(201,111,120,0.075)', color: rose, fontSize: 12, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
+                {chev}
+              </button>
+            </div>
+          ))}
+        </div>
+        {/* Trust */}
+        <div className="mt-4 flex items-center" style={{ gap: 13, padding: '14px 16px', border: '1px solid rgba(60,45,41,0.055)', borderRadius: 20, background: 'rgba(255,255,255,0.68)', boxShadow: '0 7px 20px rgba(63,44,39,0.025)' }}>
+          <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 40, height: 40, background: 'rgba(201,111,120,0.09)', color: rose }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-[20px] h-[20px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
+          </span>
+          <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
+            <strong style={{ color: '#302927', fontSize: 13.5, fontWeight: 600, lineHeight: 1.3 }}>Mesajınız çifte özel olarak iletilir</strong>
+            <span style={{ color: '#77706D', fontSize: 12, lineHeight: 1.4 }}>Tebriklerinizi dilediğiniz zaman bırakabilirsiniz.</span>
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Mobil Albüm — Tebrik/Altın ile aynı design system (masaüstü ayrı, dokunulmadı)
+  const renderAlbumMobile = () => {
+    const rose = '#C96F78', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
+    const photos = slideshowPhotos;
+    const count = photos.length;
+    const openAdd = () => { setPhotoUploaderName(viewerName); setPhotoTab('add'); setShowPhotoUpload(true); };
+    return (
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
+        {/* Header — sparkle kalp + serif başlık + rose çizgi (Tebrik/Altın ile aynı) */}
+        <div className="flex flex-col items-center text-center mb-6">
+          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
+          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Albüm</h1>
+          <p className="italic mt-[8px]" style={{ fontFamily: serif, color: '#756E6B', fontSize: 'clamp(12.5px,3.6vw,14px)', lineHeight: 1.35 }}>Düğünden kareleri görün ve kendi fotoğraflarınızı paylaşın.</p>
+          <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
+        </div>
+        {/* Panel */}
+        <div style={{ padding: 'clamp(15px,4.3vw,18px)', background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 26, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
+          <div className="flex items-center justify-between mb-[15px]" style={{ gap: 12, minHeight: 30 }}>
+            <h2 style={{ color: '#302927', fontSize: 16, fontWeight: 650, letterSpacing: '-0.15px' }}>Düğünden Kareler</h2>
+            {count > 0 && <span className="inline-flex items-center whitespace-nowrap" style={{ height: 29, padding: '0 11px', borderRadius: 999, background: '#F2ECE6', color: '#8A7767', fontSize: 12, fontWeight: 600 }}>{count} fotoğraf</span>}
+          </div>
+          {count > 0 ? (
+            <>
+              {/* Öne çıkan kolaj */}
+              <div className="relative w-full" style={{ height: 200, marginTop: 2 }}>
+                {photos[1] && <img src={photos[1]} alt="" className="absolute object-cover" style={{ left: '8%', top: 28, width: '36%', height: 150, transform: 'rotate(-6deg)', border: '3px solid #fff', borderRadius: 15, boxShadow: '0 8px 18px rgba(55,39,34,0.08)' }} />}
+                {photos[2] && <img src={photos[2]} alt="" className="absolute object-cover" style={{ right: '8%', top: 28, width: '36%', height: 150, transform: 'rotate(6deg)', border: '3px solid #fff', borderRadius: 15, boxShadow: '0 8px 18px rgba(55,39,34,0.08)' }} />}
+                <img src={photos[0]} alt="" className="absolute left-1/2 -translate-x-1/2 object-cover" style={{ top: 0, zIndex: 3, width: '43%', height: 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 10px 24px rgba(55,39,34,0.11)' }} />
+              </div>
+              {/* Thumbnail satırı */}
+              <div className="grid grid-cols-5 mt-2 mb-[18px]" style={{ gap: 8 }}>
+                {photos.slice(0, 5).map((u, i) => (
+                  <img key={i} src={u} alt="" className="w-full object-cover" style={{ aspectRatio: '1.35 / 1', borderRadius: 10, border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }} />
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="text-center" style={{ padding: '30px 10px 26px' }}>
+              <div className="mx-auto grid place-items-center rounded-full mb-3" style={{ width: 54, height: 54, background: 'rgba(201,111,120,0.09)', color: rose }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[26px] h-[26px]"><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>
+              </div>
+              <p style={{ color: '#77706D', fontSize: 13.5, lineHeight: 1.45 }}>Henüz fotoğraf paylaşılmadı.<br />İlk kareyi siz ekleyin.</p>
+            </div>
+          )}
+          {/* Aksiyonlar — 54/46, aynı yükseklik */}
+          <div className="grid" style={{ gridTemplateColumns: '1.08fr .92fr', gap: 10 }}>
+            <button onClick={() => setShowPhotoGallery(true)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 50, minWidth: 0, padding: '0 14px', borderRadius: 16, background: rose, fontSize: 13.5, fontWeight: 600, whiteSpace: 'nowrap', boxShadow: '0 6px 16px rgba(201,111,120,0.16)' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px] flex-shrink-0"><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>
+              <span>Albümü Görüntüle</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[15px] h-[15px] flex-shrink-0"><path d="M9 6l6 6-6 6" /></svg>
+            </button>
+            <button onClick={openAdd} className="flex items-center justify-center active:scale-[0.985] transition-transform" style={{ gap: 6, height: 50, minWidth: 0, padding: '0 12px', borderRadius: 16, border: '1px solid rgba(201,111,120,0.42)', background: 'rgba(255,255,255,0.40)', color: '#B96570', fontSize: 13.5, fontWeight: 600, whiteSpace: 'nowrap' }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[19px] h-[19px] flex-shrink-0"><path d="M12 5v14M5 12h14" /></svg>
+              <span>Fotoğraf Ekle</span>
+            </button>
           </div>
         </div>
       </section>
@@ -3302,6 +3420,12 @@ export default function WatchPage() {
             {/* Mobil Altın Tak — yeni sade design system (masaüstü aşağıda, ayrı) */}
             {activeMobileTab === 'altin' && !showActionChooser && renderGoldMobile()}
 
+            {/* Mobil Tebrik Et — yeni sade design system (masaüstü aşağıda, ayrı) */}
+            {activeMobileTab === 'tebrik' && !showActionChooser && renderTebrikMobile()}
+
+            {/* Mobil Albüm — yeni sade design system (masaüstü aşağıda, ayrı) */}
+            {activeMobileTab === 'album' && !showActionChooser && renderAlbumMobile()}
+
             {/* Altın Tak - Masaüstü (referans görsele birebir), mobilde gizli */}
             <div id="gold-section" className={`-mt-1 lg:mt-3 rounded-[20px] relative overflow-hidden max-lg:hidden`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
@@ -3646,7 +3770,7 @@ export default function WatchPage() {
           {/* SAĞ PANEL - Tebrik Kartları + Galeri — mobilde display:contents, masaüstünde 320px column */}
           <div ref={rightPanelRef} className="contents lg:flex lg:w-[320px] lg:flex-shrink-0 lg:flex-col lg:gap-3 lg:min-h-0">
             {/* Mobil-only başlık — Mutlu Çifte Altın Tak / Fotoğraf Albümü ile aynı dilde (tab geçişlerinde dikey hiza smooth) */}
-            <div className={`lg:hidden mb-1 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'hidden' : ''}`}>
+            <div className={`lg:hidden mb-1 hidden`}>
               <div className="text-center pt-2">
                 <h2 className="flex items-center justify-center gap-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
@@ -3679,7 +3803,7 @@ export default function WatchPage() {
             </div>
 
             {/* Video Tebrik — premium, kompakt */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 max-lg:hidden`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0F2' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
               </div>
@@ -3697,7 +3821,7 @@ export default function WatchPage() {
             </div>
 
             {/* Sesli Tebrik — premium, kompakt */}
-            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 max-lg:hidden`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#EFF8FC' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
               </div>
@@ -3715,7 +3839,7 @@ export default function WatchPage() {
             </div>
 
             {/* Mesaj Tebrik — premium, kompakt */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 max-lg:hidden`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#F0F8F1' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
               </div>
@@ -3733,7 +3857,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.52), rgba(255,255,255,0.52)), url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between max-lg:hidden`} style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.52), rgba(255,255,255,0.52)), url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
               <div className="text-center relative z-10 mb-2 lg:mt-2">
@@ -4196,161 +4320,44 @@ export default function WatchPage() {
         const isNakit = goldPick === 'nakit';
         const img = isNakit ? '/altintaklira.png' : (goldPick === 'gram_altin' ? '/altintakgram.png' : '/ata-altin.png');
         return (
-          <div className="lg:hidden fixed left-1/2 -translate-x-1/2 z-40" style={{ bottom: 'calc(98px + env(safe-area-inset-bottom))', width: 'calc(100% - 32px)', maxWidth: 620 }}>
-            <div className="flex items-center justify-between" style={{ gap: 14, padding: '10px 10px 10px 14px', minHeight: 72, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 22, boxShadow: '0 10px 28px rgba(63,44,39,0.10)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
+          <div className="lg:hidden fixed left-1/2 -translate-x-1/2 z-40" style={{ bottom: 'calc(104px + env(safe-area-inset-bottom))', width: 'calc(100% - 40px)', maxWidth: 620 }}>
+            <div className="flex items-center justify-between" style={{ gap: 12, padding: '10px 12px 10px 16px', minHeight: 86, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(60,45,41,0.06)', borderRadius: 22, boxShadow: '0 8px 24px rgba(63,44,39,0.045)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
               <div className="flex items-center min-w-0" style={{ gap: 11 }}>
-                <span className="relative flex-shrink-0" style={{ width: 42, height: 42, padding: 5, borderRadius: 12, background: 'rgba(201,154,50,0.09)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 5 }} /></span>
+                <span className="relative flex-shrink-0" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(201,154,50,0.09)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 5 }} /></span>
                 <div className="min-w-0 flex flex-col" style={{ gap: 2 }}>
-                  <strong style={{ fontSize: 14, fontWeight: 600, color: '#302927' }}>{isNakit ? 'Özel Miktar' : g?.name}</strong>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#C99A32' }}>{isNakit ? 'Siz belirleyin' : `₺${(g?.price || 0).toLocaleString()}`}</span>
+                  <strong style={{ fontSize: 14.5, fontWeight: 600, color: '#302927' }}>{isNakit ? 'Özel Miktar' : g?.name}</strong>
+                  <span style={{ fontSize: 13.5, fontWeight: 600, color: '#C99A32' }}>{isNakit ? 'Siz belirleyin' : `₺${(g?.price || 0).toLocaleString()}`}</span>
                 </div>
               </div>
-              <button onClick={() => handleGoldSelect(goldPick)} className="flex items-center justify-center text-white active:scale-[0.98] transition-transform flex-shrink-0" style={{ gap: 9, height: 50, minWidth: 138, padding: '0 20px', borderRadius: 16, background: '#C96F78', fontSize: 14, fontWeight: 600, boxShadow: '0 7px 17px rgba(201,111,120,0.19)' }}>
+              <button onClick={() => handleGoldSelect(goldPick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform flex-shrink-0" style={{ gap: 10, height: 52, minWidth: 178, padding: '0 20px', borderRadius: 17, background: '#C96F78', fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.14)' }}>
                 Devam Et
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
               </button>
             </div>
           </div>
         );
       })()}
 
-      {/* MOBİL FLOATING LUXURY DOCK — pill capsule + sliding rose glow + elevated middle (Altın Tak) + noise grain */}
-      <div className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pointer-events-none ${showActionChooser ? 'hidden' : ''}`}
-           style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
-        <style>{`
-          @keyframes dockGoldBreath {
-            0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
-            50% { opacity: 0.85; transform: translateX(-50%) scale(1.08); }
-          }
-          @keyframes dockSliderShimmer {
-            0%, 100% { opacity: 0.85; }
-            50% { opacity: 1; }
-          }
-          @keyframes popbadgeShine {
-            0% { transform: translateX(-130%); }
-            55%, 100% { transform: translateX(170%); }
-          }
-          .popbadge-shine { animation: popbadgeShine 3.4s ease-in-out infinite; will-change: transform; }
-          .dock-gold-halo { animation: dockGoldBreath 3.4s ease-in-out infinite; }
-          .dock-tab { transition: color 380ms ease, transform 260ms cubic-bezier(0.34, 1.56, 0.64, 1); }
-          .dock-tab:active { transform: scale(0.94); }
-          .dock-tab[data-mid="true"] { transform: translateY(-5px) scale(1.05); }
-          .dock-tab[data-mid="true"]:active { transform: translateY(-5px) scale(1.00); }
-          .dock-tab-icon { transition: transform 460ms cubic-bezier(0.34, 1.56, 0.64, 1), color 380ms ease; }
-          .dock-tab[data-active="true"] .dock-tab-icon { transform: scale(1.12); }
-          .dock-slider {
-            transition: left 520ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 380ms ease;
-            animation: dockSliderShimmer 2.6s ease-in-out infinite;
-          }
-          /* Top viewer pill entrance */
-          @keyframes pillFadeIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          .pill-enter { animation: pillFadeIn 540ms cubic-bezier(0.22, 1, 0.36, 1) both; }
-        `}</style>
+      {/* Mobil floating bottom nav — glass/ivory yüzey, taupe active, rose sadece ikon+yazı */}
+      <nav aria-label="Davetli menüsü" className={`lg:hidden fixed left-1/2 -translate-x-1/2 z-[60] ${showActionChooser ? 'hidden' : ''}`}
+           style={{ bottom: 'calc(12px + env(safe-area-inset-bottom))', width: 'calc(100% - 28px)', maxWidth: 640, height: 78, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 4, padding: 6, background: 'rgba(255,253,251,0.92)', border: '1px solid rgba(88,69,62,0.07)', borderRadius: 28, boxShadow: '0 14px 38px rgba(73,52,48,0.07), 0 3px 10px rgba(73,52,48,0.025)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+        {[
+          { id: 'tebrik' as const, label: 'Tebrik Et', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M20.5 12a8.5 8.5 0 01-12.9 7.3L4 21l1.7-3.6A8.5 8.5 0 1120.5 12z" /><path d="M12 13.9c-1-.8-2.15-1.5-2.15-2.6 0-.62.5-1.1 1.12-1.1.43 0 .82.25 1.03.63.21-.38.6-.63 1.03-.63.62 0 1.12.48 1.12 1.1 0 1.1-1.15 1.8-2.15 2.6z" fill="currentColor" stroke="none" /></svg> },
+          { id: 'altin' as const, label: 'Altın Tak', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8.5 9.5L7 3.5h3.4L12 6l1.6-2.5H17l-1.5 6" /><circle cx="12" cy="15" r="5.5" /><circle cx="12" cy="15" r="2" /></svg> },
+          { id: 'album' as const, label: 'Albüm', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg> },
+        ].map((tab) => {
+          const isActive = activeMobileTab === tab.id;
+          return (
+            <button key={tab.id} onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-current={isActive ? 'page' : undefined}
+                    className="relative flex flex-col items-center justify-center rounded-[21px] transition-all active:scale-[0.97]"
+                    style={{ gap: 4, background: isActive ? '#F0EBE7' : 'transparent', color: isActive ? '#B96570' : '#8E8784' }}>
+              <span className="block" style={{ width: 23, height: 23 }}>{tab.icon}</span>
+              <span style={{ fontSize: 11.5, fontWeight: isActive ? 650 : 550, lineHeight: 1, letterSpacing: '-0.05px' }}>{tab.label}</span>
+            </button>
+          );
+        })}
+      </nav>
 
-        <div className="relative max-w-[400px] mx-auto pointer-events-auto" style={{ overflow: 'visible' }}>
-          <nav className="relative pointer-events-auto"
-               style={{
-                 background: 'linear-gradient(180deg, rgba(255,251,247,0.78) 0%, rgba(253,245,240,0.85) 100%)',
-                 backdropFilter: 'blur(36px) saturate(180%)',
-                 WebkitBackdropFilter: 'blur(36px) saturate(180%)',
-                 borderRadius: '34px',
-                 padding: '7px',
-                 height: '74px',
-                 boxShadow: `
-                   0 22px 50px rgba(160,80,90,0.16),
-                   0 8px 18px rgba(160,80,90,0.10),
-                   0 2px 6px rgba(0,0,0,0.04),
-                   inset 0 1px 0 rgba(255,255,255,0.95),
-                   inset 0 0 0 1px rgba(232,180,170,0.20)
-                 `,
-                 border: '1px solid rgba(232,180,170,0.30)',
-                 overflow: 'visible',
-               }}>
-            {/* Clipped layer — noise + sliding glow indicator (rounded mask) */}
-            <div className="absolute inset-0 pointer-events-none" style={{ borderRadius: '34px', overflow: 'hidden' }}>
-              {/* Subtle noise/grain — Apple/Stripe-tier premium texture */}
-              <div className="absolute inset-0 pointer-events-none"
-                   style={{
-                     backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3'/><feColorMatrix values='0 0 0 0 0.8  0 0 0 0 0.7  0 0 0 0 0.7  0 0 0 0.6 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>\")",
-                     backgroundSize: '160px 160px',
-                     opacity: 0.035,
-                     mixBlendMode: 'multiply',
-                   }} />
-
-              {/* Sliding rose glow indicator — soft halo, tab değişiminde kayar */}
-              {(() => {
-                const order: Array<'tebrik' | 'altin' | 'album'> = ['altin', 'tebrik', 'album'];
-                const idx = order.indexOf(activeMobileTab);
-                return (
-                  <div className="dock-slider absolute top-1 bottom-1 pointer-events-none rounded-[26px]"
-                       style={{
-                         left: `calc(${idx * 33.333}% + 6px)`,
-                         width: 'calc(33.333% - 12px)',
-                         background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.22) 0%, rgba(200,104,110,0.12) 45%, transparent 80%)',
-                         filter: 'blur(10px)',
-                       }} />
-                );
-              })()}
-            </div>
-
-            {/* Top gold accent line */}
-            <div className="absolute -top-px left-16 right-16 h-px pointer-events-none"
-                 style={{ background: 'linear-gradient(90deg, transparent, rgba(212,168,82,0.55) 50%, transparent)' }} />
-
-            {/* Tabs container */}
-            <div className="relative h-full flex items-stretch gap-0">
-              {[
-                { id: 'altin' as const, label: 'Altın Tak', isMid: false, icon: (
-                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    {/* Kurdele */}
-                    <path d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" />
-                    {/* Madeni */}
-                    <circle cx="12" cy="14.5" r="5.5" />
-                    {/* Yıldız vurgu (luxury accent, içte) */}
-                    <path d="M12 12.2l0.55 1.1 1.2 0.17-0.87 0.84 0.2 1.19L12 14.93l-1.07 0.57 0.2-1.19-0.87-0.84 1.2-0.17z" fill="currentColor" stroke="none" />
-                  </svg>
-                ) },
-                { id: 'tebrik' as const, label: 'Tebrik', isMid: false, icon: (
-                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <path d="M21 11.5a8.5 8.5 0 01-12.5 7.5L3 21l1.9-5.7A8.5 8.5 0 1121 11.5z" />
-                    <path d="M12 14.5s-2.8-1.6-2.8-3.5c0-0.95 0.85-1.7 1.8-1.7 0.55 0 1 0.3 1 0.3s0.45-0.3 1-0.3c0.95 0 1.8 0.75 1.8 1.7 0 1.9-2.8 3.5-2.8 3.5z" fill="currentColor" stroke="none" />
-                  </svg>
-                ) },
-                { id: 'album' as const, label: 'Albüm', isMid: false, icon: (
-                  <svg className="dock-tab-icon w-[24px] h-[24px] flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <rect x="3" y="5" width="18" height="15" rx="2.5" />
-                    <circle cx="8.5" cy="10.5" r="1.5" />
-                    <path d="M3 17l5-5 3.5 3.5L15 12l6 6" />
-                  </svg>
-                ) },
-              ].map((tab) => {
-                const isActive = activeMobileTab === tab.id;
-                return (
-                  <button key={tab.id}
-                          data-active={isActive}
-                          data-mid={tab.isMid}
-                          onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                          aria-label={tab.label}
-                          className="dock-tab relative flex-1 flex flex-col items-center justify-center gap-0.5 rounded-[26px]"
-                          style={{
-                            color: isActive ? '#9F4F58' : '#9A8989',
-                            opacity: isActive ? 1 : 0.88,
-                          }}>
-                    <span className="relative z-10">{tab.icon}</span>
-                    <span className="relative z-10 text-[10.5px] font-semibold uppercase whitespace-nowrap"
-                          style={{ letterSpacing: '0.7px' }}>
-                      {tab.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </nav>
-        </div>
-      </div>
 
       {/* Photo Gallery Popup */}
       {showPhotoGallery && (
