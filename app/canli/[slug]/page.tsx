@@ -282,6 +282,7 @@ export default function WatchPage() {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedGold, setSelectedGold] = useState<string | null>(null);
+  const [goldPick, setGoldPick] = useState<string>('yarim_altin'); // Mobil Altın Tak paneli: radio seçimi (checkout bar)
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [showWelcomeModal, setShowWelcomeModal] = useState(false);
@@ -850,7 +851,7 @@ export default function WatchPage() {
   const renderWelcomeActions = () => {
     const rose = '#C96F78', gold = '#C99A32', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
     const roseTint = 'rgba(201,111,120,0.105)', goldTint = 'rgba(201,154,50,0.105)';
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 20.25c4.97 0 9-3.69 9-8.25s-4.03-8.25-9-8.25S3 7.44 3 12c0 2.1.86 4.02 2.27 5.48.43.45.74 1.04.59 1.64a4.48 4.48 0 01-.92 1.79A5.97 5.97 0 006 21c1.28 0 2.47-.4 3.44-1.09.81.22 1.67.34 2.56.34z" /></svg>;
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 20.25c4.97 0 9-3.69 9-8.25s-4.03-8.25-9-8.25S3 7.44 3 12c0 2.1.86 4.02 2.27 5.48.43.45.74 1.04.59 1.64a4.48 4.48 0 01-.92 1.79A5.97 5.97 0 006 21c1.28 0 2.47-.4 3.44-1.09.81.22 1.67.34 2.56.34z" /><path d="M12 14.35c-1.05-.8-2.05-1.44-2.05-2.42 0-.53.44-.94.97-.94.4 0 .76.24.95.58.19-.34.55-.58.95-.58.53 0 .97.41.97.94 0 .98-1 1.62-2.05 2.42z" fill="currentColor" stroke="none" /></svg>;
     // Altın Tak — sade madalya/kolye çizgisel ikon (hediye kutusu değil)
     const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8.7 10.2L7 3.5h3.4L12 6.3l1.6-2.8H17l-1.7 6.7" /><circle cx="12" cy="15.4" r="5.4" /><circle cx="12" cy="15.4" r="1.9" /></svg>;
     const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-1.5-1.5l1.41-1.41a2.25 2.25 0 013.18 0l2.91 2.91M4.5 19.5h15a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5h-15A1.5 1.5 0 003 6v12a1.5 1.5 0 001.5 1.5zm10.13-11.25a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
@@ -860,31 +861,100 @@ export default function WatchPage() {
       { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: roseTint, tab: 'album' as const },
     ];
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[600px] px-4 pt-[30px] pb-10">
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4 pb-10">
         {/* Header — sparkle'lı kalp + serif ince başlık + accent çizgi (kompakt) */}
-        <div className="flex flex-col items-center text-center mb-[22px]">
-          <svg viewBox="0 0 24 24" className="w-[25px] h-[25px] mb-[7px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
-          <h2 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(20px,5.4vw,23px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.2 }}>Büyük günün bir parçası olun</h2>
-          <p className="italic mt-[7px]" style={{ fontFamily: serif, color: '#766F6C', fontSize: 'clamp(13px,3.8vw,14.5px)', lineHeight: 1.35 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
-          <span className="block mt-[10px] rounded-full" style={{ width: 26, height: 2, background: rose }} />
+        <div className="flex flex-col items-center text-center mb-[26px]">
+          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
+          <h2 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Büyük günün bir parçası olun</h2>
+          <p className="italic mt-[8px]" style={{ fontFamily: serif, color: '#756E6B', fontSize: 'clamp(12.5px,3.6vw,14px)', lineHeight: 1.35 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
+          <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
         {/* Tek panel — kompakt, daha yatay satırlar */}
         <div className="overflow-hidden" style={{ background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 'clamp(22px,5.5vw,24px)', boxShadow: '0 10px 28px rgba(63,44,39,0.045), 0 2px 7px rgba(63,44,39,0.02)' }}>
           {items.map((it, i) => (
             <div key={it.title}>
-              {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(72px,21vw,85px)', marginRight: 'clamp(16px,4.8vw,18px)', background: 'rgba(60,45,41,0.07)' }} />}
-              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(50px,14vw,54px) minmax(0,1fr) 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(90px,25vw,100px)', padding: 'clamp(14px,4.3vw,16px) clamp(15px,4.8vw,18px)' }}>
-                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(50px,14vw,54px)', height: 'clamp(50px,14vw,54px)', background: it.tint, color: it.accent }}>
-                  <span className="block" style={{ width: 'clamp(25px,7vw,27px)', height: 'clamp(25px,7vw,27px)' }}>{it.icon}</span>
+              {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(70px,20.5vw,83px)', marginRight: 'clamp(16px,4.8vw,18px)', background: 'rgba(60,45,41,0.07)' }} />}
+              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(48px,13.5vw,52px) minmax(0,1fr) 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(86px,24vw,96px)', padding: 'clamp(13px,4vw,14px) clamp(16px,5vw,18px)' }}>
+                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(48px,13.5vw,52px)', height: 'clamp(48px,13.5vw,52px)', background: it.tint, color: it.accent }}>
+                  <span className="block" style={{ width: 'clamp(24px,6.7vw,26px)', height: 'clamp(24px,6.7vw,26px)' }}>{it.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col">
-                  <strong style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(16px,4.5vw,18px)', fontWeight: 500, lineHeight: 1.2 }}>{it.title}</strong>
-                  <span className="mt-[5px]" style={{ color: '#7B7471', fontSize: 'clamp(12.5px,3.6vw,13.5px)', lineHeight: 1.4 }}>{it.desc}</span>
+                  <strong style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(15px,4.3vw,17px)', fontWeight: 500, letterSpacing: '-0.1px', lineHeight: 1.2 }}>{it.title}</strong>
+                  <span className="mt-[5px]" style={{ color: '#716A67', fontSize: 'clamp(12.5px,3.6vw,13.5px)', lineHeight: 1.38 }}>{it.desc}</span>
                 </span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#8E8885] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(16px,4.6vw,18px)', height: 'clamp(16px,4.6vw,18px)' }}><path d="M9 6l6 6-6 6" /></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#847E7B] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(16px,4.6vw,18px)', height: 'clamp(16px,4.6vw,18px)' }}><path d="M9 6l6 6-6 6" /></svg>
               </button>
             </div>
           ))}
+        </div>
+      </section>
+    );
+  };
+
+  // Mobil Altın Tak — sade/şık design system paneli (masaüstü ayrı, dokunulmadı)
+  const renderGoldMobile = () => {
+    const gold = '#C99A32', rose = '#C96F78', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
+    const coins = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'tam_altin'].includes(g.id));
+    const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
+    const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#9B9491" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
+    return (
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
+        {/* Section header — koyu serif başlık, altın rengi yok */}
+        <div className="mb-6 px-1">
+          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(23px,6.6vw,28px)', fontWeight: 600, letterSpacing: '-0.5px', lineHeight: 1.18 }}>Altın Tak</h1>
+          <p className="mt-1.5" style={{ color: '#817976', fontSize: 'clamp(14px,3.9vw,15px)', lineHeight: 1.45 }}>Mutlu çifte hediyenizi gönderin.</p>
+        </div>
+        {/* Ana panel */}
+        <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 26, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
+          <h2 className="mb-[18px]" style={{ color: '#302927', fontSize: 'clamp(16px,4.4vw,17px)', fontWeight: 600, letterSpacing: '-0.15px' }}>Altın miktarını seçin</h2>
+          {/* 3 altın kartı — radio seçim, sarı zemin yok */}
+          <div className="grid grid-cols-3" style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
+            {coins.map((g) => {
+              const sel = goldPick === g.id;
+              const popular = g.id === 'yarim_altin';
+              return (
+                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(182px,50vw,205px)', padding: '20px 6px 14px', borderRadius: 19, border: sel ? '1.5px solid rgba(201,154,50,0.82)' : '1px solid rgba(60,45,41,0.075)', background: sel ? 'linear-gradient(180deg, rgba(255,255,255,0.94), rgba(201,154,50,0.035))' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 7px 22px rgba(201,154,50,0.08)' : '0 5px 16px rgba(55,40,35,0.025)' }}>
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -10, padding: '4px 9px', borderRadius: 999, background: '#F6E8C7', color: '#B88724', fontSize: 'clamp(9px,2.5vw,10px)', fontWeight: 600, lineHeight: 1, boxShadow: '0 2px 6px rgba(130,90,20,0.06)' }}>En çok tercih edilen</span>}
+                  <span style={{ minHeight: 20, fontSize: 'clamp(12px,3.4vw,14px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.25 }}>{g.name}</span>
+                  <img src="/ata-altin.png" alt="" style={{ width: 'clamp(54px,15.5vw,66px)', height: 'clamp(54px,15.5vw,66px)', objectFit: 'contain', margin: '15px 0 12px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <strong style={{ marginTop: 'auto', fontSize: 'clamp(13.5px,3.9vw,16px)', fontWeight: 600, color: sel ? gold : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
+                  <span className="grid place-items-center rounded-full mt-3" style={{ width: 19, height: 19, border: sel ? `2px solid ${gold}` : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 999, background: gold }} />}</span>
+                </button>
+              );
+            })}
+          </div>
+          <div style={{ height: 1, margin: '20px 4px 3px', background: 'rgba(60,45,41,0.075)' }} />
+          {/* Gram Altın + Özel Miktar — panelin satırları */}
+          {[
+            { id: 'gram_altin', title: 'Gram Altın', sub: `₺${gramPrice.toLocaleString()}`, isRose: false },
+            { id: 'nakit', title: 'Özel Miktar', sub: 'Tutarı siz belirleyin', isRose: true },
+          ].map((r, idx) => (
+            <div key={r.id}>
+              {idx > 0 && <div style={{ height: 1, marginLeft: 64, background: 'rgba(60,45,41,0.065)' }} />}
+              <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-colors active:bg-[rgba(60,45,41,0.02)]" style={{ gridTemplateColumns: '46px minmax(0,1fr) 20px', gap: 14, minHeight: 74, padding: '10px 4px' }}>
+                <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: r.isRose ? 'rgba(201,111,120,0.10)' : 'rgba(201,154,50,0.10)', color: r.isRose ? rose : gold }}>
+                  {r.isRose
+                    ? <svg viewBox="0 0 24 24" fill="currentColor" className="w-[22px] h-[22px]"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="19" fontWeight="500">₺</text></svg>
+                    : <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>}
+                </span>
+                <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
+                  <strong style={{ color: '#302927', fontSize: 15, fontWeight: 600, lineHeight: 1.2 }}>{r.title}</strong>
+                  <span style={{ color: '#817976', fontSize: 13 }}>{r.sub}</span>
+                </span>
+                {chev}
+              </button>
+            </div>
+          ))}
+        </div>
+        {/* Güvenli banka transferi */}
+        <div className="mt-4 flex items-center" style={{ gap: 14, padding: '16px 18px', border: '1px solid rgba(60,45,41,0.06)', borderRadius: 21, background: 'rgba(255,255,255,0.68)', boxShadow: '0 7px 22px rgba(63,44,39,0.025)' }}>
+          <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 42, height: 42, background: 'rgba(201,111,120,0.09)', color: rose }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
+          </span>
+          <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
+            <strong style={{ color: '#302927', fontSize: 14, fontWeight: 600 }}>Güvenli banka transferi</strong>
+            <span style={{ color: '#89817E', fontSize: 12.5, lineHeight: 1.4 }}>Ödeme doğrudan çiftin hesabına gönderilir.</span>
+          </div>
         </div>
       </section>
     );
@@ -1447,9 +1517,9 @@ export default function WatchPage() {
 
   const goldOptions: GoldOption[] = [
     { id: "gram_altin", name: "Gram Altın", price: getGoldPrice('gram'), image: "/altintakgram.png" },
-    { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/altintak.png" },
-    { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/altintak.png" },
-    { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/altintak.png" },
+    { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/ata-altin.png" },
+    { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/ata-altin.png" },
+    { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/ata-altin.png" },
     { id: "nakit", name: "Özel Miktar", price: 0, image: "/altintaklira.png" },
   ];
 
@@ -3229,8 +3299,11 @@ export default function WatchPage() {
             {/* Mobil ilk-giriş: hero altında 3 kartlık aksiyon seçimi (alt bar gizli) */}
             {showActionChooser && renderWelcomeActions()}
 
-            {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`-mt-1 lg:mt-3 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            {/* Mobil Altın Tak — yeni sade design system (masaüstü aşağıda, ayrı) */}
+            {activeMobileTab === 'altin' && !showActionChooser && renderGoldMobile()}
+
+            {/* Altın Tak - Masaüstü (referans görsele birebir), mobilde gizli */}
+            <div id="gold-section" className={`-mt-1 lg:mt-3 rounded-[20px] relative overflow-hidden max-lg:hidden`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card { transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 420ms ease; }
                 .gold-card:hover {
@@ -4116,6 +4189,30 @@ export default function WatchPage() {
           </div>
         </div>
       )}
+
+      {/* Mobil Altın Tak — checkout bar (seçim varken, alt bar'ın üstünde) */}
+      {activeMobileTab === 'altin' && !showActionChooser && goldPick && (() => {
+        const g = goldOptions.find(x => x.id === goldPick);
+        const isNakit = goldPick === 'nakit';
+        const img = isNakit ? '/altintaklira.png' : (goldPick === 'gram_altin' ? '/altintakgram.png' : '/ata-altin.png');
+        return (
+          <div className="lg:hidden fixed left-1/2 -translate-x-1/2 z-40" style={{ bottom: 'calc(98px + env(safe-area-inset-bottom))', width: 'calc(100% - 32px)', maxWidth: 620 }}>
+            <div className="flex items-center justify-between" style={{ gap: 14, padding: '10px 10px 10px 14px', minHeight: 72, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 22, boxShadow: '0 10px 28px rgba(63,44,39,0.10)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
+              <div className="flex items-center min-w-0" style={{ gap: 11 }}>
+                <span className="relative flex-shrink-0" style={{ width: 42, height: 42, padding: 5, borderRadius: 12, background: 'rgba(201,154,50,0.09)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 5 }} /></span>
+                <div className="min-w-0 flex flex-col" style={{ gap: 2 }}>
+                  <strong style={{ fontSize: 14, fontWeight: 600, color: '#302927' }}>{isNakit ? 'Özel Miktar' : g?.name}</strong>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#C99A32' }}>{isNakit ? 'Siz belirleyin' : `₺${(g?.price || 0).toLocaleString()}`}</span>
+                </div>
+              </div>
+              <button onClick={() => handleGoldSelect(goldPick)} className="flex items-center justify-center text-white active:scale-[0.98] transition-transform flex-shrink-0" style={{ gap: 9, height: 50, minWidth: 138, padding: '0 20px', borderRadius: 16, background: '#C96F78', fontSize: 14, fontWeight: 600, boxShadow: '0 7px 17px rgba(201,111,120,0.19)' }}>
+                Devam Et
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
+              </button>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* MOBİL FLOATING LUXURY DOCK — pill capsule + sliding rose glow + elevated middle (Altın Tak) + noise grain */}
       <div className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pointer-events-none ${showActionChooser ? 'hidden' : ''}`}
