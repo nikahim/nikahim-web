@@ -848,42 +848,39 @@ export default function WatchPage() {
 
   // Mobil ilk-giriş aksiyon seçimi (3 kart): Tebrik · Altın · Albüm — hero altında, alt bar gizliyken
   const renderWelcomeActions = () => {
-    const arrow = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="w-[19px] h-[19px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>;
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[30px] h-[30px]"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /><path d="M12 13.4c-1-.75-2.1-1.4-2.1-2.5 0-.6.5-1.05 1.1-1.05.42 0 .8.24 1 .62.2-.38.58-.62 1-.62.6 0 1.1.45 1.1 1.05 0 1.1-1.1 1.75-2.1 2.5z" fill="currentColor" stroke="none" /></svg>;
-    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-[30px] h-[30px]"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" /><path d="M12 12.7l.65 1.4 1.5.2-1.1 1.05.27 1.5-1.32-.72-1.32.72.27-1.5-1.1-1.05 1.5-.2z" fill="currentColor" stroke="none" /></svg>;
-    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[30px] h-[30px]"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.6" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
+    const arrow = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[15px] h-[15px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>;
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[28px] h-[28px]"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /><path d="M12 13.4c-1-.75-2.1-1.4-2.1-2.5 0-.6.5-1.05 1.1-1.05.42 0 .8.24 1 .62.2-.38.58-.62 1-.62.6 0 1.1.45 1.1 1.05 0 1.1-1.1 1.75-2.1 2.5z" fill="currentColor" stroke="none" /></svg>;
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-[28px] h-[28px]"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" /><path d="M12 12.7l.65 1.4 1.5.2-1.1 1.05.27 1.5-1.32-.72-1.32.72.27-1.5-1.1-1.05 1.5-.2z" fill="currentColor" stroke="none" /></svg>;
+    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[28px] h-[28px]"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.6" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
+    // Tebrik rose (#C8686E ailesi), Altın gold, Albüm mor-rose (mauve)
     const two = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, bg: '#FFF8F9', border: '#F7D9DF', accent: '#E85E78', tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online olarak desteğinizi gönderin.', icon: icAltin, bg: '#FFFBF3', border: '#F2DFC0', accent: '#DFA52D', tab: 'altin' as const },
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, bg: '#FEF7F8', border: '#F3D9DE', accent: '#CE6B74', soft: 'rgba(206,107,116,0.12)', tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte online destek gönderin.', icon: icAltin, bg: '#FDFAF2', border: '#EFDDBB', accent: '#CF9A2C', soft: 'rgba(207,154,44,0.13)', tab: 'altin' as const },
     ];
+    const albumAccent = '#A76A8C', albumSoft = 'rgba(167,106,140,0.12)';
+    const arrowBox = (accent: string, soft: string, cls: string) => (
+      <span className={`welcome-action-arrow ${cls} rounded-full flex items-center justify-center transition-transform`} style={{ width: 'clamp(28px,7.6vw,32px)', height: 'clamp(28px,7.6vw,32px)', background: soft, color: accent }}>{arrow}</span>
+    );
     return (
-      <section className="lg:hidden px-5 pt-7 pb-9">
-        <div className="text-center mb-6">
-          <div className="flex items-center justify-center gap-3 mb-3">
-            <span className="h-px w-12" style={{ background: 'rgba(232,94,120,0.28)' }} />
-            <svg className="w-5 h-5" fill="#E85E78" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-            <span className="h-px w-12" style={{ background: 'rgba(232,94,120,0.28)' }} />
-          </div>
-          <h2 className="font-bold leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#403536', fontSize: 'clamp(20px,5.7vw,26px)' }}>{event?.bride_first_name} &amp; {event?.groom_first_name}&apos;i nasıl kutlamak istersiniz?</h2>
-          <p className="mt-2" style={{ color: '#8E8283', fontSize: 'clamp(13px,3.6vw,15px)' }}>Bu özel güne siz de bir iz bırakın.</p>
-        </div>
+      <section className="lg:hidden px-5 pt-4 pb-6">
+        <h2 className="text-center font-bold whitespace-nowrap mb-4" style={{ color: '#3F3437', fontSize: 'clamp(13.5px,4vw,19px)' }}>Çifti nasıl tebrik etmek istersiniz?</h2>
         <div className="grid grid-cols-2 gap-3">
           {two.map((c) => (
-            <button key={c.title} onClick={() => pickAction(c.tab)} className="welcome-action-card relative rounded-[24px] border p-4 text-left overflow-hidden transition-all duration-200 active:scale-[0.98]" style={{ background: c.bg, borderColor: c.border, minHeight: 'clamp(188px,52vw,220px)', boxShadow: '0 10px 30px rgba(90,60,65,0.06)' }}>
-              <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(52px,15vw,62px)', height: 'clamp(52px,15vw,62px)', background: 'rgba(255,255,255,0.7)', color: c.accent, boxShadow: '0 2px 8px rgba(90,60,65,0.06)' }}>{c.icon}</div>
-              <h3 className="mt-4 font-semibold" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: c.accent, fontSize: 'clamp(17px,4.8vw,21px)' }}>{c.title}</h3>
-              <p className="mt-1.5 pr-4" style={{ color: '#776E70', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.5 }}>{c.desc}</p>
-              <span className="welcome-action-arrow absolute rounded-full flex items-center justify-center text-white transition-transform" style={{ bottom: 16, left: 16, width: 'clamp(38px,10vw,44px)', height: 'clamp(38px,10vw,44px)', background: c.accent }}>{arrow}</span>
+            <button key={c.title} onClick={() => pickAction(c.tab)} className="welcome-action-card relative rounded-[22px] border p-4 text-left overflow-hidden transition-all duration-200 active:scale-[0.98]" style={{ background: c.bg, borderColor: c.border, minHeight: 'clamp(146px,42vw,176px)', boxShadow: '0 8px 24px rgba(90,60,65,0.05)' }}>
+              {arrowBox(c.accent, c.soft, 'absolute top-3.5 right-3.5')}
+              <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(44px,12.5vw,54px)', height: 'clamp(44px,12.5vw,54px)', background: 'rgba(255,255,255,0.72)', color: c.accent, boxShadow: '0 2px 8px rgba(90,60,65,0.05)' }}>{c.icon}</div>
+              <h3 className="mt-3 font-bold" style={{ color: c.accent, fontSize: 'clamp(15px,4.3vw,18px)' }}>{c.title}</h3>
+              <p className="mt-1.5 pr-2" style={{ color: '#8A7E80', fontSize: 'clamp(12px,3.3vw,13.5px)', lineHeight: 1.45 }}>{c.desc}</p>
             </button>
           ))}
         </div>
-        <button onClick={() => pickAction('album')} className="welcome-action-card mt-3 w-full rounded-[24px] border px-4 py-4 flex items-center gap-4 text-left transition-all duration-200 active:scale-[0.99]" style={{ background: '#FBF6F1', borderColor: '#EBDACB', minHeight: 'clamp(112px,32vw,132px)', boxShadow: '0 10px 30px rgba(120,90,70,0.06)' }}>
-          <div className="shrink-0 rounded-full flex items-center justify-center" style={{ width: 'clamp(52px,15vw,62px)', height: 'clamp(52px,15vw,62px)', background: 'rgba(255,255,255,0.75)', color: '#B47A5E', boxShadow: '0 2px 8px rgba(120,90,70,0.06)' }}>{icAlbum}</div>
+        <button onClick={() => pickAction('album')} className="welcome-action-card mt-3 w-full rounded-[22px] border px-4 py-4 flex items-center gap-4 text-left transition-all duration-200 active:scale-[0.99]" style={{ background: '#FBF5F8', borderColor: '#EBD9E4', minHeight: 'clamp(92px,27vw,112px)', boxShadow: '0 8px 24px rgba(110,80,100,0.05)' }}>
+          <div className="shrink-0 rounded-full flex items-center justify-center" style={{ width: 'clamp(44px,12.5vw,54px)', height: 'clamp(44px,12.5vw,54px)', background: 'rgba(255,255,255,0.75)', color: albumAccent, boxShadow: '0 2px 8px rgba(110,80,100,0.05)' }}>{icAlbum}</div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#B47A5E', fontSize: 'clamp(17px,4.8vw,21px)' }}>Albümü Keşfet</h3>
-            <p className="mt-1" style={{ color: '#776E70', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.5 }}>Düğün fotoğraflarını görün ve kendi karelerinizi paylaşın.</p>
+            <h3 className="font-bold" style={{ color: albumAccent, fontSize: 'clamp(15px,4.3vw,18px)' }}>Albümü Keşfet</h3>
+            <p className="mt-1" style={{ color: '#8A7E80', fontSize: 'clamp(12px,3.3vw,13.5px)', lineHeight: 1.45 }}>Düğün fotoğraflarını görün ve kendi karelerinizi paylaşın.</p>
           </div>
-          <span className="welcome-action-arrow shrink-0 rounded-full flex items-center justify-center text-white transition-transform" style={{ width: 'clamp(38px,10vw,44px)', height: 'clamp(38px,10vw,44px)', background: '#B47A5E' }}>{arrow}</span>
+          {arrowBox(albumAccent, albumSoft, 'shrink-0')}
         </button>
       </section>
     );
