@@ -848,39 +848,37 @@ export default function WatchPage() {
 
   // Mobil ilk-giriş aksiyon seçimi (3 kart): Tebrik · Altın · Albüm — hero altında, alt bar gizliyken
   const renderWelcomeActions = () => {
-    const arrow = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[15px] h-[15px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>;
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[28px] h-[28px]"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /><path d="M12 13.4c-1-.75-2.1-1.4-2.1-2.5 0-.6.5-1.05 1.1-1.05.42 0 .8.24 1 .62.2-.38.58-.62 1-.62.6 0 1.1.45 1.1 1.05 0 1.1-1.1 1.75-2.1 2.5z" fill="currentColor" stroke="none" /></svg>;
-    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-[28px] h-[28px]"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" /><path d="M12 12.7l.65 1.4 1.5.2-1.1 1.05.27 1.5-1.32-.72-1.32.72.27-1.5-1.1-1.05 1.5-.2z" fill="currentColor" stroke="none" /></svg>;
-    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[28px] h-[28px]"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.6" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
-    // Tebrik rose (#C8686E ailesi), Altın gold, Albüm mor-rose (mauve)
+    const chev = (accent: string, cls: string) => <svg viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={cls} style={{ opacity: 0.5 }}><path d="M9 6l6 6-6 6" /></svg>;
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px]"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /><path d="M12 13.4c-1-.75-2.1-1.4-2.1-2.5 0-.6.5-1.05 1.1-1.05.42 0 .8.24 1 .62.2-.38.58-.62 1-.62.6 0 1.1.45 1.1 1.05 0 1.1-1.1 1.75-2.1 2.5z" fill="currentColor" stroke="none" /></svg>;
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px]"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" /><path d="M12 12.7l.65 1.4 1.5.2-1.1 1.05.27 1.5-1.32-.72-1.32.72.27-1.5-1.1-1.05 1.5-.2z" fill="currentColor" stroke="none" /></svg>;
+    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px]"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.6" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
+    // Sakin premium: kartlar near-white, renk yalnız ikon+başlık+minik chevron'da. Tebrik & Albüm rose (#C96F78), Altın mat gold
+    const rose = '#C96F78', gold = '#C99A32';
     const two = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, bg: '#FEF7F8', border: '#F3D9DE', accent: '#CE6B74', soft: 'rgba(206,107,116,0.12)', tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online destek gönderin.', icon: icAltin, bg: '#FDFAF2', border: '#EFDDBB', accent: '#CF9A2C', soft: 'rgba(207,154,44,0.13)', tab: 'altin' as const },
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte online destek gönderin.', icon: icAltin, accent: gold, tint: 'rgba(201,154,50,0.12)', tab: 'altin' as const },
     ];
-    const albumAccent = '#A76A8C', albumSoft = 'rgba(167,106,140,0.12)';
-    const arrowBox = (accent: string, soft: string, cls: string) => (
-      <span className={`welcome-action-arrow ${cls} rounded-full flex items-center justify-center transition-transform`} style={{ width: 'clamp(28px,7.6vw,32px)', height: 'clamp(28px,7.6vw,32px)', background: soft, color: accent }}>{arrow}</span>
-    );
+    const cardStyle = { background: '#FFFDFB', borderColor: 'rgba(150,110,112,0.12)', boxShadow: '0 6px 18px rgba(70,50,50,0.035)' } as const;
     return (
       <section className="lg:hidden px-5 pt-4 pb-6">
-        <h2 className="text-center font-bold whitespace-nowrap mb-4" style={{ color: '#3F3437', fontSize: 'clamp(13.5px,4vw,19px)' }}>Çifti nasıl tebrik etmek istersiniz?</h2>
-        <div className="grid grid-cols-2 gap-3">
+        <h2 className="text-center font-semibold whitespace-nowrap mb-5 tracking-[0.2px]" style={{ color: '#9F4F58', fontSize: 'clamp(13.5px,4vw,18px)' }}>Çifti nasıl tebrik etmek istersiniz?</h2>
+        <div className="grid grid-cols-2 gap-2.5">
           {two.map((c) => (
-            <button key={c.title} onClick={() => pickAction(c.tab)} className="welcome-action-card relative rounded-[22px] border p-4 text-left overflow-hidden transition-all duration-200 active:scale-[0.98]" style={{ background: c.bg, borderColor: c.border, minHeight: 'clamp(146px,42vw,176px)', boxShadow: '0 8px 24px rgba(90,60,65,0.05)' }}>
-              {arrowBox(c.accent, c.soft, 'absolute top-3.5 right-3.5')}
-              <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(44px,12.5vw,54px)', height: 'clamp(44px,12.5vw,54px)', background: 'rgba(255,255,255,0.72)', color: c.accent, boxShadow: '0 2px 8px rgba(90,60,65,0.05)' }}>{c.icon}</div>
-              <h3 className="mt-3 font-bold" style={{ color: c.accent, fontSize: 'clamp(15px,4.3vw,18px)' }}>{c.title}</h3>
-              <p className="mt-1.5 pr-2" style={{ color: '#8A7E80', fontSize: 'clamp(12px,3.3vw,13.5px)', lineHeight: 1.45 }}>{c.desc}</p>
+            <button key={c.title} onClick={() => pickAction(c.tab)} className="welcome-action-card relative rounded-[22px] border p-4 text-left transition-all duration-200 active:scale-[0.98]" style={{ ...cardStyle, minHeight: 'clamp(138px,40vw,166px)' }}>
+              <span className="absolute top-4 right-4">{chev(c.accent, 'w-[15px] h-[15px]')}</span>
+              <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(40px,11vw,48px)', height: 'clamp(40px,11vw,48px)', background: c.tint, color: c.accent }}>{c.icon}</div>
+              <h3 className="mt-3 font-semibold" style={{ color: c.accent, fontSize: 'clamp(14.5px,4vw,18px)' }}>{c.title}</h3>
+              <p className="mt-1.5 pr-3" style={{ color: '#A79EA0', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.45 }}>{c.desc}</p>
             </button>
           ))}
         </div>
-        <button onClick={() => pickAction('album')} className="welcome-action-card mt-3 w-full rounded-[22px] border px-4 py-4 flex items-center gap-4 text-left transition-all duration-200 active:scale-[0.99]" style={{ background: '#FBF5F8', borderColor: '#EBD9E4', minHeight: 'clamp(92px,27vw,112px)', boxShadow: '0 8px 24px rgba(110,80,100,0.05)' }}>
-          <div className="shrink-0 rounded-full flex items-center justify-center" style={{ width: 'clamp(44px,12.5vw,54px)', height: 'clamp(44px,12.5vw,54px)', background: 'rgba(255,255,255,0.75)', color: albumAccent, boxShadow: '0 2px 8px rgba(110,80,100,0.05)' }}>{icAlbum}</div>
+        <button onClick={() => pickAction('album')} className="welcome-action-card mt-5 w-full rounded-[22px] border px-4 py-4 flex items-center gap-4 text-left transition-all duration-200 active:scale-[0.99]" style={{ ...cardStyle, minHeight: 'clamp(88px,26vw,106px)' }}>
+          <div className="shrink-0 rounded-full flex items-center justify-center" style={{ width: 'clamp(40px,11vw,48px)', height: 'clamp(40px,11vw,48px)', background: 'rgba(201,111,120,0.10)', color: rose }}>{icAlbum}</div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-bold" style={{ color: albumAccent, fontSize: 'clamp(15px,4.3vw,18px)' }}>Albümü Keşfet</h3>
-            <p className="mt-1" style={{ color: '#8A7E80', fontSize: 'clamp(12px,3.3vw,13.5px)', lineHeight: 1.45 }}>Düğün fotoğraflarını görün ve kendi karelerinizi paylaşın.</p>
+            <h3 className="font-semibold" style={{ color: rose, fontSize: 'clamp(14.5px,4vw,18px)' }}>Albümü Keşfet</h3>
+            <p className="mt-1" style={{ color: '#A79EA0', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.45 }}>Düğün fotoğraflarını görün ve kendi karelerinizi paylaşın.</p>
           </div>
-          {arrowBox(albumAccent, albumSoft, 'shrink-0')}
+          <span className="shrink-0">{chev(rose, 'w-[16px] h-[16px]')}</span>
         </button>
       </section>
     );
