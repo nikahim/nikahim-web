@@ -856,32 +856,32 @@ export default function WatchPage() {
     const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-1.5-1.5l1.41-1.41a2.25 2.25 0 013.18 0l2.91 2.91M4.5 19.5h15a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5h-15A1.5 1.5 0 003 6v12a1.5 1.5 0 001.5 1.5zm10.13-11.25a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
     const items = [
       { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: roseTint, tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Dijital Altın gönderin.', icon: icAltin, accent: gold, tint: goldTint, tab: 'altin' as const },
+      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, accent: gold, tint: goldTint, tab: 'altin' as const },
       { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: roseTint, tab: 'album' as const },
     ];
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-5 pt-7 pb-9">
-        {/* Header — sparkle'lı kalp + serif koyu başlık + accent çizgi */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <svg viewBox="0 0 24 24" className="w-[30px] h-[30px] mb-2"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.5" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
-          <h2 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(22px,6vw,26px)', fontWeight: 600, letterSpacing: '-0.4px', lineHeight: 1.2 }}>Büyük günün bir parçası olun</h2>
-          <p className="italic mt-2" style={{ fontFamily: serif, color: '#716966', fontSize: 'clamp(14px,3.9vw,16px)', lineHeight: 1.4 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
-          <span className="block mt-3 rounded-full" style={{ width: 30, height: 2, background: rose }} />
+      <section className="lg:hidden mx-auto w-full max-w-[600px] px-4 pt-[30px] pb-10">
+        {/* Header — sparkle'lı kalp + serif ince başlık + accent çizgi (kompakt) */}
+        <div className="flex flex-col items-center text-center mb-[22px]">
+          <svg viewBox="0 0 24 24" className="w-[25px] h-[25px] mb-[7px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
+          <h2 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(20px,5.4vw,23px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.2 }}>Büyük günün bir parçası olun</h2>
+          <p className="italic mt-[7px]" style={{ fontFamily: serif, color: '#766F6C', fontSize: 'clamp(13px,3.8vw,14.5px)', lineHeight: 1.35 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
+          <span className="block mt-[10px] rounded-full" style={{ width: 26, height: 2, background: rose }} />
         </div>
-        {/* Tek panel — 3 satır, divider ikon altından başlamaz */}
-        <div className="overflow-hidden" style={{ background: 'rgba(255,255,255,0.80)', border: '1px solid rgba(70,50,45,0.08)', borderRadius: 'clamp(24px,6vw,27px)', boxShadow: '0 12px 34px rgba(70,50,45,0.055), 0 2px 8px rgba(70,50,45,0.025)' }}>
+        {/* Tek panel — kompakt, daha yatay satırlar */}
+        <div className="overflow-hidden" style={{ background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 'clamp(22px,5.5vw,24px)', boxShadow: '0 10px 28px rgba(63,44,39,0.045), 0 2px 7px rgba(63,44,39,0.02)' }}>
           {items.map((it, i) => (
             <div key={it.title}>
-              {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(86px,25vw,102px)', marginRight: 'clamp(20px,6vw,24px)', background: 'rgba(60,45,41,0.08)' }} />}
-              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(54px,15.5vw,62px) minmax(0,1fr) 20px', gap: 'clamp(13px,4vw,16px)', minHeight: 'clamp(104px,29vw,118px)', padding: 'clamp(17px,5vw,20px) clamp(18px,5.6vw,24px)' }}>
-                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(54px,15.5vw,62px)', height: 'clamp(54px,15.5vw,62px)', background: it.tint, color: it.accent }}>
-                  <span className="block" style={{ width: 'clamp(27px,7.7vw,31px)', height: 'clamp(27px,7.7vw,31px)' }}>{it.icon}</span>
+              {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(72px,21vw,85px)', marginRight: 'clamp(16px,4.8vw,18px)', background: 'rgba(60,45,41,0.07)' }} />}
+              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(50px,14vw,54px) minmax(0,1fr) 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(90px,25vw,100px)', padding: 'clamp(14px,4.3vw,16px) clamp(15px,4.8vw,18px)' }}>
+                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(50px,14vw,54px)', height: 'clamp(50px,14vw,54px)', background: it.tint, color: it.accent }}>
+                  <span className="block" style={{ width: 'clamp(25px,7vw,27px)', height: 'clamp(25px,7vw,27px)' }}>{it.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col">
-                  <strong style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(17px,4.9vw,20px)', fontWeight: 600, lineHeight: 1.2 }}>{it.title}</strong>
-                  <span className="mt-1.5" style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.7vw,14.5px)', lineHeight: 1.45 }}>{it.desc}</span>
+                  <strong style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(16px,4.5vw,18px)', fontWeight: 500, lineHeight: 1.2 }}>{it.title}</strong>
+                  <span className="mt-[5px]" style={{ color: '#7B7471', fontSize: 'clamp(12.5px,3.6vw,13.5px)', lineHeight: 1.4 }}>{it.desc}</span>
                 </span>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#706A67] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(19px,5.4vw,21px)', height: 'clamp(19px,5.4vw,21px)' }}><path d="M9 6l6 6-6 6" /></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#8E8885] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(16px,4.6vw,18px)', height: 'clamp(16px,4.6vw,18px)' }}><path d="M9 6l6 6-6 6" /></svg>
               </button>
             </div>
           ))}
