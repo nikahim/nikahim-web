@@ -4338,7 +4338,7 @@ export default function WatchPage() {
 
       {showPaymentModal && selectedGold && (
         <div className="nikahim-payment-modal-content fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
-          <div className="rounded-[24px] max-w-[420px] w-full overflow-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(255,252,245,0.95), rgba(248,243,232,0.92))', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', boxShadow: '0 30px 90px rgba(0,0,0,0.25), 0 0 0 1px rgba(212,175,55,0.08) inset, 0 1px 0 rgba(255,255,255,0.5) inset' }}>
+          <div className="rounded-[24px] max-w-[420px] w-full max-h-[calc(100dvh-1.5rem)] overflow-y-auto overflow-x-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(255,252,245,0.95), rgba(248,243,232,0.92))', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', boxShadow: '0 30px 90px rgba(0,0,0,0.25), 0 0 0 1px rgba(212,175,55,0.08) inset, 0 1px 0 rgba(255,255,255,0.5) inset' }}>
             {/* Decorative shimmer */}
             <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }} />
             <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-[0.06] pointer-events-none" style={{ background: '#D4AF37' }} />
@@ -4358,7 +4358,7 @@ export default function WatchPage() {
 
             {/* Step indicator */}
             {paymentStep < 3 && (
-              <div className="px-6 pt-16 pb-1">
+              <div className="px-6 pt-16 max-[400px]:pt-12 pb-1">
                 <div className="flex items-center gap-0">
                   {[{n:1, label:'Ödeme Yöntemi'}, {n:2, label:'Transfer'}, {n:3, label:'Onay'}].map((step, i) => (
                     <div key={step.n} className="flex items-center" style={{ flex: i < 2 ? 1 : 'none' }}>
@@ -4479,8 +4479,8 @@ export default function WatchPage() {
               const qrUnavailable = paymentMethod === 'qr' && !event.qr_codes?.[qrKey];
               const selGold = goldOptions.find((g) => g.id === selectedGold);
               return (
-              <div className="p-6 pt-4">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
+              <div className="p-6 pt-4 max-[400px]:p-4 max-[400px]:pt-2">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 max-[400px]:hidden">{paymentMethod === 'iban' ? 'Banka Transferi' : paymentMethod === 'qr' ? 'QR ile Ödeme' : 'Kripto Transfer'}</h2>
 
                 {/* IBAN Content — sıra: Banka → IBAN → Hesap Sahibi (+Damat/Gelin). Alıcı kaldırıldı (kafa karıştırıyordu) */}
                 {paymentMethod === 'iban' && (() => {

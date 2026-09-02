@@ -1154,9 +1154,9 @@ export default function Home() {
               <div className="flex justify-start mb-[clamp(7px,2.6vw,12px)]"><FeatureBadge label="FOTOĞRAF ALBÜMÜ" /></div>
               <div className="text-center mb-3"
                    style={{ fontFamily: 'var(--font-playfair)', fontWeight: 500, letterSpacing: '0.3px', lineHeight: 1.15 }}>
-                <div style={{ color: '#C8686E', fontSize: 'clamp(19px, 4.6vw, 34px)' }}>Her açıdan,</div>
+                <div style={{ color: '#C8686E', fontSize: 'clamp(22px, 5.6vw, 34px)' }}>Her açıdan,</div>
                 <div className="flex items-center justify-center gap-3 md:gap-4 mt-0.5"
-                     style={{ fontSize: 'clamp(19px, 4.6vw, 34px)' }}>
+                     style={{ fontSize: 'clamp(22px, 5.6vw, 34px)' }}>
                   <span className="flex-shrink-0 h-[1.5px] rounded-full"
                         style={{ width: 'clamp(28px, 7vw, 50px)', background: 'linear-gradient(to right, transparent, #C8686E, transparent)' }} />
                   <span style={{ color: '#2B2B2B' }}>sizin hikâyeniz.</span>
