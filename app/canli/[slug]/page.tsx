@@ -864,7 +864,7 @@ export default function WatchPage() {
             <svg className="w-5 h-5" fill="#E85E78" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
             <span className="h-px w-12" style={{ background: 'rgba(232,94,120,0.28)' }} />
           </div>
-          <h2 className="font-bold leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#403536', fontSize: 'clamp(20px,5.7vw,26px)' }}>{event.bride_first_name} &amp; {event.groom_first_name}&apos;i nasıl kutlamak istersiniz?</h2>
+          <h2 className="font-bold leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#403536', fontSize: 'clamp(20px,5.7vw,26px)' }}>{event?.bride_first_name} &amp; {event?.groom_first_name}&apos;i nasıl kutlamak istersiniz?</h2>
           <p className="mt-2" style={{ color: '#8E8283', fontSize: 'clamp(13px,3.6vw,15px)' }}>Bu özel güne siz de bir iz bırakın.</p>
         </div>
         <div className="grid grid-cols-2 gap-3">
