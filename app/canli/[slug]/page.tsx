@@ -370,6 +370,9 @@ export default function WatchPage() {
   const [showRotationPrompt, setShowRotationPrompt] = useState(false);
   const [showPersistentRotation, setShowPersistentRotation] = useState(false);
   const [activeMobileTab, setActiveMobileTab] = useState<'altin' | 'tebrik' | 'album'>('tebrik');
+  // Mobil: ilk girişte hero altında 3 kartlık aksiyon seçimi (her girişte); kart seçilince kapanır
+  const [showActionChooser, setShowActionChooser] = useState(true);
+  const pickAction = (tab: 'altin' | 'tebrik' | 'album') => { setActiveMobileTab(tab); setShowActionChooser(false); };
   const [showTebrikSuccess, setShowTebrikSuccess] = useState(false); // mesaj tebriği iletildi onayı + altın CTA
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
@@ -840,6 +843,49 @@ export default function WatchPage() {
           </div>
         )}
       </>
+    );
+  };
+
+  // Mobil ilk-giriş aksiyon seçimi (3 kart): Tebrik · Altın · Albüm — hero altında, alt bar gizliyken
+  const renderWelcomeActions = () => {
+    const arrow = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" className="w-[19px] h-[19px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>;
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[30px] h-[30px]"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /><path d="M12 13.4c-1-.75-2.1-1.4-2.1-2.5 0-.6.5-1.05 1.1-1.05.42 0 .8.24 1 .62.2-.38.58-.62 1-.62.6 0 1.1.45 1.1 1.05 0 1.1-1.1 1.75-2.1 2.5z" fill="currentColor" stroke="none" /></svg>;
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-[30px] h-[30px]"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" /><path d="M12 12.7l.65 1.4 1.5.2-1.1 1.05.27 1.5-1.32-.72-1.32.72.27-1.5-1.1-1.05 1.5-.2z" fill="currentColor" stroke="none" /></svg>;
+    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[30px] h-[30px]"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.6" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
+    const two = [
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, bg: '#FFF8F9', border: '#F7D9DF', accent: '#E85E78', tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte online olarak desteğinizi gönderin.', icon: icAltin, bg: '#FFFBF3', border: '#F2DFC0', accent: '#DFA52D', tab: 'altin' as const },
+    ];
+    return (
+      <section className="lg:hidden px-5 pt-7 pb-9">
+        <div className="text-center mb-6">
+          <div className="flex items-center justify-center gap-3 mb-3">
+            <span className="h-px w-12" style={{ background: 'rgba(232,94,120,0.28)' }} />
+            <svg className="w-5 h-5" fill="#E85E78" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+            <span className="h-px w-12" style={{ background: 'rgba(232,94,120,0.28)' }} />
+          </div>
+          <h2 className="font-bold leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#403536', fontSize: 'clamp(20px,5.7vw,26px)' }}>{event.bride_first_name} &amp; {event.groom_first_name}&apos;i nasıl kutlamak istersiniz?</h2>
+          <p className="mt-2" style={{ color: '#8E8283', fontSize: 'clamp(13px,3.6vw,15px)' }}>Bu özel güne siz de bir iz bırakın.</p>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {two.map((c) => (
+            <button key={c.title} onClick={() => pickAction(c.tab)} className="welcome-action-card relative rounded-[24px] border p-4 text-left overflow-hidden transition-all duration-200 active:scale-[0.98]" style={{ background: c.bg, borderColor: c.border, minHeight: 'clamp(188px,52vw,220px)', boxShadow: '0 10px 30px rgba(90,60,65,0.06)' }}>
+              <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(52px,15vw,62px)', height: 'clamp(52px,15vw,62px)', background: 'rgba(255,255,255,0.7)', color: c.accent, boxShadow: '0 2px 8px rgba(90,60,65,0.06)' }}>{c.icon}</div>
+              <h3 className="mt-4 font-semibold" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: c.accent, fontSize: 'clamp(17px,4.8vw,21px)' }}>{c.title}</h3>
+              <p className="mt-1.5 pr-4" style={{ color: '#776E70', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.5 }}>{c.desc}</p>
+              <span className="welcome-action-arrow absolute rounded-full flex items-center justify-center text-white transition-transform" style={{ bottom: 16, left: 16, width: 'clamp(38px,10vw,44px)', height: 'clamp(38px,10vw,44px)', background: c.accent }}>{arrow}</span>
+            </button>
+          ))}
+        </div>
+        <button onClick={() => pickAction('album')} className="welcome-action-card mt-3 w-full rounded-[24px] border px-4 py-4 flex items-center gap-4 text-left transition-all duration-200 active:scale-[0.99]" style={{ background: '#FBF6F1', borderColor: '#EBDACB', minHeight: 'clamp(112px,32vw,132px)', boxShadow: '0 10px 30px rgba(120,90,70,0.06)' }}>
+          <div className="shrink-0 rounded-full flex items-center justify-center" style={{ width: 'clamp(52px,15vw,62px)', height: 'clamp(52px,15vw,62px)', background: 'rgba(255,255,255,0.75)', color: '#B47A5E', boxShadow: '0 2px 8px rgba(120,90,70,0.06)' }}>{icAlbum}</div>
+          <div className="min-w-0 flex-1">
+            <h3 className="font-semibold" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#B47A5E', fontSize: 'clamp(17px,4.8vw,21px)' }}>Albümü Keşfet</h3>
+            <p className="mt-1" style={{ color: '#776E70', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.5 }}>Düğün fotoğraflarını görün ve kendi karelerinizi paylaşın.</p>
+          </div>
+          <span className="welcome-action-arrow shrink-0 rounded-full flex items-center justify-center text-white transition-transform" style={{ width: 'clamp(38px,10vw,44px)', height: 'clamp(38px,10vw,44px)', background: '#B47A5E' }}>{arrow}</span>
+        </button>
+      </section>
     );
   };
 
@@ -3179,8 +3225,11 @@ export default function WatchPage() {
 
             {/* Mobilde Çift bilgisi + Aile kartı kaldırıldı (welcome modal'da gösteriliyor) */}
 
+            {/* Mobil ilk-giriş: hero altında 3 kartlık aksiyon seçimi (alt bar gizli) */}
+            {showActionChooser && renderWelcomeActions()}
+
             {/* Altın Tak - Referans görsele birebir yeniden tasarım */}
-            <div id="gold-section" className={`-mt-1 lg:mt-3 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
+            <div id="gold-section" className={`-mt-1 lg:mt-3 rounded-[20px] relative overflow-hidden ${activeMobileTab !== 'altin' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: 'linear-gradient(180deg, #FBF6EB 0%, #F8F0DD 100%)', boxShadow: '0 8px 32px rgba(180,155,120,0.10), 0 2px 8px rgba(0,0,0,0.03)', border: '1px solid rgba(220,200,170,0.20)' }}>
               <style>{`
                 .gold-card { transition: transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 420ms ease; }
                 .gold-card:hover {
@@ -3523,7 +3572,7 @@ export default function WatchPage() {
           {/* SAĞ PANEL - Tebrik Kartları + Galeri — mobilde display:contents, masaüstünde 320px column */}
           <div ref={rightPanelRef} className="contents lg:flex lg:w-[320px] lg:flex-shrink-0 lg:flex-col lg:gap-3 lg:min-h-0">
             {/* Mobil-only başlık — Mutlu Çifte Altın Tak / Fotoğraf Albümü ile aynı dilde (tab geçişlerinde dikey hiza smooth) */}
-            <div className={`lg:hidden mb-1 ${activeMobileTab !== 'tebrik' ? 'hidden' : ''}`}>
+            <div className={`lg:hidden mb-1 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'hidden' : ''}`}>
               <div className="text-center pt-2">
                 <h2 className="flex items-center justify-center gap-3" style={{ fontFamily: 'var(--font-playfair), Georgia, serif' }}>
                   <span className="flex-shrink-0 relative" style={{ width: 'clamp(36px, 10vw, 72px)', height: '2px', transform: 'translateY(4px)' }}>
@@ -3556,7 +3605,7 @@ export default function WatchPage() {
             </div>
 
             {/* Video Tebrik — premium, kompakt */}
-            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div onClick={() => setShowVideoRecorder(true)} className={`card-enter card-enter-1 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: '#FFFBFB', border: '1px solid #F3DADC', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(98,75,80,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#FFF0F2' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#E75C70" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
               </div>
@@ -3574,7 +3623,7 @@ export default function WatchPage() {
             </div>
 
             {/* Sesli Tebrik — premium, kompakt */}
-            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div onClick={() => setShowVoiceRecorder(true)} className={`card-enter card-enter-2 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: '#FBFDFE', border: '1px solid #DCECF3', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(72,110,150,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#EFF8FC' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#48A7D8" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>
               </div>
@@ -3592,7 +3641,7 @@ export default function WatchPage() {
             </div>
 
             {/* Mesaj Tebrik — premium, kompakt */}
-            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
+            <div id="tebrik-section" onClick={() => setShowMessageModal(true)} className={`card-enter card-enter-3 max-lg:-mt-1.5 group w-full flex items-center rounded-[20px] px-4 py-[17px] lg:py-3.5 cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${activeMobileTab !== 'tebrik' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ background: '#FCFEFC', border: '1px solid #DCEBDF', boxShadow: '0 8px 20px rgba(98,75,80,0.055)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 14px 30px rgba(70,130,90,0.10)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 20px rgba(98,75,80,0.055)'; }}>
               <div className="w-11 h-11 rounded-[14px] flex items-center justify-center flex-shrink-0" style={{ background: '#F0F8F1' }}>
                 <svg className="w-5 h-5" fill="none" stroke="#51B86D" strokeWidth={1.6} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.294 48.294 0 005.83-.498c1.585-.233 2.708-1.626 2.708-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>
               </div>
@@ -3610,7 +3659,7 @@ export default function WatchPage() {
             </div>
 
             {/* Nikah Albümü — yeni album kart v4 background (sadece pembe abstract bg, badgesiz) */}
-            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.52), rgba(255,255,255,0.52)), url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
+            <div className={`rounded-2xl px-5 pt-4 pb-2 flex flex-col relative overflow-hidden lg:flex-1 lg:justify-between ${activeMobileTab !== 'album' || showActionChooser ? 'max-lg:hidden' : ''}`} style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,0.52), rgba(255,255,255,0.52)), url(/bg-album-canli.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', boxShadow: '0 16px 44px rgba(200,140,140,0.10), 0 4px 14px rgba(0,0,0,0.04)', border: '1px solid rgba(0,0,0,0.04)' }}>
 
               {/* Header — Fotoğraf gri italic + Albümü ROSE gradient + dashlar ROSE (altın tak ile aynı dikey hiza) */}
               <div className="text-center relative z-10 mb-2 lg:mt-2">
@@ -4068,7 +4117,7 @@ export default function WatchPage() {
       )}
 
       {/* MOBİL FLOATING LUXURY DOCK — pill capsule + sliding rose glow + elevated middle (Altın Tak) + noise grain */}
-      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pointer-events-none"
+      <div className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 px-4 pointer-events-none ${showActionChooser ? 'hidden' : ''}`}
            style={{ paddingBottom: 'max(16px, env(safe-area-inset-bottom))' }}>
         <style>{`
           @keyframes dockGoldBreath {
