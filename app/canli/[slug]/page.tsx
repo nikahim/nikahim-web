@@ -850,21 +850,21 @@ export default function WatchPage() {
   const renderWelcomeActions = () => {
     const rose = '#C96F78', gold = '#C99A32';
     const roseTint = 'rgba(201,111,120,0.10)', goldTint = 'rgba(201,154,50,0.11)';
-    // Tek sistem ikonlar: ~2px stroke, fill yok, aynı optik boyut
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M20.5 12a8.5 8.5 0 01-12.9 7.3L4 21l1.7-3.6A8.5 8.5 0 1120.5 12z" /><path d="M12 13.9c-1-.8-2.15-1.5-2.15-2.6 0-.62.5-1.1 1.12-1.1.43 0 .82.25 1.03.63.21-.38.6-.63 1.03-.63.62 0 1.12.48 1.12 1.1 0 1.1-1.15 1.8-2.15 2.6z" /></svg>;
-    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><circle cx="12" cy="14.5" r="6" /><path d="M8.5 9.3L6.4 3.5h4L12 6l1.6-2.5h4L15.5 9.3" /><path d="M12 12.3l.85 1.75 1.9.27-1.37 1.34.32 1.9L12 16.78l-1.7.95.32-1.9-1.37-1.34 1.9-.27z" /></svg>;
-    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.5" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
+    // Temiz Heroicons (outline, fill yok, tek sistem)
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 20.25c4.97 0 9-3.69 9-8.25s-4.03-8.25-9-8.25S3 7.44 3 12c0 2.1.86 4.02 2.27 5.48.43.45.74 1.04.59 1.64a4.48 4.48 0 01-.92 1.79A5.97 5.97 0 006 21c1.28 0 2.47-.4 3.44-1.09.81.22 1.67.34 2.56.34z" /></svg>;
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H4.5a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-9-9.75h18c.414 0 .75-.336.75-.75v-1.5a.75.75 0 00-.75-.75H3a.75.75 0 00-.75.75v1.5c0 .414.336.75.75.75z" /></svg>;
+    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-1.5-1.5l1.41-1.41a2.25 2.25 0 013.18 0l2.91 2.91M4.5 19.5h15a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5h-15A1.5 1.5 0 003 6v12a1.5 1.5 0 001.5 1.5zm10.13-11.25a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
     const items = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: roseTint, tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, accent: gold, tint: goldTint, tab: 'altin' as const },
-      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: roseTint, tab: 'album' as const },
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj.', icon: icTebrik, accent: rose, tint: roseTint, tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Dijital Altın gönderin.', icon: icAltin, accent: gold, tint: goldTint, tab: 'altin' as const },
+      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve paylaşın.', icon: icAlbum, accent: rose, tint: roseTint, tab: 'album' as const },
     ];
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-5 pt-9 pb-11">
-        {/* Header — sade outline kalp + başlık + accent çizgi */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <svg viewBox="0 0 24 24" fill="none" stroke={rose} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px] mb-2"><path d="M12 20.8l-1.35-1.24C5.9 15.2 3 12.4 3 8.9 3 6.13 5.13 4 7.9 4c1.55 0 3.04.72 4.1 1.87C13.06 4.72 14.55 4 16.1 4 18.87 4 21 6.13 21 8.9c0 3.5-2.9 6.3-7.65 10.66z" /></svg>
-          <h2 className="font-bold" style={{ color: '#302927', fontSize: 'clamp(21px,5.7vw,24px)', letterSpacing: '-0.4px', lineHeight: 1.25 }}>Büyük günün bir parçası olun</h2>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-4 pt-2 pb-9">
+        {/* Header — sade outline kalp + iki-tonlu başlık + accent çizgi */}
+        <div className="flex flex-col items-center text-center mb-5">
+          <svg viewBox="0 0 24 24" fill="none" stroke={rose} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[23px] h-[23px] mb-1.5"><path d="M12 20.8l-1.35-1.24C5.9 15.2 3 12.4 3 8.9 3 6.13 5.13 4 7.9 4c1.55 0 3.04.72 4.1 1.87C13.06 4.72 14.55 4 16.1 4 18.87 4 21 6.13 21 8.9c0 3.5-2.9 6.3-7.65 10.66z" /></svg>
+          <h2 className="font-bold" style={{ fontSize: 'clamp(21px,5.7vw,24px)', letterSpacing: '-0.4px', lineHeight: 1.25 }}><span style={{ color: '#9F4F58' }}>Büyük günün </span><span style={{ color: '#3B2F32' }}>bir parçası olun</span></h2>
           <p className="mt-1.5" style={{ color: '#847B78', fontSize: 'clamp(13.5px,3.7vw,15px)', lineHeight: 1.45 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
           <span className="block mt-3 rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
@@ -873,13 +873,13 @@ export default function WatchPage() {
           {items.map((it, i) => (
             <div key={it.title}>
               {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(80px,22vw,88px)', marginRight: 'clamp(18px,5vw,20px)', background: 'rgba(62,49,45,0.08)' }} />}
-              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(46px,12.5vw,52px) minmax(0,1fr) 22px', gap: 'clamp(13px,3.8vw,16px)', minHeight: 'clamp(88px,24vw,102px)', padding: 'clamp(15px,4.2vw,18px) clamp(17px,4.8vw,20px)' }}>
-                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(46px,12.5vw,52px)', height: 'clamp(46px,12.5vw,52px)', background: it.tint, color: it.accent }}>
-                  <span className="block" style={{ width: 'clamp(24px,6.4vw,27px)', height: 'clamp(24px,6.4vw,27px)' }}>{it.icon}</span>
+              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(44px,12vw,50px) minmax(0,1fr) 20px', gap: 'clamp(11px,3.2vw,14px)', minHeight: 'clamp(84px,23vw,98px)', padding: 'clamp(14px,4vw,17px) clamp(15px,4.4vw,18px)' }}>
+                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(44px,12vw,50px)', height: 'clamp(44px,12vw,50px)', background: it.tint, color: it.accent }}>
+                  <span className="block" style={{ width: 'clamp(23px,6.2vw,26px)', height: 'clamp(23px,6.2vw,26px)' }}>{it.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col gap-1">
-                  <strong className="font-bold" style={{ color: '#302927', fontSize: 'clamp(16px,4.4vw,18px)', letterSpacing: '-0.2px', lineHeight: 1.25 }}>{it.title}</strong>
-                  <span style={{ color: '#8A8280', fontSize: 'clamp(13px,3.6vw,14px)', lineHeight: 1.45 }}>{it.desc}</span>
+                  <strong className="font-bold" style={{ color: '#7A424D', fontSize: 'clamp(15.5px,4.3vw,18px)', letterSpacing: '-0.2px', lineHeight: 1.2 }}>{it.title}</strong>
+                  <span className="whitespace-nowrap overflow-hidden text-ellipsis" style={{ color: '#8A8280', fontSize: 'clamp(11.5px,3.2vw,13.5px)', lineHeight: 1.4 }}>{it.desc}</span>
                 </span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#9D9693] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(18px,5vw,20px)', height: 'clamp(18px,5vw,20px)' }}><path d="M9 6l6 6-6 6" /></svg>
               </button>
