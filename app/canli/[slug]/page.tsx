@@ -848,38 +848,44 @@ export default function WatchPage() {
 
   // Mobil ilk-giriş aksiyon seçimi (3 kart): Tebrik · Altın · Albüm — hero altında, alt bar gizliyken
   const renderWelcomeActions = () => {
-    const chev = (accent: string, cls: string) => <svg viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={cls} style={{ opacity: 0.5 }}><path d="M9 6l6 6-6 6" /></svg>;
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px]"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" /><path d="M12 13.4c-1-.75-2.1-1.4-2.1-2.5 0-.6.5-1.05 1.1-1.05.42 0 .8.24 1 .62.2-.38.58-.62 1-.62.6 0 1.1.45 1.1 1.05 0 1.1-1.1 1.75-2.1 2.5z" fill="currentColor" stroke="none" /></svg>;
-    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px]"><circle cx="12" cy="15" r="6" /><path d="M8.5 9.5L6.5 3h4l1.5 2.5L13.5 3h4l-2 6.5" /><path d="M12 12.7l.65 1.4 1.5.2-1.1 1.05.27 1.5-1.32-.72-1.32.72.27-1.5-1.1-1.05 1.5-.2z" fill="currentColor" stroke="none" /></svg>;
-    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px]"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.6" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
-    // Sakin premium: kartlar near-white, renk yalnız ikon+başlık+minik chevron'da. Tebrik & Albüm rose (#C96F78), Altın mat gold
     const rose = '#C96F78', gold = '#C99A32';
-    const two = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online destek gönderin.', icon: icAltin, accent: gold, tint: 'rgba(201,154,50,0.12)', tab: 'altin' as const },
+    const roseTint = 'rgba(201,111,120,0.10)', goldTint = 'rgba(201,154,50,0.11)';
+    // Tek sistem ikonlar: ~2px stroke, fill yok, aynı optik boyut
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M20.5 12a8.5 8.5 0 01-12.9 7.3L4 21l1.7-3.6A8.5 8.5 0 1120.5 12z" /><path d="M12 13.9c-1-.8-2.15-1.5-2.15-2.6 0-.62.5-1.1 1.12-1.1.43 0 .82.25 1.03.63.21-.38.6-.63 1.03-.63.62 0 1.12.48 1.12 1.1 0 1.1-1.15 1.8-2.15 2.6z" /></svg>;
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><circle cx="12" cy="14.5" r="6" /><path d="M8.5 9.3L6.4 3.5h4L12 6l1.6-2.5h4L15.5 9.3" /><path d="M12 12.3l.85 1.75 1.9.27-1.37 1.34.32 1.9L12 16.78l-1.7.95.32-1.9-1.37-1.34 1.9-.27z" /></svg>;
+    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect x="3" y="5" width="18" height="14" rx="2.5" /><circle cx="8.5" cy="10" r="1.5" /><path d="M4 16.5l4.5-4 3 2.5L16 11l4 4.5" /></svg>;
+    const items = [
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: roseTint, tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, accent: gold, tint: goldTint, tab: 'altin' as const },
+      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: roseTint, tab: 'album' as const },
     ];
-    const cardStyle = { background: '#FFFDFB', borderColor: 'rgba(150,110,112,0.12)', boxShadow: '0 6px 18px rgba(70,50,50,0.035)' } as const;
     return (
-      <section className="lg:hidden px-5 pt-4 pb-6">
-        <h2 className="text-center font-semibold whitespace-nowrap mb-5 tracking-[0.2px]" style={{ color: '#9F4F58', fontSize: 'clamp(13.5px,4vw,18px)' }}>Çifti nasıl tebrik etmek istersiniz?</h2>
-        <div className="grid grid-cols-2 gap-2.5">
-          {two.map((c) => (
-            <button key={c.title} onClick={() => pickAction(c.tab)} className="welcome-action-card relative rounded-[22px] border p-4 text-left transition-all duration-200 active:scale-[0.98]" style={{ ...cardStyle, minHeight: 'clamp(138px,40vw,166px)' }}>
-              <span className="absolute top-4 right-4">{chev(c.accent, 'w-[15px] h-[15px]')}</span>
-              <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(40px,11vw,48px)', height: 'clamp(40px,11vw,48px)', background: c.tint, color: c.accent }}>{c.icon}</div>
-              <h3 className="mt-3 font-semibold" style={{ color: c.accent, fontSize: 'clamp(14.5px,4vw,18px)' }}>{c.title}</h3>
-              <p className="mt-1.5 pr-3" style={{ color: '#A79EA0', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.45 }}>{c.desc}</p>
-            </button>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-5 pt-9 pb-11">
+        {/* Header — sade outline kalp + başlık + accent çizgi */}
+        <div className="flex flex-col items-center text-center mb-6">
+          <svg viewBox="0 0 24 24" fill="none" stroke={rose} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[25px] h-[25px] mb-2"><path d="M12 20.8l-1.35-1.24C5.9 15.2 3 12.4 3 8.9 3 6.13 5.13 4 7.9 4c1.55 0 3.04.72 4.1 1.87C13.06 4.72 14.55 4 16.1 4 18.87 4 21 6.13 21 8.9c0 3.5-2.9 6.3-7.65 10.66z" /></svg>
+          <h2 className="font-bold" style={{ color: '#302927', fontSize: 'clamp(21px,5.7vw,24px)', letterSpacing: '-0.4px', lineHeight: 1.25 }}>Büyük günün bir parçası olun</h2>
+          <p className="mt-1.5" style={{ color: '#847B78', fontSize: 'clamp(13.5px,3.7vw,15px)', lineHeight: 1.45 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
+          <span className="block mt-3 rounded-full" style={{ width: 28, height: 2, background: rose }} />
+        </div>
+        {/* Tek panel — 3 satır, aralarda 88px'den başlayan divider */}
+        <div className="overflow-hidden backdrop-blur-[10px]" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(201,111,120,0.12)', borderRadius: 'clamp(24px,6vw,26px)', boxShadow: '0 12px 35px rgba(73,52,48,0.055), 0 2px 8px rgba(73,52,48,0.025)' }}>
+          {items.map((it, i) => (
+            <div key={it.title}>
+              {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(80px,22vw,88px)', marginRight: 'clamp(18px,5vw,20px)', background: 'rgba(62,49,45,0.08)' }} />}
+              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(46px,12.5vw,52px) minmax(0,1fr) 22px', gap: 'clamp(13px,3.8vw,16px)', minHeight: 'clamp(88px,24vw,102px)', padding: 'clamp(15px,4.2vw,18px) clamp(17px,4.8vw,20px)' }}>
+                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(46px,12.5vw,52px)', height: 'clamp(46px,12.5vw,52px)', background: it.tint, color: it.accent }}>
+                  <span className="block" style={{ width: 'clamp(24px,6.4vw,27px)', height: 'clamp(24px,6.4vw,27px)' }}>{it.icon}</span>
+                </span>
+                <span className="min-w-0 flex flex-col gap-1">
+                  <strong className="font-bold" style={{ color: '#302927', fontSize: 'clamp(16px,4.4vw,18px)', letterSpacing: '-0.2px', lineHeight: 1.25 }}>{it.title}</strong>
+                  <span style={{ color: '#8A8280', fontSize: 'clamp(13px,3.6vw,14px)', lineHeight: 1.45 }}>{it.desc}</span>
+                </span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#9D9693] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(18px,5vw,20px)', height: 'clamp(18px,5vw,20px)' }}><path d="M9 6l6 6-6 6" /></svg>
+              </button>
+            </div>
           ))}
         </div>
-        <button onClick={() => pickAction('album')} className="welcome-action-card mt-5 w-full rounded-[22px] border px-4 py-4 flex items-center gap-4 text-left transition-all duration-200 active:scale-[0.99]" style={{ ...cardStyle, minHeight: 'clamp(88px,26vw,106px)' }}>
-          <div className="shrink-0 rounded-full flex items-center justify-center" style={{ width: 'clamp(40px,11vw,48px)', height: 'clamp(40px,11vw,48px)', background: 'rgba(201,111,120,0.10)', color: rose }}>{icAlbum}</div>
-          <div className="min-w-0 flex-1">
-            <h3 className="font-semibold" style={{ color: rose, fontSize: 'clamp(14.5px,4vw,18px)' }}>Albümü Keşfet</h3>
-            <p className="mt-1" style={{ color: '#A79EA0', fontSize: 'clamp(12.5px,3.4vw,14px)', lineHeight: 1.45 }}>Düğün fotoğraflarını görün ve kendi karelerinizi paylaşın.</p>
-          </div>
-          <span className="shrink-0">{chev(rose, 'w-[16px] h-[16px]')}</span>
-        </button>
       </section>
     );
   };
