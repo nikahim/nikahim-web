@@ -4681,32 +4681,32 @@ export default function WatchPage() {
                   const hasBank = !!event.payment_methods_enabled?.bank_name;
                   return (
                   <div className="space-y-3">
-                    <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                    <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(60,45,41,0.07)' }}>
                       {hasBank && (
                         <div>
                           <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Banka</p>
                           <p className="font-semibold text-gray-800 text-sm mt-0.5">{event.payment_methods_enabled?.bank_name}</p>
                         </div>
                       )}
-                      <div className={hasBank ? 'border-t pt-2 mt-2' : ''} style={hasBank ? { borderColor: 'rgba(212,175,55,0.08)' } : undefined}>
+                      <div className={hasBank ? 'border-t pt-2 mt-2' : ''} style={hasBank ? { borderColor: 'rgba(60,45,41,0.065)' } : undefined}>
                         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">IBAN</p>
                         <div className="flex items-center gap-2 mt-1">
                           <p className="font-mono text-gray-800 text-[13px] flex-1 min-w-0 break-all">{event.bank_iban || 'TR00 0000 0000 0000 0000 0000 00'}</p>
-                          <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="flex-shrink-0 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                          <button onClick={() => copyToClipboard((event.bank_iban || '').replace(/\s/g, ''))} className="flex-shrink-0 text-[11px] font-semibold px-2.5 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#B96570', background: 'rgba(201,111,120,0.09)', border: '1px solid rgba(201,111,120,0.14)' }}>
                             Kopyala &rsaquo;
                           </button>
                         </div>
                       </div>
-                      <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                      <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(60,45,41,0.065)' }}>
                         <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Hesap Sahibi</p>
                         <p className="font-semibold text-gray-800 text-sm mt-0.5">{holderName}{side ? ` (${side})` : ''}</p>
                       </div>
                       {getSelectedPrice() > 0 && (
-                        <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(212,175,55,0.08)' }}>
+                        <div className="border-t pt-2 mt-2" style={{ borderColor: 'rgba(60,45,41,0.065)' }}>
                           <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Göndereceğiniz Miktar</p>
                           <div className="flex items-center gap-2 mt-1">
                             <p className="font-bold text-gray-900 text-lg flex-1">₺{getSelectedPrice().toLocaleString()}</p>
-                            <button onClick={() => copyToClipboard(String(getSelectedPrice()))} className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                            <button onClick={() => copyToClipboard(String(getSelectedPrice()))} className="text-xs font-semibold px-3 py-1.5 rounded-lg transition-all hover:scale-105" style={{ color: '#B96570', background: 'rgba(201,111,120,0.09)', border: '1px solid rgba(201,111,120,0.14)' }}>
                               Kopyala &rsaquo;
                             </button>
                           </div>
@@ -4724,14 +4724,14 @@ export default function WatchPage() {
                       const qrKey = selectedGold === "gram_altin" ? "gram" : selectedGold === "ceyrek_altin" ? "ceyrek" : selectedGold === "yarim_altin" ? "yarim" : selectedGold === "tam_altin" ? "tam" : selectedGold === "ata_altin" ? "ata" : "ozel";
                       const qrUrl = event.qr_codes?.[qrKey];
                       return qrUrl ? (
-                        <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                        <div className="rounded-2xl p-6 text-center" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(60,45,41,0.07)' }}>
                           <img src={qrUrl} alt="QR Kod" className="w-48 h-48 mx-auto rounded-xl object-contain" />
                           <p className="text-xs text-gray-400 mt-3">Bu kodu mobil bankacılıkla okutun</p>
                           {getSelectedPrice() > 0 && (
-                            <div className="flex items-center justify-center gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(212,175,55,0.08)' }}>
+                            <div className="flex items-center justify-center gap-2 mt-3 pt-3" style={{ borderTop: '1px solid rgba(60,45,41,0.065)' }}>
                               <p className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">Miktar:</p>
                               <p className="font-bold text-gray-900">₺{getSelectedPrice().toLocaleString()}</p>
-                              <button onClick={() => copyToClipboard(String(getSelectedPrice()))} className="text-[10px] font-semibold px-2 py-1 rounded-md transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala</button>
+                              <button onClick={() => copyToClipboard(String(getSelectedPrice()))} className="text-[10px] font-semibold px-2 py-1 rounded-md transition-all hover:scale-105" style={{ color: '#B96570', background: 'rgba(201,111,120,0.09)' }}>Kopyala</button>
                             </div>
                           )}
                         </div>
@@ -4743,8 +4743,8 @@ export default function WatchPage() {
                             <p className="text-[12.5px] font-bold leading-snug" style={{ color: '#8A5A16' }}>Bu hediye için QR kod tanımlanmamış. Ödemeyi IBAN ile kolayca gönderebilirsiniz.</p>
                           </div>
                           {/* İlk sayfadaki altın özet kartı — birebir */}
-                          <div className="flex items-center gap-4 rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #FFFDF5, #FFF8E7, #FDF3D7)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 4px 20px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
-                            <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 12px rgba(212,175,55,0.12)' }}>
+                          <div className="flex items-center gap-4 rounded-2xl p-4" style={{ background: '#FFFDFC', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 4px 14px rgba(63,44,39,0.03)' }}>
+                            <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(201,154,50,0.10)' }}>
                               {selGold?.image && (<div className="relative w-9 h-9"><Image src={selGold!.image} alt="" fill className="object-contain" /></div>)}
                             </div>
                             <div>
@@ -4753,7 +4753,7 @@ export default function WatchPage() {
                             </div>
                             {getSelectedPrice() > 0 && <p className="text-xl font-semibold ml-auto tracking-tight" style={{ color: '#8B6914' }}>{'₺'}{getSelectedPrice().toLocaleString()}</p>}
                           </div>
-                          <button onClick={() => startTransition(() => setPaymentMethod('iban'))} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[14.5px] flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ background: 'linear-gradient(135deg, #D4AF37, #B8912B)', boxShadow: '0 6px 18px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.35)' }}>
+                          <button onClick={() => startTransition(() => setPaymentMethod('iban'))} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[14.5px] flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98]" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                             IBAN ile Gönder
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                           </button>
@@ -4767,17 +4767,17 @@ export default function WatchPage() {
                 {paymentMethod === 'crypto' && (
                   <div className="space-y-3">
                     {event.payment_methods_enabled?.wallet_tl && (
-                      <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                      <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(60,45,41,0.07)' }}>
                         <p className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-1">TRYB (TRC-20)</p>
                         <p className="font-mono text-gray-700 text-xs break-all">{event.payment_methods_enabled.wallet_tl}</p>
-                        <button onClick={() => copyToClipboard(event.payment_methods_enabled?.wallet_tl || '')} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
+                        <button onClick={() => copyToClipboard(event.payment_methods_enabled?.wallet_tl || '')} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#B96570', background: 'rgba(201,111,120,0.09)' }}>Kopyala &rsaquo;</button>
                       </div>
                     )}
                     {event.payment_methods_enabled?.wallet_usdt && (
-                      <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.08)' }}>
+                      <div className="rounded-2xl p-4" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(60,45,41,0.07)' }}>
                         <p className="text-[10px] font-medium uppercase tracking-wider text-gray-400 mb-1">USDT (TRC-20)</p>
                         <p className="font-mono text-gray-700 text-xs break-all">{event.payment_methods_enabled.wallet_usdt}</p>
-                        <button onClick={() => copyToClipboard(event.payment_methods_enabled?.wallet_usdt || '')} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)' }}>Kopyala &rsaquo;</button>
+                        <button onClick={() => copyToClipboard(event.payment_methods_enabled?.wallet_usdt || '')} className="mt-2 text-xs font-semibold px-3 py-1.5 rounded-lg" style={{ color: '#B96570', background: 'rgba(201,111,120,0.09)' }}>Kopyala &rsaquo;</button>
                       </div>
                     )}
                   </div>
@@ -4786,7 +4786,7 @@ export default function WatchPage() {
                 {/* QR yoksa geri sayım/onay gösterme (kişi zaten IBAN'a yönlendiriliyor) */}
                 {!qrUnavailable && (<>
                 {/* Waiting indicator section */}
-                <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'linear-gradient(135deg, #FFF9E6, #FFF3CC)', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
+                <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'rgba(255,253,251,0.9)', border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 14px rgba(63,44,39,0.03)' }}>
                   <div className="flex flex-col items-center text-center mb-2">
                     <div className="flex-shrink-0 mb-1.5" style={{ animation: 'spin 3s linear infinite' }}>
                       <span className="text-3xl">⏳</span>
@@ -4807,7 +4807,7 @@ export default function WatchPage() {
                 </label>
 
                 {/* Green confirm CTA - disabled for 10 seconds */}
-                <button onClick={handlePaymentComplete} disabled={confirmTimer > 0} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: confirmTimer > 0 ? '#9ca3af' : 'linear-gradient(135deg, #4ade80, #22c55e)', boxShadow: confirmTimer > 0 ? 'none' : '0 4px 16px rgba(34,197,94,0.25)' }}>
+                <button onClick={handlePaymentComplete} disabled={confirmTimer > 0} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100" style={{ background: confirmTimer > 0 ? '#C9C3BF' : '#C96F78', boxShadow: confirmTimer > 0 ? 'none' : '0 5px 14px rgba(201,111,120,0.16)' }}>
                   {confirmTimer > 0 ? `Ödemeyi Onaylıyorum (${confirmTimer}s)` : '✓ Ödemeyi Onaylıyorum'}
                 </button>
                 </>)}
@@ -4819,7 +4819,7 @@ export default function WatchPage() {
             {paymentStep === 3 && (
               <div className="relative overflow-hidden">
                 {/* Gold shimmer background */}
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(248,240,220,0.5) 0%, rgba(255,252,245,0.9) 50%, rgba(248,243,232,0.95) 100%)' }} />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, rgba(255,247,247,0.7) 0%, rgba(255,253,251,0.96) 55%, rgba(255,253,251,0.98) 100%)' }} />
                 {/* Confetti */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                   {[...Array(24)].map((_, i) => (
@@ -4829,7 +4829,7 @@ export default function WatchPage() {
                       width: `${4 + (i % 3) * 2}px`,
                       height: `${8 + (i % 4) * 3}px`,
                       borderRadius: i % 3 === 0 ? '50%' : '1px',
-                      background: ['#D4AF37', '#E8C97A', '#C8686E', '#B8960B', '#f0d68a', '#c9a13b'][i % 6],
+                      background: ['#C96F78', '#E8C97A', '#C99A32', '#EBD9C0', '#D98A96', '#F0D68A'][i % 6],
                       opacity: 0.8,
                       animation: `goldFall ${2 + (i % 5) * 0.5}s ease-in ${(i % 10) * 0.2}s infinite`,
                     }} />
@@ -4847,19 +4847,19 @@ export default function WatchPage() {
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">Altın gönderildi</h2>
                   <p className="text-sm text-gray-500 mb-1">{event.bride_first_name} & {event.groom_first_name}&apos;a hediyen ulaştı 💛</p>
 
-                  <div className="inline-block rounded-2xl px-6 py-3 mt-4 mb-5" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(212,175,55,0.1)' }}>
-                    <p className="text-sm font-bold text-gray-700">{goldOptions.find(g => g.id === selectedGold)?.name} — <span style={{ color: '#8B6914' }}>₺{getSelectedPrice().toLocaleString()}</span></p>
+                  <div className="inline-block rounded-2xl px-6 py-3 mt-4 mb-5" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(60,45,41,0.07)' }}>
+                    <p className="text-sm font-bold text-gray-700">{goldOptions.find(g => g.id === selectedGold)?.name} — <span style={{ color: '#C99A32' }}>₺{getSelectedPrice().toLocaleString()}</span></p>
                   </div>
 
                   <div className="mb-5">
                     <p className="text-xs text-gray-400 mb-2">Mesaj bırakmak ister misin?</p>
-                    <button onClick={() => { handleCloseModal(); /* focus tebrik input */ }} className="inline-flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full transition-all hover:scale-105" style={{ color: '#A08530', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.12)' }}>
+                    <button onClick={() => { handleCloseModal(); /* focus tebrik input */ }} className="inline-flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full transition-all hover:scale-105" style={{ color: '#B96570', background: 'rgba(201,111,120,0.09)', border: '1px solid rgba(201,111,120,0.14)' }}>
                       <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                       Tebrik Mesajı Yaz
                     </button>
                   </div>
 
-                  <button onClick={handleCloseModal} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02]" style={{ background: 'linear-gradient(135deg, #C9A13B, #A8892E)', boxShadow: '0 4px 20px rgba(201,161,59,0.3)' }}>
+                  <button onClick={handleCloseModal} className="w-full text-white py-3.5 rounded-2xl font-semibold text-[15px] transition-all hover:scale-[1.02]" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                     Canlı Yayına Dön
                   </button>
                 </div>
