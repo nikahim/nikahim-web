@@ -315,7 +315,14 @@ export default function WatchPage() {
   const [gallerySortOpen, setGallerySortOpen] = useState(false);
   const [galleryPage, setGalleryPage] = useState(0);
   const galleryScrollRef = useRef<HTMLDivElement | null>(null);
+  const goldCheckoutRef = useRef<HTMLDivElement | null>(null);
   const [photoLightboxIndex, setPhotoLightboxIndex] = useState<number | null>(null);
+  // Altın seçimi yapılınca beliren onay kartını yumuşak görünür kıl (sadece altın sayfası)
+  useEffect(() => {
+    if (!goldPick) return;
+    const t = setTimeout(() => { goldCheckoutRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
+    return () => clearTimeout(t);
+  }, [goldPick]);
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
   const [photoUploaderName, setPhotoUploaderName] = useState('');
   const [photoUploadFiles, setPhotoUploadFiles] = useState<File[]>([]);
@@ -903,7 +910,7 @@ export default function WatchPage() {
     const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A49F9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: `calc(${goldPick ? 150 : 92}px + env(safe-area-inset-bottom))` }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
@@ -943,7 +950,7 @@ export default function WatchPage() {
                 <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: 'rgba(201,154,50,0.10)' }}>
                   {r.id === 'gram_altin'
                     ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>
-                    : <svg viewBox="0 0 24 24" fill="#302927" className="w-[30px] h-[30px]"><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="23" fontWeight="600">₺</text></svg>}
+                    : <span className="relative block" style={{ width: 30, height: 30 }}><Image src="/tl-icon.png" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
@@ -954,6 +961,31 @@ export default function WatchPage() {
             </div>
           ))}
         </div>
+        {/* Seçim yapılınca kartların altında beliren onay kartı (floating bar yerine) */}
+        {goldPick && (() => {
+          const pick = goldPick as string;
+          const g = goldOptions.find(x => x.id === pick);
+          const isNakit = pick === 'nakit';
+          const img = isNakit ? '/tl-icon.png' : (pick === 'gram_altin' ? '/altintakgram.png' : '/ata-altin.png');
+          return (
+            <div ref={goldCheckoutRef} className="mt-3" style={{ padding: '14px 15px', background: 'rgba(255,255,255,0.94)', border: '1.5px solid rgba(201,111,120,0.32)', borderRadius: 20, boxShadow: '0 12px 30px rgba(201,111,120,0.12)' }}>
+              <div className="flex items-center mb-3.5" style={{ gap: 12 }}>
+                <span className="relative flex-shrink-0" style={{ width: 46, height: 46, borderRadius: 13, background: 'rgba(201,154,50,0.10)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 6 }} /></span>
+                <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: '#B96570', letterSpacing: '0.4px' }}>SEÇİMİNİZ</span>
+                  <strong style={{ fontSize: 15.5, fontWeight: 600, color: '#302927', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{isNakit ? 'Özel Miktar' : `${g?.name} · ₺${(g?.price || 0).toLocaleString()}`}</strong>
+                </div>
+              </div>
+              <div className="grid" style={{ gridTemplateColumns: 'auto 1fr', gap: 9 }}>
+                <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 50, padding: '0 18px', borderRadius: 15, background: 'transparent', border: '1px solid rgba(60,45,41,0.14)', color: '#8A8280', fontSize: 14, fontWeight: 500 }}>Vazgeç</button>
+                <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 50, borderRadius: 15, background: '#C96F78', fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
+                  Devam Et
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
+                </button>
+              </div>
+            </div>
+          );
+        })()}
       </section>
     );
   };
@@ -3047,13 +3079,11 @@ export default function WatchPage() {
               )}
 
               {/* Fullscreen toggle button */}
-              <button onClick={() => { const next = !isFullscreen; try { if (next) (screen.orientation as any)?.lock?.('landscape').catch(() => {}); else (screen.orientation as any)?.unlock?.(); } catch {} startTransition(() => { setIsFullscreen(next); if (!next) { setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); } }); }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
-                {isFullscreen ? (
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
-                ) : (
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
-                )}
+              {!isFullscreen && (
+              <button aria-label="Tam ekran" onClick={() => { try { (screen.orientation as any)?.lock?.('landscape').catch(() => {}); } catch {} startTransition(() => { setIsFullscreen(true); }); }} className="absolute bottom-3 right-5 z-40 w-9 h-9 rounded-xl flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" /></svg>
               </button>
+              )}
 
               {/* Altın listesi rotation banner KALDIRILDI — kullanıcı isteği üzerine sağ üst boş kaldı,
                   videoNotification (join/gold/message/video/voice) artık aynı pozisyonda görünür */}
@@ -3062,11 +3092,11 @@ export default function WatchPage() {
               {isFullscreen && !fsGoldMode && (
                 <div className="fixed bottom-4 lg:bottom-8 flex items-center gap-1.5 lg:gap-2.5 p-1.5 lg:p-2.5 rounded-[16px] lg:rounded-[20px]" style={{ zIndex: 10001, left: '50%', transform: 'translateX(-50%)', background: 'rgba(20,15,10,0.75)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
                   {/* Altın Tak */}
-                  <button onClick={() => setFsGoldMode(true)} className="flex items-center gap-2 px-4 py-2 lg:px-4 lg:py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'linear-gradient(135deg, rgba(60,45,20,0.9), rgba(40,30,15,0.9))', border: '1px solid rgba(212,175,55,0.2)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
-                    <Image src="/altintak.png" alt="" width={40} height={40} className="w-7 h-7 lg:w-10 lg:h-10 object-contain flex-shrink-0" />
+                  <button onClick={() => setFsGoldMode(true)} className="flex items-center gap-2.5 px-3.5 py-2 lg:px-4 lg:py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'rgba(201,154,50,0.14)', border: '1px solid rgba(201,154,50,0.28)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
+                    <Image src="/wa-altin.png" alt="" width={44} height={44} className="w-8 h-8 lg:w-11 lg:h-11 object-contain flex-shrink-0" />
                     <div className="text-left">
-                      <div className="text-[11px] lg:text-[13px] font-bold whitespace-nowrap" style={{ color: '#E8D5A0' }}>Altın Tak</div>
-                      <div className="text-[8px] lg:text-[10px] whitespace-nowrap" style={{ color: 'rgba(232,213,160,0.5)' }}>Çifte altın gönder</div>
+                      <div className="text-[11px] lg:text-[13px] font-bold whitespace-nowrap" style={{ color: '#EAD79E' }}>Altın Tak</div>
+                      <div className="text-[8px] lg:text-[10px] whitespace-nowrap" style={{ color: 'rgba(234,215,158,0.55)' }}>Çifte altın gönder</div>
                     </div>
                   </button>
                   {/* İzleyici */}
@@ -3091,34 +3121,22 @@ export default function WatchPage() {
                     </button>
                     {/* Tebrik alt menü */}
                     {fsTebrikMenu && (
-                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 flex flex-col gap-2 p-2.5 rounded-2xl animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)', minWidth: '200px' }}>
-                        <button onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel('video'); }} className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(180,70,80,0.12)', border: '1px solid rgba(180,70,80,0.15)' }}>
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(180,70,80,0.15)' }}>
-                            <svg className="w-4 h-4" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
-                          </div>
-                          <div className="text-left">
-                            <div className="text-[12px] font-semibold text-white">Video Tebrik</div>
-                            <div className="text-[10px] text-white/35">30sn video mesaj</div>
-                          </div>
-                        </button>
-                        <button onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel('voice'); }} className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(111,175,207,0.12)', border: '1px solid rgba(111,175,207,0.15)' }}>
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.15)' }}>
-                            <svg className="w-4 h-4" style={{ color: '#8EC8E4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
-                          </div>
-                          <div className="text-left">
-                            <div className="text-[12px] font-semibold text-white">Sesli Tebrik</div>
-                            <div className="text-[10px] text-white/35">Sesli mesaj gönderin</div>
-                          </div>
-                        </button>
-                        <button onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel('message'); }} className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(76,175,80,0.12)', border: '1px solid rgba(76,175,80,0.15)' }}>
-                          <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.15)' }}>
-                            <svg className="w-4 h-4" style={{ color: '#7ED687' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                          </div>
-                          <div className="text-left">
-                            <div className="text-[12px] font-semibold text-white">Tebrik Mesajı</div>
-                            <div className="text-[10px] text-white/35">Yazılı tebrik bırakın</div>
-                          </div>
-                        </button>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 flex flex-col gap-1.5 p-2 rounded-2xl animate-scale-in" style={{ background: 'rgba(20,15,10,0.85)', backdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.1)', boxShadow: '0 12px 40px rgba(0,0,0,0.4)', minWidth: '208px' }}>
+                        {[
+                          { key: 'video' as const, title: 'Video Tebrik', sub: '30 sn video mesaj', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /> },
+                          { key: 'voice' as const, title: 'Sesli Tebrik', sub: 'Sesli mesaj gönderin', icon: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /> },
+                          { key: 'message' as const, title: 'Yazılı Tebrik', sub: 'Yazılı tebrik bırakın', icon: <><rect x="3" y="4.5" width="18" height="13.5" rx="2.5" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M7.5 9.5h9M7.5 13h5.5" /></> },
+                        ].map((it) => (
+                          <button key={it.key} onClick={() => { setFsTebrikMenu(false); setFsTebrikPanel(it.key); }} className="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all hover:scale-[1.02]" style={{ background: 'rgba(201,111,120,0.10)', border: '1px solid rgba(201,111,120,0.16)' }}>
+                            <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(201,111,120,0.16)' }}>
+                              <svg className="w-[18px] h-[18px]" style={{ color: '#E79AA1' }} fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">{it.icon}</svg>
+                            </div>
+                            <div className="text-left">
+                              <div className="text-[12.5px] font-semibold text-white">{it.title}</div>
+                              <div className="text-[10px] text-white/35">{it.sub}</div>
+                            </div>
+                          </button>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -3132,6 +3150,10 @@ export default function WatchPage() {
                       )}
                     </button>
                   )}
+                  {/* Tam ekrandan çık — bar içinde, kaybolmaz; çıkınca otomatik dikey */}
+                  <button aria-label="Tam ekrandan çık" onClick={() => { try { (screen.orientation as any)?.lock?.('portrait').then(() => setTimeout(() => { try { (screen.orientation as any)?.unlock?.(); } catch {} }, 600)).catch(() => {}); } catch {} startTransition(() => { setIsFullscreen(false); setFsTebrikMenu(false); setFsTebrikPanel(null); setFsGoldMode(false); }); }} className="w-[40px] h-[40px] lg:w-[52px] lg:h-[52px] rounded-2xl flex items-center justify-center transition-all hover:scale-[1.08]" style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                    <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" /></svg>
+                  </button>
                 </div>
               )}
               {/* Fullscreen altın seçim modu */}
@@ -4346,34 +4368,6 @@ export default function WatchPage() {
         </div>
       )}
 
-      {/* Mobil Altın Tak — checkout bar (seçim varken, alt bar'ın üstünde) */}
-      {activeMobileTab === 'altin' && !showActionChooser && goldPick && (() => {
-        const pick = goldPick as string;
-        const g = goldOptions.find(x => x.id === pick);
-        const isNakit = pick === 'nakit';
-        const img = isNakit ? '/altintaklira.png' : (pick === 'gram_altin' ? '/altintakgram.png' : '/ata-altin.png');
-        return (
-          <div className="lg:hidden fixed left-1/2 -translate-x-1/2 z-40" style={{ bottom: 'calc(104px + env(safe-area-inset-bottom))', width: 'calc(100% - 40px)', maxWidth: 620 }}>
-            <div className="flex items-center justify-between" style={{ gap: 10, padding: '9px 10px 9px 15px', minHeight: 76, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(60,45,41,0.06)', borderRadius: 22, boxShadow: '0 8px 24px rgba(63,44,39,0.045)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
-              <div className="flex items-center min-w-0" style={{ gap: 11 }}>
-                <span className="relative flex-shrink-0" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(201,154,50,0.09)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 5 }} /></span>
-                <div className="min-w-0 flex flex-col" style={{ gap: 2 }}>
-                  <strong style={{ fontSize: 14, fontWeight: 600, color: '#302927', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{isNakit ? 'Özel Miktar' : g?.name}</strong>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#C99A32', whiteSpace: 'nowrap' }}>{isNakit ? 'Siz belirleyin' : `₺${(g?.price || 0).toLocaleString()}`}</span>
-                </div>
-              </div>
-              <div className="flex items-center flex-shrink-0" style={{ gap: 6 }}>
-                <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 46, padding: '0 11px', borderRadius: 13, background: 'transparent', color: '#8A8280', fontSize: 13, fontWeight: 500 }}>Vazgeç</button>
-                <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 46, minWidth: 124, padding: '0 15px', borderRadius: 14, background: '#C96F78', fontSize: 14, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 4px 12px rgba(201,111,120,0.13)' }}>
-                  Devam Et
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        );
-      })()}
-
       {/* Mobil floating bottom nav — glass/ivory yüzey, taupe active, rose sadece ikon+yazı */}
       <nav aria-label="Davetli menüsü" className={`lg:hidden fixed left-1/2 -translate-x-1/2 z-[60] ${showActionChooser ? 'hidden' : ''}`}
            style={{ bottom: 'calc(10px + env(safe-area-inset-bottom))', width: 'calc(100% - 28px)', maxWidth: 640, height: 76, display: showActionChooser ? 'none' : 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 4, padding: 6, background: 'rgba(255,253,251,0.90)', border: '1px solid rgba(88,69,62,0.065)', borderRadius: 27, boxShadow: '0 12px 32px rgba(70,50,44,0.065), 0 2px 8px rgba(70,50,44,0.025)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
@@ -4397,7 +4391,7 @@ export default function WatchPage() {
 
       {/* Photo Gallery Popup */}
       {showPhotoGallery && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowPhotoGallery(false)} style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 pt-4" onClick={() => setShowPhotoGallery(false)} style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)', paddingBottom: 'calc(104px + env(safe-area-inset-bottom))' }}>
           <div className="rounded-3xl max-w-xl w-full max-h-[88vh] overflow-hidden relative flex flex-col" onClick={(e) => e.stopPropagation()} style={{ background: 'rgba(255,253,251,0.98)', boxShadow: '0 24px 70px rgba(63,44,39,0.22)', border: '1px solid rgba(60,45,41,0.07)' }}>
             <button onClick={() => setShowPhotoGallery(false)} aria-label="Kapat" className="absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -4409,7 +4403,7 @@ export default function WatchPage() {
               const perPage = 6;
               const pageCount = Math.max(1, Math.ceil(sorted.length / perPage));
               const pages = Array.from({ length: pageCount }, (_, p) => sorted.slice(p * perPage, (p + 1) * perPage));
-              const sortLabels = { newest: 'En yeni', oldest: 'İlk yüklenen', liked: 'En beğenilen' } as const;
+              const sortLabels = { newest: 'En Yeni', oldest: 'En Eski', liked: 'En Beğenilen' } as const;
               const applySort = (s: 'newest' | 'oldest' | 'liked') => { setGallerySort(s); setGallerySortOpen(false); setGalleryPage(0); if (galleryScrollRef.current) galleryScrollRef.current.scrollLeft = 0; };
               return (
                 <>
@@ -4428,7 +4422,7 @@ export default function WatchPage() {
                           <>
                             <div className="fixed inset-0 z-10" onClick={() => setGallerySortOpen(false)} />
                             <div className="absolute right-0 z-20 w-[168px] rounded-2xl overflow-hidden" style={{ top: 'calc(100% + 6px)', background: '#FFFCFA', border: '1px solid rgba(60,45,41,0.10)', boxShadow: '0 12px 34px rgba(63,44,39,0.16)' }}>
-                              {([['liked', 'En beğenilen'], ['newest', 'En yeni yüklenen'], ['oldest', 'İlk yüklenen']] as const).map(([key, lbl]) => (
+                              {([['newest', 'En Yeni'], ['oldest', 'En Eski'], ['liked', 'En Beğenilen']] as const).map(([key, lbl]) => (
                                 <button key={key} onClick={() => applySort(key)} className="w-full flex items-center justify-between px-3.5 py-2.5 text-left text-[13px] transition-colors" style={{ color: gallerySort === key ? '#B4535C' : '#4A4340', fontWeight: gallerySort === key ? 600 : 500, background: gallerySort === key ? 'rgba(201,111,120,0.07)' : 'transparent' }}>
                                   <span>{lbl}</span>
                                   {gallerySort === key && <svg className="w-4 h-4" fill="none" stroke="#C96F78" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
@@ -4922,8 +4916,8 @@ export default function WatchPage() {
             </button>
             <div className="p-7">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.09)' }}>
-                  <svg className="w-5.5 h-5.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.10)' }}>
+                  <svg className="w-[22px] h-[22px]" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="13.5" rx="2.5" /><path d="M7.5 9.5h9M7.5 13h5.5" /></svg>
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">Yazılı Tebrik</h2>
