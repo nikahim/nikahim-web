@@ -863,7 +863,7 @@ export default function WatchPage() {
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1 pb-10">
         {/* Header — sparkle'lı kalp + serif ince başlık + accent çizgi (kompakt) */}
-        <div className="flex flex-col items-center text-center mb-[26px]">
+        <div className="flex flex-col items-center text-center mb-[18px]">
           <h2 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Büyük günün bir parçası olun</h2>
           <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
             <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
@@ -900,7 +900,7 @@ export default function WatchPage() {
     const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#9B9491" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: `calc(${goldPick ? 172 : 104}px + env(safe-area-inset-bottom))` }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
@@ -919,12 +919,12 @@ export default function WatchPage() {
               const sel = goldPick === g.id;
               const popular = g.id === 'yarim_altin';
               return (
-                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(182px,50vw,205px)', padding: '20px 6px 14px', borderRadius: 19, border: sel ? '1.5px solid rgba(201,154,50,0.82)' : '1px solid rgba(60,45,41,0.075)', background: sel ? 'linear-gradient(180deg, rgba(255,255,255,0.94), rgba(201,154,50,0.035))' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 7px 22px rgba(201,154,50,0.08)' : '0 5px 16px rgba(55,40,35,0.025)' }}>
-                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -10, padding: '4px 9px', borderRadius: 999, background: '#F6E8C7', color: '#B88724', fontSize: 'clamp(9px,2.5vw,10px)', fontWeight: 600, lineHeight: 1, boxShadow: '0 2px 6px rgba(130,90,20,0.06)' }}>En çok tercih edilen</span>}
-                  <span style={{ minHeight: 20, fontSize: 'clamp(12px,3.4vw,14px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.25 }}>{g.name}</span>
-                  <img src="/ata-altin.png" alt="" style={{ width: 'clamp(54px,15.5vw,66px)', height: 'clamp(54px,15.5vw,66px)', objectFit: 'contain', margin: '15px 0 12px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
-                  <strong style={{ marginTop: 'auto', fontSize: 'clamp(13.5px,3.9vw,16px)', fontWeight: 600, color: sel ? gold : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
-                  <span className="grid place-items-center rounded-full mt-3" style={{ width: 19, height: 19, border: sel ? `2px solid ${gold}` : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 9, height: 9, borderRadius: 999, background: gold }} />}</span>
+                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(166px,46vw,190px)', padding: '15px 6px 12px', borderRadius: 18, border: sel ? `1.5px solid ${gold}` : '1px solid #ECE8E4', background: sel ? 'linear-gradient(180deg, rgba(255,255,255,0.96), rgba(201,154,50,0.04))' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 7px 20px rgba(201,154,50,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: '3px 8px', borderRadius: 999, background: '#F6E8C7', color: '#B88724', fontSize: 'clamp(8px,2.3vw,9.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
+                  <span style={{ minHeight: 20, fontSize: 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.25 }}>{g.name}</span>
+                  <img src="/ata-altin.png" alt="" style={{ width: 'clamp(48px,14vw,58px)', height: 'clamp(48px,14vw,58px)', objectFit: 'contain', margin: '13px 0 10px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <strong style={{ marginTop: 'auto', fontSize: 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? gold : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
+                  <span className="grid place-items-center rounded-full mt-2.5" style={{ width: 21, height: 21, border: sel ? `2px solid ${gold}` : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 11, height: 11, borderRadius: 999, background: gold }} />}</span>
                 </button>
               );
             })}
@@ -952,16 +952,6 @@ export default function WatchPage() {
             </div>
           ))}
         </div>
-        {/* Güvenli banka transferi */}
-        <div className="mt-4 flex items-center" style={{ gap: 14, padding: '16px 18px', border: '1px solid rgba(60,45,41,0.06)', borderRadius: 21, background: 'rgba(255,255,255,0.68)', boxShadow: '0 7px 22px rgba(63,44,39,0.025)' }}>
-          <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 42, height: 42, background: 'rgba(201,111,120,0.09)', color: rose }}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
-          </span>
-          <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
-            <strong style={{ color: '#302927', fontSize: 14, fontWeight: 600 }}>Güvenli banka transferi</strong>
-            <span style={{ color: '#89817E', fontSize: 12.5, lineHeight: 1.4 }}>Ödeme doğrudan çiftin hesabına gönderilir.</span>
-          </div>
-        </div>
       </section>
     );
   };
@@ -979,7 +969,7 @@ export default function WatchPage() {
       { id: 'text', title: 'Yazılı Tebrik', desc: 'Bir tebrik mesajı yazın.', icon: icYazi, count: messages.length, on: () => setShowMessageModal(true) },
     ];
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(104px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Altın Tak ile aynı) */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Tebrik Et</h1>
@@ -990,7 +980,7 @@ export default function WatchPage() {
           </div>
         </div>
         {/* Panel */}
-        <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
+        <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingTop: 6, paddingBottom: 8, background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           {rows.map((r, idx) => (
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 'clamp(62px,18vw,73px)', marginRight: 10, background: 'rgba(60,45,41,0.065)' }} />}
@@ -1002,7 +992,7 @@ export default function WatchPage() {
                   <strong style={{ color: '#302927', fontSize: 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.22 }}>{r.title}</strong>
                   <span style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.4 }}>{r.desc}</span>
                 </span>
-                <span className="grid place-items-center rounded-full" style={{ minWidth: 30, height: 30, padding: '0 8px', background: 'rgba(201,111,120,0.075)', color: rose, fontSize: 12, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
+                <span className="grid place-items-center rounded-full" style={{ minWidth: 27, height: 27, padding: '0 7px', background: 'rgba(201,111,120,0.07)', color: rose, fontSize: 11.5, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
                 {chev}
               </button>
             </div>
@@ -1029,7 +1019,7 @@ export default function WatchPage() {
     const count = photos.length;
     const openAdd = () => { setPhotoUploaderName(viewerName); setPhotoTab('add'); setShowPhotoUpload(true); };
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(104px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Tebrik/Altın ile aynı) */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Albüm</h1>
@@ -1059,10 +1049,19 @@ export default function WatchPage() {
                 <img src={photos[0]} alt="" className="absolute left-1/2 -translate-x-1/2 object-cover" style={{ top: 0, zIndex: 3, width: '43%', height: 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 10px 24px rgba(55,39,34,0.11)' }} />
               </div>
               {/* Thumbnail satırı */}
-              <div className="grid grid-cols-5 mt-2 mb-[18px]" style={{ gap: 8 }}>
-                {photos.slice(0, 5).map((u, i) => (
-                  <img key={i} src={u} alt="" className="w-full object-cover" style={{ aspectRatio: '1.35 / 1', borderRadius: 10, border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }} />
-                ))}
+              <div className="grid grid-cols-4 mt-2 mb-[16px]" style={{ gap: 8 }}>
+                {photos.slice(0, 4).map((u, i) => {
+                  const isLast = i === 3;
+                  const more = count - 4;
+                  return (
+                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: '1.35 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
+                      <img src={u} alt="" className="w-full h-full object-cover" />
+                      {isLast && more > 0 && (
+                        <span className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(46,40,38,0.52)', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '0.2px' }}>+{more}</span>
+                      )}
+                    </button>
+                  );
+                })}
               </div>
             </>
           ) : (
@@ -4360,7 +4359,7 @@ export default function WatchPage() {
           return (
             <button key={tab.id} onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-current={isActive ? 'page' : undefined}
                     className="relative flex flex-col items-center justify-center rounded-[19px] transition-all active:scale-[0.97]"
-                    style={{ gap: 4, background: isActive ? 'rgba(240,235,231,0.82)' : 'transparent', color: isActive ? '#B96570' : '#928B88' }}>
+                    style={{ gap: 4, background: isActive ? 'rgba(240,235,231,0.92)' : 'transparent', color: isActive ? '#B96570' : '#928B88' }}>
               <span className="block" style={{ width: 23, height: 23 }}>{tab.icon}</span>
               <span style={{ fontSize: 11.5, fontWeight: isActive ? 650 : 550, lineHeight: 1, letterSpacing: '-0.05px' }}>{tab.label}</span>
             </button>
