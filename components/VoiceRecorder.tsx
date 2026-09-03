@@ -181,7 +181,7 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
       {/* Idle - başlat */}
       {state === 'idle' && (
         <div className="text-center py-4">
-          <button onClick={startRecording} className="w-20 h-20 rounded-full flex items-center justify-center mx-auto transition-all hover:scale-110 active:scale-95" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 6px 24px rgba(111,175,207,0.35)' }}>
+          <button onClick={startRecording} className="w-20 h-20 rounded-full flex items-center justify-center mx-auto transition-all hover:scale-110 active:scale-95" style={{ background: '#C96F78', boxShadow: '0 6px 24px rgba(201,111,120,0.35)' }}>
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
           </button>
           <p className={`mt-3 ${embedded ? 'text-white/40 text-[11px]' : 'text-gray-400 text-xs'}`}>Kayda başlamak için mikrofona dokunun</p>
@@ -203,7 +203,7 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
           <div className="flex items-center justify-center gap-1 mt-3 h-8">
             {[...Array(20)].map((_, i) => (
               <div key={i} className="w-1 rounded-full" style={{
-                background: embedded ? 'rgba(111,175,207,0.6)' : '#6FAFCF',
+                background: embedded ? 'rgba(201,111,120,0.6)' : '#C96F78',
                 height: `${Math.random() * 24 + 8}px`,
                 animation: `waveBar 0.5s ease-in-out ${i * 0.05}s infinite alternate`,
               }} />
@@ -215,8 +215,8 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
       {/* Recorded - preview */}
       {state === 'recorded' && (
         <div className="py-3">
-          <div className={`flex items-center gap-3 rounded-xl p-3 ${embedded ? '' : ''}`} style={{ background: embedded ? 'rgba(255,255,255,0.06)' : 'rgba(111,175,207,0.06)', border: `1px solid ${embedded ? 'rgba(255,255,255,0.08)' : 'rgba(111,175,207,0.12)'}` }}>
-            <button onClick={togglePlayback} className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center transition-all hover:scale-110" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)' }}>
+          <div className={`flex items-center gap-3 rounded-xl p-3 ${embedded ? '' : ''}`} style={{ background: embedded ? 'rgba(255,255,255,0.06)' : 'rgba(201,111,120,0.06)', border: `1px solid ${embedded ? 'rgba(255,255,255,0.08)' : 'rgba(201,111,120,0.12)'}` }}>
+            <button onClick={togglePlayback} className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center transition-all hover:scale-110" style={{ background: '#C96F78' }}>
               {isPlaying ? (
                 <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg>
               ) : (
@@ -227,7 +227,7 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
               <div className="flex items-center gap-1 h-6">
                 {[...Array(30)].map((_, i) => (
                   <div key={i} className="w-[3px] rounded-full" style={{
-                    background: embedded ? 'rgba(111,175,207,0.5)' : '#6FAFCF',
+                    background: embedded ? 'rgba(201,111,120,0.5)' : '#C96F78',
                     height: `${Math.random() * 16 + 4}px`,
                   }} />
                 ))}
@@ -239,7 +239,7 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
             <button onClick={retake} className={`flex-1 py-2.5 rounded-xl font-semibold text-[12px] transition-all hover:scale-[1.02] ${embedded ? 'text-white/70' : 'text-gray-600'}`} style={{ background: embedded ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.04)' }}>
               Tekrar Kaydet
             </button>
-            <button onClick={uploadVoice} className="flex-1 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02]" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)', boxShadow: '0 4px 16px rgba(111,175,207,0.25)' }}>
+            <button onClick={uploadVoice} className="flex-1 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02]" style={{ background: '#C96F78', boxShadow: '0 4px 16px rgba(201,111,120,0.25)' }}>
               Gönder
             </button>
           </div>
@@ -249,8 +249,8 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
       {/* Uploading */}
       {state === 'uploading' && (
         <div className="text-center py-6">
-          <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.1)' }}>
-            <svg className="w-6 h-6 animate-spin" style={{ color: '#6FAFCF' }} fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+          <div className="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.1)' }}>
+            <svg className="w-6 h-6 animate-spin" style={{ color: '#C96F78' }} fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
           </div>
           <p className={`text-sm font-medium ${embedded ? 'text-white' : 'text-gray-700'}`}>Gönderiliyor...</p>
         </div>
@@ -270,7 +270,7 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
       {state === 'error' && (
         <div className="text-center py-4">
           <p className={`text-sm mb-3 ${embedded ? 'text-red-300' : 'text-red-500'}`}>{errorMessage}</p>
-          <button onClick={() => { setState('idle'); setErrorMessage(''); }} className="px-4 py-2 rounded-xl text-xs font-semibold text-white" style={{ background: 'linear-gradient(135deg, #85C4DE, #6FAFCF)' }}>
+          <button onClick={() => { setState('idle'); setErrorMessage(''); }} className="px-4 py-2 rounded-xl text-xs font-semibold text-white" style={{ background: '#C96F78' }}>
             Tekrar Dene
           </button>
         </div>
@@ -282,14 +282,14 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
-      <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, rgba(240,248,255,0.97), rgba(230,244,254,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.12)', border: '1px solid rgba(111,175,207,0.12)' }}>
+      <div className="rounded-3xl max-w-sm w-full overflow-hidden relative" style={{ background: 'rgba(255,253,251,0.97)', boxShadow: '0 24px 70px rgba(63,44,39,0.16)', border: '1px solid rgba(60,45,41,0.07)' }}>
         <button onClick={() => { cleanup(); onClose(); }} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
         <div className="p-6 pb-3">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(111,175,207,0.08)' }}>
-              <svg className="w-5 h-5" style={{ color: '#6FAFCF' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.08)' }}>
+              <svg className="w-5 h-5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>
             </div>
             <div>
               <h3 className="text-lg font-bold text-gray-900">Sesli Tebrik</h3>

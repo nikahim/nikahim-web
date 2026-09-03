@@ -442,7 +442,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
               <button
                 onClick={uploadVideo}
                 className={`flex-1 text-white py-2.5 rounded-xl font-semibold ${embedded ? 'text-[12px]' : ''}`}
-                style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)' }}
+                style={{ background: '#C96F78' }}
               >
                 Gönder
               </button>
