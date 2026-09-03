@@ -898,7 +898,7 @@ export default function WatchPage() {
     const gold = '#C99A32', rose = '#C96F78', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
     const coins = goldOptions.filter(g => ['ceyrek_altin', 'yarim_altin', 'tam_altin'].includes(g.id));
     const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
-    const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#9B9491" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
+    const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A49F9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: `calc(${goldPick ? 172 : 104}px + env(safe-area-inset-bottom))` }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
@@ -919,12 +919,12 @@ export default function WatchPage() {
               const sel = goldPick === g.id;
               const popular = g.id === 'yarim_altin';
               return (
-                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(166px,46vw,190px)', padding: '15px 6px 12px', borderRadius: 18, border: sel ? `1.5px solid ${gold}` : '1px solid #ECE8E4', background: sel ? 'linear-gradient(180deg, rgba(255,255,255,0.96), rgba(201,154,50,0.04))' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 7px 20px rgba(201,154,50,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
-                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: '3px 8px', borderRadius: 999, background: '#F6E8C7', color: '#B88724', fontSize: 'clamp(8px,2.3vw,9.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
+                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(154px,43vw,176px)', padding: '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
                   <span style={{ minHeight: 20, fontSize: 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.25 }}>{g.name}</span>
-                  <img src="/ata-altin.png" alt="" style={{ width: 'clamp(48px,14vw,58px)', height: 'clamp(48px,14vw,58px)', objectFit: 'contain', margin: '13px 0 10px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
-                  <strong style={{ marginTop: 'auto', fontSize: 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? gold : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
-                  <span className="grid place-items-center rounded-full mt-2.5" style={{ width: 21, height: 21, border: sel ? `2px solid ${gold}` : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 11, height: 11, borderRadius: 999, background: gold }} />}</span>
+                  <img src="/ata-altin.png" alt="" style={{ width: 'clamp(46px,13.5vw,56px)', height: 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <strong style={{ marginTop: 'auto', fontSize: 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
+                  <span className="grid place-items-center rounded-full mt-2.5" style={{ width: 21, height: 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 11, height: 11, borderRadius: 999, background: '#C96F78' }} />}</span>
                 </button>
               );
             })}
@@ -959,7 +959,7 @@ export default function WatchPage() {
   // Mobil Tebrik Et — Altın Tak ile aynı design system (masaüstü ayrı, dokunulmadı)
   const renderTebrikMobile = () => {
     const rose = '#C96F78', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
-    const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#8D8784" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
+    const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A8A39E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     const icVideo = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>;
     const icSes = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>;
     const icYazi = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect x="3" y="4.5" width="18" height="13.5" rx="2.5" /><path d="M7.5 9.5h9M7.5 13h5.5" /></svg>;
@@ -998,14 +998,14 @@ export default function WatchPage() {
             </div>
           ))}
         </div>
-        {/* Trust */}
-        <div className="mt-4 flex items-center" style={{ gap: 13, padding: '14px 16px', border: '1px solid rgba(60,45,41,0.055)', borderRadius: 20, background: 'rgba(255,255,255,0.68)', boxShadow: '0 7px 20px rgba(63,44,39,0.025)' }}>
-          <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 40, height: 40, background: 'rgba(201,111,120,0.09)', color: rose }}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-[20px] h-[20px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
+        {/* Trust — kompakt */}
+        <div className="mt-4 flex items-center" style={{ gap: 12, padding: '11px 15px', border: '1px solid rgba(60,45,41,0.055)', borderRadius: 18, background: 'rgba(255,255,255,0.68)', boxShadow: '0 6px 18px rgba(63,44,39,0.022)' }}>
+          <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 36, height: 36, background: 'rgba(201,111,120,0.09)', color: rose }}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
           </span>
-          <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
-            <strong style={{ color: '#302927', fontSize: 13.5, fontWeight: 600, lineHeight: 1.3 }}>Mesajınız çifte özel olarak iletilir</strong>
-            <span style={{ color: '#77706D', fontSize: 12, lineHeight: 1.4 }}>Tebriklerinizi dilediğiniz zaman bırakabilirsiniz.</span>
+          <div className="min-w-0 flex flex-col" style={{ gap: 2 }}>
+            <strong style={{ color: '#302927', fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>Mesajınız yalnızca çifte iletilir</strong>
+            <span style={{ color: '#77706D', fontSize: 11.5, lineHeight: 1.4 }}>Tebriğinizi dilediğiniz zaman bırakabilirsiniz.</span>
           </div>
         </div>
       </section>
@@ -1044,9 +1044,34 @@ export default function WatchPage() {
             <>
               {/* Öne çıkan kolaj */}
               <div className="relative w-full" style={{ height: 200, marginTop: 2 }}>
-                {photos[1] && <img src={photos[1]} alt="" className="absolute object-cover" style={{ left: '8%', top: 28, width: '36%', height: 150, transform: 'rotate(-6deg)', border: '3px solid #fff', borderRadius: 15, boxShadow: '0 8px 18px rgba(55,39,34,0.08)' }} />}
-                {photos[2] && <img src={photos[2]} alt="" className="absolute object-cover" style={{ right: '8%', top: 28, width: '36%', height: 150, transform: 'rotate(6deg)', border: '3px solid #fff', borderRadius: 15, boxShadow: '0 8px 18px rgba(55,39,34,0.08)' }} />}
-                <img src={photos[0]} alt="" className="absolute left-1/2 -translate-x-1/2 object-cover" style={{ top: 0, zIndex: 3, width: '43%', height: 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 10px 24px rgba(55,39,34,0.11)' }} />
+                <style>{`
+                  @keyframes albFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+                  @keyframes albFloatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
+                  @media (prefers-reduced-motion: reduce){ .alb-float{animation:none!important} }
+                `}</style>
+                {photos[1] && (
+                  <div className="alb-float absolute" style={{ left: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite' }}>
+                    <div className="relative" style={{ transform: 'rotate(-5deg)' }}>
+                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[1]] || 0}</span></span>
+                    </div>
+                  </div>
+                )}
+                {photos[2] && (
+                  <div className="alb-float absolute" style={{ right: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite', animationDelay: '0.7s' }}>
+                    <div className="relative" style={{ transform: 'rotate(5deg)' }}>
+                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[2]] || 0}</span></span>
+                    </div>
+                  </div>
+                )}
+                <div className="alb-float absolute" style={{ left: '50%', top: 0, zIndex: 3, width: '43%', animation: 'albFloatC 4.6s ease-in-out infinite' }}>
+                  <div className="relative">
+                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
+                    <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[0]] || 0}</span></span>
+                    <span className="absolute flex items-center" style={{ top: 8, right: 8, gap: 4, padding: '4px 7px', borderRadius: 999, background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 6px rgba(55,40,32,0.14)' }}><svg viewBox="0 0 24 24" fill="none" stroke="#9F4F58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]"><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg><span style={{ fontSize: 9, fontWeight: 700, color: '#9F4F58', lineHeight: 1 }}>Baskıya Gönder</span></span>
+                  </div>
+                </div>
               </div>
               {/* Thumbnail satırı */}
               <div className="grid grid-cols-4 mt-2 mb-[16px]" style={{ gap: 8 }}>
