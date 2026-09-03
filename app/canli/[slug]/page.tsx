@@ -4526,10 +4526,7 @@ export default function WatchPage() {
 
       {showPaymentModal && selectedGold && (
         <div className="nikahim-payment-modal-content fixed inset-0 flex items-center justify-center p-4" style={{ zIndex: 10000, background: 'rgba(30,25,15,0.6)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
-          <div className="rounded-[24px] max-w-[420px] w-full max-h-[calc(100dvh-1.5rem)] overflow-y-auto overflow-x-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(255,252,245,0.95), rgba(248,243,232,0.92))', backdropFilter: 'blur(40px)', WebkitBackdropFilter: 'blur(40px)', boxShadow: '0 30px 90px rgba(0,0,0,0.25), 0 0 0 1px rgba(212,175,55,0.08) inset, 0 1px 0 rgba(255,255,255,0.5) inset' }}>
-            {/* Decorative shimmer */}
-            <div className="absolute top-0 left-0 right-0 h-32 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }} />
-            <div className="absolute top-0 right-0 w-48 h-48 rounded-full blur-3xl opacity-[0.06] pointer-events-none" style={{ background: '#D4AF37' }} />
+          <div className="rounded-[24px] max-w-[420px] w-full max-h-[calc(100dvh-1.5rem)] overflow-y-auto overflow-x-hidden relative" onClick={(e) => e.stopPropagation()} style={{ background: 'rgba(255,253,251,0.97)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', boxShadow: '0 24px 70px rgba(63,44,39,0.18), 0 2px 8px rgba(63,44,39,0.05), 0 0 0 1px rgba(60,45,41,0.05) inset' }}>
 
             {/* Close button */}
             <button onClick={handleCloseModal} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
