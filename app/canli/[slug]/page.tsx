@@ -311,6 +311,10 @@ export default function WatchPage() {
   const [showReturningModal, setShowReturningModal] = useState(false);
   const [showCopiedToast, setShowCopiedToast] = useState(false);
   const [showPhotoGallery, setShowPhotoGallery] = useState(false);
+  const [gallerySort, setGallerySort] = useState<'newest' | 'oldest' | 'liked'>('newest');
+  const [gallerySortOpen, setGallerySortOpen] = useState(false);
+  const [galleryPage, setGalleryPage] = useState(0);
+  const galleryScrollRef = useRef<HTMLDivElement | null>(null);
   const [photoLightboxIndex, setPhotoLightboxIndex] = useState<number | null>(null);
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
   const [photoUploaderName, setPhotoUploaderName] = useState('');
@@ -850,15 +854,14 @@ export default function WatchPage() {
   // Mobil ilk-giriş aksiyon seçimi (3 kart): Tebrik · Altın · Albüm — hero altında, alt bar gizliyken
   const renderWelcomeActions = () => {
     const rose = '#C96F78', gold = '#C99A32', serif = 'var(--font-playfair), Georgia, "Times New Roman", serif';
-    const roseTint = 'rgba(201,111,120,0.105)', goldTint = 'rgba(201,154,50,0.105)';
-    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M12 20.6c5.1 0 9.2-3.78 9.2-8.45S17.1 3.7 12 3.7 2.8 7.48 2.8 12.15c0 2.15.88 4.11 2.32 5.6.44.46.76 1.06.6 1.68a4.6 4.6 0 01-.94 1.83A6.1 6.1 0 005.9 21.4c1.31 0 2.53-.41 3.52-1.11.83.22 1.7.31 2.58.31z" /><path d="M12 15.15c-1.85-1.4-3.6-2.55-3.6-4.28 0-.98.78-1.68 1.74-1.68.68 0 1.32.4 1.86 1.08.54-.68 1.18-1.08 1.86-1.08.96 0 1.74.7 1.74 1.68 0 1.73-1.75 2.88-3.6 4.28z" fill="currentColor" stroke="none" /></svg>;
-    // Altın Tak — sade madalya ikonu (%20 büyük)
-    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8.3 9.4L6.3 2.7h3.9L12 5.7l1.8-3h3.9L15.7 9.4" /><circle cx="12" cy="14.8" r="6.4" /><circle cx="12" cy="14.8" r="2.3" /></svg>;
-    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M2.25 15.75l5.16-5.16a2.25 2.25 0 013.18 0l5.16 5.16m-1.5-1.5l1.41-1.41a2.25 2.25 0 013.18 0l2.91 2.91M4.5 19.5h15a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5h-15A1.5 1.5 0 003 6v12a1.5 1.5 0 001.5 1.5zm10.13-11.25a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>;
+    // Nikahım özel flat ikon ailesi — zarf+kalp / coin+₺ / üst-üste foto+kalp (1.7px stroke, ortak yoğunluk)
+    const icTebrik = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><rect x="3" y="5.5" width="18" height="13" rx="2.3" /><path d="M3.7 7l7.1 5a2 2 0 002.4 0l7.1-5" /><path d="M12 16.3c-1.15-.9-2.3-1.6-2.3-2.68 0-.62.5-1.08 1.12-1.08.44 0 .85.25 1.18.7.33-.45.74-.7 1.18-.7.62 0 1.12.46 1.12 1.08 0 1.08-1.15 1.78-2.3 2.68z" fill="currentColor" stroke="none" /></svg>;
+    const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.4" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>;
+    const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8 5h9.6a1.4 1.4 0 011.4 1.4V16" /><rect x="3.5" y="7.6" width="12.8" height="10.9" rx="2" /><circle cx="7" cy="11" r="1.05" /><path d="M4 17.2l3.1-2.7 2.1 1.7 3-2.4 3.6 3" /><path d="M18.4 17.6c-.82-.64-1.64-1.14-1.64-1.9 0-.45.36-.78.8-.78.32 0 .6.18.84.5.24-.32.52-.5.84-.5.44 0 .8.33.8.78 0 .76-.82 1.26-1.64 1.9z" fill="currentColor" stroke="none" /></svg>;
     const items = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: roseTint, tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, accent: gold, tint: goldTint, tab: 'altin' as const },
-      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: roseTint, tab: 'album' as const },
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
+      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
     ];
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1 pb-10">
@@ -876,9 +879,9 @@ export default function WatchPage() {
           {items.map((it, i) => (
             <div key={it.title}>
               {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(70px,20.5vw,83px)', marginRight: 'clamp(16px,4.8vw,18px)', background: 'rgba(60,45,41,0.07)' }} />}
-              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(48px,13.5vw,52px) minmax(0,1fr) 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(86px,24vw,96px)', padding: 'clamp(13px,4vw,14px) clamp(16px,5vw,18px)' }}>
-                <span className="rounded-full flex items-center justify-center" style={{ width: 'clamp(48px,13.5vw,52px)', height: 'clamp(48px,13.5vw,52px)', background: it.tint, color: it.accent }}>
-                  <span className="block" style={{ width: 'clamp(24px,6.7vw,26px)', height: 'clamp(24px,6.7vw,26px)' }}>{it.icon}</span>
+              <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(54px,15vw,60px) minmax(0,1fr) 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(86px,24vw,96px)', padding: 'clamp(13px,4vw,14px) clamp(16px,5vw,18px)' }}>
+                <span className="flex items-center justify-center" style={{ width: 'clamp(54px,15vw,60px)', height: 'clamp(54px,15vw,60px)', borderRadius: 17, background: it.tint, color: it.accent }}>
+                  <span className="block" style={{ width: 'clamp(27px,7.4vw,29px)', height: 'clamp(27px,7.4vw,29px)' }}>{it.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col">
                   <strong style={{ color: '#302927', fontSize: 'clamp(15.5px,4.4vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{it.title}</strong>
@@ -900,7 +903,7 @@ export default function WatchPage() {
     const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A49F9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: `calc(${goldPick ? 172 : 104}px + env(safe-area-inset-bottom))` }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: `calc(${goldPick ? 150 : 92}px + env(safe-area-inset-bottom))` }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
@@ -912,7 +915,6 @@ export default function WatchPage() {
         </div>
         {/* Ana panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
-          <h2 className="mb-[18px]" style={{ color: '#302927', fontSize: 'clamp(16px,4.4vw,17px)', fontWeight: 600, letterSpacing: '-0.15px' }}>Altın miktarını seçin</h2>
           {/* 3 altın kartı — radio seçim, sarı zemin yok */}
           <div className="grid grid-cols-3" style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
             {coins.map((g) => {
@@ -938,10 +940,10 @@ export default function WatchPage() {
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 64, background: 'rgba(60,45,41,0.065)' }} />}
               <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-colors active:bg-[rgba(60,45,41,0.02)]" style={{ gridTemplateColumns: '46px minmax(0,1fr) 20px', gap: 14, minHeight: 74, padding: '10px 4px' }}>
-                <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: r.isRose ? 'rgba(201,111,120,0.10)' : 'rgba(201,154,50,0.10)', color: r.isRose ? rose : gold }}>
-                  {r.isRose
-                    ? <svg viewBox="0 0 24 24" fill="currentColor" className="w-[22px] h-[22px]"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="19" fontWeight="500">₺</text></svg>
-                    : <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>}
+                <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: 'rgba(201,154,50,0.10)' }}>
+                  {r.id === 'gram_altin'
+                    ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>
+                    : <svg viewBox="0 0 24 24" fill="#302927" className="w-[22px] h-[22px]"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="19" fontWeight="600">₺</text></svg>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
@@ -969,7 +971,7 @@ export default function WatchPage() {
       { id: 'text', title: 'Yazılı Tebrik', desc: 'Bir tebrik mesajı yazın.', icon: icYazi, count: messages.length, on: () => setShowMessageModal(true) },
     ];
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(104px + env(safe-area-inset-bottom))' }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Altın Tak ile aynı) */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Tebrik Et</h1>
@@ -1019,7 +1021,7 @@ export default function WatchPage() {
     const count = photos.length;
     const openAdd = () => { setPhotoUploaderName(viewerName); setPhotoTab('add'); setShowPhotoUpload(true); };
     return (
-      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(104px + env(safe-area-inset-bottom))' }}>
+      <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1" style={{ paddingBottom: 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Tebrik/Altın ile aynı) */}
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Albüm</h1>
@@ -4384,7 +4386,7 @@ export default function WatchPage() {
           return (
             <button key={tab.id} onClick={() => { setActiveMobileTab(tab.id); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-current={isActive ? 'page' : undefined}
                     className="relative flex flex-col items-center justify-center rounded-[19px] transition-all active:scale-[0.97]"
-                    style={{ gap: 4, background: isActive ? 'rgba(240,235,231,0.92)' : 'transparent', color: isActive ? '#B96570' : '#928B88' }}>
+                    style={{ gap: 4, background: isActive ? '#FFFFFF' : 'transparent', border: isActive ? '1.5px solid rgba(201,111,120,0.45)' : '1.5px solid transparent', boxShadow: isActive ? '0 4px 12px rgba(201,111,120,0.16), 0 1px 3px rgba(201,111,120,0.10)' : 'none', color: isActive ? '#C96F78' : '#928B88' }}>
               <span className="block" style={{ width: 23, height: 23 }}>{tab.icon}</span>
               <span style={{ fontSize: 11.5, fontWeight: isActive ? 650 : 550, lineHeight: 1, letterSpacing: '-0.05px' }}>{tab.label}</span>
             </button>
@@ -4400,42 +4402,84 @@ export default function WatchPage() {
             <button onClick={() => setShowPhotoGallery(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            <div className="p-5 pb-3 flex-shrink-0">
-              <div className="flex items-center">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-semibold text-[13px]" style={{ color: '#9F4F58', background: 'linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(253,243,243,0.96) 100%)', boxShadow: '0 4px 14px rgba(200,104,110,0.14), 0 1px 4px rgba(160,80,90,0.06), inset 0 1px 0 rgba(255,255,255,0.95)', border: '1px solid rgba(232,165,169,0.45)' }}>
-                  <svg className="w-4 h-4" fill="none" stroke="#C8686E" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.2px' }}>Fotoğraf Albümü</span>
-                </div>
-              </div>
-            </div>
-            <div className="px-5 pb-5 overflow-y-auto flex-1">
-              {slideshowPhotos.length > 0 ? (
-                <div className="grid grid-cols-2 gap-3">
-                  {slideshowPhotos.map((url, i) => {
-                    const liked = likedByMe.has(url);
-                    const count = photoLikes[url] || 0;
-                    return (
-                      <div key={i} onClick={() => setPhotoLightboxIndex(i)} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer relative bg-white p-[3px]" style={{ border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 12px rgba(63,44,39,0.06)' }}>
-                        <img src={url} alt="" className="w-full h-full object-cover rounded-md" />
-                        {count > 0 && (
-                          <div className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)' }}>
-                            <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill={liked ? '#E26B72' : 'white'} stroke={liked ? '#E26B72' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                              <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
-                            </svg>
-                            <span className="text-white text-[10px] font-semibold tabular-nums">{count}</span>
-                          </div>
+            {(() => {
+              const sorted = [...slideshowPhotos];
+              if (gallerySort === 'liked') sorted.sort((a, b) => (photoLikes[b] || 0) - (photoLikes[a] || 0));
+              else if (gallerySort === 'newest') sorted.reverse();
+              const perPage = 6;
+              const pageCount = Math.max(1, Math.ceil(sorted.length / perPage));
+              const pages = Array.from({ length: pageCount }, (_, p) => sorted.slice(p * perPage, (p + 1) * perPage));
+              const sortLabels = { newest: 'En yeni', oldest: 'İlk yüklenen', liked: 'En beğenilen' } as const;
+              const applySort = (s: 'newest' | 'oldest' | 'liked') => { setGallerySort(s); setGallerySortOpen(false); setGalleryPage(0); if (galleryScrollRef.current) galleryScrollRef.current.scrollLeft = 0; };
+              return (
+                <>
+                  <div className="px-5 pt-5 pb-3.5 flex-shrink-0 flex items-center justify-between gap-3">
+                    <div className="inline-flex items-center gap-2 rounded-full font-semibold text-[13px]" style={{ color: '#B4535C', background: 'rgba(201,111,120,0.10)', border: '1px solid rgba(201,111,120,0.18)', padding: '8px 14px' }}>
+                      <svg className="w-4 h-4" fill="none" stroke="#C96F78" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.1px' }}>Albüm{slideshowPhotos.length > 0 ? ` · ${slideshowPhotos.length}` : ''}</span>
+                    </div>
+                    {slideshowPhotos.length > 1 && (
+                      <div className="relative flex-shrink-0">
+                        <button onClick={() => setGallerySortOpen(o => !o)} className="inline-flex items-center gap-1.5 rounded-full font-medium text-[12.5px] transition-colors" style={{ color: '#6B5F5A', background: gallerySortOpen ? 'rgba(201,111,120,0.10)' : 'rgba(60,45,41,0.05)', border: `1px solid ${gallerySortOpen ? 'rgba(201,111,120,0.22)' : 'rgba(60,45,41,0.08)'}`, padding: '7px 11px 7px 12px' }}>
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 7h13M3 12h9M3 17h5M17 8v9m0 0l3-3m-3 3l-3-3" /></svg>
+                          <span>{sortLabels[gallerySort]}</span>
+                        </button>
+                        {gallerySortOpen && (
+                          <>
+                            <div className="fixed inset-0 z-10" onClick={() => setGallerySortOpen(false)} />
+                            <div className="absolute right-0 z-20 w-[168px] rounded-2xl overflow-hidden" style={{ top: 'calc(100% + 6px)', background: '#FFFCFA', border: '1px solid rgba(60,45,41,0.10)', boxShadow: '0 12px 34px rgba(63,44,39,0.16)' }}>
+                              {([['liked', 'En beğenilen'], ['newest', 'En yeni yüklenen'], ['oldest', 'İlk yüklenen']] as const).map(([key, lbl]) => (
+                                <button key={key} onClick={() => applySort(key)} className="w-full flex items-center justify-between px-3.5 py-2.5 text-left text-[13px] transition-colors" style={{ color: gallerySort === key ? '#B4535C' : '#4A4340', fontWeight: gallerySort === key ? 600 : 500, background: gallerySort === key ? 'rgba(201,111,120,0.07)' : 'transparent' }}>
+                                  <span>{lbl}</span>
+                                  {gallerySort === key && <svg className="w-4 h-4" fill="none" stroke="#C96F78" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
+                                </button>
+                              ))}
+                            </div>
+                          </>
                         )}
                       </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <svg className="w-12 h-12 mx-auto opacity-15 mb-2" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                  <p className="text-sm text-gray-400">Henüz fotoğraf eklenmedi</p>
-                </div>
-              )}
-            </div>
+                    )}
+                  </div>
+                  {slideshowPhotos.length > 0 ? (
+                    <div className="flex flex-col">
+                      <div ref={galleryScrollRef} className="overflow-x-auto overflow-y-hidden flex snap-x snap-mandatory" style={{ scrollbarWidth: 'none', height: 'min(58vh, 460px)' }} onScroll={(e) => { const w = e.currentTarget.clientWidth; if (w) setGalleryPage(Math.round(e.currentTarget.scrollLeft / w)); }}>
+                        {pages.map((pg, pi) => (
+                          <div key={pi} className="snap-center flex-shrink-0 w-full h-full grid grid-cols-2 grid-rows-3 gap-3 px-5 pb-1">
+                            {pg.map((url) => {
+                              const liked = likedByMe.has(url);
+                              const count = photoLikes[url] || 0;
+                              return (
+                                <div key={url} onClick={() => setPhotoLightboxIndex(slideshowPhotos.indexOf(url))} className="min-h-0 rounded-xl overflow-hidden transition-transform active:scale-[0.98] cursor-pointer relative bg-white p-[3px]" style={{ border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 12px rgba(63,44,39,0.06)' }}>
+                                  <img src={url} alt="" className="w-full h-full object-cover rounded-md" />
+                                  {count > 0 && (
+                                    <div className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)' }}>
+                                      <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill={liked ? '#E26B72' : 'white'} stroke={liked ? '#E26B72' : 'white'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" /></svg>
+                                      <span className="text-white text-[10px] font-semibold tabular-nums">{count}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        ))}
+                      </div>
+                      {pageCount > 1 && (
+                        <div className="flex-shrink-0 flex items-center justify-center gap-1.5 pt-3.5 pb-4">
+                          {pages.map((_, pi) => (
+                            <span key={pi} onClick={() => { const el = galleryScrollRef.current; if (el) el.scrollTo({ left: pi * el.clientWidth, behavior: 'smooth' }); }} className="rounded-full transition-all cursor-pointer" style={{ width: pi === galleryPage ? 18 : 6, height: 6, background: pi === galleryPage ? '#C96F78' : 'rgba(201,111,120,0.28)' }} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-10 px-5">
+                      <svg className="w-12 h-12 mx-auto opacity-15 mb-2" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                      <p className="text-sm text-gray-400">Henüz fotoğraf eklenmedi</p>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         </div>
       )}
@@ -4600,7 +4644,7 @@ export default function WatchPage() {
                   return (
                 <>
                 {/* Payment method selection */}
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Ödeme Yöntemini Seçin</h3>
+                <h3 className="text-[15px] font-semibold mb-3.5" style={{ color: '#302927', letterSpacing: '-0.2px' }}>Ödeme yöntemini seçin</h3>
                 <div className="space-y-2.5 mb-5">
                   {/* Banka / IBAN */}
                   <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('iban'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
@@ -4651,7 +4695,7 @@ export default function WatchPage() {
                   <span className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(201,111,120,0.10)' }}>
                     <svg className="w-4 h-4" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
                   </span>
-                  <p className="text-[11.5px] font-medium" style={{ color: '#8A8280' }}>Para Transferini Doğrudan Çiftin Hesabına Yapıyorsunuz</p>
+                  <p className="text-[11.5px] font-medium" style={{ color: '#8A8280' }}>Para doğrudan çiftin hesabına gönderilir.</p>
                 </div>
                 </>
                   );
@@ -4788,12 +4832,12 @@ export default function WatchPage() {
                 {/* Waiting indicator section */}
                 <div className="rounded-2xl p-4 mt-4 mb-3" style={{ background: 'rgba(255,253,251,0.9)', border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 14px rgba(63,44,39,0.03)' }}>
                   <div className="flex flex-col items-center text-center mb-2">
-                    <div className="flex-shrink-0 mb-1.5" style={{ animation: 'spin 3s linear infinite' }}>
-                      <span className="text-3xl">⏳</span>
-                    </div>
+                    <span className="grid place-items-center rounded-full mb-2" style={{ width: 42, height: 42, background: 'rgba(201,111,120,0.10)' }}>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[21px] h-[21px]"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l2.8 1.7" /></svg>
+                    </span>
                     <p className="text-[15px] font-bold text-gray-900">Ödemeniz bekleniyor</p>
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed text-center">Şimdi kendi banka uygulamanız üzerinden çiftin hesabına para gönderimini yapın ve ardından bu sayfaya dönerek gönderiminizi onaylayın. Dijital Altınınızı takmış olun!</p>
+                  <p className="text-xs text-gray-600 leading-relaxed text-center">Banka uygulamanızdan transferi tamamlayın, ardından bu sayfaya dönerek ödemenizi onaylayın.</p>
                 </div>
                 <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 
@@ -4882,7 +4926,7 @@ export default function WatchPage() {
                   <svg className="w-5.5 h-5.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 </div>
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900">Mesaj Tebrik</h2>
+                  <h2 className="text-lg font-bold text-gray-900">Yazılı Tebrik</h2>
                   <p className="text-xs text-gray-400">{event.bride_first_name} & {event.groom_first_name} için tebrik mesajınızı bırakın</p>
                 </div>
               </div>
