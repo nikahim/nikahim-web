@@ -4569,8 +4569,8 @@ export default function WatchPage() {
                 <h2 className="text-xl font-bold text-gray-900 mb-5">Altın Gönder</h2>
 
                 {/* Gold card - highlight */}
-                <div className="flex items-center gap-4 rounded-2xl p-4 mb-6" style={{ background: 'linear-gradient(135deg, #FFFDF5, #FFF8E7, #FDF3D7)', border: '1px solid rgba(212,175,55,0.18)', boxShadow: '0 4px 20px rgba(212,175,55,0.1), 0 1px 3px rgba(0,0,0,0.04)' }}>
-                  <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.9)', boxShadow: '0 4px 12px rgba(212,175,55,0.12)' }}>
+                <div className="flex items-center gap-4 rounded-2xl p-4 mb-6" style={{ background: '#FFFDFC', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 4px 14px rgba(63,44,39,0.03)' }}>
+                  <div className="w-14 h-14 rounded-xl flex-shrink-0 flex items-center justify-center" style={{ background: 'rgba(201,154,50,0.10)' }}>
                     {goldOptions.find(g => g.id === selectedGold)?.image && (
                       <div className="relative w-9 h-9"><Image src={goldOptions.find(g => g.id === selectedGold)!.image} alt="" fill className="object-contain" /></div>
                     )}
@@ -4586,7 +4586,7 @@ export default function WatchPage() {
                 {selectedGold === "nakit" && !pendingPaymentId && (
                   <div className="mb-6">
                     <label className="block text-gray-500 mb-2 font-medium text-xs">Göndermek istediğiniz miktar</label>
-                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktar Girin" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center placeholder:text-gray-300 placeholder:font-medium placeholder:text-base" style={{ border: '1.5px solid rgba(212,175,55,0.15)', background: 'rgba(255,255,255,0.6)' }} />
+                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktar Girin" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center placeholder:text-gray-300 placeholder:font-medium placeholder:text-base" style={{ border: '1.5px solid rgba(60,45,41,0.12)', background: 'rgba(255,255,255,0.7)' }} />
                     {(!customAmount || parseFloat(customAmount) <= 0) && (
                       <p className="mt-2 text-[11px] text-center" style={{ color: '#B85258' }}>
                         Devam etmek için bir miktar girin
@@ -4603,55 +4603,55 @@ export default function WatchPage() {
                 <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Ödeme Yöntemini Seçin</h3>
                 <div className="space-y-2.5 mb-5">
                   {/* Banka / IBAN */}
-                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('iban'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(212,175,55,0.15)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.12), rgba(201,161,59,0.06))' }}>
-                      <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('iban'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#F3EFEB' }}>
+                      <svg className="w-5 h-5" style={{ color: '#5A524E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
                         <p className="text-sm font-bold text-gray-900">IBAN Numarasına</p>
-                        <span className="inline-flex items-center gap-1 text-[9px] font-extrabold uppercase tracking-wide px-2 py-[3px] rounded-full" style={{ background: 'linear-gradient(135deg, #EBCB6A, #D4AF37 52%, #C1922B)', color: '#fff', boxShadow: '0 2px 8px rgba(193,146,43,0.45), inset 0 1px 0 rgba(255,255,255,0.5)' }}>
+                        <span className="inline-flex items-center gap-1 text-[9px] font-extrabold uppercase tracking-wide px-2 py-[3px] rounded-full" style={{ background: 'rgba(201,111,120,0.10)', color: '#B96570' }}>
                           <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.401 8.168L12 18.896l-7.335 3.856 1.401-8.168L.132 9.21l8.2-1.192z" /></svg>
                           Önerilen
                         </span>
                       </div>
                       <p className="text-xs text-gray-400 mt-0.5">Havale / EFT ile gönder</p>
                     </div>
-                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#D4AF37' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#A49F9A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
 
                   {/* QR Kod */}
-                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('qr'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(200,180,140,0.12)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
-                      <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                  <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('qr'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#F3EFEB' }}>
+                      <svg className="w-5 h-5" style={{ color: '#5A524E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-bold text-gray-900">QR Kod ile</p>
                       <p className="text-xs text-gray-400 mt-0.5">Mobil bankacılık ile hızlı ödeme</p>
                     </div>
-                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#D4AF37' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#A49F9A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
 
                   {/* Kripto */}
                   {event.payment_methods_enabled?.crypto && (
-                    <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; setPaymentMethod('crypto'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1.5px solid rgba(200,180,140,0.12)', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(201,161,59,0.04))' }}>
-                        <svg className="w-5 h-5" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; setPaymentMethod('crypto'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#F3EFEB' }}>
+                        <svg className="w-5 h-5" style={{ color: '#5A524E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                       </div>
                       <div className="flex-1">
                         <p className="text-sm font-bold text-gray-900">Kripto Para</p>
                         <p className="text-xs text-gray-400 mt-0.5">USDT, TRYB ile gönder</p>
                       </div>
-                      <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#D4AF37' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#A49F9A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                     </button>
                   )}
                 </div>
 
                 <div className="flex items-center justify-center gap-2 mt-1">
-                  <span className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(184,150,11,0.10)' }}>
-                    <svg className="w-4 h-4" style={{ color: '#B8960B' }} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
+                  <span className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(201,111,120,0.10)' }}>
+                    <svg className="w-4 h-4" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>
                   </span>
-                  <p className="text-[11.5px] font-semibold" style={{ color: '#9A7B2E' }}>Para Transferini Doğrudan Çiftin Hesabına Yapıyorsunuz</p>
+                  <p className="text-[11.5px] font-medium" style={{ color: '#8A8280' }}>Para Transferini Doğrudan Çiftin Hesabına Yapıyorsunuz</p>
                 </div>
                 </>
                   );
