@@ -35,6 +35,7 @@ export default function Home() {
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
+  const [openFaqCat, setOpenFaqCat] = useState<string | null>(null);
   const [faqSearchQuery, setFaqSearchQuery] = useState('');
 
   // WhatsApp online durumu — Türkiye saatine göre 08:00–20:00 arası çevrim içi
@@ -469,16 +470,29 @@ export default function Home() {
                   </div>
                 )}
 
-                {/* Kategorize FAQ listesi */}
-                {filteredFaqCategories.map((category, ci) => (
-                  <div key={category.title} className={ci === 0 ? '' : 'mt-5'}>
-                    <div className="flex items-center gap-2 mb-2 px-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#C8686E' }} />
-                      <h4 className="text-[12px] font-bold uppercase tracking-[0.8px]" style={{ color: '#9F4F58' }}>
-                        {category.title}
-                      </h4>
-                    </div>
-                    <div className="space-y-2.5">
+                {/* Kategorize FAQ — iki kademeli akordeon: konu → sorular → cevap (uygulama SSS mantığı) */}
+                {filteredFaqCategories.map((category, ci) => {
+                  const searching = !!faqSearchQuery;
+                  const catOpen = searching || openFaqCat === category.title;
+                  return (
+                  <div key={category.title} className={ci === 0 ? '' : 'mt-2.5'}>
+                    {/* Konu başlığı — tıklayınca içindeki sorular açılır (arama varken hep açık) */}
+                    <button onClick={() => { if (!searching) setOpenFaqCat(catOpen ? null : category.title); }}
+                            className="w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl text-left transition-all"
+                            style={{ background: catOpen ? 'rgba(255,251,247,0.97)' : 'rgba(255,251,247,0.55)', border: `1px solid ${catOpen ? 'rgba(200,104,110,0.35)' : 'rgba(232,180,170,0.30)'}`, boxShadow: catOpen ? '0 6px 20px rgba(200,104,110,0.10)' : 'none' }}>
+                      <span className="flex items-center gap-2.5 min-w-0">
+                        <span className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#C8686E' }} />
+                        <span className="text-[13.5px] font-bold" style={{ color: '#9F4F58' }}>{category.title}</span>
+                        <span className="text-[11px] font-semibold flex-shrink-0" style={{ color: '#C4A6A1' }}>{category.items.length}</span>
+                      </span>
+                      {!searching && (
+                        <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ${catOpen ? 'rotate-180' : ''}`} style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </span>
+                      )}
+                    </button>
+                    {catOpen && (
+                    <div className="space-y-2 mt-2 pl-2.5">
                       {category.items.map((item, ii) => {
                         const key = `${ci}-${ii}`;
                         const open = openFaqIdx === key;
@@ -492,11 +506,11 @@ export default function Home() {
                                onMouseEnter={(e) => { if (!open) e.currentTarget.style.borderColor = 'rgba(200,104,110,0.30)'; }}
                                onMouseLeave={(e) => { if (!open) e.currentTarget.style.borderColor = 'rgba(232,180,170,0.30)'; }}>
                             <button onClick={() => setOpenFaqIdx(open ? null : key)}
-                                    className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left">
-                              <span className="text-[13px] leading-snug" style={{ fontWeight: 600, color: '#2E3445' }}>{item.q}</span>
-                              <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+                                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+                              <span className="text-[12.5px] leading-snug" style={{ fontWeight: 600, color: '#2E3445' }}>{item.q}</span>
+                              <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
                                     style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
                               </span>
@@ -510,8 +524,10 @@ export default function Home() {
                         );
                       })}
                     </div>
+                    )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 

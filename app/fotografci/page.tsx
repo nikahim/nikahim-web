@@ -158,6 +158,7 @@ export default function FotografciPanel() {
   const [supportFaqView, setSupportFaqView] = useState(false);
   const [faqQuery, setFaqQuery] = useState('');
   const [openFaq, setOpenFaq] = useState<string | null>(null);
+  const [openFaqCat, setOpenFaqCat] = useState<string | null>(null);
 
   const [showAllList, setShowAllList] = useState(false);
   const [allCache, setAllCache] = useState<EventRow[] | null>(null); // tüm izinli etkinlikler (önden yüklenir)
@@ -1515,21 +1516,49 @@ export default function FotografciPanel() {
                 </div>
                 {(() => {
                   const ql = faqQuery.trim().toLowerCase();
-                  const items = fullFaqCategories.flatMap((c) => c.items.map((it) => ({ ...it, cat: c.title })));
-                  const filtered = ql ? items.filter((it) => (it.q + ' ' + it.a + ' ' + (it.keywords || []).join(' ')).toLowerCase().includes(ql)) : items;
-                  if (filtered.length === 0) return <p className="text-center text-[13px] text-gray-400 py-8">Sonuç bulunamadı. Canlı Destek’ten yazabilirsiniz.</p>;
+                  const searching = !!ql;
+                  const cats = fullFaqCategories
+                    .map((c) => ({ title: c.title, items: searching ? c.items.filter((it) => (it.q + ' ' + it.a + ' ' + (it.keywords || []).join(' ')).toLowerCase().includes(ql)) : c.items }))
+                    .filter((c) => c.items.length > 0);
+                  if (cats.length === 0) return <p className="text-center text-[13px] text-gray-400 py-8">Sonuç bulunamadı. Canlı Destek’ten yazabilirsiniz.</p>;
                   return (
-                    <div className="flex flex-col gap-2">
-                      {filtered.slice(0, 40).map((it, i) => {
-                        const id = `${it.cat}-${i}`;
-                        const isOpen = openFaq === id;
+                    <div className="flex flex-col gap-2.5">
+                      {cats.map((category) => {
+                        const catOpen = searching || openFaqCat === category.title;
                         return (
-                          <div key={id} className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.12)' }}>
-                            <button onClick={() => setOpenFaq(isOpen ? null : id)} className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left">
-                              <span className="text-[13.5px] font-semibold text-gray-800">{it.q}</span>
-                              <svg className="w-4 h-4 flex-shrink-0 transition-transform" style={{ color: '#C8686E', transform: isOpen ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                          <div key={category.title}>
+                            {/* Konu başlığı — tıklayınca sorular açılır (uygulama SSS mantığı) */}
+                            <button onClick={() => { if (!searching) setOpenFaqCat(catOpen ? null : category.title); }}
+                                    className="w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl text-left transition-all"
+                                    style={{ background: catOpen ? 'rgba(255,251,247,0.97)' : 'rgba(255,251,247,0.6)', border: `1px solid ${catOpen ? 'rgba(200,104,110,0.35)' : 'rgba(232,180,170,0.30)'}`, boxShadow: catOpen ? '0 6px 20px rgba(200,104,110,0.10)' : 'none' }}>
+                              <span className="flex items-center gap-2.5 min-w-0">
+                                <span className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#C8686E' }} />
+                                <span className="text-[13.5px] font-bold" style={{ color: '#9F4F58' }}>{category.title}</span>
+                                <span className="text-[11px] font-semibold flex-shrink-0" style={{ color: '#C4A6A1' }}>{category.items.length}</span>
+                              </span>
+                              {!searching && (
+                                <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ${catOpen ? 'rotate-180' : ''}`} style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
+                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                                </span>
+                              )}
                             </button>
-                            {isOpen && <div className="px-4 pb-3.5 text-[12.5px] leading-relaxed text-gray-600">{it.a}</div>}
+                            {catOpen && (
+                              <div className="flex flex-col gap-2 mt-2 pl-2.5">
+                                {category.items.map((it, i) => {
+                                  const id = `${category.title}-${i}`;
+                                  const isOpen = openFaq === id;
+                                  return (
+                                    <div key={id} className="rounded-xl overflow-hidden" style={{ border: '1px solid rgba(200,104,110,0.12)', background: isOpen ? 'rgba(255,251,247,0.97)' : 'transparent' }}>
+                                      <button onClick={() => setOpenFaq(isOpen ? null : id)} className="w-full flex items-center justify-between gap-2 px-4 py-3 text-left">
+                                        <span className="text-[13px] font-semibold text-gray-800">{it.q}</span>
+                                        <svg className="w-4 h-4 flex-shrink-0 transition-transform" style={{ color: '#C8686E', transform: isOpen ? 'rotate(180deg)' : 'none' }} fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                                      </button>
+                                      {isOpen && <div className="px-4 pb-3.5 text-[12.5px] leading-relaxed text-gray-600">{it.a}</div>}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+                            )}
                           </div>
                         );
                       })}

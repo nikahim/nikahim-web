@@ -389,6 +389,7 @@ export default function WatchPage() {
   const [showConciergeSheet, setShowConciergeSheet] = useState(false);
   const [faqView, setFaqView] = useState(false);
   const [openFaqIdx, setOpenFaqIdx] = useState<string | null>(null);
+  const [openFaqCat, setOpenFaqCat] = useState<string | null>(null);
   const [faqSearchQuery, setFaqSearchQuery] = useState('');
   // WhatsApp online göstergesi — İstanbul saatine göre 08:00-20:00 arası "Çevrim içi"
   const [waOnline, setWaOnline] = useState(false);
@@ -977,8 +978,8 @@ export default function WatchPage() {
                 </div>
               </div>
               <div className="grid" style={{ gridTemplateColumns: 'auto 1fr', gap: 9 }}>
-                <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 50, padding: '0 18px', borderRadius: 15, background: 'transparent', border: '1px solid rgba(60,45,41,0.14)', color: '#8A8280', fontSize: 14, fontWeight: 500 }}>Vazgeç</button>
-                <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 50, borderRadius: 15, background: '#C96F78', fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
+                <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 44, padding: '0 18px', borderRadius: 13, background: 'transparent', border: '1px solid rgba(60,45,41,0.14)', color: '#8A8280', fontSize: 14, fontWeight: 500 }}>Vazgeç</button>
+                <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 44, borderRadius: 13, background: '#C96F78', fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                   Devam Et
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
                 </button>
@@ -1702,7 +1703,7 @@ export default function WatchPage() {
     { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/ata-altin.png" },
     { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/ata-altin.png" },
     { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/ata-altin.png" },
-    { id: "nakit", name: "Özel Miktar", price: 0, image: "/altintaklira.png" },
+    { id: "nakit", name: "Özel Miktar", price: 0, image: "/tl-icon.png" },
   ];
 
   const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺️", "😚", "😙", "🥲", "😋", "😛", "😒", "😏", "😑", "🤐", "🤔", "🤭", "🤗", "🤑", "😝", "🥳", "😎", "🤓", "🥺", "😳", "😲", "😯", "😮", "🙈", "🙉", "🙊", "💋", "💯", "💥", "💫", "✌️", "❣️", "💔", "❤️‍🔥", "❤️", "💕", "🎉", "👏", "💐", "💍", "🎊", "🙏", "💒", "✨", "🌹", "💝", "🤵", "👰"];
@@ -4323,13 +4324,27 @@ export default function WatchPage() {
                   </div>
                 )}
 
-                {filteredFaqCategories.map((category, ci) => (
-                  <div key={category.title} className={ci === 0 ? '' : 'mt-5'}>
-                    <div className="flex items-center gap-2 mb-2 px-1">
-                      <span className="inline-block w-1.5 h-1.5 rounded-full" style={{ background: '#C8686E' }} />
-                      <h4 className="text-[12px] font-bold uppercase tracking-[0.8px]" style={{ color: '#9F4F58' }}>{category.title}</h4>
-                    </div>
-                    <div className="space-y-2.5">
+                {filteredFaqCategories.map((category, ci) => {
+                  const searching = !!faqSearchQuery;
+                  const catOpen = searching || openFaqCat === category.title;
+                  return (
+                  <div key={category.title} className={ci === 0 ? '' : 'mt-2.5'}>
+                    <button onClick={() => { if (!searching) setOpenFaqCat(catOpen ? null : category.title); }}
+                            className="w-full flex items-center justify-between gap-3 px-4 py-3.5 rounded-2xl text-left transition-all"
+                            style={{ background: catOpen ? 'rgba(255,251,247,0.97)' : 'rgba(255,251,247,0.55)', border: `1px solid ${catOpen ? 'rgba(200,104,110,0.35)' : 'rgba(232,180,170,0.30)'}`, boxShadow: catOpen ? '0 6px 20px rgba(200,104,110,0.10)' : 'none' }}>
+                      <span className="flex items-center gap-2.5 min-w-0">
+                        <span className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#C8686E' }} />
+                        <span className="text-[13.5px] font-bold" style={{ color: '#9F4F58' }}>{category.title}</span>
+                        <span className="text-[11px] font-semibold flex-shrink-0" style={{ color: '#C4A6A1' }}>{category.items.length}</span>
+                      </span>
+                      {!searching && (
+                        <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ${catOpen ? 'rotate-180' : ''}`} style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                        </span>
+                      )}
+                    </button>
+                    {catOpen && (
+                    <div className="space-y-2 mt-2 pl-2.5">
                       {category.items.map((item, ii) => {
                         const key = `${ci}-${ii}`;
                         const open = openFaqIdx === key;
@@ -4341,11 +4356,11 @@ export default function WatchPage() {
                                  boxShadow: open ? '0 8px 28px rgba(200,104,110,0.12), 0 2px 6px rgba(0,0,0,0.04)' : 'none',
                                }}>
                             <button onClick={() => setOpenFaqIdx(open ? null : key)}
-                                    className="w-full flex items-center justify-between gap-3 px-4 py-3.5 text-left">
-                              <span className="text-[13px] leading-snug" style={{ fontWeight: 600, color: '#2E3445' }}>{item.q}</span>
-                              <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+                                    className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left">
+                              <span className="text-[12.5px] leading-snug" style={{ fontWeight: 600, color: '#2E3445' }}>{item.q}</span>
+                              <span className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
                                     style={{ background: 'rgba(200,104,110,0.10)', color: '#C8686E' }}>
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                                 </svg>
                               </span>
@@ -4359,8 +4374,10 @@ export default function WatchPage() {
                         );
                       })}
                     </div>
+                    )}
                   </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
@@ -4624,7 +4641,7 @@ export default function WatchPage() {
                 {selectedGold === "nakit" && !pendingPaymentId && (
                   <div className="mb-6">
                     <label className="block text-gray-500 mb-2 font-medium text-xs">Göndermek istediğiniz miktar</label>
-                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktar Girin" className="w-full px-4 py-3.5 rounded-2xl outline-none text-2xl font-bold text-gray-900 text-center placeholder:text-gray-300 placeholder:font-medium placeholder:text-base" style={{ border: '1.5px solid rgba(60,45,41,0.12)', background: 'rgba(255,255,255,0.7)' }} />
+                    <input type="number" value={customAmount} onChange={(e) => setCustomAmount(e.target.value)} placeholder="Miktar Girin" className="w-full px-4 py-2.5 rounded-xl outline-none text-xl font-bold text-gray-900 text-center placeholder:text-gray-300 placeholder:font-medium placeholder:text-base" style={{ border: '1.5px solid rgba(60,45,41,0.12)', background: 'rgba(255,255,255,0.7)' }} />
                     {(!customAmount || parseFloat(customAmount) <= 0) && (
                       <p className="mt-2 text-[11px] text-center" style={{ color: '#B85258' }}>
                         Devam etmek için bir miktar girin
@@ -4642,8 +4659,8 @@ export default function WatchPage() {
                 <div className="space-y-2.5 mb-5">
                   {/* Banka / IBAN */}
                   <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('iban'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#F3EFEB' }}>
-                      <svg className="w-5 h-5" style={{ color: '#5A524E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.32)' }}>
+                      <svg className="w-5 h-5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
@@ -4655,32 +4672,32 @@ export default function WatchPage() {
                       </div>
                       <p className="text-xs text-gray-400 mt-0.5">Havale / EFT ile gönder</p>
                     </div>
-                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#A49F9A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
 
                   {/* QR Kod */}
                   <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); startTransition(() => { setPaymentMethod('qr'); setPaymentStep(2); }); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
-                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#F3EFEB' }}>
-                      <svg className="w-5 h-5" style={{ color: '#5A524E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
+                    <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.32)' }}>
+                      <svg className="w-5 h-5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" /></svg>
                     </div>
                     <div className="flex-1">
                       <p className="text-sm font-bold text-gray-900">QR Kod ile</p>
                       <p className="text-xs text-gray-400 mt-0.5">Mobil bankacılık ile hızlı ödeme</p>
                     </div>
-                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#A49F9A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                    <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                   </button>
 
                   {/* Kripto */}
                   {event.payment_methods_enabled?.crypto && (
                     <button disabled={nakitAmountMissing} onClick={() => { if (nakitAmountMissing) return; setPaymentMethod('crypto'); if (selectedGold === 'nakit' && customAmount) handleCustomAmountSubmit(); setPaymentStep(2); }} className={`group w-full flex items-center gap-3.5 rounded-2xl p-4 text-left transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-pointer ${nakitAmountMissing ? 'opacity-40 cursor-not-allowed hover:scale-100 hover:translate-y-0' : ''}`} style={{ background: '#FFFFFF', border: '1px solid rgba(60,45,41,0.08)', boxShadow: '0 3px 10px rgba(63,44,39,0.03)' }} onMouseEnter={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.1), 0 4px 12px rgba(0,0,0,0.06)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.25)'; }} onMouseLeave={(e) => { if (nakitAmountMissing) return; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; e.currentTarget.style.borderColor = 'rgba(200,180,140,0.12)'; }}>
-                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#F3EFEB' }}>
-                        <svg className="w-5 h-5" style={{ color: '#5A524E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover:scale-110" style={{ background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.32)' }}>
+                        <svg className="w-5 h-5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                       </div>
                       <div className="flex-1">
                         <p className="text-sm font-bold text-gray-900">Kripto Para</p>
                         <p className="text-xs text-gray-400 mt-0.5">USDT, TRYB ile gönder</p>
                       </div>
-                      <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#A49F9A' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
+                      <svg className="w-5 h-5 transition-all duration-300 group-hover:translate-x-1" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
                     </button>
                   )}
                 </div>
