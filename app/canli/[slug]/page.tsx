@@ -860,7 +860,7 @@ export default function WatchPage() {
     const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8 5h9.6a1.4 1.4 0 011.4 1.4V16" /><rect x="3.5" y="7.6" width="12.8" height="10.9" rx="2" /><circle cx="7" cy="11" r="1.05" /><path d="M4 17.2l3.1-2.7 2.1 1.7 3-2.4 3.6 3" /><path d="M18.4 17.6c-.82-.64-1.64-1.14-1.64-1.9 0-.45.36-.78.8-.78.32 0 .6.18.84.5.24-.32.52-.5.84-.5.44 0 .8.33.8.78 0 .76-.82 1.26-1.64 1.9z" fill="currentColor" stroke="none" /></svg>;
     const items = [
       { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, img: '/wa-tebrik.png', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, img: '/wa-altin.png', accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
+      { title: 'Altın Tak', desc: 'Çifte takmak istediğiniz altın karşılığı TL gönderin.', icon: icAltin, img: '/wa-altin.png', accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
       { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, img: '/wa-album.png', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
     ];
     return (
@@ -943,7 +943,7 @@ export default function WatchPage() {
                 <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: 'rgba(201,154,50,0.10)' }}>
                   {r.id === 'gram_altin'
                     ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>
-                    : <svg viewBox="0 0 24 24" fill="#302927" className="w-[22px] h-[22px]"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="19" fontWeight="600">₺</text></svg>}
+                    : <svg viewBox="0 0 24 24" fill="#302927" className="w-[30px] h-[30px]"><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="23" fontWeight="600">₺</text></svg>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
@@ -1035,7 +1035,7 @@ export default function WatchPage() {
         <div style={{ padding: 'clamp(15px,4.3vw,18px)', background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           <div className="flex items-center justify-between mb-[14px]" style={{ gap: 12, minHeight: 30 }}>
             {count > 0
-              ? <span className="inline-flex items-center whitespace-nowrap" style={{ height: 29, padding: '0 12px', borderRadius: 999, background: '#F2ECE6', color: '#8A7767', fontSize: 12, fontWeight: 600 }}>{count} fotoğraf</span>
+              ? <span className="inline-flex items-center whitespace-nowrap" style={{ height: 30, padding: '0 13px', borderRadius: 999, border: '1px solid rgba(201,111,120,0.38)', background: 'rgba(255,255,255,0.42)', color: '#B96570', fontSize: 12.5, fontWeight: 600 }}>{count} fotoğraf</span>
               : <span />}
             <button onClick={openAdd} className="inline-flex items-center active:scale-[0.97] transition-transform" style={{ gap: 5, height: 30, padding: '0 13px', borderRadius: 999, border: '1px solid rgba(201,111,120,0.38)', background: 'rgba(255,255,255,0.42)', color: '#B96570', fontSize: 12.5, fontWeight: 600 }}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px]"><path d="M12 5v14M5 12h14" /></svg>
@@ -1044,8 +1044,8 @@ export default function WatchPage() {
           </div>
           {count > 0 ? (
             <>
-              {/* Öne çıkan kolaj */}
-              <div className="relative w-full" style={{ height: 200, marginTop: 2 }}>
+              {/* Öne çıkan kolaj — tıklanınca albüm açılır */}
+              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: 200, marginTop: 2 }}>
                 <style>{`
                   @keyframes albFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
                   @keyframes albFloatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
@@ -2935,7 +2935,7 @@ export default function WatchPage() {
       </header>
 
       {/* 3 PANEL LAYOUT */}
-      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-32 lg:p-5 lg:pb-5">
+      <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-0 lg:p-5 lg:pb-5">
         <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
@@ -4399,7 +4399,7 @@ export default function WatchPage() {
       {showPhotoGallery && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowPhotoGallery(false)} style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
           <div className="rounded-3xl max-w-xl w-full max-h-[88vh] overflow-hidden relative flex flex-col" onClick={(e) => e.stopPropagation()} style={{ background: 'rgba(255,253,251,0.98)', boxShadow: '0 24px 70px rgba(63,44,39,0.22)', border: '1px solid rgba(60,45,41,0.07)' }}>
-            <button onClick={() => setShowPhotoGallery(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
+            <button onClick={() => setShowPhotoGallery(false)} aria-label="Kapat" className="absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             {(() => {
@@ -4413,15 +4413,15 @@ export default function WatchPage() {
               const applySort = (s: 'newest' | 'oldest' | 'liked') => { setGallerySort(s); setGallerySortOpen(false); setGalleryPage(0); if (galleryScrollRef.current) galleryScrollRef.current.scrollLeft = 0; };
               return (
                 <>
-                  <div className="px-5 pt-5 pb-3.5 flex-shrink-0 flex items-center justify-between gap-3">
+                  <div className="pl-5 pr-14 pt-[18px] pb-3.5 flex-shrink-0 flex items-center justify-between gap-3">
                     <div className="inline-flex items-center gap-2 rounded-full font-semibold text-[13px]" style={{ color: '#B4535C', background: 'rgba(201,111,120,0.10)', border: '1px solid rgba(201,111,120,0.18)', padding: '8px 14px' }}>
                       <svg className="w-4 h-4" fill="none" stroke="#C96F78" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                       <span style={{ fontFamily: 'var(--font-geist-sans), Inter, sans-serif', letterSpacing: '0.1px' }}>Albüm{slideshowPhotos.length > 0 ? ` · ${slideshowPhotos.length}` : ''}</span>
                     </div>
                     {slideshowPhotos.length > 1 && (
                       <div className="relative flex-shrink-0">
-                        <button onClick={() => setGallerySortOpen(o => !o)} className="inline-flex items-center gap-1.5 rounded-full font-medium text-[12.5px] transition-colors" style={{ color: '#6B5F5A', background: gallerySortOpen ? 'rgba(201,111,120,0.10)' : 'rgba(60,45,41,0.05)', border: `1px solid ${gallerySortOpen ? 'rgba(201,111,120,0.22)' : 'rgba(60,45,41,0.08)'}`, padding: '7px 11px 7px 12px' }}>
-                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 7h13M3 12h9M3 17h5M17 8v9m0 0l3-3m-3 3l-3-3" /></svg>
+                        <button onClick={() => setGallerySortOpen(o => !o)} className="inline-flex items-center gap-1.5 font-semibold text-[13px] transition-opacity active:opacity-70" style={{ color: '#B4535C', padding: '4px 2px' }}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M3 7h13M3 12h9M3 17h5M17 8v9m0 0l3-3m-3 3l-3-3" /></svg>
                           <span>{sortLabels[gallerySort]}</span>
                         </button>
                         {gallerySortOpen && (
@@ -4579,7 +4579,7 @@ export default function WatchPage() {
 
             {/* Geri Dön button — sadece Step 2'de, sol üst X ile aynı seviyede */}
             {paymentStep === 2 && (
-              <button onClick={() => { setPaymentStep(1); setPaymentMethod(null); }} className="absolute top-4 left-4 z-10 h-8 inline-flex items-center gap-1 px-2.5 rounded-full transition-all hover:scale-105 text-[12px] font-medium" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
+              <button onClick={() => { setPaymentStep(1); setPaymentMethod(null); }} className="absolute top-4 left-4 z-10 h-8 inline-flex items-center gap-1 px-3 rounded-full transition-all hover:scale-105 text-[12px] font-semibold" style={{ background: 'transparent', border: '1px solid rgba(201,111,120,0.45)', color: '#B96570' }}>
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
                 Geri Dön
               </button>
@@ -4837,7 +4837,7 @@ export default function WatchPage() {
                     </span>
                     <p className="text-[15px] font-bold text-gray-900">Ödemeniz bekleniyor</p>
                   </div>
-                  <p className="text-xs text-gray-600 leading-relaxed text-center">Banka uygulamanızdan transferi tamamlayın, ardından bu sayfaya dönerek ödemenizi onaylayın.</p>
+                  <p className="text-xs text-gray-600 leading-relaxed text-center">Banka uygulamanızdan transferi tamamlayın, ardından bu sayfaya dönerek ödemenizi onaylayın. Dijital Altınınızı çifte takmış olun.</p>
                 </div>
                 <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
 

@@ -456,7 +456,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
-      <div className="rounded-3xl max-w-lg w-full overflow-hidden relative" style={{ background: 'linear-gradient(165deg, rgba(255,245,247,0.97), rgba(255,240,243,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.12)', border: '1px solid rgba(212,117,126,0.12)' }}>
+      <div className="rounded-3xl max-w-lg w-full overflow-hidden relative" style={{ background: 'rgba(255,253,251,0.97)', boxShadow: '0 24px 70px rgba(63,44,39,0.16)', border: '1px solid rgba(60,45,41,0.07)' }}>
 
         {/* Close button */}
         <button onClick={handleClose} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110" style={{ background: 'rgba(0,0,0,0.06)', color: '#999' }}>
