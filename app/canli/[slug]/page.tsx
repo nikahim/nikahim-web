@@ -3199,7 +3199,7 @@ export default function WatchPage() {
                   </div>
                   <div className="px-4 pb-4">
                     <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { const panel = e.currentTarget.parentElement?.parentElement as HTMLElement | null; if (panel) { panel.style.top = '12px'; panel.style.bottom = 'auto'; } }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={3} className="w-full px-3 py-2.5 rounded-xl outline-none text-[13px] text-white placeholder:text-white/25 resize-none" style={{ background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.08)', fontFamily: 'inherit' }} />
-                    <button onClick={() => { sendMessage(); setFsTebrikPanel(null); }} disabled={!message.trim()} className="w-full mt-2.5 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.25)' }}>
+                    <button onClick={() => { sendMessage(); setFsTebrikPanel(null); }} disabled={!message.trim()} className="w-full mt-2.5 py-2.5 rounded-xl font-semibold text-[12px] text-white transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                       Gönder
                     </button>
                   </div>
@@ -4396,7 +4396,7 @@ export default function WatchPage() {
       {/* Photo Gallery Popup */}
       {showPhotoGallery && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setShowPhotoGallery(false)} style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
-          <div className="rounded-3xl max-w-xl w-full max-h-[88vh] overflow-hidden relative flex flex-col" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(180deg, #FFFCF7 0%, #FFF7EE 100%)', boxShadow: '0 25px 80px rgba(0,0,0,0.2)', border: '1px solid rgba(232,180,170,0.40)' }}>
+          <div className="rounded-3xl max-w-xl w-full max-h-[88vh] overflow-hidden relative flex flex-col" onClick={(e) => e.stopPropagation()} style={{ background: 'rgba(255,253,251,0.98)', boxShadow: '0 24px 70px rgba(63,44,39,0.22)', border: '1px solid rgba(60,45,41,0.07)' }}>
             <button onClick={() => setShowPhotoGallery(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
@@ -4410,12 +4410,12 @@ export default function WatchPage() {
             </div>
             <div className="px-5 pb-5 overflow-y-auto flex-1">
               {slideshowPhotos.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2.5">
+                <div className="grid grid-cols-2 gap-3">
                   {slideshowPhotos.map((url, i) => {
                     const liked = likedByMe.has(url);
                     const count = photoLikes[url] || 0;
                     return (
-                      <div key={i} onClick={() => setPhotoLightboxIndex(i)} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer relative bg-white p-[3px]" style={{ border: '1.5px solid rgba(200,104,110,0.35)', boxShadow: '0 3px 10px rgba(200,104,110,0.10)' }}>
+                      <div key={i} onClick={() => setPhotoLightboxIndex(i)} className="aspect-square rounded-xl overflow-hidden transition-all hover:scale-105 cursor-pointer relative bg-white p-[3px]" style={{ border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 12px rgba(63,44,39,0.06)' }}>
                         <img src={url} alt="" className="w-full h-full object-cover rounded-md" />
                         {count > 0 && (
                           <div className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)' }}>
@@ -4872,14 +4872,14 @@ export default function WatchPage() {
       {/* Mesaj Tebrik Modal — mobilde alta dock olur, klavye açılınca üstüne çıkar */}
       {showMessageModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4" onClick={() => setShowMessageModal(false)} style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
-          <div className="rounded-3xl max-w-md w-full overflow-hidden relative max-h-[88vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} style={{ background: 'linear-gradient(165deg, rgba(245,252,247,0.96), rgba(238,248,240,0.94))', backdropFilter: 'blur(40px)', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(76,175,80,0.1)' }}>
+          <div className="rounded-3xl max-w-md w-full overflow-hidden relative max-h-[88vh] overflow-y-auto" onClick={(e) => e.stopPropagation()} style={{ background: 'rgba(255,253,251,0.97)', backdropFilter: 'blur(30px)', boxShadow: '0 24px 70px rgba(63,44,39,0.16)', border: '1px solid rgba(60,45,41,0.07)' }}>
             <button onClick={() => setShowMessageModal(false)} className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 transition-all" style={{ background: 'rgba(0,0,0,0.05)' }}>
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             <div className="p-7">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(76,175,80,0.08)' }}>
-                  <svg className="w-5.5 h-5.5" style={{ color: '#5BA865' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.09)' }}>
+                  <svg className="w-5.5 h-5.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900">Mesaj Tebrik</h2>
@@ -4887,11 +4887,11 @@ export default function WatchPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.6)', border: '1px solid rgba(76,175,80,0.1)' }}>
+              <div className="rounded-2xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.7)', border: '1px solid rgba(60,45,41,0.07)' }}>
                 <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'inherit' }} />
               </div>
 
-              <button onClick={() => { const had = message.trim().length > 0; sendMessage(); setShowMessageModal(false); if (had && !isDemoEvent) setShowTebrikSuccess(true); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: 'linear-gradient(135deg, #6DC275, #5BA865)', boxShadow: '0 4px 16px rgba(76,175,80,0.2)' }}>
+              <button onClick={() => { const had = message.trim().length > 0; sendMessage(); setShowMessageModal(false); if (had && !isDemoEvent) setShowTebrikSuccess(true); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                 Tebrik Gönder
               </button>
             </div>
@@ -4902,15 +4902,15 @@ export default function WatchPage() {
       {/* Tebrik mesajı iletildi — onay + altın hediye CTA */}
       {showTebrikSuccess && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)' }} onClick={() => setShowTebrikSuccess(false)}>
-          <div className="rounded-3xl max-w-sm w-full p-7 pt-8 text-center relative" style={{ background: 'linear-gradient(165deg, #FBFDFB, #F2F8F3)', boxShadow: '0 25px 80px rgba(0,0,0,0.16)', border: '1px solid rgba(76,175,80,0.10)' }} onClick={(e) => e.stopPropagation()}>
-            <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: '#E4F4E8' }}>
-              <svg className="w-8 h-8" fill="none" stroke="#51B86D" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
+          <div className="rounded-3xl max-w-sm w-full p-7 pt-8 text-center relative" style={{ background: 'rgba(255,253,251,0.98)', boxShadow: '0 24px 70px rgba(63,44,39,0.16)', border: '1px solid rgba(60,45,41,0.07)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.10)' }}>
+              <svg className="w-8 h-8" fill="none" stroke="#C96F78" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-1.5">Tebriğiniz İletildi</h3>
             <p className="text-[13.5px] text-gray-500 mb-5 leading-relaxed">Mesajınız {event.bride_first_name} & {event.groom_first_name} çiftine ulaştı.</p>
             <div className="rounded-2xl p-4 mb-4" style={{ background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.16)' }}>
               <p className="text-[13px] font-semibold leading-snug mb-3" style={{ color: '#8B6914' }}>Mutlu Çiftimize Düğün Hediyesi olarak Altın Takabilirsiniz</p>
-              <button onClick={() => { setShowTebrikSuccess(false); setActiveMobileTab('altin'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-full text-white py-3 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" style={{ background: 'linear-gradient(135deg, #E0B84E, #C99A2E)', boxShadow: '0 6px 16px rgba(184,134,11,0.28), inset 0 1px 0 rgba(255,255,255,0.3)' }}>
+              <button onClick={() => { setShowTebrikSuccess(false); setActiveMobileTab('altin'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-full text-white py-3 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" /><circle cx="12" cy="14.5" r="5.5" /></svg>
                 Altın Tak
               </button>
