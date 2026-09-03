@@ -864,9 +864,7 @@ export default function WatchPage() {
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4 pb-10">
         {/* Header — sparkle'lı kalp + serif ince başlık + accent çizgi (kompakt) */}
         <div className="flex flex-col items-center text-center mb-[26px]">
-          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
           <h2 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Büyük günün bir parçası olun</h2>
-          <p className="italic mt-[7px]" style={{ fontFamily: serif, color: '#756E6B', fontSize: 'clamp(12.5px,3.6vw,14px)', lineHeight: 1.35 }}>Sevginizi paylaşmanın bir yolunu seçin.</p>
           <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
         {/* Tek panel — kompakt, daha yatay satırlar */}
@@ -879,7 +877,7 @@ export default function WatchPage() {
                   <span className="block" style={{ width: 'clamp(24px,6.7vw,26px)', height: 'clamp(24px,6.7vw,26px)' }}>{it.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col">
-                  <strong style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(15px,4.3vw,17px)', fontWeight: 500, letterSpacing: '-0.1px', lineHeight: 1.2 }}>{it.title}</strong>
+                  <strong style={{ color: '#302927', fontSize: 'clamp(15.5px,4.4vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{it.title}</strong>
                   <span className="mt-[5px]" style={{ color: '#716A67', fontSize: 'clamp(12.5px,3.6vw,13.5px)', lineHeight: 1.38 }}>{it.desc}</span>
                 </span>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="text-[#847E7B] group-hover:text-[#C96F78] transition-colors" style={{ width: 'clamp(16px,4.6vw,18px)', height: 'clamp(16px,4.6vw,18px)' }}><path d="M9 6l6 6-6 6" /></svg>
@@ -901,7 +899,6 @@ export default function WatchPage() {
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
         <div className="flex flex-col items-center text-center mb-6">
-          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
           <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
@@ -939,7 +936,7 @@ export default function WatchPage() {
                     : <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
-                  <strong style={{ color: '#302927', fontSize: 15, fontWeight: 600, lineHeight: 1.2 }}>{r.title}</strong>
+                  <strong style={{ color: '#302927', fontSize: 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
                   <span style={{ color: '#817976', fontSize: 13 }}>{r.sub}</span>
                 </span>
                 {chev}
@@ -977,22 +974,20 @@ export default function WatchPage() {
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Altın Tak ile aynı) */}
         <div className="flex flex-col items-center text-center mb-6">
-          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Tebrik Et</h1>
           <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
         {/* Panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
-          <h2 className="mb-[14px] px-1" style={{ color: '#302927', fontSize: 'clamp(15px,4.3vw,15.5px)', fontWeight: 600, letterSpacing: '-0.1px' }}>Tebrik türünü seçin</h2>
           {rows.map((r, idx) => (
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 'clamp(62px,18vw,73px)', marginRight: 10, background: 'rgba(60,45,41,0.065)' }} />}
-              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(84px,24vw,92px)', padding: 'clamp(12px,3.6vw,14px) clamp(8px,2.8vw,10px)' }}>
-                <span className="grid place-items-center rounded-full" style={{ width: 'clamp(46px,13vw,50px)', height: 'clamp(46px,13vw,50px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
+              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(90px,25vw,96px)', padding: 'clamp(13px,3.8vw,14px) clamp(8px,2.8vw,10px)' }}>
+                <span className="grid place-items-center rounded-full" style={{ width: 'clamp(48px,13.5vw,52px)', height: 'clamp(48px,13.5vw,52px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
                   <span className="block" style={{ width: 'clamp(23px,6.5vw,25px)', height: 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 4 }}>
-                  <strong style={{ color: '#302927', fontSize: 'clamp(15px,4.3vw,16px)', fontWeight: 600, letterSpacing: '-0.15px', lineHeight: 1.22 }}>{r.title}</strong>
+                  <strong style={{ color: '#302927', fontSize: 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.22 }}>{r.title}</strong>
                   <span style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.4 }}>{r.desc}</span>
                 </span>
                 <span className="grid place-items-center rounded-full" style={{ minWidth: 30, height: 30, padding: '0 8px', background: 'rgba(201,111,120,0.075)', color: rose, fontSize: 12, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
@@ -1025,7 +1020,6 @@ export default function WatchPage() {
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-4" style={{ paddingBottom: 'calc(190px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Tebrik/Altın ile aynı) */}
         <div className="flex flex-col items-center text-center mb-6">
-          <svg viewBox="0 0 24 24" className="w-[24px] h-[24px] mb-[6px]"><path d="M12 20.3l-1.3-1.2C6 15 3.2 12.3 3.2 9 3.2 6.45 5.2 4.45 7.7 4.45c1.4 0 2.8.66 3.7 1.7l.6.7.6-.7c.9-1.04 2.3-1.7 3.7-1.7 2.5 0 4.5 2 4.5 4.55 0 3.3-2.8 6-7.5 10.1z" fill="none" stroke={rose} strokeWidth="1.6" strokeLinejoin="round" /><path d="M18.7 2.9l.5 1.35 1.35.5-1.35.5-.5 1.35-.5-1.35-1.35-.5 1.35-.5z" fill={rose} /></svg>
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Albüm</h1>
           <span className="block mt-[11px] rounded-full" style={{ width: 28, height: 2, background: rose }} />
         </div>
