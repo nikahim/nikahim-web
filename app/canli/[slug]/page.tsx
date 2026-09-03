@@ -4352,17 +4352,17 @@ export default function WatchPage() {
         const img = isNakit ? '/altintaklira.png' : (pick === 'gram_altin' ? '/altintakgram.png' : '/ata-altin.png');
         return (
           <div className="lg:hidden fixed left-1/2 -translate-x-1/2 z-40" style={{ bottom: 'calc(104px + env(safe-area-inset-bottom))', width: 'calc(100% - 40px)', maxWidth: 620 }}>
-            <div className="flex items-center justify-between" style={{ gap: 10, padding: '10px 10px 10px 16px', minHeight: 86, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(60,45,41,0.06)', borderRadius: 22, boxShadow: '0 8px 24px rgba(63,44,39,0.045)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
+            <div className="flex items-center justify-between" style={{ gap: 10, padding: '9px 10px 9px 15px', minHeight: 76, background: 'rgba(255,255,255,0.92)', border: '1px solid rgba(60,45,41,0.06)', borderRadius: 22, boxShadow: '0 8px 24px rgba(63,44,39,0.045)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)' }}>
               <div className="flex items-center min-w-0" style={{ gap: 11 }}>
                 <span className="relative flex-shrink-0" style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(201,154,50,0.09)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 5 }} /></span>
                 <div className="min-w-0 flex flex-col" style={{ gap: 2 }}>
-                  <strong style={{ fontSize: 14.5, fontWeight: 600, color: '#302927' }}>{isNakit ? 'Özel Miktar' : g?.name}</strong>
-                  <span style={{ fontSize: 13.5, fontWeight: 600, color: '#C99A32' }}>{isNakit ? 'Siz belirleyin' : `₺${(g?.price || 0).toLocaleString()}`}</span>
+                  <strong style={{ fontSize: 14, fontWeight: 600, color: '#302927', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{isNakit ? 'Özel Miktar' : g?.name}</strong>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#C99A32', whiteSpace: 'nowrap' }}>{isNakit ? 'Siz belirleyin' : `₺${(g?.price || 0).toLocaleString()}`}</span>
                 </div>
               </div>
               <div className="flex items-center flex-shrink-0" style={{ gap: 6 }}>
-                <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 52, padding: '0 12px', borderRadius: 14, background: 'transparent', color: '#8A8280', fontSize: 13.5, fontWeight: 500 }}>Vazgeç</button>
-                <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 8, height: 52, minWidth: 132, padding: '0 16px', borderRadius: 17, background: '#C96F78', fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.14)' }}>
+                <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 46, padding: '0 11px', borderRadius: 13, background: 'transparent', color: '#8A8280', fontSize: 13, fontWeight: 500 }}>Vazgeç</button>
+                <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 46, minWidth: 124, padding: '0 15px', borderRadius: 14, background: '#C96F78', fontSize: 14, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 4px 12px rgba(201,111,120,0.13)' }}>
                   Devam Et
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
                 </button>
@@ -4543,19 +4543,20 @@ export default function WatchPage() {
 
             {/* Step indicator */}
             {paymentStep < 3 && (
-              <div className="px-6 pt-16 max-[400px]:pt-12 pb-1">
+              <div className="px-6 pt-14 max-[400px]:pt-11 pb-1">
                 <div className="flex items-center gap-0">
                   {[{n:1, label:'Ödeme Yöntemi'}, {n:2, label:'Transfer'}, {n:3, label:'Onay'}].map((step, i) => (
                     <div key={step.n} className="flex items-center" style={{ flex: i < 2 ? 1 : 'none' }}>
                       <div className="flex flex-col items-center">
-                        <div className="w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold transition-all duration-300" style={{
-                          background: step.n < paymentStep ? 'linear-gradient(135deg, #C9A13B, #A8892E)' : step.n === paymentStep ? 'linear-gradient(135deg, #D4AF37, #B8960B)' : 'rgba(215,210,200,0.35)',
-                          color: step.n <= paymentStep ? '#fff' : '#bbb',
-                          boxShadow: step.n === paymentStep ? '0 2px 10px rgba(201,161,59,0.35)' : 'none',
+                        <div className="rounded-full flex items-center justify-center transition-all duration-300" style={{
+                          width: 26, height: 26, fontSize: 11, fontWeight: 700,
+                          background: step.n <= paymentStep ? '#C96F78' : '#EFEAE6',
+                          color: step.n <= paymentStep ? '#fff' : '#A49F9A',
+                          boxShadow: step.n === paymentStep ? '0 3px 10px rgba(201,111,120,0.24)' : 'none',
                         }}>{step.n < paymentStep ? '✓' : step.n}</div>
-                        <span className="text-[8px] font-medium mt-1.5 whitespace-nowrap" style={{ color: paymentStep >= step.n ? '#A08530' : '#ccc' }}>{step.label}</span>
+                        <span className="mt-1.5 whitespace-nowrap" style={{ fontSize: 9, fontWeight: 500, color: paymentStep >= step.n ? '#8E5A62' : '#B7B0AC' }}>{step.label}</span>
                       </div>
-                      {i < 2 && <div className="flex-1 h-[2px] mx-2 rounded-full transition-all duration-500 mb-5" style={{ background: step.n < paymentStep ? 'linear-gradient(90deg, #C9A13B, #D4AF37)' : 'rgba(215,210,200,0.25)' }} />}
+                      {i < 2 && <div className="flex-1 h-[2px] mx-2 rounded-full transition-all duration-500 mb-5" style={{ background: step.n < paymentStep ? '#C96F78' : '#EAE5E1' }} />}
                     </div>
                   ))}
                 </div>
