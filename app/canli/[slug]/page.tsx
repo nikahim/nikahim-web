@@ -859,9 +859,9 @@ export default function WatchPage() {
     const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.4" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>;
     const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8 5h9.6a1.4 1.4 0 011.4 1.4V16" /><rect x="3.5" y="7.6" width="12.8" height="10.9" rx="2" /><circle cx="7" cy="11" r="1.05" /><path d="M4 17.2l3.1-2.7 2.1 1.7 3-2.4 3.6 3" /><path d="M18.4 17.6c-.82-.64-1.64-1.14-1.64-1.9 0-.45.36-.78.8-.78.32 0 .6.18.84.5.24-.32.52-.5.84-.5.44 0 .8.33.8.78 0 .76-.82 1.26-1.64 1.9z" fill="currentColor" stroke="none" /></svg>;
     const items = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
-      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, img: '/wa-tebrik.png', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte online desteğinizi gönderin.', icon: icAltin, img: '/wa-altin.png', accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
+      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, img: '/wa-album.png', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
     ];
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1 pb-10">
@@ -880,8 +880,8 @@ export default function WatchPage() {
             <div key={it.title}>
               {i > 0 && <div style={{ height: 1, marginLeft: 'clamp(70px,20.5vw,83px)', marginRight: 'clamp(16px,4.8vw,18px)', background: 'rgba(60,45,41,0.07)' }} />}
               <button onClick={() => pickAction(it.tab)} className="group w-full grid items-center text-left transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(54px,15vw,60px) minmax(0,1fr) 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(86px,24vw,96px)', padding: 'clamp(13px,4vw,14px) clamp(16px,5vw,18px)' }}>
-                <span className="flex items-center justify-center" style={{ width: 'clamp(54px,15vw,60px)', height: 'clamp(54px,15vw,60px)', borderRadius: 17, background: it.tint, color: it.accent }}>
-                  <span className="block" style={{ width: 'clamp(27px,7.4vw,29px)', height: 'clamp(27px,7.4vw,29px)' }}>{it.icon}</span>
+                <span className="relative block" style={{ width: 'clamp(54px,15vw,60px)', height: 'clamp(54px,15vw,60px)' }}>
+                  <Image src={it.img} alt="" fill sizes="60px" className="object-contain" />
                 </span>
                 <span className="min-w-0 flex flex-col">
                   <strong style={{ color: '#302927', fontSize: 'clamp(15.5px,4.4vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{it.title}</strong>
