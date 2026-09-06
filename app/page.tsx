@@ -1078,7 +1078,7 @@ export default function Home() {
               <h3 className="leading-[1.04]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px,7.2vw,38px)' }}>Masa düzeniniz,</h3>
               <h3 className="leading-[1.1] mt-0.5" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px,5.2vw,28px)' }}>zahmetsizce hazır.</h3>
               <div className="mt-[clamp(8px,2.4vw,11px)]" style={{ width: 'clamp(44px,11vw,60px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.3vw,13.5px)', maxWidth: '96%' }}>Katılımları takip edin, davetlilerinizi ekleyin. Akıllı planlayıcı, herkes için en uygun masa düzenini oluştursun.</p>
+              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.3vw,13.5px)', maxWidth: '96%' }}>Davetlilerinizi ekleyin, katılımlarını uygulama üzerinden takip edin. Akıllı planlayıcı, herkes için en uygun masa düzenini oluştursun.</p>
               <div className="grid grid-cols-3 gap-2 mt-[clamp(13px,3.6vw,18px)]">
                 {[
                   { label: 'Davetli Takibi', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
@@ -1093,16 +1093,16 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Masaüstü kart — görsel SOLDA (transparan yuvarlak kart), içerik SAĞDA */}
-          <div className="feature-card-hover hidden lg:block relative mx-auto w-full lg:aspect-[3/1] lg:max-w-none">
-            <img src="/kart-masa-masaustu.webp" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-contain pointer-events-none select-none" style={{ filter: 'drop-shadow(0 14px 34px rgba(72,47,42,0.09))' }} />
+          {/* Masaüstü kart — görsel SOLDA (dolu dikdörtgen), içerik SAĞDA */}
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+            <img src="/kart-masa-masaustu.webp" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
             {/* Masaüstü — metin SAĞDA (krem alanda) */}
-            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[40%] flex-col justify-center pr-[64px] pl-2">
+            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[37%] flex-col justify-center pr-[56px] pl-1">
               <div className="mb-5"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Masa düzeniniz,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>zahmetsizce hazır.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Katılımları takip edin, davetlilerinizi ekleyin. Akıllı planlayıcı, herkes için en uygun masa düzenini oluştursun.</p>
+              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin, katılımlarını uygulama üzerinden takip edin. Akıllı planlayıcı, herkes için en uygun masa düzenini oluştursun.</p>
               <div className="flex flex-col gap-3 items-start">
                 {[
                   { label: 'Davetli Takibi', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
@@ -1142,7 +1142,7 @@ export default function Home() {
             </div>
           </div>
           {/* Masaüstü kart (değişmedi) */}
-          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[1969/799] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             <img src="/bg-tebrik-masaustu.webp" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block absolute inset-0 w-full h-full object-contain pointer-events-none select-none" />
 
             {/* Masaüstü — içerik solda ortalı, feature'lar açıklama altında alt alta */}
@@ -1224,7 +1224,7 @@ export default function Home() {
               <h3 className="leading-[1.04]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px,7.4vw,40px)' }}>Her açıdan,</h3>
               <h3 className="leading-[1.1] mt-0.5" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px,5.4vw,30px)' }}>sizin hikâyeniz.</h3>
               <div className="mt-[clamp(8px,2.4vw,11px)]" style={{ width: 'clamp(44px,11vw,60px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.4vw,14px)', maxWidth: '94%' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde sizinle kalsın.</p>
+              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.4vw,14px)', maxWidth: '94%' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde sizinle kalsın hatta dileyenler baskı alsın.</p>
 
               {/* 3 statik foto — büyütülmüş, ortada; filmstrip yok */}
               <div className="relative flex-1 min-h-0 flex items-center justify-center">
@@ -1341,11 +1341,13 @@ export default function Home() {
 
             {/* SOL — Heading + açıklama + badges (zigzag: yazı solda, Tebrik hizası) */}
             <div className="absolute left-0 top-0 h-full w-[52%] flex flex-col justify-center pl-[176px] pr-4">
-              <div className="mb-5"><FeatureBadge label="FOTOĞRAF ALBÜMÜ" /></div>
-              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.4vw, 36px)' }}>Her açıdan,</h3>
-              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>sizin hikâyeniz.</h3>
-              <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] max-w-[380px] mb-5" style={{ color: '#6E5A5A' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde sizinle kalsın.</p>
+              <div className="-translate-y-[30px]">
+                <div className="mb-5"><FeatureBadge label="FOTOĞRAF ALBÜMÜ" /></div>
+                <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.4vw, 36px)' }}>Her açıdan,</h3>
+                <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>sizin hikâyeniz.</h3>
+                <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+                <p className="leading-snug text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde sizinle kalsın hatta dileyenler baskı alsın.</p>
+              </div>
               <div className="flex flex-row gap-5 items-center flex-wrap">
                 {[
                   { label: 'Tek Albüm', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> },
