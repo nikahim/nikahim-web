@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 interface ShopPackage {
   id: string;
@@ -49,6 +50,8 @@ export default function AdminShopPackagesPage() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Partial<ShopPackage> | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<ShopPackage | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => { fetchPackages(); }, []);
 
@@ -94,11 +97,15 @@ export default function AdminShopPackagesPage() {
     fetchPackages();
   };
 
-  const handleDelete = async (pkg: ShopPackage) => {
-    if (!confirm(`"${pkg.name_tr}" paketini silmek istediğinize emin misiniz?`)) return;
+  const confirmDelete = async () => {
+    const pkg = pendingDelete;
+    if (!pkg) return;
+    setDeleting(true);
     const prev = packages;
     setPackages(prev.filter(p => p.id !== pkg.id));
     const { error } = await supabase.from('shop_packages').delete().eq('id', pkg.id);
+    setDeleting(false);
+    setPendingDelete(null);
     if (error) {
       setPackages(prev);
       alert('Silme başarısız: ' + error.message);
@@ -169,7 +176,7 @@ export default function AdminShopPackagesPage() {
                 <button onClick={() => setEditing(pkg)} className="flex-1 py-2 rounded-full font-semibold text-sm border border-gray-200 hover:bg-gray-50">
                   Düzenle
                 </button>
-                <button onClick={() => handleDelete(pkg)} className="px-4 py-2 rounded-full font-semibold text-sm border border-red-200 text-red-500 hover:bg-red-50">
+                <button onClick={() => setPendingDelete(pkg)} className="px-4 py-2 rounded-full font-semibold text-sm border border-red-200 text-red-500 hover:bg-red-50">
                   Sil
                 </button>
               </div>
@@ -297,6 +304,20 @@ export default function AdminShopPackagesPage() {
           </div>
         </div>
       )}
+
+      <AppModal
+        open={!!pendingDelete}
+        variant="destructive"
+        title="Paketi Sil?"
+        description={pendingDelete ? `"${pendingDelete.name_tr}" paketi kalıcı olarak silinecek. Bu işlem geri alınamaz.` : ''}
+        primaryLabel="Sil"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        loading={deleting}
+        onPrimary={confirmDelete}
+        onSecondary={() => setPendingDelete(null)}
+        onClose={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

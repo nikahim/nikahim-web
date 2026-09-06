@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 const PERMS = [
   { key: "support", label: "Destek talepleri" },
@@ -23,6 +24,7 @@ export default function AdminAgentsPage() {
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState<{ m: string; t: "ok" | "err" } | null>(null);
   const [showCreate, setShowCreate] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<Agent | null>(null);
 
   const say = (m: string, t: "ok" | "err" = "ok") => { setToast({ m, t }); setTimeout(() => setToast(null), 4000); };
 
@@ -69,9 +71,11 @@ export default function AdminAgentsPage() {
     if (await call({ action: "reset_password", agent_id: ag.id, password: pw })) say("Şifre güncellendi");
   };
 
-  const removeAgent = async (ag: Agent) => {
-    if (!confirm(`${ag.username} uzmanını kalıcı silmek istediğine emin misin?`)) return;
+  const confirmDelete = async () => {
+    const ag = pendingDelete;
+    if (!ag) return;
     if (await call({ action: "delete", agent_id: ag.id })) { say("Uzman silindi"); load(); }
+    setPendingDelete(null);
   };
 
   const reviewApproval = async (r: any, status: "approved" | "rejected") => {
@@ -141,7 +145,7 @@ export default function AdminAgentsPage() {
                 <div className="flex items-center gap-1">
                   <button onClick={() => toggleActive(ag)} disabled={busy} title={ag.active ? "Pasife al" : "Aktifleştir"} className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 text-xs font-semibold">{ag.active ? "Durdur" : "Başlat"}</button>
                   <button onClick={() => resetPassword(ag)} disabled={busy} title="Şifre sıfırla" className="p-2 rounded-lg hover:bg-slate-100 text-slate-500 text-xs font-semibold">Şifre</button>
-                  <button onClick={() => removeAgent(ag)} disabled={busy} title="Sil" className="p-2 rounded-lg hover:bg-red-50 text-red-500 text-xs font-semibold">Sil</button>
+                  <button onClick={() => setPendingDelete(ag)} disabled={busy} title="Sil" className="p-2 rounded-lg hover:bg-red-50 text-red-500 text-xs font-semibold">Sil</button>
                 </div>
               </div>
               <div className="pt-3 border-t border-slate-100">
@@ -171,6 +175,20 @@ export default function AdminAgentsPage() {
           <div className={`px-5 py-3 rounded-2xl shadow-xl text-white text-sm font-semibold ${toast.t === "err" ? "bg-red-500" : "bg-emerald-600"}`}>{toast.m}</div>
         </div>
       )}
+
+      <AppModal
+        open={!!pendingDelete}
+        variant="destructive"
+        title="Uzmanı Sil?"
+        description={pendingDelete ? `${pendingDelete.full_name || pendingDelete.username} uzmanı kalıcı olarak silinecek. Bu işlem geri alınamaz.` : ''}
+        primaryLabel="Sil"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        loading={busy}
+        onPrimary={confirmDelete}
+        onSecondary={() => setPendingDelete(null)}
+        onClose={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

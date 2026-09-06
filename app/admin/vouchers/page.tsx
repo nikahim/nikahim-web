@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 interface Voucher {
   id: string;
@@ -20,6 +21,8 @@ export default function AdminVouchersPage() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Partial<Voucher> | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<Voucher | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => { fetchVouchers(); }, []);
 
@@ -54,9 +57,13 @@ export default function AdminVouchersPage() {
     fetchVouchers();
   };
 
-  const handleDelete = async (v: Voucher) => {
-    if (!confirm(`"${v.code}" kuponunu silmek istediğinize emin misiniz?`)) return;
+  const confirmDelete = async () => {
+    const v = pendingDelete;
+    if (!v) return;
+    setDeleting(true);
     await supabase.from('vouchers').delete().eq('id', v.id);
+    setDeleting(false);
+    setPendingDelete(null);
     fetchVouchers();
   };
 
@@ -120,7 +127,7 @@ export default function AdminVouchersPage() {
                   </td>
                   <td className="py-3 px-5 text-right">
                     <button onClick={() => setEditing(v)} className="text-rose-500 hover:text-rose-600 text-sm font-semibold mr-3">Düzenle</button>
-                    <button onClick={() => handleDelete(v)} className="text-red-500 hover:text-red-600 text-sm font-semibold">Sil</button>
+                    <button onClick={() => setPendingDelete(v)} className="text-red-500 hover:text-red-600 text-sm font-semibold">Sil</button>
                   </td>
                 </tr>
               ))}
@@ -195,6 +202,20 @@ export default function AdminVouchersPage() {
           </div>
         </div>
       )}
+
+      <AppModal
+        open={!!pendingDelete}
+        variant="destructive"
+        title="Kuponu Sil?"
+        description={pendingDelete ? `"${pendingDelete.code}" kuponu kalıcı olarak silinecek. Bu işlem geri alınamaz.` : ''}
+        primaryLabel="Sil"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        loading={deleting}
+        onPrimary={confirmDelete}
+        onSecondary={() => setPendingDelete(null)}
+        onClose={() => setPendingDelete(null)}
+      />
     </div>
   );
 }

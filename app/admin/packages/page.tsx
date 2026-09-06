@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 interface Package {
   id: string;
@@ -51,6 +52,8 @@ export default function AdminPackagesPage() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Partial<Package> | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<Package | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => { fetchPackages(); }, []);
 
@@ -97,11 +100,15 @@ export default function AdminPackagesPage() {
     fetchPackages();
   };
 
-  const handleDelete = async (pkg: Package) => {
-    if (!confirm(`"${pkg.name_tr}" paketini silmek istediğinize emin misiniz?`)) return;
+  const confirmDelete = async () => {
+    const pkg = pendingDelete;
+    if (!pkg) return;
+    setDeleting(true);
     const prev = packages;
     setPackages(prev.filter(p => p.id !== pkg.id));
     const { error } = await supabase.from('packages').delete().eq('id', pkg.id);
+    setDeleting(false);
+    setPendingDelete(null);
     if (error) {
       setPackages(prev);
       alert('Silme başarısız: ' + error.message);
@@ -176,7 +183,7 @@ export default function AdminPackagesPage() {
                   Düzenle
                 </button>
                 <button
-                  onClick={() => handleDelete(pkg)}
+                  onClick={() => setPendingDelete(pkg)}
                   className="px-4 py-2 rounded-full font-semibold text-sm border border-red-200 text-red-500 hover:bg-red-50"
                 >
                   Sil
@@ -303,6 +310,20 @@ export default function AdminPackagesPage() {
           </div>
         </div>
       )}
+
+      <AppModal
+        open={!!pendingDelete}
+        variant="destructive"
+        title="Paketi Sil?"
+        description={pendingDelete ? `"${pendingDelete.name_tr}" paketi kalıcı olarak silinecek. Bu işlem geri alınamaz.` : ''}
+        primaryLabel="Sil"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        loading={deleting}
+        onPrimary={confirmDelete}
+        onSecondary={() => setPendingDelete(null)}
+        onClose={() => setPendingDelete(null)}
+      />
     </div>
   );
 }
