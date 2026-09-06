@@ -950,7 +950,7 @@ export default function WatchPage() {
           </div>
           {!desktop && <div style={{ height: 1, margin: '20px 4px 3px', background: 'rgba(60,45,41,0.075)' }} />}
           {/* Gram Altın + Özel Miktar — masaüstünde coin'lerin sağında; seçim varsa onay */}
-          <div className={desktop ? 'lg:flex-1 lg:min-w-0 lg:self-stretch lg:pl-5 lg:border-l lg:flex lg:flex-col lg:justify-center' : 'contents'} style={desktop ? { borderColor: 'rgba(60,45,41,0.09)' } : undefined}>
+          <div className={desktop ? 'lg:flex-1 lg:min-w-0 lg:self-stretch lg:pl-5 lg:border-l lg:flex lg:flex-col lg:justify-center lg:gap-2.5' : 'contents'} style={desktop ? { borderColor: 'rgba(60,45,41,0.09)' } : undefined}>
           {desktop && goldPick ? (() => {
             const pick = goldPick as string;
             const g = goldOptions.find(x => x.id === pick);
@@ -977,23 +977,28 @@ export default function WatchPage() {
           })() : [
             { id: 'gram_altin', title: 'Gram Altın', sub: `₺${gramPrice.toLocaleString()}`, isRose: false },
             { id: 'nakit', title: 'Özel Miktar', sub: 'Tutarı siz belirleyin', isRose: true },
-          ].map((r, idx) => (
+          ].map((r, idx) => {
+            const sel = goldPick === r.id;
+            return (
             <div key={r.id}>
-              {idx > 0 && <div style={{ height: 1, marginLeft: 64, background: 'rgba(60,45,41,0.065)' }} />}
-              <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-colors active:bg-[rgba(60,45,41,0.02)]" style={{ gridTemplateColumns: '46px minmax(0,1fr) 20px', gap: 14, minHeight: desktop ? 58 : 74, padding: '10px 4px' }}>
-                <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: 'rgba(201,154,50,0.10)' }}>
+              {!desktop && idx > 0 && <div style={{ height: 1, marginLeft: 64, background: 'rgba(60,45,41,0.065)' }} />}
+              <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-all active:scale-[0.99]" style={{ gridTemplateColumns: '44px minmax(0,1fr) 20px', gap: 13, minHeight: desktop ? 60 : 74, padding: desktop ? '9px 12px' : '10px 4px', ...(desktop ? { borderRadius: 16, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' } : {}) }}>
+                <span className="grid place-items-center rounded-[13px]" style={{ width: 44, height: 44, background: 'rgba(201,154,50,0.10)' }}>
                   {r.id === 'gram_altin'
-                    ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
-                    : <span className="relative block" style={{ width: 30, height: 30 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
+                    ? <span className="relative block" style={{ width: 23, height: 23 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
+                    : <span className="relative block" style={{ width: 29, height: 29 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: desktop ? 15 : 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
                   <span style={{ color: '#817976', fontSize: desktop ? 12.5 : 13 }}>{r.sub}</span>
                 </span>
-                {chev}
+                {desktop
+                  ? <span className="grid place-items-center rounded-full justify-self-end" style={{ width: 20, height: 20, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 10, height: 10, borderRadius: 999, background: '#C96F78' }} />}</span>
+                  : chev}
               </button>
             </div>
-          ))}
+            );
+          })}
           </div>
           </div>
         </div>
@@ -1064,7 +1069,7 @@ export default function WatchPage() {
                   <strong style={{ color: '#302927', fontSize: desktop ? 14.5 : 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
                   {!desktop && <span style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.35 }}>{r.desc}</span>}
                 </span>
-                <span className="grid place-items-center rounded-full" style={{ minWidth: desktop ? 25 : 27, height: desktop ? 25 : 27, padding: '0 7px', background: 'rgba(201,111,120,0.07)', color: rose, fontSize: desktop ? 11 : 11.5, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
+                <span className="grid place-items-center rounded-full" style={{ minWidth: desktop ? 20 : 27, height: desktop ? 20 : 27, padding: desktop ? '0 5px' : '0 7px', background: desktop ? 'rgba(60,45,41,0.05)' : 'rgba(201,111,120,0.07)', color: desktop ? '#9A918D' : rose, fontSize: desktop ? 10 : 11.5, fontWeight: desktop ? 600 : 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
                 {chev}
               </button>
             </div>
@@ -1170,7 +1175,7 @@ export default function WatchPage() {
           )}
           {/* Albümü Görüntüle — ince, uzun, ikon yok */}
           {count > 0 && (
-            <button onClick={() => setShowPhotoGallery(true)} className={`w-full flex items-center justify-center text-white active:scale-[0.99] transition-transform ${desktop ? 'lg:mt-auto' : ''}`} style={{ height: 44, borderRadius: 14, background: rose, fontSize: 14, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.14)' }}>
+            <button onClick={() => setShowPhotoGallery(true)} className={`w-full flex items-center justify-center active:scale-[0.99] transition-transform ${desktop ? 'lg:mt-auto' : ''}`} style={desktop ? { height: 44, borderRadius: 14, background: '#FFFDFC', color: rose, border: '1px solid rgba(201,111,120,0.45)', fontSize: 14, fontWeight: 600, letterSpacing: '-0.1px' } : { height: 44, borderRadius: 14, background: rose, color: '#fff', fontSize: 14, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.14)' }}>
               Albümü Görüntüle
             </button>
           )}
@@ -2960,7 +2965,7 @@ export default function WatchPage() {
               )
             )}
 
-            {/* İzleyici sayısı — glass pill (stream aktif iken yeşil çevrimiçi nokta) */}
+            {/* İzleyici/davetli sayısı — canlı iken "izliyor" (yeşil nokta), değilken o ana kadar giren "davetli" */}
             <span className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold"
                   style={{
                     color: '#6B5A5A',
@@ -3010,7 +3015,7 @@ export default function WatchPage() {
           {/* SOL PANEL - Çift Bilgisi (%20) */}
           <div ref={leftPanelRef} className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3">
             {/* Çift + Aile — TEK kart (kart üstüne kart hissi yok, daha premium) */}
-            <div className="rounded-2xl p-5 flex-1" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+            <div className="rounded-2xl p-5 flex-1 flex flex-col" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div className="text-center">
                 {event.couple_photo_url ? (
                   <img src={event.couple_photo_url} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
@@ -3047,31 +3052,21 @@ export default function WatchPage() {
                   </div>
                 )}
               </div>
-              {/* Ayraç — çift bilgisi ile aile bilgisi arası */}
-              <div className="my-4 flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.2), transparent)' }} /></div>
-              {/* Aile Bilgisi */}
-              <div className="space-y-3">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Gelin Ailesi</p>
-                  <p className="text-gray-600 text-[13px]">{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '-'}</p>
-                </div>
-                <div className="flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(200,104,110,0.2), transparent)' }} /></div>
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-wider mb-1" style={{ color: '#C8686E' }}>Damat Ailesi</p>
-                  <p className="text-gray-600 text-[13px]">{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '-'}</p>
+              {/* Ayraç */}
+              <div className="my-4 flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.2), transparent)' }} /></div>
+              {/* Aileler — tek başlık, iki satır (sade) */}
+              <div>
+                <p className="text-[12px] font-semibold mb-2.5" style={{ color: '#4A4340' }}>Aileler</p>
+                <div className="space-y-2">
+                  <p className="text-[13px]" style={{ color: '#6B6360' }}><span style={{ color: '#AEA5A2' }}>Gelin&nbsp;·&nbsp;</span>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '—'}</p>
+                  <p className="text-[13px]" style={{ color: '#6B6360' }}><span style={{ color: '#AEA5A2' }}>Damat&nbsp;·&nbsp;</span>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '—'}</p>
                 </div>
               </div>
-            </div>
-
-            {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir (altın bandı hizasında biter) */}
-            <div className="rounded-2xl p-5 flex flex-col text-center justify-center gap-3.5 lg:min-h-[210px] lg:flex-shrink-0" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
-              <p className="text-[15px] font-semibold leading-snug" style={{ color: '#7B6A74' }}>
-                Bu büyük Günü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
-              </p>
-              <button onClick={() => { window.open('/', '_blank', 'noopener,noreferrer'); }} className="w-full mt-1 px-6 py-2.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] border-2 flex items-center justify-center gap-1.5" style={{ borderColor: 'rgba(200,104,110,0.35)', color: '#C8686E', background: 'rgba(255,255,255,0.55)' }}>
-                Nikahım&apos;ı Keşfet
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
-              </button>
+              {/* Nikahım — sessiz marka linki (kartın en altında, premium funnel) */}
+              <a href="/" target="_blank" rel="noopener noreferrer" className="group mt-auto pt-5 flex items-center justify-center gap-1.5 text-[12.5px] font-medium">
+                <span className="transition-colors group-hover:text-[#C96F78]" style={{ color: '#A29695' }}>Nikahım&apos;ı Keşfet</span>
+                <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="#C96F78" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+              </a>
             </div>
           </div>
 
@@ -3382,19 +3377,18 @@ export default function WatchPage() {
                       En özel anlar, birlikte yaşanır
                     </p>
 
-                    {/* Countdown boxes — site default font + yukarı çekildi */}
-                    <div className="flex gap-3 lg:gap-4">
+                    {/* Countdown — tek cam panel, ince ayraçlı 4 değer (Apple hissi) */}
+                    <div className="relative inline-flex items-stretch backdrop-blur-xl rounded-2xl overflow-hidden"
+                         style={{
+                           background: 'linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.055) 100%)',
+                           border: '1px solid rgba(255,255,255,0.18)',
+                           boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.20), 0 10px 30px rgba(0,0,0,0.30)',
+                         }}>
+                      <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: '38%', background: 'linear-gradient(180deg, rgba(255,255,255,0.16) 0%, transparent 100%)' }} />
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
-                        <div key={i} className="relative backdrop-blur-xl rounded-xl px-3 py-2.5 lg:px-5 lg:py-4 text-center min-w-[54px] lg:min-w-[68px] transition-transform hover:scale-[1.04] overflow-hidden"
-                             style={{
-                               background: 'linear-gradient(180deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.06) 100%)',
-                               border: '1px solid rgba(255,255,255,0.18)',
-                               boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.20), inset 0 0 20px rgba(200,104,110,0.08), 0 8px 24px rgba(0,0,0,0.30), 0 0 18px rgba(200,104,110,0.10)',
-                             }}>
-                          {/* Üst ışık layer */}
-                          <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: '40%', background: 'linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%)' }} />
-                          <div className="relative text-2xl lg:text-4xl font-bold text-white drop-shadow-lg tabular-nums" style={{ letterSpacing: '0.5px' }}>{c.v}</div>
-                          <div className="relative text-[9px] lg:text-[10px] text-white/55 uppercase tracking-[1.2px] mt-1">{c.l}</div>
+                        <div key={i} className="relative flex flex-col items-center justify-center text-center px-4 py-2.5 lg:px-7 lg:py-4 min-w-[52px] lg:min-w-[74px]" style={i > 0 ? { borderLeft: '1px solid rgba(255,255,255,0.13)' } : undefined}>
+                          <div className="text-2xl lg:text-4xl font-bold text-white drop-shadow tabular-nums" style={{ letterSpacing: '0.5px' }}>{c.v}</div>
+                          <div className="text-[9px] lg:text-[10px] text-white/55 uppercase tracking-[1.2px] mt-1">{c.l}</div>
                         </div>
                       ))}
                     </div>
