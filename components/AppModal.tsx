@@ -174,13 +174,15 @@ export default function AppModal({
             >
               {loading ? <Spinner /> : primaryLabel}
             </button>
-            <button
-              onClick={onSecondary ?? onClose}
-              className="transition-colors"
-              style={{ height: 42, marginTop: 5, fontSize: 15, fontWeight: 600, color: '#62595B' }}
-            >
-              {secondaryLabel}
-            </button>
+            {secondaryLabel ? (
+              <button
+                onClick={onSecondary ?? onClose}
+                className="transition-colors"
+                style={{ height: 42, marginTop: 5, fontSize: 15, fontWeight: 600, color: '#62595B' }}
+              >
+                {secondaryLabel}
+              </button>
+            ) : null}
           </>
         )}
       </div>

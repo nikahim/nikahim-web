@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import ApiVideoPlayer from '@/components/ApiVideoPlayer';
 import VideoRecorder from '@/components/VideoRecorder';
 import VoiceRecorder from '@/components/VoiceRecorder';
+import AppModal from '@/components/AppModal';
 import { fullFaqCategories } from '@/lib/faq-data';
 
 const SUPABASE_URL = 'https://haeifluvvazdealsofle.supabase.co';
@@ -776,19 +777,18 @@ export default function WatchPage() {
 
   // Fotoğrafçı izni kapalı uyarısı (gri buton tıklanınca)
   const renderPhotogGate = () => {
-    if (!showPhotogGate) return null;
     const tur = event?.event_type === 'dugun' ? 'düğün' : 'nikah';
     return (
-      <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(6px)' }} onClick={() => setShowPhotogGate(false)}>
-        <div className="rounded-3xl p-7 max-w-xs w-full text-center relative" style={{ background: '#FFFCF9', boxShadow: '0 25px 70px rgba(0,0,0,0.18)' }} onClick={(e) => e.stopPropagation()}>
-          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ background: '#F3F0F0' }}>
-            <svg className="w-7 h-7" fill="none" stroke="#8A7E7E" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
-          </div>
-          <h3 className="text-[16px] font-bold text-gray-900 mb-1.5">Baskı Hizmeti Kapalı</h3>
-          <p className="text-[13px] text-gray-500 mb-6 leading-snug">Bu hizmet bu {tur} için aktif değil. Baskı almak isterseniz çiftle iletişime geçebilirsiniz.</p>
-          <button onClick={() => setShowPhotogGate(false)} className="w-full py-3 rounded-xl font-semibold text-[14px] text-white" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}>Anladım</button>
-        </div>
-      </div>
+      <AppModal
+        open={showPhotogGate}
+        variant="warning"
+        title="Baskı Hizmeti Kapalı"
+        description={`Bu hizmet bu ${tur} için aktif değil. Baskı almak isterseniz çiftle iletişime geçebilirsiniz.`}
+        primaryLabel="Anladım"
+        secondaryLabel=""
+        onPrimary={() => setShowPhotogGate(false)}
+        onClose={() => setShowPhotogGate(false)}
+      />
     );
   };
 
@@ -4955,25 +4955,17 @@ export default function WatchPage() {
       )}
 
       {/* Tebrik mesajı iletildi — onay + altın hediye CTA */}
-      {showTebrikSuccess && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(8px)' }} onClick={() => setShowTebrikSuccess(false)}>
-          <div className="rounded-3xl max-w-sm w-full p-7 pt-8 text-center relative" style={{ background: 'rgba(255,253,251,0.98)', boxShadow: '0 24px 70px rgba(63,44,39,0.16)', border: '1px solid rgba(60,45,41,0.07)' }} onClick={(e) => e.stopPropagation()}>
-            <div className="w-16 h-16 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.10)' }}>
-              <svg className="w-8 h-8" fill="none" stroke="#C96F78" strokeWidth={2.5} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-1.5">Tebriğiniz İletildi</h3>
-            <p className="text-[13.5px] text-gray-500 mb-5 leading-relaxed">Mesajınız {event.bride_first_name} & {event.groom_first_name} çiftine ulaştı.</p>
-            <div className="rounded-2xl p-4 mb-4" style={{ background: 'rgba(212,175,55,0.06)', border: '1px solid rgba(212,175,55,0.16)' }}>
-              <p className="text-[13px] font-semibold leading-snug mb-3" style={{ color: '#8B6914' }}>Mutlu Çiftimize Düğün Hediyesi olarak Altın Takabilirsiniz</p>
-              <button onClick={() => { setShowTebrikSuccess(false); setActiveMobileTab('altin'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="w-full text-white py-3 rounded-xl font-semibold text-[14px] flex items-center justify-center gap-2 transition-transform active:scale-[0.98]" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7.5L6 4h2.5L10 2 11.5 3.5 12.5 2 14 3.5 15.5 2 18 4l-2 3.5" /><circle cx="12" cy="14.5" r="5.5" /></svg>
-                Altın Tak
-              </button>
-            </div>
-            <button onClick={() => setShowTebrikSuccess(false)} className="text-[13px] font-medium text-gray-400 py-1">Şimdilik Kapat</button>
-          </div>
-        </div>
-      )}
+      <AppModal
+        open={showTebrikSuccess}
+        variant="success"
+        title="Tebriğiniz İletildi"
+        description={`Mesajınız ${event?.bride_first_name ?? ''} & ${event?.groom_first_name ?? ''} çiftine ulaştı. Dilerseniz çifte düğün hediyesi olarak altın da takabilirsiniz.`}
+        primaryLabel="Altın Tak"
+        secondaryLabel="Şimdilik Kapat"
+        onPrimary={() => { setShowTebrikSuccess(false); setActiveMobileTab('altin'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        onSecondary={() => setShowTebrikSuccess(false)}
+        onClose={() => setShowTebrikSuccess(false)}
+      />
 
       {showWelcomeModal && (
         <div className="fixed inset-0 bg-black/50 z-[60] flex items-center justify-center p-4 overflow-hidden">
