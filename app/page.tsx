@@ -1071,7 +1071,7 @@ export default function Home() {
 
           {/* Takılan Altınlarınız Doğrudan Hesabınıza */}
           {/* Mobil — transparan dikey kart (doğal oran), üstte içerik */}
-          <div className="lg:hidden relative mx-auto w-full max-w-[420px]" style={{ aspectRatio: '846 / 1411' }}>
+          <div className="lg:hidden relative mx-auto w-full max-w-[420px]" style={{ aspectRatio: '944 / 1568' }}>
             <img src="/kart-altin-t.webp" alt="Takılan altınlarınız doğrudan hesabınıza" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" style={{ filter: 'drop-shadow(0 16px 38px rgba(72,47,42,0.10))' }} />
             <div className="absolute inset-x-0 top-0" style={{ padding: 'clamp(22px,6.2vw,30px) clamp(24px,6.5vw,32px) 0' }}>
               <div className="mb-[clamp(8px,2.6vw,12px)]"><FeatureBadge label="ALTIN TAKMA" /></div>
@@ -1376,20 +1376,20 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[
-              { step: '01', title: 'Uygulamayı İndirin', desc: 'App Store veya Google Play\'den Nikahım uygulamasını ücretsiz indirin.', cta: 'Uygulamayı İndir', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
-              { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi girin, davetiyenizi ve paket ayarlarınızı seçin.', cta: 'Paketleri Gör', action: () => scrollToSection('paketler'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
-              { step: '03', title: 'Yayına Geçin', desc: 'Tek tuşla canlı yayını başlatın, sevdikleriniz uzaktan izlesin.', cta: 'Özellikleri Keşfet', action: () => scrollToSection('neden-nikahim'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
+              { step: '01', title: 'Uygulamayı İndirin', desc: 'Büyük gününüzü dilediğiniz yerden yönetin.', cta: 'Uygulamayı İndir', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
+              { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi ekleyin, davetiyenizi hazırlayın ve tercihlerinizi belirleyin.', cta: 'Etkinliğinizi Oluşturun', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
+              { step: '03', title: 'Büyük Gününüz Hazır', desc: 'Yayından albüme, tüm özellikleri tek yerden yönetin.', cta: 'Özellikleri Keşfedin', action: () => scrollToSection('neden-nikahim'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
             ].map((item) => {
               return (
                 <div
                   key={item.step}
                   onClick={item.action}
-                  className="premium-card group relative bg-white rounded-3xl p-10 transition-all duration-500 hover:-translate-y-2 cursor-pointer flex flex-col h-full"
+                  className="premium-card group relative bg-white rounded-3xl p-7 md:p-10 transition-all duration-500 hover:-translate-y-2 cursor-pointer flex flex-col h-full"
                   style={{ boxShadow: '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)', border: '1px solid rgba(200,104,110,0.10)' }}
                   onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.20), 0 8px 24px rgba(0,0,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.28)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.10)'; }}
                 >
-                  <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center justify-between mb-5 md:mb-8">
                     <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>
                       <div aria-hidden="true" className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
                       <div className="relative">{item.icon}</div>
