@@ -320,6 +320,7 @@ export default function WatchPage() {
   const galleryScrollRef = useRef<HTMLDivElement | null>(null);
   const goldCheckoutRef = useRef<HTMLDivElement | null>(null);
   const [photoLightboxIndex, setPhotoLightboxIndex] = useState<number | null>(null);
+  const [lightboxList, setLightboxList] = useState<string[]>([]); // lightbox'ın gezdiği sıralı liste (galeride gösterilen sıra)
   // Altın seçimi yapılınca beliren onay kartını yumuşak görünür kıl (sadece altın sayfası)
   useEffect(() => {
     if (!goldPick) return;
@@ -762,7 +763,10 @@ export default function WatchPage() {
                     <span className="text-[13px] text-gray-600">{printQty} adet{size && size.price_tl > 0 ? ` × ${size.price_tl}₺` : ''}</span>
                     <span className="text-[17px] font-bold" style={{ color: '#B85258' }}>{size && size.price_tl > 0 ? `${total}₺` : '—'}</span>
                   </div>
-                  <p className="text-[12px] text-gray-400 text-center mb-4 leading-snug">Ücret fotoğrafçıya etkinlik yerinde ödenir. Onaylıyor musunuz?</p>
+                  <div className="flex items-start gap-2.5 mb-4 px-3.5 py-3 rounded-xl" style={{ background: '#FDF3E1', border: '1px solid rgba(184,137,46,0.28)' }}>
+                    <svg className="w-[19px] h-[19px] flex-shrink-0" style={{ marginTop: 1 }} viewBox="0 0 24 24" fill="none" stroke="#C68A1E" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86l-8.18 14A1.5 1.5 0 003.4 20h17.2a1.5 1.5 0 001.29-2.14l-8.18-14a1.5 1.5 0 00-2.62 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+                    <span className="text-[12.5px] leading-snug" style={{ color: '#7A5A0E', fontWeight: 500 }}>Baskı ücreti, fotoğrafı fotoğrafçıdan teslim alırken <strong style={{ fontWeight: 700 }}>etkinlik yerinde</strong> ödenir.</span>
+                  </div>
 
                   <div className="flex gap-3">
                     <button onClick={() => setPrintPhoto(null)} className="flex-1 py-3 rounded-xl font-semibold text-[14px]" style={{ background: '#F3EEEE', color: '#8A7E7E' }}>Vazgeç</button>
@@ -927,9 +931,9 @@ export default function WatchPage() {
         )}
         {/* Ana panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: desktop ? 'clamp(16px,4.5vw,18px)' : 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
-          <div className={desktop ? 'lg:flex lg:items-center lg:gap-5' : ''}>
+          <div className={desktop ? 'lg:flex lg:items-center lg:gap-5 lg:h-[164px]' : ''}>
           {/* 3 altın kartı — radio seçim, sarı zemin yok */}
-          <div className={desktop ? 'grid grid-cols-3 lg:basis-[64%] lg:flex-shrink-0' : 'grid grid-cols-3'} style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
+          <div className={desktop ? 'grid grid-cols-3 lg:basis-[64%] lg:max-w-[472px] lg:flex-shrink-0' : 'grid grid-cols-3'} style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
             {coins.map((g) => {
               const sel = goldPick === g.id;
               const popular = g.id === 'yarim_altin';
@@ -3940,7 +3944,7 @@ export default function WatchPage() {
                               const liked = likedByMe.has(url);
                               const count = photoLikes[url] || 0;
                               return (
-                                <div key={url} onClick={() => setPhotoLightboxIndex(slideshowPhotos.indexOf(url))} className="min-h-0 rounded-xl overflow-hidden transition-transform active:scale-[0.98] cursor-pointer relative bg-white p-[3px]" style={{ border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 12px rgba(63,44,39,0.06)' }}>
+                                <div key={url} onClick={() => { setLightboxList(sorted); setPhotoLightboxIndex(sorted.indexOf(url)); }} className="min-h-0 rounded-xl overflow-hidden transition-transform active:scale-[0.98] cursor-pointer relative bg-white p-[3px]" style={{ border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 4px 12px rgba(63,44,39,0.06)' }}>
                                   <img src={url} alt="" className="w-full h-full object-cover rounded-md" />
                                   {count > 0 && (
                                     <div className="absolute bottom-1.5 left-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(6px)' }}>
@@ -3989,7 +3993,9 @@ export default function WatchPage() {
         </div>
       )}
 
-      {photoLightboxIndex !== null && slideshowPhotos[photoLightboxIndex] && (
+      {photoLightboxIndex !== null && (lightboxList.length ? lightboxList : slideshowPhotos)[photoLightboxIndex] && (() => {
+        const lb = lightboxList.length ? lightboxList : slideshowPhotos;
+        return (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center"
           style={{ background: 'rgba(0,0,0,0.92)' }}
@@ -3999,30 +4005,30 @@ export default function WatchPage() {
             const diff = e.changedTouches[0].clientX - lightboxTouchStartRef.current;
             if (Math.abs(diff) > 50) {
               if (diff > 0 && photoLightboxIndex > 0) setPhotoLightboxIndex(photoLightboxIndex - 1);
-              else if (diff < 0 && photoLightboxIndex < slideshowPhotos.length - 1) setPhotoLightboxIndex(photoLightboxIndex + 1);
+              else if (diff < 0 && photoLightboxIndex < lb.length - 1) setPhotoLightboxIndex(photoLightboxIndex + 1);
             }
           }}
         >
           <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(null); }} className="absolute top-6 right-6 w-11 h-11 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Kapat">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
-          <img src={slideshowPhotos[photoLightboxIndex]} alt="" className="max-w-[92%] max-h-[85%] object-contain" onClick={(e) => e.stopPropagation()} />
+          <img src={lb[photoLightboxIndex]} alt="" className="max-w-[92%] max-h-[85%] object-contain" onClick={(e) => e.stopPropagation()} />
           {photoLightboxIndex > 0 && (
             <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(photoLightboxIndex - 1); }} className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Önceki">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" /></svg>
             </button>
           )}
-          {photoLightboxIndex < slideshowPhotos.length - 1 && (
+          {photoLightboxIndex < lb.length - 1 && (
             <button onClick={(e) => { e.stopPropagation(); setPhotoLightboxIndex(photoLightboxIndex + 1); }} className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full flex items-center justify-center text-white" style={{ background: 'rgba(0,0,0,0.5)' }} aria-label="Sonraki">
               <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" /></svg>
             </button>
           )}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-white text-sm font-semibold" style={{ background: 'rgba(0,0,0,0.5)' }}>
-            {photoLightboxIndex + 1} / {slideshowPhotos.length}
+            {photoLightboxIndex + 1} / {lb.length}
           </div>
           {/* Like butonu — sol alt, alt sayaç ile dengeli */}
           {(() => {
-            const url = slideshowPhotos[photoLightboxIndex];
+            const url = lb[photoLightboxIndex];
             const liked = likedByMe.has(url);
             const count = photoLikes[url] || 0;
             return (
@@ -4041,7 +4047,8 @@ export default function WatchPage() {
             );
           })()}
         </div>
-      )}
+        );
+      })()}
 
       {showVideoRecorder && event && (
         <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
