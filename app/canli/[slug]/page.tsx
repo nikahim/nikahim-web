@@ -929,16 +929,16 @@ export default function WatchPage() {
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: desktop ? 'clamp(16px,4.5vw,18px)' : 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           <div className={desktop ? 'lg:flex lg:items-center lg:gap-5' : ''}>
           {/* 3 altın kartı — radio seçim, sarı zemin yok */}
-          <div className={desktop ? 'grid grid-cols-3 lg:basis-[43%] lg:flex-shrink-0' : 'grid grid-cols-3'} style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
+          <div className={desktop ? 'grid grid-cols-3 lg:basis-[64%] lg:flex-shrink-0' : 'grid grid-cols-3'} style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
             {coins.map((g) => {
               const sel = goldPick === g.id;
               const popular = g.id === 'yarim_altin';
               return (
-                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: desktop ? 168 : 'clamp(154px,43vw,176px)', padding: desktop ? '15px 7px 12px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
+                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center justify-center transition-all active:scale-[0.985]" style={{ ...(desktop ? { aspectRatio: '1 / 1' } : { minHeight: 'clamp(154px,43vw,176px)' }), padding: desktop ? '10px 8px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
                   {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: desktop ? '4px 8px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 9.5 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
-                  <span style={{ minHeight: 18, fontSize: desktop ? 13 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
-                  <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 50 : 'clamp(46px,13.5vw,56px)', height: desktop ? 50 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '11px 0 9px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
-                  <strong style={{ marginTop: 'auto', fontSize: desktop ? 15 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
+                  <span style={{ minHeight: 18, fontSize: desktop ? 13.5 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
+                  <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 58 : 'clamp(46px,13.5vw,56px)', height: desktop ? 58 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '10px 0 8px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <strong style={{ marginTop: desktop ? 0 : 'auto', fontSize: desktop ? 16 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
                   <span className="grid place-items-center rounded-full" style={{ marginTop: desktop ? 10 : 10, width: desktop ? 20 : 21, height: desktop ? 20 : 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: desktop ? 10 : 11, height: desktop ? 10 : 11, borderRadius: 999, background: '#C96F78' }} />}</span>
                 </button>
               );
@@ -1065,28 +1065,14 @@ export default function WatchPage() {
               </button>
             </div>
           ))}
-          {/* Trust — masaüstü: panelin içinde tek satır (ikon + kısa metin) */}
-          {desktop && (
-            <div className="flex items-center justify-center mt-2 pt-3" style={{ gap: 9, borderTop: '1px solid rgba(60,45,41,0.06)' }}>
-              <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 26, height: 26, background: 'rgba(201,111,120,0.09)', color: rose }}>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
-              </span>
-              <strong style={{ color: '#5D5653', fontSize: 12, fontWeight: 500, lineHeight: 1.3 }}>Mesajınız yalnızca çifte iletilir</strong>
-            </div>
-          )}
-        </div>
-        {/* Trust — mobil: ayrı kart (kompakt) */}
-        {!desktop && (
-        <div className="mt-4 flex items-center" style={{ gap: 12, padding: '11px 15px', border: '1px solid rgba(60,45,41,0.055)', borderRadius: 18, background: 'rgba(255,255,255,0.68)', boxShadow: '0 6px 18px rgba(63,44,39,0.022)' }}>
-          <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 36, height: 36, background: 'rgba(201,111,120,0.09)', color: rose }}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
-          </span>
-          <div className="min-w-0 flex flex-col" style={{ gap: 2 }}>
-            <strong style={{ color: '#302927', fontSize: 13, fontWeight: 600, lineHeight: 1.3 }}>Mesajınız yalnızca çifte iletilir</strong>
-            <span style={{ color: '#77706D', fontSize: 11.5, lineHeight: 1.4 }}>Tebriğinizi dilediğiniz zaman bırakabilirsiniz.</span>
+          {/* Trust — panelin içinde tek satır (ikon + kısa metin) — mobil + masaüstü */}
+          <div className="flex items-center justify-center mt-2 pt-3" style={{ gap: 9, borderTop: '1px solid rgba(60,45,41,0.06)' }}>
+            <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: desktop ? 26 : 28, height: desktop ? 26 : 28, background: 'rgba(201,111,120,0.09)', color: rose }}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={desktop ? 'w-[14px] h-[14px]' : 'w-[15px] h-[15px]'}><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
+            </span>
+            <strong style={{ color: '#5D5653', fontSize: desktop ? 12 : 12.5, fontWeight: 500, lineHeight: 1.3 }}>Mesajınız yalnızca çifte iletilir</strong>
           </div>
         </div>
-        )}
       </section>
     );
   };
@@ -3015,7 +3001,7 @@ export default function WatchPage() {
 
       {/* 3 PANEL LAYOUT */}
       <div className="max-w-[1600px] mx-auto pt-3 px-3 pb-0 lg:p-5 lg:pb-5">
-        <div className="flex flex-col lg:flex-row lg:items-start gap-4 lg:gap-5">
+        <div className="flex flex-col lg:flex-row lg:items-stretch gap-4 lg:gap-5">
 
           {/* SOL PANEL - Çift Bilgisi (%20) */}
           <div ref={leftPanelRef} className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3">
@@ -3073,8 +3059,8 @@ export default function WatchPage() {
               </div>
             </div>
 
-            {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir */}
-            <div className="rounded-2xl p-5 flex flex-col text-center justify-center gap-3.5" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
+            {/* Nikahım tanıtım CTA — ana sayfaya yönlendirir (altın bandı hizasında biter) */}
+            <div className="rounded-2xl p-5 flex flex-col text-center justify-center gap-3.5 lg:min-h-[210px] lg:flex-shrink-0" style={{ background: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 16px rgba(0,0,0,0.05)', border: '1px solid rgba(200,104,110,0.12)' }}>
               <p className="text-[15px] font-semibold leading-snug" style={{ color: '#7B6A74' }}>
                 Bu büyük Günü sen de <span style={{ color: '#C8686E' }}>Nikahım&apos;la</span> kolaylaştırmak ister misin?
               </p>
