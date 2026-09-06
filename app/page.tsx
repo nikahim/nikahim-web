@@ -1069,21 +1069,21 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Takılan Altınlarınız Doğrudan Hesabınıza */}
+          {/* Akıllı Masa Planlayıcısı */}
           {/* Mobil — transparan dikey kart (doğal oran), üstte içerik */}
-          <div className="lg:hidden relative mx-auto w-full max-w-[420px]" style={{ aspectRatio: '944 / 1568' }}>
-            <img src="/kart-altin-t.webp" alt="Takılan altınlarınız doğrudan hesabınıza" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" style={{ filter: 'drop-shadow(0 16px 38px rgba(72,47,42,0.10))' }} />
+          <div className="lg:hidden relative mx-auto w-full max-w-[420px]" style={{ aspectRatio: '934 / 1478' }}>
+            <img src="/kart-masa-t.webp" alt="Akıllı masa planlayıcısı" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" style={{ filter: 'drop-shadow(0 16px 38px rgba(72,47,42,0.10))' }} />
             <div className="absolute inset-x-0 top-0" style={{ padding: 'clamp(22px,6.2vw,30px) clamp(24px,6.5vw,32px) 0' }}>
-              <div className="mb-[clamp(8px,2.6vw,12px)]"><FeatureBadge label="ALTIN TAKMA" /></div>
-              <h3 className="leading-[1.04]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px,7.2vw,38px)' }}>Altınlarınız,</h3>
-              <h3 className="leading-[1.1] mt-0.5" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px,4.8vw,27px)' }}>doğrudan hesabınıza.</h3>
+              <div className="mb-[clamp(8px,2.6vw,12px)]"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
+              <h3 className="leading-[1.04]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px,7.2vw,38px)' }}>Masa düzeniniz,</h3>
+              <h3 className="leading-[1.1] mt-0.5" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px,5.2vw,28px)' }}>zahmetsizce hazır.</h3>
               <div className="mt-[clamp(8px,2.4vw,11px)]" style={{ width: 'clamp(44px,11vw,60px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.3vw,13.5px)', maxWidth: '96%' }}>Davetlileriniz altınını seçsin, TL karşılığını size göndersin.</p>
+              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.3vw,13.5px)', maxWidth: '96%' }}>Davetlilerinizi ekleyin. Akıllı planlayıcı, herkes için en uygun masa düzenini oluştursun.</p>
               <div className="grid grid-cols-3 gap-2 mt-[clamp(13px,3.6vw,18px)]">
                 {[
-                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
-                  { label: 'Havale / EFT', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'TL Karşılığı', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="26" fontWeight="500">₺</text></svg> },
+                  { label: 'Akıllı Yerleşim', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
+                  { label: 'Davetli Yönetimi', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
+                  { label: 'Kolay Düzenleme', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" /></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex flex-col items-center text-center gap-1.5">
                     <span className="grid place-items-center rounded-[13px]" style={{ width: 'clamp(40px,11vw,48px)', height: 'clamp(40px,11vw,48px)', background: '#FFFFFF', border: '1px solid rgba(216,101,112,0.14)', boxShadow: '0 3px 10px rgba(70,45,40,0.05)', color: '#DC6873' }}>{b.icon}</span>
@@ -1093,21 +1093,21 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Masaüstü kart (değişmedi) */}
-          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ background: '#FAF3EB', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
-            <img src="/altin-toplama-masaustu.png" alt="Takılan altınlarınız doğrudan hesabınıza" className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none" />
-            {/* Masaüstü — metin sağda ortalı */}
-            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[48%] flex-col justify-center -translate-y-[14px] pr-10 pl-20">
-              <div className="mb-5"><FeatureBadge label="ALTIN TAKMA" /></div>
-              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.4vw, 38px)' }}>Altınlarınız,</h3>
-              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>doğrudan hesabınıza.</h3>
+          {/* Masaüstü kart — görsel SOLDA, içerik SAĞDA */}
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+            <img src="/kart-masa-masaustu.webp" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            {/* Masaüstü — metin SAĞDA ortalı */}
+            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[46%] flex-col justify-center pr-[100px] pl-6">
+              <div className="mb-5"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
+              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Masa düzeniniz,</h3>
+              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>zahmetsizce hazır.</h3>
               <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="text-[13px] lg:text-[14px] leading-snug mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlileriniz altınını seçsin, TL karşılığını size göndersin.</p>
+              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin. Akıllı planlayıcı,<br />herkes için en uygun masa düzenini oluştursun.</p>
               <div className="flex flex-col gap-3 items-start">
                 {[
-                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
-                  { label: 'Havale / EFT', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
-                  { label: 'TL Karşılığı', icon: <svg className="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="27" fontWeight="400">₺</text></svg> },
+                  { label: 'Akıllı Yerleşim', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
+                  { label: 'Davetli Yönetimi', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
+                  { label: 'Kolay Düzenleme', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" /></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1117,8 +1117,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-
-          {/* Tebrik Mesajları */}
+{/* Tebrik Mesajları */}
           {/* Mobil — transparan dikey kart (doğal oran), üstte içerik */}
           <div className="lg:hidden relative mx-auto w-full max-w-[420px]" style={{ aspectRatio: '807 / 1349' }}>
             <img src="/kart-tebrik-t.webp" alt="Tebrik mesajlarınızı kabul edin" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" style={{ filter: 'drop-shadow(0 16px 38px rgba(72,47,42,0.10))' }} />
@@ -1158,6 +1157,55 @@ export default function Home() {
                   { label: 'Video', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="2" y="6" width="13" height="12" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5l6-3.5v10l-6-3.5z" /></svg> },
                   { label: 'Sesli', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="11" rx="3" /><path strokeLinecap="round" strokeLinejoin="round" d="M5 11a7 7 0 0014 0M12 18v3M8 21h8" /></svg> },
                   { label: 'Yazılı', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4 12.5-12.5z" /></svg> },
+                ].map((b, i) => (
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Takılan Altınlarınız Doğrudan Hesabınıza */}
+          {/* Mobil — transparan dikey kart (doğal oran), üstte içerik */}
+          <div className="lg:hidden relative mx-auto w-full max-w-[420px]" style={{ aspectRatio: '944 / 1568' }}>
+            <img src="/kart-altin-t.webp" alt="Takılan altınlarınız doğrudan hesabınıza" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none" style={{ filter: 'drop-shadow(0 16px 38px rgba(72,47,42,0.10))' }} />
+            <div className="absolute inset-x-0 top-0" style={{ padding: 'clamp(22px,6.2vw,30px) clamp(24px,6.5vw,32px) 0' }}>
+              <div className="mb-[clamp(8px,2.6vw,12px)]"><FeatureBadge label="ALTIN TAKMA" /></div>
+              <h3 className="leading-[1.04]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px,7.2vw,38px)' }}>Altınlarınız,</h3>
+              <h3 className="leading-[1.1] mt-0.5" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(18px,4.8vw,27px)' }}>doğrudan hesabınıza.</h3>
+              <div className="mt-[clamp(8px,2.4vw,11px)]" style={{ width: 'clamp(44px,11vw,60px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.3vw,13.5px)', maxWidth: '96%' }}>Davetlileriniz altınını seçsin, TL karşılığını size göndersin.</p>
+              <div className="grid grid-cols-3 gap-2 mt-[clamp(13px,3.6vw,18px)]">
+                {[
+                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
+                  { label: 'Havale / EFT', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
+                  { label: 'TL Karşılığı', icon: <svg className="w-[clamp(16px,4.5vw,19px)] h-[clamp(16px,4.5vw,19px)]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="26" fontWeight="500">₺</text></svg> },
+                ].map((b, i) => (
+                  <div key={i} className="flex flex-col items-center text-center gap-1.5">
+                    <span className="grid place-items-center rounded-[13px]" style={{ width: 'clamp(40px,11vw,48px)', height: 'clamp(40px,11vw,48px)', background: '#FFFFFF', border: '1px solid rgba(216,101,112,0.14)', boxShadow: '0 3px 10px rgba(70,45,40,0.05)', color: '#DC6873' }}>{b.icon}</span>
+                    <span className="font-medium leading-tight" style={{ fontSize: 'clamp(9.5px,2.8vw,11.5px)', color: '#554F4C' }}>{b.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          {/* Masaüstü kart (değişmedi) */}
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ background: '#FAF3EB', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+            <img src="/altin-toplama-masaustu.png" alt="Takılan altınlarınız doğrudan hesabınıza" className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none" />
+            {/* Masaüstü — metin sağda ortalı */}
+            <div className="hidden lg:flex absolute right-0 top-0 h-full w-[48%] flex-col justify-center -translate-y-[14px] pr-10 pl-20">
+              <div className="mb-5"><FeatureBadge label="ALTIN TAKMA" /></div>
+              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px, 2.4vw, 38px)' }}>Altınlarınız,</h3>
+              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>doğrudan hesabınıza.</h3>
+              <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
+              <p className="text-[13px] lg:text-[14px] leading-snug mb-5 max-w-[420px]" style={{ color: '#6E5A5A' }}>Davetlileriniz altınını seçsin, TL karşılığını size göndersin.</p>
+              <div className="flex flex-col gap-3 items-start">
+                {[
+                  { label: 'Doğrudan Hesabınıza', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M12 6l6 6-6 6" /></svg> },
+                  { label: 'Havale / EFT', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4 10h16M5 10L12 4l7 6M6 10v8M10 10v8M14 10v8M18 10v8M4 21h16" /></svg> },
+                  { label: 'TL Karşılığı', icon: <svg className="w-[17px] h-[17px]" viewBox="0 0 24 24" fill="currentColor"><text x="12" y="12" textAnchor="middle" dominantBaseline="central" fontSize="27" fontWeight="400">₺</text></svg> },
                 ].map((b, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
@@ -1228,11 +1276,11 @@ export default function Home() {
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (fotolar SOL, içerik SAĞ — Altın Toplama hizası) */}
           <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
-            {/* Cream overlay — sağ içerik tarafı %50 krem, solda foto tarafına fade */}
-            <div className="absolute right-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to left, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
+            {/* Cream overlay — sol içerik tarafı krem, sağda foto tarafına fade (zigzag) */}
+            <div className="absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
-            {/* SOL — 3 foto + altta kayan filmstrip */}
-            <div className="absolute left-0 top-0 h-full w-[48%]">
+            {/* SAĞ — 3 foto + altta kayan filmstrip (zigzag: görsel sağda) */}
+            <div className="absolute right-0 top-0 h-full w-[48%]">
               {/* 3 foto */}
               <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%) translateX(-112px) rotate(-7deg)', zIndex: 1 }}>
                 <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
@@ -1291,8 +1339,8 @@ export default function Home() {
               </div>
             </div>
 
-            {/* SAĞ — Heading + açıklama + badges (20px sola: right-[20px], başlık tek satır çift dash) */}
-            <div className="absolute right-[20px] top-0 h-full w-[52%] flex flex-col justify-center pr-14 pl-4">
+            {/* SOL — Heading + açıklama + badges (zigzag: yazı solda) */}
+            <div className="absolute left-[20px] top-0 h-full w-[52%] flex flex-col justify-center pl-14 pr-4">
               <div className="mb-5"><FeatureBadge label="FOTOĞRAF ALBÜMÜ" /></div>
               <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.4vw, 36px)' }}>Her açıdan,</h3>
               <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>sizin hikâyeniz.</h3>
@@ -1313,52 +1361,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Akıllı Masa Planlayıcısı — en son kart (mobil dikey dikdörtgen) */}
-          <div className="feature-card-hover relative rounded-[28px] overflow-hidden mx-auto w-full aspect-[852/1690] lg:aspect-[3/1] max-w-[440px] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
-            <img src="/masa-plani-mobil.png" alt="" className="lg:hidden absolute inset-0 w-full h-full object-cover object-bottom pointer-events-none select-none" />
-            <img src="/masa-plani-masaustu.png" alt="Akıllı masa planlayıcısı" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
-            {/* Mobil — metin üstte (krem alan) */}
-            <div className="lg:hidden absolute" style={{ top: '4.5%', left: '6%', right: '6%' }}>
-              <div className="mb-[clamp(7px,2.6vw,12px)]"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
-              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(18px, 5.6vw, 44px)' }}>Masa düzeniniz,</h3>
-              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(15px, 4.4vw, 34px)' }}>zahmetsizce hazır.</h3>
-              <div className="mt-[clamp(6px,2.2vw,10px)]" style={{ width: 'clamp(38px, 9vw, 64px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-[clamp(6px,2.2vw,10px)] leading-relaxed text-[clamp(11px,3.3vw,13px)]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin. Akıllı planlayıcı, herkes için en uygun masa düzenini oluştursun.</p>
-              <div className="flex flex-row justify-between items-start mt-[clamp(9px,3.4vw,20px)]">
-                {[
-                  { label: 'Akıllı Yerleşim', icon: <svg className="w-[clamp(15px,4.3vw,17px)] h-[clamp(15px,4.3vw,17px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
-                  { label: 'Davetli Yönetimi', icon: <svg className="w-[clamp(15px,4.3vw,17px)] h-[clamp(15px,4.3vw,17px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
-                  { label: 'Kolay Düzenleme', icon: <svg className="w-[clamp(15px,4.3vw,17px)] h-[clamp(15px,4.3vw,17px)]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" /></svg> },
-                ].map((b, i) => (
-                  <div key={i} className="flex flex-col items-center text-center gap-1.5">
-                    <span className="w-[clamp(31px,8.3vw,37px)] h-[clamp(31px,8.3vw,37px)] flex-shrink-0 grid place-items-center rounded-[11px]" style={{ background: 'rgba(255,255,255,0.9)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 3px 10px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
-                    <span className="text-[clamp(8px,2.8vw,11.5px)] font-medium leading-tight whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-            {/* Masaüstü — metin solda ortalı */}
-            <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[156px] pr-4">
-              <div className="mb-5"><FeatureBadge label="AKILLI MASA PLANLAYICISI" /></div>
-              <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.2vw, 36px)' }}>Masa düzeniniz,</h3>
-              <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>zahmetsizce hazır.</h3>
-              <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="leading-snug text-[13px] lg:text-[14px] mb-5 max-w-[460px]" style={{ color: '#6E5A5A' }}>Davetlilerinizi ekleyin. Akıllı planlayıcı,<br />herkes için en uygun masa düzenini oluştursun.</p>
-              <div className="flex flex-col gap-3 items-start">
-                {[
-                  { label: 'Akıllı Yerleşim', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 2.5l1.8 5.2 5.2 1.8-5.2 1.8L12 16.5l-1.8-5.2L5 9.5l5.2-1.8z" /></svg> },
-                  { label: 'Davetli Yönetimi', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg> },
-                  { label: 'Kolay Düzenleme', icon: <svg className="w-[17px] h-[17px]" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20" /></svg> },
-                ].map((b, i) => (
-                  <div key={i} className="flex items-center gap-2.5">
-                    <span className="w-[38px] h-[38px] flex-shrink-0 grid place-items-center rounded-[12px]" style={{ background: 'rgba(255,255,255,0.88)', border: '1px solid rgba(216,101,112,0.12)', boxShadow: '0 4px 14px rgba(70,45,40,0.04)', color: '#DC6873' }}>{b.icon}</span>
-                    <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#554F4C' }}>{b.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* Premium section divider */}
