@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 const firstName = (e: any) => (e.bride_first_name || (e.bride_full_name || "").split(" ")[0] || "") + " & " + (e.groom_first_name || (e.groom_full_name || "").split(" ")[0] || "");
 
@@ -13,6 +14,7 @@ export default function LiveWall({ hrefFor, canStop = false }: { hrefFor: (id: s
   const [sel, setSel] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+  const [pendingStop, setPendingStop] = useState<string | null>(null);
 
   const load = async () => {
     const { data: live } = await supabase.from("events")
@@ -29,8 +31,10 @@ export default function LiveWall({ hrefFor, canStop = false }: { hrefFor: (id: s
   };
   useEffect(() => { load(); const t = setInterval(load, 20000); return () => clearInterval(t); }, []);
 
-  const stopStream = async (eventId: string) => {
-    if (!confirm("Bu yayını DURDURMAK istediğine emin misin? Yayın anında kesilir.")) return;
+  const confirmStop = async () => {
+    const eventId = pendingStop;
+    if (!eventId) return;
+    setPendingStop(null);
     setBusy(true);
     const { data, error } = await supabase.functions.invoke("agent-action", { body: { action: "stop_stream", event_id: eventId } });
     setBusy(false);
@@ -53,7 +57,7 @@ export default function LiveWall({ hrefFor, canStop = false }: { hrefFor: (id: s
           <div className="flex-1" />
           <Link href={hrefFor(selTile.id)} className="px-4 py-2 rounded-lg text-xs font-semibold bg-white/15 hover:bg-white/25">Detay</Link>
           {canStop && (
-            <button onClick={() => stopStream(selTile.id)} disabled={busy} className="px-4 py-2 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 disabled:opacity-50">■ Yayını Durdur</button>
+            <button onClick={() => setPendingStop(selTile.id)} disabled={busy} className="px-4 py-2 rounded-lg text-xs font-bold bg-red-600 hover:bg-red-700 disabled:opacity-50">■ Yayını Durdur</button>
           )}
           <button onClick={() => setSel(null)} className="px-3 py-2 rounded-lg text-xs text-white/70 hover:text-white">✕</button>
         </div>
@@ -92,6 +96,20 @@ export default function LiveWall({ hrefFor, canStop = false }: { hrefFor: (id: s
       )}
 
       {toast && <div className="fixed bottom-6 right-6 z-50"><div className="px-5 py-3 rounded-2xl shadow-xl bg-slate-800 text-white text-sm font-semibold">{toast}</div></div>}
+
+      <AppModal
+        open={!!pendingStop}
+        variant="destructive"
+        title="Yayını Durdur?"
+        description="Yayın anında kesilecek. Bu işlem geri alınamaz."
+        primaryLabel="Yayını Durdur"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        loading={busy}
+        onPrimary={confirmStop}
+        onSecondary={() => setPendingStop(null)}
+        onClose={() => setPendingStop(null)}
+      />
     </div>
   );
 }

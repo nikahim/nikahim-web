@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 interface UserRow { id: string; full_name?: string | null; email?: string | null; phone?: string | null; }
 
@@ -16,6 +17,7 @@ export default function AdminDuyurularPage() {
   const [target, setTarget] = useState<"all" | "user">("all");
   const [search, setSearch] = useState("");
   const [userId, setUserId] = useState("");
+  const [showSendWarn, setShowSendWarn] = useState(false);
   const [type, setType] = useState<string>("admin_message");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
@@ -42,8 +44,11 @@ export default function AdminDuyurularPage() {
     if (!title.trim() || !message.trim()) { showToast("Başlık ve mesaj boş olamaz", "error"); return; }
     if (target === "user" && !userId) { showToast("Bir kullanıcı seçin", "error"); return; }
     if (!inApp && !email) { showToast("En az bir kanal seçin (bildirim / e-posta)", "error"); return; }
-    if (target === "all" && !confirm("Bu duyuru TÜM kullanıcılara gönderilecek. Emin misiniz?")) return;
+    if (target === "all") { setShowSendWarn(true); return; }
+    doBroadcast();
+  };
 
+  const doBroadcast = async () => {
     setSending(true);
     const { data, error } = await supabase.functions.invoke("broadcast", {
       body: {
@@ -160,6 +165,20 @@ export default function AdminDuyurularPage() {
           <div className={`px-5 py-3 rounded-2xl shadow-2xl text-white text-sm font-semibold ${toast.type === "error" ? "bg-red-500" : "bg-green-500"}`}>{toast.msg}</div>
         </div>
       )}
+
+      <AppModal
+        open={showSendWarn}
+        variant="warning"
+        title="Tüm kullanıcılara gönderilsin mi?"
+        description="Bu duyuru TÜM kullanıcılara bildirim/e-posta olarak iletilecek. Devam etmek istiyor musunuz?"
+        primaryLabel="Gönder"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        loading={sending}
+        onPrimary={() => { setShowSendWarn(false); doBroadcast(); }}
+        onSecondary={() => setShowSendWarn(false)}
+        onClose={() => setShowSendWarn(false)}
+      />
     </div>
   );
 }
