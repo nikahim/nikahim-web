@@ -3955,10 +3955,24 @@ export default function WatchPage() {
                         ))}
                       </div>
                       {pageCount > 1 && (
-                        <div className="flex-shrink-0 flex items-center justify-center gap-1.5 pt-3.5 pb-4">
-                          {pages.map((_, pi) => (
-                            <span key={pi} onClick={() => { const el = galleryScrollRef.current; if (el) el.scrollTo({ left: pi * el.clientWidth, behavior: 'smooth' }); }} className="rounded-full transition-all cursor-pointer" style={{ width: pi === galleryPage ? 18 : 6, height: 6, background: pi === galleryPage ? '#C96F78' : 'rgba(201,111,120,0.28)' }} />
-                          ))}
+                        <div className="flex-shrink-0 flex items-center justify-between gap-3 pt-3.5 pb-4 px-5">
+                          {galleryPage > 0 ? (
+                            <button onClick={() => { const el = galleryScrollRef.current; if (el) el.scrollTo({ left: (galleryPage - 1) * el.clientWidth, behavior: 'smooth' }); }} className="inline-flex items-center gap-1 rounded-full font-semibold text-[13px] transition-all active:scale-[0.97]" style={{ color: '#B4535C', background: 'rgba(201,111,120,0.10)', border: '1px solid rgba(201,111,120,0.20)', padding: '7px 14px 7px 11px' }}>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
+                              Önceki
+                            </button>
+                          ) : <span style={{ width: 94 }} />}
+                          <div className="flex items-center gap-1.5">
+                            {pages.map((_, pi) => (
+                              <span key={pi} onClick={() => { const el = galleryScrollRef.current; if (el) el.scrollTo({ left: pi * el.clientWidth, behavior: 'smooth' }); }} className="rounded-full transition-all cursor-pointer" style={{ width: pi === galleryPage ? 18 : 6, height: 6, background: pi === galleryPage ? '#C96F78' : 'rgba(201,111,120,0.28)' }} />
+                            ))}
+                          </div>
+                          {galleryPage < pageCount - 1 ? (
+                            <button onClick={() => { const el = galleryScrollRef.current; if (el) el.scrollTo({ left: (galleryPage + 1) * el.clientWidth, behavior: 'smooth' }); }} className="inline-flex items-center gap-1 rounded-full font-semibold text-[13px] text-white transition-all active:scale-[0.97]" style={{ background: '#C96F78', padding: '7px 11px 7px 15px', boxShadow: '0 5px 14px rgba(201,111,120,0.20)' }}>
+                              Sonraki
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
+                            </button>
+                          ) : <span style={{ width: 94 }} />}
                         </div>
                       )}
                     </div>
