@@ -209,6 +209,8 @@ export default function WatchPage() {
   const [isNameEntered, setIsNameEntered] = useState(false);
   // Demo (örnek) event flag + tanıtım toast'ları
   const [isDemoEvent, setIsDemoEvent] = useState(false);
+  // GEÇİCİ: örnek sayfada tebrik/altın aksiyonlarını test için AÇIK tut. Test bitince false yap.
+  const DEMO_ACTIONS_OPEN = true;
   const [showDemoToast1, setShowDemoToast1] = useState(false);
   const [showDemoToast2, setShowDemoToast2] = useState(false);
   const [demoBlockMsg, setDemoBlockMsg] = useState<string | null>(null);
@@ -2237,7 +2239,7 @@ export default function WatchPage() {
   };
 
   const sendMessage = async () => {
-    if (isDemoEvent) { showDemoBlock(); return; }
+    if (isDemoEvent && !DEMO_ACTIONS_OPEN) { showDemoBlock(); return; }
     if (message.trim() && event?.id) {
       await supabase.from('chat_messages').insert({
         event_id: event.id,
@@ -2318,7 +2320,7 @@ export default function WatchPage() {
 
   // Green confirm button on step 2 → step 3 (success)
   const handlePaymentComplete = async () => {
-    if (isDemoEvent) { showDemoBlock(); setShowPaymentModal(false); return; }
+    if (isDemoEvent && !DEMO_ACTIONS_OPEN) { showDemoBlock(); setShowPaymentModal(false); return; }
     const paymentId = pendingPaymentIdRef.current;
 
     const isAnonymous = anonymousGold || event?.hide_gold_names;
@@ -3204,7 +3206,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={isDemoEvent ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
+                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
                   </div>
                 </div>
               )}
@@ -3245,7 +3247,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={isDemoEvent ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
+                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
                   </div>
                 </div>
               )}
@@ -4550,11 +4552,11 @@ export default function WatchPage() {
       )}
 
       {showVideoRecorder && event && (
-        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
+        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
       {showVoiceRecorder && event && (
-        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={isDemoEvent ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
+        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
       {/* Ödeme modalı açıkken telefon yan dönerse — dik tutmaya yönlendir */}
@@ -4946,7 +4948,7 @@ export default function WatchPage() {
                 <textarea value={message} onChange={(e) => setMessage(e.target.value)} onFocus={(e) => { setTimeout(() => { e.target.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 350); }} placeholder={`${event.bride_first_name} & ${event.groom_first_name} için tebrik mesajınızı yazın...`} rows={4} className="w-full px-4 py-3 bg-transparent outline-none text-gray-800 placeholder:text-gray-300 text-sm resize-none" style={{ fontFamily: 'inherit' }} />
               </div>
 
-              <button onClick={() => { const had = message.trim().length > 0; sendMessage(); setShowMessageModal(false); if (had && !isDemoEvent) setShowTebrikSuccess(true); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
+              <button onClick={() => { const had = message.trim().length > 0; sendMessage(); setShowMessageModal(false); if (had && (!isDemoEvent || DEMO_ACTIONS_OPEN)) setShowTebrikSuccess(true); }} disabled={!message.trim()} className="w-full mt-4 text-white py-3.5 rounded-2xl font-semibold text-sm transition-all hover:scale-[1.02] disabled:opacity-40" style={{ background: '#C96F78', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
                 Tebrik Gönder
               </button>
             </div>
