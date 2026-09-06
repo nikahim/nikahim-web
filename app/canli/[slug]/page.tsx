@@ -536,7 +536,7 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <img src="/foto-ekle-8.png" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+          <img src="/foto-ekle-8.webp" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
           <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
           <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
             <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
@@ -803,8 +803,8 @@ export default function WatchPage() {
     const icLetter = <svg className="w-7 h-7" fill="none" strokeWidth="1.4" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5A1.5 1.5 0 014.5 6h15A1.5 1.5 0 0121 7.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 16.5v-9z" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.3 7.2l8.7 6 8.7-6" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 14.6c-1-.8-2-1.5-2-2.4 0-.5.45-.95 1-.95.4 0 .77.24.95.6l.05.1.05-.1c.18-.36.55-.6.95-.6.55 0 1 .45 1 .95 0 .9-1 1.6-2 2.4z" /></svg>;
     const icUsers = <svg className="w-6 h-6" fill="none" strokeWidth="1.5" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>;
     // Büyük ikonlar — gerçek görseller (Nikaha Katıl: yayın ekranı · Fotoğraf Paylaş: foto yığını) — %20 büyük
-    const bigVideo = <img src="/nikaha-katil.png" alt="" className="w-[clamp(62px,19vw,86px)] h-[clamp(62px,19vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.png" alt="" className="w-[clamp(62px,19vw,86px)] h-[clamp(62px,19vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/nikaha-katil.webp" alt="" className="w-[clamp(62px,19vw,86px)] h-[clamp(62px,19vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.webp" alt="" className="w-[clamp(62px,19vw,86px)] h-[clamp(62px,19vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
     // Baskı Al mini ikonu (yazıcı — tam çizim)
     const icPrinter = <svg className="w-6 h-6" fill="none" strokeWidth="1.5" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0110.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0l.229 2.523a1.125 1.125 0 01-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0021 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 00-1.913-.247M6.34 18H5.25A2.25 2.25 0 013 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.041 48.041 0 011.913-.247m10.5 0a48.536 48.536 0 00-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659" /></svg>;
 
@@ -934,7 +934,7 @@ export default function WatchPage() {
                 <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(154px,43vw,176px)', padding: '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
                   {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
                   <span style={{ minHeight: 20, fontSize: 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.25 }}>{g.name}</span>
-                  <img src="/ata-altin.png" alt="" style={{ width: 'clamp(46px,13.5vw,56px)', height: 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <img src="/ata-altin.webp" alt="" style={{ width: 'clamp(46px,13.5vw,56px)', height: 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
                   <strong style={{ marginTop: 'auto', fontSize: 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
                   <span className="grid place-items-center rounded-full mt-2.5" style={{ width: 21, height: 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 11, height: 11, borderRadius: 999, background: '#C96F78' }} />}</span>
                 </button>
@@ -952,8 +952,8 @@ export default function WatchPage() {
               <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-colors active:bg-[rgba(60,45,41,0.02)]" style={{ gridTemplateColumns: '46px minmax(0,1fr) 20px', gap: 14, minHeight: 74, padding: '10px 4px' }}>
                 <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: 'rgba(201,154,50,0.10)' }}>
                   {r.id === 'gram_altin'
-                    ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.png" alt="" fill className="object-contain" /></span>
-                    : <span className="relative block" style={{ width: 30, height: 30 }}><Image src="/tl-icon.png" alt="" fill className="object-contain" /></span>}
+                    ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
+                    : <span className="relative block" style={{ width: 30, height: 30 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
@@ -969,7 +969,7 @@ export default function WatchPage() {
           const pick = goldPick as string;
           const g = goldOptions.find(x => x.id === pick);
           const isNakit = pick === 'nakit';
-          const img = isNakit ? '/tl-icon.png' : (pick === 'gram_altin' ? '/altintakgram.png' : '/ata-altin.png');
+          const img = isNakit ? '/tl-icon.webp' : (pick === 'gram_altin' ? '/altintakgram.webp' : '/ata-altin.webp');
           return (
             <div ref={goldCheckoutRef} className="mt-3" style={{ padding: '14px 15px', background: 'rgba(255,255,255,0.94)', border: '1.5px solid rgba(201,111,120,0.32)', borderRadius: 20, boxShadow: '0 12px 30px rgba(201,111,120,0.12)' }}>
               <div className="flex items-center mb-3.5" style={{ gap: 12 }}>
@@ -1173,7 +1173,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/foto-ekle-8.png" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                  <img src="/foto-ekle-8.webp" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
@@ -1701,11 +1701,11 @@ export default function WatchPage() {
   };
 
   const goldOptions: GoldOption[] = [
-    { id: "gram_altin", name: "Gram Altın", price: getGoldPrice('gram'), image: "/altintakgram.png" },
-    { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/ata-altin.png" },
-    { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/ata-altin.png" },
-    { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/ata-altin.png" },
-    { id: "nakit", name: "Özel Miktar", price: 0, image: "/tl-icon.png" },
+    { id: "gram_altin", name: "Gram Altın", price: getGoldPrice('gram'), image: "/altintakgram.webp" },
+    { id: "ceyrek_altin", name: "Çeyrek Altın", price: getGoldPrice('ceyrek'), image: "/ata-altin.webp" },
+    { id: "yarim_altin", name: "Yarım Altın", price: getGoldPrice('yarim'), image: "/ata-altin.webp" },
+    { id: "tam_altin", name: "Tam Altın", price: getGoldPrice('tam'), image: "/ata-altin.webp" },
+    { id: "nakit", name: "Özel Miktar", price: 0, image: "/tl-icon.webp" },
   ];
 
   const emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "🥰", "😍", "🤩", "😘", "😗", "☺️", "😚", "😙", "🥲", "😋", "😛", "😒", "😏", "😑", "🤐", "🤔", "🤭", "🤗", "🤑", "😝", "🥳", "😎", "🤓", "🥺", "😳", "😲", "😯", "😮", "🙈", "🙉", "🙊", "💋", "💯", "💥", "💫", "✌️", "❣️", "💔", "❤️‍🔥", "❤️", "💕", "🎉", "👏", "💐", "💍", "🎊", "🙏", "💒", "✨", "🌹", "💝", "🤵", "👰"];
@@ -3170,7 +3170,7 @@ export default function WatchPage() {
                   {/* Altın butonları — TÜM kartlar AYNI BOY, nakit=tl-icon mobil ile aynı, görsel boyut normalize */}
                   {goldOptions.map((gold) => {
                     const isNakit = gold.id === 'nakit';
-                    const imgSrc = isNakit ? '/tl-icon.png' : gold.image;
+                    const imgSrc = isNakit ? '/tl-icon.webp' : gold.image;
                     const imgBoxSize = isNakit ? 32 : 44;
                     return (
                     <button key={gold.id} onClick={() => { handleGoldSelect(gold.id); }} className="group flex flex-col items-center justify-between gap-1 px-3 py-2.5 rounded-2xl transition-all duration-300 hover:scale-[1.06] hover:-translate-y-1 relative" style={{ width: '88px', height: '108px', background: 'linear-gradient(165deg, rgba(255,253,248,0.08), rgba(248,242,232,0.05))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.25), 0 4px 12px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.12)'; }}>
@@ -3415,7 +3415,7 @@ export default function WatchPage() {
                         ? 'rgba(111,175,207,0.15)'
                         : 'rgba(76,175,80,0.15)',
                     }}>
-                      {videoNotification.type === 'gold' && <Image src="/altintak.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />}
+                      {videoNotification.type === 'gold' && <Image src="/altintak.webp" alt="" width={40} height={40} className="w-10 h-10 object-contain" />}
                       {videoNotification.type === 'join' && <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
                       {videoNotification.type === 'video' && <svg className="w-5 h-5" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
                       {videoNotification.type === 'voice' && <svg className="w-5 h-5" style={{ color: '#8EC8E4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>}
@@ -3428,7 +3428,7 @@ export default function WatchPage() {
                     {/* Right icon for gold */}
                     {videoNotification.type === 'gold' && (
                       <div className="flex-shrink-0 relative z-10">
-                        <Image src="/altintak.png" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
+                        <Image src="/altintak.webp" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
                       </div>
                     )}
                   </div>
@@ -3693,13 +3693,13 @@ export default function WatchPage() {
                         <div className="relative w-8 h-8 md:w-9 md:h-9 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
                           <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
                                style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.28) 0%, transparent 60%)', filter: 'blur(4px)', transform: 'translateY(6%) scale(0.9)' }} />
-                          <Image src="/altintakgram.png" alt="Gram Altın" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.24)) drop-shadow(0 1px 2px rgba(100,70,20,0.14))' }} />
+                          <Image src="/altintakgram.webp" alt="Gram Altın" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.24)) drop-shadow(0 1px 2px rgba(100,70,20,0.14))' }} />
                         </div>
                       ) : (
                         <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
                           <div aria-hidden="true" className="absolute inset-0 pointer-events-none"
                                style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.26) 0%, transparent 60%)', filter: 'blur(5px)', transform: 'translateY(6%) scale(0.9)' }} />
-                          <Image src="/tl-icon.png" alt="Özel Miktar" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.22)) drop-shadow(0 1px 2px rgba(100,70,20,0.12))' }} />
+                          <Image src="/tl-icon.webp" alt="Özel Miktar" fill className="object-contain relative" style={{ filter: 'drop-shadow(0 3px 6px rgba(184,134,11,0.22)) drop-shadow(0 1px 2px rgba(100,70,20,0.12))' }} />
                         </div>
                       )}
                       {/* Text bloğu — sağ flex-1 dikey ortalı, sola hizalı (icon ile yan yana) */}
@@ -3757,7 +3757,7 @@ export default function WatchPage() {
                           </div>
                           <div className="relative w-[68px] h-[68px] mx-auto mb-2 group-hover:scale-110 transition-transform duration-500 coin-float">
                             <div aria-hidden="true" className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 65%, rgba(212,168,82,0.32) 0%, transparent 60%)', filter: 'blur(6px)', transform: 'translateY(8%) scale(0.85)' }} />
-                            <Image src={isNakit ? '/tl-icon.png' : gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))', transform: gold.id === 'gram_altin' ? 'scale(0.8)' : undefined }} />
+                            <Image src={isNakit ? '/tl-icon.webp' : gold.image} alt={gold.name} fill className="object-contain relative" style={{ filter: 'drop-shadow(0 4px 8px rgba(184,134,11,0.28)) drop-shadow(0 1px 2px rgba(100,70,20,0.18))', transform: gold.id === 'gram_altin' ? 'scale(0.8)' : undefined }} />
                           </div>
                           <div className="text-[14px] font-medium" style={{
                             letterSpacing: '0.3px',

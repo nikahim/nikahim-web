@@ -1045,7 +1045,7 @@ export default function Home() {
           </div>
           {/* Masaüstü kart (değişmedi) */}
           <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[2172/724] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
-            <img src="/bg-canli-yayin-masaustu.png" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
+            <img src="/bg-canli-yayin-masaustu.webp" alt="Canlı Yayın ile mutluluğunuzu paylaşın" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Masaüstü — içerik solda ortalı, feature'lar açıklama altında alt alta */}
             <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center pl-[176px] pr-4">
@@ -1193,7 +1193,7 @@ export default function Home() {
           </div>
           {/* Masaüstü kart (değişmedi) */}
           <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ background: '#FAF3EB', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
-            <img src="/altin-toplama-masaustu.png" alt="Takılan altınlarınız doğrudan hesabınıza" className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none" />
+            <img src="/altin-toplama-masaustu.webp" alt="Takılan altınlarınız doğrudan hesabınıza" className="hidden lg:block absolute inset-0 w-full h-full object-cover object-center pointer-events-none select-none" />
             {/* Masaüstü — metin sağda ortalı */}
             <div className="hidden lg:flex absolute right-0 top-0 h-full w-[48%] flex-col justify-center -translate-y-[14px] pr-10 pl-20">
               <div className="mb-5"><FeatureBadge label="ALTIN TAKMA" /></div>
@@ -1230,17 +1230,17 @@ export default function Home() {
               <div className="relative flex-1 min-h-0 flex items-center justify-center">
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(-88px,-23vw,-108px)) rotate(-7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/foto2.png" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(120px,32vw,145px)', height: 'clamp(144px,38vw,174px)' }} />
+                    <img src="/foto2.webp" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(120px,32vw,145px)', height: 'clamp(144px,38vw,174px)' }} />
                   </div>
                 </div>
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%) translateX(clamp(88px,23vw,108px)) rotate(7deg)', zIndex: 1 }}>
                   <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                    <img src="/foto8.png" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(120px,32vw,145px)', height: 'clamp(144px,38vw,174px)' }} />
+                    <img src="/foto8.webp" alt="" className="block object-cover rounded-md" style={{ width: 'clamp(120px,32vw,145px)', height: 'clamp(144px,38vw,174px)' }} />
                   </div>
                 </div>
                 <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
                   <div className="bg-white p-1 rounded-xl relative album-float" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                    <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(150px,40vw,182px)', height: 'clamp(180px,48vw,218px)' }} />
+                    <img src="/foto4.webp" alt="" className="block object-cover rounded-lg" style={{ width: 'clamp(150px,40vw,182px)', height: 'clamp(180px,48vw,218px)' }} />
                     <div className="absolute bottom-2.5 left-2.5 flex items-center gap-1.5 px-3 py-1.5 rounded-full"
                          style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                       <svg className="w-3.5 h-3.5" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
@@ -1275,7 +1275,7 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (fotolar SOL, içerik SAĞ — Altın Toplama hizası) */}
-          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1]" style={{ backgroundImage: 'url(/bg-album-masaustu.png)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1]" style={{ backgroundImage: 'url(/bg-album-masaustu.webp)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             {/* Cream overlay — sol içerik tarafı krem, sağda foto tarafına fade (zigzag) */}
             <div className="absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
@@ -1284,17 +1284,17 @@ export default function Home() {
               {/* 3 foto */}
               <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%) translateX(-112px) rotate(-7deg)', zIndex: 1 }}>
                 <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                  <img src="/foto2.png" alt="" className="block object-cover rounded-md" style={{ width: '111px', height: '158px' }} />
+                  <img src="/foto2.webp" alt="" className="block object-cover rounded-md" style={{ width: '111px', height: '158px' }} />
                 </div>
               </div>
               <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%) translateX(112px) rotate(7deg)', zIndex: 1 }}>
                 <div className="bg-white p-1 rounded-lg album-float" style={{ boxShadow: '0 6px 16px rgba(80,60,40,0.20), 0 2px 6px rgba(0,0,0,0.06)' }}>
-                  <img src="/foto8.png" alt="" className="block object-cover rounded-md" style={{ width: '111px', height: '158px' }} />
+                  <img src="/foto8.webp" alt="" className="block object-cover rounded-md" style={{ width: '111px', height: '158px' }} />
                 </div>
               </div>
               <div className="absolute" style={{ left: '50%', top: '40%', transform: 'translate(-50%, -50%)', zIndex: 3 }}>
                 <div className="bg-white p-1 rounded-xl relative album-float" style={{ boxShadow: '0 16px 36px rgba(80,60,40,0.32), 0 4px 12px rgba(0,0,0,0.10)' }}>
-                  <img src="/foto4.png" alt="" className="block object-cover rounded-lg" style={{ width: '151px', height: '206px' }} />
+                  <img src="/foto4.webp" alt="" className="block object-cover rounded-lg" style={{ width: '151px', height: '206px' }} />
                   <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1.5 px-2.5 py-1 rounded-full" style={{ background: 'linear-gradient(135deg, #C26068, #9F4F58)', boxShadow: '0 3px 8px rgba(160,80,90,0.40), inset 0 1px 0 rgba(255,255,255,0.25)' }}>
                     <svg className="w-3 h-3" fill="none" stroke="white" strokeWidth="2" viewBox="0 0 24 24">
                       <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -1327,7 +1327,7 @@ export default function Home() {
                 `}</style>
                 <div style={{ display: 'flex', gap: '6px', width: 'fit-content', animation: 'albumFilmstripDesktop 28s linear infinite' }}>
                   {[...Array(2)].map((_, dup) => (
-                    ['/foto2.png', '/foto3.png', '/foto4.png', '/foto5.png', '/foto6.jpg'].map((url, i) => (
+                    ['/foto2.webp', '/foto3.webp', '/foto4.webp', '/foto5.webp', '/foto6.jpg'].map((url, i) => (
                       <div key={`${dup}-${i}`}
                            className="flex-shrink-0 rounded-lg overflow-hidden"
                            style={{ width: '92px', height: '92px', boxShadow: '0 4px 12px rgba(80,60,40,0.16)', border: '1.5px solid rgba(255,255,255,0.7)' }}>
