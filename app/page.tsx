@@ -1143,7 +1143,7 @@ export default function Home() {
           </div>
           {/* Masaüstü kart (değişmedi) */}
           <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:max-w-none" style={{ boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
-            <img src="/bg-tebrik-masaustu.webp" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block absolute inset-0 w-full h-full object-contain pointer-events-none select-none" />
+            <img src="/bg-tebrik-masaustu.webp" alt="Tebrik mesajlarınızı kabul edin" className="hidden lg:block absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
 
             {/* Masaüstü — içerik solda ortalı, feature'lar açıklama altında alt alta */}
             <div className="hidden lg:flex absolute left-0 top-0 h-full w-[52%] flex-col justify-center -translate-y-[10px] pl-[176px] pr-4">
