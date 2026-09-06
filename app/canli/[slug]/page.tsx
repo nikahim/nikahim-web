@@ -915,8 +915,7 @@ export default function WatchPage() {
     return (
       <section className={desktop ? 'hidden lg:block w-full max-w-[600px] mx-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
-        {!desktop && (
-        <div className="flex flex-col items-center text-center mb-6">
+        <div className={desktop ? 'flex flex-col items-center text-center mb-4' : 'flex flex-col items-center text-center mb-6'}>
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
           <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
             <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
@@ -924,30 +923,52 @@ export default function WatchPage() {
             <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
           </div>
         </div>
-        )}
         {/* Ana panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: desktop ? 'clamp(16px,4.5vw,18px)' : 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           <div className={desktop ? 'lg:flex lg:items-center lg:gap-5' : ''}>
           {/* 3 altın kartı — radio seçim, sarı zemin yok */}
-          <div className="grid grid-cols-3" style={{ gap: 'clamp(7px,2.4vw,10px)', ...(desktop ? { maxWidth: 296, flexShrink: 0 } : {}) }}>
+          <div className="grid grid-cols-3" style={{ gap: 'clamp(7px,2.4vw,10px)', ...(desktop ? { maxWidth: 340, flexShrink: 0 } : {}) }}>
             {coins.map((g) => {
               const sel = goldPick === g.id;
               const popular = g.id === 'yarim_altin';
               return (
-                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: desktop ? 136 : 'clamp(154px,43vw,176px)', padding: desktop ? '11px 5px 9px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
-                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: desktop ? '3px 7px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 9 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
-                  <span style={{ minHeight: 18, fontSize: desktop ? 12 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
-                  <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 40 : 'clamp(46px,13.5vw,56px)', height: desktop ? 40 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '7px 0 6px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
-                  <strong style={{ marginTop: 'auto', fontSize: desktop ? 13.5 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
-                  <span className="grid place-items-center rounded-full" style={{ marginTop: desktop ? 7 : 10, width: desktop ? 18 : 21, height: desktop ? 18 : 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: desktop ? 9 : 11, height: desktop ? 9 : 11, borderRadius: 999, background: '#C96F78' }} />}</span>
+                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: desktop ? 168 : 'clamp(154px,43vw,176px)', padding: desktop ? '15px 7px 12px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: desktop ? '4px 8px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 9.5 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
+                  <span style={{ minHeight: 18, fontSize: desktop ? 13 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
+                  <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 50 : 'clamp(46px,13.5vw,56px)', height: desktop ? 50 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '11px 0 9px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <strong style={{ marginTop: 'auto', fontSize: desktop ? 15 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
+                  <span className="grid place-items-center rounded-full" style={{ marginTop: desktop ? 10 : 10, width: desktop ? 20 : 21, height: desktop ? 20 : 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: desktop ? 10 : 11, height: desktop ? 10 : 11, borderRadius: 999, background: '#C96F78' }} />}</span>
                 </button>
               );
             })}
           </div>
           {!desktop && <div style={{ height: 1, margin: '20px 4px 3px', background: 'rgba(60,45,41,0.075)' }} />}
-          {/* Gram Altın + Özel Miktar — masaüstünde coin'lerin sağında iki satır */}
+          {/* Gram Altın + Özel Miktar — masaüstünde coin'lerin sağında; seçim varsa onay */}
           <div className={desktop ? 'lg:flex-1 lg:min-w-0 lg:self-stretch lg:pl-5 lg:border-l lg:flex lg:flex-col lg:justify-center' : 'contents'} style={desktop ? { borderColor: 'rgba(60,45,41,0.09)' } : undefined}>
-          {[
+          {desktop && goldPick ? (() => {
+            const pick = goldPick as string;
+            const g = goldOptions.find(x => x.id === pick);
+            const isNakit = pick === 'nakit';
+            const img = isNakit ? '/tl-icon.webp' : (pick === 'gram_altin' ? '/altintakgram.webp' : '/ata-altin.webp');
+            return (
+              <div>
+                <div className="flex items-center mb-4" style={{ gap: 12 }}>
+                  <span className="relative flex-shrink-0" style={{ width: 48, height: 48, borderRadius: 13, background: 'rgba(201,154,50,0.10)' }}><Image src={img} alt="" fill className="object-contain" style={{ padding: 6 }} /></span>
+                  <div className="min-w-0 flex flex-col" style={{ gap: 3 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: '#B96570', letterSpacing: '0.4px' }}>SEÇİMİNİZ</span>
+                    <strong style={{ fontSize: 16, fontWeight: 600, color: '#302927', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{isNakit ? 'Özel Miktar' : `${g?.name} · ₺${(g?.price || 0).toLocaleString()}`}</strong>
+                  </div>
+                </div>
+                <div className="grid" style={{ gridTemplateColumns: 'auto 1fr', gap: 10 }}>
+                  <button onClick={() => setGoldPick(null)} className="active:scale-[0.97] transition-transform" style={{ height: 46, padding: '0 22px', borderRadius: 13, background: 'transparent', border: '1px solid rgba(60,45,41,0.14)', color: '#8A8280', fontSize: 14, fontWeight: 500 }}>Vazgeç</button>
+                  <button onClick={() => handleGoldSelect(pick)} className="flex items-center justify-center text-white active:scale-[0.985] transition-transform" style={{ gap: 7, height: 46, borderRadius: 13, background: '#C96F78', fontSize: 15, fontWeight: 600, letterSpacing: '-0.1px', boxShadow: '0 5px 14px rgba(201,111,120,0.16)' }}>
+                    Devam Et
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M5 12h13M12 5l7 7-7 7" /></svg>
+                  </button>
+                </div>
+              </div>
+            );
+          })() : [
             { id: 'gram_altin', title: 'Gram Altın', sub: `₺${gramPrice.toLocaleString()}`, isRose: false },
             { id: 'nakit', title: 'Özel Miktar', sub: 'Tutarı siz belirleyin', isRose: true },
           ].map((r, idx) => (
@@ -970,8 +991,8 @@ export default function WatchPage() {
           </div>
           </div>
         </div>
-        {/* Seçim yapılınca kartların altında beliren onay kartı (floating bar yerine) */}
-        {goldPick && (() => {
+        {/* Seçim yapılınca kartların altında beliren onay kartı (mobil; masaüstünde sağ alanda) */}
+        {!desktop && goldPick && (() => {
           const pick = goldPick as string;
           const g = goldOptions.find(x => x.id === pick);
           const isNakit = pick === 'nakit';
@@ -1029,22 +1050,22 @@ export default function WatchPage() {
           {rows.map((r, idx) => (
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 'clamp(62px,18vw,73px)', marginRight: 10, background: 'rgba(60,45,41,0.065)' }} />}
-              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: desktop ? '38px minmax(0,1fr) auto 15px' : 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: desktop ? 11 : 'clamp(11px,3.4vw,13px)', minHeight: desktop ? 52 : 'clamp(74px,20vw,82px)', padding: desktop ? '6px 8px' : 'clamp(11px,3.2vw,13px) clamp(8px,2.8vw,10px)' }}>
-                <span className="grid place-items-center rounded-full" style={{ width: desktop ? 38 : 'clamp(44px,12.5vw,48px)', height: desktop ? 38 : 'clamp(44px,12.5vw,48px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
-                  <span className="block" style={{ width: desktop ? 19 : 'clamp(23px,6.5vw,25px)', height: desktop ? 19 : 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
+              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: desktop ? '42px minmax(0,1fr) auto 16px' : 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: desktop ? 12 : 'clamp(11px,3.4vw,13px)', minHeight: desktop ? 64 : 'clamp(74px,20vw,82px)', padding: desktop ? '9px 9px' : 'clamp(11px,3.2vw,13px) clamp(8px,2.8vw,10px)' }}>
+                <span className="grid place-items-center rounded-full" style={{ width: desktop ? 42 : 'clamp(44px,12.5vw,48px)', height: desktop ? 42 : 'clamp(44px,12.5vw,48px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
+                  <span className="block" style={{ width: desktop ? 21 : 'clamp(23px,6.5vw,25px)', height: desktop ? 21 : 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
                 </span>
-                <span className="min-w-0 flex flex-col" style={{ gap: desktop ? 1 : 4 }}>
-                  <strong style={{ color: '#302927', fontSize: desktop ? 13.5 : 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
-                  <span style={{ color: '#77706D', fontSize: desktop ? 11.5 : 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.35 }}>{r.desc}</span>
+                <span className="min-w-0 flex flex-col" style={{ gap: desktop ? 3 : 4 }}>
+                  <strong style={{ color: '#302927', fontSize: desktop ? 14.5 : 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
+                  <span style={{ color: '#77706D', fontSize: desktop ? 12 : 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.35 }}>{r.desc}</span>
                 </span>
-                <span className="grid place-items-center rounded-full" style={{ minWidth: desktop ? 23 : 27, height: desktop ? 23 : 27, padding: '0 7px', background: 'rgba(201,111,120,0.07)', color: rose, fontSize: desktop ? 10.5 : 11.5, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
+                <span className="grid place-items-center rounded-full" style={{ minWidth: desktop ? 25 : 27, height: desktop ? 25 : 27, padding: '0 7px', background: 'rgba(201,111,120,0.07)', color: rose, fontSize: desktop ? 11 : 11.5, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
                 {chev}
               </button>
             </div>
           ))}
           {/* Trust — masaüstü: panelin içinde tek satır (ikon + kısa metin) */}
           {desktop && (
-            <div className="flex items-center mt-1 pt-3" style={{ gap: 9, borderTop: '1px solid rgba(60,45,41,0.06)' }}>
+            <div className="flex items-center justify-center mt-2 pt-3" style={{ gap: 9, borderTop: '1px solid rgba(60,45,41,0.06)' }}>
               <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 26, height: 26, background: 'rgba(201,111,120,0.09)', color: rose }}>
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
               </span>
