@@ -915,6 +915,7 @@ export default function WatchPage() {
     return (
       <section className={desktop ? 'hidden lg:block w-full max-w-[600px] mx-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Section header — welcome chooser ile aynı: sparkle kalp + serif başlık + rose çizgi */}
+        {!desktop && (
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
           <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
@@ -923,46 +924,51 @@ export default function WatchPage() {
             <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
           </div>
         </div>
+        )}
         {/* Ana panel */}
-        <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
+        <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: desktop ? 'clamp(16px,4.5vw,18px)' : 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
+          <div className={desktop ? 'lg:flex lg:items-center lg:gap-5' : ''}>
           {/* 3 altın kartı — radio seçim, sarı zemin yok */}
-          <div className="grid grid-cols-3" style={{ gap: 'clamp(7px,2.4vw,10px)' }}>
+          <div className="grid grid-cols-3" style={{ gap: 'clamp(7px,2.4vw,10px)', ...(desktop ? { maxWidth: 296, flexShrink: 0 } : {}) }}>
             {coins.map((g) => {
               const sel = goldPick === g.id;
               const popular = g.id === 'yarim_altin';
               return (
-                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: 'clamp(154px,43vw,176px)', padding: '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
-                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
-                  <span style={{ minHeight: 20, fontSize: 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.25 }}>{g.name}</span>
-                  <img src="/ata-altin.webp" alt="" style={{ width: 'clamp(46px,13.5vw,56px)', height: 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
-                  <strong style={{ marginTop: 'auto', fontSize: 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
-                  <span className="grid place-items-center rounded-full mt-2.5" style={{ width: 21, height: 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: 11, height: 11, borderRadius: 999, background: '#C96F78' }} />}</span>
+                <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center transition-all active:scale-[0.985]" style={{ minHeight: desktop ? 136 : 'clamp(154px,43vw,176px)', padding: desktop ? '11px 5px 9px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: desktop ? '3px 7px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 9 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
+                  <span style={{ minHeight: 18, fontSize: desktop ? 12 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
+                  <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 40 : 'clamp(46px,13.5vw,56px)', height: desktop ? 40 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '7px 0 6px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
+                  <strong style={{ marginTop: 'auto', fontSize: desktop ? 13.5 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
+                  <span className="grid place-items-center rounded-full" style={{ marginTop: desktop ? 7 : 10, width: desktop ? 18 : 21, height: desktop ? 18 : 21, border: sel ? '2px solid #C96F78' : '1.5px solid #D5CFCC' }}>{sel && <span style={{ width: desktop ? 9 : 11, height: desktop ? 9 : 11, borderRadius: 999, background: '#C96F78' }} />}</span>
                 </button>
               );
             })}
           </div>
-          <div style={{ height: 1, margin: '20px 4px 3px', background: 'rgba(60,45,41,0.075)' }} />
-          {/* Gram Altın + Özel Miktar — panelin satırları */}
+          {!desktop && <div style={{ height: 1, margin: '20px 4px 3px', background: 'rgba(60,45,41,0.075)' }} />}
+          {/* Gram Altın + Özel Miktar — masaüstünde coin'lerin sağında iki satır */}
+          <div className={desktop ? 'lg:flex-1 lg:min-w-0 lg:self-stretch lg:pl-5 lg:border-l lg:flex lg:flex-col lg:justify-center' : 'contents'} style={desktop ? { borderColor: 'rgba(60,45,41,0.09)' } : undefined}>
           {[
             { id: 'gram_altin', title: 'Gram Altın', sub: `₺${gramPrice.toLocaleString()}`, isRose: false },
             { id: 'nakit', title: 'Özel Miktar', sub: 'Tutarı siz belirleyin', isRose: true },
           ].map((r, idx) => (
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 64, background: 'rgba(60,45,41,0.065)' }} />}
-              <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-colors active:bg-[rgba(60,45,41,0.02)]" style={{ gridTemplateColumns: '46px minmax(0,1fr) 20px', gap: 14, minHeight: 74, padding: '10px 4px' }}>
+              <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-colors active:bg-[rgba(60,45,41,0.02)]" style={{ gridTemplateColumns: '46px minmax(0,1fr) 20px', gap: 14, minHeight: desktop ? 58 : 74, padding: '10px 4px' }}>
                 <span className="grid place-items-center rounded-[14px]" style={{ width: 46, height: 46, background: 'rgba(201,154,50,0.10)' }}>
                   {r.id === 'gram_altin'
                     ? <span className="relative block" style={{ width: 24, height: 24 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
                     : <span className="relative block" style={{ width: 30, height: 30 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
-                  <strong style={{ color: '#302927', fontSize: 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
-                  <span style={{ color: '#817976', fontSize: 13 }}>{r.sub}</span>
+                  <strong style={{ color: '#302927', fontSize: desktop ? 15 : 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
+                  <span style={{ color: '#817976', fontSize: desktop ? 12.5 : 13 }}>{r.sub}</span>
                 </span>
                 {chev}
               </button>
             </div>
           ))}
+          </div>
+          </div>
         </div>
         {/* Seçim yapılınca kartların altında beliren onay kartı (floating bar yerine) */}
         {goldPick && (() => {
@@ -1008,6 +1014,7 @@ export default function WatchPage() {
     return (
       <section className={desktop ? 'hidden lg:block w-full max-w-[600px] mx-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Altın Tak ile aynı) */}
+        {!desktop && (
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Tebrik Et</h1>
           <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
@@ -1016,26 +1023,37 @@ export default function WatchPage() {
             <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
           </div>
         </div>
+        )}
         {/* Panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingTop: 6, paddingBottom: 8, background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           {rows.map((r, idx) => (
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 'clamp(62px,18vw,73px)', marginRight: 10, background: 'rgba(60,45,41,0.065)' }} />}
-              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: 'clamp(11px,3.4vw,13px)', minHeight: 'clamp(74px,20vw,82px)', padding: 'clamp(11px,3.2vw,13px) clamp(8px,2.8vw,10px)' }}>
-                <span className="grid place-items-center rounded-full" style={{ width: 'clamp(44px,12.5vw,48px)', height: 'clamp(44px,12.5vw,48px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
-                  <span className="block" style={{ width: 'clamp(23px,6.5vw,25px)', height: 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
+              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: desktop ? '38px minmax(0,1fr) auto 15px' : 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: desktop ? 11 : 'clamp(11px,3.4vw,13px)', minHeight: desktop ? 52 : 'clamp(74px,20vw,82px)', padding: desktop ? '6px 8px' : 'clamp(11px,3.2vw,13px) clamp(8px,2.8vw,10px)' }}>
+                <span className="grid place-items-center rounded-full" style={{ width: desktop ? 38 : 'clamp(44px,12.5vw,48px)', height: desktop ? 38 : 'clamp(44px,12.5vw,48px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
+                  <span className="block" style={{ width: desktop ? 19 : 'clamp(23px,6.5vw,25px)', height: desktop ? 19 : 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
                 </span>
-                <span className="min-w-0 flex flex-col" style={{ gap: 4 }}>
-                  <strong style={{ color: '#302927', fontSize: 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.22 }}>{r.title}</strong>
-                  <span style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.4 }}>{r.desc}</span>
+                <span className="min-w-0 flex flex-col" style={{ gap: desktop ? 1 : 4 }}>
+                  <strong style={{ color: '#302927', fontSize: desktop ? 13.5 : 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
+                  <span style={{ color: '#77706D', fontSize: desktop ? 11.5 : 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.35 }}>{r.desc}</span>
                 </span>
-                <span className="grid place-items-center rounded-full" style={{ minWidth: 27, height: 27, padding: '0 7px', background: 'rgba(201,111,120,0.07)', color: rose, fontSize: 11.5, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
+                <span className="grid place-items-center rounded-full" style={{ minWidth: desktop ? 23 : 27, height: desktop ? 23 : 27, padding: '0 7px', background: 'rgba(201,111,120,0.07)', color: rose, fontSize: desktop ? 10.5 : 11.5, fontWeight: 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
                 {chev}
               </button>
             </div>
           ))}
+          {/* Trust — masaüstü: panelin içinde tek satır (ikon + kısa metin) */}
+          {desktop && (
+            <div className="flex items-center mt-1 pt-3" style={{ gap: 9, borderTop: '1px solid rgba(60,45,41,0.06)' }}>
+              <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 26, height: 26, background: 'rgba(201,111,120,0.09)', color: rose }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[14px] h-[14px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
+              </span>
+              <strong style={{ color: '#5D5653', fontSize: 12, fontWeight: 500, lineHeight: 1.3 }}>Mesajınız yalnızca çifte iletilir</strong>
+            </div>
+          )}
         </div>
-        {/* Trust — kompakt */}
+        {/* Trust — mobil: ayrı kart (kompakt) */}
+        {!desktop && (
         <div className="mt-4 flex items-center" style={{ gap: 12, padding: '11px 15px', border: '1px solid rgba(60,45,41,0.055)', borderRadius: 18, background: 'rgba(255,255,255,0.68)', boxShadow: '0 6px 18px rgba(63,44,39,0.022)' }}>
           <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 36, height: 36, background: 'rgba(201,111,120,0.09)', color: rose }}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M12 3l7 3v5.2c0 4.4-3 7.5-7 8.8-4-1.3-7-4.4-7-8.8V6z" /><path d="M9 12l2 2 4-4.2" /></svg>
@@ -1045,6 +1063,7 @@ export default function WatchPage() {
             <span style={{ color: '#77706D', fontSize: 11.5, lineHeight: 1.4 }}>Tebriğinizi dilediğiniz zaman bırakabilirsiniz.</span>
           </div>
         </div>
+        )}
       </section>
     );
   };
@@ -1058,6 +1077,7 @@ export default function WatchPage() {
     return (
       <section className={desktop ? 'hidden lg:block w-full max-w-[600px] mx-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Header — sparkle kalp + serif başlık + rose çizgi (Tebrik/Altın ile aynı) */}
+        {!desktop && (
         <div className="flex flex-col items-center text-center mb-6">
           <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Albüm</h1>
           <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
@@ -1066,6 +1086,7 @@ export default function WatchPage() {
             <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
           </div>
         </div>
+        )}
         {/* Panel */}
         <div style={{ padding: 'clamp(15px,4.3vw,18px)', background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           <div className="flex items-center justify-between mb-[14px]" style={{ gap: 12, minHeight: 30 }}>
@@ -1080,7 +1101,7 @@ export default function WatchPage() {
           {count > 0 ? (
             <>
               {/* Öne çıkan kolaj — tıklanınca albüm açılır */}
-              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: 200, marginTop: 2 }}>
+              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 158 : 200, marginTop: 2 }}>
                 <style>{`
                   @keyframes albFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
                   @keyframes albFloatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
@@ -1089,7 +1110,7 @@ export default function WatchPage() {
                 {photos[1] && (
                   <div className="alb-float absolute" style={{ left: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite' }}>
                     <div className="relative" style={{ transform: 'rotate(-5deg)' }}>
-                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 118 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[1]] || 0}</span></span>
                     </div>
                   </div>
@@ -1097,21 +1118,21 @@ export default function WatchPage() {
                 {photos[2] && (
                   <div className="alb-float absolute" style={{ right: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite', animationDelay: '0.7s' }}>
                     <div className="relative" style={{ transform: 'rotate(5deg)' }}>
-                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 118 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[2]] || 0}</span></span>
                     </div>
                   </div>
                 )}
                 <div className="alb-float absolute" style={{ left: '50%', top: 0, zIndex: 3, width: '43%', animation: 'albFloatC 4.6s ease-in-out infinite' }}>
                   <div className="relative">
-                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
+                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 146 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
                     <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[0]] || 0}</span></span>
                     <span className="absolute flex items-center" style={{ top: 8, right: 8, gap: 4, padding: '4px 7px', borderRadius: 999, background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 6px rgba(55,40,32,0.14)' }}><svg viewBox="0 0 24 24" fill="none" stroke="#9F4F58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]"><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg><span style={{ fontSize: 9, fontWeight: 700, color: '#9F4F58', lineHeight: 1 }}>Baskıya Gönder</span></span>
                   </div>
                 </div>
               </div>
               {/* Thumbnail satırı */}
-              <div className="grid grid-cols-4 mt-2 mb-[16px]" style={{ gap: 8 }}>
+              <div className={desktop ? 'grid grid-cols-4 mt-2 mb-[11px]' : 'grid grid-cols-4 mt-2 mb-[16px]'} style={{ gap: 8 }}>
                 {photos.slice(0, 4).map((u, i) => {
                   const isLast = i === 3;
                   const more = count - 4;
