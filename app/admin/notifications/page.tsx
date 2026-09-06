@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
+import AppModal from "@/components/AppModal";
 
 interface Shop {
   id: string;
@@ -292,43 +293,18 @@ export default function AdminNotificationsPage() {
       )}
 
       {/* Onay Modal */}
-      {confirmDelete && (
-        <div
-          className="fixed inset-0 bg-black/60 flex items-center justify-center p-4 z-[60]"
-          onClick={() => setConfirmDelete(null)}
-        >
-          <div
-            className="bg-white rounded-3xl max-w-md w-full p-7 shadow-2xl"
-            onClick={e => e.stopPropagation()}
-          >
-            <div className="flex items-start gap-4 mb-4">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 bg-red-50">
-                <svg className="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-lg font-bold text-gray-800 mb-1">Bildirimi Sil</h3>
-                <p className="text-sm text-gray-600 leading-relaxed">Bu bildirim tüm alıcılar için kaybolur. Emin misiniz?</p>
-              </div>
-            </div>
-            <div className="flex gap-3 mt-5">
-              <button
-                onClick={() => setConfirmDelete(null)}
-                className="flex-1 py-2.5 rounded-full font-semibold text-sm border-2 border-gray-200 text-gray-600 hover:bg-gray-50"
-              >
-                İptal
-              </button>
-              <button
-                onClick={() => handleDelete(confirmDelete)}
-                className="flex-1 py-2.5 rounded-full font-semibold text-sm text-white bg-red-500 hover:bg-red-600"
-              >
-                Evet, Sil
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <AppModal
+        open={!!confirmDelete}
+        variant="destructive"
+        title="Bildirimi Sil?"
+        description="Bu bildirim tüm alıcılar için kalıcı olarak kaybolur. Bu işlem geri alınamaz."
+        primaryLabel="Sil"
+        secondaryLabel="Vazgeç"
+        twoButtons
+        onPrimary={() => { if (confirmDelete) handleDelete(confirmDelete); }}
+        onSecondary={() => setConfirmDelete(null)}
+        onClose={() => setConfirmDelete(null)}
+      />
 
       {/* Toast */}
       {toast && (
