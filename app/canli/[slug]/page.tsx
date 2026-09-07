@@ -2720,11 +2720,13 @@ export default function WatchPage() {
 
         {showWelcomeModal && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(8px)' }}>
-            <div className="rounded-3xl p-8 max-w-sm w-full text-center relative overflow-hidden" style={{ background: 'linear-gradient(165deg, rgba(255,252,248,0.96), rgba(250,245,238,0.95))', boxShadow: '0 25px 80px rgba(0,0,0,0.15)', border: '1px solid rgba(200,104,110,0.1)' }}>
-              <img src="/foto-yuklendi.png" alt="" className="w-32 h-32 mx-auto -mb-1 object-contain" loading="eager" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Hoş Geldiniz!</h3>
-              <p className="text-sm text-gray-500 mb-1">Katılım bilginiz çiftimize iletildi</p>
-              <p className="text-xs text-gray-400">Keyifli izlemeler dileriz</p>
+            <div className="rounded-3xl p-8 max-w-sm w-full text-center relative overflow-hidden" style={{ background: '#FFFDFC', boxShadow: '0 25px 70px rgba(63,44,39,0.20)', border: '1px solid rgba(60,45,41,0.07)' }}>
+              <div className="grid place-items-center rounded-full mx-auto mb-4" style={{ width: 64, height: 64, background: 'rgba(201,111,120,0.10)' }}>
+                <svg className="w-8 h-8" fill="none" stroke="#C96F78" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></svg>
+              </div>
+              <h3 className="text-[20px] font-semibold mb-2" style={{ color: '#302927' }}>Hoş geldiniz</h3>
+              <p className="text-[13.5px]" style={{ color: '#77716E' }}>Katılım bilginiz çifte iletildi.</p>
+              <p className="text-[12.5px] mt-0.5" style={{ color: '#A9A19D' }}>Keyifli izlemeler dileriz.</p>
             </div>
           </div>
         )}
@@ -4480,7 +4482,7 @@ export default function WatchPage() {
           `}</style>
           {/* 40 parça konfeti — site renklerinde (pembe, gold, krem, beyaz) */}
           {Array.from({ length: 40 }).map((_, i) => {
-            const colors = ['#C8686E', '#D88488', '#E8A8AE', '#D4A852', '#F5D7CE', '#FFFFFF', '#FCE2DA'];
+            const colors = ['#C96F78', '#D88488', '#E8A8AE', '#EBC9CC', '#F5D7CE', '#FFFFFF', '#FCE2DA'];
             const left = (i * 2.5) % 100;
             const delay = (i * 0.07) % 1.8;
             const dur = 2.4 + (i % 4) * 0.3;
@@ -4499,11 +4501,13 @@ export default function WatchPage() {
               />
             );
           })}
-          <div className="welcome-modal-pop bg-white rounded-2xl p-8 max-w-sm w-full text-center relative z-10" style={{ boxShadow: '0 30px 80px rgba(60,40,40,0.20), 0 12px 32px rgba(200,104,110,0.16)' }}>
-            <div className="text-6xl mb-4">🎊</div>
-            <h3 className="text-2xl font-bold text-gray-900 mb-3">Hoş Geldiniz!</h3>
-            <p className="text-gray-600 mb-2">Katılım bilginiz çiftimize iletildi.</p>
-            <p className="text-gray-500">Katıldığınız için teşekkür ederiz! 🎉</p>
+          <div className="welcome-modal-pop rounded-3xl p-8 max-w-sm w-full text-center relative z-10" style={{ background: '#FFFDFC', border: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 30px 80px rgba(63,44,39,0.20), 0 12px 32px rgba(201,111,120,0.14)' }}>
+            <div className="grid place-items-center rounded-full mx-auto mb-4" style={{ width: 68, height: 68, background: 'rgba(201,111,120,0.10)' }}>
+              <svg className="w-9 h-9" fill="none" stroke="#C96F78" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="#C96F78" stroke="none" /></svg>
+            </div>
+            <h3 className="text-[22px] font-semibold mb-2.5" style={{ color: '#302927' }}>Hoş geldiniz</h3>
+            <p className="text-[14px] mb-1" style={{ color: '#77716E' }}>Katılım bilginiz çifte iletildi.</p>
+            <p className="text-[13px]" style={{ color: '#A9A19D' }}>Katıldığınız için teşekkür ederiz.</p>
           </div>
         </div>
       )}
