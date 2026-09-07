@@ -388,11 +388,23 @@ export default function WatchPage() {
     if (!parts.length) return 'Bir davetli';
     return parts[0] + (parts[1] ? ' ' + parts[1].charAt(0).toUpperCase() + '.' : '');
   };
+  const joinedKeysRef = useRef<Set<string>>(new Set());       // presence'ta katılımı zaten eklenen anahtarlar (tekrar engeli)
+  const approvedPhotoIdsRef = useRef<Set<string>>(new Set());  // akışa eklenmiş onaylı foto id'leri (tekrar engeli)
   const addActivity = (type: ActivityType, name: string, extra?: number) => {
     setActivityFeed(prev => {
       const time = nowHHMM();
       if (prev[0] && prev[0].type === type && prev[0].name === name && prev[0].time === time) return prev;
       return [{ id: ++activityIdRef.current, type, name, time, extra }, ...prev].slice(0, 30);
+    });
+  };
+  // Foto: aynı davetlinin arka arkaya onaylanan fotoğraflarını tek satırda say ("X · 3 fotoğraf ekledi")
+  const addPhotoActivity = (name: string) => {
+    setActivityFeed(prev => {
+      const time = nowHHMM();
+      if (prev[0] && prev[0].type === 'photo' && prev[0].name === name) {
+        return [{ ...prev[0], extra: (prev[0].extra || 1) + 1, time }, ...prev.slice(1)];
+      }
+      return [{ id: ++activityIdRef.current, type: 'photo' as const, name, time, extra: 1 }, ...prev].slice(0, 30);
     });
   };
   // Akışı yüklenen tebrik mesajlarından bir kez tohumla (canlı olaylar sonradan eklenir)
@@ -943,7 +955,7 @@ export default function WatchPage() {
     const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A49F9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
-      <section className={desktop ? 'hidden lg:block w-full mt-3 lg:mt-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
+      <section className={desktop ? 'hidden lg:block w-full mt-3' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Section header — mobilde göster; masaüstünde gizli (yer için) */}
         {!desktop && (
         <div className="flex flex-col items-center text-center mb-6">
@@ -1009,10 +1021,10 @@ export default function WatchPage() {
             <div key={r.id}>
               {!desktop && idx > 0 && <div style={{ height: 1, marginLeft: 64, background: 'rgba(60,45,41,0.065)' }} />}
               <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-all active:scale-[0.99]" style={{ gridTemplateColumns: '44px minmax(0,1fr) 20px', gap: 13, minHeight: desktop ? 60 : 74, padding: desktop ? '9px 12px' : '10px 4px', ...(desktop ? { borderRadius: 16, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' } : {}) }}>
-                <span className="grid place-items-center rounded-[13px]" style={{ width: 44, height: 44, background: 'rgba(201,154,50,0.10)' }}>
+                <span className="grid place-items-center" style={{ width: 44, height: 44, ...(desktop ? {} : { background: 'rgba(201,154,50,0.10)', borderRadius: 13 }) }}>
                   {r.id === 'gram_altin'
-                    ? <span className="relative block" style={{ width: 23, height: 23 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
-                    : <span className="relative block" style={{ width: 29, height: 29 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
+                    ? <span className="relative block" style={{ width: desktop ? 27 : 23, height: desktop ? 27 : 23 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
+                    : <span className="relative block" style={{ width: desktop ? 33 : 29, height: desktop ? 33 : 29 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: desktop ? 15 : 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
@@ -1145,7 +1157,7 @@ export default function WatchPage() {
           {count > 0 ? (
             <>
               {/* Öne çıkan kolaj — tıklanınca albüm açılır */}
-              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 206 : 200, marginTop: 2 }}>
+              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 150 : 200, marginTop: 2 }}>
                 <style>{`
                   @keyframes albFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
                   @keyframes albFloatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
@@ -1154,7 +1166,7 @@ export default function WatchPage() {
                 {photos[1] && (
                   <div className="alb-float absolute" style={{ left: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite' }}>
                     <div className="relative" style={{ transform: 'rotate(-5deg)' }}>
-                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 156 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 116 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[1]] || 0}</span></span>
                     </div>
                   </div>
@@ -1162,14 +1174,14 @@ export default function WatchPage() {
                 {photos[2] && (
                   <div className="alb-float absolute" style={{ right: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite', animationDelay: '0.7s' }}>
                     <div className="relative" style={{ transform: 'rotate(5deg)' }}>
-                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 156 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 116 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[2]] || 0}</span></span>
                     </div>
                   </div>
                 )}
                 <div className="alb-float absolute" style={{ left: '50%', top: 0, zIndex: 3, width: '43%', animation: 'albFloatC 4.6s ease-in-out infinite' }}>
                   <div className="relative">
-                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 196 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
+                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 146 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
                     <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[0]] || 0}</span></span>
                     <span className="absolute flex items-center" style={{ top: 8, right: 8, gap: 4, padding: '4px 7px', borderRadius: 999, background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 6px rgba(55,40,32,0.14)' }}><svg viewBox="0 0 24 24" fill="none" stroke="#9F4F58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]"><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg><span style={{ fontSize: 9, fontWeight: 700, color: '#9F4F58', lineHeight: 1 }}>Baskıya Gönder</span></span>
                   </div>
@@ -2002,6 +2014,16 @@ export default function WatchPage() {
         // Object.keys = unique key count (aynı isim farklı cihazdan = 1 sayılır)
         setLiveViewerCount(Object.keys(state).length);
       })
+      .on('presence', { event: 'join' }, ({ key, newPresences }) => {
+        // Başkaları katılınca Akış'a ekle (kendi katılımım lokal handler'da; tekrarları key ile engelle)
+        if (key === presenceKey) return;
+        (newPresences as { name?: string }[]).forEach((p) => {
+          if (p?.name && !joinedKeysRef.current.has(key)) {
+            joinedKeysRef.current.add(key);
+            addActivity('join', shortenName(p.name));
+          }
+        });
+      })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED' && isNameEntered && viewerName) {
           // Sadece isim girmiş ve sayfada olan kişi "watcher" olarak track edilir
@@ -2013,6 +2035,25 @@ export default function WatchPage() {
       });
     return () => { channel.unsubscribe(); };
   }, [event?.id, streamData?.status, streamData?.isTest, showEndedScreen, isNameEntered, viewerName]);
+
+  // Akış — davetli fotoğrafı çift onaylayıp yayınlanınca ("pending" değilse) "X · N fotoğraf ekledi"
+  useEffect(() => {
+    if (!event?.id) return;
+    const handlePhoto = (payload: { new: { id?: string; guest_name?: string; status?: string } }) => {
+      const nw = payload.new;
+      if (nw?.status && nw.status !== 'pending' && nw.id && !approvedPhotoIdsRef.current.has(nw.id)) {
+        approvedPhotoIdsRef.current.add(nw.id);
+        addPhotoActivity(shortenName(nw.guest_name));
+      }
+    };
+    const ch = supabase
+      .channel(`guest-photos-feed-${event.id}`)
+      .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'guest_photos', filter: `event_id=eq.${event.id}` }, handlePhoto)
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'guest_photos', filter: `event_id=eq.${event.id}` }, handlePhoto)
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [event?.id]);
 
   useEffect(() => {
     if (!event?.id) return;
@@ -3109,14 +3150,14 @@ export default function WatchPage() {
                       </span>
                     )}
                   </div>
-                  {activityFeed.length > 4 && (
+                  {activityFeed.length > 3 && (
                     <button onClick={() => setActivityExpanded(v => !v)} className="text-[11.5px] font-medium transition-opacity hover:opacity-70" style={{ color: '#B08088' }}>{activityExpanded ? 'Daha az' : 'Tümünü Gör'}</button>
                   )}
                 </div>
                 {activityFeed.length === 0 ? (
                   <p className="text-[12px] leading-snug" style={{ color: '#A9A19D' }}>Katılımlar, tebrikler ve altınlar burada canlı akacak.</p>
                 ) : (() => {
-                  const shown = activityExpanded ? activityFeed.slice(0, 12) : activityFeed.slice(0, 4);
+                  const shown = activityExpanded ? activityFeed.slice(0, 12) : activityFeed.slice(0, 3);
                   const iconFor = (t: ActivityType) => {
                     const cls = 'w-[14px] h-[14px]';
                     if (t === 'join') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
@@ -3136,8 +3177,8 @@ export default function WatchPage() {
                             : a.type === 'gold' ? 'Altın taktı'
                             : a.type === 'video' ? 'Video tebrik gönderdi'
                             : a.type === 'voice' ? 'Sesli tebrik bıraktı'
-                            : 'Eklendi';
-                          const title = a.type === 'photo' ? `${a.extra || ''} yeni fotoğraf` : a.name;
+                            : `${a.extra || 1} fotoğraf ekledi`;
+                          const title = a.name;
                           return (
                             <div key={a.id} className="relative flex gap-2.5">
                               <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 26, height: 26, background: '#F7E9EB', color: '#C96F78' }}>{iconFor(a.type)}</span>
@@ -3169,8 +3210,8 @@ export default function WatchPage() {
 
           {/* ORTA + SAĞ PANEL WRAPPER */}
           <div className="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-stretch gap-4 lg:gap-5">
-          {/* ORTA ALAN - Video (%55) — mobilde display:contents, masaüstünde flex-col (altın alta) */}
-          <div className="contents lg:flex lg:flex-col lg:flex-1 lg:min-w-0">
+          {/* ORTA ALAN - Video (%55) — mobilde display:contents, masaüstünde block (video + altın) */}
+          <div className="contents lg:block lg:flex-1 lg:min-w-0">
             {/* Video container — mobilde sticky top:60px, masaüstünde normal */}
             <div className={`max-lg:sticky max-lg:top-[60px] max-lg:z-30 bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
 
@@ -3293,11 +3334,11 @@ export default function WatchPage() {
                     <svg className="w-4 h-4 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
                     <span className="text-[12px] font-medium text-white/70">Geri</span>
                   </button>
-                  {/* Altın butonları — TÜM kartlar AYNI BOY, nakit=tl-icon mobil ile aynı, görsel boyut normalize */}
+                  {/* Altın butonları — TÜM kartlar AYNI BOY; nakit büyük ekranda yuvarlak coin ikonu kullanır */}
                   {goldOptions.map((gold) => {
                     const isNakit = gold.id === 'nakit';
-                    const imgSrc = isNakit ? '/tl-icon.webp' : gold.image;
-                    const imgBoxSize = isNakit ? 32 : 44;
+                    const imgSrc = isNakit ? '/ata-altin.webp' : gold.image;
+                    const imgBoxSize = 44;
                     return (
                     <button key={gold.id} onClick={() => { handleGoldSelect(gold.id); }} className="group flex flex-col items-center justify-between gap-1 px-3 py-2.5 rounded-2xl transition-all duration-300 hover:scale-[1.06] hover:-translate-y-1 relative" style={{ width: '88px', height: '108px', background: 'linear-gradient(165deg, rgba(255,253,248,0.08), rgba(248,242,232,0.05))', border: '1px solid rgba(212,175,55,0.12)', boxShadow: '0 4px 16px rgba(0,0,0,0.15)' }} onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 35px rgba(212,175,55,0.25), 0 4px 12px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.3)'; }} onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.15)'; e.currentTarget.style.border = '1px solid rgba(212,175,55,0.12)'; }}>
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(212,175,55,0.15), transparent 70%)' }} />
