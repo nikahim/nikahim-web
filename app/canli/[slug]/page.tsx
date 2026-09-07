@@ -591,7 +591,7 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <img src="/foto-ekle-final.webp" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+          <img src="/foto-ekle-line.webp" alt="" className="w-[92px] h-[78px] mx-auto mb-2 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
           <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
           <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
             <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
@@ -862,8 +862,8 @@ export default function WatchPage() {
     const icLetter = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><rect x="3" y="5.5" width="18" height="13" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
     const icPrinter = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg>;
-    const bigVideo = <img src="/nikaha-katil-4.webp" alt="" className="w-[clamp(76px,20vw,86px)] h-[clamp(76px,20vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-final.webp" alt="" className="w-[clamp(76px,20vw,86px)] h-[clamp(76px,20vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/yayina-katil-line.webp" alt="" className="w-[clamp(86px,22vw,98px)] h-[clamp(72px,18vw,82px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-line.webp" alt="" className="w-[clamp(86px,22vw,98px)] h-[clamp(72px,18vw,82px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
 
     // Tüm kart tıklanabilir; içindekiler buton değil, sadece özellik göstergesi (kompakt)
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
@@ -874,7 +874,7 @@ export default function WatchPage() {
       >
         <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#C96F78' }}>{pill}</span>
         <span className="mt-2.5 flex items-center justify-center h-[clamp(58px,16vw,74px)]">{big}</span>
-        <span className="block mt-2.5 leading-tight" style={{ color: '#C96F78', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
+        <span className="block mt-2.5 leading-tight" style={{ color: '#B85963', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
         <span className="flex items-stretch justify-center gap-x-2.5 mt-3">
           {feats.map((f, i) => (
             <span key={i} className="inline-flex items-center gap-1" style={i > 0 ? { borderLeft: '1px solid rgba(201,111,120,0.32)', paddingLeft: 10 } : undefined}>
@@ -1256,7 +1256,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/foto-ekle-final.webp" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                  <img src="/foto-ekle-line.webp" alt="" className="w-[80px] h-[68px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
@@ -2580,8 +2580,8 @@ export default function WatchPage() {
             <span className="absolute top-0 right-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: '#DC2626', boxShadow: '0 3px 10px rgba(220,38,38,0.3)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
           )}
           {isDemoEvent && (
-            <div className="absolute top-0 right-0 z-20 pointer-events-none" style={{ width: 116, height: 116, overflow: 'hidden' }}>
-              <span className="absolute font-bold text-white text-center" style={{ width: 165, padding: '5px 0', background: 'linear-gradient(135deg,#D3808A,#C96F78)', transform: 'rotate(45deg)', top: 25, right: -45, fontSize: 10.5, letterSpacing: '0.6px', boxShadow: '0 3px 10px rgba(160,80,90,0.25)' }}>Örnek Sayfa</span>
+            <div className="absolute top-0 right-0 z-20 pointer-events-none" style={{ width: 128, height: 128, overflow: 'hidden' }}>
+              <span className="absolute font-bold text-white text-center" style={{ width: 182, padding: '6px 0', background: 'linear-gradient(135deg,#D3808A,#C96F78)', transform: 'rotate(45deg)', top: 28, right: -49, fontSize: 11.5, letterSpacing: '0.6px', boxShadow: '0 3px 10px rgba(160,80,90,0.25)' }}>Örnek Sayfa</span>
             </div>
           )}
           <div className="flex flex-col items-center text-center">
@@ -2642,8 +2642,8 @@ export default function WatchPage() {
             <span className="absolute top-0 right-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: '#DC2626', boxShadow: '0 3px 10px rgba(220,38,38,0.3)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
           )}
           {isDemoEvent && (
-            <div className="absolute top-0 right-0 z-20 pointer-events-none" style={{ width: 116, height: 116, overflow: 'hidden' }}>
-              <span className="absolute font-bold text-white text-center" style={{ width: 165, padding: '5px 0', background: 'linear-gradient(135deg,#D3808A,#C96F78)', transform: 'rotate(45deg)', top: 25, right: -45, fontSize: 10.5, letterSpacing: '0.6px', boxShadow: '0 3px 10px rgba(160,80,90,0.25)' }}>Örnek Sayfa</span>
+            <div className="absolute top-0 right-0 z-20 pointer-events-none" style={{ width: 128, height: 128, overflow: 'hidden' }}>
+              <span className="absolute font-bold text-white text-center" style={{ width: 182, padding: '6px 0', background: 'linear-gradient(135deg,#D3808A,#C96F78)', transform: 'rotate(45deg)', top: 28, right: -49, fontSize: 11.5, letterSpacing: '0.6px', boxShadow: '0 3px 10px rgba(160,80,90,0.25)' }}>Örnek Sayfa</span>
             </div>
           )}
 
