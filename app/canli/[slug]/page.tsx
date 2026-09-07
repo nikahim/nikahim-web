@@ -3193,7 +3193,7 @@ export default function WatchPage() {
               {showActivityModal && (
                 <>
                   <style>{`@keyframes akisUp { from { transform: translateY(26px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`}</style>
-                  <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col" style={{ top: 118, background: '#FFFDFC', borderTop: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 -14px 34px rgba(63,44,39,0.07)', animation: 'akisUp 340ms cubic-bezier(0.34,1.28,0.64,1)' }}>
+                  <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col" style={{ top: 130, background: '#FFFDFC', borderTop: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 -14px 34px rgba(63,44,39,0.07)', animation: 'akisUp 340ms cubic-bezier(0.34,1.28,0.64,1)' }}>
                     <div className="flex items-center justify-between px-5 pt-3.5 pb-2.5 flex-shrink-0">
                       <div className="flex items-center gap-1.5">
                         <p className="text-[12px] font-semibold" style={{ color: '#4A4340' }}>Etkinlik Akışı</p>
@@ -3201,7 +3201,7 @@ export default function WatchPage() {
                       </div>
                       <button onClick={() => setShowActivityModal(false)} className="flex items-center gap-1 text-[11.5px] font-medium transition-opacity hover:opacity-70" style={{ color: '#B08088' }}>
                         Kapat
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6" /></svg>
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
                       </button>
                     </div>
                     <div className="overflow-y-auto px-5 pb-4 flex-1">
