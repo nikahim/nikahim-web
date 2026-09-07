@@ -993,7 +993,7 @@ export default function WatchPage() {
               const popular = g.id === 'yarim_altin';
               return (
                 <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center justify-center transition-all active:scale-[0.985]" style={{ ...(desktop ? { aspectRatio: '1 / 1' } : { minHeight: 'clamp(154px,43vw,176px)' }), padding: desktop ? '10px 8px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
-                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: desktop ? -7 : -8, padding: desktop ? '3px 7px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 8 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: desktop ? -8 : -8, padding: desktop ? '3px 10px' : '4px 11px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 10 : 'clamp(10px,2.7vw,11.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.2px' }}>Popüler</span>}
                   <span style={{ minHeight: 18, fontSize: desktop ? 13.5 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
                   <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 58 : 'clamp(46px,13.5vw,56px)', height: desktop ? 58 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '10px 0 8px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
                   <strong style={{ marginTop: desktop ? 0 : 'auto', fontSize: desktop ? 16 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
@@ -3105,7 +3105,7 @@ export default function WatchPage() {
           {/* SOL PANEL - Çift Bilgisi (%20) */}
           <div ref={leftPanelRef} className="hidden lg:flex flex-col w-[220px] flex-shrink-0 gap-3">
             {/* Çift + Aile — TEK kart (kart üstüne kart hissi yok, daha premium) */}
-            <div className="rounded-2xl p-5 flex-1 flex flex-col" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
+            <div className="rounded-2xl p-5 flex-1 flex flex-col relative overflow-hidden" style={{ background: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', boxShadow: '0 2px 16px rgba(0,0,0,0.03)', border: '1px solid rgba(255,255,255,0.6)' }}>
               <div className="text-center">
                 {event.couple_photo_url ? (
                   <img src={event.couple_photo_url} alt="Çift" className="w-16 h-16 mx-auto rounded-full object-cover shadow-sm mb-3" style={{ border: '2px solid rgba(200,104,110,0.15)' }} />
@@ -3188,6 +3188,45 @@ export default function WatchPage() {
                   <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </span>
               </a>
+
+              {/* Etkinlik Akışı — kart içi drawer (Tümünü Gör): çiftin foto/ismine kadar yukarı açılır */}
+              {showActivityModal && (
+                <>
+                  <style>{`@keyframes akisUp { from { transform: translateY(26px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }`}</style>
+                  <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col" style={{ top: 118, background: '#FFFDFC', borderTop: '1px solid rgba(60,45,41,0.07)', boxShadow: '0 -14px 34px rgba(63,44,39,0.07)', animation: 'akisUp 340ms cubic-bezier(0.34,1.28,0.64,1)' }}>
+                    <div className="flex items-center justify-between px-5 pt-3.5 pb-2.5 flex-shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        <p className="text-[12px] font-semibold" style={{ color: '#4A4340' }}>Etkinlik Akışı</p>
+                        <span className="relative flex items-center justify-center" style={{ width: 6, height: 6 }}><span className="absolute inline-flex rounded-full animate-ping" style={{ width: 6, height: 6, background: 'rgba(201,111,120,0.55)' }} /><span className="rounded-full" style={{ width: 5, height: 5, background: '#C96F78' }} /></span>
+                      </div>
+                      <button onClick={() => setShowActivityModal(false)} className="flex items-center gap-1 text-[11.5px] font-medium transition-opacity hover:opacity-70" style={{ color: '#B08088' }}>
+                        Kapat
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6" /></svg>
+                      </button>
+                    </div>
+                    <div className="overflow-y-auto px-5 pb-4 flex-1">
+                      <div className="relative">
+                        {activityFeed.length > 1 && <div style={{ position: 'absolute', left: 12.5, top: 13, bottom: 13, width: 1, background: '#F0E4E2' }} />}
+                        <div className="space-y-3">
+                          {activityFeed.map((a) => (
+                            <div key={a.id} className="relative flex gap-2.5">
+                              <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 26, height: 26, background: '#F7E9EB', color: '#C96F78' }}>{activityIcon(a.type)}</span>
+                              <div className="min-w-0 flex-1" style={{ paddingTop: 1 }}>
+                                <p className="text-[12.5px] leading-tight truncate" style={{ color: '#363231', fontWeight: 600 }}>{a.name}</p>
+                                <p className="text-[11.5px] leading-tight mt-[3px] flex items-center gap-1.5">
+                                  <span style={{ color: '#77716E' }}>{activityAction(a)}</span>
+                                  <span style={{ color: '#D8CFCC' }}>·</span>
+                                  <span className="tabular-nums flex-shrink-0" style={{ color: '#AAA19D' }}>{a.time}</span>
+                                </p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
@@ -4127,47 +4166,6 @@ export default function WatchPage() {
         </div>
         );
       })()}
-
-      {/* Etkinlik Akışı — tüm hareketler modalı (Tümünü Gör) */}
-      {showActivityModal && (
-        <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" onClick={() => setShowActivityModal(false)} style={{ background: 'rgba(28,22,23,0.42)', backdropFilter: 'blur(8px)' }}>
-          <div className="rounded-3xl max-w-sm w-full max-h-[80vh] overflow-hidden relative flex flex-col" onClick={(e) => e.stopPropagation()} style={{ background: '#FFFDFC', boxShadow: '0 24px 70px rgba(63,44,39,0.22)', border: '1px solid rgba(60,45,41,0.07)' }}>
-            <div className="flex items-center justify-between px-5 pt-4 pb-3 flex-shrink-0" style={{ borderBottom: '1px solid rgba(60,45,41,0.06)' }}>
-              <div className="flex items-center gap-2">
-                <h3 className="text-[15px] font-semibold" style={{ color: '#302927' }}>Etkinlik Akışı</h3>
-                <span className="relative flex items-center justify-center" style={{ width: 6, height: 6 }}><span className="absolute inline-flex rounded-full animate-ping" style={{ width: 6, height: 6, background: 'rgba(201,111,120,0.55)' }} /><span className="rounded-full" style={{ width: 5, height: 5, background: '#C96F78' }} /></span>
-              </div>
-              <button onClick={() => setShowActivityModal(false)} aria-label="Kapat" className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
-              </button>
-            </div>
-            <div className="overflow-y-auto px-5 py-4">
-              {activityFeed.length === 0 ? (
-                <p className="text-[13px] text-center py-6" style={{ color: '#A9A19D' }}>Henüz hareket yok.</p>
-              ) : (
-                <div className="relative">
-                  {activityFeed.length > 1 && <div style={{ position: 'absolute', left: 13, top: 14, bottom: 14, width: 1, background: '#F0E4E2' }} />}
-                  <div className="space-y-3.5">
-                    {activityFeed.map((a) => (
-                      <div key={a.id} className="relative flex gap-3">
-                        <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 28, height: 28, background: '#F7E9EB', color: '#C96F78' }}>{activityIcon(a.type, 'w-[15px] h-[15px]')}</span>
-                        <div className="min-w-0 flex-1" style={{ paddingTop: 1 }}>
-                          <p className="text-[13px] leading-tight truncate" style={{ color: '#363231', fontWeight: 600 }}>{a.name}</p>
-                          <p className="text-[12px] leading-tight mt-[3px] flex items-center gap-1.5">
-                            <span style={{ color: '#77716E' }}>{activityAction(a)}</span>
-                            <span style={{ color: '#D8CFCC' }}>·</span>
-                            <span className="tabular-nums flex-shrink-0" style={{ color: '#AAA19D' }}>{a.time}</span>
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {showVideoRecorder && event && (
         <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); addActivity('video', shortenName(viewerName)); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
