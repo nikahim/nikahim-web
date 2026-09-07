@@ -377,6 +377,31 @@ export default function WatchPage() {
   const [goldDisplayIndex, setGoldDisplayIndex] = useState(0);
   const [galleryIndex, setGalleryIndex] = useState(0);
   const [videoNotification, setVideoNotification] = useState<{ text: string; type: 'message' | 'join' | 'gold' | 'video' | 'voice' } | null>(null);
+  // Akış — sol paneldeki sessiz canlı etkinlik özeti (saat + kısa olay; tutar/ikon/renk yok)
+  type ActivityType = 'join' | 'message' | 'gold' | 'video' | 'voice' | 'photo';
+  const [activityFeed, setActivityFeed] = useState<{ id: number; type: ActivityType; name: string; time: string; extra?: number }[]>([]);
+  const activityIdRef = useRef(0);
+  const nowHHMM = () => new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  const shortenName = (raw?: string) => {
+    const parts = (raw || '').trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return 'Bir davetli';
+    return parts[0] + (parts[1] ? ' ' + parts[1].charAt(0).toUpperCase() + '.' : '');
+  };
+  const addActivity = (type: ActivityType, name: string, extra?: number) => {
+    setActivityFeed(prev => {
+      const time = nowHHMM();
+      if (prev[0] && prev[0].type === type && prev[0].name === name && prev[0].time === time) return prev;
+      return [{ id: ++activityIdRef.current, type, name, time, extra }, ...prev].slice(0, 30);
+    });
+  };
+  // Akışı yüklenen tebrik mesajlarından bir kez tohumla (canlı olaylar sonradan eklenir)
+  useEffect(() => {
+    setActivityFeed(prev => {
+      if (prev.length || !messages.length) return prev;
+      return messages.slice(-6).reverse().map((m) => ({ id: ++activityIdRef.current, type: 'message' as const, name: shortenName((m as { name?: string }).name), time: (m as { time?: string }).time || '' }));
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages]);
   const [videoTebrikCount, setVideoTebrikCount] = useState(0);
   const [sesliTebrikCount, setSesliTebrikCount] = useState(0);
   const [activeTab, setActiveTab] = useState<'chat' | 'gold' | 'video'>('chat');
@@ -2035,6 +2060,7 @@ export default function WatchPage() {
           });
           setTimeout(() => setVideoNotification(null), 10000);
         }
+        addActivity('message', shortenName(newMsg.sender_name));
       })
       .subscribe();
 
@@ -2071,8 +2097,10 @@ export default function WatchPage() {
         const isAnon = !!newRow.anonymous || hideGoldNames;
         if (isAnon) {
           setVideoNotification({ text: `Bir ziyaretçi ${goldName} taktı!`, type: 'gold' });
+          addActivity('gold', 'Bir davetli');
         } else {
           setVideoNotification({ text: `${newRow.sender_name} ${goldName} gönderdi!`, type: 'gold' });
+          addActivity('gold', shortenName(newRow.sender_name));
           // Sağ üst akışa da ekle
           if (!hideGoldNames) {
             const parts = (newRow.sender_name || '').split(' ');
@@ -2273,6 +2301,7 @@ export default function WatchPage() {
         setIsNameEntered(true);
         setVideoNotification({ text: `${viewerName.trim()} nikaha katıldı!`, type: 'join' });
         setTimeout(() => setVideoNotification(null), 10000);
+        addActivity('join', shortenName(viewerName.trim()));
       }, 3000);
     }
   };
@@ -2290,6 +2319,7 @@ export default function WatchPage() {
       setShowEmojiPicker(false);
       setVideoNotification({ text: `${viewerName} tebrik mesajı gönderdi!`, type: 'message' });
       setTimeout(() => setVideoNotification(null), 10000);
+      addActivity('message', shortenName(viewerName));
     }
   };
 
@@ -2376,8 +2406,10 @@ export default function WatchPage() {
     const goldName = goldOptions.find(g => g.id === selectedGold)?.name || 'Altın';
     if (isAnonymous) {
       setVideoNotification({ text: `Bir ziyaretçi ${goldName} taktı!`, type: 'gold' });
+      addActivity('gold', 'Bir davetli');
     } else {
       setVideoNotification({ text: `${viewerName} ${goldName} gönderdi!`, type: 'gold' });
+      addActivity('gold', shortenName(viewerName));
       setGoldHistory(prev => [{ name: viewerName.split(' ')[0] + (viewerName.split(' ')[1] ? ' ' + viewerName.split(' ')[1].charAt(0) + '.' : ''), type: goldName }, ...prev].slice(0, 10));
     }
     setTimeout(() => setVideoNotification(null), 10000);
@@ -3062,10 +3094,38 @@ export default function WatchPage() {
                   <p className="text-[13px]" style={{ color: '#6B6360' }}><span style={{ color: '#AEA5A2' }}>Damat&nbsp;·&nbsp;</span>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '—'}</p>
                 </div>
               </div>
-              {/* Nikahım — sessiz marka linki (kartın en altında, premium funnel) */}
-              <a href="/" target="_blank" rel="noopener noreferrer" className="group mt-auto pt-5 flex items-center justify-center gap-1.5 text-[12.5px] font-medium">
-                <span className="transition-colors group-hover:text-[#C96F78]" style={{ color: '#A29695' }}>Nikahım&apos;ı Keşfet</span>
-                <svg className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="#C96F78" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+              {/* Ayraç */}
+              <div className="my-4 flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.2), transparent)' }} /></div>
+              {/* Akış — sessiz canlı etkinlik özeti (saat + kısa olay; ikon/renk/tutar yok) */}
+              <div>
+                <p className="text-[12px] font-semibold mb-2.5" style={{ color: '#4A4340' }}>Akış</p>
+                {activityFeed.length === 0 ? (
+                  <p className="text-[12px] leading-snug" style={{ color: '#A9A19D' }}>Katılımlar, tebrikler ve altınlar burada canlı akacak.</p>
+                ) : (
+                  <div className="space-y-2">
+                    {activityFeed.slice(0, 6).map((a) => {
+                      const action = a.type === 'join' ? `${event.event_type === 'dugun' ? 'düğüne' : 'nikaha'} katıldı`
+                        : a.type === 'message' ? 'tebrik gönderdi'
+                        : a.type === 'gold' ? 'altın taktı'
+                        : a.type === 'video' ? 'video tebrik gönderdi'
+                        : a.type === 'voice' ? 'sesli tebrik bıraktı'
+                        : `${a.extra || ''} yeni fotoğraf ekledi`;
+                      return (
+                        <div key={a.id} className="flex gap-2.5 text-[12px] leading-snug">
+                          <span className="tabular-nums flex-shrink-0" style={{ color: '#A9A19D' }}>{a.time}</span>
+                          <span style={{ color: '#4A4543' }}>{a.type === 'photo' ? action : <><span style={{ fontWeight: 600 }}>{a.name}</span> {action}</>}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              {/* Nikahım — marka butonu (kartın en altında; hero'yu bastırmayan ince rose) */}
+              <a href="/" target="_blank" rel="noopener noreferrer" className="group mt-auto pt-5">
+                <span className="flex items-center justify-center gap-1.5 w-full rounded-[15px] py-[11px] text-[13px] font-semibold transition-all group-hover:bg-[rgba(201,111,120,0.06)] group-active:scale-[0.98]" style={{ color: '#C96F78', border: '1.5px solid rgba(201,111,120,0.55)', background: 'rgba(255,255,255,0.6)' }}>
+                  Nikahım&apos;ı Keşfet
+                  <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                </span>
               </a>
             </div>
           </div>
@@ -3235,7 +3295,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
+                    <VideoRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); addActivity('video', shortenName(viewerName)); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
                   </div>
                 </div>
               )}
@@ -3276,7 +3336,7 @@ export default function WatchPage() {
                     </button>
                   </div>
                   <div className="px-4 pb-4">
-                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
+                    <VoiceRecorder eventId={event.id} senderName={viewerName} embedded onSuccess={() => { setFsTebrikPanel(null); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); addActivity('voice', shortenName(viewerName)); }} onClose={() => setFsTebrikPanel(null)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setFsTebrikPanel(null); showDemoBlock(); } : undefined} />
                   </div>
                 </div>
               )}
@@ -3406,59 +3466,22 @@ export default function WatchPage() {
                     isFullscreen ? 'scale-100' : 'scale-50 lg:scale-100'
                   }`}
                 >
-                <div
-                  className="max-w-[380px] min-w-[260px] video-notification"
-                >
-                  <div className={`rounded-2xl px-4 py-3 flex items-center gap-3 relative ${videoNotification.type === 'gold' ? 'notif-gold' : ''}`} style={{
-                    background: videoNotification.type === 'gold'
-                      ? 'rgba(40,30,15,0.75)'
-                      : videoNotification.type === 'join'
-                      ? 'rgba(30,30,35,0.7)'
-                      : videoNotification.type === 'voice'
-                      ? 'rgba(30,30,35,0.7)'
-                      : 'rgba(30,30,35,0.7)',
-                    backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
-                    border: videoNotification.type === 'gold'
-                      ? '1px solid rgba(255,200,60,0.3)'
-                      : '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.3)',
+                <div className="max-w-[360px] min-w-[240px] video-notification">
+                  {/* Yeni dil — beyaz cam pill + rose ikon çipi + sakin metin (tek sistem) */}
+                  <div className="flex items-center gap-2.5 rounded-2xl pl-2.5 pr-4 py-2.5" style={{
+                    background: 'rgba(255,253,251,0.93)',
+                    backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)',
+                    border: '1px solid rgba(60,45,41,0.08)',
+                    boxShadow: '0 12px 34px rgba(40,25,22,0.24), inset 0 1px 0 rgba(255,255,255,0.65)',
                   }}>
-                    {/* Sparkle + shimmer for gold */}
-                    {videoNotification.type === 'gold' && (
-                      <>
-                        <div className="sparkle-layer" />
-                        <div className="notif-shimmer" />
-                      </>
-                    )}
-                    {/* Left icon */}
-                    <div className="w-10 h-10 flex-shrink-0 relative z-10 rounded-full flex items-center justify-center" style={{
-                      border: videoNotification.type === 'gold' ? 'none' : '2px solid rgba(255,255,255,0.15)',
-                      background: videoNotification.type === 'gold'
-                        ? 'transparent'
-                        : videoNotification.type === 'join'
-                        ? 'rgba(34,197,94,0.15)'
-                        : videoNotification.type === 'video'
-                        ? 'rgba(200,104,110,0.15)'
-                        : videoNotification.type === 'voice'
-                        ? 'rgba(111,175,207,0.15)'
-                        : 'rgba(76,175,80,0.15)',
-                    }}>
-                      {videoNotification.type === 'gold' && <Image src="/altintak.webp" alt="" width={40} height={40} className="w-10 h-10 object-contain" />}
-                      {videoNotification.type === 'join' && <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
-                      {videoNotification.type === 'video' && <svg className="w-5 h-5" style={{ color: '#E8888E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
-                      {videoNotification.type === 'voice' && <svg className="w-5 h-5" style={{ color: '#8EC8E4' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" /></svg>}
-                      {videoNotification.type === 'message' && <svg className="w-5 h-5" style={{ color: '#7ED687' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" /></svg>}
-                    </div>
-                    {/* Content */}
-                    <div className="flex-1 relative z-10 text-white">
-                      <p className="text-[13px] font-semibold leading-snug">{videoNotification.text}</p>
-                    </div>
-                    {/* Right icon for gold */}
-                    {videoNotification.type === 'gold' && (
-                      <div className="flex-shrink-0 relative z-10">
-                        <Image src="/altintak.webp" alt="" width={40} height={40} className="w-10 h-10 object-contain" />
-                      </div>
-                    )}
+                    <span className="grid place-items-center rounded-full flex-shrink-0" style={{ width: 34, height: 34, background: 'rgba(201,111,120,0.10)', color: '#C96F78' }}>
+                      {videoNotification.type === 'join' && <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>}
+                      {videoNotification.type === 'message' && <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="13.5" rx="2.5" /><path d="M7.5 9.5h9M7.5 13h5.5" /></svg>}
+                      {videoNotification.type === 'gold' && <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.4" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>}
+                      {videoNotification.type === 'video' && <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>}
+                      {videoNotification.type === 'voice' && <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>}
+                    </span>
+                    <p className="text-[13px] font-semibold leading-snug" style={{ color: '#302927' }}>{videoNotification.text}</p>
                   </div>
                 </div>
                 </div>
@@ -4045,11 +4068,11 @@ export default function WatchPage() {
       })()}
 
       {showVideoRecorder && event && (
-        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
+        <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); addActivity('video', shortenName(viewerName)); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
       {showVoiceRecorder && event && (
-        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
+        <VoiceRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVoiceRecorder(false); setSesliTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} sesli tebrik gönderdi!`, type: 'voice' }); setTimeout(() => setVideoNotification(null), 10000); addActivity('voice', shortenName(viewerName)); }} onClose={() => setShowVoiceRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVoiceRecorder(false); showDemoBlock(); } : undefined} />
       )}
 
       {/* Ödeme modalı açıkken telefon yan dönerse — dik tutmaya yönlendir */}
