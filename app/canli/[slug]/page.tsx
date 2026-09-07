@@ -862,18 +862,18 @@ export default function WatchPage() {
     const icLetter = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><rect x="3" y="5.5" width="18" height="13" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
     const icPrinter = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg>;
-    const bigVideo = <img src="/nikaha-katil-2.webp" alt="" className="w-[clamp(88px,24vw,112px)] h-[clamp(72px,19vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.webp" alt="" style={{ filter: 'saturate(1.12)' }} className="w-[clamp(80px,22vw,104px)] h-[clamp(80px,22vw,104px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/nikaha-katil-2.webp" alt="" className="w-[clamp(82px,22vw,100px)] h-[clamp(66px,18vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.webp" alt="" style={{ filter: 'saturate(1.38) contrast(1.02)' }} className="w-[clamp(74px,20vw,94px)] h-[clamp(74px,20vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
 
     // Tüm kart tıklanabilir; içindekiler buton değil, sadece özellik göstergesi (kompakt)
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="wchoice group relative rounded-[22px] px-3.5 pt-4 pb-4 text-center active:scale-[0.98] flex flex-col items-center h-full"
-        style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.22)', boxShadow: '0 10px 26px rgba(40,30,25,0.07)' }}
+        className="wchoice group relative rounded-[20px] px-3 pt-3.5 pb-3.5 text-center active:scale-[0.98] flex flex-col items-center h-full"
+        style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.20)', boxShadow: 'none' }}
       >
-        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#B4535C' }}>{pill}</span>
-        <span className="mt-2.5 flex items-center justify-center h-[clamp(66px,18vw,92px)]">{big}</span>
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#C96F78' }}>{pill}</span>
+        <span className="mt-2.5 flex items-center justify-center h-[clamp(58px,16vw,82px)]">{big}</span>
         <span className="block mt-2.5 leading-tight" style={{ color: '#C96F78', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
         <span className="flex items-center justify-center gap-x-3.5 gap-y-1 flex-wrap mt-3">
           {feats.map((f, i) => (
@@ -2572,7 +2572,7 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen flex flex-col items-center px-4 pt-6 pb-10 lg:justify-center lg:pt-8" style={{ background: '#F9F2EB' }}>
         {renderDemoBlock()}
-        <div className="w-full mx-auto relative overflow-hidden lg:bg-[#FDFAF7] lg:rounded-[28px] lg:px-9 lg:py-8 lg:border lg:border-[rgba(201,111,120,0.14)] lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
+        <div className="w-full mx-auto relative overflow-hidden bg-[#FDFAF7] rounded-[22px] border border-[rgba(201,111,120,0.13)] px-4 py-6 lg:rounded-[28px] lg:px-8 lg:py-7 lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
           <div className="flex justify-start mb-2">
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-12 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
           </div>
@@ -2587,15 +2587,15 @@ export default function WatchPage() {
           <div className="flex flex-col items-center text-center">
             <div className="rounded-full p-[3px] mb-2" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
-                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', border: '2px solid rgba(255,255,255,0.95)' }} />
+                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
-                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
+                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
-            <p className="mt-1" style={{ color: '#77716E', fontSize: 16 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(25px,6.5vw,31px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 15 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
             <div className="mt-2 flex items-center justify-center flex-wrap gap-x-2.5 gap-y-1 text-[15px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
               <span style={{ color: '#D8CFCC' }}>·</span>
@@ -2603,13 +2603,13 @@ export default function WatchPage() {
               {event.venue && (<><span style={{ color: '#D8CFCC' }}>·</span><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent([event.venue, event.city].filter(Boolean).join(' '))}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 transition-opacity hover:opacity-75" style={{ color: '#C96F78', fontWeight: 500 }}><svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>Yol Tarifi</a></>)}
             </div>
           </div>
-          <div className="flex items-center justify-center my-3.5" style={{ gap: 8 }}>
+          <div className="flex items-center justify-center my-3" style={{ gap: 8 }}>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
             <svg viewBox="0 0 24 24" fill="#C96F78" className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
           </div>
           <div className="text-center mb-4">
-            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 21, letterSpacing: '-0.2px' }}>Tekrar hoş geldiniz</h2>
+            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 19, letterSpacing: '-0.2px' }}>Tekrar hoş geldiniz</h2>
             <p className="mt-1" style={{ color: '#77716E', fontSize: 14 }}>Sn. <span style={{ fontWeight: 600, color: '#4A4340' }}>{viewerName}</span></p>
           </div>
           <div>
@@ -2633,7 +2633,7 @@ export default function WatchPage() {
         {renderDemoToast()}
         {renderDemoBlock()}
         <style>{`.welcome-input:focus{border-color:#C96F78!important;box-shadow:0 0 0 3px rgba(201,111,120,0.12);}`}</style>
-        <div className="w-full mx-auto relative overflow-hidden lg:bg-[#FDFAF7] lg:rounded-[28px] lg:px-9 lg:py-8 lg:border lg:border-[rgba(201,111,120,0.14)] lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
+        <div className="w-full mx-auto relative overflow-hidden bg-[#FDFAF7] rounded-[22px] border border-[rgba(201,111,120,0.13)] px-4 py-6 lg:rounded-[28px] lg:px-8 lg:py-7 lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
           {/* Logo — sol üstte */}
           <div className="flex justify-start mb-2">
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-12 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
@@ -2651,15 +2651,15 @@ export default function WatchPage() {
           <div className="flex flex-col items-center text-center">
             <div className="rounded-full p-[3px] mb-2" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
-                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', border: '2px solid rgba(255,255,255,0.95)' }} />
+                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
-                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
+                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
-            <p className="mt-1" style={{ color: '#77716E', fontSize: 16 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(25px,6.5vw,31px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 15 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
             <div className="mt-2 flex items-center justify-center flex-wrap gap-x-2.5 gap-y-1 text-[15px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
               <span style={{ color: '#D8CFCC' }}>·</span>
@@ -2669,7 +2669,7 @@ export default function WatchPage() {
           </div>
 
           {/* Rose sparkle-kalp ayraç */}
-          <div className="flex items-center justify-center my-3.5" style={{ gap: 8 }}>
+          <div className="flex items-center justify-center my-3" style={{ gap: 8 }}>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
             <svg viewBox="0 0 24 24" fill="#C96F78" className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
@@ -2677,7 +2677,7 @@ export default function WatchPage() {
 
           {/* Form başlığı + isim alanları (demo'da kilitli) */}
           <div className="text-center mb-3.5">
-            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 21, letterSpacing: '-0.2px' }}>Hoş geldiniz</h2>
+            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 19, letterSpacing: '-0.2px' }}>Hoş geldiniz</h2>
             <p className="mt-1 leading-snug" style={{ color: '#77716E', fontSize: 14 }}>Başlamak için bilgilerinizi girin</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -2688,7 +2688,7 @@ export default function WatchPage() {
                 onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
                 placeholder="Adınızı yazın"
                 className="welcome-input w-full outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{ height: 54, padding: '0 16px', borderRadius: 14, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 15 }} />
+                style={{ height: 50, padding: '0 15px', borderRadius: 13, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 14.5 }} />
             </div>
             <div>
               <label className="block text-left mb-1.5 ml-2 font-semibold text-[13px]" style={{ color: '#5F5A58' }}>Soyadınız</label>
@@ -2697,7 +2697,7 @@ export default function WatchPage() {
                 onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
                 placeholder="Soyadınızı yazın"
                 className="welcome-input w-full outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{ height: 54, padding: '0 16px', borderRadius: 14, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 15 }}
+                style={{ height: 50, padding: '0 15px', borderRadius: 13, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 14.5 }}
                 onKeyPress={(e) => e.key === 'Enter' && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()} />
             </div>
           </div>
