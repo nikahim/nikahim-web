@@ -591,7 +591,7 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <img src="/foto-ekle-9.webp" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+          <img src="/foto-ekle-final.webp" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
           <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
           <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
             <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
@@ -862,8 +862,8 @@ export default function WatchPage() {
     const icLetter = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><rect x="3" y="5.5" width="18" height="13" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
     const icPrinter = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg>;
-    const bigVideo = <img src="/nikaha-katil-3.webp" alt="" className="w-[clamp(82px,22vw,100px)] h-[clamp(66px,18vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-9.webp" alt="" className="w-[clamp(74px,20vw,94px)] h-[clamp(74px,20vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/nikaha-katil-4.webp" alt="" className="w-[clamp(76px,20vw,86px)] h-[clamp(76px,20vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-final.webp" alt="" className="w-[clamp(76px,20vw,86px)] h-[clamp(76px,20vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
 
     // Tüm kart tıklanabilir; içindekiler buton değil, sadece özellik göstergesi (kompakt)
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
@@ -873,11 +873,11 @@ export default function WatchPage() {
         style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.20)', boxShadow: 'none' }}
       >
         <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#C96F78' }}>{pill}</span>
-        <span className="mt-2.5 flex items-center justify-center h-[clamp(58px,16vw,82px)]">{big}</span>
+        <span className="mt-2.5 flex items-center justify-center h-[clamp(58px,16vw,74px)]">{big}</span>
         <span className="block mt-2.5 leading-tight" style={{ color: '#C96F78', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
-        <span className="flex items-center justify-center gap-x-3.5 gap-y-1 flex-wrap mt-3">
+        <span className="flex items-stretch justify-center gap-x-2.5 mt-3">
           {feats.map((f, i) => (
-            <span key={i} className="inline-flex items-center gap-1">
+            <span key={i} className="inline-flex items-center gap-1" style={i > 0 ? { borderLeft: '1px solid rgba(201,111,120,0.32)', paddingLeft: 10 } : undefined}>
               <span style={{ color: rose }}>{f.icon}</span>
               <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#8A817E' }}>{f.label}</span>
             </span>
@@ -1256,7 +1256,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/foto-ekle-9.webp" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                  <img src="/foto-ekle-final.webp" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
@@ -2572,7 +2572,7 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen flex flex-col items-center px-4 pt-6 pb-10 lg:justify-center lg:pt-8" style={{ background: '#F9F2EB' }}>
         {renderDemoBlock()}
-        <div className="w-full mx-auto relative overflow-hidden bg-[#FDFAF7] rounded-[22px] border border-[rgba(201,111,120,0.13)] px-4 py-6 lg:rounded-[28px] lg:px-8 lg:py-7 lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
+        <div className="w-full mx-auto relative overflow-hidden bg-[#FDFAF7] rounded-[22px] border border-[rgba(201,111,120,0.13)] px-4 py-6 lg:rounded-[28px] lg:px-7 lg:py-5 lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
           <div className="flex justify-start mb-2">
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-12 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
           </div>
@@ -2587,14 +2587,14 @@ export default function WatchPage() {
           <div className="flex flex-col items-center text-center">
             <div className="rounded-full p-[3px] mb-2" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
-                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', border: '2px solid rgba(255,255,255,0.95)' }} />
+                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(120px,31vw,124px)', height: 'clamp(120px,31vw,124px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
-                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
+                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(120px,31vw,124px)', height: 'clamp(120px,31vw,124px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(25px,6.5vw,31px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
+            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(25px,6.5vw,28px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
             <p className="mt-1" style={{ color: '#77716E', fontSize: 15 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
             <div className="mt-2 flex items-center justify-center flex-wrap gap-x-2.5 gap-y-1 text-[15px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
@@ -2633,7 +2633,7 @@ export default function WatchPage() {
         {renderDemoToast()}
         {renderDemoBlock()}
         <style>{`.welcome-input:focus{border-color:#C96F78!important;box-shadow:0 0 0 3px rgba(201,111,120,0.12);}`}</style>
-        <div className="w-full mx-auto relative overflow-hidden bg-[#FDFAF7] rounded-[22px] border border-[rgba(201,111,120,0.13)] px-4 py-6 lg:rounded-[28px] lg:px-8 lg:py-7 lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
+        <div className="w-full mx-auto relative overflow-hidden bg-[#FDFAF7] rounded-[22px] border border-[rgba(201,111,120,0.13)] px-4 py-6 lg:rounded-[28px] lg:px-7 lg:py-5 lg:shadow-[0_24px_70px_rgba(63,44,39,0.10)]" style={{ maxWidth: 500 }}>
           {/* Logo — sol üstte */}
           <div className="flex justify-start mb-2">
             <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-12 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
@@ -2651,14 +2651,14 @@ export default function WatchPage() {
           <div className="flex flex-col items-center text-center">
             <div className="rounded-full p-[3px] mb-2" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
-                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', border: '2px solid rgba(255,255,255,0.95)' }} />
+                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(120px,31vw,124px)', height: 'clamp(120px,31vw,124px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
-                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(120px,31vw,138px)', height: 'clamp(120px,31vw,138px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
+                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(120px,31vw,124px)', height: 'clamp(120px,31vw,124px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(25px,6.5vw,31px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
+            <h1 className="leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(25px,6.5vw,28px)', letterSpacing: '-0.4px' }}>{event.bride_first_name} <span style={{ color: '#1F1F1F', fontWeight: 500, margin: '0 3px' }}>&</span> {event.groom_first_name}</h1>
             <p className="mt-1" style={{ color: '#77716E', fontSize: 15 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
             <div className="mt-2 flex items-center justify-center flex-wrap gap-x-2.5 gap-y-1 text-[15px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-4 h-4" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
