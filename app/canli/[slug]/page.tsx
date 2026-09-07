@@ -380,8 +380,24 @@ export default function WatchPage() {
   // Akış — sol paneldeki sessiz canlı etkinlik özeti (saat + kısa olay; tutar/ikon/renk yok)
   type ActivityType = 'join' | 'message' | 'gold' | 'video' | 'voice' | 'photo';
   const [activityFeed, setActivityFeed] = useState<{ id: number; type: ActivityType; name: string; time: string; extra?: number }[]>([]);
-  const [activityExpanded, setActivityExpanded] = useState(false);
+  const [showActivityModal, setShowActivityModal] = useState(false);
   const activityIdRef = useRef(0);
+  // Akış satırı için ortak ikon (monokrom rose) + eylem metni (feed + modal ortak)
+  const activityIcon = (t: ActivityType, cls = 'w-[14px] h-[14px]') => {
+    if (t === 'join') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
+    if (t === 'gold') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>;
+    if (t === 'video') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>;
+    if (t === 'voice') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>;
+    if (t === 'photo') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
+    return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2" /><path d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
+  };
+  const activityAction = (a: { type: ActivityType; extra?: number }) =>
+    a.type === 'join' ? `${event?.event_type === 'dugun' ? 'Düğüne' : 'Nikaha'} katıldı`
+    : a.type === 'message' ? 'Tebrik mesajı gönderdi'
+    : a.type === 'gold' ? 'Altın taktı'
+    : a.type === 'video' ? 'Video tebrik gönderdi'
+    : a.type === 'voice' ? 'Sesli tebrik bıraktı'
+    : `${a.extra || 1} fotoğraf ekledi`;
   const nowHHMM = () => new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
   const shortenName = (raw?: string) => {
     const parts = (raw || '').trim().split(/\s+/).filter(Boolean);
@@ -1023,8 +1039,8 @@ export default function WatchPage() {
               <button onClick={() => setGoldPick(r.id)} className="w-full grid items-center text-left transition-all active:scale-[0.99]" style={{ gridTemplateColumns: '44px minmax(0,1fr) 20px', gap: 13, minHeight: desktop ? 60 : 74, padding: desktop ? '9px 12px' : '10px 4px', ...(desktop ? { borderRadius: 16, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' } : {}) }}>
                 <span className="grid place-items-center" style={{ width: 44, height: 44, ...(desktop ? {} : { background: 'rgba(201,154,50,0.10)', borderRadius: 13 }) }}>
                   {r.id === 'gram_altin'
-                    ? <span className="relative block" style={{ width: desktop ? 27 : 23, height: desktop ? 27 : 23 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
-                    : <span className="relative block" style={{ width: desktop ? 33 : 29, height: desktop ? 33 : 29 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
+                    ? <span className="relative block" style={{ width: desktop ? 30 : 23, height: desktop ? 30 : 23 }}><Image src="/altintakgram.webp" alt="" fill className="object-contain" /></span>
+                    : <span className="relative block" style={{ width: desktop ? 36 : 29, height: desktop ? 36 : 29 }}><Image src="/tl-icon.webp" alt="" fill className="object-contain" /></span>}
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: 3 }}>
                   <strong style={{ color: '#302927', fontSize: desktop ? 15 : 16.5, fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
@@ -1157,7 +1173,7 @@ export default function WatchPage() {
           {count > 0 ? (
             <>
               {/* Öne çıkan kolaj — tıklanınca albüm açılır */}
-              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 150 : 200, marginTop: 2 }}>
+              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 188 : 200, marginTop: 2 }}>
                 <style>{`
                   @keyframes albFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
                   @keyframes albFloatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
@@ -1166,7 +1182,7 @@ export default function WatchPage() {
                 {photos[1] && (
                   <div className="alb-float absolute" style={{ left: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite' }}>
                     <div className="relative" style={{ transform: 'rotate(-5deg)' }}>
-                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 116 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 148 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[1]] || 0}</span></span>
                     </div>
                   </div>
@@ -1174,14 +1190,14 @@ export default function WatchPage() {
                 {photos[2] && (
                   <div className="alb-float absolute" style={{ right: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite', animationDelay: '0.7s' }}>
                     <div className="relative" style={{ transform: 'rotate(5deg)' }}>
-                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 116 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 148 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[2]] || 0}</span></span>
                     </div>
                   </div>
                 )}
                 <div className="alb-float absolute" style={{ left: '50%', top: 0, zIndex: 3, width: '43%', animation: 'albFloatC 4.6s ease-in-out infinite' }}>
                   <div className="relative">
-                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 146 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
+                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 180 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
                     <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[0]] || 0}</span></span>
                     <span className="absolute flex items-center" style={{ top: 8, right: 8, gap: 4, padding: '4px 7px', borderRadius: 999, background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 6px rgba(55,40,32,0.14)' }}><svg viewBox="0 0 24 24" fill="none" stroke="#9F4F58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]"><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg><span style={{ fontSize: 9, fontWeight: 700, color: '#9F4F58', lineHeight: 1 }}>Baskıya Gönder</span></span>
                   </div>
@@ -1193,7 +1209,7 @@ export default function WatchPage() {
                   const isLast = i === 3;
                   const more = count - 4;
                   return (
-                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: '1.35 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
+                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: desktop ? '1.1 / 1' : '1.35 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
                       <img src={u} alt="" className="w-full h-full object-cover" />
                       {isLast && more > 0 && (
                         <span className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(46,40,38,0.52)', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '0.2px' }}>+{more}</span>
@@ -3113,18 +3129,6 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                   {eventTime}
                 </div>
-                {event.city && (
-                  <div className="flex items-center gap-2 text-gray-500 text-sm">
-                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></svg>
-                    <span className="truncate">{event.city}</span>
-                  </div>
-                )}
-                {event.venue && (
-                  <div className="flex items-center gap-2 text-gray-500 text-sm">
-                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.9} d="M3.75 21h16.5M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h1.5c.621 0 1.125.504 1.125 1.125V21" /></svg>
-                    <span className="truncate">{event.venue}</span>
-                  </div>
-                )}
               </div>
               {/* Ayraç */}
               <div className="my-4 flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.2), transparent)' }} /></div>
@@ -3151,52 +3155,31 @@ export default function WatchPage() {
                     )}
                   </div>
                   {activityFeed.length > 3 && (
-                    <button onClick={() => setActivityExpanded(v => !v)} className="text-[11.5px] font-medium transition-opacity hover:opacity-70" style={{ color: '#B08088' }}>{activityExpanded ? 'Daha az' : 'Tümünü Gör'}</button>
+                    <button onClick={() => setShowActivityModal(true)} className="text-[11.5px] font-medium transition-opacity hover:opacity-70" style={{ color: '#B08088' }}>Tümünü Gör</button>
                   )}
                 </div>
                 {activityFeed.length === 0 ? (
                   <p className="text-[12px] leading-snug" style={{ color: '#A9A19D' }}>Katılımlar, tebrikler ve altınlar burada canlı akacak.</p>
-                ) : (() => {
-                  const shown = activityExpanded ? activityFeed.slice(0, 12) : activityFeed.slice(0, 3);
-                  const iconFor = (t: ActivityType) => {
-                    const cls = 'w-[14px] h-[14px]';
-                    if (t === 'join') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
-                    if (t === 'gold') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>;
-                    if (t === 'video') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>;
-                    if (t === 'voice') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>;
-                    if (t === 'photo') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
-                    return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2" /><path d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
-                  };
-                  return (
-                    <div className={`relative ${activityExpanded ? 'max-h-[230px] overflow-y-auto pr-1' : ''}`}>
-                      {shown.length > 1 && <div style={{ position: 'absolute', left: 12.5, top: 13, bottom: 13, width: 1, background: '#F0E4E2' }} />}
-                      <div className="space-y-3">
-                        {shown.map((a) => {
-                          const action = a.type === 'join' ? `${event.event_type === 'dugun' ? 'Düğüne' : 'Nikaha'} katıldı`
-                            : a.type === 'message' ? 'Tebrik mesajı gönderdi'
-                            : a.type === 'gold' ? 'Altın taktı'
-                            : a.type === 'video' ? 'Video tebrik gönderdi'
-                            : a.type === 'voice' ? 'Sesli tebrik bıraktı'
-                            : `${a.extra || 1} fotoğraf ekledi`;
-                          const title = a.name;
-                          return (
-                            <div key={a.id} className="relative flex gap-2.5">
-                              <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 26, height: 26, background: '#F7E9EB', color: '#C96F78' }}>{iconFor(a.type)}</span>
-                              <div className="min-w-0 flex-1" style={{ paddingTop: 1 }}>
-                                <p className="text-[12.5px] leading-tight truncate" style={{ color: '#363231', fontWeight: 600 }}>{title}</p>
-                                <p className="text-[11.5px] leading-tight mt-[3px] flex items-center gap-1.5">
-                                  <span style={{ color: '#77716E' }}>{action}</span>
-                                  <span style={{ color: '#D8CFCC' }}>·</span>
-                                  <span className="tabular-nums flex-shrink-0" style={{ color: '#AAA19D' }}>{a.time}</span>
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
+                ) : (
+                  <div className="relative">
+                    {activityFeed.slice(0, 3).length > 1 && <div style={{ position: 'absolute', left: 12.5, top: 13, bottom: 13, width: 1, background: '#F0E4E2' }} />}
+                    <div className="space-y-3">
+                      {activityFeed.slice(0, 3).map((a) => (
+                        <div key={a.id} className="relative flex gap-2.5">
+                          <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 26, height: 26, background: '#F7E9EB', color: '#C96F78' }}>{activityIcon(a.type)}</span>
+                          <div className="min-w-0 flex-1" style={{ paddingTop: 1 }}>
+                            <p className="text-[12.5px] leading-tight truncate" style={{ color: '#363231', fontWeight: 600 }}>{a.name}</p>
+                            <p className="text-[11.5px] leading-tight mt-[3px] flex items-center gap-1.5">
+                              <span style={{ color: '#77716E' }}>{activityAction(a)}</span>
+                              <span style={{ color: '#D8CFCC' }}>·</span>
+                              <span className="tabular-nums flex-shrink-0" style={{ color: '#AAA19D' }}>{a.time}</span>
+                            </p>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  );
-                })()}
+                  </div>
+                )}
               </div>
               {/* Nikahım — marka butonu (kartın en altında; hero'yu bastırmayan ince rose) */}
               <a href="/" target="_blank" rel="noopener noreferrer" className="group mt-auto pt-5">
@@ -3263,7 +3246,7 @@ export default function WatchPage() {
                 <div className="fixed bottom-4 lg:bottom-8 flex items-center gap-1.5 lg:gap-2.5 p-1.5 lg:p-2.5 rounded-[16px] lg:rounded-[20px]" style={{ zIndex: 10001, left: '50%', transform: 'translateX(-50%)', background: 'rgba(20,15,10,0.75)', backdropFilter: 'blur(30px)', WebkitBackdropFilter: 'blur(30px)', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05)' }}>
                   {/* Altın Tak */}
                   <button onClick={() => setFsGoldMode(true)} className="flex items-center gap-2.5 px-3.5 py-2 lg:px-4 lg:py-3 rounded-2xl transition-all hover:scale-[1.03] hover:brightness-110" style={{ background: 'rgba(201,154,50,0.14)', border: '1px solid rgba(201,154,50,0.28)', boxShadow: '0 4px 16px rgba(0,0,0,0.2)' }}>
-                    <Image src="/wa-altin.png" alt="" width={44} height={44} className="w-8 h-8 lg:w-11 lg:h-11 object-contain flex-shrink-0" />
+                    <Image src="/ata-altin.webp" alt="" width={44} height={44} className="w-8 h-8 lg:w-11 lg:h-11 object-contain flex-shrink-0" />
                     <div className="text-left">
                       <div className="text-[11px] lg:text-[13px] font-bold whitespace-nowrap" style={{ color: '#EAD79E' }}>Altın Tak</div>
                       <div className="text-[8px] lg:text-[10px] whitespace-nowrap" style={{ color: 'rgba(234,215,158,0.55)' }}>Çifte altın gönder</div>
@@ -4144,6 +4127,47 @@ export default function WatchPage() {
         </div>
         );
       })()}
+
+      {/* Etkinlik Akışı — tüm hareketler modalı (Tümünü Gör) */}
+      {showActivityModal && (
+        <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" onClick={() => setShowActivityModal(false)} style={{ background: 'rgba(28,22,23,0.42)', backdropFilter: 'blur(8px)' }}>
+          <div className="rounded-3xl max-w-sm w-full max-h-[80vh] overflow-hidden relative flex flex-col" onClick={(e) => e.stopPropagation()} style={{ background: '#FFFDFC', boxShadow: '0 24px 70px rgba(63,44,39,0.22)', border: '1px solid rgba(60,45,41,0.07)' }}>
+            <div className="flex items-center justify-between px-5 pt-4 pb-3 flex-shrink-0" style={{ borderBottom: '1px solid rgba(60,45,41,0.06)' }}>
+              <div className="flex items-center gap-2">
+                <h3 className="text-[15px] font-semibold" style={{ color: '#302927' }}>Etkinlik Akışı</h3>
+                <span className="relative flex items-center justify-center" style={{ width: 6, height: 6 }}><span className="absolute inline-flex rounded-full animate-ping" style={{ width: 6, height: 6, background: 'rgba(201,111,120,0.55)' }} /><span className="rounded-full" style={{ width: 5, height: 5, background: '#C96F78' }} /></span>
+              </div>
+              <button onClick={() => setShowActivityModal(false)} aria-label="Kapat" className="w-8 h-8 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-rose-50 transition-all">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <div className="overflow-y-auto px-5 py-4">
+              {activityFeed.length === 0 ? (
+                <p className="text-[13px] text-center py-6" style={{ color: '#A9A19D' }}>Henüz hareket yok.</p>
+              ) : (
+                <div className="relative">
+                  {activityFeed.length > 1 && <div style={{ position: 'absolute', left: 13, top: 14, bottom: 14, width: 1, background: '#F0E4E2' }} />}
+                  <div className="space-y-3.5">
+                    {activityFeed.map((a) => (
+                      <div key={a.id} className="relative flex gap-3">
+                        <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 28, height: 28, background: '#F7E9EB', color: '#C96F78' }}>{activityIcon(a.type, 'w-[15px] h-[15px]')}</span>
+                        <div className="min-w-0 flex-1" style={{ paddingTop: 1 }}>
+                          <p className="text-[13px] leading-tight truncate" style={{ color: '#363231', fontWeight: 600 }}>{a.name}</p>
+                          <p className="text-[12px] leading-tight mt-[3px] flex items-center gap-1.5">
+                            <span style={{ color: '#77716E' }}>{activityAction(a)}</span>
+                            <span style={{ color: '#D8CFCC' }}>·</span>
+                            <span className="tabular-nums flex-shrink-0" style={{ color: '#AAA19D' }}>{a.time}</span>
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {showVideoRecorder && event && (
         <VideoRecorder eventId={event.id} senderName={viewerName} onSuccess={() => { setShowVideoRecorder(false); setVideoTebrikCount(c => c + 1); setVideoNotification({ text: `${viewerName} video tebrik gönderdi!`, type: 'video' }); setTimeout(() => setVideoNotification(null), 10000); addActivity('video', shortenName(viewerName)); }} onClose={() => setShowVideoRecorder(false)} onDemoBlock={(isDemoEvent && !DEMO_ACTIONS_OPEN) ? () => { setShowVideoRecorder(false); showDemoBlock(); } : undefined} />
