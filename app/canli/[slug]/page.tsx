@@ -863,7 +863,7 @@ export default function WatchPage() {
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
     const icPrinter = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg>;
     const bigVideo = <img src="/nikaha-katil-2.webp" alt="" className="w-[clamp(82px,22vw,100px)] h-[clamp(66px,18vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.webp" alt="" style={{ filter: 'saturate(1.38) contrast(1.02)' }} className="w-[clamp(74px,20vw,94px)] h-[clamp(74px,20vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.webp" alt="" className="w-[clamp(74px,20vw,94px)] h-[clamp(74px,20vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
 
     // Tüm kart tıklanabilir; içindekiler buton değil, sadece özellik göstergesi (kompakt)
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
