@@ -591,7 +591,7 @@ export default function WatchPage() {
     if (guestOwnPhotos.length === 0) {
       return (
         <div className="py-10 text-center">
-          <img src="/foto-ekle-8.webp" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+          <img src="/foto-ekle-9.webp" alt="" className="w-[77px] h-[77px] mx-auto mb-3 object-contain opacity-90" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
           <p className="text-sm text-gray-500 mb-4">Henüz fotoğraf yüklemediniz.</p>
           <button onClick={() => setPhotoTab('add')} className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl font-semibold text-white text-[14px] relative overflow-hidden hover:scale-[1.02] transition-transform" style={{ background: 'linear-gradient(135deg, #D88488 0%, #C8686E 48%, #B85258 100%)', boxShadow: '0 12px 28px rgba(200,104,110,0.24)' }}>
             <span className="absolute inset-x-0 top-0 h-1/2 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(255,255,255,0.22), transparent)' }} />
@@ -862,8 +862,8 @@ export default function WatchPage() {
     const icLetter = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><rect x="3" y="5.5" width="18" height="13" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
     const icPrinter = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg>;
-    const bigVideo = <img src="/nikaha-katil-2.webp" alt="" className="w-[clamp(82px,22vw,100px)] h-[clamp(66px,18vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.webp" alt="" className="w-[clamp(74px,20vw,94px)] h-[clamp(74px,20vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/nikaha-katil-3.webp" alt="" className="w-[clamp(82px,22vw,100px)] h-[clamp(66px,18vw,86px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-9.webp" alt="" className="w-[clamp(74px,20vw,94px)] h-[clamp(74px,20vw,94px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
 
     // Tüm kart tıklanabilir; içindekiler buton değil, sadece özellik göstergesi (kompakt)
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
@@ -877,7 +877,7 @@ export default function WatchPage() {
         <span className="block mt-2.5 leading-tight" style={{ color: '#C96F78', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
         <span className="flex items-center justify-center gap-x-3.5 gap-y-1 flex-wrap mt-3">
           {feats.map((f, i) => (
-            <span key={i} className="inline-flex items-center gap-1.5">
+            <span key={i} className="inline-flex items-center gap-1">
               <span style={{ color: rose }}>{f.icon}</span>
               <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#8A817E' }}>{f.label}</span>
             </span>
@@ -1256,7 +1256,7 @@ export default function WatchPage() {
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
                 <div className="flex items-center gap-3 mb-4">
-                  <img src="/foto-ekle-8.webp" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
+                  <img src="/foto-ekle-9.webp" alt="" className="w-[67px] h-[67px] object-contain flex-shrink-0" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                   <div>
                     <h3 className="text-lg font-bold text-gray-900">Fotoğraf Paylaş</h3>
                     {name.trim()
@@ -2683,7 +2683,7 @@ export default function WatchPage() {
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="block text-left mb-1.5 ml-2 font-semibold text-[13px]" style={{ color: '#5F5A58' }}>Adınız</label>
-              <input type="text" disabled={isDemoEvent} value={isDemoEvent ? 'Örnek' : viewerFirstName}
+              <input type="text" disabled={isDemoEvent} value={isDemoEvent ? 'Davetli' : viewerFirstName}
                 onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
                 onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
                 placeholder="Adınızı yazın"
@@ -2712,8 +2712,8 @@ export default function WatchPage() {
           <div className="mt-1">
             {renderWelcomeChooser(
               isDemoEvent || (viewerFirstName.trim().length >= 2 && viewerLastName.trim().length >= 2),
-              () => { if (isDemoEvent) { if (!viewerName.trim()) setViewerName('Örnek Davetli'); setShowPhotoUpload(false); setIsNameEntered(true); } else { handleNameSubmit(); } },
-              () => { const nm = isDemoEvent ? 'Örnek Davetli' : `${viewerFirstName} ${viewerLastName}`.trim(); setPhotoUploaderName(nm); setPhotoTab('add'); setShowPhotoUpload(true); }
+              () => { if (isDemoEvent) { if (!viewerName.trim()) setViewerName('Davetli'); setShowPhotoUpload(false); setIsNameEntered(true); } else { handleNameSubmit(); } },
+              () => { const nm = isDemoEvent ? 'Davetli' : `${viewerFirstName} ${viewerLastName}`.trim(); setPhotoUploaderName(nm); setPhotoTab('add'); setShowPhotoUpload(true); }
             )}
           </div>
         </div>
