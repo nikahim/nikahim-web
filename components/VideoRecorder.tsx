@@ -386,23 +386,28 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
             </div>
           )}
 
-          {/* Başarılı */}
+          {/* Başarılı — yeni dil: krem zemin + rose tik, sade */}
           {state === 'success' && (
-            <div className="aspect-video bg-green-50 rounded-xl flex flex-col items-center justify-center">
-              <div className="text-6xl mb-4">🎉</div>
-              <h4 className="text-xl font-bold text-green-600 mb-2">Tebriğiniz Gönderildi!</h4>
-              <p className="text-gray-500">Çift video mesajınızı görecek.</p>
+            <div className="aspect-video rounded-xl flex flex-col items-center justify-center text-center px-6" style={{ background: 'linear-gradient(180deg, #FFFDFC 0%, #FBF4F2 100%)', border: '1px solid rgba(201,111,120,0.12)' }}>
+              <div className="grid place-items-center rounded-full mb-4" style={{ width: 66, height: 66, background: 'rgba(201,111,120,0.10)' }}>
+                <svg className="w-8 h-8" fill="none" stroke="#C96F78" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></svg>
+              </div>
+              <h4 className="text-[19px] font-semibold mb-1.5" style={{ color: '#302927' }}>Tebriğiniz gönderildi</h4>
+              <p className="text-[13.5px] leading-snug" style={{ color: '#77706D' }}>Video mesajınız çifte iletildi.</p>
             </div>
           )}
 
-          {/* Hata */}
+          {/* Hata — sade */}
           {state === 'error' && (
-            <div className="aspect-video bg-red-50 rounded-xl flex flex-col items-center justify-center p-4">
-              <div className="text-4xl mb-4">😔</div>
-              <p className="text-red-600 text-center mb-4">{errorMessage}</p>
+            <div className="aspect-video rounded-xl flex flex-col items-center justify-center text-center p-5" style={{ background: 'linear-gradient(180deg, #FFFDFC 0%, #FBF3F3 100%)', border: '1px solid rgba(217,77,85,0.14)' }}>
+              <div className="grid place-items-center rounded-full mb-3.5" style={{ width: 60, height: 60, background: 'rgba(217,77,85,0.10)' }}>
+                <svg className="w-7 h-7" fill="none" stroke="#D94D55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M10.29 3.86l-8.18 14A1.5 1.5 0 003.4 20h17.2a1.5 1.5 0 001.29-2.14l-8.18-14a1.5 1.5 0 00-2.62 0z" /><path d="M12 9v4" /><path d="M12 17h.01" /></svg>
+              </div>
+              <p className="text-[13.5px] text-center mb-4 leading-snug" style={{ color: '#8A6668' }}>{errorMessage}</p>
               <button
                 onClick={() => { setState('idle'); startCamera(); }}
-                className="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-xl"
+                className="text-white px-6 rounded-xl font-semibold text-[14px] transition-transform active:scale-[0.97]"
+                style={{ height: 44, background: '#C96F78', boxShadow: '0 6px 16px rgba(201,111,120,0.22)' }}
               >
                 Tekrar Dene
               </button>

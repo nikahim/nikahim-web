@@ -259,8 +259,8 @@ export default function VoiceRecorder({ eventId, senderName, onSuccess, onClose,
       {/* Success */}
       {state === 'success' && (
         <div className="text-center py-6">
-          <div className="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: 'rgba(34,197,94,0.1)' }}>
-            <svg className="w-7 h-7 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+          <div className="w-14 h-14 mx-auto mb-3 rounded-full flex items-center justify-center" style={{ background: 'rgba(201,111,120,0.10)' }}>
+            <svg className="w-7 h-7" fill="none" stroke="#C96F78" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" /></svg>
           </div>
           <p className={`text-sm font-bold ${embedded ? 'text-white' : 'text-gray-900'}`}>Sesli tebriğiniz gönderildi!</p>
         </div>

@@ -380,6 +380,7 @@ export default function WatchPage() {
   // Akış — sol paneldeki sessiz canlı etkinlik özeti (saat + kısa olay; tutar/ikon/renk yok)
   type ActivityType = 'join' | 'message' | 'gold' | 'video' | 'voice' | 'photo';
   const [activityFeed, setActivityFeed] = useState<{ id: number; type: ActivityType; name: string; time: string; extra?: number }[]>([]);
+  const [activityExpanded, setActivityExpanded] = useState(false);
   const activityIdRef = useRef(0);
   const nowHHMM = () => new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
   const shortenName = (raw?: string) => {
@@ -942,7 +943,7 @@ export default function WatchPage() {
     const gramPrice = goldOptions.find(g => g.id === 'gram_altin')?.price || 0;
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A49F9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
-      <section className={desktop ? 'hidden lg:block w-full mt-3' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
+      <section className={desktop ? 'hidden lg:block w-full mt-3 lg:mt-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
         {/* Section header — mobilde göster; masaüstünde gizli (yer için) */}
         {!desktop && (
         <div className="flex flex-col items-center text-center mb-6">
@@ -964,7 +965,7 @@ export default function WatchPage() {
               const popular = g.id === 'yarim_altin';
               return (
                 <button key={g.id} onClick={() => setGoldPick(g.id)} className="relative flex flex-col items-center justify-center transition-all active:scale-[0.985]" style={{ ...(desktop ? { aspectRatio: '1 / 1' } : { minHeight: 'clamp(154px,43vw,176px)' }), padding: desktop ? '10px 8px' : '14px 6px 11px', borderRadius: 18, border: sel ? '1.5px solid #C96F78' : '1px solid #ECE8E4', background: sel ? '#FFFDFC' : 'rgba(255,255,255,0.82)', boxShadow: sel ? '0 8px 24px rgba(201,111,120,0.10)' : '0 4px 14px rgba(55,40,35,0.022)' }}>
-                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: -8, padding: desktop ? '4px 8px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 9.5 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
+                  {popular && <span className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap" style={{ top: desktop ? -7 : -8, padding: desktop ? '3px 7px' : '4px 9px', borderRadius: 999, background: '#FAF0DA', color: '#B88724', fontSize: desktop ? 8 : 'clamp(9px,2.5vw,10.5px)', fontWeight: 600, lineHeight: 1, letterSpacing: '0.1px' }}>En çok tercih edilen</span>}
                   <span style={{ minHeight: 18, fontSize: desktop ? 13.5 : 'clamp(11.5px,3.3vw,13.5px)', fontWeight: 600, textAlign: 'center', color: '#302927', lineHeight: 1.2 }}>{g.name}</span>
                   <img src="/ata-altin.webp" alt="" style={{ width: desktop ? 58 : 'clamp(46px,13.5vw,56px)', height: desktop ? 58 : 'clamp(46px,13.5vw,56px)', objectFit: 'contain', margin: desktop ? '10px 0 8px' : '11px 0 9px', filter: 'drop-shadow(0 5px 5px rgba(86,61,21,0.10))' }} />
                   <strong style={{ marginTop: desktop ? 0 : 'auto', fontSize: desktop ? 16 : 'clamp(13px,3.8vw,15.5px)', fontWeight: 600, color: sel ? '#C96F78' : '#5D5653' }}>₺{g.price.toLocaleString()}</strong>
@@ -3090,39 +3091,75 @@ export default function WatchPage() {
               <div>
                 <p className="text-[12px] font-semibold mb-2.5" style={{ color: '#4A4340' }}>Aileler</p>
                 <div className="space-y-2">
-                  <p className="text-[13px]" style={{ color: '#6B6360' }}><span style={{ color: '#AEA5A2' }}>Gelin&nbsp;·&nbsp;</span>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '—'}</p>
-                  <p className="text-[13px]" style={{ color: '#6B6360' }}><span style={{ color: '#AEA5A2' }}>Damat&nbsp;·&nbsp;</span>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '—'}</p>
+                  <p className="text-[13px] flex" style={{ color: '#4A4543' }}><span className="flex-shrink-0" style={{ color: '#AEA5A2', width: 46 }}>Gelin</span><span className="min-w-0 truncate" style={{ fontWeight: 500 }}>{event.bride_father_name && event.bride_mother_name ? `${event.bride_father_name} & ${event.bride_mother_name}` : event.bride_father_name || event.bride_mother_name || '—'}</span></p>
+                  <p className="text-[13px] flex" style={{ color: '#4A4543' }}><span className="flex-shrink-0" style={{ color: '#AEA5A2', width: 46 }}>Damat</span><span className="min-w-0 truncate" style={{ fontWeight: 500 }}>{event.groom_father_name && event.groom_mother_name ? `${event.groom_father_name} & ${event.groom_mother_name}` : event.groom_father_name || event.groom_mother_name || '—'}</span></p>
                 </div>
               </div>
               {/* Ayraç */}
               <div className="my-4 flex justify-center"><div className="w-[85%] h-[1.5px]" style={{ background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.2), transparent)' }} /></div>
-              {/* Akış — sessiz canlı etkinlik özeti (saat + kısa olay; ikon/renk/tutar yok) */}
+              {/* Etkinlik Akışı — timeline (rose ikon node + ince çizgi + canlı nabız); tek accent */}
               <div>
-                <p className="text-[12px] font-semibold mb-2.5" style={{ color: '#4A4340' }}>Akış</p>
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-1.5">
+                    <p className="text-[12px] font-semibold" style={{ color: '#4A4340' }}>Etkinlik Akışı</p>
+                    {activityFeed.length > 0 && (
+                      <span className="relative flex items-center justify-center" style={{ width: 6, height: 6 }}>
+                        <span className="absolute inline-flex rounded-full animate-ping" style={{ width: 6, height: 6, background: 'rgba(201,111,120,0.55)' }} />
+                        <span className="rounded-full" style={{ width: 5, height: 5, background: '#C96F78' }} />
+                      </span>
+                    )}
+                  </div>
+                  {activityFeed.length > 4 && (
+                    <button onClick={() => setActivityExpanded(v => !v)} className="text-[11.5px] font-medium transition-opacity hover:opacity-70" style={{ color: '#B08088' }}>{activityExpanded ? 'Daha az' : 'Tümünü Gör'}</button>
+                  )}
+                </div>
                 {activityFeed.length === 0 ? (
                   <p className="text-[12px] leading-snug" style={{ color: '#A9A19D' }}>Katılımlar, tebrikler ve altınlar burada canlı akacak.</p>
-                ) : (
-                  <div className="space-y-2">
-                    {activityFeed.slice(0, 6).map((a) => {
-                      const action = a.type === 'join' ? `${event.event_type === 'dugun' ? 'düğüne' : 'nikaha'} katıldı`
-                        : a.type === 'message' ? 'tebrik gönderdi'
-                        : a.type === 'gold' ? 'altın taktı'
-                        : a.type === 'video' ? 'video tebrik gönderdi'
-                        : a.type === 'voice' ? 'sesli tebrik bıraktı'
-                        : `${a.extra || ''} yeni fotoğraf ekledi`;
-                      return (
-                        <div key={a.id} className="flex gap-2.5 text-[12px] leading-snug">
-                          <span className="tabular-nums flex-shrink-0" style={{ color: '#A9A19D' }}>{a.time}</span>
-                          <span style={{ color: '#4A4543' }}>{a.type === 'photo' ? action : <><span style={{ fontWeight: 600 }}>{a.name}</span> {action}</>}</span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
+                ) : (() => {
+                  const shown = activityExpanded ? activityFeed.slice(0, 12) : activityFeed.slice(0, 4);
+                  const iconFor = (t: ActivityType) => {
+                    const cls = 'w-[14px] h-[14px]';
+                    if (t === 'join') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>;
+                    if (t === 'gold') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.5" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>;
+                    if (t === 'video') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>;
+                    if (t === 'voice') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" /></svg>;
+                    if (t === 'photo') return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
+                    return <svg className={cls} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2" /><path d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
+                  };
+                  return (
+                    <div className={`relative ${activityExpanded ? 'max-h-[230px] overflow-y-auto pr-1' : ''}`}>
+                      {shown.length > 1 && <div style={{ position: 'absolute', left: 12.5, top: 13, bottom: 13, width: 1, background: '#F0E4E2' }} />}
+                      <div className="space-y-3">
+                        {shown.map((a) => {
+                          const action = a.type === 'join' ? `${event.event_type === 'dugun' ? 'Düğüne' : 'Nikaha'} katıldı`
+                            : a.type === 'message' ? 'Tebrik mesajı gönderdi'
+                            : a.type === 'gold' ? 'Altın taktı'
+                            : a.type === 'video' ? 'Video tebrik gönderdi'
+                            : a.type === 'voice' ? 'Sesli tebrik bıraktı'
+                            : 'Eklendi';
+                          const title = a.type === 'photo' ? `${a.extra || ''} yeni fotoğraf` : a.name;
+                          return (
+                            <div key={a.id} className="relative flex gap-2.5">
+                              <span className="grid place-items-center rounded-full flex-shrink-0 relative z-10" style={{ width: 26, height: 26, background: '#F7E9EB', color: '#C96F78' }}>{iconFor(a.type)}</span>
+                              <div className="min-w-0 flex-1" style={{ paddingTop: 1 }}>
+                                <p className="text-[12.5px] leading-tight truncate" style={{ color: '#363231', fontWeight: 600 }}>{title}</p>
+                                <p className="text-[11.5px] leading-tight mt-[3px] flex items-center gap-1.5">
+                                  <span style={{ color: '#77716E' }}>{action}</span>
+                                  <span style={{ color: '#D8CFCC' }}>·</span>
+                                  <span className="tabular-nums flex-shrink-0" style={{ color: '#AAA19D' }}>{a.time}</span>
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })()}
               </div>
               {/* Nikahım — marka butonu (kartın en altında; hero'yu bastırmayan ince rose) */}
               <a href="/" target="_blank" rel="noopener noreferrer" className="group mt-auto pt-5">
-                <span className="flex items-center justify-center gap-1.5 w-full rounded-[15px] py-[11px] text-[13px] font-semibold transition-all group-hover:bg-[rgba(201,111,120,0.06)] group-active:scale-[0.98]" style={{ color: '#C96F78', border: '1.5px solid rgba(201,111,120,0.55)', background: 'rgba(255,255,255,0.6)' }}>
+                <span className="flex items-center justify-center gap-1.5 w-full h-[46px] rounded-[14px] text-[13px] font-semibold border transition-all group-active:scale-[0.98] text-[#C96F78] border-[rgba(201,111,120,0.55)] bg-[rgba(255,255,255,0.6)] group-hover:text-white group-hover:bg-[#C96F78] group-hover:border-[#C96F78]">
                   Nikahım&apos;ı Keşfet
                   <svg className="w-4 h-4 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </span>
@@ -3132,8 +3169,8 @@ export default function WatchPage() {
 
           {/* ORTA + SAĞ PANEL WRAPPER */}
           <div className="flex-1 min-w-0 flex flex-col lg:flex-row lg:items-stretch gap-4 lg:gap-5">
-          {/* ORTA ALAN - Video (%55) — mobilde display:contents, masaüstünde normal block */}
-          <div className="contents lg:block lg:flex-1 lg:min-w-0">
+          {/* ORTA ALAN - Video (%55) — mobilde display:contents, masaüstünde flex-col (altın alta) */}
+          <div className="contents lg:flex lg:flex-col lg:flex-1 lg:min-w-0">
             {/* Video container — mobilde sticky top:60px, masaüstünde normal */}
             <div className={`max-lg:sticky max-lg:top-[60px] max-lg:z-30 bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
 
