@@ -857,7 +857,7 @@ export default function WatchPage() {
     const isDugun = event?.event_type === 'dugun';
     const rose = '#C96F78';
     const st = { stroke: rose };
-    const ic = 'w-[21px] h-[21px]';
+    const ic = 'w-[16px] h-[16px]';
     const icBroadcast = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
     const icLetter = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><rect x="3" y="5.5" width="18" height="13" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
@@ -874,12 +874,12 @@ export default function WatchPage() {
       >
         <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#B4535C' }}>{pill}</span>
         <span className="mt-2.5 flex items-center justify-center h-[clamp(66px,18vw,92px)]">{big}</span>
-        <span className="block mt-2.5 leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
-        <span className="flex gap-2 w-full mt-3.5">
+        <span className="block mt-2.5 leading-tight" style={{ color: '#302927', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
+        <span className="flex items-center justify-center gap-x-3 gap-y-1 flex-wrap mt-3">
           {feats.map((f, i) => (
-            <span key={i} className="flex-1 rounded-[13px] flex flex-col items-center justify-center py-2.5 px-0.5" style={{ background: 'rgba(201,111,120,0.05)', border: '1px solid rgba(201,111,120,0.12)' }}>
+            <span key={i} className="inline-flex items-center gap-1">
               <span style={{ color: rose }}>{f.icon}</span>
-              <span className="text-[11.5px] font-medium leading-tight text-center mt-1.5" style={{ color: '#6E6663' }}>{f.label}</span>
+              <span className="text-[11px] font-medium whitespace-nowrap" style={{ color: '#8A817E' }}>{f.label}</span>
             </span>
           ))}
         </span>
@@ -890,8 +890,8 @@ export default function WatchPage() {
       <>
         <style>{`.wchoice{transition:transform .18s ease, box-shadow .22s ease, border-color .2s ease;} @media (hover:hover){.wchoice:hover{transform:translateY(-2px); border-color:rgba(201,111,120,0.5)!important; box-shadow:0 14px 36px rgba(40,30,25,0.09)!important;}}`}</style>
         <div className="grid grid-cols-2 gap-3 items-stretch">
-          {mkCard('UZAKTAYSAN', isDugun ? 'Düğüne Katıl' : 'Nikaha Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı Yayın' }, { icon: icLetter, label: 'Tebrik Et' }], onJoin)}
-          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Ekle', bigImage, [{ icon: icPhoto, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı Al' }], onPhoto)}
+          {mkCard('UZAKTAYSAN', 'Online Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı Yayın' }, { icon: icLetter, label: 'Tebrik' }], onJoin)}
+          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Ekle', bigImage, [{ icon: icPhoto, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı' }], onPhoto)}
         </div>
         {showNameNudge && (
           <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }} onClick={() => setShowNameNudge(false)}>
@@ -1163,7 +1163,7 @@ export default function WatchPage() {
           {count > 0 ? (
             <>
               {/* Öne çıkan kolaj — tıklanınca albüm açılır */}
-              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 188 : 200, marginTop: 2 }}>
+              <div onClick={() => setShowPhotoGallery(true)} className="relative w-full cursor-pointer" style={{ height: desktop ? 150 : 200, marginTop: 2 }}>
                 <style>{`
                   @keyframes albFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
                   @keyframes albFloatC { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-4px)} }
@@ -1172,7 +1172,7 @@ export default function WatchPage() {
                 {photos[1] && (
                   <div className="alb-float absolute" style={{ left: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite' }}>
                     <div className="relative" style={{ transform: 'rotate(-5deg)' }}>
-                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 148 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[1]} alt="" className="w-full block object-cover" style={{ height: desktop ? 116 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[1]] || 0}</span></span>
                     </div>
                   </div>
@@ -1180,14 +1180,14 @@ export default function WatchPage() {
                 {photos[2] && (
                   <div className="alb-float absolute" style={{ right: '8%', top: 28, width: '36%', animation: 'albFloat 5.4s ease-in-out infinite', animationDelay: '0.7s' }}>
                     <div className="relative" style={{ transform: 'rotate(5deg)' }}>
-                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 148 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
+                      <img src={photos[2]} alt="" className="w-full block object-cover" style={{ height: desktop ? 116 : 150, border: '3px solid #fff', borderRadius: 15, boxShadow: '0 12px 30px rgba(55,40,32,0.08)' }} />
                       <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[2]] || 0}</span></span>
                     </div>
                   </div>
                 )}
                 <div className="alb-float absolute" style={{ left: '50%', top: 0, zIndex: 3, width: '43%', animation: 'albFloatC 4.6s ease-in-out infinite' }}>
                   <div className="relative">
-                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 180 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
+                    <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 146 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
                     <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[0]] || 0}</span></span>
                     <span className="absolute flex items-center" style={{ top: 8, right: 8, gap: 4, padding: '4px 7px', borderRadius: 999, background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 6px rgba(55,40,32,0.14)' }}><svg viewBox="0 0 24 24" fill="none" stroke="#9F4F58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]"><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg><span style={{ fontSize: 9, fontWeight: 700, color: '#9F4F58', lineHeight: 1 }}>Baskıya Gönder</span></span>
                   </div>
@@ -1199,7 +1199,7 @@ export default function WatchPage() {
                   const isLast = i === 3;
                   const more = count - 4;
                   return (
-                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: desktop ? '1.1 / 1' : '1.35 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
+                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: '1.35 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
                       <img src={u} alt="" className="w-full h-full object-cover" />
                       {isLast && more > 0 && (
                         <span className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(46,40,38,0.52)', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '0.2px' }}>+{more}</span>
@@ -2576,17 +2576,17 @@ export default function WatchPage() {
 
   if (showReturningModal && isReturningViewer) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-4 py-8" style={{ background: '#F9F2EB' }}>
+      <main className="min-h-screen flex flex-col items-center px-4 pt-7 pb-10" style={{ background: '#F9F2EB' }}>
         {renderDemoBlock()}
         <div className="w-full mx-auto relative" style={{ maxWidth: 500 }}>
-          <div className="flex justify-start mb-4">
-            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-10 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
+          <div className="flex justify-start mb-3">
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-12 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
           </div>
           {streamData?.status === 'active' && (
             <span className="absolute top-0 right-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: '#DC2626', boxShadow: '0 3px 10px rgba(220,38,38,0.3)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
           )}
           <div className="flex flex-col items-center text-center">
-            <div className="rounded-full p-[3px] mb-3" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
+            <div className="rounded-full p-[3px] mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
                 <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
@@ -2595,15 +2595,15 @@ export default function WatchPage() {
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78' }}>&</span> {event.groom_first_name}</h1>
-            <p className="mt-1" style={{ color: '#77716E', fontSize: 14.5 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
-            <div className="mt-2.5 flex items-center gap-2.5 text-[13.5px]" style={{ color: '#8A817E' }}>
+            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78', fontStyle: 'italic', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500 }}>&</span> {event.groom_first_name}</h1>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 15 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+            <div className="mt-2.5 flex items-center gap-2.5 text-[14px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
               <span style={{ color: '#D8CFCC' }}>·</span>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
             </div>
           </div>
-          <div className="flex items-center justify-center my-4" style={{ gap: 8 }}>
+          <div className="flex items-center justify-center my-3.5" style={{ gap: 8 }}>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
             <svg viewBox="0 0 24 24" fill="#C96F78" className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
@@ -2629,14 +2629,14 @@ export default function WatchPage() {
 
   if (!isNameEntered) {
     return (
-      <main className="min-h-screen flex flex-col items-center justify-center px-4 py-8" style={{ background: '#F9F2EB' }}>
+      <main className="min-h-screen flex flex-col items-center px-4 pt-7 pb-10" style={{ background: '#F9F2EB' }}>
         {renderDemoToast()}
         {renderDemoBlock()}
         <style>{`.welcome-input:focus{border-color:#C96F78!important;box-shadow:0 0 0 3px rgba(201,111,120,0.12);}`}</style>
         <div className="w-full mx-auto relative" style={{ maxWidth: 500 }}>
           {/* Logo — ortada üstte */}
-          <div className="flex justify-start mb-4">
-            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-10 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
+          <div className="flex justify-start mb-3">
+            <Image src="/navbar-icon.png" alt="Nikahım" width={52} height={52} className="h-12 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
           </div>
           {streamData?.status === 'active' && (
             <span className="absolute top-0 right-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: '#DC2626', boxShadow: '0 3px 10px rgba(220,38,38,0.3)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
@@ -2644,7 +2644,7 @@ export default function WatchPage() {
 
           {/* Hero — foto + isim + tür + tarih (doğru etkinlikte miyim?) */}
           <div className="flex flex-col items-center text-center">
-            <div className="rounded-full p-[3px] mb-3" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
+            <div className="rounded-full p-[3px] mb-2.5" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
                 <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
@@ -2653,9 +2653,9 @@ export default function WatchPage() {
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78' }}>&</span> {event.groom_first_name}</h1>
-            <p className="mt-1" style={{ color: '#77716E', fontSize: 14.5 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
-            <div className="mt-2.5 flex items-center gap-2.5 text-[13.5px]" style={{ color: '#8A817E' }}>
+            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78', fontStyle: 'italic', fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 500 }}>&</span> {event.groom_first_name}</h1>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 15 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+            <div className="mt-2.5 flex items-center gap-2.5 text-[14px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
               <span style={{ color: '#D8CFCC' }}>·</span>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
@@ -2663,7 +2663,7 @@ export default function WatchPage() {
           </div>
 
           {/* Rose sparkle-kalp ayraç */}
-          <div className="flex items-center justify-center my-4" style={{ gap: 8 }}>
+          <div className="flex items-center justify-center my-3.5" style={{ gap: 8 }}>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
             <svg viewBox="0 0 24 24" fill="#C96F78" className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
