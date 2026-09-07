@@ -857,29 +857,29 @@ export default function WatchPage() {
     const isDugun = event?.event_type === 'dugun';
     const rose = '#C96F78';
     const st = { stroke: rose };
-    const ic = 'w-[17px] h-[17px]';
+    const ic = 'w-[21px] h-[21px]';
     const icBroadcast = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><path strokeLinecap="round" strokeLinejoin="round" d="M9.348 14.652a3.75 3.75 0 010-5.304m5.304 0a3.75 3.75 0 010 5.304m-7.425 2.121a6.75 6.75 0 010-9.546m9.546 0a6.75 6.75 0 010 9.546M12 12.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>;
     const icLetter = <svg className={ic} fill="none" strokeWidth="1.6" viewBox="0 0 24 24" {...st}><rect x="3" y="5.5" width="18" height="13" rx="2" /><path strokeLinecap="round" strokeLinejoin="round" d="M3.6 7l7.3 5a2 2 0 002.2 0l7.3-5" /></svg>;
     const icPhoto = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><rect x="3" y="5" width="18" height="15" rx="2.5" /><circle cx="8.5" cy="10.5" r="1.5" /><path d="M3 17l5-5 3.5 3.5L15 12l6 6" /></svg>;
     const icPrinter = <svg className={ic} fill="none" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24" {...st}><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg>;
-    const bigVideo = <img src="/nikaha-katil.webp" alt="" className="w-[clamp(50px,14vw,66px)] h-[clamp(50px,14vw,66px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
-    const bigImage = <img src="/foto-ekle-8.webp" alt="" className="w-[clamp(50px,14vw,66px)] h-[clamp(50px,14vw,66px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigVideo = <img src="/nikaha-katil.webp" alt="" className="w-[clamp(74px,20vw,98px)] h-[clamp(74px,20vw,98px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
+    const bigImage = <img src="/foto-ekle-8.webp" alt="" className="w-[clamp(74px,20vw,98px)] h-[clamp(74px,20vw,98px)] object-contain" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />;
 
     // Tüm kart tıklanabilir; içindekiler buton değil, sadece özellik göstergesi (kompakt)
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="wchoice group relative rounded-[20px] px-3 pt-3 pb-3.5 text-center active:scale-[0.98] flex flex-col items-center h-full"
-        style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.22)', boxShadow: '0 8px 22px rgba(40,30,25,0.06)' }}
+        className="wchoice group relative rounded-[22px] px-3.5 pt-4 pb-4 text-center active:scale-[0.98] flex flex-col items-center h-full"
+        style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.22)', boxShadow: '0 10px 26px rgba(40,30,25,0.07)' }}
       >
-        <span className="inline-flex items-center px-2.5 py-[3px] rounded-full text-[9.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#B4535C' }}>{pill}</span>
-        <span className="mt-1.5 flex items-center justify-center h-[clamp(46px,13vw,60px)]">{big}</span>
-        <span className="block mt-1 leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#211B1D', fontWeight: 700, fontSize: 'clamp(15px,4vw,17.5px)' }}>{title}</span>
-        <span className="flex gap-2 w-full mt-3">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#B4535C' }}>{pill}</span>
+        <span className="mt-2.5 flex items-center justify-center h-[clamp(66px,18vw,92px)]">{big}</span>
+        <span className="block mt-2.5 leading-tight" style={{ color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
+        <span className="flex gap-2 w-full mt-3.5">
           {feats.map((f, i) => (
-            <span key={i} className="flex-1 rounded-[12px] flex flex-col items-center justify-center py-2 px-0.5" style={{ background: 'rgba(201,111,120,0.05)', border: '1px solid rgba(201,111,120,0.12)' }}>
+            <span key={i} className="flex-1 rounded-[13px] flex flex-col items-center justify-center py-2.5 px-0.5" style={{ background: 'rgba(201,111,120,0.05)', border: '1px solid rgba(201,111,120,0.12)' }}>
               <span style={{ color: rose }}>{f.icon}</span>
-              <span className="text-[10.5px] font-medium leading-tight text-center mt-1" style={{ color: '#6E6663' }}>{f.label}</span>
+              <span className="text-[11.5px] font-medium leading-tight text-center mt-1.5" style={{ color: '#6E6663' }}>{f.label}</span>
             </span>
           ))}
         </span>
@@ -2578,9 +2578,9 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center px-4 py-8" style={{ background: '#F9F2EB' }}>
         {renderDemoBlock()}
-        <div className="w-full mx-auto relative" style={{ maxWidth: 430 }}>
-          <div className="flex justify-center mb-4">
-            <Image src="/navbar-icon.png" alt="Nikahım" width={36} height={36} className="h-8 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
+        <div className="w-full mx-auto relative" style={{ maxWidth: 500 }}>
+          <div className="flex justify-start mb-4">
+            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-10 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
           </div>
           {streamData?.status === 'active' && (
             <span className="absolute top-0 right-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: '#DC2626', boxShadow: '0 3px 10px rgba(220,38,38,0.3)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
@@ -2588,16 +2588,16 @@ export default function WatchPage() {
           <div className="flex flex-col items-center text-center">
             <div className="rounded-full p-[3px] mb-3" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
-                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(96px,26vw,116px)', height: 'clamp(96px,26vw,116px)', border: '2px solid rgba(255,255,255,0.95)' }} />
+                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
-                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(96px,26vw,116px)', height: 'clamp(96px,26vw,116px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
+                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(24px,6.5vw,30px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78' }}>&</span> {event.groom_first_name}</h1>
-            <p className="mt-1" style={{ color: '#77716E', fontSize: 13.5 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
-            <div className="mt-2 flex items-center gap-2.5 text-[12.5px]" style={{ color: '#8A817E' }}>
+            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78' }}>&</span> {event.groom_first_name}</h1>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 14.5 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+            <div className="mt-2.5 flex items-center gap-2.5 text-[13.5px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
               <span style={{ color: '#D8CFCC' }}>·</span>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
@@ -2609,8 +2609,8 @@ export default function WatchPage() {
             <span style={{ width: 24, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
           </div>
           <div className="text-center mb-4">
-            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 19, letterSpacing: '-0.2px' }}>Tekrar hoş geldiniz</h2>
-            <p className="mt-0.5" style={{ color: '#77716E', fontSize: 13 }}>Sn. <span style={{ fontWeight: 600, color: '#4A4340' }}>{viewerName}</span></p>
+            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 21, letterSpacing: '-0.2px' }}>Tekrar hoş geldiniz</h2>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 14 }}>Sn. <span style={{ fontWeight: 600, color: '#4A4340' }}>{viewerName}</span></p>
           </div>
           <div>
             {renderWelcomeChooser(
@@ -2633,10 +2633,10 @@ export default function WatchPage() {
         {renderDemoToast()}
         {renderDemoBlock()}
         <style>{`.welcome-input:focus{border-color:#C96F78!important;box-shadow:0 0 0 3px rgba(201,111,120,0.12);}`}</style>
-        <div className="w-full mx-auto relative" style={{ maxWidth: 430 }}>
+        <div className="w-full mx-auto relative" style={{ maxWidth: 500 }}>
           {/* Logo — ortada üstte */}
-          <div className="flex justify-center mb-4">
-            <Image src="/navbar-icon.png" alt="Nikahım" width={36} height={36} className="h-8 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
+          <div className="flex justify-start mb-4">
+            <Image src="/navbar-icon.png" alt="Nikahım" width={44} height={44} className="h-10 w-auto object-contain opacity-90 cursor-pointer" onClick={() => window.location.href = '/'} />
           </div>
           {streamData?.status === 'active' && (
             <span className="absolute top-0 right-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-bold text-white" style={{ background: '#DC2626', boxShadow: '0 3px 10px rgba(220,38,38,0.3)' }}><span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />CANLI</span>
@@ -2646,16 +2646,16 @@ export default function WatchPage() {
           <div className="flex flex-col items-center text-center">
             <div className="rounded-full p-[3px] mb-3" style={{ background: 'linear-gradient(135deg, rgba(255,255,255,0.95), rgba(201,111,120,0.35))', boxShadow: '0 12px 28px rgba(201,111,120,0.16), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
               {event.couple_photo_url ? (
-                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(96px,26vw,116px)', height: 'clamp(96px,26vw,116px)', border: '2px solid rgba(255,255,255,0.95)' }} />
+                <img src={event.couple_photo_url} alt="Çift" className="rounded-full object-cover block" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', border: '2px solid rgba(255,255,255,0.95)' }} />
               ) : (
-                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(96px,26vw,116px)', height: 'clamp(96px,26vw,116px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
+                <div className="rounded-full flex items-center justify-center" style={{ width: 'clamp(126px,33vw,152px)', height: 'clamp(126px,33vw,152px)', background: '#FBEFEF', border: '2px solid rgba(255,255,255,0.95)' }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#C96F78" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
                 </div>
               )}
             </div>
-            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(24px,6.5vw,30px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78' }}>&</span> {event.groom_first_name}</h1>
-            <p className="mt-1" style={{ color: '#77716E', fontSize: 13.5 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
-            <div className="mt-2 flex items-center gap-2.5 text-[12.5px]" style={{ color: '#8A817E' }}>
+            <h1 className="leading-tight" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F', fontWeight: 700, fontSize: 'clamp(27px,7vw,34px)' }}>{event.bride_first_name} <span style={{ color: '#C96F78' }}>&</span> {event.groom_first_name}</h1>
+            <p className="mt-1" style={{ color: '#77716E', fontSize: 14.5 }}>{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+            <div className="mt-2.5 flex items-center gap-2.5 text-[13.5px]" style={{ color: '#8A817E' }}>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>{eventDate}</span>
               <span style={{ color: '#D8CFCC' }}>·</span>
               <span className="flex items-center gap-1.5"><svg className="w-3.5 h-3.5" style={{ color: '#C96F78' }} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>{eventTime}</span>
@@ -2671,27 +2671,27 @@ export default function WatchPage() {
 
           {/* Form başlığı + isim alanları (demo'da kilitli) */}
           <div className="text-center mb-3.5">
-            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 19, letterSpacing: '-0.2px' }}>Hoş geldiniz</h2>
-            <p className="mt-0.5 leading-snug" style={{ color: '#77716E', fontSize: 13 }}>{isDemoEvent ? 'Bu bir örnek sayfadır' : 'Devam etmek için adınızı ve soyadınızı yazın.'}</p>
+            <h2 style={{ color: '#302927', fontWeight: 600, fontSize: 21, letterSpacing: '-0.2px' }}>Hoş geldiniz</h2>
+            <p className="mt-1 leading-snug" style={{ color: '#77716E', fontSize: 14 }}>{isDemoEvent ? 'Bu bir örnek sayfadır' : 'Devam etmek için adınızı ve soyadınızı yazın.'}</p>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-left mb-1.5 ml-1 font-semibold text-[12.5px]" style={{ color: '#5F5A58' }}>Adınız</label>
+              <label className="block text-left mb-1.5 ml-1 font-semibold text-[13px]" style={{ color: '#5F5A58' }}>Adınız</label>
               <input type="text" disabled={isDemoEvent} value={isDemoEvent ? 'Örnek' : viewerFirstName}
                 onChange={(e) => { setViewerFirstName(e.target.value); setViewerName(`${e.target.value} ${viewerLastName}`.trim()); }}
                 onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
                 placeholder="Adınızı yazın"
                 className="welcome-input w-full outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{ height: 48, padding: '0 15px', borderRadius: 13, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 14.5 }} />
+                style={{ height: 54, padding: '0 16px', borderRadius: 14, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 15 }} />
             </div>
             <div>
-              <label className="block text-left mb-1.5 ml-1 font-semibold text-[12.5px]" style={{ color: '#5F5A58' }}>Soyadınız</label>
+              <label className="block text-left mb-1.5 ml-1 font-semibold text-[13px]" style={{ color: '#5F5A58' }}>Soyadınız</label>
               <input type="text" disabled={isDemoEvent} value={isDemoEvent ? 'Davetli' : viewerLastName}
                 onChange={(e) => { setViewerLastName(e.target.value); setViewerName(`${viewerFirstName} ${e.target.value}`.trim()); }}
                 onFocus={(e) => { const t = e.currentTarget; setTimeout(() => t.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 300); }}
                 placeholder="Soyadınızı yazın"
                 className="welcome-input w-full outline-none transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-                style={{ height: 48, padding: '0 15px', borderRadius: 13, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 14.5 }}
+                style={{ height: 54, padding: '0 16px', borderRadius: 14, border: '1px solid #EAE3DF', background: '#FFFFFF', color: '#302927', fontSize: 15 }}
                 onKeyPress={(e) => e.key === 'Enter' && (viewerFirstName.trim() && viewerLastName.trim()) && handleNameSubmit()} />
             </div>
           </div>
