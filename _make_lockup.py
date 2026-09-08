@@ -7,7 +7,7 @@ WORD  = 'nikahim-text-logo.png'
 # küçültmeden yazıyı incelt. boşluk 0.25*kalp genişliği, yazı biraz yukarı, dikey ortalı.
 HEART_RATIO = 1.18   # kalp yüksekliği / ORİJİNAL yazı yüksekliği (kalbi sabit tutar)
 WORD_SCALE  = 0.88   # yazı bu kadar küçülür (kalbe dokunmaz) — yazı baskın olmasın
-GAP_FRAC = 0.24    # yatay boşluk / kalp genişliği
+GAP_FRAC = 0.14    # yatay boşluk / kalp genişliği (yazı kalbe yakın dursun)
 VGAP_FRAC = 0.20   # dikey boşluk / kalp yüksekliği
 WORD_DY_FRAC = 0.05  # yatayda yazı bu kadar (yazı yüksekliğinin oranı) YUKARI kayar
 

@@ -565,8 +565,8 @@ export default function Home() {
               <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
 
-            {/* Üst — logo (kompakt) + slogan */}
-            <div className="relative flex flex-col items-center mb-4">
+            {/* Üst — logo (kompakt) */}
+            <div className="relative flex flex-col items-center mb-3">
               {/* Logo arkası soft rose halo */}
               <div className="absolute top-0 w-[150px] h-[110px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
@@ -574,6 +574,9 @@ export default function Home() {
                 <Image src="/logo-dikey.webp" alt="Nikahım" width={1217} height={639} className="h-[70px] w-auto object-contain" />
               </div>
             </div>
+
+            {/* İnce kibar rose ayraç */}
+            <div className="mx-auto mb-8 h-px w-[72px] rounded-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(201,111,120,0.55), transparent)' }} />
 
             {/* Fayda başlığı — 2 satır */}
             <div className="text-center mb-5">
@@ -755,7 +758,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-[72px] lg:h-[80px] relative">
             {/* SOL — Marka (logo + wordmark, +%15) */}
             <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/logo-yatay.webp" alt="Nikahım" width={1666} height={328} priority className="h-[40px] lg:h-[46px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
+              <Image src="/logo-yatay.webp" alt="Nikahım" width={1630} height={328} priority className="h-[40px] lg:h-[46px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
             </div>
 
             {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}
