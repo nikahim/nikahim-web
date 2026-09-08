@@ -769,8 +769,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-[72px] lg:h-[80px] relative">
             {/* SOL — Marka (logo + wordmark, +%15) */}
             <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/navbar-icon.png" alt="Nikahım" width={66} height={66} className="h-[55px] lg:h-[57px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.04]" />
-              <Image src="/navbar-text.png" alt="Nikahım" width={368} height={106} className="h-[36px] lg:h-[40px] w-auto object-contain -ml-1 transition-opacity duration-300 group-hover:opacity-90" />
+              <Image src="/logo-yatay.webp" alt="Nikahım" width={1835} height={328} priority className="h-[46px] lg:h-[50px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
             </div>
 
             {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}
