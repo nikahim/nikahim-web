@@ -571,15 +571,8 @@ export default function Home() {
               <div className="absolute top-0 w-[150px] h-[110px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/logo-dikey.webp" alt="Nikahım" width={1383} height={672} className="h-[74px] w-auto object-contain" />
+                <Image src="/logo-dikey.webp" alt="Nikahım" width={1217} height={639} className="h-[70px] w-auto object-contain" />
               </div>
-              {/* Premium slogan — ince serif italic */}
-              <p className="mt-1 text-center italic tracking-[0.3px]"
-                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14px', color: '#9F4F58' }}>
-                En özel anlar, birlikte yaşanır.
-              </p>
-              {/* Gold dash ayraç */}
-              <div className="mt-2.5 h-[1px] rounded-full" style={{ width: '54px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
             {/* Fayda başlığı — 2 satır */}
@@ -669,13 +662,8 @@ export default function Home() {
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/logo-dikey.webp" alt="Nikahım" width={1383} height={672} className="search-modal-lockup h-[88px] lg:h-[104px] w-auto object-contain" />
+                <Image src="/logo-dikey.webp" alt="Nikahım" width={1217} height={639} className="search-modal-lockup h-[86px] lg:h-[100px] w-auto object-contain" />
               </div>
-              <p className="search-modal-slogan mt-1 text-center italic tracking-[0.3px]"
-                 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14px', color: '#9F4F58' }}>
-                En özel anlar, birlikte yaşanır.
-              </p>
-              <div className="mt-2.5 h-[1px] rounded-full" style={{ width: '60px', background: 'linear-gradient(90deg, transparent, #D4A852, transparent)' }} />
             </div>
 
             {/* Arama başlığı */}
@@ -767,7 +755,7 @@ export default function Home() {
           <div className="flex items-center justify-between h-[72px] lg:h-[80px] relative">
             {/* SOL — Marka (logo + wordmark, +%15) */}
             <div className="flex items-center cursor-pointer group" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-              <Image src="/logo-yatay.webp" alt="Nikahım" width={1835} height={328} priority className="h-[46px] lg:h-[50px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
+              <Image src="/logo-yatay.webp" alt="Nikahım" width={1666} height={328} priority className="h-[40px] lg:h-[46px] w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]" />
             </div>
 
             {/* ORTA — Desktop nav (minimal text linkler, absolute center) */}
