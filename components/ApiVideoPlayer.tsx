@@ -11,6 +11,7 @@ interface ApiVideoPlayerProps {
   overlayInfo?: {
     viewerCount?: number;
     isTest?: boolean;
+    liveViewerCount?: number;
   };
 }
 
@@ -87,9 +88,7 @@ export default function ApiVideoPlayer({
         />
       )}
       
-      {/* Overlay — sadece kayıt göstergesi.
-          Canlı / Test / izleyici rozetleri sayfa navbar'ında (rose) gösteriliyor;
-          burada tekrar etmemesi için kaldırıldı (üst üste binme sorunu). */}
+      {/* Overlay — sadece kayıt göstergesi. */}
       {isRecording && !showLoading && (
         <div className="absolute top-10 left-4 z-20">
           <span className="flex items-center gap-1 bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">

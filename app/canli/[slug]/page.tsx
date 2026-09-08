@@ -270,8 +270,8 @@ export default function WatchPage() {
   const closeDemoToast2WithRetry = () => {
     setShowDemoToast2(false);
     demoToast2CountRef.current += 1;
-    if (demoToast2CountRef.current >= 3) return;  // 3 kez gösterildi, dur
-    const delay = demoToast2CountRef.current === 1 ? 30000 : 60000;
+    if (demoToast2CountRef.current >= 2) return;  // 2 kez gösterildi, bir daha çıkmaz
+    const delay = 40000;  // kapatınca 40sn sonra 1 kez daha
     if (demoToast2TimerRef.current) clearTimeout(demoToast2TimerRef.current);
     demoToast2TimerRef.current = setTimeout(() => setShowDemoToast2(true), delay);
   };
@@ -577,7 +577,7 @@ export default function WatchPage() {
     const joinText = viewerName?.trim() ? `${viewerName.trim()} nikaha katıldı!` : 'Bir davetli nikaha katıldı!';
     setVideoNotification({ text: joinText, type: 'join' });
     const tNotif = setTimeout(() => setVideoNotification(null), 10000);
-    const t2 = setTimeout(() => setShowDemoToast2(true), 15000);
+    const t2 = setTimeout(() => setShowDemoToast2(true), 20000);
     return () => { clearTimeout(t2); clearTimeout(tNotif); };
   }, [isDemoEvent, isNameEntered]);
 
@@ -962,17 +962,8 @@ export default function WatchPage() {
     const chev = <svg viewBox="0 0 24 24" fill="none" stroke="#A49F9A" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><path d="M9 6l6 6-6 6" /></svg>;
     return (
       <section className={desktop ? 'hidden lg:block w-full mt-3' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
-        {/* Section header — mobilde göster; masaüstünde gizli (yer için) */}
-        {!desktop && (
-        <div className="flex flex-col items-center text-center mb-6">
-          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Altın Tak</h1>
-          <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
-            <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
-            <svg viewBox="0 0 24 24" fill={rose} className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-            <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
-          </div>
-        </div>
-        )}
+        {/* Section header kaldırıldı — mobilde başlık/kalpli çizgi gereksizce içeriği aşağı itiyordu (bölüm zaten belli) */}
+        {!desktop && <div className="h-2" />}
         {/* Ana panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingBottom: desktop ? 'clamp(16px,4.5vw,18px)' : 8, background: 'rgba(255,255,255,0.76)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           <div className={desktop ? 'lg:flex lg:items-center lg:gap-5 lg:h-[164px]' : ''}>
@@ -1089,28 +1080,19 @@ export default function WatchPage() {
     ];
     return (
       <section className={desktop ? 'hidden lg:block w-full max-w-[600px] mx-auto' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
-        {/* Header — sparkle kalp + serif başlık + rose çizgi (Altın Tak ile aynı) */}
-        {!desktop && (
-        <div className="flex flex-col items-center text-center mb-6">
-          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Tebrik Et</h1>
-          <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
-            <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
-            <svg viewBox="0 0 24 24" fill={rose} className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-            <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
-          </div>
-        </div>
-        )}
+        {/* Section header kaldırıldı — mobilde başlık/kalpli çizgi gereksizce içeriği aşağı itiyordu (bölüm zaten belli) */}
+        {!desktop && <div className="h-2" />}
         {/* Panel */}
         <div style={{ padding: 'clamp(16px,4.5vw,18px)', paddingTop: 6, paddingBottom: 8, background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           {rows.map((r, idx) => (
             <div key={r.id}>
               {idx > 0 && <div style={{ height: 1, marginLeft: 'clamp(62px,18vw,73px)', marginRight: 10, background: 'rgba(60,45,41,0.065)' }} />}
-              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: desktop ? '42px minmax(0,1fr) auto 16px' : 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: desktop ? 12 : 'clamp(11px,3.4vw,13px)', minHeight: desktop ? 64 : 'clamp(74px,20vw,82px)', padding: desktop ? '9px 9px' : 'clamp(11px,3.2vw,13px) clamp(8px,2.8vw,10px)' }}>
-                <span className="grid place-items-center rounded-full" style={{ width: desktop ? 42 : 'clamp(44px,12.5vw,48px)', height: desktop ? 42 : 'clamp(44px,12.5vw,48px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
-                  <span className="block" style={{ width: desktop ? 21 : 'clamp(23px,6.5vw,25px)', height: desktop ? 21 : 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
+              <button onClick={r.on} className="group w-full grid items-center text-left rounded-[18px] transition-colors active:bg-[rgba(201,111,120,0.05)]" style={{ gridTemplateColumns: desktop ? '36px minmax(0,1fr) auto 15px' : 'clamp(46px,13vw,50px) minmax(0,1fr) auto 18px', gap: desktop ? 11 : 'clamp(11px,3.4vw,13px)', minHeight: desktop ? 54 : 'clamp(74px,20vw,82px)', padding: desktop ? '7px 8px' : 'clamp(11px,3.2vw,13px) clamp(8px,2.8vw,10px)' }}>
+                <span className="grid place-items-center rounded-full" style={{ width: desktop ? 36 : 'clamp(44px,12.5vw,48px)', height: desktop ? 36 : 'clamp(44px,12.5vw,48px)', background: 'rgba(201,111,120,0.095)', color: rose }}>
+                  <span className="block" style={{ width: desktop ? 18 : 'clamp(23px,6.5vw,25px)', height: desktop ? 18 : 'clamp(23px,6.5vw,25px)' }}>{r.icon}</span>
                 </span>
                 <span className="min-w-0 flex flex-col" style={{ gap: desktop ? 0 : 4 }}>
-                  <strong style={{ color: '#302927', fontSize: desktop ? 14.5 : 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
+                  <strong style={{ color: '#302927', fontSize: desktop ? 13.5 : 'clamp(16px,4.5vw,17px)', fontWeight: 600, letterSpacing: '-0.2px', lineHeight: 1.2 }}>{r.title}</strong>
                   {!desktop && <span style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.25px)', lineHeight: 1.35 }}>{r.desc}</span>}
                 </span>
                 <span className="grid place-items-center rounded-full" style={{ minWidth: desktop ? 20 : 27, height: desktop ? 20 : 27, padding: desktop ? '0 5px' : '0 7px', background: desktop ? 'rgba(60,45,41,0.05)' : 'rgba(201,111,120,0.07)', color: desktop ? '#9A918D' : rose, fontSize: desktop ? 10 : 11.5, fontWeight: desktop ? 600 : 700, lineHeight: 1 }}>{r.count > 999 ? '999+' : r.count}</span>
@@ -1138,17 +1120,8 @@ export default function WatchPage() {
     const openAdd = () => { setPhotoUploaderName(viewerName); setPhotoTab('add'); setShowPhotoUpload(true); };
     return (
       <section className={desktop ? 'hidden lg:flex lg:flex-col lg:flex-1 lg:min-h-0 w-full' : 'lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1'} style={{ paddingBottom: desktop ? 0 : 'calc(92px + env(safe-area-inset-bottom))' }}>
-        {/* Header — sparkle kalp + serif başlık + rose çizgi (Tebrik/Altın ile aynı) */}
-        {!desktop && (
-        <div className="flex flex-col items-center text-center mb-6">
-          <h1 style={{ fontFamily: serif, color: '#302927', fontSize: 'clamp(19px,5.1vw,22px)', fontWeight: 500, letterSpacing: '-0.25px', lineHeight: 1.18 }}>Albüm</h1>
-          <div className="flex items-center justify-center mt-[11px]" style={{ gap: 8 }}>
-            <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to right, transparent, rgba(201,111,120,0.6))' }} />
-            <svg viewBox="0 0 24 24" fill={rose} className="w-[11px] h-[11px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
-            <span style={{ width: 22, height: 2, borderRadius: 999, background: 'linear-gradient(to left, transparent, rgba(201,111,120,0.6))' }} />
-          </div>
-        </div>
-        )}
+        {/* Section header kaldırıldı — mobilde başlık/kalpli çizgi gereksizce içeriği aşağı itiyordu (bölüm zaten belli) */}
+        {!desktop && <div className="h-2" />}
         {/* Panel */}
         <div className={desktop ? 'lg:flex-1 lg:flex lg:flex-col' : ''} style={{ padding: 'clamp(15px,4.3vw,18px)', background: 'rgba(255,255,255,0.82)', border: '1px solid rgba(60,45,41,0.07)', borderRadius: 24, boxShadow: '0 12px 32px rgba(63,44,39,0.045), 0 2px 8px rgba(63,44,39,0.02)' }}>
           <div className="flex items-center justify-between mb-[14px]" style={{ gap: 12, minHeight: 30 }}>
@@ -1194,12 +1167,12 @@ export default function WatchPage() {
                 </div>
               </div>
               {/* Thumbnail satırı */}
-              <div className={desktop ? 'grid grid-cols-4 mt-2 mb-[11px]' : 'grid grid-cols-4 mt-2 mb-[16px]'} style={{ gap: 8 }}>
-                {photos.slice(0, 4).map((u, i) => {
-                  const isLast = i === 3;
-                  const more = count - 4;
+              <div className={desktop ? 'grid grid-cols-3 mt-2 mb-[11px]' : 'grid grid-cols-3 mt-2 mb-[16px]'} style={{ gap: 8 }}>
+                {photos.slice(0, 3).map((u, i) => {
+                  const isLast = i === 2;
+                  const more = count - 3;
                   return (
-                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: desktop ? '1.18 / 1' : '1.35 / 1', borderRadius: 10, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
+                    <button key={i} onClick={() => setShowPhotoGallery(true)} className="relative active:scale-[0.97] transition-transform" style={{ aspectRatio: desktop ? '1 / 1' : '1.1 / 1', borderRadius: 12, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.8)', boxShadow: '0 3px 8px rgba(63,44,39,0.04)' }}>
                       <img src={u} alt="" className="w-full h-full object-cover" />
                       {isLast && more > 0 && (
                         <span className="absolute inset-0 flex items-center justify-center" style={{ background: 'rgba(46,40,38,0.52)', color: '#fff', fontSize: 15, fontWeight: 600, letterSpacing: '0.2px' }}>+{more}</span>
@@ -1594,13 +1567,11 @@ export default function WatchPage() {
 
   const toggleMusicMute = () => {
     if (audioRef.current) {
-      if (musicMuted) {
-        audioRef.current.volume = 0.3;
-        setMusicMuted(false);
-      } else {
-        audioRef.current.volume = 0;
-        setMusicMuted(true);
-      }
+      const nextMuted = !musicMuted;
+      // iOS Safari .volume'u yok sayar → .muted kullan (donanım kısıtı). Volume'u da ayarla (masaüstü akıcılığı).
+      audioRef.current.muted = nextMuted;
+      audioRef.current.volume = nextMuted ? 0 : 0.3;
+      setMusicMuted(nextMuted);
     }
   };
 
@@ -2853,11 +2824,10 @@ export default function WatchPage() {
         {/* Alt kenar — pearl/rose glow çizgisi */}
         <div className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
              style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(200,104,110,0.18) 20%, rgba(212,168,82,0.16) 50%, rgba(200,104,110,0.18) 80%, transparent 100%)' }} />
-        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 flex items-center justify-between h-[60px] lg:h-[68px]">
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-6 flex items-center justify-between h-[54px] lg:h-[61px]">
           {/* SOL — Marka */}
-          <div className="flex items-center cursor-pointer group" onClick={() => window.location.href = '/'} style={{ gap: '0px' }}>
-            <Image src="/navbar-icon.png" alt="Nikahım" width={60} height={60} className="h-[48px] lg:h-[54px] w-auto object-contain transition-transform group-hover:scale-[1.04]" />
-            <Image src="/navbar-text.png" alt="Nikahım" width={230} height={58} className="h-[30px] lg:h-[34px] w-auto object-contain -ml-0.5" />
+          <div className="flex items-center cursor-pointer group lg:ml-6" onClick={() => window.location.href = '/'}>
+            <Image src="/logo-yatay.webp" alt="Nikahım" width={1630} height={328} className="h-[33px] lg:h-[37px] w-auto object-contain transition-transform group-hover:scale-[1.04]" />
           </div>
 
           {/* SAĞ — Glass action area: status pill + müzik + izleyici */}
@@ -2897,8 +2867,8 @@ export default function WatchPage() {
             {/* Müzik açma/kapama — glass button */}
             {hasMusicSelected && isNameEntered && (!streamData?.status || streamData?.status === 'idle' || (streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest)) && (
               isMusicPlaying ? (
-                <button onClick={toggleMusicMute}
-                        className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold transition-all hover:scale-[1.04] active:scale-[0.97]"
+                <button onClick={toggleMusicMute} aria-label={musicMuted ? 'Müziği aç' : 'Sessize al'}
+                        className="inline-flex items-center justify-center w-8 h-8 rounded-full transition-all hover:scale-[1.06] active:scale-[0.95]"
                         style={{
                           color: musicMuted ? '#9F4F58' : '#6B5A5A',
                           background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
@@ -2907,14 +2877,14 @@ export default function WatchPage() {
                           boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                         }}>
                   {musicMuted ? (
-                    <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-3c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" /></svg>Müzik Aç</>
+                    <svg className="w-[16px] h-[16px]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-3c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" /></svg>
                   ) : (
-                    <><svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 9l4 4m0-4l-4 4" /></svg>Sessiz</>
+                    <svg className="w-[16px] h-[16px]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 9l4 4m0-4l-4 4" /></svg>
                   )}
                 </button>
               ) : (
-                <button onClick={startMusic}
-                        className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold transition-all hover:scale-[1.04] active:scale-[0.97]"
+                <button onClick={startMusic} aria-label="Müziği çal"
+                        className="inline-flex items-center justify-center w-8 h-8 rounded-full transition-all hover:scale-[1.06] active:scale-[0.95]"
                         style={{
                           color: '#9F4F58',
                           background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
@@ -2922,34 +2892,12 @@ export default function WatchPage() {
                           border: '1px solid rgba(200,104,110,0.18)',
                           boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                         }}>
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-3c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" /></svg>
-                  Müzik Çal
+                  <svg className="w-[16px] h-[16px]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 19V6l12-3v13M9 19c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm12-3c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z" /></svg>
                 </button>
               )
             )}
 
-            {/* İzleyici/davetli sayısı — canlı iken "izliyor" (yeşil nokta), değilken o ana kadar giren "davetli" */}
-            <span className="inline-flex items-center gap-1.5 px-2.5 lg:px-3 py-1.5 rounded-full text-[11px] lg:text-xs font-semibold"
-                  style={{
-                    color: '#6B5A5A',
-                    background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
-                    backdropFilter: 'blur(14px)',
-                    border: '1px solid rgba(200,104,110,0.18)',
-                    boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
-                  }}>
-              <span className="relative inline-flex">
-                <svg className="w-3.5 h-3.5" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                {streamData?.status === 'active' && (
-                  <span aria-label="Çevrimiçi"
-                        className="absolute -top-0.5 -right-0.5 w-[7px] h-[7px] rounded-full ring-[1.5px] ring-white animate-pulse"
-                        style={{ background: '#22C55E', boxShadow: '0 0 4px rgba(34,197,94,0.6)' }} />
-                )}
-              </span>
-              <span className="tabular-nums">{streamData?.status === 'active' ? liveViewerCount : viewerCount}</span>
-              <span className="hidden sm:inline">{streamData?.status === 'active' ? 'izliyor' : 'davetli'}</span>
-            </span>
+            {/* İzleyici sayısı navbar'dan kaldırıldı — canlı "izliyor" artık video sol-üstte (yer açmak için) */}
 
             {/* Concierge "?" trigger — minimal premium yardım tetikleyici */}
             <button
@@ -2962,7 +2910,7 @@ export default function WatchPage() {
                 border: '1px solid rgba(200,104,110,0.18)',
                 boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
               }}>
-              <svg className="w-[20px] h-[20px]" fill="none" stroke="#9F4F58" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <svg className="w-[16px] h-[16px]" fill="none" stroke="#9F4F58" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                 <path d="M8.5 9c0-2 1.6-3.5 3.5-3.5s3.5 1.5 3.5 3.5c0 1.6-1.2 2.4-2.3 3-0.7 0.4-1.2 0.9-1.2 1.8v0.7" />
                 <circle cx="12" cy="18" r="1.1" fill="#9F4F58" stroke="none" />
               </svg>
@@ -3109,6 +3057,17 @@ export default function WatchPage() {
           <div className="contents lg:block lg:flex-1 lg:min-w-0">
             {/* Video container — mobilde sticky top:60px, masaüstünde normal */}
             <div className={`max-lg:sticky max-lg:top-[60px] max-lg:z-30 bg-black overflow-hidden relative ${isFullscreen ? 'rounded-none' : 'rounded-2xl aspect-video'}`} style={isFullscreen ? { position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 9999, width: '100vw', height: '100vh' } : { boxShadow: '0 10px 50px rgba(200,104,110,0.1), 0 4px 20px rgba(0,0,0,0.08), 0 0 80px rgba(255,180,180,0.06)' }}>
+
+              {/* İzleyici sayısı — geri sayım + canlı, sol üst, cam-şeffaf göz + rakam (en az 1: izleyen sensin) */}
+              {((streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest) || (!streamData?.status || streamData?.status === 'idle') || streamData?.status === 'starting' || streamData?.status === 'active') && (
+                <div className="absolute top-3 left-3 z-30 pointer-events-none">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[12px] lg:text-[13px] font-semibold text-white tabular-nums"
+                        style={{ background: 'rgba(18,14,16,0.42)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.18)', boxShadow: '0 2px 10px rgba(0,0,0,0.18)' }}>
+                    <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M2.04 12.32a1 1 0 010-.64C3.42 7.51 7.36 4.5 12 4.5s8.57 3.01 9.96 7.18c.07.21.07.43 0 .64C20.58 16.49 16.64 19.5 12 19.5s-8.57-3.01-9.96-7.18z" /><circle cx="12" cy="12" r="3" /></svg>
+                    {Math.max(1, liveViewerCount)}
+                  </span>
+                </div>
+              )}
 
               {/* Rotation prompt — fullscreen + portrait olduğunda, 3 saniye sonra fade */}
               {isFullscreen && showRotationPrompt && (
@@ -3332,7 +3291,7 @@ export default function WatchPage() {
               )}
               {/* Active */}
               {streamData?.status === 'active' && streamData?.playbackId && (
-                <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={true} isRecording={false} overlayInfo={{ viewerCount, isTest: streamData.isTest }} className="w-full h-full" />
+                <ApiVideoPlayer liveStreamId={streamData.playbackId || undefined} videoId={streamData.videoId || undefined} isLive={true} isRecording={false} overlayInfo={{ viewerCount, isTest: streamData.isTest, liveViewerCount }} className="w-full h-full" />
               )}
               {/* Recording — çoklu segment (Bölüm 1/2/...) desteğiyle */}
               {streamData?.status === 'ended' && !showEndedScreen && !streamData?.isTest && (() => {
@@ -3363,7 +3322,7 @@ export default function WatchPage() {
               })()}
               {/* Waiting with countdown — sinematik premium */}
               {((streamData?.status === 'ended' && !showEndedScreen && streamData?.isTest) || ((!streamData?.status || streamData?.status === 'idle') && !isLive)) && (
-                <div className={`absolute inset-0 flex flex-col items-center p-4 ${isFullscreen ? 'justify-start pt-8 lg:pt-14' : 'justify-center'}`}>
+                <div className={`absolute inset-0 flex flex-col items-center p-4 ${isFullscreen ? 'justify-start pt-8 lg:justify-center lg:pt-0' : 'justify-center'}`}>
                   {/* Subtle pulse animation — couple ring */}
                   <style>{`
                     @keyframes ringBreath {
@@ -3419,8 +3378,8 @@ export default function WatchPage() {
                          }}>
                       <div className="absolute top-0 left-0 right-0 pointer-events-none" style={{ height: '38%', background: 'linear-gradient(180deg, rgba(255,255,255,0.16) 0%, transparent 100%)' }} />
                       {[{ v: countdown.days, l: 'Gün' }, { v: countdown.hours, l: 'Saat' }, { v: countdown.minutes, l: 'Dk' }, { v: countdown.seconds, l: 'Sn' }].map((c, i) => (
-                        <div key={i} className="relative flex flex-col items-center justify-center text-center px-4 py-2.5 lg:px-7 lg:py-4 min-w-[52px] lg:min-w-[74px]" style={i > 0 ? { borderLeft: '1px solid rgba(255,255,255,0.13)' } : undefined}>
-                          <div className="text-2xl lg:text-4xl font-bold text-white drop-shadow tabular-nums" style={{ letterSpacing: '0.5px' }}>{c.v}</div>
+                        <div key={i} className="relative flex flex-col items-center justify-center text-center px-4 py-2.5 lg:px-6 lg:py-3.5 min-w-[52px] lg:min-w-[66px]" style={i > 0 ? { borderLeft: '1px solid rgba(255,255,255,0.13)' } : undefined}>
+                          <div className="text-2xl lg:text-[32px] font-bold text-white drop-shadow tabular-nums" style={{ letterSpacing: '0.5px' }}>{c.v}</div>
                           <div className="text-[9px] lg:text-[10px] text-white/55 uppercase tracking-[1.2px] mt-1">{c.l}</div>
                         </div>
                       ))}
@@ -3579,7 +3538,7 @@ export default function WatchPage() {
 
             {/* Mini header — wordmark logo + Destek (ana sayfa ile birebir) */}
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[40px] w-auto object-contain -ml-0.5 -mb-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[32px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>
@@ -3860,7 +3819,7 @@ export default function WatchPage() {
       )}
 
       {/* Mobil floating bottom nav — glass/ivory yüzey, taupe active, rose sadece ikon+yazı */}
-      <nav aria-label="Davetli menüsü" className={`lg:hidden fixed left-1/2 -translate-x-1/2 z-[60] ${showActionChooser ? 'hidden' : ''}`}
+      <nav aria-label="Davetli menüsü" className={`lg:!hidden fixed left-1/2 -translate-x-1/2 z-[60] ${showActionChooser ? 'hidden' : ''}`}
            style={{ bottom: 'calc(10px + env(safe-area-inset-bottom))', width: 'calc(100% - 28px)', maxWidth: 640, height: 76, display: showActionChooser ? 'none' : 'grid', gridTemplateColumns: 'repeat(3, minmax(0,1fr))', gap: 4, padding: 6, background: 'rgba(255,253,251,0.90)', border: '1px solid rgba(88,69,62,0.065)', borderRadius: 27, boxShadow: '0 12px 32px rgba(70,50,44,0.065), 0 2px 8px rgba(70,50,44,0.025)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
         {[
           { id: 'tebrik' as const, label: 'Tebrik Et', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M20.5 12a8.5 8.5 0 01-12.9 7.3L4 21l1.7-3.6A8.5 8.5 0 1120.5 12z" /><path d="M12 13.9c-1-.8-2.15-1.5-2.15-2.6 0-.62.5-1.1 1.12-1.1.43 0 .82.25 1.03.63.21-.38.6-.63 1.03-.63.62 0 1.12.48 1.12 1.1 0 1.1-1.15 1.8-2.15 2.6z" fill="currentColor" stroke="none" /></svg> },
