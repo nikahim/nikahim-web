@@ -44,11 +44,11 @@ vcanvas = Image.new('RGBA', (VW, VH), (0,0,0,0))
 vcanvas.alpha_composite(heart_s, ((VW - hw)//2, 0))
 vcanvas.alpha_composite(word,    ((VW - wW)//2, target_hh + vgap))
 vcanvas.save('logo-dikey.webp', 'WEBP', quality=92, method=6)
-print(f'DIKEY: {VW}x{VH}')
+print(f'DIKEY webp: {VW}x{VH}')
 
-# ---- MAIL PNG (optimize, küçük) — dikey, genişlik ~480 ----
+# ---- MAIL PNG = logo-dikey.png (küçük+optimize; mail sadece bunu kullanır, redeploy gerekmez) ----
 mail_w = 480
 mscale = mail_w / VW
 mail = vcanvas.resize((mail_w, int(round(VH*mscale))), Image.LANCZOS)
-mail.save('logo-dikey-mail.png', 'PNG', optimize=True)
-print(f'MAIL PNG: {mail.size}')
+mail.save('logo-dikey.png', 'PNG', optimize=True)
+print(f'MAIL logo-dikey.png: {mail.size}')
