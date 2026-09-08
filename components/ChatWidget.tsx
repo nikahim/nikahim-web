@@ -287,10 +287,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       style={{ boxShadow: "0 24px 64px rgba(0,0,0,0.2)" }}
     >
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 bg-white" style={{ borderBottom: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
+      <div className="flex items-center gap-3 p-4 bg-white" style={{ borderBottom: "1px solid rgba(201,111,120,0.12)", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
         {hasStarted && (
           <div className="relative">
-            <div className="w-11 h-11 rounded-full overflow-hidden" style={{ border: "2px solid rgba(200,104,110,0.3)", boxShadow: "0 3px 8px rgba(200,104,110,0.15)" }}>
+            <div className="w-11 h-11 rounded-full overflow-hidden" style={{ border: "2px solid rgba(201,111,120,0.3)", boxShadow: "0 3px 8px rgba(201,111,120,0.15)" }}>
               <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
             </div>
             <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-green-500 border-2 border-white" />
@@ -301,7 +301,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           <span className="font-semibold text-sm text-gray-900">Nikahım Destek Asistanı · Çevrimiçi</span>
         </div>
         {!embedded && (
-          <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center" style={{ color: "#8B7355" }}>
+          <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center" style={{ color: "#A98488" }}>
             ✕
           </button>
         )}
@@ -309,11 +309,11 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
       {/* Pre-chat start screen */}
       {!hasStarted ? (
-        <div className="flex-1 flex flex-col items-center justify-start pt-8 p-6 overflow-y-auto" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
-          <div className="w-24 h-24 rounded-full overflow-hidden mb-3 flex-shrink-0" style={{ border: "3px solid rgba(200,104,110,0.35)", boxShadow: "0 8px 24px rgba(200,104,110,0.2)", aspectRatio: '1 / 1' }}>
+        <div className="flex-1 flex flex-col items-center justify-start pt-8 p-6 overflow-y-auto" style={{ background: "linear-gradient(180deg, #FEFBF9, #FBF3F1)" }}>
+          <div className="w-24 h-24 rounded-full overflow-hidden mb-3 flex-shrink-0" style={{ border: "3px solid rgba(201,111,120,0.35)", boxShadow: "0 8px 24px rgba(201,111,120,0.2)", aspectRatio: '1 / 1' }}>
             <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
           </div>
-          <div className="text-base font-bold mb-8" style={{ color: "#C8686E", fontFamily: "var(--font-playfair)" }}>{agent.name}</div>
+          <div className="text-base font-bold mb-8" style={{ color: "#C96F78", fontFamily: "var(--font-playfair)" }}>{agent.name}</div>
           <div className="text-center mb-5">
             <div className="text-lg font-bold text-gray-900 mb-1">Hoş geldiniz!</div>
             <div className="text-sm text-gray-600 leading-relaxed">
@@ -329,7 +329,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               onChange={(e) => setGuestName(e.target.value)}
               onFocus={(e) => setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)}
               className="w-full px-4 py-3 rounded-xl bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
-              style={{ border: "1.5px solid rgba(200,104,110,0.2)" }}
+              style={{ border: "1.5px solid rgba(201,111,120,0.2)" }}
             />
             <input
               type="email"
@@ -338,12 +338,12 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               onChange={(e) => setGuestEmail(e.target.value)}
               onFocus={(e) => setTimeout(() => e.target.scrollIntoView({ block: 'center', behavior: 'smooth' }), 300)}
               className="w-full px-4 py-3 rounded-xl bg-white text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
-              style={{ border: "1.5px solid rgba(200,104,110,0.2)" }}
+              style={{ border: "1.5px solid rgba(201,111,120,0.2)" }}
             />
             <button
               onClick={startChat}
               className="w-full py-3 rounded-xl font-bold text-white hover:shadow-xl transition-all"
-              style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 6px 18px rgba(200,104,110,0.35)" }}
+              style={{ background: "linear-gradient(135deg, #D88891, #C96F78, #B85963)", boxShadow: "0 6px 18px rgba(201,111,120,0.35)" }}
             >
               Sohbeti Başlat
             </button>
@@ -353,11 +353,11 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       ) : (
       <>
       {/* Messages */}
-      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "linear-gradient(180deg, #FDFCFA, #F8F5F0, #F5F2ED)" }}>
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ background: "linear-gradient(180deg, #FEFBF9, #FBF3F1)" }}>
         {messages.map((m, i) => (
           <div key={i} className={`flex items-end gap-2 ${m.role === "user" ? "justify-end" : "justify-start"}`}>
             {m.role === "assistant" && (
-              <div className="w-8 h-8 rounded-full flex-shrink-0 overflow-hidden" style={{ border: "1.5px solid rgba(200,104,110,0.3)" }}>
+              <div className="w-8 h-8 rounded-full flex-shrink-0 overflow-hidden" style={{ border: "1.5px solid rgba(201,111,120,0.3)" }}>
                 <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
               </div>
             )}
@@ -369,15 +369,15 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               }`}
               style={
                 m.role === "user"
-                  ? { background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 4px 12px rgba(200,104,110,0.3)" }
-                  : { border: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 8px rgba(200,104,110,0.08)" }
+                  ? { background: "linear-gradient(135deg, #D88891, #C96F78, #B85963)", boxShadow: "0 4px 12px rgba(201,111,120,0.3)" }
+                  : { border: "1px solid rgba(201,111,120,0.12)", boxShadow: "0 2px 8px rgba(201,111,120,0.08)" }
               }
             >
               <div className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</div>
               {m.ticketNumber && (
-                <div className="mt-3 rounded-xl p-3" style={{ background: "#FFF5F6", border: "1.5px solid rgba(200,104,110,0.3)" }}>
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider mb-1" style={{ color: "#C8686E" }}>📋 BAŞVURU NUMARASI</div>
-                  <div className="text-lg font-extrabold mb-1" style={{ color: "#B85A60" }}>{m.ticketNumber}</div>
+                <div className="mt-3 rounded-xl p-3" style={{ background: "#FFF5F6", border: "1.5px solid rgba(201,111,120,0.3)" }}>
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider mb-1" style={{ color: "#C96F78" }}>📋 BAŞVURU NUMARASI</div>
+                  <div className="text-lg font-extrabold mb-1" style={{ color: "#B85963" }}>{m.ticketNumber}</div>
                   <div className="text-[11px] leading-snug" style={{ color: "#8B5A5E" }}>Bu numarayı saklayın. 24 saat içinde size dönüş yapılacak.</div>
                 </div>
               )}
@@ -386,21 +386,21 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ))}
         {typing && (
           <div className="flex items-end gap-2">
-            <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: "1.5px solid rgba(200,104,110,0.3)" }}>
+            <div className="w-8 h-8 rounded-full overflow-hidden" style={{ border: "1.5px solid rgba(201,111,120,0.3)" }}>
               <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
             </div>
-            <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5" style={{ border: "1px solid rgba(200,104,110,0.12)", boxShadow: "0 2px 6px rgba(200,104,110,0.08)" }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.15s" }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8686E] animate-pulse" style={{ animationDelay: "0.3s" }} />
-              <span className="text-xs text-[#8B7355] italic ml-1">{agent.name} yazıyor…</span>
+            <div className="bg-white rounded-2xl rounded-bl-md px-4 py-3 flex items-center gap-1.5" style={{ border: "1px solid rgba(201,111,120,0.12)", boxShadow: "0 2px 6px rgba(201,111,120,0.08)" }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C96F78] animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C96F78] animate-pulse" style={{ animationDelay: "0.15s" }} />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C96F78] animate-pulse" style={{ animationDelay: "0.3s" }} />
+              <span className="text-xs text-[#A98488] italic ml-1">{agent.name} yazıyor…</span>
             </div>
           </div>
         )}
       </div>
 
       {/* Input */}
-      <div className="flex items-center gap-2 p-3 bg-white" style={{ borderTop: "1px solid rgba(200,104,110,0.12)" }}>
+      <div className="flex items-center gap-2 p-3 bg-white" style={{ borderTop: "1px solid rgba(201,111,120,0.12)" }}>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -408,13 +408,13 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           placeholder="Sorunuzu yazın…"
           rows={1}
           className="flex-1 resize-none px-4 py-2.5 rounded-2xl bg-[#FFF8F9] focus:bg-white focus:outline-none text-sm text-gray-900 placeholder:text-gray-400 max-h-24"
-          style={{ fontFamily: "inherit", border: "1.5px solid rgba(200,104,110,0.15)" }}
+          style={{ fontFamily: "inherit", border: "1.5px solid rgba(201,111,120,0.15)" }}
         />
         <button
           onClick={sendMessage}
           disabled={!input.trim()}
           className="w-11 h-11 rounded-full flex items-center justify-center text-white disabled:opacity-50 transition-opacity flex-shrink-0"
-          style={{ background: "linear-gradient(135deg, #E08284, #D17075, #C86068)", boxShadow: "0 4px 12px rgba(200,104,110,0.35)" }}
+          style={{ background: "linear-gradient(135deg, #D88891, #C96F78, #B85963)", boxShadow: "0 4px 12px rgba(201,111,120,0.35)" }}
         >
           {sending ? (
             <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -448,10 +448,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           className="fixed flex items-stretch z-[9999] bottom-[75px] lg:bottom-9 right-[-6px] lg:right-0"
           style={{
             background: "#fff",
-            boxShadow: "0 20px 40px rgba(60,40,40,0.16), 0 6px 16px rgba(200,104,110,0.16), 0 2px 6px rgba(0,0,0,0.04)",
+            boxShadow: "0 20px 40px rgba(60,40,40,0.16), 0 6px 16px rgba(201,111,120,0.16), 0 2px 6px rgba(0,0,0,0.04)",
             borderTopLeftRadius: 999,
             borderBottomLeftRadius: 999,
-            border: '1px solid rgba(200,104,110,0.25)',
+            border: '1px solid rgba(201,111,120,0.25)',
           }}
           aria-label="Canlı destek"
         >
@@ -463,7 +463,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               width: isCollapsed ? 54 : 38,
               paddingLeft: isCollapsed ? 8 : 10,
               paddingRight: isCollapsed ? 18 : 6,
-              color: '#C8686E',
+              color: '#C96F78',
             }}
             aria-label={isCollapsed ? "Canlı Destek aç" : "Daralt"}
           >
@@ -492,7 +492,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               className="flex items-center gap-2 pl-1 pr-3.5 py-1.5 whitespace-nowrap"
             >
               <span className="relative">
-                <span className="block w-[40px] h-[40px] rounded-full overflow-hidden bg-white" style={{ boxShadow: '0 2px 8px rgba(200,104,110,0.18)' }}>
+                <span className="block w-[40px] h-[40px] rounded-full overflow-hidden bg-white" style={{ boxShadow: '0 2px 8px rgba(201,111,120,0.18)' }}>
                   <img src={agent.img} alt={agent.name} className="w-full h-full object-cover" />
                 </span>
                 <span className="absolute -top-0.5 -right-0.5 w-[10px] h-[10px] bg-green-500 rounded-full border-2 border-white" />
