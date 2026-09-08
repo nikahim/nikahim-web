@@ -571,8 +571,7 @@ export default function Home() {
               <div className="absolute top-0 w-[150px] h-[110px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="w-[80px] h-[80px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="h-[27px] w-auto object-contain -mt-1" />
+                <Image src="/logo-dikey.webp" alt="Nikahım" width={1383} height={672} className="h-[74px] w-auto object-contain" />
               </div>
               {/* Premium slogan — ince serif italic */}
               <p className="mt-1 text-center italic tracking-[0.3px]"
@@ -670,8 +669,7 @@ export default function Home() {
               <div className="absolute top-0 w-[180px] h-[140px] rounded-full pointer-events-none"
                    style={{ background: 'radial-gradient(ellipse at center, rgba(200,104,110,0.10) 0%, transparent 70%)', filter: 'blur(8px)' }} />
               <div className="relative flex flex-col items-center">
-                <Image src="/navbar-icon.png" alt="Nikahım" width={120} height={120} className="search-modal-logo w-[78px] h-[78px] lg:w-[104px] lg:h-[104px] object-contain" />
-                <Image src="/navbar-text.png" alt="Nikahım" width={500} height={140} className="search-modal-wordmark h-[26px] lg:h-[34px] w-auto object-contain -mt-1" />
+                <Image src="/logo-dikey.webp" alt="Nikahım" width={1383} height={672} className="search-modal-lockup h-[88px] lg:h-[104px] w-auto object-contain" />
               </div>
               <p className="search-modal-slogan mt-1 text-center italic tracking-[0.3px]"
                  style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontWeight: 400, fontSize: '14px', color: '#9F4F58' }}>

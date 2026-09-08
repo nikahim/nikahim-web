@@ -78,12 +78,8 @@ html {
     font-size: 0.95rem !important;
   }
   /* Search modal — logo/slogan biraz daha küçük */
-  .search-modal-logo {
-    width: 64px !important;
-    height: 64px !important;
-  }
-  .search-modal-wordmark {
-    height: 22px !important;
+  .search-modal-lockup {
+    height: 66px !important;
   }
   .search-modal-slogan {
     font-size: 12px !important;
