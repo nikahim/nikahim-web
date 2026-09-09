@@ -805,8 +805,8 @@ export default function Home() {
               <button onClick={() => setShowAppPopup(true)}
                       className="hidden lg:inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03] btn-press"
                       style={{
-                        background: 'linear-gradient(135deg, #D88488 0%, #C8686E 50%, #B85258 100%)',
-                        boxShadow: '0 4px 14px rgba(200,104,110,0.25), 0 1px 4px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.30)',
+                        background: 'linear-gradient(135deg, #D9949A 0%, #CB7E86 100%)',
+                        boxShadow: '0 3px 10px rgba(200,104,110,0.16), 0 1px 3px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.28)',
                       }}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                 Uygulamayı İndir
@@ -913,20 +913,16 @@ export default function Home() {
                   <source src="/welcome-video-2.mp4" type="video/mp4" />
                 </video>
               </div>
-              <div className="flex flex-row gap-3 lg:gap-4 mb-7 lg:mb-6 lg:mt-24">
-                {/* Ücretsiz Hesap Oluştur — masaüstünde Yayına Katıl ile aynı boy (tek satır + küçük italik) */}
-                <button onClick={() => setShowAppPopup(true)} className="flex-[1.3] basis-0 lg:basis-auto lg:flex-initial text-white px-4 py-3 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[14px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap leading-tight inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D17075, #C8686E, #BE6065)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
-                  {/* Mobilde 2 satır (italic Ücretsiz / Hesap Oluştur), masaüstünde tek satır */}
-                  <span className="lg:hidden flex flex-col leading-tight">
-                    <span className="italic font-light text-[12px] opacity-90">Ücretsiz</span>
-                    <span>Hesap Oluştur</span>
-                  </span>
-                  <span className="hidden lg:inline">
-                    <span className="italic font-light opacity-90 mr-1.5">Ücretsiz</span>
-                    Hesap Oluştur
-                  </span>
-                </button>
-                <button onClick={() => setShowSearchModal(true)} className="flex-[0.9] basis-0 lg:basis-auto lg:flex-initial px-4 py-4 lg:px-10 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border-2 whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.9)', borderColor: 'rgba(200,104,110,0.2)', color: '#C8686E', boxShadow: '0 6px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)' }}>Davetli Girişi</button>
+              <div className="mb-7 lg:mb-6 lg:mt-24">
+                <div className="flex flex-row gap-3 lg:gap-4">
+                  {/* Hemen Başla — sayfanın EN güçlü rose CTA'sı (primary) */}
+                  <button onClick={() => setShowAppPopup(true)} className="flex-[1.3] basis-0 lg:basis-auto lg:flex-initial lg:w-[300px] text-white px-4 py-3.5 lg:px-8 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D07680, #C96F78, #B85963)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+                    Hemen Başla
+                    <svg className="w-[17px] h-[17px] lg:w-[19px] lg:h-[19px]" fill="none" stroke="currentColor" strokeWidth={2.1} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M13 6l6 6-6 6" /></svg>
+                  </button>
+                  {/* Davetli Girişi — yardımcı (secondary): daha hafif, daha dar */}
+                  <button onClick={() => setShowSearchModal(true)} className="flex-[0.9] basis-0 lg:basis-auto lg:flex-initial lg:w-[210px] px-4 py-3.5 lg:px-8 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.92)', borderColor: 'rgba(200,104,110,0.16)', color: '#C8686E', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>Davetli Girişi</button>
+                </div>
               </div>
               {/* Canlı yayın demo kartı — tüm kart tıklanabilir; örnek yayına yönlendirir */}
               <button
