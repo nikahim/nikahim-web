@@ -11,9 +11,9 @@ interface ChatMessage {
 
 // 3 destek asistanı — kişiye rastgele biri atanır, localStorage'da sabit kalır
 const ASSISTANTS = [
-  { name: 'Elif', img: '/asistan-elif.png' },
-  { name: 'Tuğçe', img: '/asistan-tugce.png' },
-  { name: 'Yusuf', img: '/asistan-yusuf.png' },
+  { name: 'Elif', img: '/asistan-elif.webp' },
+  { name: 'Tuğçe', img: '/asistan-tugce.webp' },
+  { name: 'Yusuf', img: '/asistan-yusuf.webp' },
 ];
 function getAssignedAgent() {
   if (typeof window === 'undefined') return ASSISTANTS[0];

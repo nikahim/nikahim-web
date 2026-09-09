@@ -287,7 +287,7 @@ export default function Home() {
                   <div className="flex items-center gap-2">
                     <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
                     <span className="flex items-center">
-                      {['/asistan-elif.png', '/asistan-tugce.png', '/asistan-yusuf.png'].map((im, i) => (
+                      {['/asistan-elif.webp', '/asistan-tugce.webp', '/asistan-yusuf.webp'].map((im, i) => (
                         <span key={im} className="w-6 h-6 rounded-full overflow-hidden bg-white" style={{ border: '1.5px solid #fff', marginLeft: i === 0 ? 0 : -8, boxShadow: '0 1px 4px rgba(200,104,110,0.2)', zIndex: 3 - i }}>
                           <img src={im} alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                         </span>
@@ -805,8 +805,8 @@ export default function Home() {
               <button onClick={() => setShowAppPopup(true)}
                       className="hidden lg:inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03] btn-press"
                       style={{
-                        background: 'linear-gradient(135deg, #D9949A 0%, #CB7E86 100%)',
-                        boxShadow: '0 3px 10px rgba(200,104,110,0.16), 0 1px 3px rgba(160,80,90,0.10), inset 0 1px 0 rgba(255,255,255,0.28)',
+                        background: 'linear-gradient(135deg, #D88488 0%, #C8686E 50%, #B85258 100%)',
+                        boxShadow: '0 4px 14px rgba(200,104,110,0.25), 0 1px 4px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.30)',
                       }}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                 Uygulamayı İndir
@@ -914,14 +914,14 @@ export default function Home() {
                 </video>
               </div>
               <div className="mb-7 lg:mb-6 lg:mt-24">
-                <div className="flex flex-row gap-3 lg:gap-4">
+                <div className="flex flex-row gap-3 lg:gap-3.5 lg:max-w-[468px]">
                   {/* Hemen Başla — sayfanın EN güçlü rose CTA'sı (primary) */}
-                  <button onClick={() => setShowAppPopup(true)} className="flex-[1.3] basis-0 lg:basis-auto lg:flex-initial lg:w-[300px] text-white px-4 py-3.5 lg:px-8 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D07680, #C96F78, #B85963)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
+                  <button onClick={() => setShowAppPopup(true)} className="flex-[1.3] basis-0 text-white px-4 py-3.5 lg:px-5 lg:py-3 rounded-2xl font-semibold text-[15px] lg:text-[16px] transition-all hover:scale-[1.03] btn-press whitespace-nowrap inline-flex items-center justify-center gap-2" style={{ background: 'linear-gradient(135deg, #D07680, #C96F78, #B85963)', boxShadow: '0 8px 30px rgba(200,104,110,0.3), 0 4px 12px rgba(0,0,0,0.1)' }}>
                     Hemen Başla
-                    <svg className="w-[17px] h-[17px] lg:w-[19px] lg:h-[19px]" fill="none" stroke="currentColor" strokeWidth={2.1} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M13 6l6 6-6 6" /></svg>
+                    <svg className="w-[16px] h-[16px] lg:w-[18px] lg:h-[18px]" fill="none" stroke="currentColor" strokeWidth={2.1} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 12h13M13 6l6 6-6 6" /></svg>
                   </button>
                   {/* Davetli Girişi — yardımcı (secondary): daha hafif, daha dar */}
-                  <button onClick={() => setShowSearchModal(true)} className="flex-[0.9] basis-0 lg:basis-auto lg:flex-initial lg:w-[210px] px-4 py-3.5 lg:px-8 lg:py-4 rounded-2xl font-semibold text-[15px] lg:text-[17px] transition-all hover:scale-[1.03] btn-press border whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.92)', borderColor: 'rgba(200,104,110,0.16)', color: '#C8686E', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>Davetli Girişi</button>
+                  <button onClick={() => setShowSearchModal(true)} className="flex-[0.9] basis-0 px-4 py-3.5 lg:px-5 lg:py-3 rounded-2xl font-semibold text-[15px] lg:text-[16px] transition-all hover:scale-[1.03] btn-press border whitespace-nowrap" style={{ background: 'rgba(255,255,255,0.92)', borderColor: 'rgba(200,104,110,0.16)', color: '#C8686E', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>Davetli Girişi</button>
                 </div>
               </div>
               {/* Canlı yayın demo kartı — tüm kart tıklanabilir; örnek yayına yönlendirir */}

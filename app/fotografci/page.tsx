@@ -1455,7 +1455,7 @@ export default function FotografciPanel() {
                       <p className="font-semibold text-[14.5px]" style={{ color: '#1F1F1F' }}>Canlı Destek</p>
                       {/* 3 destek asistanı — başlığın sağında üst üste */}
                       <span className="flex items-center">
-                        {['/asistan-elif.png', '/asistan-tugce.png', '/asistan-yusuf.png'].map((im, i) => (
+                        {['/asistan-elif.webp', '/asistan-tugce.webp', '/asistan-yusuf.webp'].map((im, i) => (
                           <span key={im} className="w-6 h-6 rounded-full overflow-hidden bg-white" style={{ border: '1.5px solid #fff', marginLeft: i === 0 ? 0 : -8, boxShadow: '0 1px 4px rgba(200,104,110,0.2)', zIndex: 3 - i }}>
                             <img src={im} alt="" className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
                           </span>
