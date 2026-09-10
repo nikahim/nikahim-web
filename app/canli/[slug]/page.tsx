@@ -1865,6 +1865,9 @@ export default function WatchPage() {
         .eq('event_link', slug)
         .maybeSingle();
 
+      // Arşivlenmiş (60 gün dolmuş / silinmiş) etkinlik → yayın sayfası kaldırıldı, gösterme
+      if (data && data.status === 'archived') { setLoading(false); return; }
+
       if (data) {
         setEvent(data);
 
