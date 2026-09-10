@@ -27,7 +27,7 @@ function getAssignedAgent() {
 const WELCOME_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
-    "Merhaba! Ben Nikahım destek asistanınız Elif. Size nasıl yardımcı olabilirim?",
+    "Merhaba, ben Nikahım destek ekibinden Elif 😊 Nasıl yardımcı olabilirim?",
 };
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://haeifluvvazdealsofle.supabase.co";
@@ -71,7 +71,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       const arr = raw ? JSON.parse(raw) : null;
       if (Array.isArray(arr) && arr.length > 0) { setMessages(arr); return; }
     } catch {}
-    setMessages([{ role: 'assistant', content: `Merhaba! Ben Nikahım destek asistanınız ${a.name}. Size nasıl yardımcı olabilirim?` }]);
+    setMessages([{ role: 'assistant', content: `Merhaba, ben Nikahım destek ekibinden ${a.name} 😊 Nasıl yardımcı olabilirim?` }]);
   }, []);
 
   // Sohbeti kaşede sakla — kişi chati kapatıp açsa da konuşma kalır
@@ -212,10 +212,22 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         },
         body: JSON.stringify({
           messages: apiMessages,
-          userId: undefined, // Web ziyaretçi için yok, Elif escalate yaparsa ticket+mail
+          userId: undefined, // Web ziyaretçi için yok, escalate olursa ticket+mail
           userName: guestName,
           userEmail: guestEmail,
           source: "web",
+          assistant: agent.name,
+          context: (() => {
+            try {
+              const c: any = (navigator as any).connection;
+              return {
+                platform: "web",
+                tarayici: navigator.userAgent,
+                baglanti: c ? { tur: c.effectiveType, downlink_mbps: c.downlink } : undefined,
+                ozellikler: { davetli_takibi: "çok_yakında", masa_plani: "çok_yakında" },
+              };
+            } catch { return { platform: "web" }; }
+          })(),
         }),
       });
 
@@ -298,7 +310,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         )}
         <div className="flex-1 flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-green-500" />
-          <span className="font-semibold text-sm text-gray-900">Nikahım Destek Asistanı · Çevrimiçi</span>
+          <span className="font-semibold text-sm text-gray-900">Nikahım Destek · Çevrimiçi</span>
         </div>
         {!embedded && (
           <button onClick={() => setOpen(false)} className="w-9 h-9 rounded-full hover:bg-black/5 flex items-center justify-center" style={{ color: "#A98488" }}>
