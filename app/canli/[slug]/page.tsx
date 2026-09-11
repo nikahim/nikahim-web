@@ -1261,7 +1261,7 @@ export default function WatchPage() {
               <div className="p-6 pt-3 flex-1 overflow-y-auto sm:flex-none sm:max-h-[62vh]">
                 {photoTab === 'uploads' ? renderMyUploads() : (
                   <>
-                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (tek seferde en fazla 10 adet)</label>
+                    <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (tek seferde en fazla 25 adet)</label>
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
                         <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
@@ -1271,12 +1271,12 @@ export default function WatchPage() {
                           </button>
                         </div>
                       ))}
-                      {photoUploadFiles.length < 10 && (
+                      {photoUploadFiles.length < 25 && (
                         <label className="aspect-square rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer hover:border-[#C8686E] hover:bg-rose-50/30 transition-colors" style={{ borderColor: 'rgba(200,104,110,0.55)' }}>
                           <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
                           <span className="text-[10px] mt-1" style={{ color: '#C8686E' }}>Ekle</span>
                           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => {
-                            const files = Array.from(e.target.files || []).slice(0, 10 - photoUploadFiles.length);
+                            const files = Array.from(e.target.files || []).slice(0, 25 - photoUploadFiles.length);
                             setPhotoUploadFiles(prev => [...prev, ...files]);
                             files.forEach(file => { const reader = new FileReader(); reader.onload = (ev) => setPhotoUploadPreviews(prev => [...prev, ev.target?.result as string]); reader.readAsDataURL(file); });
                           }} />
@@ -1304,10 +1304,18 @@ export default function WatchPage() {
                         const urls: string[] = [];
                         for (let i = 0; i < photoUploadFiles.length; i++) {
                           const file = photoUploadFiles[i];
-                          const fileName = `pending/${event.id}/${Date.now()}_${i}_${Math.random().toString(36).slice(2, 8)}.jpg`;
                           const _blob = await compressImage(file);
-                          const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, _blob, { contentType: 'image/jpeg' });
-                          if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); }
+                          // Bağlantı koparsa / donsa dosya başına 3 deneme (artan bekleme).
+                          // Sıralı yüklendiği için tamamlanan fotoğraflar kaybolmaz; sadece kopan dosya tekrar denenir.
+                          let uploaded = false;
+                          for (let attempt = 0; attempt < 3 && !uploaded; attempt++) {
+                            if (attempt > 0) await new Promise(r => setTimeout(r, 1000 * attempt));
+                            const fileName = `pending/${event.id}/${Date.now()}_${i}_${attempt}_${Math.random().toString(36).slice(2, 8)}.jpg`;
+                            try {
+                              const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, _blob, { contentType: 'image/jpeg' });
+                              if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); uploaded = true; }
+                            } catch { /* ağ hatası — sonraki denemede tekrar */ }
+                          }
                           setGuestUploadProgress({ current: i + 1, total: photoUploadFiles.length });
                         }
                         if (urls.length > 0) {
