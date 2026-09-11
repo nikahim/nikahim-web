@@ -193,10 +193,13 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
     setSending(true);
 
     const startTime = Date.now();
-    // Okuma süresi — asistan kişinin mesajını "okuyor" (uzunluğa göre kısa). ~0.6–2.5 sn.
+    // Muhatap modu: canlı yayın sayfası → davetli; diğer web (ana sayfa/genel) → herkese açık SSS üslubu
+    const audience = (pathname?.startsWith('/canli/')) ? 'guest' : 'public';
+    // OKUMA/DÜŞÜNME süresi — kullanıcı mesajı gittikten sonra asistan "okuyor"; bu sürede HİÇBİR ŞEY görünmez.
+    // Gerçek insan gibi ~5-6 sn sonra "… yazıyor" belirsin (soru uzunsa biraz daha uzun).
     const userWords = text.split(/\s+/).filter(Boolean).length;
-    const readDelay = Math.min(2500, Math.max(600, userWords * 240));
-    // "… yazıyor" okuma süresinden sonra görünür (gerçek destek uzmanı gibi)
+    const readDelay = Math.min(6500, 4500 + userWords * 150);
+    // "… yazıyor" okuma süresinden SONRA görünür (gerçek destek uzmanı gibi)
     const typingShowTimer = setTimeout(() => setTyping(true), readDelay);
 
     try {
@@ -217,6 +220,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
           userEmail: guestEmail,
           source: "web",
           assistant: agent.name,
+          audience,
           context: (() => {
             try {
               const c: any = (navigator as any).connection;
@@ -250,14 +254,12 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
         ticketNumber: data.ticketNumber || undefined,
       };
 
-      // Gerçek insan yazma hızı — araştırma: ortalama ~40 WPM, profesyonel destek ~45 WPM.
-      // Yanıtın kelime sayısına göre "yazıyor" süresi. Kısa yanıt kısa, uzun yanıt uzun; makul sınırlar.
+      // YAZMA süresi = cevabın uzunluğuna göre, gerçek klavye hızı (~45 WPM). Kısa cevap kısa, uzun cevap uzun.
+      // Okuma/düşünme zaten readDelay'de geçtiği için burada ekstra büyük taban YOK; sadece yazma süresi.
       const words = botMsg.content.trim().split(/\s+/).filter(Boolean).length;
-      const WPM = 40;
+      const WPM = 45;
       const jitter = 150 + Math.random() * 500; // hafif insani değişkenlik
-      // Gerçek destek görevlisi gibi: taban ~4 sn "yazıyor", soru uzunsa daha uzun; yanıt uzunluğuna göre uzar.
-      const floor = 4000 + Math.min(2500, userWords * 180);
-      const typingDuration = Math.min(12000, Math.max(floor, Math.round((words / WPM) * 60000) + jitter));
+      const typingDuration = Math.min(11000, Math.max(2200, Math.round((words / WPM) * 60000) + jitter));
 
       // Toplam: okuma süresi + yazma süresi (API gecikmesi bunu yiyebilir)
       const elapsed = Date.now() - startTime;

@@ -154,6 +154,42 @@ function getDeviceId(): string {
   } catch { return ''; }
 }
 
+// ── Yarım kalan davetli foto yüklemesi için IndexedDB kuyruğu ──
+// Bağlantı koparsa / sekme kapanırsa seçilen fotoğraflar (blob olarak) burada durur;
+// davetli sayfaya dönünce "yarım kalanları" kaldığı yerden yükleyebilir.
+const IDB_NAME = 'nikahim-uploads';
+const IDB_STORE = 'pending';
+type PendingUpload = { guestName: string; items: File[]; ts: number };
+function idbOpen(): Promise<IDBDatabase | null> {
+  return new Promise((resolve) => {
+    try {
+      if (typeof indexedDB === 'undefined') return resolve(null);
+      const req = indexedDB.open(IDB_NAME, 1);
+      req.onupgradeneeded = () => { try { req.result.createObjectStore(IDB_STORE); } catch { /* zaten var */ } };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => resolve(null);
+    } catch { resolve(null); }
+  });
+}
+async function idbSetPending(key: string, val: PendingUpload): Promise<void> {
+  const db = await idbOpen(); if (!db) return;
+  try { await new Promise<void>((res) => { const tx = db.transaction(IDB_STORE, 'readwrite'); tx.objectStore(IDB_STORE).put(val, key); tx.oncomplete = () => res(); tx.onerror = () => res(); tx.onabort = () => res(); }); } catch { /* yoksay */ }
+  try { db.close(); } catch { /* yoksay */ }
+}
+async function idbGetPending(key: string): Promise<PendingUpload | null> {
+  const db = await idbOpen(); if (!db) return null;
+  try {
+    const v = await new Promise<PendingUpload | null>((res) => { const tx = db.transaction(IDB_STORE, 'readonly'); const r = tx.objectStore(IDB_STORE).get(key); r.onsuccess = () => res((r.result as PendingUpload) || null); r.onerror = () => res(null); });
+    try { db.close(); } catch { /* yoksay */ }
+    return v;
+  } catch { try { db.close(); } catch { /* yoksay */ } return null; }
+}
+async function idbDelPending(key: string): Promise<void> {
+  const db = await idbOpen(); if (!db) return;
+  try { await new Promise<void>((res) => { const tx = db.transaction(IDB_STORE, 'readwrite'); tx.objectStore(IDB_STORE).delete(key); tx.oncomplete = () => res(); tx.onerror = () => res(); tx.onabort = () => res(); }); } catch { /* yoksay */ }
+  try { db.close(); } catch { /* yoksay */ }
+}
+
 // Parmakla pinch-zoom + pan + çift-dokun büyüt + (zoom yokken) yatay kaydırarak geçiş
 function GuestZoomImage({ src, onSwipe }: { src: string; onSwipe: (d: number) => void }) {
   const [t, setT] = useState({ s: 1, x: 0, y: 0 });
@@ -334,6 +370,16 @@ export default function WatchPage() {
   const [uploadingGuestPhotos, setUploadingGuestPhotos] = useState(false);
   const [photoUploadSuccess, setPhotoUploadSuccess] = useState(false);
   const [guestUploadProgress, setGuestUploadProgress] = useState<{ current: number; total: number }>({ current: 0, total: 0 });
+  // Yarım kalan yükleme (IndexedDB) — bağlantı koptu / sekme kapandıysa kaldığı yerden devam
+  const [resumeInfo, setResumeInfo] = useState<PendingUpload | null>(null);
+  const [guestPhotoLimitMsg, setGuestPhotoLimitMsg] = useState<string | null>(null);
+  // Etkinlik yüklenince: bu cihazda yarım kalmış bir yükleme var mı? (devam ettirmek için)
+  useEffect(() => {
+    if (!event?.id) return;
+    let alive = true;
+    idbGetPending(event.id).then((p) => { if (alive && p && Array.isArray(p.items) && p.items.length > 0) setResumeInfo(p); }).catch(() => {});
+    return () => { alive = false; };
+  }, [event?.id]);
   // Misafir kendi yüklediği fotoğraflar + baskı (fotoğrafçı ekosistemi)
   const [guestOwnPhotos, setGuestOwnPhotos] = useState<{ id: string; photo_url: string; photo_no: number | null; status: string }[]>([]);
   const [loadingOwnPhotos, setLoadingOwnPhotos] = useState(false);
@@ -1262,6 +1308,38 @@ export default function WatchPage() {
                 {photoTab === 'uploads' ? renderMyUploads() : (
                   <>
                     <label className="block text-sm font-medium text-gray-600 mb-2">Fotoğraflar (tek seferde en fazla 25 adet)</label>
+                    {resumeInfo && photoUploadFiles.length === 0 && (
+                      <div className="mb-3 px-3.5 py-3 rounded-xl" style={{ backgroundColor: 'rgba(200,104,110,0.07)', border: '1px solid rgba(200,104,110,0.18)' }}>
+                        <div className="flex items-start gap-2 mb-2.5">
+                          <svg className="w-4 h-4 mt-0.5 flex-shrink-0" fill="none" stroke="#C8686E" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                          <span className="text-[12.5px] leading-snug" style={{ color: '#8A5A5E' }}>
+                            Önceki yüklemenden <b>{resumeInfo.items.length} fotoğraf</b> yarım kalmış. Kaldığın yerden devam edelim mi?
+                          </span>
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => {
+                              const items = resumeInfo.items.slice(0, 25);
+                              setPhotoUploadFiles(items);
+                              try { setPhotoUploadPreviews(items.map((f) => URL.createObjectURL(f))); } catch { setPhotoUploadPreviews([]); }
+                              setResumeInfo(null);
+                            }}
+                            className="flex-1 py-2 rounded-lg text-white text-[13px] font-semibold"
+                            style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)' }}
+                          >Devam Et</button>
+                          <button
+                            onClick={() => { if (event) idbDelPending(event.id); setResumeInfo(null); }}
+                            className="px-4 py-2 rounded-lg text-[13px] font-semibold"
+                            style={{ background: '#F3EEEE', color: '#8A7E7E' }}
+                          >Vazgeç</button>
+                        </div>
+                      </div>
+                    )}
+                    {guestPhotoLimitMsg && (
+                      <div className="mb-3 px-3.5 py-2.5 rounded-xl text-[12.5px] leading-snug" style={{ backgroundColor: 'rgba(200,104,110,0.09)', border: '1px solid rgba(200,104,110,0.2)', color: '#9F4F58' }}>
+                        {guestPhotoLimitMsg}
+                      </div>
+                    )}
                     <div className="grid grid-cols-3 gap-2 mb-4">
                       {photoUploadPreviews.map((prev, i) => (
                         <div key={i} className="relative aspect-square rounded-xl overflow-hidden">
@@ -1298,37 +1376,60 @@ export default function WatchPage() {
                     <button onClick={async () => {
                       // Demo etkinlikte de yükleme çalışsın (görülebilmesi için engel kaldırıldı)
                       if (!name.trim() || photoUploadFiles.length === 0 || !event) return;
+                      setGuestPhotoLimitMsg(null);
+                      const devId = getDeviceId();
+                      // Davetli başına toplam 100 fotoğraf sınırı — tek kişi çiftin albümünü doldurup patlatmasın.
+                      let already = 0;
+                      try {
+                        const { count } = await supabase.from('guest_photos').select('id', { count: 'exact', head: true }).eq('event_id', event.id).eq('device_id', devId);
+                        already = count || 0;
+                      } catch { /* sayım başarısızsa engelleme, devam et */ }
+                      const remaining = 100 - already;
+                      if (remaining <= 0) {
+                        setGuestPhotoLimitMsg('Bu cihazdan en fazla 100 fotoğraf paylaşabilirsin — sınıra ulaştın.');
+                        return;
+                      }
+                      const toUpload = photoUploadFiles.slice(0, remaining);
+                      const trimmed = photoUploadFiles.length - toUpload.length;
                       setUploadingGuestPhotos(true);
-                      setGuestUploadProgress({ current: 0, total: photoUploadFiles.length });
+                      setGuestUploadProgress({ current: 0, total: toUpload.length });
+                      // Yarım kalırsa (bağlantı/sekme) kaldığı yerden devam için kuyruğu IndexedDB'ye yaz
+                      try { await idbSetPending(event.id, { guestName: name.trim(), items: toUpload, ts: Date.now() }); } catch { /* yoksay */ }
                       try {
                         const urls: string[] = [];
-                        for (let i = 0; i < photoUploadFiles.length; i++) {
-                          const file = photoUploadFiles[i];
+                        for (let i = 0; i < toUpload.length; i++) {
+                          const file = toUpload[i];
                           const _blob = await compressImage(file);
                           // Bağlantı koparsa / donsa dosya başına 3 deneme (artan bekleme).
-                          // Sıralı yüklendiği için tamamlanan fotoğraflar kaybolmaz; sadece kopan dosya tekrar denenir.
                           let uploaded = false;
                           for (let attempt = 0; attempt < 3 && !uploaded; attempt++) {
                             if (attempt > 0) await new Promise(r => setTimeout(r, 1000 * attempt));
                             const fileName = `pending/${event.id}/${Date.now()}_${i}_${attempt}_${Math.random().toString(36).slice(2, 8)}.jpg`;
                             try {
                               const { error } = await supabase.storage.from('slideshow-photos').upload(fileName, _blob, { contentType: 'image/jpeg' });
-                              if (!error) { const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName); urls.push(urlData.publicUrl); uploaded = true; }
+                              if (!error) {
+                                const { data: urlData } = supabase.storage.from('slideshow-photos').getPublicUrl(fileName);
+                                urls.push(urlData.publicUrl);
+                                // guest_photos'a HEMEN yaz: yarıda kesilse bile yüklenenler kalıcı olur ve devam ederken tekrar yüklenmez
+                                let photoNo: number | null = null;
+                                try { const { data: no } = await supabase.rpc('next_photo_no', { p_event_id: event.id }); if (typeof no === 'number') photoNo = no; } catch {}
+                                try { await supabase.from('guest_photos').insert({ event_id: event.id, guest_name: name.trim(), photo_url: urlData.publicUrl, photo_no: photoNo, status: 'pending', device_id: devId }); } catch { /* yoksay */ }
+                                uploaded = true;
+                              }
                             } catch { /* ağ hatası — sonraki denemede tekrar */ }
                           }
-                          setGuestUploadProgress({ current: i + 1, total: photoUploadFiles.length });
+                          setGuestUploadProgress({ current: i + 1, total: toUpload.length });
+                          // Bu dosya bitti → kalan kuyruğu güncelle (şimdi sekme kapanırsa sadece kalanlar devam eder)
+                          try { const rest = toUpload.slice(i + 1); if (rest.length > 0) await idbSetPending(event.id, { guestName: name.trim(), items: rest, ts: Date.now() }); else await idbDelPending(event.id); } catch { /* yoksay */ }
                         }
                         if (urls.length > 0) {
-                          await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' });
-                          const devId = getDeviceId();
-                          for (const url of urls) {
-                            let photoNo: number | null = null;
-                            try { const { data: no } = await supabase.rpc('next_photo_no', { p_event_id: event.id }); if (typeof no === 'number') photoNo = no; } catch {}
-                            await supabase.from('guest_photos').insert({ event_id: event.id, guest_name: name.trim(), photo_url: url, photo_no: photoNo, status: 'pending', device_id: devId });
-                          }
+                          try { await supabase.from('photo_requests').insert({ event_id: event.id, sender_name: name, photo_urls: urls, status: 'pending' }); } catch { /* yoksay */ }
                         }
+                        try { await idbDelPending(event.id); } catch { /* yoksay */ }
+                        setResumeInfo(null);
                         setPhotoUploadFiles([]); setPhotoUploadPreviews([]);
                         setPhotoUploadSuccess(true);
+                        if (trimmed > 0) setGuestPhotoLimitMsg(`100 fotoğraf sınırına ulaştığın için son ${trimmed} fotoğraf yüklenmedi.`);
                       } catch (e) { console.error('Photo upload error:', e); }
                       setUploadingGuestPhotos(false);
                       setGuestUploadProgress({ current: 0, total: 0 });
