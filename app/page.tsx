@@ -1603,80 +1603,87 @@ export default function Home() {
           </div>
           <div className="space-y-3">
             {[
-              { q: "Nikahım platformu nasıl çalışır?", a: (
+              { q: "Nikahım nasıl çalışır?", a: (
                 <>
-                  <p>Nikahım platformunda çiftler, uygulamamızı App Store veya Google Play üzerinden indirerek kendilerine özel bir canlı yayın sayfası oluşturabilirler. Ardından düğün veya nikah törenlerini canlı yayınlayabilecekleri bu sayfayı, onlarca farklı tasarım seçeneği arasından hazırladıkları online davetiye ile aileleri, arkadaşları ve sevdikleriyle paylaşabilirler.</p>
-                  <p>Nikahım&apos;ın Canlı Yayın, Altın Takma ve Tebrik Mesajları özellikleri sayesinde davetliler, yayını izlerken aynı zamanda çifte altın takabilir, video, sesli veya yazılı tebrik mesajları gönderebilirler. Altın takma işlemlerinde ödemeler doğrudan çiftin kendi hesabına Havale/EFT veya kripto para yöntemleriyle gerçekleştirilir.</p>
+                  <p>Nikahım, düğün veya nikahınızı tek bir yerden yönetmenizi sağlar. Etkinliğinizi oluşturduktan sonra dijital davetiyenizi hazırlayabilir, katılım durumlarını takip edebilir, masa düzeninizi planlayabilir ve davetlilerinizle ortak bir fotoğraf albümü oluşturabilirsiniz.</p>
+                  <p>Gelemeyen davetlileriniz ise size özel Nikahım sayfasından canlı yayına katılabilir, tebrik mesajı bırakabilir ve Altın Tak özelliğini kullanabilir.</p>
                 </>
               ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>
               ) },
-              { q: "Online nikah sayfasında hangi özellikler bulunur?", a: (
+              { q: "Davetlilerimin uygulama indirmesi gerekiyor mu?", a: (
                 <>
-                  <p>Nikahım üzerinden oluşturulan kişiye özel canlı yayın sayfasında çiftler;</p>
-                  <ul className="list-disc pl-5 space-y-1.5">
-                    <li>Düğün veya nikah törenlerini canlı yayınlayabilir,</li>
-                    <li>Bu özel güne ait fotoğraflarını davetlileriyle paylaşabilir,</li>
-                    <li>Altın Takma özelliği ile davetlilerden ödeme kabul edebilir,</li>
-                    <li>Video, sesli veya yazılı tebrik mesajları alabilirler.</li>
-                  </ul>
-                  <p>Tüm bu özellikler tek bir sayfa üzerinden kolayca yönetilebilir.</p>
+                  <p>Hayır. Davetlilerinizin uygulama indirmesine gerek yoktur. Gönderdiğiniz Nikahım bağlantısını telefon, tablet veya bilgisayarlarından açarak canlı yayına katılabilir, fotoğraf yükleyebilir, tebrik mesajı bırakabilir ve davetlilere açık diğer özellikleri kullanabilirler.</p>
                 </>
               ), icon: (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
               ) },
-              { q: "Nikahım platformu güvenilir mi?", a: (
+              { q: "Canlı yayın için profesyonel ekipmana ihtiyacım var mı?", a: (
                 <>
-                  <p>Nikahım.com, kurulduğu günden bu yana çiftlerin mutluluğunu ve kullanıcı gizliliğini ön planda tutan bir aile girişimidir.</p>
-                  <p>Platform üzerinde paylaşılan video, fotoğraf, yazılı ve sesli içerikler yalnızca çift ve davetlileri arasında kalır. Nikahım, kullanıcı bilgilerini hiçbir şekilde üçüncü şahıslarla veya kuruluşlarla paylaşmaz.</p>
-                  <p>Davetliler tarafından yapılan tüm ödemeler doğrudan çiftin kendi banka hesabına veya kripto para cüzdanına gönderilir. Nikahım bu ödeme sürecinde aracılık yapmaz ve herhangi bir kullanıcı fonunu elinde tutmaz.</p>
-                </>
-              ), icon: (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" /></svg>
-              ) },
-              { q: "Altın takma sistemi nasıl çalışır?", a: (
-                <>
-                  <p>Nikahım, altın takma bölümünde güncel altın fiyatlarını düzenli olarak güncelleyerek canlı yayın sayfasında görüntüler.</p>
-                  <p>Çifte altın takmak isteyen davetli, takmak istediği altın türünü seçer ve buna karşılık gelen güncel TL tutarını görüntüler. Ödeme, davetlinin kendi bankacılık uygulaması veya kripto para cüzdanı üzerinden doğrudan çiftin hesabına gönderilir.</p>
-                  <p>Transfer işlemini tamamlayan davetli, canlı yayın sayfasına geri dönerek gönderimini onaylar. Onaylanan işlemler sistemde kayıt altına alınır ve çiftler uygulama üzerinden hangi davetlinin hangi tür altın taktığını görüntüleyebilirler.</p>
-                </>
-              ), icon: (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
-              ) },
-              { q: "Fotoğraf albümüne kimler ve nasıl fotoğraf yükleyebilir?", a: (
-                <>
-                  <p>Fotoğraf albümüne hem çiftler uygulama üzerinden hem de davetliler canlı yayın sayfası aracılığıyla fotoğraf yükleyebilirler.</p>
-                  <p>Tek seferde en fazla 20 fotoğraf yüklenebilir ve bir etkinlik için toplamda 500 fotoğrafa kadar yükleme yapılabilir.</p>
-                  <p>Yüklenen tüm fotoğraflar canlı yayın sayfasında otomatik olarak görüntülenir ve etkinlik tarihinden itibaren 30 gün boyunca erişilebilir. Çiftler bu süre içerisinde tüm fotoğrafları uygulama üzerinden kolayca indirebilirler.</p>
-                  <p>30 günlük sürenin sonunda fotoğraflar sistem tarafından otomatik olarak silinir.</p>
-                </>
-              ), icon: (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
-              ) },
-              { q: "Davetlilerimin gönderdiği tebrik mesajlarını kimler görebilir?", a: (
-                <>
-                  <p>Gönderilen video, sesli ve yazılı tebrik mesajları yalnızca çift tarafından görüntülenebilir. Mesajlar diğer davetlilerle paylaşılmaz.</p>
-                </>
-              ), icon: (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-              ) },
-              { q: "Canlı yayınlar kayıt altına alınıyor mu?", a: (
-                <>
-                  <p>Evet. Nikahım üzerinden gerçekleştirilen tüm canlı yayınlar otomatik olarak kayıt altına alınır.</p>
-                  <p>Canlı yayın sona erdikten birkaç dakika sonra yayın kaydı aynı sayfada video olarak izlenmeye devam edilebilir. Kayıtlar 30 gün boyunca erişilebilir durumda kalır ve çiftler bu süre içerisinde videolarını uygulama üzerinden indirebilirler.</p>
-                  <p>30 günlük sürenin sonunda tüm video kayıtları sistemden otomatik olarak silinir.</p>
+                  <p>Hayır. Profesyonel kamera veya yayın ekipmanına ihtiyacınız yok. Nikahım uygulamasının yüklü olduğu uygun bir telefonla canlı yayınınızı başlatabilirsiniz; temel yayın ayarlarını Nikahım sizin için otomatik olarak yönetir.</p>
+                  <p>İyi bir yayın deneyimi için stabil internet bağlantısı ve yeterli telefon şarjı önerilir.</p>
                 </>
               ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               ) },
               { q: "Canlı yayını aynı anda kaç kişi izleyebilir?", a: (
                 <>
-                  <p>Canlı yayını aynı anda izleyebilecek davetli sayısı, satın alınan pakete göre belirlenir.</p>
-                  <p>Nikahım&apos;ın en kapsamlı paketi olan Şölen Paket kapsamında, canlı yayın veya yayın kaydı toplam 300 davetliye kadar izletilebilir.</p>
-                  <p>Daha fazla katılımcı bekleyen çiftler, paket satın alma aşamasında ek davetli hakkı satın alarak izleyici kapasitelerini artırabilirler.</p>
+                  <p>İzleyici kapasiteniz seçtiğiniz pakete göre belirlenir:</p>
+                  <ul className="list-disc pl-5 space-y-1.5">
+                    <li><strong>Nikah:</strong> 100 kişi</li>
+                    <li><strong>Düğün:</strong> 200 kişi</li>
+                    <li><strong>Şölen:</strong> 300 kişi</li>
+                  </ul>
+                  <p>Canlı yayını kaçıran davetlileriniz daha sonra yayın kaydını izleyebilir. İzleyici hakkınız yayın kaydını izleyen kişileri de kapsar. Daha fazla davetli bekliyorsanız ek izleyici kapasitesi satın alabilirsiniz.</p>
                 </>
               ), icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 100-8 4 4 0 000 8zm6 0a3 3 0 100-6 3 3 0 000 6zm-12 0a3 3 0 100-6 3 3 0 000 6z" /></svg>
+              ) },
+              { q: "Canlı yayın kayıt altına alınıyor mu?", a: (
+                <>
+                  <p>Evet. Canlı yayınınız otomatik olarak kayıt altına alınır ve yayın sonrasında 60 gün boyunca Nikahım üzerinden izlenebilir. Bu süre içinde kaydınızı uygulama üzerinden indirebilirsiniz.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+              ) },
+              { q: "Altın Tak nasıl çalışır ve Nikahım komisyon alır mı?", a: (
+                <>
+                  <p>Altın Tak ile davetlileriniz güncel altın değerlerini görüntüleyerek Gram, Çeyrek, Yarım veya Tam Altın seçebilir; isterlerse kendi nakit tutarlarını da belirleyebilirler.</p>
+                  <p>Ödeme, davetlinin kendi bankacılık uygulamasından doğrudan sizin belirlediğiniz IBAN&apos;a havale/EFT ile yapılır. Nikahım paraya aracılık etmez ve transferden komisyon almaz.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>
+              ) },
+              { q: "Davetliler fotoğraf albümüne nasıl fotoğraf yükler?", a: (
+                <>
+                  <p>Davetlileriniz fotoğraf yüklemek için etkinliğinize ait QR kodu taratabilir veya kendileriyle paylaştığınız Nikahım bağlantısını kullanabilir. Böylece gün boyunca çektikleri fotoğrafları doğrudan ortak düğün albümünüze ekleyebilirler.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" /><circle cx="12" cy="13" r="3" strokeLinecap="round" strokeLinejoin="round" /></svg>
+              ) },
+              { q: "Fotoğraflar yayınlanmadan önce benim onayımdan geçiyor mu?", a: (
+                <>
+                  <p>Evet. Davetlilerinizin yüklediği fotoğraflar önce sizin onayınıza gelir. Onayladığınız kareler etkinlik sayfanızdaki albümde paylaşılır.</p>
+                  <p>Gizle seçeneğini kullandığınız fotoğraflar ise albümünüzde saklanmaya devam eder ancak yalnızca siz görebilirsiniz; diğer davetlilerle paylaşılmaz.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M12 2L4 5v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V5l-8-3z" /></svg>
+              ) },
+              { q: "Akıllı Masa Planlayıcısı davetlileri nasıl yerleştiriyor?", a: (
+                <>
+                  <p>Akıllı Masa Planlayıcısı, katılımını onaylayan davetlilerinizi otomatik olarak listenize ekler; dilerseniz davetlileri manuel olarak da ekleyebilirsiniz.</p>
+                  <p>Aile, arkadaşlar veya iş arkadaşları gibi grupları ve sizin belirlediğiniz özel istekleri dikkate alarak en uygun oturma planını oluşturur. Örneğin, &quot;Öğretmenlerim okul arkadaşlarıma yakın otursun&quot; veya &quot;Ahmet Dayı annemlerle aynı masada olmasın&quot; gibi özel kurallar tanımlayabilirsiniz.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 016.364 0L12 7.636l1.318-1.318a4.5 4.5 0 116.364 6.364L12 20.364l-7.682-7.682a4.5 4.5 0 010-6.364z" /></svg>
+              ) },
+              { q: "Düğün günü teknik bir sorun yaşarsam destek alabilir miyim?", a: (
+                <>
+                  <p>Evet. Nikahım, düğün öncesinde ve düğün günü tespit edebildiği önemli durumlar için sizi bilgilendirir ve gerekli kontrolleri hatırlatır.</p>
+                  <p>Beklenmeyen bir sorun yaşamanız durumunda ise Nikahım Destek üzerinden ekibimize ulaşabilir ve yardım alabilirsiniz.</p>
+                </>
+              ), icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093M12 17h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               ) },
             ].map((faq, index) => (
               <div key={index}
