@@ -1162,7 +1162,6 @@ export default function WatchPage() {
                   <div className="relative">
                     <img src={photos[0]} alt="" className="w-full block object-cover" style={{ height: desktop ? 166 : 185, border: '4px solid rgba(255,255,255,0.95)', borderRadius: 18, boxShadow: '0 12px 30px rgba(55,40,32,0.10)' }} />
                     <span className="absolute flex items-center" style={{ bottom: 6, left: 6, gap: 3, padding: '3px 7px', borderRadius: 999, background: 'rgba(46,40,38,0.5)' }}><svg viewBox="0 0 24 24" fill="#fff" className="w-[10px] h-[10px]"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg><span style={{ fontSize: 10, fontWeight: 600, color: '#fff', lineHeight: 1 }}>{photoLikes[photos[0]] || 0}</span></span>
-                    <span className="absolute flex items-center" style={{ top: 8, right: 8, gap: 4, padding: '4px 7px', borderRadius: 999, background: 'rgba(255,255,255,0.94)', boxShadow: '0 2px 6px rgba(55,40,32,0.14)' }}><svg viewBox="0 0 24 24" fill="none" stroke="#9F4F58" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-[11px] h-[11px]"><path d="M6 9V3h12v6M6 18H5a2 2 0 01-2-2v-3a2 2 0 012-2h14a2 2 0 012 2v3a2 2 0 01-2 2h-1M6 14h12v7H6z" /></svg><span style={{ fontSize: 9, fontWeight: 700, color: '#9F4F58', lineHeight: 1 }}>Baskıya Gönder</span></span>
                   </div>
                 </div>
               </div>
@@ -1888,7 +1887,9 @@ export default function WatchPage() {
             .filter((f: any) => !f.name.startsWith('.'))
             .map((f: any) => supabase.storage.from('slideshow-photos').getPublicUrl(`${data.id}/${f.name}`).data.publicUrl)
             .filter((u: string) => !privateSet.has(u));
-          setSlideshowPhotos(urls);
+          // Çiftin seçtiği kapak fotoğrafı en başta (albüm önizleme + slayt)
+          const cover = (data as any).cover_photo_url as string | null;
+          setSlideshowPhotos(cover && urls.includes(cover) ? [cover, ...urls.filter((u: string) => u !== cover)] : urls);
         }
 
         // Mevcut altın gönderimlerini çek (hide_gold_names aktifse listeyi gösterme)
