@@ -21,6 +21,8 @@ interface Package {
   has_music: boolean;
   has_gold_gift: boolean;
   has_chat: boolean;
+  has_seating_planner: boolean;
+  has_photographer_panel: boolean;
   is_recommended: boolean;
   is_active: boolean;
   display_order: number;
@@ -42,6 +44,8 @@ const EMPTY_PACKAGE: Partial<Package> = {
   has_music: false,
   has_gold_gift: false,
   has_chat: false,
+  has_seating_planner: false,
+  has_photographer_panel: false,
   is_recommended: false,
   is_active: true,
   display_order: 0,
@@ -84,6 +88,8 @@ export default function AdminPackagesPage() {
       has_music: editing.has_music,
       has_gold_gift: editing.has_gold_gift,
       has_chat: editing.has_chat,
+      has_seating_planner: editing.has_seating_planner,
+      has_photographer_panel: editing.has_photographer_panel,
       is_recommended: editing.is_recommended,
       is_active: editing.is_active,
       display_order: editing.display_order,
@@ -173,6 +179,8 @@ export default function AdminPackagesPage() {
                 {pkg.has_music && <span className="text-green-600">✓ Müzik</span>}
                 {pkg.has_gold_gift && <span className="text-green-600">✓ Altın Tak</span>}
                 {pkg.has_chat && <span className="text-green-600">✓ Sohbet</span>}
+                {pkg.has_seating_planner && <span className="text-green-600">✓ Masa Plan.</span>}
+                {pkg.has_photographer_panel && <span className="text-green-600">✓ Fotoğrafçı</span>}
               </div>
 
               <div className="flex gap-2 pt-4 border-t border-gray-100">
@@ -263,6 +271,8 @@ export default function AdminPackagesPage() {
                       { key: 'has_music', label: 'Müzik' },
                       { key: 'has_gold_gift', label: 'Altın Takma' },
                       { key: 'has_chat', label: 'Canlı Sohbet' },
+                      { key: 'has_seating_planner', label: 'Akıllı Masa Planlayıcı' },
+                      { key: 'has_photographer_panel', label: 'Fotoğrafçı Paneli' },
                     ].map(p => (
                       <label key={p.key} className="flex items-center gap-2 cursor-pointer">
                         <input
