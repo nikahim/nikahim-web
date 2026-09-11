@@ -255,7 +255,9 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       const words = botMsg.content.trim().split(/\s+/).filter(Boolean).length;
       const WPM = 40;
       const jitter = 150 + Math.random() * 500; // hafif insani değişkenlik
-      const typingDuration = Math.min(11000, Math.max(1400, Math.round((words / WPM) * 60000) + jitter));
+      // Gerçek destek görevlisi gibi: taban ~4 sn "yazıyor", soru uzunsa daha uzun; yanıt uzunluğuna göre uzar.
+      const floor = 4000 + Math.min(2500, userWords * 180);
+      const typingDuration = Math.min(12000, Math.max(floor, Math.round((words / WPM) * 60000) + jitter));
 
       // Toplam: okuma süresi + yazma süresi (API gecikmesi bunu yiyebilir)
       const elapsed = Date.now() - startTime;
