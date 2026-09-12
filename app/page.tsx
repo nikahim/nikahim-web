@@ -779,7 +779,7 @@ export default function Home() {
                    boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                    color: '#9F4F58',
                  }}>
-                <svg className="w-[17px] h-[17px]" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                <svg className="w-[17px] h-[17px]" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="8.5" cy="14.5" r="5.3" /><circle cx="15.5" cy="14.5" r="5.3" /><path d="M12 1.7l2.1 2.4L12 6.5 9.9 4.1z" fill="currentColor" stroke="none" /></svg>
                 Çift Girişi
               </a>
               {/* Concierge "?" trigger — minimal premium yardım tetikleyici (mobil + desktop) */}
@@ -841,7 +841,7 @@ export default function Home() {
                 <div className="flex gap-2.5 mt-3">
                   <button onClick={() => setShowAppPopup(true)} className="flex-1 text-white py-3 rounded-2xl font-semibold btn-press text-[13px]" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
                   <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold text-[13px]" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="8.5" cy="14.5" r="5.3" /><circle cx="15.5" cy="14.5" r="5.3" /><path d="M12 1.7l2.1 2.4L12 6.5 9.9 4.1z" fill="currentColor" stroke="none" /></svg>
                     Çift Girişi
                   </a>
                 </div>
