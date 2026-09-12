@@ -253,7 +253,7 @@ export default function Home() {
             </button>
 
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[30px] w-auto object-contain -ml-0.5 -mb-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[24px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] lg:text-[29px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>
                 Destek
               </h2>
@@ -779,7 +779,7 @@ export default function Home() {
                    boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                    color: '#9F4F58',
                  }}>
-                <svg className="w-[17px] h-[17px]" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="8.5" cy="14.5" r="5.3" /><circle cx="15.5" cy="14.5" r="5.3" /><path d="M12 1.7l2.1 2.4L12 6.5 9.9 4.1z" fill="currentColor" stroke="none" /></svg>
+                <Image src="/cift-icon.webp" alt="" width={48} height={40} className="h-[20px] w-auto object-contain" />
                 Çift Girişi
               </a>
               {/* Concierge "?" trigger — minimal premium yardım tetikleyici (mobil + desktop) */}
@@ -841,7 +841,7 @@ export default function Home() {
                 <div className="flex gap-2.5 mt-3">
                   <button onClick={() => setShowAppPopup(true)} className="flex-1 text-white py-3 rounded-2xl font-semibold btn-press text-[13px]" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
                   <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold text-[13px]" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><circle cx="8.5" cy="14.5" r="5.3" /><circle cx="15.5" cy="14.5" r="5.3" /><path d="M12 1.7l2.1 2.4L12 6.5 9.9 4.1z" fill="currentColor" stroke="none" /></svg>
+                    <Image src="/cift-icon.webp" alt="" width={48} height={40} className="h-[19px] w-auto object-contain" />
                     Çift Girişi
                   </a>
                 </div>
