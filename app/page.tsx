@@ -837,12 +837,14 @@ export default function Home() {
                     {item.label}
                   </button>
                 ))}
-                <button onClick={() => setShowAppPopup(true)} className="text-white py-3.5 rounded-2xl font-semibold mt-3 btn-press" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
-                {/* Çift Girişi — en altta sade metin-link (buton değil; menü ferah kalsın) */}
-                <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-1.5 py-2.5 mt-1.5 text-[14px] font-semibold transition-opacity active:opacity-60" style={{ color: '#9F4F58' }}>
-                  <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
-                  Çift Girişi
-                </a>
+                {/* Uygulamayı İndir + Çift Girişi — yan yana, yarım genişlik */}
+                <div className="flex gap-2.5 mt-3">
+                  <button onClick={() => setShowAppPopup(true)} className="flex-1 text-white py-3 rounded-2xl font-semibold btn-press text-[13px]" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
+                  <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold text-[13px]" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
+                    Çift Girişi
+                  </a>
+                </div>
               </div>
             </div>
           )}
@@ -1370,13 +1372,13 @@ export default function Home() {
                   onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 24px 60px rgba(200,104,110,0.20), 0 8px 24px rgba(0,0,0,0.08)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.28)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(60,40,40,0.10), 0 4px 14px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04)'; e.currentTarget.style.borderColor = 'rgba(200,104,110,0.10)'; }}
                 >
-                  <div className="flex items-center justify-between mb-5 md:mb-8">
+                  <div className="flex items-start justify-between mb-5 md:mb-8">
                     <div className="relative w-16 h-16 rounded-2xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.1), rgba(200,104,110,0.05))', color: '#C8686E' }}>
                       <div aria-hidden="true" className="absolute inset-0 rounded-2xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: 'radial-gradient(circle at 50% 30%, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
                       <div className="relative">{item.icon}</div>
                     </div>
                     <span
-                      className="text-7xl font-black select-none leading-[64px] tracking-tight flex items-center"
+                      className="text-7xl font-black select-none leading-[0.72] tracking-tight -mt-1"
                       style={{
                         background: 'linear-gradient(180deg, rgba(200,104,110,0.32) 0%, rgba(200,104,110,0.08) 100%)',
                         WebkitBackgroundClip: 'text',
