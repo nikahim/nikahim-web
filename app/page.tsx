@@ -767,6 +767,13 @@ export default function Home() {
 
             {/* SAĞ — Concierge "?" trigger + Desktop CTA + Mobile glass hamburger */}
             <div className="flex items-center gap-3">
+              {/* Çift Girişi — çerçeveli rose buton (ayrı giriş sayfası: QR/kullanıcı-şifre; albüm/yayın kaydı/davetli listesi/masa düzeni). "?" solunda durur. */}
+              <a href="/cift-giris"
+                 className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03]"
+                 style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.5)', boxShadow: '0 2px 10px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
+                Çift Girişi
+              </a>
               {/* Concierge "?" trigger — minimal premium yardım tetikleyici (mobil + desktop) */}
               <button onClick={() => setShowConciergeSheet(true)}
                       aria-label="Yardım"
@@ -781,25 +788,6 @@ export default function Home() {
                   <path d="M8.5 9c0-2 1.6-3.5 3.5-3.5s3.5 1.5 3.5 3.5c0 1.6-1.2 2.4-2.3 3-0.7 0.4-1.2 0.9-1.2 1.8v0.7" />
                   <circle cx="12" cy="18" r="1.1" fill="#9F4F58" stroke="none" />
                 </svg>
-              </button>
-
-              {/* Çift Girişi — sade metin-link (ayrı giriş sayfası: QR/kullanıcı-şifre; albüm/yayın kaydı/davetli listesi/masa düzeni) */}
-              <a href="/cift-giris"
-                 className="hidden lg:inline-flex items-center gap-1.5 font-semibold text-[13.5px] tracking-[0.2px] transition-colors hover:opacity-70"
-                 style={{ color: '#9F4F58' }}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
-                Çift Girişi
-              </a>
-
-              {/* Desktop CTA — premium glass solid rose */}
-              <button onClick={() => setShowAppPopup(true)}
-                      className="hidden lg:inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03] btn-press"
-                      style={{
-                        background: 'linear-gradient(135deg, #D88488 0%, #C8686E 50%, #B85258 100%)',
-                        boxShadow: '0 4px 14px rgba(200,104,110,0.25), 0 1px 4px rgba(160,80,90,0.15), inset 0 1px 0 rgba(255,255,255,0.30)',
-                      }}>
-                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                Uygulamayı İndir
               </button>
 
               {/* Mobile glass hamburger — encapsulated, soft shadow */}
@@ -842,9 +830,9 @@ export default function Home() {
                   </button>
                 ))}
                 <button onClick={() => setShowAppPopup(true)} className="text-white py-3.5 rounded-2xl font-semibold mt-3 btn-press" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
-                {/* Çift Girişi — hamburger'da en altta, indir'den farklı ikincil buton */}
-                <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold mt-2" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
+                {/* Çift Girişi — en altta sade metin-link (buton değil; menü ferah kalsın) */}
+                <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-1.5 py-2.5 mt-1.5 text-[14px] font-semibold transition-opacity active:opacity-60" style={{ color: '#9F4F58' }}>
+                  <svg className="w-[15px] h-[15px]" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
                   Çift Girişi
                 </a>
               </div>
@@ -1254,7 +1242,8 @@ export default function Home() {
           </div>
 
           {/* Fotoğraf Albümü — MASAÜSTÜ kart (fotolar SOL, içerik SAĞ — Altın Toplama hizası) */}
-          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1]" style={{ backgroundImage: 'url(/bg-album-masaustu.webp)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
+          {/* min-h: landscape telefon/dar ekranda (1024-1200px) kart aspect ile kısalınca sabit-px fotolar taşmasin */}
+          <div className="feature-card-hover hidden lg:block relative rounded-[28px] overflow-hidden mx-auto w-full lg:aspect-[3/1] lg:min-h-[420px]" style={{ backgroundImage: 'url(/bg-album-masaustu.webp)', backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: '0 18px 50px rgba(72,47,42,0.055), 0 2px 8px rgba(72,47,42,0.025)', border: '1px solid rgba(174,112,108,0.13)' }}>
             {/* Cream overlay — sol içerik tarafı krem, sağda foto tarafına fade (zigzag) */}
             <div className="absolute left-0 top-0 h-full w-[72%] pointer-events-none" style={{ background: 'linear-gradient(to right, rgba(255, 248, 240, 0.50) 0%, rgba(255, 248, 240, 0.50) 65%, rgba(255, 248, 240, 0) 100%)' }} />
 
