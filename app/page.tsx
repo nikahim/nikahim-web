@@ -770,7 +770,7 @@ export default function Home() {
               {/* Çift Girişi — "?" ile aynı cam/krem konsept; çift (2 kişi) ikonu. Ayrı giriş sayfası. */}
               <a href="/cift-giris"
                  aria-label="Çift Girişi"
-                 className="hidden lg:inline-flex items-center gap-2 px-4 h-9 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.04] active:scale-[0.97]"
+                 className="hidden lg:inline-flex items-center gap-2.5 px-4 h-9 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.04] active:scale-[0.97]"
                  style={{
                    background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
                    backdropFilter: 'blur(14px)',
