@@ -1179,11 +1179,6 @@ export default function WatchPage() {
               Ekle
             </button>
           </div>
-          {!desktop && (
-            <p style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.5px)', lineHeight: 1.4, marginTop: -4, marginBottom: 14 }}>
-              Davetlilerinizin çektiği tüm kareler, tek bir albümde buluşsun. Dileyenler, beğendiği kareler için fotoğrafçınıza baskı talebi göndersin.
-            </p>
-          )}
           {count > 0 ? (
             <>
               {/* Öne çıkan kolaj — tıklanınca albüm açılır */}

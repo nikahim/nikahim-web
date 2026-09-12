@@ -583,10 +583,10 @@ export default function Home() {
               {[
                 { title: 'Planla', img: '/ic-planla.webp' },
                 { title: 'Paylaş', img: '/ic-paylas.webp' },
-                { title: 'Hatırla', img: '/ic-hatirla.webp' },
+                { title: 'Biriktir', img: '/ic-hatirla.webp' },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
-                  <Image src={f.img} alt="" width={112} height={112} className="w-[56px] h-[56px] object-contain mb-2" />
+                  <Image src={f.img} alt="" width={100} height={100} className="w-[50px] h-[50px] object-contain mb-2" />
                   <h4 className="text-[12px] font-medium text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
@@ -1190,7 +1190,7 @@ export default function Home() {
               <h3 className="leading-[1.04]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(26px,7.4vw,40px)' }}>Her açıdan,</h3>
               <h3 className="leading-[1.1] mt-0.5" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px,5.4vw,30px)' }}>sizin hikâyeniz.</h3>
               <div className="mt-[clamp(8px,2.4vw,11px)]" style={{ width: 'clamp(44px,11vw,60px)', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.4vw,14px)', maxWidth: '94%' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde buluşsun. Dileyenler kendi fotoğraflarının baskısını alsın.</p>
+              <p className="mt-[clamp(8px,2.4vw,11px)] leading-relaxed" style={{ color: '#6E5A5A', fontSize: 'clamp(12px,3.4vw,14px)', maxWidth: '94%' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde buluşsun. Dileyenler, beğendiği kareler için fotoğrafçınıza baskı talebi göndersin.</p>
 
               {/* 3 statik foto — büyütülmüş, ortada; filmstrip yok */}
               <div className="relative flex-1 min-h-0 flex items-center justify-center">
@@ -1312,7 +1312,7 @@ export default function Home() {
                 <h3 className="leading-[1.06]" style={{ fontFamily: 'var(--font-playfair)', color: '#C8686E', fontWeight: 600, fontSize: 'clamp(24px, 2.4vw, 36px)' }}>Her açıdan,</h3>
                 <h3 className="leading-[1.1] mt-1" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F', fontWeight: 600, fontSize: 'clamp(19px, 1.8vw, 28px)' }}>sizin hikâyeniz.</h3>
                 <div className="mt-3 mb-3" style={{ width: '60px', height: '2px', background: '#C8686E', borderRadius: '2px' }} />
-                <p className="leading-snug text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde buluşsun. Dileyenler kendi fotoğraflarının baskısını alsın.</p>
+                <p className="leading-snug text-[13px] lg:text-[14px] max-w-[380px]" style={{ color: '#6E5A5A' }}>Davetlilerinizin çektiği tüm kareler, tek bir albümde buluşsun. Dileyenler, beğendiği kareler için fotoğrafçınıza baskı talebi göndersin.</p>
               </div>
               <div className="flex flex-row gap-5 items-center flex-wrap">
                 {[
@@ -1366,7 +1366,7 @@ export default function Home() {
                       <div className="relative">{item.icon}</div>
                     </div>
                     <span
-                      className="text-7xl font-black select-none leading-none tracking-tight"
+                      className="text-7xl font-black select-none leading-[64px] tracking-tight flex items-center"
                       style={{
                         background: 'linear-gradient(180deg, rgba(200,104,110,0.32) 0%, rgba(200,104,110,0.08) 100%)',
                         WebkitBackgroundClip: 'text',
