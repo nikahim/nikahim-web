@@ -779,7 +779,7 @@ export default function Home() {
                    boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
                    color: '#9F4F58',
                  }}>
-                <span aria-hidden="true" className="inline-block flex-shrink-0" style={{ width: '19px', height: '17px', backgroundColor: 'currentColor', WebkitMaskImage: 'url(/cift-icon.webp)', maskImage: 'url(/cift-icon.webp)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: 'contain', maskSize: 'contain' }} />
+                <span aria-hidden="true" className="inline-block flex-shrink-0" style={{ width: '22px', height: '20px', backgroundColor: 'currentColor', WebkitMaskImage: 'url(/cift-icon.webp)', maskImage: 'url(/cift-icon.webp)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: 'contain', maskSize: 'contain' }} />
                 Çift Girişi
               </a>
               {/* Concierge "?" trigger — minimal premium yardım tetikleyici (mobil + desktop) */}
@@ -840,8 +840,8 @@ export default function Home() {
                 {/* Uygulamayı İndir + Çift Girişi — yan yana, yarım genişlik */}
                 <div className="flex gap-2.5 mt-3">
                   <button onClick={() => setShowAppPopup(true)} className="flex-1 text-white py-3 rounded-2xl font-semibold btn-press text-[13px]" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
-                  <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex-1 flex items-center justify-center gap-1.5 py-3 rounded-2xl font-semibold text-[13px]" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
-                    <span aria-hidden="true" className="inline-block flex-shrink-0" style={{ width: '19px', height: '17px', backgroundColor: 'currentColor', WebkitMaskImage: 'url(/cift-icon.webp)', maskImage: 'url(/cift-icon.webp)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: 'contain', maskSize: 'contain' }} />
+                  <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex-1 flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold text-[13px]" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
+                    <span aria-hidden="true" className="inline-block flex-shrink-0" style={{ width: '22px', height: '20px', backgroundColor: 'currentColor', WebkitMaskImage: 'url(/cift-icon.webp)', maskImage: 'url(/cift-icon.webp)', WebkitMaskRepeat: 'no-repeat', maskRepeat: 'no-repeat', WebkitMaskPosition: 'center', maskPosition: 'center', WebkitMaskSize: 'contain', maskSize: 'contain' }} />
                     Çift Girişi
                   </a>
                 </div>
