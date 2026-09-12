@@ -1438,7 +1438,7 @@ export default function FotografciPanel() {
               <button onClick={() => setShowSupport(false)} className="absolute top-5 right-5 w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#fff', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
                 <svg className="w-3.5 h-3.5" fill="none" stroke="#9F4F58" strokeWidth="2.2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[38px] w-auto object-contain -ml-0.5 -mb-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[28px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>Destek</h2>
               <p className="mt-2 text-[13px]" style={{ color: '#6B5A5A' }}>Aklınızdaki tüm sorular için buradayız</p>
             </div>

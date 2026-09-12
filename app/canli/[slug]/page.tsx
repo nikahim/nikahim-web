@@ -963,9 +963,9 @@ export default function WatchPage() {
     const icAltin = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><circle cx="12" cy="12" r="8.4" /><text x="12" y="12.4" textAnchor="middle" dominantBaseline="central" fontSize="11" fontWeight="600" fill="currentColor" stroke="none">₺</text></svg>;
     const icAlbum = <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full"><path d="M8 5h9.6a1.4 1.4 0 011.4 1.4V16" /><rect x="3.5" y="7.6" width="12.8" height="10.9" rx="2" /><circle cx="7" cy="11" r="1.05" /><path d="M4 17.2l3.1-2.7 2.1 1.7 3-2.4 3.6 3" /><path d="M18.4 17.6c-.82-.64-1.64-1.14-1.64-1.9 0-.45.36-.78.8-.78.32 0 .6.18.84.5.24-.32.52-.5.84-.5.44 0 .8.33.8.78 0 .76-.82 1.26-1.64 1.9z" fill="currentColor" stroke="none" /></svg>;
     const items = [
-      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, img: '/ic-tebrik.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
-      { title: 'Altın Tak', desc: 'Çifte takmak istediğiniz altın karşılığı TL gönderin.', icon: icAltin, img: '/ic-altin.webp', accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
-      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, img: '/ic-album2.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
+      { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, img: '/card-tebrik.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
+      { title: 'Altın Tak', desc: 'Çifte takmak istediğiniz altın karşılığı TL gönderin.', icon: icAltin, img: '/card-altin.webp', accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
+      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, img: '/card-album.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
     ];
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1 pb-10">
@@ -3651,7 +3651,7 @@ export default function WatchPage() {
 
             {/* Mini header — wordmark logo + Destek (ana sayfa ile birebir) */}
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[32px] w-auto object-contain -ml-0.5 -mb-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[24px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>

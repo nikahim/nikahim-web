@@ -253,7 +253,7 @@ export default function Home() {
             </button>
 
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
-              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[40px] w-auto object-contain -ml-0.5 -mb-1" />
+              <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[30px] w-auto object-contain -ml-0.5 -mb-1" />
               <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>
                 Destek
               </h2>
@@ -583,7 +583,7 @@ export default function Home() {
               {[
                 { title: 'Planla', img: '/ic-planla.webp' },
                 { title: 'Paylaş', img: '/ic-paylas.webp' },
-                { title: 'Biriktir', img: '/ic-hatirla.webp' },
+                { title: 'Kutla', img: '/ic-kutla.webp' },
               ].map((f, i) => (
                 <div key={i} className="flex flex-col items-center text-center">
                   <Image src={f.img} alt="" width={100} height={100} className="w-[50px] h-[50px] object-contain mb-2" />
@@ -594,9 +594,9 @@ export default function Home() {
 
             {/* Ücretsiz İndirin, Hemen Başlayın! */}
             <div className="text-center mb-4">
-              <p className="text-[13px] tracking-[0.2px]">
+              <p className="text-[14px] tracking-[0.2px]">
                 <span style={{ color: '#9F4F58', fontWeight: 600 }}>Ücretsiz İndirin,</span>
-                <span style={{ color: '#6E5A5A' }}> Hemen Başlayın!</span>
+                <span style={{ color: '#6E5A5A' }}> Hemen Başlayın</span>
               </p>
             </div>
 
@@ -783,6 +783,14 @@ export default function Home() {
                 </svg>
               </button>
 
+              {/* Çift Girişi — sade metin-link (ayrı giriş sayfası: QR/kullanıcı-şifre; albüm/yayın kaydı/davetli listesi/masa düzeni) */}
+              <a href="/cift-giris"
+                 className="hidden lg:inline-flex items-center gap-1.5 font-semibold text-[13.5px] tracking-[0.2px] transition-colors hover:opacity-70"
+                 style={{ color: '#9F4F58' }}>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
+                Çift Girişi
+              </a>
+
               {/* Desktop CTA — premium glass solid rose */}
               <button onClick={() => setShowAppPopup(true)}
                       className="hidden lg:inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03] btn-press"
@@ -834,6 +842,11 @@ export default function Home() {
                   </button>
                 ))}
                 <button onClick={() => setShowAppPopup(true)} className="text-white py-3.5 rounded-2xl font-semibold mt-3 btn-press" style={{ background: 'linear-gradient(135deg, #D88488, #C8686E, #B85258)', boxShadow: '0 4px 14px rgba(200,104,110,0.22)' }}>Uygulamayı İndir</button>
+                {/* Çift Girişi — hamburger'da en altta, indir'den farklı ikincil buton */}
+                <a href="/cift-giris" onClick={() => setMobileMenuOpen(false)} className="flex items-center justify-center gap-2 py-3 rounded-2xl font-semibold mt-2" style={{ background: '#FFFFFF', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.40)' }}>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
+                  Çift Girişi
+                </a>
               </div>
             </div>
           )}
