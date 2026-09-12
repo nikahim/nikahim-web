@@ -540,18 +540,10 @@ export default function Home() {
           <div className="relative rounded-[28px] px-8 lg:px-10 pt-7 pb-8 lg:pt-8 lg:pb-9 max-w-md w-full animate-scale-in overflow-hidden"
                onClick={(e) => e.stopPropagation()}
                style={{
-                 background: 'linear-gradient(165deg, #FFFCF9 0%, #FDF5F0 45%, #FFF7F1 100%)',
-                 boxShadow: '0 40px 100px rgba(60,40,40,0.22), 0 16px 40px rgba(200,104,110,0.16), 0 4px 14px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
-                 border: '1px solid rgba(232,180,170,0.30)',
+                 background: '#FFFCF9',
+                 boxShadow: '0 40px 100px rgba(60,40,40,0.20), 0 16px 40px rgba(120,90,90,0.10), 0 4px 14px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                 border: '1px solid rgba(210,190,185,0.30)',
                }}>
-            {/* Köşe soft rose glow'ları — Apple onboarding hissi */}
-            <div className="absolute top-[-80px] right-[-60px] w-[260px] h-[260px] rounded-full pointer-events-none"
-                 style={{ background: 'radial-gradient(circle, rgba(200,104,110,0.18) 0%, transparent 70%)' }} />
-            <div className="absolute bottom-[-100px] left-[-80px] w-[300px] h-[300px] rounded-full pointer-events-none"
-                 style={{ background: 'radial-gradient(circle, rgba(253,232,224,0.55) 0%, transparent 70%)' }} />
-            <div className="absolute top-[40%] left-[-50px] w-[180px] h-[180px] rounded-full pointer-events-none"
-                 style={{ background: 'radial-gradient(circle, rgba(212,168,82,0.08) 0%, transparent 70%)' }} />
-
             {/* Minimal X — sağ üst */}
             <button onClick={() => setShowAppPopup(false)}
                     aria-label="Kapat"
@@ -586,26 +578,16 @@ export default function Home() {
               </h3>
             </div>
 
-            {/* 3 feature — kompakt */}
+            {/* 3 feature — kompakt (Planla · Paylaş · Hatırla) */}
             <div className="grid grid-cols-3 gap-3 mb-8">
               {[
-                { title: 'Davetiyeni Oluştur', icon: (
-                  <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                    <rect x="3.5" y="4.5" width="17" height="15" rx="2" />
-                    <path d="M3.5 8L12 13l8.5-5" />
-                    <path d="M12 13.5v3" />
-                    <path d="M10.5 16.5c0 .8.7 1.5 1.5 1.5s1.5-.7 1.5-1.5c0-1-1.5-2-1.5-2s-1.5 1-1.5 2z" fill="currentColor" stroke="none" opacity="0.65" />
-                  </svg>
-                ) },
-                { title: 'Sevdiklerinle Paylaş', icon: <svg className="w-6 h-6" style={{ color: '#C8686E' }} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg> },
-                { title: 'Canlı Yayınla', icon: <svg className="w-[30px] h-[30px]" style={{ color: '#C8686E' }} fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M10 8.5v7l6-3.5z" fill="#fff" /></svg> },
+                { title: 'Planla', img: '/ic-planla.webp' },
+                { title: 'Paylaş', img: '/ic-paylas.webp' },
+                { title: 'Hatırla', img: '/ic-hatirla.webp' },
               ].map((f, i) => (
-                <div key={i} className="relative flex flex-col items-center text-center">
-                  {i > 0 && <span aria-hidden="true" className="absolute left-0 top-[22px] -translate-y-1/2 h-11 w-px" style={{ background: 'linear-gradient(180deg, transparent, rgba(200,104,110,0.18), transparent)' }} />}
-                  <div className="w-12 h-12 rounded-full flex items-center justify-center mb-2" style={{ background: 'linear-gradient(135deg, rgba(200,104,110,0.10), rgba(200,104,110,0.04))', border: '1px solid rgba(200,104,110,0.10)' }}>
-                    {f.icon}
-                  </div>
-                  <h4 className="text-[11px] font-normal text-gray-900 leading-tight">{f.title}</h4>
+                <div key={i} className="flex flex-col items-center text-center">
+                  <Image src={f.img} alt="" width={112} height={112} className="w-[56px] h-[56px] object-contain mb-2" />
+                  <h4 className="text-[12px] font-medium text-gray-900 leading-tight">{f.title}</h4>
                 </div>
               ))}
             </div>
@@ -1365,9 +1347,9 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-3 gap-10 mb-20">
             {[
-              { step: '01', title: 'Uygulamayı İndirin', desc: 'Büyük gününüzü dilediğiniz yerden yönetin.', cta: 'Uygulamayı İndir', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
-              { step: '02', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi ekleyin, davetiyenizi hazırlayın ve tercihlerinizi belirleyin.', cta: 'Etkinliğinizi Oluşturun', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
-              { step: '03', title: 'Büyük Gününüz Hazır', desc: 'Canlı Yayından albüme, tüm özellikleri tek uygulamadan yönetin.', cta: 'Özellikleri Keşfedin', action: () => scrollToSection('neden-nikahim'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
+              { step: '1', title: 'Uygulamayı İndirin', desc: 'Büyük gününüzü dilediğiniz yerden yönetin.', cta: 'Uygulamayı İndir', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg> },
+              { step: '2', title: 'Düğününüzü veya Nikahınızı Oluşturun', desc: 'Bilgilerinizi ekleyin, davetiyenizi hazırlayın ve tercihlerinizi belirleyin.', cta: 'Etkinliğinizi Oluşturun', action: () => setShowAppPopup(true), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg> },
+              { step: '3', title: 'Büyük Gününüz Hazır', desc: 'Canlı Yayından albüme, tüm özellikleri tek uygulamadan yönetin.', cta: 'Özellikleri Keşfedin', action: () => scrollToSection('neden-nikahim'), icon: <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.6} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg> },
             ].map((item) => {
               return (
                 <div

@@ -965,7 +965,7 @@ export default function WatchPage() {
     const items = [
       { title: 'Tebrik Et', desc: 'Video, sesli veya yazılı mesaj bırakın.', icon: icTebrik, img: '/ic-tebrik.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'tebrik' as const },
       { title: 'Altın Tak', desc: 'Çifte takmak istediğiniz altın karşılığı TL gönderin.', icon: icAltin, img: '/ic-altin.webp', accent: gold, tint: '#FAF5E8', tab: 'altin' as const },
-      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, img: '/ic-album.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
+      { title: 'Albümü Keşfet', desc: 'Fotoğrafları görün ve kendi karelerinizi paylaşın.', icon: icAlbum, img: '/ic-album2.webp', accent: rose, tint: 'rgba(201,111,120,0.10)', tab: 'album' as const },
     ];
     return (
       <section className="lg:hidden mx-auto w-full max-w-[640px] px-[14px] pt-1 pb-10">
@@ -1179,6 +1179,11 @@ export default function WatchPage() {
               Ekle
             </button>
           </div>
+          {!desktop && (
+            <p style={{ color: '#77706D', fontSize: 'clamp(12.5px,3.5vw,13.5px)', lineHeight: 1.4, marginTop: -4, marginBottom: 14 }}>
+              Davetlilerinizin çektiği tüm kareler, tek bir albümde buluşsun. Dileyenler, beğendiği kareler için fotoğrafçınıza baskı talebi göndersin.
+            </p>
+          )}
           {count > 0 ? (
             <>
               {/* Öne çıkan kolaj — tıklanınca albüm açılır */}
