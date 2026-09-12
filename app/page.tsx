@@ -579,7 +579,7 @@ export default function Home() {
             </div>
 
             {/* 3 feature — kompakt (Planla · Paylaş · Hatırla) */}
-            <div className="grid grid-cols-3 gap-3 mb-8">
+            <div className="grid grid-cols-3 gap-2 mb-8 max-w-[236px] mx-auto">
               {[
                 { title: 'Planla', img: '/ic-planla.webp' },
                 { title: 'Paylaş', img: '/ic-paylas.webp' },
