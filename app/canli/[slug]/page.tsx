@@ -915,17 +915,17 @@ export default function WatchPage() {
     const mkCard = (pill: string, title: string, big: React.ReactNode, feats: { icon: React.ReactNode; label: string }[], onClick: () => void) => (
       <button
         onClick={() => { if (!ready) { setShowNameNudge(true); return; } onClick(); }}
-        className="wchoice group relative rounded-[20px] px-3 pt-3.5 pb-3.5 text-center active:scale-[0.98] flex flex-col items-center h-full"
-        style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.20)', boxShadow: 'none' }}
+        className="wchoice group relative rounded-[22px] px-3 pt-4 pb-[18px] text-center active:scale-[0.98] flex flex-col items-center h-full"
+        style={{ opacity: ready ? 1 : 0.5, filter: ready ? 'none' : 'grayscale(0.45)', background: '#FFFFFF', border: '1px solid rgba(201,111,120,0.09)', boxShadow: '0 8px 24px rgba(40,30,25,0.05)' }}
       >
         <span className="inline-flex items-center px-3 py-1 rounded-full text-[10.5px] font-semibold tracking-[0.4px]" style={{ background: 'rgba(201,111,120,0.10)', color: '#C96F78' }}>{pill}</span>
-        <span className="mt-2.5 flex items-center justify-center h-[clamp(58px,16vw,74px)]">{big}</span>
-        <span className="block mt-2.5 leading-tight" style={{ color: '#B85963', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
-        <span className="flex items-stretch justify-center gap-x-2.5 mt-3">
+        <span className="mt-6 flex items-center justify-center h-[clamp(58px,16vw,74px)]">{big}</span>
+        <span className="block mt-[18px] leading-tight" style={{ color: '#B85963', fontWeight: 600, fontSize: 'clamp(16.5px,4.6vw,19.5px)', letterSpacing: '-0.2px' }}>{title}</span>
+        <span className="flex items-stretch justify-center gap-x-2.5 mt-[22px]">
           {feats.map((f, i) => (
-            <span key={i} className="inline-flex items-center gap-1" style={i > 0 ? { borderLeft: '1px solid rgba(201,111,120,0.32)', paddingLeft: 10 } : undefined}>
+            <span key={i} className="inline-flex items-center gap-1" style={i > 0 ? { borderLeft: '1px solid rgba(201,111,120,0.28)', paddingLeft: 10 } : undefined}>
               <span style={{ color: rose }}>{f.icon}</span>
-              <span className="text-[13px] font-medium whitespace-nowrap" style={{ color: '#8A817E' }}>{f.label}</span>
+              <span className="text-[12px] font-medium whitespace-nowrap" style={{ color: '#8A817E' }}>{f.label}</span>
             </span>
           ))}
         </span>
@@ -934,10 +934,10 @@ export default function WatchPage() {
 
     return (
       <>
-        <style>{`.wchoice{transition:transform .18s ease, box-shadow .22s ease, border-color .2s ease;} @media (hover:hover){.wchoice:hover{transform:translateY(-2px); border-color:rgba(201,111,120,0.5)!important; box-shadow:0 14px 36px rgba(40,30,25,0.09)!important;}}`}</style>
-        <div className="grid grid-cols-2 gap-3 items-stretch">
+        <style>{`.wchoice{transition:transform .18s ease, box-shadow .22s ease, border-color .2s ease;} @media (hover:hover){.wchoice:hover{transform:translateY(-2px); border-color:rgba(201,111,120,0.28)!important; box-shadow:0 16px 38px rgba(40,30,25,0.08)!important;}}`}</style>
+        <div className="grid grid-cols-2 gap-3.5 items-stretch">
           {mkCard('UZAKTAYSAN', 'Yayına Katıl', bigVideo, [{ icon: icBroadcast, label: 'Canlı' }, { icon: icLetter, label: 'Tebrik' }], onJoin)}
-          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Ekle', bigImage, [{ icon: icPhoto, label: 'Paylaş' }, { icon: icPrinter, label: 'Baskı' }], onPhoto)}
+          {mkCard(isDugun ? 'DÜĞÜNDEYSEN' : 'NİKAHTAYSAN', 'Fotoğraf Ekle', bigImage, [{ icon: icPhoto, label: 'Albüm' }, { icon: icPrinter, label: 'Baskı' }], onPhoto)}
         </div>
         {showNameNudge && (
           <div className="fixed inset-0 z-[95] flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)' }} onClick={() => setShowNameNudge(false)}>
