@@ -254,7 +254,7 @@ export default function Home() {
 
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
               <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[30px] w-auto object-contain -ml-0.5 -mb-1" />
-              <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>
+              <h2 className="font-bold text-[24px] lg:text-[29px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair)', color: '#1F1F1F' }}>
                 Destek
               </h2>
               <p className="mt-2 text-[13px]" style={{ color: '#6B5A5A' }}>
@@ -767,11 +767,19 @@ export default function Home() {
 
             {/* SAĞ — Concierge "?" trigger + Desktop CTA + Mobile glass hamburger */}
             <div className="flex items-center gap-3">
-              {/* Çift Girişi — çerçeveli rose buton (ayrı giriş sayfası: QR/kullanıcı-şifre; albüm/yayın kaydı/davetli listesi/masa düzeni). "?" solunda durur. */}
+              {/* Çift Girişi — "?" ile aynı cam/krem konsept; çift (2 kişi) ikonu. Ayrı giriş sayfası. */}
               <a href="/cift-giris"
-                 className="hidden lg:inline-flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.03]"
-                 style={{ background: 'rgba(255,255,255,0.72)', backdropFilter: 'blur(14px)', WebkitBackdropFilter: 'blur(14px)', color: '#B85258', border: '1.5px solid rgba(200,104,110,0.5)', boxShadow: '0 2px 10px rgba(200,104,110,0.10), inset 0 1px 0 rgba(255,255,255,0.9)' }}>
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.9" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 20.25a7.5 7.5 0 0115 0" /></svg>
+                 aria-label="Çift Girişi"
+                 className="hidden lg:inline-flex items-center gap-2 px-4 h-9 rounded-full font-semibold text-[13.5px] tracking-[0.2px] transition-all hover:scale-[1.04] active:scale-[0.97]"
+                 style={{
+                   background: 'linear-gradient(180deg, rgba(255,255,255,0.92) 0%, rgba(253,247,243,0.88) 100%)',
+                   backdropFilter: 'blur(14px)',
+                   WebkitBackdropFilter: 'blur(14px)',
+                   border: '1px solid rgba(200,104,110,0.18)',
+                   boxShadow: '0 3px 12px rgba(200,104,110,0.10), 0 1px 3px rgba(160,80,90,0.05), inset 0 1px 0 rgba(255,255,255,0.95)',
+                   color: '#9F4F58',
+                 }}>
+                <svg className="w-[17px] h-[17px]" fill="none" stroke="#9F4F58" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" /></svg>
                 Çift Girişi
               </a>
               {/* Concierge "?" trigger — minimal premium yardım tetikleyici (mobil + desktop) */}

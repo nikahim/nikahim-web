@@ -3652,7 +3652,7 @@ export default function WatchPage() {
             {/* Mini header — wordmark logo + Destek (ana sayfa ile birebir) */}
             <div className="px-7 pt-6 pb-6" style={{ borderBottom: '1px solid rgba(232,180,170,0.18)' }}>
               <Image src="/navbar-text.png" alt="Nikahım" width={320} height={96} className="h-[24px] w-auto object-contain -ml-0.5 -mb-1" />
-              <h2 className="font-bold text-[24px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
+              <h2 className="font-bold text-[24px] lg:text-[29px] leading-[1.15]" style={{ fontFamily: 'var(--font-playfair), Georgia, serif', color: '#1F1F1F' }}>
                 Destek
               </h2>
               <p className="mt-2 text-[13px]" style={{ color: '#6B5A5A' }}>
