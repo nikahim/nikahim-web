@@ -93,6 +93,7 @@ function OtpInput({ value, onChange, disabled, error, autoFocusReady }: { value:
             key={i}
             className="w-9 h-12 rounded-xl flex items-center justify-center text-[20px] font-bold transition-all"
             style={{
+              marginLeft: i === 3 ? 12 : 0,  // 3+3 gruplama (xxx xxx)
               background: disabled ? '#F4F1F1' : '#FFFDFD',
               border: `2px solid ${error ? '#E5484D' : active ? '#E95A68' : filled ? 'rgba(200,104,110,0.4)' : 'rgba(0,0,0,0.10)'}`,
               color: '#342D30',
@@ -107,12 +108,14 @@ function OtpInput({ value, onChange, disabled, error, autoFocusReady }: { value:
   );
 }
 
-export default function FotografciPanel() {
+export default function FotografciPanel({ initialSlug }: { initialSlug?: string } = {}) {
   const [step, setStep] = useState<'login' | 'panel'>('login');
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<EventRow[]>([]);
   const [searching, setSearching] = useState(false);
   const [selected, setSelected] = useState<EventRow | null>(null);
+  const [slugLocked, setSlugLocked] = useState(!!initialSlug); // slug linkinden gelindi → arama yok, çift sabit
+  const [slugNotFound, setSlugNotFound] = useState(false);
 
   const [code, setCode] = useState('');
   const [codeError, setCodeError] = useState('');
@@ -163,6 +166,20 @@ export default function FotografciPanel() {
   const [showAllList, setShowAllList] = useState(false);
   const [allCache, setAllCache] = useState<EventRow[] | null>(null); // tüm izinli etkinlikler (önden yüklenir)
   const [cacheLoading, setCacheLoading] = useState(false);
+
+  // Slug linkinden gelindiyse (/fotografci/<slug>) → çifti önden yükle, arama yok
+  useEffect(() => {
+    if (!initialSlug) return;
+    (async () => {
+      const cols = 'id, user_id, bride_first_name, bride_last_name, groom_first_name, groom_last_name, event_type, event_date, couple_photo_url';
+      const { data } = await supabase.from('events').select(cols)
+        .eq('photographer_slug', initialSlug).eq('photographer_access_enabled', true)
+        .order('event_date', { ascending: true }).limit(1).maybeSingle();
+      if (data) { setSelected(data as EventRow); setCode(''); setCodeError(''); }
+      else setSlugNotFound(true);
+    })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialSlug]);
 
   // İzin AÇILMIŞ çiftlerin TÜM etkinlikleri (nikah+düğün). q boşsa hepsi.
   const fetchEvents = async (q: string): Promise<EventRow[]> => {
@@ -575,9 +592,18 @@ export default function FotografciPanel() {
             {/* 3) Kamera görseli — küçük, ikincil */}
             <img src="/fotografci-login.png" alt="" className="block mx-auto object-contain" style={{ width: '58%', maxWidth: 220, height: 'auto', marginTop: 6, marginBottom: 16 }} onError={(e) => { (e.currentTarget as HTMLImageElement).style.opacity = '0'; }} />
 
-            {/* 4) Etkinlik seçin — sol hizalı (form akışı) */}
-            <label className="block mb-2.5" style={{ fontSize: 15, fontWeight: 600, color: '#332824' }}>Etkinlik seçin</label>
+            {/* 4) Etkinlik — slug linkinde sabit çift kartı, aksi halde arama */}
+            {!slugLocked && <label className="block mb-2.5" style={{ fontSize: 15, fontWeight: 600, color: '#332824' }}>Etkinlik seçin</label>}
             {selected ? (
+              slugLocked ? (
+                <div className="w-full flex items-center gap-3" style={{ minHeight: 76, padding: '13px 16px 13px 18px', borderRadius: 20, background: '#FFFDFC', border: '1px solid #E7D8D5' }}>
+                  <span className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={selected.couple_photo_url} size={48} /></span>
+                  <span className="flex-1 min-w-0">
+                    <span className="block font-semibold text-[16px]" style={{ color: '#332824' }}>{coupleTitle(selected)}</span>
+                    <span className="block text-[13px] mt-0.5" style={{ color: '#908783' }}>{selected.event_date} · {selected.event_type === 'dugun' ? 'Düğün' : 'Nikah'}</span>
+                  </span>
+                </div>
+              ) : (
               <button onClick={() => { setSelected(null); setResults([]); setQuery(''); setCode(''); setCodeError(''); }} className="w-full flex items-center gap-3 text-left" style={{ minHeight: 76, padding: '13px 16px 13px 18px', borderRadius: 20, background: '#FFFDFC', border: '1px solid #E7D8D5' }}>
                 <span className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0"><Avatar url={selected.couple_photo_url} size={48} /></span>
                 <span className="flex-1 min-w-0">
@@ -586,6 +612,11 @@ export default function FotografciPanel() {
                 </span>
                 <span className="text-[13px] font-semibold" style={{ color: '#C9827D' }}>Değiştir</span>
               </button>
+              )
+            ) : slugLocked ? (
+              slugNotFound
+                ? <p className="text-center text-[13.5px] py-4" style={{ color: '#B85E5A' }}>Bu link geçersiz veya baskı erişimi kapatılmış. Lütfen çiftten güncel linki isteyin.</p>
+                : <div className="flex items-center justify-center py-5"><span className="w-5 h-5 rounded-full border-2 animate-spin" style={{ borderColor: 'rgba(200,104,110,0.25)', borderTopColor: '#C8686E' }} /></div>
             ) : (
               <>
                 <div className="flex items-stretch gap-2">
