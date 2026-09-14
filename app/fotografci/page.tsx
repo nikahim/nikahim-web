@@ -569,7 +569,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
   const Avatar = ({ url, size }: { url: string | null; size: number }) => (
     url
       ? <img src={url} alt="" width={size} height={size} className="w-full h-full object-cover" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }} />
-      : <div className="w-full h-full flex items-center justify-center text-2xl">💍</div>
+      : <div className="w-full h-full flex items-center justify-center" style={{ color: '#C96F78' }}><svg width={Math.round(size * 0.5)} height={Math.round(size * 0.5)} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
   );
 
   return (
@@ -801,7 +801,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
                   return (
                     <button key={o.key} onClick={() => startTransition(() => { setSelKey(o.key); setThumbIdx(0); })} className="w-full text-left flex items-center gap-3 px-3 py-3 transition-colors" style={{ background: active ? '#FCF0EF' : o.couple ? '#FFFAEE' : 'transparent', borderBottom: '1px solid #F1ECEA', boxShadow: active ? 'inset 3px 0 #D2686D' : 'none', animation: flash ? 'flashRing 1.3s ease 2' : 'none' }}>
                       <span className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-[14px] font-bold tracking-tight" style={{ background: o.couple ? '#FBEFCB' : '#F3DFDC', color: o.couple ? '#C08A1E' : '#B96165' }}>
-                        {o.couple ? '⭐' : initials(o.name)}
+                        {o.couple ? <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> : initials(o.name)}
                       </span>
                       <span className="flex-1 min-w-0">
                         <span className="flex items-center justify-between gap-2">
@@ -844,7 +844,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
                 return (
                   <>
                     <div className="flex items-center gap-3 px-5 py-4 flex-shrink-0" style={{ borderBottom: '1px solid #F0EAE7' }}>
-                      <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[13px] font-bold tracking-tight" style={{ background: selOrder.couple ? '#FBEFCB' : '#F3DFDC', color: selOrder.couple ? '#C08A1E' : '#B96165' }}>{selOrder.couple ? '⭐' : initials(selOrder.name)}</span>
+                      <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[13px] font-bold tracking-tight" style={{ background: selOrder.couple ? '#FBEFCB' : '#F3DFDC', color: selOrder.couple ? '#C08A1E' : '#B96165' }}>{selOrder.couple ? <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> : initials(selOrder.name)}</span>
                       <div className="min-w-0">
                         <h2 className="text-[17px] font-bold leading-tight truncate" style={{ color: '#2E2927' }}>{selOrder.couple ? `${selOrder.name} · Düğün Çifti` : selOrder.name}</h2>
                         <p className="text-[12px]" style={{ color: '#908985' }}>Sipariş {orderCode(selOrder)} · {new Date(selOrder.createdAt).toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</p>
@@ -1021,7 +1021,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
 
                     {/* Sipariş durumu — TÜM fotoğraflar basılınca teslim (ödeme yukarıda ayrı) */}
                     {allPrinted && !allDelivered && (
-                      <button onClick={() => advanceOrder(rows, 'delivered')} className="w-full h-12 mt-3 rounded-xl text-[14.5px] font-bold flex items-center justify-center gap-2 transition-colors hover:bg-rose-50" style={{ background: '#FFF6F5', border: '1.5px solid #E3A9A6', color: '#C25760' }}>🎁 Teslim Edildi</button>
+                      <button onClick={() => advanceOrder(rows, 'delivered')} className="w-full h-12 mt-3 rounded-xl text-[14.5px] font-bold flex items-center justify-center gap-2 transition-colors hover:bg-rose-50" style={{ background: '#FFF6F5', border: '1.5px solid #E3A9A6', color: '#C25760' }}><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Teslim Edildi</button>
                     )}
                     {allDelivered && (
                       <div className="mt-3">
@@ -1095,7 +1095,13 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
           {/* Yeni sipariş bildirimi — sol alt toast */}
           {toast && (
             <div className="fixed z-[75] bottom-6 left-6 flex items-center gap-3 pl-3.5 pr-4 py-3 rounded-2xl" style={{ background: '#fff', border: `1px solid ${toast.ok ? '#CDE9D8' : '#ECE5E2'}`, boxShadow: '0 14px 40px rgba(60,40,35,0.14)', animation: 'slideInLeft 0.25s ease' }}>
-              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 text-[15px]" style={{ background: toast.ok ? '#EDF8F2' : toast.couple ? '#FBEFCB' : '#FCF0EF', color: toast.ok ? '#329464' : toast.couple ? '#C08A1E' : '#C95E64' }}>{toast.ok ? '✓' : toast.couple ? '⭐' : '🔔'}</span>
+              <span className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: toast.ok ? '#EDF8F2' : toast.couple ? '#FBEFCB' : '#FCF0EF', color: toast.ok ? '#329464' : toast.couple ? '#C08A1E' : '#C95E64' }}>
+                {toast.ok
+                  ? <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  : toast.couple
+                    ? <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>}
+              </span>
               <div>
                 <p className="text-[13px] font-bold" style={{ color: '#2E2927' }}>{toast.title || 'Yeni baskı isteği'}</p>
                 <p className="text-[12px]" style={{ color: '#89817D' }}>{toast.name} · {toast.info}</p>
@@ -1145,7 +1151,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
             <div className="flex flex-wrap gap-1 p-1 rounded-xl mb-5 max-w-2xl" style={{ background: 'rgba(200,104,110,0.07)' }}>
               {([['pending', 'Bekleyenler', pending.length], ['done', 'Tamamlananlar', done.length], ['couple', 'Düğün Çifti', couplePendingCount], ['sizes', 'Baskı Boyutları', sizes.length]] as const).map(([k, lbl, n]) => (
                 <button key={k} onClick={() => setTab(k)} className="flex-1 min-w-[130px] py-2 rounded-lg text-[13px] font-semibold transition-all flex items-center justify-center gap-1.5" style={{ background: tab === k ? '#fff' : 'transparent', color: tab === k ? (k === 'couple' ? '#B8860B' : '#C8686E') : '#9A8A8A', boxShadow: tab === k ? '0 2px 6px rgba(200,104,110,0.12)' : 'none' }}>
-                  {k === 'couple' && <span aria-hidden style={{ fontSize: 13 }}>⭐</span>}
+                  {k === 'couple' && <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" aria-hidden><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>}
                   {lbl}
                   {n > 0 && (k === 'sizes'
                     ? <span className="inline-flex items-center justify-center min-w-[22px] h-[20px] px-1.5 rounded-[6px] text-[12px] font-bold" style={{ background: 'rgba(200,104,110,0.14)', color: '#B85258' }}>{n}</span>
@@ -1221,7 +1227,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
                     return (
                     <div key={orderId} className="rounded-2xl p-4" style={{ background: 'linear-gradient(135deg, #FFFBF0, #FFF6F6)', border: '1.5px solid rgba(212,160,23,0.35)', boxShadow: '0 4px 16px rgba(184,134,11,0.08)' }}>
                       <div className="flex items-center gap-2.5 mb-3">
-                        <span className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[15px] flex-shrink-0" style={{ background: 'linear-gradient(135deg, #E6B84C, #C89020)' }}>⭐</span>
+                        <span className="w-9 h-9 rounded-full flex items-center justify-center text-white flex-shrink-0" style={{ background: 'linear-gradient(135deg, #E6B84C, #C89020)' }}><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
                         <div className="flex-1">
                           <h3 className="font-bold text-gray-800 leading-tight">Düğün Çifti Siparişi</h3>
                           <span className="text-[12px] text-gray-500">{dt.toLocaleDateString('tr-TR')} · {totalQty} baskı{priced ? ` · ${totalPrice}₺` : ' · fiyat bekliyor'}</span>

@@ -116,7 +116,7 @@ export default function AdminDashboardPage() {
             <span className="text-xs text-slate-400">— şimdi müdahale et</span>
           </div>
           {totalRisk === 0 ? (
-            <Empty text="Şu an riskli etkinlik yok 🎉" />
+            <Empty text="Şu an riskli etkinlik yok" />
           ) : (
             <div className="space-y-2">
               {d.riskNeverStreamed.map((e: EventRow) => <RiskRow key={"n" + e.id} e={e} level="critical" reason="Etkinlik günü geçti, yayın hiç başlamadı" />)}

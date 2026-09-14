@@ -148,7 +148,7 @@ export default function AdminPackagesPage() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-bold text-gray-800">{pkg.name_tr}</h3>
-                  {pkg.is_recommended && <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-600">⭐ En Popüler</span>}
+                  {pkg.is_recommended && <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-600"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>En Popüler</span>}
                   {!pkg.is_active && <span className="inline-block mt-1 ml-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">Pasif</span>}
                 </div>
                 <div className="text-right">
@@ -167,9 +167,9 @@ export default function AdminPackagesPage() {
               {pkg.description_tr && <p className="text-sm text-gray-600 mb-4">{pkg.description_tr}</p>}
 
               <div className="space-y-2 mb-4 text-xs text-gray-600">
-                <p>⏱ {pkg.duration_minutes} dakika</p>
-                <p>👥 {pkg.max_viewers} izleyici</p>
-                <p>📹 {pkg.video_quality} kalite</p>
+                <p className="flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> {pkg.duration_minutes} dakika</p>
+                <p className="flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> {pkg.max_viewers} izleyici</p>
+                <p className="flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg> {pkg.video_quality} kalite</p>
               </div>
 
               <div className="grid grid-cols-2 gap-1 text-xs mb-4">
@@ -295,7 +295,7 @@ export default function AdminPackagesPage() {
                   <div className="flex items-end gap-4">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={editing.is_recommended || false} onChange={e => setEditing({ ...editing, is_recommended: e.target.checked })} className="w-4 h-4" />
-                      <span className="text-sm text-gray-700">⭐ Popüler</span>
+                      <span className="text-sm text-gray-700 inline-flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D4A017" stroke="#D4A017" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Popüler</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={editing.is_active !== false} onChange={e => setEditing({ ...editing, is_active: e.target.checked })} className="w-4 h-4" />

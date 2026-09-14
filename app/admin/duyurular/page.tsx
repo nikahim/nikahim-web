@@ -7,9 +7,9 @@ import AppModal from "@/components/AppModal";
 interface UserRow { id: string; full_name?: string | null; email?: string | null; phone?: string | null; }
 
 const TYPES = [
-  { key: "admin_message", label: "📢 Duyuru" },
-  { key: "reminder", label: "📅 Hatırlatma" },
-  { key: "campaign", label: "🎁 Kampanya" },
+  { key: "admin_message", label: "Duyuru" },
+  { key: "reminder", label: "Hatırlatma" },
+  { key: "campaign", label: "Kampanya" },
 ] as const;
 
 export default function AdminDuyurularPage() {
@@ -78,10 +78,17 @@ export default function AdminDuyurularPage() {
         <div>
           <label className="block text-xs font-semibold text-gray-500 uppercase mb-2">Hedef</label>
           <div className="flex gap-3">
-            {([["all", "📣 Tüm Kullanıcılar"], ["user", "👤 Belirli Kullanıcı"]] as const).map(([k, l]) => (
+            {([["all", "Tüm Kullanıcılar"], ["user", "Belirli Kullanıcı"]] as const).map(([k, l]) => (
               <button key={k} onClick={() => setTarget(k as any)}
                 className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${target === k ? "text-white shadow-md" : "bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100"}`}
-                style={target === k ? { background: "linear-gradient(135deg,#D17075,#C8686E)" } : {}}>{l}</button>
+                style={target === k ? { background: "linear-gradient(135deg,#D17075,#C8686E)" } : {}}>
+                <span className="inline-flex items-center justify-center gap-1.5">
+                  {k === "all"
+                    ? <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                    : <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>}
+                  {l}
+                </span>
+              </button>
             ))}
           </div>
         </div>
@@ -126,11 +133,11 @@ export default function AdminDuyurularPage() {
           <div className="flex gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={inApp} onChange={(e) => setInApp(e.target.checked)} className="w-4 h-4 rounded accent-rose-500" />
-              <span className="text-sm text-gray-700">🔔 Uygulama bildirimi</span>
+              <span className="text-sm text-gray-700 inline-flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg> Uygulama bildirimi</span>
             </label>
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={email} onChange={(e) => setEmail(e.target.checked)} className="w-4 h-4 rounded accent-rose-500" />
-              <span className="text-sm text-gray-700">✉️ E-posta</span>
+              <span className="text-sm text-gray-700 inline-flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg> E-posta</span>
             </label>
           </div>
         </div>
@@ -152,7 +159,9 @@ export default function AdminDuyurularPage() {
         <button onClick={send} disabled={sending}
           className="w-full py-3.5 rounded-full font-semibold text-white text-sm transition-all hover:scale-[1.01] disabled:opacity-50"
           style={{ background: "linear-gradient(135deg,#D17075,#C8686E)", boxShadow: "0 6px 20px rgba(200,104,110,0.3)" }}>
-          {sending ? "Gönderiliyor…" : target === "all" ? "📣 Tüm Kullanıcılara Gönder" : "📨 Gönder"}
+          {sending ? "Gönderiliyor…" : (
+            <span className="inline-flex items-center justify-center gap-2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>{target === "all" ? "Tüm Kullanıcılara Gönder" : "Gönder"}</span>
+          )}
         </button>
       </div>
 

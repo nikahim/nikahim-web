@@ -139,7 +139,7 @@ export default function AdminShopPackagesPage() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-bold text-gray-800">{pkg.name_tr}</h3>
-                  {pkg.is_recommended && <span className="inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-600">⭐ En Popüler</span>}
+                  {pkg.is_recommended && <span className="inline-flex items-center gap-1 mt-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-600"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>En Popüler</span>}
                   {!pkg.is_active && <span className="inline-block mt-1 ml-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">Pasif</span>}
                 </div>
                 <div className="text-right">
@@ -159,9 +159,9 @@ export default function AdminShopPackagesPage() {
               {pkg.description_tr && <p className="text-sm text-gray-600 mb-4">{pkg.description_tr}</p>}
 
               <div className="space-y-1 mb-4 text-xs text-gray-600">
-                <p>📦 {pkg.max_products === 999 ? 'Sınırsız' : pkg.max_products} ürün</p>
-                <p>🖼 {pkg.max_gallery_images === 999 ? 'Sınırsız' : pkg.max_gallery_images} galeri foto</p>
-                <p>🎯 {pkg.support_level === 'priority' ? 'Öncelikli destek' : 'Normal destek'}</p>
+                <p className="flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16.5 9.4 7.55 4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> {pkg.max_products === 999 ? 'Sınırsız' : pkg.max_products} ürün</p>
+                <p className="flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> {pkg.max_gallery_images === 999 ? 'Sınırsız' : pkg.max_gallery_images} galeri foto</p>
+                <p className="flex items-center gap-1.5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> {pkg.support_level === 'priority' ? 'Öncelikli destek' : 'Normal destek'}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-1 text-xs mb-4">
@@ -279,7 +279,7 @@ export default function AdminShopPackagesPage() {
                   <div className="flex items-end gap-4">
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={editing.is_recommended || false} onChange={e => setEditing({ ...editing, is_recommended: e.target.checked })} className="w-4 h-4" />
-                      <span className="text-sm text-gray-700">⭐ Popüler</span>
+                      <span className="text-sm text-gray-700 inline-flex items-center gap-1.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D4A017" stroke="#D4A017" strokeWidth="1.5" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Popüler</span>
                     </label>
                     <label className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={editing.is_active !== false} onChange={e => setEditing({ ...editing, is_active: e.target.checked })} className="w-4 h-4" />

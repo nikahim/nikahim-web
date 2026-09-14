@@ -297,7 +297,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
           {state === 'idle' && (
             <div className="aspect-video bg-gray-900 rounded-xl flex items-center justify-center">
               <div className="text-center text-white">
-                <div className="text-4xl mb-4 animate-pulse">📹</div>
+                <div className="mb-4 animate-pulse flex justify-center"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></div>
                 <p>Kamera başlatılıyor...</p>
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function VideoRecorder({ eventId, senderName, onSuccess, onClose,
           {/* Yükleniyor */}
           {state === 'uploading' && (
             <div className="aspect-video bg-gray-100 rounded-xl flex flex-col items-center justify-center">
-              <div className="text-4xl mb-4">☁️</div>
+              <div className="mb-4 flex justify-center" style={{ color: '#C96F78' }}><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M16 16l-4-4-4 4"/><path d="M12 12v9"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/><path d="M16 16l-4-4-4 4"/></svg></div>
               <p className="text-gray-600 mb-4">Video gönderiliyor...</p>
               <div className="w-48 h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div 

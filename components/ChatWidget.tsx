@@ -27,7 +27,7 @@ function getAssignedAgent() {
 const WELCOME_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
-    "Merhaba, ben Nikahım destek ekibinden Elif 😊 Nasıl yardımcı olabilirim?",
+    "Merhaba, ben Nikahım destek ekibinden Elif. Nasıl yardımcı olabilirim?",
 };
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://haeifluvvazdealsofle.supabase.co";
@@ -71,7 +71,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
       const arr = raw ? JSON.parse(raw) : null;
       if (Array.isArray(arr) && arr.length > 0) { setMessages(arr); return; }
     } catch {}
-    setMessages([{ role: 'assistant', content: `Merhaba, ben Nikahım destek ekibinden ${a.name} 😊 Nasıl yardımcı olabilirim?` }]);
+    setMessages([{ role: 'assistant', content: `Merhaba, ben Nikahım destek ekibinden ${a.name}. Nasıl yardımcı olabilirim?` }]);
   }, []);
 
   // Sohbeti kaşede sakla — kişi chati kapatıp açsa da konuşma kalır
@@ -139,7 +139,7 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
 
   const sendTicketEmail = async (ticketNumber: string, conversation: ChatMessage[]) => {
     const convoText = conversation
-      .map((m) => (m.role === "user" ? "👤 Kullanıcı" : "💬 " + agent.name) + ":\n" + m.content)
+      .map((m) => (m.role === "user" ? "Kullanıcı" : agent.name) + ":\n" + m.content)
       .join("\n\n");
     const subject = `[${ticketNumber}] Yeni Destek Başvurusu (Web)`;
     const message =
@@ -392,7 +392,10 @@ export default function ChatWidget({ userEmail = "", userName = "", embedded = f
               <div className="text-sm leading-relaxed whitespace-pre-wrap">{m.content}</div>
               {m.ticketNumber && (
                 <div className="mt-3 rounded-xl p-3" style={{ background: "#FFF5F6", border: "1.5px solid rgba(201,111,120,0.3)" }}>
-                  <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider mb-1" style={{ color: "#C96F78" }}>📋 BAŞVURU NUMARASI</div>
+                  <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider mb-1" style={{ color: "#C96F78" }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    BAŞVURU NUMARASI
+                  </div>
                   <div className="text-lg font-extrabold mb-1" style={{ color: "#B85963" }}>{m.ticketNumber}</div>
                   <div className="text-[11px] leading-snug" style={{ color: "#8B5A5E" }}>Bu numarayı saklayın. 24 saat içinde size dönüş yapılacak.</div>
                 </div>

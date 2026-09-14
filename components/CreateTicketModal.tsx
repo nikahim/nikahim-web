@@ -6,11 +6,11 @@ import { supabase } from "@/lib/supabase";
 interface U { id: string; full_name?: string; email?: string; phone?: string; role?: string; }
 
 const SRC = [
-  { key: "phone", label: "📞 Telefon" },
-  { key: "email", label: "✉️ E-posta" },
-  { key: "whatsapp", label: "🟢 WhatsApp" },
-  { key: "web", label: "🌐 Web" },
-  { key: "mobile", label: "📱 Mobil" },
+  { key: "phone", label: "Telefon" },
+  { key: "email", label: "E-posta" },
+  { key: "whatsapp", label: "WhatsApp" },
+  { key: "web", label: "Web" },
+  { key: "mobile", label: "Mobil" },
 ];
 
 export default function CreateTicketModal({ onClose, onCreated }: { onClose: () => void; onCreated: (num: string) => void }) {

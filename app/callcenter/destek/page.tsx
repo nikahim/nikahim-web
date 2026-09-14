@@ -5,14 +5,26 @@ import { supabase } from "@/lib/supabase";
 import CreateTicketModal from "@/components/CreateTicketModal";
 
 const SOURCES = [
-  { key: "all", label: "Tümü", icon: "▦" },
-  { key: "mobile", label: "Mobil", icon: "📱" },
-  { key: "web", label: "Web", icon: "🌐" },
-  { key: "whatsapp", label: "WhatsApp", icon: "🟢" },
-  { key: "email", label: "E-posta", icon: "✉️" },
-  { key: "phone", label: "Telefon", icon: "📞" },
+  { key: "all", label: "Tümü" },
+  { key: "mobile", label: "Mobil" },
+  { key: "web", label: "Web" },
+  { key: "whatsapp", label: "WhatsApp" },
+  { key: "email", label: "E-posta" },
+  { key: "phone", label: "Telefon" },
 ];
 const OPEN = ["open", "in_progress"];
+
+const ChannelIcon = ({ ch, size = 15 }: { ch: string; size?: number }) => {
+  const p = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  switch (ch) {
+    case 'mobile': return <svg {...p}><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>;
+    case 'web': return <svg {...p}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
+    case 'whatsapp': return <svg {...p}><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>;
+    case 'email': return <svg {...p}><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>;
+    case 'phone': return <svg {...p}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.94.36 1.86.7 2.73a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.35-1.35a2 2 0 0 1 2.11-.45c.87.34 1.79.57 2.73.7A2 2 0 0 1 22 16.92z"/></svg>;
+    default: return <svg {...p}><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>;
+  }
+};
 const isWeb = (t: any) => String(t?.source || "mobile").toLowerCase() === "web";
 
 // Markalı e-posta — admin ile aynı edge function (Resend)
@@ -136,7 +148,7 @@ export default function CallcenterDestek() {
         {SOURCES.map(s => (
           <button key={s.key} onClick={() => setSource(s.key)}
             className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${source === s.key ? "bg-slate-800 text-white" : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"}`}>
-            <span>{s.icon}</span>{s.label}
+<ChannelIcon ch={s.key} />{s.label}
             <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${source === s.key ? "bg-white/20" : "bg-slate-100 text-slate-500"}`}>{countSrc(s.key)}</span>
           </button>
         ))}
@@ -178,7 +190,7 @@ export default function CallcenterDestek() {
                 <div className="flex flex-col items-end gap-1">
                   <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-500">{srcLabel(srcOf(sel))}</span>
                   {sel.assigned_to ? (
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700">👤 {sel.assigned_to === meId ? "Siz" : (staffMap[sel.assigned_to] || "Uzman")}</span>
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-indigo-100 text-indigo-700 inline-flex items-center gap-1"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> {sel.assigned_to === meId ? "Siz" : (staffMap[sel.assigned_to] || "Uzman")}</span>
                   ) : (
                     <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-400">Atanmadı</span>
                   )}
@@ -199,13 +211,13 @@ export default function CallcenterDestek() {
                   <div className="flex flex-wrap items-center gap-3 text-sm">
                     <span className="text-[11px] font-semibold text-slate-400 uppercase">Gönderim:</span>
                     <label className={`flex items-center gap-1.5 ${!sel.user_id ? "opacity-40" : "cursor-pointer"}`}>
-                      <input type="checkbox" disabled={!sel.user_id} checked={channels.app} onChange={e => setChannels(c => ({ ...c, app: e.target.checked }))} className="w-4 h-4 rounded accent-slate-700" />📱 Uygulama
+                      <input type="checkbox" disabled={!sel.user_id} checked={channels.app} onChange={e => setChannels(c => ({ ...c, app: e.target.checked }))} className="w-4 h-4 rounded accent-slate-700" /><ChannelIcon ch="mobile" size={14} /> Uygulama
                     </label>
                     <label className={`flex items-center gap-1.5 ${!(sel.user_email || sel.email) ? "opacity-40" : "cursor-pointer"}`}>
-                      <input type="checkbox" disabled={!(sel.user_email || sel.email)} checked={channels.email} onChange={e => setChannels(c => ({ ...c, email: e.target.checked }))} className="w-4 h-4 rounded accent-slate-700" />✉️ E-posta
+                      <input type="checkbox" disabled={!(sel.user_email || sel.email)} checked={channels.email} onChange={e => setChannels(c => ({ ...c, email: e.target.checked }))} className="w-4 h-4 rounded accent-slate-700" /><ChannelIcon ch="email" size={14} /> E-posta
                     </label>
                     <label className="flex items-center gap-1.5 opacity-40" title="WhatsApp entegrasyonu yakında">
-                      <input type="checkbox" disabled className="w-4 h-4 rounded accent-slate-700" />🟢 WhatsApp <span className="text-[10px]">(yakında)</span>
+                      <input type="checkbox" disabled className="w-4 h-4 rounded accent-slate-700" /><ChannelIcon ch="whatsapp" size={14} /> WhatsApp <span className="text-[10px]">(yakında)</span>
                     </label>
                   </div>
                   <div className="flex gap-2">
@@ -227,4 +239,4 @@ export default function CallcenterDestek() {
   );
 }
 
-function srcLabel(s: string) { return ({ mobile: "📱 Mobil", web: "🌐 Web", whatsapp: "🟢 WhatsApp", email: "✉️ E-posta", phone: "📞 Telefon" } as any)[s] || "📱 Mobil"; }
+function srcLabel(s: string) { return ({ mobile: "Mobil", web: "Web", whatsapp: "WhatsApp", email: "E-posta", phone: "Telefon" } as any)[s] || "Mobil"; }

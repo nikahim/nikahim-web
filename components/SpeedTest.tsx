@@ -99,13 +99,13 @@ export default function SpeedTest({ onComplete, className = '' }: SpeedTestProps
   const getRecommendation = (quality: SpeedTestResult['quality'], upload: number): string => {
     switch (quality) {
       case 'excellent':
-        return '🎉 Harika! HD kalitede yayın yapabilirsiniz.';
+        return 'Harika! HD kalitede yayın yapabilirsiniz.';
       case 'good':
-        return '✅ İyi. 720p kalitede sorunsuz yayın yapabilirsiniz.';
+        return 'İyi. 720p kalitede sorunsuz yayın yapabilirsiniz.';
       case 'fair':
-        return '⚠️ Orta. 480p kalitede yayın önerilir. WiFi yerine kablolu bağlantı deneyin.';
+        return 'Orta. 480p kalitede yayın önerilir. WiFi yerine kablolu bağlantı deneyin.';
       case 'poor':
-        return `❌ Düşük (${upload} Mbps). Yayın kalitesi sorunlu olabilir. Daha iyi internet bağlantısı gerekli.`;
+        return `Düşük (${upload} Mbps). Yayın kalitesi sorunlu olabilir. Daha iyi internet bağlantısı gerekli.`;
     }
   };
 
@@ -169,7 +169,8 @@ export default function SpeedTest({ onComplete, className = '' }: SpeedTestProps
   return (
     <div className={`bg-gray-900 rounded-xl p-6 ${className}`}>
       <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-        📶 İnternet Hız Testi
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        İnternet Hız Testi
       </h3>
 
       {!result && !testing && (
@@ -179,9 +180,10 @@ export default function SpeedTest({ onComplete, className = '' }: SpeedTestProps
           </p>
           <button
             onClick={runSpeedTest}
-            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg font-medium hover:opacity-90 transition"
+            className="px-6 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-lg font-medium hover:opacity-90 transition inline-flex items-center gap-2"
           >
-            🚀 Hız Testini Başlat
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91 0z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+            Hız Testini Başlat
           </button>
         </div>
       )}
@@ -255,16 +257,18 @@ export default function SpeedTest({ onComplete, className = '' }: SpeedTestProps
           {/* Yeniden Test */}
           <button
             onClick={runSpeedTest}
-            className="w-full py-2 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 text-sm"
+            className="w-full py-2 bg-gray-800 text-gray-300 rounded hover:bg-gray-700 text-sm inline-flex items-center justify-center gap-2"
           >
-            🔄 Tekrar Test Et
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+            Tekrar Test Et
           </button>
         </div>
       )}
 
       {/* Bilgi */}
-      <p className="text-gray-500 text-xs mt-4 text-center">
-        💡 Yayın için minimum 5 Mbps upload hızı önerilir
+      <p className="text-gray-500 text-xs mt-4 text-center inline-flex items-center justify-center gap-1.5 w-full">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>
+        Yayın için minimum 5 Mbps upload hızı önerilir
       </p>
     </div>
   );

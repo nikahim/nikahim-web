@@ -22,12 +22,23 @@ interface Notification {
 }
 
 const TYPE_OPTIONS = [
-  { key: 'info',    label: 'Bilgi',      color: '#3B82F6', emoji: 'ℹ️' },
-  { key: 'success', label: 'Başarı',     color: '#22C55E', emoji: '✅' },
-  { key: 'warning', label: 'Uyarı',      color: '#F59E0B', emoji: '⚠️' },
-  { key: 'promo',   label: 'Promosyon',  color: '#B8965A', emoji: '🎁' },
-  { key: 'admin',   label: 'Yönetim',    color: '#7C3AED', emoji: '🛡️' },
+  { key: 'info',    label: 'Bilgi',      color: '#3B82F6' },
+  { key: 'success', label: 'Başarı',     color: '#22C55E' },
+  { key: 'warning', label: 'Uyarı',      color: '#F59E0B' },
+  { key: 'promo',   label: 'Promosyon',  color: '#B8965A' },
+  { key: 'admin',   label: 'Yönetim',    color: '#7C3AED' },
 ];
+
+const TypeIcon = ({ type, size = 18 }: { type: string; size?: number }) => {
+  const p = { width: size, height: size, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const };
+  switch (type) {
+    case 'success': return <svg {...p}><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>;
+    case 'warning': return <svg {...p}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" /><line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>;
+    case 'promo': return <svg {...p}><polyline points="20 12 20 22 4 22 4 12" /><rect x="2" y="7" width="20" height="5" /><line x1="12" y1="22" x2="12" y2="7" /><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z" /><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z" /></svg>;
+    case 'admin': return <svg {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>;
+    default: return <svg {...p}><circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" /></svg>;
+  }
+};
 
 export default function AdminNotificationsPage() {
   const [shops, setShops] = useState<Shop[]>([]);
@@ -157,14 +168,14 @@ export default function AdminNotificationsPage() {
             className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${target === 'broadcast' ? 'text-white shadow-md' : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'}`}
             style={target === 'broadcast' ? { background: 'linear-gradient(135deg, #D17075, #C8686E)' } : {}}
           >
-            📢 Tüm Mağazalar ({totalShops})
+            <span className="inline-flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg> Tüm Mağazalar ({totalShops})</span>
           </button>
           <button
             onClick={() => setTarget('individual')}
             className={`flex-1 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${target === 'individual' ? 'text-white shadow-md' : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'}`}
             style={target === 'individual' ? { background: 'linear-gradient(135deg, #D17075, #C8686E)' } : {}}
           >
-            👤 Belirli Mağaza
+            <span className="inline-flex items-center gap-1.5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Belirli Mağaza</span>
           </button>
         </div>
 
@@ -195,7 +206,7 @@ export default function AdminNotificationsPage() {
               className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${type === t.key ? 'text-white shadow-md' : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'}`}
               style={type === t.key ? { backgroundColor: t.color } : {}}
             >
-              {t.emoji} {t.label}
+              <span className="inline-flex items-center gap-1.5"><TypeIcon type={t.key} size={15} /> {t.label}</span>
             </button>
           ))}
         </div>
@@ -230,7 +241,9 @@ export default function AdminNotificationsPage() {
           className="w-full py-3 rounded-full font-semibold text-white text-sm transition-all hover:scale-[1.01] disabled:opacity-50"
           style={{ background: 'linear-gradient(135deg, #D17075, #C8686E)', boxShadow: '0 6px 20px rgba(200,104,110,0.3)' }}
         >
-          {sending ? 'Gönderiliyor...' : target === 'broadcast' ? `📢 ${totalShops} Mağazaya Gönder` : '📨 Gönder'}
+          {sending ? 'Gönderiliyor...' : (
+            <span className="inline-flex items-center justify-center gap-2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>{target === 'broadcast' ? `${totalShops} Mağazaya Gönder` : 'Gönder'}</span>
+          )}
         </button>
       </div>
 
@@ -254,10 +267,10 @@ export default function AdminNotificationsPage() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center"
                       style={{ backgroundColor: `${meta.color}15`, color: meta.color }}
                     >
-                      {meta.emoji}
+                      <TypeIcon type={meta.key} size={20} />
                     </div>
                     <div>
                       <h3 className="font-bold text-gray-800">{n.title}</h3>
@@ -274,16 +287,16 @@ export default function AdminNotificationsPage() {
                 <p className="text-sm text-gray-600 mb-3 leading-relaxed">{n.body}</p>
                 <div className="flex items-center gap-2 flex-wrap">
                   {n.shop_id === null ? (
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-600">
-                      📢 Tüm mağazalar
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-600 inline-flex items-center gap-1.5">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg> Tüm mağazalar
                     </span>
                   ) : (
-                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600">
-                      👤 {n.shops?.name || 'Mağaza'}
+                    <span className="px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-600 inline-flex items-center gap-1.5">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> {n.shops?.name || 'Mağaza'}
                     </span>
                   )}
-                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-50 text-gray-600">
-                    👁 {n.read_count || 0} okundu
+                  <span className="px-3 py-1 rounded-full text-xs font-semibold bg-gray-50 text-gray-600 inline-flex items-center gap-1.5">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> {n.read_count || 0} okundu
                   </span>
                 </div>
               </div>

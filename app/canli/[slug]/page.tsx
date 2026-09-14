@@ -847,7 +847,7 @@ export default function WatchPage() {
 
                   {size && size.price_tl === 0 && (
                     <div className="flex items-start gap-1.5 mb-4 px-3 py-2.5 rounded-xl" style={{ background: '#FDF3E1' }}>
-                      <span className="text-[14px]" style={{ color: '#B8892E' }}>⚠️</span>
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#B8892E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                       <span className="text-[12px] leading-snug" style={{ color: '#8A6410' }}>Bu boyutun fiyatı belirtilmemiş. Fotoğrafçınız ile fiyat bilgisini görüşün.</span>
                     </div>
                   )}
@@ -2613,7 +2613,7 @@ export default function WatchPage() {
     return (
       <main className="min-h-screen bg-gray-100 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-6xl mb-4">😕</div>
+          <div className="mb-4 flex justify-center" style={{ color: '#C8686E' }}><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Nikah Bulunamadı</h1>
           <p className="text-gray-600 mb-6">Bu linkle eşleşen bir nikah bulamadık.</p>
           <a href="/" className="text-[#C8686E] hover:underline">Ana Sayfaya Dön</a>
@@ -2632,8 +2632,8 @@ export default function WatchPage() {
       <main className="min-h-screen flex items-start sm:items-center justify-center p-4 pt-6 sm:pt-4" style={{ background: 'linear-gradient(180deg, #FAFBFE 0%, #F5F3F0 50%, #FDF5F5 100%)' }}>
         <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full text-center relative">
           
-          <div className="text-6xl mb-4 mt-8">😔</div>
-          
+          <div className="mb-4 mt-8 flex justify-center" style={{ color: '#C8686E' }}><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Yayın Kapasitesi Doldu</h1>
           
           <p className="text-gray-500 mb-6">
@@ -2641,8 +2641,9 @@ export default function WatchPage() {
           </p>
           
           <div className="bg-rose-50/50 rounded-xl p-4 mb-6">
-            <p className="text-[#C8686E] text-sm">
-              👥 Şu an çok yoğun izleniyor, kapasite geçici olarak doldu.
+            <p className="text-[#C8686E] text-sm inline-flex items-center gap-2 justify-center">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Şu an çok yoğun izleniyor, kapasite geçici olarak doldu.
             </p>
           </div>
 
@@ -4463,7 +4464,7 @@ export default function WatchPage() {
 
                 <div className="relative z-10 p-8 pt-10 text-center">
                   <h2 className="text-2xl font-bold text-gray-900 mb-2">Altın gönderildi</h2>
-                  <p className="text-sm text-gray-500 mb-1">{event.bride_first_name} & {event.groom_first_name}&apos;a hediyen ulaştı 💛</p>
+                  <p className="text-sm text-gray-500 mb-1">{event.bride_first_name} & {event.groom_first_name}&apos;a hediyen ulaştı</p>
 
                   <div className="inline-block rounded-2xl px-6 py-3 mt-4 mb-5" style={{ background: 'rgba(255,255,255,0.72)', border: '1px solid rgba(60,45,41,0.07)' }}>
                     <p className="text-sm font-bold text-gray-700">{goldOptions.find(g => g.id === selectedGold)?.name} — <span style={{ color: '#C99A32' }}>₺{getSelectedPrice().toLocaleString()}</span></p>
