@@ -3557,7 +3557,7 @@ export default function WatchPage() {
                       )}
                       <div>
                         <h3 className="text-white font-bold text-sm">{event.bride_first_name} & {event.groom_first_name}</h3>
-                        <p className="text-white/50 text-xs">💍 {event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
+                        <p className="text-white/50 text-xs">{event.event_type === 'dugun' ? 'Düğün Töreni' : 'Nikah Töreni'}</p>
                       </div>
                     </div>
                   </div>

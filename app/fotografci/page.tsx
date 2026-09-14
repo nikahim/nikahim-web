@@ -1598,7 +1598,7 @@ export default function FotografciPanel({ initialSlug }: { initialSlug?: string 
                 })()}
               </div>
             )}
-            <p className="flex-shrink-0 text-center py-4 text-[12.5px] font-medium" style={{ color: '#B85258', borderTop: '1px solid rgba(232,180,170,0.18)' }}>Nikahım ekibi her zaman yanınızda ❤️</p>
+            <p className="flex-shrink-0 text-center py-4 text-[12.5px] font-medium" style={{ color: '#B85258', borderTop: '1px solid rgba(232,180,170,0.18)' }}>Nikahım ekibi her zaman yanınızda</p>
           </div>
         </div>
       )}
